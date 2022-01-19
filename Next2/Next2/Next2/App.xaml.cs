@@ -1,4 +1,5 @@
-﻿using Prism;
+﻿using Next2.Views;
+using Prism;
 using Prism.Ioc;
 using Prism.Unity;
 using System;
@@ -20,6 +21,7 @@ namespace Next2
         {
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MainPage>();
         }
 
         protected override async void OnInitialized()
