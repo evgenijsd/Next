@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Next2.iOS", "Next2\Next2.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Next2", "Next2\Next2\Next2.csproj", "{AE5A299A-CB3C-44C0-A7B1-634F8657A7D0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{2E34AF74-2689-480D-BDE8-0839F558B47E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{264CB0A4-4F7A-48D7-A64A-CCDD5AE516B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1907A246-6485-4306-95D6-033270A77B0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +82,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37612E45-6219-4D63-81BA-45248BA10C05} = {264CB0A4-4F7A-48D7-A64A-CCDD5AE516B3}
+		{8524163A-6573-4CA4-8755-7CE029E3ECC5} = {264CB0A4-4F7A-48D7-A64A-CCDD5AE516B3}
+		{AE5A299A-CB3C-44C0-A7B1-634F8657A7D0} = {264CB0A4-4F7A-48D7-A64A-CCDD5AE516B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85DC8030-BA36-4D9D-A293-46F74397047B}
