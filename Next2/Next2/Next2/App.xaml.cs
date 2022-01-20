@@ -1,11 +1,11 @@
-﻿using Next2.ViewModels;
+﻿using Next2.Resources.Strings;
+using Next2.ViewModels;
 using Next2.Views;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
-using System;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Next2
 {
@@ -29,6 +29,8 @@ namespace Next2
         {
             InitializeComponent();
 
+            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+
             await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
         }
 
@@ -45,6 +47,5 @@ namespace Next2
         }
 
         #endregion
-
     }
 }
