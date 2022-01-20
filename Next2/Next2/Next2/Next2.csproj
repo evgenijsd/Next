@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
+    <Folder Include="Controls\" />
     <Folder Include="Converters\" />
     <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
