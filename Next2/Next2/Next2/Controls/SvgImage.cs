@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FFImageLoading.Svg.Forms;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -19,8 +20,8 @@ namespace Next2.Controls
         {
             get => (string)GetValue(SvgSourceProperty);
             set => SetValue(SvgSourceProperty, value);
-        }
-​
+        }​
+
         #endregion
 ​
         #region -- Private helpers --
@@ -30,14 +31,13 @@ namespace Next2.Controls
             if (bindable is not SvgImage control)
             {
                 return;
-            }
-​
+            }​
             if (newvalue is string val)
             {
                 control.Source = val.Contains(".svg") ? val : $"resource://TeaCRM.Resources.SvgIcons.{val}.svg";
             }
-        }
-​
+        }​
+
         #endregion
     }
 }
