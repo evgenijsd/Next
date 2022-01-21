@@ -11,25 +11,6 @@
             public const string MEMBERSHIP_TIME_FORMAT = "MMM dd yyyy / hh:mm tt";
         }
 
-        public static class API
-        {
-            public const string DOMAIN = "https://api.next2.com.ua";
-        }
-
-        public static class ApiServices
-        {
-            public const string MEMBERSHIP = nameof(MEMBERSHIP);
-        }
-
-        public static class ApiMethods
-        {
-            public const string ADD = nameof(ADD);
-            public const string UPDATE = nameof(UPDATE);
-            public const string GETALL = nameof(GETALL);
-            public const string FIND = nameof(FIND);
-            public const string DELETE = nameof(DELETE);
-        }
-
         public static class RegexPatterns
         {
         }
@@ -49,6 +30,7 @@
 
         public static class Limits
         {
+            public const int RESPONCE_DELAY = 1000;
         }
     }
 }

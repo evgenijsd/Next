@@ -1,45 +1,48 @@
-﻿using Next2.Models;
-using Next2.Services.Rest;
+﻿using Next2.Helpers.ProcessHelpers;
+using Next2.Models;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Membership
 {
     public class MembershipService : IMembershipService
     {
-        private readonly IRestService _restService;
+        private readonly IMockService _mockService;
 
-        public MembershipService(IRestService restService)
+        public MembershipService(IMockService mockService)
         {
-            _restService = restService;
+            _mockService = mockService;
         }
 
-        #region -- IMembership implementation --
+         #region -- IMembership implementation --
 
-        public Task EditMembershipEnd(int memberId, DateTime endTIme)
+        public async Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync<T>(Func<MemberModel, bool> condition = null)
         {
-            throw new NotImplementedException();
-        }
+            var result = new AOResult<IEnumerable<MemberModel>>();
 
-        public Task EditMembershipStart(int memberId, DateTime startTime)
-        {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var members = await _mockService.GetAllAsync<MemberModel>();
 
-        public async Task<IEnumerable<MemberModel>> GetAllAsync()
-        {
-            string url = $"{Constants.API.DOMAIN}/{Constants.ApiServices.MEMBERSHIP}/{Constants.ApiMethods.GETALL}";
+                if (members != null)
+                {
+                    result.SetSuccess(condition == null
+                        ? members
+                        : members.Where(condition));
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetAllMembersAsync)}: exception", "Some issues", ex);
+            }
 
-            IEnumerable<MemberModel> list = await _restService.RequestAsync<IEnumerable<MemberModel>>(HttpMethod.Get, url);
-
-            return list;
-        }
-
-        public Task<IEnumerable<T>> GetAllByQueryAsync<T>(Func<MemberModel, bool> func)
-        {
-            throw new NotImplementedException();
+            return result;
         }
 
         #endregion

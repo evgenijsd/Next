@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
-namespace Next2.Models
+namespace Next2.ViewModels.Tablet
 {
-    public class MemberModel : IEntityModelBase
+    public class MemberBindableModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public int Id { get; set; }
 
         public string CustomerName { get; set; }

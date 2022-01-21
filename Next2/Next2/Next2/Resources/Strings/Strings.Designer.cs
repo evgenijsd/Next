@@ -61,11 +61,65 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hello World!.
+        ///   Looks up a localized string similar to Customer Name.
         /// </summary>
-        internal static string Hello {
+        internal static string CustomerName {
             get {
-                return ResourceManager.GetString("Hello", resourceCulture);
+                return ResourceManager.GetString("CustomerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Membership.
+        /// </summary>
+        internal static string Membership {
+            get {
+                return ResourceManager.GetString("Membership", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Membership End.
+        /// </summary>
+        internal static string MembershipEndTime {
+            get {
+                return ResourceManager.GetString("MembershipEndTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Membership Start.
+        /// </summary>
+        internal static string MembershipStartTime {
+            get {
+                return ResourceManager.GetString("MembershipStartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        internal static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by Name or Phone.
+        /// </summary>
+        internal static string SearchByNameOrPhone {
+            get {
+                return ResourceManager.GetString("SearchByNameOrPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Watch the tutorial.
+        /// </summary>
+        internal static string WatchTutorial {
+            get {
+                return ResourceManager.GetString("WatchTutorial", resourceCulture);
             }
         }
     }

@@ -1,8 +1,10 @@
 ﻿using Next2.Resources.Strings;
+using Next2.Services;
 using Next2.Services.Membership;
-using Next2.Services.Rest;
 using Next2.ViewModels;
+using Next2.ViewModels.Tablet;
 using Next2.Views;
+using Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -23,12 +25,13 @@ namespace Next2
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Services
-            containerRegistry.RegisterSingleton<IRestService, MockRestService>();
+            containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+            containerRegistry.RegisterForNavigation<MembershipPage, MembershipViewModel>();
         }
 
         protected override async void OnInitialized()
@@ -37,7 +40,7 @@ namespace Next2
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MembershipPage)}");
         }
 
         protected override void OnStart()

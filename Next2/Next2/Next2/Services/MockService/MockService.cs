@@ -2,28 +2,159 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services.Rest
+namespace Next2.Services
 {
-    public class MockRestService : IRestService
+    public class MockService : IMockService
     {
-        private List<MemberModel> _members;
+        private readonly TaskCompletionSource<bool> _initCompletionSource;
 
-        #region -- IRestService implementation --
+        private Dictionary<Type, object> _base;
 
-        public Task<T> RequestAsync<T>(HttpMethod httpMethod, string requestUrl, Dictionary<string, string> additionalHeaders = null, object requestBody = null)
+        private IList<MemberModel> _members;
+
+        public MockService()
         {
-            throw new NotImplementedException();
+            Task.Run(InitMocksAsync);
+        }
+
+        #region -- IMockService implementation --
+
+        public async Task<int> AddAsync<T>(T entity)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+            int id = 1;
+
+            if (GetBase<T>().Count > 0)
+            {
+                id = GetBase<T>().Max(x => x.Id) + 1;
+                entity.Id = id;
+            }
+            else
+            {
+                entity.Id = 1;
+            }
+
+            GetBase<T>().Add(entity);
+
+            return id;
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            return GetBase<T>();
+        }
+
+        public async Task<T> GetByIdAsync<T>(int id)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            return GetBase<T>().FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task<bool> RemoveAsync<T>(T entity)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            var entityDelete = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
+
+            return GetBase<T>().Remove(entityDelete);
+        }
+
+        public async Task<int> RemoveAllAsync<T>(Predicate<T> predicate)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            return GetBase<T>().RemoveAll(predicate);
+        }
+
+        public async Task<T> UpdateAsync<T>(T entity)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
+            entityUpdate = entity;
+
+            return entityUpdate;
+        }
+
+        public async Task<T> FindAsync<T>(Func<T, bool> expression)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            return GetBase<T>().FirstOrDefault<T>(expression);
+        }
+
+        public async Task<bool> AnyAsync<T>(Func<T, bool> expression)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            return GetBase<T>().Any<T>(expression);
+        }
+
+        public async Task<IEnumerable<T>> GetAsync<T>(Func<T, bool> expression)
+            where T : IEntityModelBase, new()
+        {
+            await Task.Delay(Constants.Limits.RESPONCE_DELAY);
+
+            await _initCompletionSource.Task;
+
+            return GetBase<T>().Where<T>(expression);
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private void InitMembers()
+        private List<T> GetBase<T>()
         {
+            return (List<T>)_base[typeof(T)];
+        }
+
+        private async Task InitMocksAsync()
+        {
+            _base = new Dictionary<Type, object>();
+
+            await Task.WhenAll(
+                InitMemberList());
+
+            _initCompletionSource.TrySetResult(true);
+        }
+
+        private Task InitMemberList() => Task.Run(() =>
+        {
+            _members = new List<MemberModel>();
+
+            _base.Add(typeof(MemberModel), _members);
+
             _members = new List<MemberModel>
             {
                 new MemberModel
@@ -223,7 +354,7 @@ namespace Next2.Services.Rest
                         CultureInfo.InvariantCulture),
                 },
             };
-        }
+        });
 
         #endregion
     }

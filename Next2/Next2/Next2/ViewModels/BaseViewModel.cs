@@ -1,11 +1,21 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
+using Xamarin.Essentials;
 
 namespace Next2.ViewModels
 {
     public class BaseViewModel : BindableBase, IDestructible, IInitialize, INavigationAware
     {
         protected INavigationService _navigationService { get; }
+
+        protected bool IsConnectionExist
+        {
+            get
+            {
+                var connectivity = Connectivity.NetworkAccess;
+                return connectivity != NetworkAccess.None && connectivity != NetworkAccess.Unknown;
+            }
+        }
 
         public BaseViewModel(INavigationService navigationService)
         {
@@ -39,6 +49,5 @@ namespace Next2.ViewModels
         }
 
         #endregion
-
     }
 }
