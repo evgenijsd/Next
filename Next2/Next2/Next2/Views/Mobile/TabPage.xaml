@@ -1,16 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Next2.Views.StartPage">
+             x:Class="Next2.Views.Mobile.TabPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Start Page"
+            <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-            <Button Text="Orders"
-                    Command="{Binding OrdersCommand}"/>
-            <Button Text="Tabs"
-                    Command="{Binding TabsCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

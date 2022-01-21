@@ -1,5 +1,6 @@
 ﻿using Next2.ViewModels;
 using Next2.Views;
+using Next2.Views.Mobile;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -23,6 +24,8 @@ namespace Next2
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+            containerRegistry.RegisterForNavigation<OrderPage, OrderPageViewModel>();
+            containerRegistry.RegisterForNavigation<TabPage, TabPageViewModel>();
         }
 
         protected override async void OnInitialized()

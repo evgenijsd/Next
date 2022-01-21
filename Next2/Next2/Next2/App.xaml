@@ -5,6 +5,13 @@
                         x:Class="Next2.App">
     
     <prism:PrismApplication.Resources>
+        <Color x:Key="PrimaryColor">#596EFB</Color>
+        <Color x:Key="AccentColor">#E65B30</Color>
+        <Color x:Key="TextColor">White</Color>
+        <Color x:Key="ButtonTextColor">Black</Color>
+        <Color x:Key="ContentPrimaryColor">White</Color>
+        <Color x:Key="ContentTextColor">#D7DDE8</Color>
+        <Color x:Key="LineColor">#D7DDE8</Color>
 
     </prism:PrismApplication.Resources>
     
