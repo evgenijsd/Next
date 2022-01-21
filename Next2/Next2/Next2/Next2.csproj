@@ -74,6 +74,10 @@
     <DefineConstants>TRACE;STAGE;NETSTANDARD;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Resources\Fonts\Barlow-Bold.ttf" />
+    <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
+    <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
+    <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -82,7 +86,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Fonts\Barlow-Bold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Barlow-Medium.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Barlow-Regular.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Barlow-SemiBold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -100,10 +116,8 @@
     <Folder Include="Extensions\" />
     <Folder Include="Models\" />
     <Folder Include="Enums\" />
-    <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Strings\" />
-    <Folder Include="Resources\Styles\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\Mobile\" />
     <Folder Include="ViewModels\Tablet\" />
@@ -112,6 +126,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Styles\DarkModeResources.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\StartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

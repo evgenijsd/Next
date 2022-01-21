@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="Next2.Resources.Styles.DefaultResources">
+
+    <!-- TEXT SIZE -->
+   
+    <!-- 24px -->
+    <x:Double x:Key="tsize_i4">26</x:Double>
+    <!-- 18px -->
+    <x:Double x:Key="tsize_i5">20</x:Double>
+    <!-- 16px -->
+    <x:Double x:Key="tsize_i6">18</x:Double>
+    <!-- 14px -->
+    <x:Double x:Key="tsize_i7">16</x:Double>
+    <!-- 12px -->
+    <x:Double x:Key="tsize_i8">14</x:Double>
+    <!-- 10px -->
+    <x:Double x:Key="tsize_i9">12</x:Double>
+    <!-- 8px -->
+    <x:Double x:Key="tsize_i10">10</x:Double>
+
+    <!-- CONTENT STYLES -->
+    <Style x:Key="BaseContent_i1" TargetType="Label">
+        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+        <!-- 600 -->
+    </Style>
+    <Style x:Key="BaseContent_i2" TargetType="Label">
+        <Setter Property="FontFamily" Value="Barlow-Bold"/>
+        <!-- 700  -->
+    </Style>
+    <Style x:Key="BaseContent_i3" TargetType="Label">
+        <Setter Property="FontFamily" Value="Barlow-Medium"/>
+        <!-- 500 -->
+    </Style>
+    <Style x:Key="BaseContent_i4" TargetType="Label">
+        <Setter Property="FontFamily" Value="Barlow-Regular"/>
+        <!-- 400 -->
+    </Style>
+   
+
+
+</ResourceDictionary>
