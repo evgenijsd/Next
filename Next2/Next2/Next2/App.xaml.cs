@@ -1,4 +1,6 @@
 ﻿using Next2.Resources.Strings;
+using Next2.Services.Membership;
+using Next2.Services.Rest;
 using Next2.ViewModels;
 using Next2.Views;
 using Prism;
@@ -20,6 +22,10 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Services
+            containerRegistry.RegisterSingleton<IRestService, MockRestService>();
+            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();

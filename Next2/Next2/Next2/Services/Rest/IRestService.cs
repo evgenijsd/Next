@@ -1,20 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Next2.Models;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ODBmobile.Services.Rest
+namespace Next2.Services.Rest
 {
     public interface IRestService
     {
-        Task<T> GetAsync<T>(string resource, Dictionary<string, string> additioalHeaders = null);
-
-        Task<T> PutAsync<T>(string resource, object requestBody, Dictionary<string, string> additioalHeaders = null);
-
-        Task<T> DeleteAsync<T>(string resource, Dictionary<string, string> additioalHeaders = null);
-
-        Task<T> DeleteAsync<T>(string resource, object requestBody, Dictionary<string, string> additioalHeaders = null);
-
-        Task<T> PostAsync<T>(string resource, object requestBody, Dictionary<string, string> additioalHeaders = null);
-
-        Task<TGet> PostAsync<TPost, TGet>(string resource, object requestBody, Dictionary<string, string> additioalHeaders = null);
+        Task<T> RequestAsync<T>(HttpMethod httpMethod, string requestUrl, Dictionary<string, string> additionalHeaders = null, object requestBody = null);
     }
 }

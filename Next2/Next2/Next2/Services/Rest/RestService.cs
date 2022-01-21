@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Next2.Services.Rest
 {
+    /*
     public class RestService : IRestService
     {
         private readonly ISettingsManager _settingsManager;
@@ -227,4 +228,5 @@ namespace Next2.Services.Rest
 
         #endregion
     }
+    */
 }
