@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Next2.ViewModels.Mobile
 {
-    class LoginPageViewModel
+    public class LoginPageViewModel : BaseViewModel
     {
+        public LoginPageViewModel(INavigationService navigationService)
+            : base(navigationService)
+        {
+        }
     }
 }

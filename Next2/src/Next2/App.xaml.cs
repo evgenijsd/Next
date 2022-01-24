@@ -1,5 +1,7 @@
 ﻿using Next2.ViewModels;
+using Next2.ViewModels.Mobile;
 using Next2.Views;
+using Next2.Views.Mobile;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -23,13 +25,14 @@ namespace Next2
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
         }
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
         }
 
         protected override void OnStart()
