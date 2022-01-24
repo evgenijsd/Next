@@ -78,7 +78,12 @@
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
+    <None Remove="Resources\Images\Sort.png" />
+    <None Remove="Resources\Images\Video.png" />
+    <None Remove="Resources\Images\Video.svg" />
+    <None Remove="Sort.png" />
     <None Remove="stylecop.json" />
+    <None Remove="Video.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,6 +95,11 @@
     <EmbeddedResource Include="Resources\Fonts\Barlow-Medium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Barlow-Regular.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Barlow-SemiBold.ttf" />
+    <EmbeddedResource Include="Resources\Images\Sort.png" />
+    <EmbeddedResource Include="Resources\Images\Video.png" />
+    <EmbeddedResource Include="Resources\Images\Video.svg" />
+    <EmbeddedResource Include="Sort.png" />
+    <EmbeddedResource Include="Video.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -114,15 +124,10 @@
     <Folder Include="Behaviors\" />
     <Folder Include="Controls\" />
     <Folder Include="Converters\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Resources\Fonts\" />
-    <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="Enums\" />
-    <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Strings\" />
-    <Folder Include="Services\" />
     <Folder Include="ViewModels\Mobile\" />
     <Folder Include="Views\Mobile\" />
   </ItemGroup>

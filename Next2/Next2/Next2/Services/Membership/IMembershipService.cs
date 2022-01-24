@@ -8,6 +8,6 @@ namespace Next2.Services.Membership
 {
     public interface IMembershipService
     {
-        Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync<T>(Func<MemberModel, bool> condition);
+        Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null);
     }
 }

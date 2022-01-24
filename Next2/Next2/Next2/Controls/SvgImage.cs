@@ -1,7 +1,4 @@
 ﻿using FFImageLoading.Svg.Forms;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -16,6 +13,7 @@ namespace Next2.Controls
                 returnType: typeof(string),
                 declaringType: typeof(SvgImage),
                 propertyChanged: OnPropertyChanged);
+
         public string SvgSource
         {
             get => (string)GetValue(SvgSourceProperty);
@@ -28,14 +26,9 @@ namespace Next2.Controls
 
         private static void OnPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
-            if (bindable is not SvgImage control)
+            if (bindable is SvgImage control && newvalue is string val)
             {
-                return;
-            }
-
-            if (newvalue is string val)
-            {
-                control.Source = val.Contains(".svg") ? val : $"resource://TeaCRM.Resources.SvgIcons.{val}.svg";
+                control.Source = val.Contains(".svg") ? val : $"resource://Next2.Resources.Images.{val}.svg";
             }
         }
 

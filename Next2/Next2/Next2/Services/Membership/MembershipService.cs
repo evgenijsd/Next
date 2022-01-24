@@ -18,7 +18,7 @@ namespace Next2.Services.Membership
 
          #region -- IMembership implementation --
 
-        public async Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync<T>(Func<MemberModel, bool> condition = null)
+        public async Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<MemberModel>>();
 

@@ -38,9 +38,11 @@ namespace Next2
         {
             InitializeComponent();
 
+            NavigationPage.SetHasNavigationBar(this, false);
+
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MembershipPage)}");
+            await NavigationService.NavigateAsync($"{nameof(MembershipPage)}");
         }
 
         protected override void OnStart()

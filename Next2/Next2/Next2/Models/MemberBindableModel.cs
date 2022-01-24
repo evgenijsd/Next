@@ -9,9 +9,9 @@ namespace Next2.Models
 
         public int Id { get; set; }
 
-        public string? CustomerName { get; set; }
+        public string CustomerName { get; set; }
 
-        public string? Phone { get; set; }
+        public string Phone { get; set; }
 
         public DateTime MembershipStartTime { get; set; }
 

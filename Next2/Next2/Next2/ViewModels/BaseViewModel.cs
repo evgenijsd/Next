@@ -1,10 +1,11 @@
 ﻿using Prism.Mvvm;
 using Prism.Navigation;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace Next2.ViewModels
 {
-    public class BaseViewModel : BindableBase, IDestructible, IInitialize, INavigationAware
+    public class BaseViewModel : BindableBase, IDestructible, IInitialize, IInitializeAsync, INavigationAware
     {
         protected INavigationService _navigationService { get; }
 
@@ -34,6 +35,15 @@ namespace Next2.ViewModels
 
         public virtual void Initialize(INavigationParameters parameters)
         {
+        }
+
+        #endregion
+
+        #region -- InavigationAware implementation --
+
+        public virtual Task InitializeAsync(INavigationParameters parameters)
+        {
+            return Task.CompletedTask;
         }
 
         #endregion

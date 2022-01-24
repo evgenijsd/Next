@@ -9,11 +9,10 @@ namespace Next2.Services
 {
     public class MockService : IMockService
     {
-        private readonly TaskCompletionSource<bool> _initCompletionSource;
-
-        private Dictionary<Type, object> _typeListPairs;
+        private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
 
         private IList<MemberModel> _members;
+        private Dictionary<Type, object> _base;
 
         public MockService()
         {
@@ -25,14 +24,12 @@ namespace Next2.Services
         public async Task<int> AddAsync<T>(T entity)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
             int id = 1;
 
-            if (GetListByType<T>().Count > 0)
+            if (GetBase<T>().Count > 0)
             {
-                id = GetListByType<T>().Max(x => x.Id) + 1;
+                id = GetBase<T>().Max(x => x.Id) + 1;
                 entity.Id = id;
             }
             else
@@ -40,7 +37,7 @@ namespace Next2.Services
                 entity.Id = 1;
             }
 
-            GetListByType<T>().Add(entity);
+            GetBase<T>().Add(entity);
 
             return id;
         }
@@ -48,53 +45,43 @@ namespace Next2.Services
         public async Task<IEnumerable<T>> GetAllAsync<T>()
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            return GetListByType<T>();
+            return GetBase<T>();
         }
 
         public async Task<T> GetByIdAsync<T>(int id)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            return GetListByType<T>().FirstOrDefault(x => x.Id == id);
+            return GetBase<T>().FirstOrDefault(x => x.Id == id);
         }
 
         public async Task<bool> RemoveAsync<T>(T entity)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            var entityDelete = GetListByType<T>().FirstOrDefault(x => x.Id == entity.Id);
+            var entityDelete = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
 
-            return GetListByType<T>().Remove(entityDelete);
+            return GetBase<T>().Remove(entityDelete);
         }
 
         public async Task<int> RemoveAllAsync<T>(Predicate<T> predicate)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            return GetListByType<T>().RemoveAll(predicate);
+            return GetBase<T>().RemoveAll(predicate);
         }
 
         public async Task<T> UpdateAsync<T>(T entity)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            var entityUpdate = GetListByType<T>().FirstOrDefault(x => x.Id == entity.Id);
+            var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
             entityUpdate = entity;
 
             return entityUpdate;
@@ -103,58 +90,55 @@ namespace Next2.Services
         public async Task<T> FindAsync<T>(Func<T, bool> expression)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            return GetListByType<T>().FirstOrDefault<T>(expression);
+            return GetBase<T>().FirstOrDefault<T>(expression);
         }
 
         public async Task<bool> AnyAsync<T>(Func<T, bool> expression)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            return GetListByType<T>().Any<T>(expression);
+            return GetBase<T>().Any<T>(expression);
         }
 
         public async Task<IEnumerable<T>> GetAsync<T>(Func<T, bool> expression)
             where T : IEntityModelBase, new()
         {
-            await Task.Delay(Constants.RESPONCE_DELAY);
-
             await _initCompletionSource.Task;
 
-            return GetListByType<T>().Where<T>(expression);
+            return GetBase<T>().Where<T>(expression);
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private List<T> GetListByType<T>()
+        private List<T> GetBase<T>()
         {
-            return (List<T>)_typeListPairs[typeof(T)];
+            return (List<T>)_base[typeof(T)];
         }
 
         private async Task InitMocksAsync()
         {
-            _typeListPairs = new Dictionary<Type, object>();
+            try
+            {
+                _base = new Dictionary<Type, object>();
 
-            await Task.WhenAll(
-                InitMemberList());
+                await Task.WhenAll(InitMembers());
 
-            _initCompletionSource.TrySetResult(true);
+                _initCompletionSource.TrySetResult(true);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
-        private Task InitMemberList() => Task.Run(() =>
+        private Task InitMembers() => Task.Run(() =>
         {
             _members = new List<MemberModel>();
-
-            _typeListPairs.Add(typeof(MemberModel), _members);
-
+            var cultureInfo = new CultureInfo("en-US");
             _members = new List<MemberModel>
             {
                 new MemberModel
@@ -165,11 +149,11 @@ namespace Next2.Services
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 28 2021 / 08:36 PM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 28 2021 / 08:36 PM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -179,39 +163,39 @@ namespace Next2.Services
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 28 2021 / 09:11 PM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 28 2021 / 09:11 PM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
-                    Id = 3,
-                    CustomerName = "Carla Dorwart",
-                    Phone = "090-540-7412",
-                    MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 09:30 AM",
-                        Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
-                    MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 09:30 AM",
-                        Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                Id = 3,
+                CustomerName = "Carla Dorwart",
+                Phone = "090-540-7412",
+                MembershipStartTime = DateTime.ParseExact(
+                    "Mar 29 2021 / 09:30 AM",
+                    Constants.MEMBERSHIP_TIME_FORMAT,
+                    cultureInfo),
+                MembershipEndTime = DateTime.ParseExact(
+                    "Mar 29 2021 / 09:30 AM",
+                    Constants.MEMBERSHIP_TIME_FORMAT,
+                    cultureInfo),
                 },
                 new MemberModel
                 {
-                    Id = 4,
-                    CustomerName = "Davis Septimus",
-                    Phone = "301-472-3355",
-                    MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 09:22 AM",
-                        Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
-                    MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 09:22 AM",
-                        Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                Id = 4,
+                CustomerName = "Davis Septimus",
+                Phone = "301-472-3355",
+                MembershipStartTime = DateTime.ParseExact(
+                    "Mar 29 2021 / 09:22 AM",
+                    Constants.MEMBERSHIP_TIME_FORMAT,
+                    cultureInfo),
+                MembershipEndTime = DateTime.ParseExact(
+                    "Mar 29 2021 / 09:22 AM",
+                    Constants.MEMBERSHIP_TIME_FORMAT,
+                    cultureInfo),
                 },
                 new MemberModel
                 {
@@ -221,11 +205,11 @@ namespace Next2.Services
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 29 2021 / 12:22 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 29 2022 / 12:22 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -235,11 +219,11 @@ namespace Next2.Services
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 28 2021 / 08:54 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 28 2021 / 08:54 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -249,11 +233,11 @@ namespace Next2.Services
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 29 2021 / 03:51 PM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 29 2021 / 03:51 PM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -261,13 +245,13 @@ namespace Next2.Services
                     CustomerName = "Lincoln Lipshutz",
                     Phone = "174-449-2766",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 /02:48 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 /02:48 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -275,13 +259,13 @@ namespace Next2.Services
                     CustomerName = "Ann Schleifer",
                     Phone = "962-399-9765",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:07 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:07 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -289,13 +273,13 @@ namespace Next2.Services
                     CustomerName = "Randy Mango",
                     Phone = "500-803-7621",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:47 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:47 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -303,13 +287,13 @@ namespace Next2.Services
                     CustomerName = "Cheyenne Calzoni",
                     Phone = "576-273-4018",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 /20:36 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2022 / 20:36 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -317,13 +301,13 @@ namespace Next2.Services
                     CustomerName = "Zaire Levin",
                     Phone = "601-611-1754",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 21:11 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 21:11 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -331,13 +315,13 @@ namespace Next2.Services
                     CustomerName = "Carla Mango",
                     Phone = "142-826-7912",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 /  09:30 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 /  09:30 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
                 new MemberModel
                 {
@@ -345,15 +329,17 @@ namespace Next2.Services
                     CustomerName = "Cheyenne Levin",
                     Phone = "210-626-0640",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 09:22 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 09:22 AM",
+                        "Mar 29 2021 / 02:48 AM",
                         Constants.MEMBERSHIP_TIME_FORMAT,
-                        CultureInfo.InvariantCulture),
+                        cultureInfo),
                 },
             };
+
+            _base.Add(typeof(MemberModel), _members);
         });
 
         #endregion
