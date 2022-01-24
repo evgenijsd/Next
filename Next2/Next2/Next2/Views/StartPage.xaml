@@ -5,9 +5,24 @@
              x:Class="Next2.Views.StartPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{xct:Translate Hello}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Start Page"
+                   TextColor="{DynamicResource appcolor_i1}"
+                   FontSize="{DynamicResource tsize_i2}"
+                   FontFamily="{DynamicResource BaseContent_i4}"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="Start Page"
+                   TextColor="Black"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="Start Page"
+                   Style="{DynamicResource BaseContent_i2}"
+                   TextColor="{DynamicResource appcolor_i1}"
+                   FontSize="{DynamicResource tsize_i2}"
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

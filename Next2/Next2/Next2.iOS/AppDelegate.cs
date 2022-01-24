@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FFImageLoading.Svg.Forms;
 using Foundation;
 using UIKit;
 
@@ -24,7 +24,8 @@ namespace Next2.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
-
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            var ignore = typeof(SvgCachedImage);
             return base.FinishedLaunching(app, options);
         }
     }

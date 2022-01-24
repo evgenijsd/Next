@@ -5,8 +5,25 @@
                         xmlns:views="clr-namespace:Next2.Views"
                         x:Class="Next2.Views.Tablet.MembershipPage">
     <ContentPage.Content>
-        <Grid>
-            <Label Text="{xct:Translate Membership}"/>
-        </Grid>
+        <StackLayout>
+
+            <Entry Text="{Binding Text}"/>
+
+            <Label Text="{Binding Text}"/>
+
+            <Button Text="Add">
+
+                <Button.Behaviors>
+
+                    <xct:EventToCommandBehavior 
+                        EventName="Clicked"
+                        Command="{Binding }"
+                        />
+
+                </Button.Behaviors>
+                
+            </Button>
+
+        </StackLayout>
     </ContentPage.Content>
 </views:BaseContentPage>

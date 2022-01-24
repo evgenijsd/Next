@@ -20,6 +20,8 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
+        public string Text { get; set; }
+
         public ObservableCollection<MemberBindableModel> Members { get; set; }
 
         public ESortingType SortingTypeMembers { get; set; }
