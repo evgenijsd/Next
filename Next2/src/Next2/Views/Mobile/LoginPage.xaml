@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Next2.Views.Mobile.LoginPage">
+    <ContentPage.Content>
+        <Grid HorizontalOptions="Fill"
+              VerticalOptions="Fill"
+              RowSpacing="0"
+              RowDefinitions="auto">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.33*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="Welcome"/>
+
+            <Image Source="ic_time_circle_24x24"/>
+            
+            
+
+
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
