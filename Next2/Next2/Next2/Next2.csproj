@@ -81,9 +81,7 @@
     <None Remove="Resources\Images\Sort.png" />
     <None Remove="Resources\Images\Video.png" />
     <None Remove="Resources\Images\Video.svg" />
-    <None Remove="Sort.png" />
     <None Remove="stylecop.json" />
-    <None Remove="Video.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -98,8 +96,6 @@
     <EmbeddedResource Include="Resources\Images\Sort.png" />
     <EmbeddedResource Include="Resources\Images\Video.png" />
     <EmbeddedResource Include="Resources\Images\Video.svg" />
-    <EmbeddedResource Include="Sort.png" />
-    <EmbeddedResource Include="Video.png" />
   </ItemGroup>
 
   <ItemGroup>
