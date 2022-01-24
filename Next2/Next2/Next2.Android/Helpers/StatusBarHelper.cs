@@ -8,7 +8,7 @@ using Xamarin.Forms;
 namespace Next2.Droid.Helpers
 {
 
-    public class StatusBarHelper : IStatusBar
+    public class StatusBarHelper : IStatusBarHelper
     {
         private WindowManagerFlags _originalFlags;
         private bool IsHide { get; set; }

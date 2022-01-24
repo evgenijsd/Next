@@ -1,6 +1,6 @@
 ﻿namespace Next2.Helpers
 {
-    public interface IStatusBar
+    public interface IStatusBarHelper
     {
         /// <summary>
         /// Hide

@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Extensions;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Membership;
 using Next2.Views;
@@ -19,10 +20,12 @@ namespace Next2.ViewModels.Tablet
 
         public MembershipViewModel(
             INavigationService navigationService,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            IStatusBarHelper statusBarHelper)
             : base(navigationService)
         {
             _membershipService = membershipService;
+            statusBarHelper.HideStatusBar();
 
             IsMembersRefreshing = true;
             SortingTypeMembers = ESortingType.ByAscending;
