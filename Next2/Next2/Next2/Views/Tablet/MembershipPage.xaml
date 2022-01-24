@@ -76,11 +76,36 @@
             <!-- Content -->
             <StackLayout
                 Grid.Column="1" 
-                         Grid.Row="1" 
-                         Spacing="0"
-                         Margin="0"
-                         Padding="0"
-                         Background="{DynamicResource textAndbackgroundcolor_i5}">
+                Grid.Row="1" 
+                Spacing="0"
+                Margin="0"
+                Padding="0"
+                Background="{DynamicResource textAndbackgroundcolor_i5}">
+
+                <Frame CornerRadius="10"
+                       Margin="0, 40"
+                       BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i3}">
+
+                    <StackLayout 
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label Text="{xct:Translate SearchByNameOrPhone}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i7}"/>
+
+                        <Image 
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="Center"
+                            Scale="0.95"
+                            Source="Resources/Images/Search.png"/>
+
+                    </StackLayout>
+
+                </Frame>
 
             </StackLayout>
 

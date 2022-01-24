@@ -29,6 +29,8 @@
     <Color x:Key="textAndbackgroundcolor_i5">#252836</Color>
     <!-- System/ Black -->
     <Color x:Key="textAndbackgroundcolor_i6">#212430</Color>
+    
+    <Color x:Key="textAndbackgroundcolor_i7">#6A6C76</Color>
 
     <!-- Indications -->
 
