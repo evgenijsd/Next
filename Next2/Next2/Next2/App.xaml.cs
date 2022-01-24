@@ -1,4 +1,5 @@
 ﻿using Next2.ViewModels;
+using Next2.ViewModels.Mobile;
 using Next2.Views;
 using Next2.Views.Mobile;
 using Prism;

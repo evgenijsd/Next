@@ -21,7 +21,7 @@ namespace Next2.ViewModels
 
         private ICommand _OrderCommand;
 
-        public ICommand OrderCommand => _OrderCommand ??= new AsyncCommand(OnOrderCommandAsync);
+        public ICommand OrderCommand => _OrderCommand ??= SingleExecutionCommand.FromFunc(OnOrderCommandAsync);
 
         private ICommand _TabCommand;
 
@@ -33,12 +33,12 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync()
         {
-            await _navigationService.NavigateAsync($"/{nameof(OrderPage)}");
+            await _navigationService.NavigateAsync($"{nameof(OrderPage)}");
         }
 
         private async Task OnTabCommandAsync()
         {
-            await _navigationService.NavigateAsync($"/{nameof(TabPage)}");
+            await _navigationService.NavigateAsync($"{nameof(TabPage)}");
         }
 
         #endregion

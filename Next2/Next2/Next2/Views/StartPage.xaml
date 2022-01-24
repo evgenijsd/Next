@@ -8,9 +8,9 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Button Text="Orders"
-                    Command="{Binding OrdersCommand}"/>
+                    Command="{Binding OrderCommand}"/>
             <Button Text="Tabs"
-                    Command="{Binding TabsCommand}"/>
+                    Command="{Binding TabCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
