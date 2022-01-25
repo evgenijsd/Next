@@ -21,7 +21,7 @@ namespace Next2.ViewModels
 
         private ICommand _OrderCommand;
 
-        public ICommand OrderCommand => _OrderCommand ??= SingleExecutionCommand.FromFunc(OnOrderCommandAsync);
+        public ICommand OrderCommand => _OrderCommand ??= new AsyncCommand(OnOrderCommandAsync);
 
         private ICommand _TabCommand;
 

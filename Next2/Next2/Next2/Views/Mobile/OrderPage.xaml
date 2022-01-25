@@ -1,15 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:controls="clr-namespace:Next2.Controls"
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
                        x:DataType="viewModels:OrderPageViewModel"
+                       BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                        x:Class="Next2.Views.Mobile.OrderPage">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+
+        <Grid HorizontalOptions="Fill"
+              VerticalOptions="Fill"
+              RowSpacing="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64" />
+                <RowDefinition Height="48" />
+                <RowDefinition Height="121" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <BoxView Grid.Row="0" 
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i1}" />
+
+            <BoxView Grid.Row="0" 
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+            
+            <Grid Grid.Row="0" 
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Fill"
+                  ColumnSpacing="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <BoxView Grid.Column="1" BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+            </Grid>
+
+            <BoxView Grid.Row="1" 
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
+            
+            <Grid Grid.Row="1" 
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Fill"
+                  ColumnSpacing="0">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                
+                <BoxView Grid.Column="0" 
+                         BackgroundColor="{DynamicResource appcolor_i4}" />
+                <BoxView Grid.Column="1" 
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+                
+            </Grid>
+
+            <controls:CustomButtonSearch Grid.Row="2" 
+                                         Margin="17,17,17,54"/>
+
+            <Frame Grid.Row="2" 
+                   Margin="17,75,17,-20" 
+                   CornerRadius="11" 
+                   BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+            </Frame>
+
+            <BoxView Grid.Row="3" 
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
+
+            <BoxView Grid.Row="4" 
+                     Margin="17,0,17,0"
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}" />
+
+        </Grid>
+        
     </ContentPage.Content>
+    
 </views:BaseContentPage>

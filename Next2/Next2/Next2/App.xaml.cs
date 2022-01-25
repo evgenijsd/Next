@@ -32,6 +32,7 @@ namespace Next2
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            App.Current.UserAppTheme = OSAppTheme.Dark;
 
             await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
         }

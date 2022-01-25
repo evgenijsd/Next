@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Next2.Views.Mobile
+namespace Next2.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TabPage : BaseContentPage
+    public partial class CustomButtonSearch : Frame
     {
-        public TabPage()
+        public CustomButtonSearch()
         {
             InitializeComponent();
         }

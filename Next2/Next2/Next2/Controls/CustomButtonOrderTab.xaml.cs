@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Next2.Views.Mobile
+namespace Next2.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TabPage : BaseContentPage
+    public partial class CustomButtonOrderTab : Grid
     {
-        public TabPage()
+        public CustomButtonOrderTab()
         {
             InitializeComponent();
         }

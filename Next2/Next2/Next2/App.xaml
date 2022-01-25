@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <prism:PrismApplication xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
                         xmlns="http://xamarin.com/schemas/2014/forms"
-                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                        xmlns:styles="clr-namespace:Next2.Resources.Styles"
                         x:Class="Next2.App">
     
     <prism:PrismApplication.Resources>
-        <Color x:Key="PrimaryColor">#596EFB</Color>
-        <Color x:Key="AccentColor">#E65B30</Color>
-        <Color x:Key="TextColor">White</Color>
-        <Color x:Key="ButtonTextColor">Black</Color>
-        <Color x:Key="ContentPrimaryColor">White</Color>
-        <Color x:Key="ContentTextColor">#D7DDE8</Color>
-        <Color x:Key="LineColor">#D7DDE8</Color>
-
+        <styles:DefaultResources>
+            <styles:DefaultResources.MergedDictionaries>
+                <styles:DarkModeResources />
+            </styles:DefaultResources.MergedDictionaries>
+        </styles:DefaultResources>
     </prism:PrismApplication.Resources>
     
 </prism:PrismApplication>
