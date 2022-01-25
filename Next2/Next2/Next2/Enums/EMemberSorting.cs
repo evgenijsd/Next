@@ -2,7 +2,8 @@
 {
     public enum EMemberSorting
     {
-        ByName,
+        ByCustomerName,
         ByMembershipStartTime,
+        ByMembershipEndTime,
     }
 }

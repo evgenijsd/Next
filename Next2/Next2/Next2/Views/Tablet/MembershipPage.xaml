@@ -82,6 +82,26 @@
 
                 </Frame>
 
+                <!-- FOR DEBUGGIN OF MEMBERS SORTING --> 
+                <Label Grid.Row="0"
+                       Grid.Column="1"
+                       FontSize="20"
+                       TextColor="Orange">
+
+                    <Label.FormattedText>
+
+                        <FormattedString>
+
+                            <Span Text="{Binding CurrentMemberSorting, StringFormat='{0}-'}"/>
+                            
+                            <Span Text="{Binding SortingTypeMembers}"/>
+
+                        </FormattedString>
+                        
+                    </Label.FormattedText>
+                    
+                </Label>
+
             </Grid>
 
             <!-- TABLE -->
@@ -93,6 +113,9 @@
                    BackgroundColor="Transparent">
 
                 <ListView HasUnevenRows="True"
+                          IsPullToRefreshEnabled="True"
+                          IsRefreshing="{Binding IsMembersRefreshing}"
+                          RefreshCommand="{Binding PullToRefreshMembersCommand}"
                           SeparatorColor="{DynamicResource textAndbackgroundcolor_i5}"
                           BackgroundColor="{DynamicResource textAndbackgroundcolor_i8}"
                           ItemsSource="{Binding Members}"
@@ -117,11 +140,17 @@
                                              Orientation="Horizontal"
                                              Spacing="5">
 
+                                    <StackLayout.GestureRecognizers>
+
+                                        <TapGestureRecognizer Command="{Binding SortingByCustomerNameTapCommand}"/>
+
+                                    </StackLayout.GestureRecognizers>
+
                                     <Label Style="{DynamicResource TextCell}"
                                            Text="{xct:Translate CustomerName}"/>
 
                                     <Image Source="Resources/Images/Sort.png"/>
-
+                                    
                                 </StackLayout>
 
                                 <Label Grid.Column="1"
@@ -131,6 +160,12 @@
                                 <StackLayout Grid.Column="2"
                                              Orientation="Horizontal"
                                              Spacing="5">
+
+                                    <StackLayout.GestureRecognizers>
+
+                                        <TapGestureRecognizer Command="{Binding SortingByMembershipStartTimeTapCommand}"/>
+
+                                    </StackLayout.GestureRecognizers>
 
                                     <Label Style="{DynamicResource TextCell}"
                                            Text="{xct:Translate MembershipStartTime}"/>
@@ -142,6 +177,12 @@
                                 <StackLayout Grid.Column="3"
                                              Orientation="Horizontal"
                                              Spacing="5">
+
+                                    <StackLayout.GestureRecognizers>
+
+                                        <TapGestureRecognizer Command="{Binding SortingByMembershipEndTimeTapCommand}"/>
+
+                                    </StackLayout.GestureRecognizers>
 
                                     <Label Style="{DynamicResource TextCell}"
                                            Text="{xct:Translate MembershipEndTime}"/>
