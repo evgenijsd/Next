@@ -110,7 +110,7 @@
                         <!-- TABLE HEADER -->
                         <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
-                            <Grid ColumnDefinitions="0.3*, 0.3*, 0.25*, 0.15*"
+                            <Grid ColumnDefinitions="0.27*, 0.27*, 0.23*, 0.23*"
                                   Margin="25, 15">
 
                                 <StackLayout Grid.Column="0"
@@ -167,7 +167,7 @@
 
                                 <ViewCell.View>
 
-                                    <Grid ColumnDefinitions="0.25*, 0.25*, 0.25*, 0.25*" 
+                                    <Grid ColumnDefinitions="0.27*, 0.27*, 0.23*, 0.23*"
                                           Margin="25, 10"
                                           BackgroundColor="{DynamicResource textAndbackgroundcolor_i8}">
 
@@ -180,13 +180,35 @@
                                                Text="{Binding SelectedMember, Phone}"/>
 
                                         <Label Grid.Column="2"
-                                               Style="{DynamicResource TextCell}"
-                                               Text="{Binding SelectedMember, MembershipStartTime}"/>
+                                               Style="{DynamicResource TextCell}">
+
+                                            <Label.FormattedText>
+
+                                                <FormattedString>
+
+                                                    <Span Text="{Binding SelectedMember, MembershipStartTime, StringFormat='{0:MMM dd yyyy / hh:mm tt}'}" />
+
+                                                </FormattedString>
+
+                                            </Label.FormattedText>
+
+                                        </Label>
 
                                         <Label Grid.Column="3"
-                                               Style="{DynamicResource TextCell}"
-                                               Text="{Binding SelectedMember, MembershipEndTime}"/>
+                                               Style="{DynamicResource TextCell}">
 
+                                            <Label.FormattedText>
+
+                                                <FormattedString>
+
+                                                    <Span Text="{Binding SelectedMember, MembershipStartTime, StringFormat='{0:MMM dd yyyy / hh:mm tt}'}" />
+
+                                                </FormattedString>
+
+                                            </Label.FormattedText>
+
+                                        </Label>
+                                        
                                     </Grid>
 
                                 </ViewCell.View>
