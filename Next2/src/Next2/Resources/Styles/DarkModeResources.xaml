@@ -24,7 +24,7 @@
     <!-- System/ Light Gray -->
     <Color x:Key="textAndbackgroundcolor_i3">#34374C</Color>
     <!-- System/ Gray -->
-    <Color x:Key="textAndbackgroundcolor_i4">#464B4A</Color>
+    <Color x:Key="textAndbackgroundcolor_i4">#2E3143</Color>
     <!-- System/ Dark Gray -->
     <Color x:Key="textAndbackgroundcolor_i5">#252836</Color>
     <!-- System/ Black -->
@@ -40,10 +40,8 @@
     <Color x:Key="indicationcolor_i3">#F73E5C</Color>
     <!-- Indications/ Error Dark -->
     <Color x:Key="indicationcolor_i4">#7C3A45</Color>
-    <!-- Indications/ Warning Light -->
-    <Color x:Key="indicationcolor_i5">#F59249</Color>
     <!-- Indications/ Warning Dark -->
-    <Color x:Key="indicationcolor_i6">#72544A</Color>
+    <Color x:Key="indicationcolor_i6">#F59249</Color>
     <!-- Indications/ Info Light -->
     <Color x:Key="indicationcolor_i7">#7B61FF</Color>
     <!-- Indications/ Info Dark -->

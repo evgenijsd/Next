@@ -11,5 +11,7 @@ namespace Next2.ViewModels.Mobile
             : base(navigationService)
         {
         }
+
+        public DateTime CurrentDate = DateTime.Now;
     }
 }

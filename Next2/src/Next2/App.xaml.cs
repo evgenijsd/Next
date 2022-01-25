@@ -1,4 +1,7 @@
-﻿using Next2.ViewModels;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Next2.ViewModels;
 using Next2.ViewModels.Mobile;
 using Next2.Views;
 using Next2.Views.Mobile;
@@ -23,16 +26,24 @@ namespace Next2
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Navigation
-            containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
         }
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
+            await Analytics.SetEnabledAsync(true);
+#endif
+            InitializeComponent();
+
+            Crashes.GenerateTestCrash();
+            await NavigationService.NavigateAsync($"{nameof(StartPage)}");
         }
 
         protected override void OnStart()

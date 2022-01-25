@@ -3,23 +3,57 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Next2.Views.Mobile.LoginPage">
     <ContentPage.Content>
-        <Grid HorizontalOptions="Fill"
-              VerticalOptions="Fill"
-              RowSpacing="0"
+        <Grid RowSpacing="0"
               RowDefinitions="auto">
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.33*"/>
-                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <Label Text="Welcome"/>
+            <StackLayout Orientation="Horizontal"
+                         HeightRequest="80"
+                         BackgroundColor="#2E3143"
+                         Grid.Column="0">
 
-            <Image Source="ic_time_circle_24x24"/>
+                <Label Text="Welcome"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+
+                <Image Source="ic_time_circle_24x24"
+                       HorizontalOptions="End"/>
+
+                <Label Text="{Binding CurrentDate, StringFormat='{}{HH:mm}'}" 
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       HorizontalOptions="End"/>
+
+                <Image Source="ic_calendar_24x24"
+                       HorizontalOptions="End"/>
+
+                <Label Text="{Binding CurrentDate, StringFormat='{}{0:dd.MM.yyyy}'}" 
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                
+            </StackLayout>
             
-            
+            <StackLayout Grid.Column="0"
+                             Grid.Row="1"
+                             Orientation="Vertical">
+
+                <Image Source="pic_logo_big" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+
+            </StackLayout>
 
 
+
+
+            <!--<Label Grid.Column="1" 
+                   Grid.Row="0"
+                   Text="Employee ID"/>
+
+            <Label Grid.Column="1"
+                   Grid.Row="1"
+                   Text="Test"/>-->
 
         </Grid>
     </ContentPage.Content>
