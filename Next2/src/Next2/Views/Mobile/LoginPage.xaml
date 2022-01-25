@@ -17,7 +17,8 @@
                          Grid.Column="0">
 
                 <Label Text="Welcome"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       Style="{DynamicResource BaseContent_i4}"/>
 
                 <Image Source="ic_time_circle_24x24"
                        HorizontalOptions="End"/>
@@ -43,6 +44,7 @@
                            VerticalOptions="Center"/>
 
             </StackLayout>
+    
 
 
 

@@ -1,4 +1,5 @@
-﻿using Prism.Navigation;
+﻿using Microsoft.AppCenter.Crashes;
+using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Next2.ViewModels
         public StartPageViewModel(INavigationService navigationService)
            : base(navigationService)
         {
+            //throw new NullReferenceException();
         }
     }
 }

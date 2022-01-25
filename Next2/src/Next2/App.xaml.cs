@@ -42,7 +42,6 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            Crashes.GenerateTestCrash();
             await NavigationService.NavigateAsync($"{nameof(StartPage)}");
         }
 
