@@ -37,7 +37,16 @@
         <Setter Property="FontFamily" Value="Barlow-Regular"/>
         <!-- 400 -->
     </Style>
-   
 
+    <Style TargetType="Frame">
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <!-- BOXVIEW SEPARATORS STYLES -->
+    <Style x:Key="SeparatorStyle" TargetType="BoxView" >
+        <Setter Property="HeightRequest" Value="2"/>
+        <Setter Property="Color" Value="{DynamicResource textAndbackgroundcolor_i3}"/>
+    </Style>
 
 </ResourceDictionary>

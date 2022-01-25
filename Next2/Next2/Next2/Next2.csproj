@@ -80,7 +80,6 @@
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
     <None Remove="Resources\Images\Sort.png" />
     <None Remove="Resources\Images\Video.png" />
-    <None Remove="Resources\Images\Video.svg" />
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -95,7 +94,6 @@
     <EmbeddedResource Include="Resources\Fonts\Barlow-SemiBold.ttf" />
     <EmbeddedResource Include="Resources\Images\Sort.png" />
     <EmbeddedResource Include="Resources\Images\Video.png" />
-    <EmbeddedResource Include="Resources\Images\Video.svg" />
   </ItemGroup>
 
   <ItemGroup>
