@@ -42,7 +42,7 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            await NavigationService.NavigateAsync($"{nameof(StartPage)}");
+            await NavigationService.NavigateAsync($"{nameof(LoginPage)}");
         }
 
         protected override void OnStart()

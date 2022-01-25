@@ -11,7 +11,7 @@ namespace Next2.ViewModels
         public StartPageViewModel(INavigationService navigationService)
            : base(navigationService)
         {
-            //throw new NullReferenceException();
+            throw new NullReferenceException();
         }
     }
 }
