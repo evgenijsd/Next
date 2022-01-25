@@ -8,6 +8,7 @@ using Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
+using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 
@@ -41,6 +42,8 @@ namespace Next2
             NavigationPage.SetHasNavigationBar(this, false);
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
             await NavigationService.NavigateAsync($"{nameof(MembershipPage)}");
         }
