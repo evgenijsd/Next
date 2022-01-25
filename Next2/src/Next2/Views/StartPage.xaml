@@ -25,7 +25,10 @@
             <Button Text="Orders"
                     Command="{Binding OrderCommand}"/>
 
+            <StackLayout Orientation="Horizontal">
             <controls:CustomButtonOrderTab />
+                <controls:CustomButtonOrderTab />
+            </StackLayout>
 
 
             <Button Text="Tabs"
