@@ -32,6 +32,8 @@
     
     <Color x:Key="textAndbackgroundcolor_i7">#6A6C76</Color>
 
+    <Color x:Key="textAndbackgroundcolor_i8">#2E3143</Color>
+
     <!-- Indications -->
 
     <!-- Indications/ Success Light -->
