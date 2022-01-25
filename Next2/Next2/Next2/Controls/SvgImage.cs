@@ -35,7 +35,7 @@ namespace Next2.Controls
 
             if (newvalue is string val)
             {
-                control.Source = val.Contains(".svg") ? val : $"resource://TeaCRM.Resources.SvgIcons.{val}.svg";
+                control.Source = $"resource://Next2.Resources.Images.{val}";
             }
         }
 

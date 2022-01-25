@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Next2.Controls"
+             xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
              x:Class="Next2.Views.StartPage">
     <ContentPage.Content>
@@ -13,6 +14,11 @@
                    FontSize="{DynamicResource tsize_i2}"
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
+
+            <svg:SvgCachedImage
+            Source="resource://Next2.Resources.Images.Search.svg"
+            WidthRequest="100"
+            HeightRequest="100"/>
 
             <controls:CustomButtonSearch />
             

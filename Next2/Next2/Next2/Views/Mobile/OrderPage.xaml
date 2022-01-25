@@ -63,7 +63,7 @@
             </Grid>
 
             <controls:CustomButtonSearch Grid.Row="2" 
-                                         Margin="17,17,17,54"/>
+                                         Margin="17,17,17,63"/>
 
             <Frame Grid.Row="2" 
                    Margin="17,75,17,-20" 

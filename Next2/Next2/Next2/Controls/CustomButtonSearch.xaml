@@ -6,10 +6,10 @@
        BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
        x:Class="Next2.Controls.CustomButtonSearch">
     <StackLayout Orientation="Horizontal">
-        <Label Text="1111111" 
-               Margin="-10,-10,-10,-10"
-               FontSize="Small"
-               TextColor="Aqua" 
+        <Label Text="Search by Name or Order" 
+               Margin="-9,-20,0, -20"
+               FontSize="13"
+               TextColor="#6A6C76" 
                VerticalOptions="Center" 
                HorizontalOptions="Start"/>
     </StackLayout>

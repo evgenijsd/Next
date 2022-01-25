@@ -3,6 +3,8 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using FFImageLoading.Forms.Platform;
+using FFImageLoading.Svg.Forms;
 
 namespace Next2.Droid
 {
@@ -21,6 +23,8 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            CachedImageRenderer.InitImageViewHandler();
+            var ignore = typeof(SvgCachedImage);
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
             LoadApplication(new App());
