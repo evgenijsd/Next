@@ -1,5 +1,4 @@
-﻿using Next2.Helpers;
-using Next2.Views.Mobile;
+﻿using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;

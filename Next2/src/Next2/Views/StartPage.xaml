@@ -21,10 +21,10 @@
             HeightRequest="100"/>
 
             <controls:CustomButtonSearch />
-            
+
             <Button Text="Orders"
                     Command="{Binding OrderCommand}"/>
-            
+
             <controls:CustomButtonOrderTab />
 
 
