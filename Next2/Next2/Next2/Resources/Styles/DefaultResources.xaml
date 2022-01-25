@@ -6,6 +6,8 @@
     <!-- TEXT SIZE -->
    
     <!-- 24px -->
+    <x:Double x:Key="tsize_i3">33</x:Double>
+    <!-- 24px -->
     <x:Double x:Key="tsize_i4">26</x:Double>
     <!-- 18px -->
     <x:Double x:Key="tsize_i5">20</x:Double>

@@ -23,9 +23,9 @@
                              Orientation="Horizontal">
                     
                     <!-- TITLE -->
-                    <Label Style="{DynamicResource BaseContent_i2}"
-                           FontSize="33"
-                           VerticalOptions="Start"
+                    <Label VerticalOptions="Start"
+                           Style="{DynamicResource BaseContent_i2}"
+                           FontSize="{DynamicResource tsize_i3}"
                            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                            Text="{xct:Translate Membership}"/>
 
@@ -38,10 +38,10 @@
                            Scale="1.05"
                            Source="Resources/Images/Video.png"/>
 
-                    <Label Margin="0, 0, 5, 0"
+                    <Label Margin="0, 3, 5, 0"
                            Style="{DynamicResource BaseContent_i3}"
                            VerticalOptions="Center"
-                           FontSize="17"
+                           FontSize="{DynamicResource tsize_i7}"
                            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                            Text="{xct:Translate WatchTutorial}"/>
                     
@@ -71,7 +71,7 @@
 
                         <Label VerticalOptions="Center"
                                Text="{xct:Translate SearchByNameOrPhone}"
-                               FontSize="16"
+                               FontSize="{DynamicResource tsize_i7}"
                                TextColor="{DynamicResource textAndbackgroundcolor_i7}"/>
 
                         <Image HorizontalOptions="EndAndExpand"
@@ -110,7 +110,7 @@
                         <!-- TABLE HEADER -->
                         <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
-                            <Grid ColumnDefinitions="0.3*, 0.3*, 0.25*, 0.15*" 
+                            <Grid ColumnDefinitions="0.3*, 0.3*, 0.25*, 0.15*"
                                   Margin="25, 15">
 
                                 <StackLayout Grid.Column="0"
@@ -118,7 +118,7 @@
                                              Spacing="5">
 
                                     <Label Style="{DynamicResource TextCell}"
-                                       Text="{xct:Translate CustomerName}"/>
+                                           Text="{xct:Translate CustomerName}"/>
 
                                     <Image Source="Resources/Images/Sort.png"/>
 
