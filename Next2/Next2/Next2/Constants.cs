@@ -4,7 +4,7 @@
     {
         public const string MEMBERSHIP_TIME_FORMAT = "MMM dd yyyy / hh:mm tt";
 
-        public const int SERVER_RESPONCE_DELAY = 3000;
+        public const int SERVER_RESPONCE_DELAY = 1000;
 
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";

@@ -41,13 +41,8 @@ namespace Next2.Droid.Effects
 
                 var layers = new Drawable[1];
                 var shapeDrawable = new ShapeDrawable(new RectShape());
-                var scrollBarColor = Color.Default;
 
                 var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
-                if (effect != null)
-                {
-                    scrollBarColor = effect.ScrollBarColor;
-                }
 
                 ShapeAppearanceModel shapeAppearanceModel = new ShapeAppearanceModel()
                     .ToBuilder()
@@ -56,9 +51,14 @@ namespace Next2.Droid.Effects
 
                 MaterialShapeDrawable shapeDrawable2 = new MaterialShapeDrawable(shapeAppearanceModel);
 
-                shapeDrawable2.FillColor = Android.Content.Res.ColorStateList.ValueOf(Color.Red.ToAndroid());
+                var scrollBarColor = Color.Default;
+                if (effect != null)
+                {
+                    scrollBarColor = effect.ScrollBarColor;
+                }
 
-                shapeDrawable2.SetStroke(10f, Color.Red.ToAndroid());
+                shapeDrawable2.FillColor = Android.Content.Res.ColorStateList.ValueOf(scrollBarColor.ToAndroid());
+                shapeDrawable2.SetStroke(0, scrollBarColor.ToAndroid());
 
                 layers[0] = shapeDrawable2;
                 method.Invoke(scrollBar, layers);

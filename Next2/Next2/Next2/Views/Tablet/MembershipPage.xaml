@@ -2,7 +2,11 @@
 <views:BaseContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                        xmlns:views="clr-namespace:Next2.Views" xmlns:effects="clr-namespace:Next2.Effects"
+                        xmlns:local="clr-namespace:Next2"
+                        xmlns:effects="clr-namespace:Next2.Effects"
+                        xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
+                        xmlns:views="clr-namespace:Next2.Views"
+                        x:DataType="tablet:MembershipViewModel"
                         x:Class="Next2.Views.Tablet.MembershipPage">
 
     <ContentPage.Content>
@@ -86,28 +90,8 @@
                         <TapGestureRecognizer Command="{Binding TestCommand}"/>
 
                     </Frame.GestureRecognizers>
-                    
+
                 </Frame>
-
-                <!-- FOR DEBUGGIN OF MEMBERS SORTING --> 
-                <!--<Label Grid.Row="0"
-                       Grid.Column="1"
-                       FontSize="20"
-                       TextColor="Orange">
-
-                    <Label.FormattedText>
-
-                        <FormattedString>
-
-                            <Span Text="{Binding CurrentMemberSorting, StringFormat='{0}-'}"/>
-                            
-                            <Span Text="{Binding SortingTypeMembers}"/>
-
-                        </FormattedString>
-                        
-                    </Label.FormattedText>
-                    
-                </Label>-->
 
             </Grid>
 
@@ -190,169 +174,86 @@
                     <BoxView Style="{DynamicResource SeparatorStyle}"
                              Color="{DynamicResource textAndbackgroundcolor_i5}"/>
 
-                    <ListView HasUnevenRows="True"
-                              SeparatorVisibility="None"
-                              IsPullToRefreshEnabled="True"
-                              IsRefreshing="{Binding IsMembersRefreshing}"
-                              RefreshCommand="{Binding PullToRefreshMembersCommand}"
-                              ItemsSource="{Binding Members}"
-                              SelectedItem="{Binding SelectedMember}">
+                    <!-- TABLE CONTENT -->
+                    <RefreshView IsRefreshing="{Binding IsMembersRefreshing}" 
+                                 Command="{Binding PullToRefreshMembersCommand}">
 
-                        <ListView.Behaviors>
+                        <CollectionView SelectionMode="Single"
+                                        VerticalScrollBarVisibility="Always"
+                                        SelectionChangedCommand="{Binding MemberTapCommand}"
+                                        ItemsSource="{Binding Members}"
+                                        SelectedItem="{Binding SelectedMember}">
 
-                            <xct:EventToCommandBehavior EventName="ItemTapped"
-                                                        Command="{Binding MemberTapCommand}"/>
+                            <CollectionView.Effects>
 
-                        </ListView.Behaviors>
+                                <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource appcolor_i1}"/>
+                                
+                            </CollectionView.Effects>
+                            
+                            <CollectionView.ItemTemplate>
 
-                        <ListView.Effects>
-                            <effects:ScrollBarColorEffect ScrollBarColor="Red"/>
-                        </ListView.Effects>
+                                <DataTemplate>
 
-                        <!--<ListView.Header>
+                                    <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i8}">
 
-                        -->
-                        <!-- TABLE HEADER -->
-                        <!--
-                        <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                                        <Grid ColumnDefinitions="0.29*, 0.21*, 0.25*, 0.25*"
+                                              Margin="15"
+                                              x:DataType="local:Models.MemberBindableModel">
 
-                            <Grid ColumnDefinitions="0.27*, 0.27*, 0.23*, 0.23*"
-                                  Margin="25, 15">
+                                            <Label Grid.Column="0"
+                                                   Style="{DynamicResource TextCell}"
+                                                   Text="{Binding CustomerName}"/>
 
-                                <StackLayout Grid.Column="0"
-                                             Orientation="Horizontal"
-                                             Spacing="5">
+                                            <Label Grid.Column="1"
+                                                   Style="{DynamicResource TextCell}"
+                                                   Text="{Binding Phone}"/>
 
-                                    <StackLayout.GestureRecognizers>
+                                            <Label Grid.Column="2"
+                                                  Style="{DynamicResource TextCell}">
 
-                                        <TapGestureRecognizer Command="{Binding SortingByCustomerNameTapCommand}"/>
+                                                <Label.FormattedText>
 
-                                    </StackLayout.GestureRecognizers>
+                                                    <FormattedString>
 
-                                    <Label Style="{DynamicResource TextCell}"
-                                           Text="{xct:Translate CustomerName}"/>
+                                                        <Span Text="{Binding MembershipStartTime, StringFormat='{0:MMM dd yyyy / hh:mm tt}'}" />
 
-                                    <Image Source="Resources/Images/Sort.png"/>
-                                    
-                                </StackLayout>
+                                                    </FormattedString>
 
-                                <Label Grid.Column="1"
-                                       Style="{DynamicResource TextCell}"
-                                       Text="{xct:Translate Phone}"/>
+                                                </Label.FormattedText>
 
-                                <StackLayout Grid.Column="2"
-                                             Orientation="Horizontal"
-                                             Spacing="5">
+                                            </Label>
 
-                                    <StackLayout.GestureRecognizers>
+                                            <Label Grid.Column="3"
+                                                   Style="{DynamicResource TextCell}">
 
-                                        <TapGestureRecognizer Command="{Binding SortingByMembershipStartTimeTapCommand}"/>
+                                                <Label.FormattedText>
 
-                                    </StackLayout.GestureRecognizers>
+                                                    <FormattedString>
 
-                                    <Label Style="{DynamicResource TextCell}"
-                                           Text="{xct:Translate MembershipStartTime}"/>
+                                                        <Span Text="{Binding MembershipEndTime, StringFormat='{0:MMM dd yyyy / hh:mm tt}'}" />
 
-                                    <Image Source="Resources/Images/Sort.png"/>
+                                                    </FormattedString>
 
-                                </StackLayout>
+                                                </Label.FormattedText>
 
-                                <StackLayout Grid.Column="3"
-                                             Orientation="Horizontal"
-                                             Spacing="5">
+                                            </Label>
 
-                                    <StackLayout.GestureRecognizers>
+                                        </Grid>
 
-                                        <TapGestureRecognizer Command="{Binding SortingByMembershipEndTimeTapCommand}"/>
+                                        <BoxView Grid.Row="1"
+                                                 Style="{DynamicResource SeparatorStyle}"
+                                                 Color="{DynamicResource textAndbackgroundcolor_i5}"/>
 
-                                    </StackLayout.GestureRecognizers>
+                                    </StackLayout>
 
-                                    <Label Style="{DynamicResource TextCell}"
-                                           Text="{xct:Translate MembershipEndTime}"/>
+                                </DataTemplate>
 
-                                    <Image Source="Resources/Images/Sort.png"/>
+                            </CollectionView.ItemTemplate>
 
-                                </StackLayout>
-              
-                            </Grid>
+                        </CollectionView>
 
-                            <BoxView HeightRequest="1"
-                                     Color="{DynamicResource textAndbackgroundcolor_i5}"/>
-
-                        </StackLayout>
-                        
-                    </ListView.Header>-->
-
-                        <ListView.ItemTemplate>
-
-                            <DataTemplate>
-
-                                <ViewCell>
-
-                                    <ViewCell.View>
-
-                                        <StackLayout>
-
-                                            <Grid ColumnDefinitions="0.29*, 0.21*, 0.25*, 0.25*"
-                                                  Margin="15"
-                                                  BackgroundColor="{DynamicResource textAndbackgroundcolor_i8}">
-
-                                                <Label Grid.Column="0"
-                                                       Style="{DynamicResource TextCell}"
-                                                       Text="{Binding SelectedMember, CustomerName}"/>
-
-                                                <Label Grid.Column="1"
-                                                       Style="{DynamicResource TextCell}"
-                                                       Text="{Binding SelectedMember, Phone}"/>
-
-                                                <Label Grid.Column="2"
-                                                       Style="{DynamicResource TextCell}">
-
-                                                    <Label.FormattedText>
-
-                                                        <FormattedString>
-
-                                                            <Span Text="{Binding SelectedMember, MembershipStartTime, StringFormat='{0:MMM dd yyyy / hh:mm tt}'}" />
-
-                                                        </FormattedString>
-
-                                                    </Label.FormattedText>
-
-                                                </Label>
-
-                                                <Label Grid.Column="3"
-                                                       Style="{DynamicResource TextCell}">
-
-                                                    <Label.FormattedText>
-
-                                                        <FormattedString>
-
-                                                            <Span Text="{Binding SelectedMember, MembershipEndTime, StringFormat='{0:MMM dd yyyy / hh:mm tt}'}" />
-
-                                                        </FormattedString>
-
-                                                    </Label.FormattedText>
-
-                                                </Label>
-
-                                            </Grid>
-
-                                            <BoxView Grid.Row="1"
-                                                     Style="{DynamicResource SeparatorStyle}"
-                                                     Color="{DynamicResource textAndbackgroundcolor_i5}"/>
-
-                                        </StackLayout>
-
-                                    </ViewCell.View>
-
-                                </ViewCell>
-
-                            </DataTemplate>
-
-                        </ListView.ItemTemplate>
-
-                    </ListView>
-
+                    </RefreshView>
+                    
                 </StackLayout>
                 
             </Frame>
