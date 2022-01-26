@@ -72,22 +72,103 @@
 
             <BoxView Grid.Row="3" 
                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
-            <!--CollectionView Grid.Row="3"
-                            ItemsSource="{Binding Orders}">
+            
+            <Grid Grid.Row="2"
+                  Margin="17,90,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0"
+                                       HorizontalOptions="StartAndExpand"
+                                       Margin="20,0,0,0"
+                                       Text="Table Number" 
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                       FontSize="{DynamicResource tsize_i8}"
+                                       Style="{DynamicResource BaseContent_i1}"/>
+                <Label Grid.Column="1"
+                                       HorizontalOptions="StartAndExpand"
+                                       Margin="15,0,0,0"
+                                       Text="Order Number" 
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                       FontSize="{DynamicResource tsize_i8}"
+                                       Style="{DynamicResource BaseContent_i1}"/>
+                <Label Grid.Column="2"
+                                       HorizontalOptions="StartAndExpand"
+                                       Margin="10,0,0,0"
+                                       Text="Total" 
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                       FontSize="{DynamicResource tsize_i8}"
+                                       Style="{DynamicResource BaseContent_i1}"/>
+            </Grid>
+
+
+                <CollectionView Grid.Row="4"
+                            ItemsSource="{Binding Orders}"
+                            BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                            Margin="17,0,17,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding TableName}" />
-                            <Label Text="{Binding OrderNumber}" />
-                            <Label Text="{Binding Total}" />
-                        </StackLayout>
+                        <Grid HorizontalOptions="Fill"
+                              VerticalOptions="Fill"
+                              RowSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="47"/>
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <Label Grid.Column="0"
+                                       HorizontalOptions="StartAndExpand"
+                                       Margin="20,0,0,0"
+                                       VerticalOptions="CenterAndExpand"
+                                       Text="{Binding TableName}" 
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                       FontSize="{DynamicResource tsize_i8}"
+                                       Style="{DynamicResource BaseContent_i4}"/>
+                                
+                                <Label Grid.Column="1"
+                                       HorizontalOptions="StartAndExpand"
+                                       Margin="15,0,0,0"
+                                       VerticalOptions="CenterAndExpand"
+                                       Text="{Binding OrderNumber}" 
+                                       Style="{DynamicResource BaseContent_i4}"
+                                       FontSize="{DynamicResource tsize_i8}"
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+
+                                <Label Grid.Column="2"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand"
+                                       Margin="10,0,0,0"
+                                       Style="{DynamicResource BaseContent_i4}"
+                                       FontSize="{DynamicResource tsize_i8}"
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Total, StringFormat='$ {0:D0}.00'}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                
+                            </Grid>
+
+                            <BoxView Grid.Row="1" 
+                                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView-->
+            </CollectionView>
 
             <BoxView Grid.Row="4" 
                      Margin="17,0,17,0"
-                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}" />
+                     BackgroundColor="Transparent" />
 
         </Grid>
         

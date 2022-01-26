@@ -25,6 +25,7 @@ namespace Next2
         {
             //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IOrderService, OrderService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
