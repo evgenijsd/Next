@@ -1,4 +1,7 @@
-﻿using Next2.ViewModels;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Next2.ViewModels;
 using Next2.Views;
 using Prism;
 using Prism.Ioc;
@@ -27,9 +30,17 @@ namespace Next2
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
+            await Analytics.SetEnabledAsync(true);
+#endif
+            InitializeComponent();
+
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
         }
 
         protected override void OnStart()

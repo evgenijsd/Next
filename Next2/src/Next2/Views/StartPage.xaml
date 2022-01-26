@@ -11,10 +11,14 @@
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Start Page"
+            <Label Text="Click to crash"
                    TextColor="Black"
                    VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
+                   HorizontalOptions="CenterAndExpand">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CrashCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label Text="Start Page"
                    Style="{DynamicResource BaseContent_i2}"
