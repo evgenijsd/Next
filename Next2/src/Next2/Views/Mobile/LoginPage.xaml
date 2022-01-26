@@ -4,7 +4,8 @@
              x:Class="Next2.Views.Mobile.LoginPage">
     <ContentPage.Content>
         <Grid RowSpacing="0"
-              RowDefinitions="auto">
+              RowDefinitions="auto"
+              BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -65,14 +66,40 @@
             <StackLayout Grid.Column="1"
                          Grid.RowSpan="2"
                          Orientation="Vertical"
-                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
                 
                 <Label Text="Employee ID"
+                       Style="{DynamicResource BaseContent_i1}"
+                       FontSize="24"
+                       HeightRequest="35"
                        Margin="40, 240, 0, 0"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                       Style="{DynamicResource BaseContent_i2}">
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+                    
                     
                 </Label>
+
+                <Frame Margin="40, 0, 40, 0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                    
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label Text="Type Employee ID"
+                               Style="{DynamicResource BaseContent_i4}"
+                               Margin="15, 8, 0, 8"
+                               FontSize="24">
+                        </Label>
+
+                    </Frame>
+                </Frame>
                 
             </StackLayout>
     
