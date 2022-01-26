@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FFImageLoading.Svg.Forms;
+﻿using FFImageLoading.Svg.Forms;
 using Foundation;
-using Next2.Views.Mobile;
 using UIKit;
-using Xamarin.Forms;
 
 namespace Next2.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
-    [Register("AppDelegate")]
+    [Register(nameof(AppDelegate))]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //
@@ -30,9 +25,9 @@ namespace Next2.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            LoadApplication(new App());
-
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
+            LoadApplication(new App());
 
             var ignore = typeof(SvgCachedImage);
 
