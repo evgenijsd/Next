@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FFImageLoading.Svg.Forms;
 using Foundation;
+using Next2.Views.Mobile;
 using UIKit;
+using Xamarin.Forms;
 
 namespace Next2.iOS
 {
@@ -20,13 +22,30 @@ namespace Next2.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
+
+
+        #region -- Overrides --
+
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
             LoadApplication(new App());
+
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
             var ignore = typeof(SvgCachedImage);
+
             return base.FinishedLaunching(app, options);
         }
+
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
+        {
+            return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone
+                ? UIInterfaceOrientationMask.Landscape
+                : UIInterfaceOrientationMask.Portrait;
+        }
+
+        #endregion
     }
 }

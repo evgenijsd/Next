@@ -61,19 +61,21 @@
                        Scale="0.8"/>
 
             </StackLayout>
+
+            <StackLayout Grid.Column="1"
+                         Grid.RowSpan="2"
+                         Orientation="Vertical"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
+                
+                <Label Text="Employee ID"
+                       Margin="40, 240, 0, 0"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       Style="{DynamicResource BaseContent_i2}">
+                    
+                </Label>
+                
+            </StackLayout>
     
-
-
-
-
-            <!--<Label Grid.Column="1" 
-                   Grid.Row="0"
-                   Text="Employee ID"/>
-
-            <Label Grid.Column="1"
-                   Grid.Row="1"
-                   Text="Test"/>-->
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -20,7 +20,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>15.0</string>
+	<string>13.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>Next2</string>
 	<key>CFBundleIdentifier</key>
@@ -31,8 +31,9 @@
 	<string>Next2</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-  <key>UIUserInterfaceStyle</key>
-  <string>Light</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>UIMainStoryboardFile</key>
+	<string>LaunchScreen</string>
 </dict>
 </plist>
-
