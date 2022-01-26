@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
-namespace InterTwitter.Helpers.ProcessHelpers
+namespace Next2.Helpers
 {
     public class AOResult
     {
@@ -39,8 +39,6 @@ namespace InterTwitter.Helpers.ProcessHelpers
 
         public bool TrackingResult { get; set; } = true;
 
-        public IDictionary<int, string> AdditionalMessages { get; private set; }
-
         #endregion
 
         #region -- Public methods --
@@ -56,11 +54,6 @@ namespace InterTwitter.Helpers.ProcessHelpers
         public void SetSuccess()
         {
             SetResult(true, null, null, null);
-        }
-
-        public void SetAdditionalMessages(IDictionary<int, string> additionalMessages)
-        {
-            AdditionalMessages = additionalMessages;
         }
 
         public void SetFailure()
@@ -93,7 +86,7 @@ namespace InterTwitter.Helpers.ProcessHelpers
             SetResult(false, errorId, message, ex);
         }
 
-        public void SetResult(bool isSuccess, string errorId, string message, Exception ex)
+        protected void SetResult(bool isSuccess, string errorId, string message, Exception ex)
         {
             var finishTime = DateTime.UtcNow;
             OperationTime = finishTime - _creationUtcTime;
@@ -101,51 +94,59 @@ namespace InterTwitter.Helpers.ProcessHelpers
             ErrorId = errorId;
             Exception = ex;
             Message = message;
-
-            if (TrackingResult)
-            {
-                TrackResult();
-            }
         }
 
         #endregion
 
-        #region -- Protected helpers --
+        #region -- Static Helpers --
 
-        protected virtual void TrackResult()
+        public static async Task<AOResult> ExecuteTaskAsync(Func<Action<string>, Task> task, [CallerMemberName] string callerName = null, [CallerFilePath] string callerFile = null, [CallerLineNumber] int callerLineNumber = 0)
         {
-            if (!IsSuccess)
+            var res = new AOResult(callerName, callerFile, callerLineNumber);
+
+            await ExecuteTaskAsync(res, (onFailure) => task(onFailure), t =>
             {
-#if DEBUGGER_BREAK
-                //Debugger.Break();
-#endif
-                // Use analytics service when installed
-                //var analyticsService = App.Resolve<IAnalyticsService>();
-                var param = new Dictionary<string, string>();
-                param[nameof(CallerName)] = CallerName;
-                param[nameof(CallerFile)] = CallerFile;
-                param[nameof(CallerLineNumber)] = CallerLineNumber.ToString();
+                res.SetSuccess();
+            }, callerName, callerFile, callerLineNumber);
 
-                if (!string.IsNullOrEmpty(ErrorId))
+            return res;
+        }
+
+        public static async Task<AOResult<T>> ExecuteTaskAsync<T>(Func<Action<string>, Task<T>> task, [CallerMemberName] string callerName = null, [CallerFilePath] string callerFile = null, [CallerLineNumber] int callerLineNumber = 0)
+        {
+            var res = new AOResult<T>(callerName, callerFile, callerLineNumber);
+            await ExecuteTaskAsync(res, (onFailure) => task(onFailure), t =>
+            {
+                var genericT = (Task<T>)t;
+                res.SetSuccess(genericT.Result);
+            }, callerName, callerFile, callerLineNumber);
+
+            return res;
+        }
+
+        protected static async Task ExecuteTaskAsync(AOResult res, Func<Action<string>, Task> task, Action<Task> onSuccess, string callerName, string callerFile, int callerLineNumber)
+        {
+            bool isOnFailureExecuted = false;
+
+            Action<string> onFailure = (message) =>
+            {
+                isOnFailureExecuted = true;
+                res.SetFailure(message);
+            };
+
+            try
+            {
+                var t = task(onFailure);
+                await t;
+
+                if (!isOnFailureExecuted)
                 {
-                    param[nameof(ErrorId)] = ErrorId;
+                    onSuccess(t);
                 }
-
-                if (!string.IsNullOrEmpty(Message))
-                {
-                    param[nameof(Message)] = Message;
-                }
-
-                if (Exception != null)
-                {
-                    param["ExceptionType"] = Exception.GetType().Name;
-                    param["ExceptionMessage"] = Exception.Message;
-                }
-
-                param[nameof(OperationTime)] = OperationTime.TotalMilliseconds.ToString();
-
-                // Use analytics service when installed
-                //analyticsService.Track($"{CallerName}_AsyncOperation_Failure", param);
+            }
+            catch (Exception ex)
+            {
+                res.SetError($"Exception in {callerName} file: {callerFile} line:{callerLineNumber}", ex.Message, ex);
             }
         }
 
@@ -189,6 +190,29 @@ namespace InterTwitter.Helpers.ProcessHelpers
         {
             Result = result;
             SetFailure();
+        }
+
+        public async Task<AOResult<T>> ExecuteCallAsync(Func<Task<T>> func)
+        {
+            try
+            {
+                var result = await func();
+
+                if (result is not null)
+                {
+                    SetSuccess(result);
+                }
+                else
+                {
+                    SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                SetError(ex.HResult.ToString(), ex.Message, ex);
+            }
+
+            return this;
         }
 
         #endregion

@@ -73,6 +73,18 @@
 
             <BoxView Grid.Row="3" 
                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
+            <CollectionView Grid.Row="3"
+                            ItemsSource="{Binding Orders}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding TableName}" />
+                            <Label Text="{Binding OrderNumber}" />
+                            <Label Text="{Binding Total}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
             <BoxView Grid.Row="4" 
                      Margin="17,0,17,0"

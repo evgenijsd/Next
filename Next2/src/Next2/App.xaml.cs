@@ -1,4 +1,5 @@
-﻿using Next2.ViewModels;
+﻿using Next2.Services;
+using Next2.ViewModels;
 using Next2.ViewModels.Mobile;
 using Next2.Views;
 using Next2.Views.Mobile;
@@ -13,7 +14,7 @@ namespace Next2
 {
     public partial class App : PrismApplication
     {
-        public App(IPlatformInitializer initializer = null)
+        public App(IPlatformInitializer? initializer = null)
             : base(initializer)
         {
         }
@@ -22,6 +23,9 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            //Services
+            containerRegistry.RegisterSingleton<IMockService, MockService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();

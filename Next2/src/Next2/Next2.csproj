@@ -112,16 +112,21 @@
     <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Models\" />
     <Folder Include="Enums\" />
-    <Folder Include="Resources\Strings\" />
-    <Folder Include="Services\" />
     <Folder Include="ViewModels\Tablet\" />
     <Folder Include="Views\Tablet\" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\Images\Search.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Strings\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -133,6 +138,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
