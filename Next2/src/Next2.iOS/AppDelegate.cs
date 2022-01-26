@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FFImageLoading.Svg.Forms;
+﻿using FFImageLoading.Svg.Forms;
 using Foundation;
 using UIKit;
 
@@ -10,7 +7,7 @@ namespace Next2.iOS
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
-    [Register("AppDelegate")]
+    [Register(nameof(AppDelegate))]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
         //
@@ -20,13 +17,30 @@ namespace Next2.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
+
+
+        #region -- Overrides --
+
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+
+            LoadApplication(new App());
+
             var ignore = typeof(SvgCachedImage);
+
             return base.FinishedLaunching(app, options);
         }
+
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
+        {
+            return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone
+                ? UIInterfaceOrientationMask.Landscape
+                : UIInterfaceOrientationMask.Portrait;
+        }
+
+        #endregion
     }
 }
