@@ -126,6 +126,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="Helpers\StatusBarHelper.cs" />
     <Compile Include="MainActivity.cs" />

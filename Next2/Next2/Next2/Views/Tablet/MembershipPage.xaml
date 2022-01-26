@@ -6,7 +6,6 @@
                         xmlns:effects="clr-namespace:Next2.Effects"
                         xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
                         xmlns:views="clr-namespace:Next2.Views"
-                        x:DataType="tablet:MembershipViewModel"
                         x:Class="Next2.Views.Tablet.MembershipPage">
 
     <ContentPage.Content>
@@ -83,7 +82,6 @@
 
                     </StackLayout>
 
-
                     <!-- FOR DEBUGGIN OF MEMBERS SORTING -->
                     <Frame.GestureRecognizers>
 
@@ -107,13 +105,11 @@
 
                     <!-- TABLE HEADER -->
                     <Grid RowDefinitions="auto"
-                          ColumnDefinitions="0.29*, 0.21*, 0.25*, 0.25*"
+                          ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*"
                           BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
                         <StackLayout Grid.Column="0"
-                                     Orientation="Horizontal"
-                                     BackgroundColor="Blue"
-                                     Spacing="5">
+                                     Orientation="Horizontal">
 
                             <StackLayout.GestureRecognizers>
 
@@ -129,14 +125,11 @@
                         </StackLayout>
 
                         <Label Grid.Column="1"
-                               BackgroundColor="Green"
                                Style="{DynamicResource TextCell}"
                                Text="{xct:Translate Phone}"/>
 
                         <StackLayout Grid.Column="2"
-                                     Orientation="Horizontal"
-                                     BackgroundColor="Orange"
-                                     Spacing="5">
+                                     Orientation="Horizontal">
 
                             <StackLayout.GestureRecognizers>
 
@@ -152,9 +145,7 @@
                         </StackLayout>
 
                         <StackLayout Grid.Column="3"
-                                     BackgroundColor="Firebrick"
-                                     Orientation="Horizontal"
-                                     Spacing="5">
+                                     Orientation="Horizontal">
 
                             <StackLayout.GestureRecognizers>
 
@@ -187,7 +178,9 @@
                             <CollectionView.Effects>
 
                                 <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource appcolor_i1}"/>
-                                
+
+                                <effects:NoOverScrollEffect/>
+
                             </CollectionView.Effects>
                             
                             <CollectionView.ItemTemplate>
@@ -196,9 +189,7 @@
 
                                     <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i8}">
 
-                                        <Grid ColumnDefinitions="0.29*, 0.21*, 0.25*, 0.25*"
-                                              Margin="15"
-                                              x:DataType="local:Models.MemberBindableModel">
+                                        <Grid ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
 
                                             <Label Grid.Column="0"
                                                    Style="{DynamicResource TextCell}"
@@ -209,7 +200,7 @@
                                                    Text="{Binding Phone}"/>
 
                                             <Label Grid.Column="2"
-                                                  Style="{DynamicResource TextCell}">
+                                                   Style="{DynamicResource TextCell}">
 
                                                 <Label.FormattedText>
 
