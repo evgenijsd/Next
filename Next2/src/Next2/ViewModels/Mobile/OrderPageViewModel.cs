@@ -4,6 +4,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace Next2.ViewModels.Mobile
@@ -22,9 +23,9 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        private ObservableCollection<OrderModel> _orders;
+        private ObservableCollection<OrderViewModel> _orders;
 
-        public ObservableCollection<OrderModel> Orders
+        public ObservableCollection<OrderViewModel> Orders
         {
             get => _orders;
             set => SetProperty(ref _orders, value);
@@ -36,10 +37,21 @@ namespace Next2.ViewModels.Mobile
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
+            Orders = new ObservableCollection<OrderViewModel>();
+
             var result = await _orderService.GetOrdersAsync();
-            if (result.IsSuccess)
+            if (result != null)
             {
-                Orders = new ObservableCollection<OrderModel>(result.Result);
+                foreach (var r in result)
+                {
+                    Orders.Add(new OrderViewModel
+                    {
+                        CustomerName = r.CustomerName,
+                        OrderNumber = r.OrderNumber,
+                        TableName = r.TableName,
+                        Total = r.Total,
+                    });
+                }
             }
         }
 

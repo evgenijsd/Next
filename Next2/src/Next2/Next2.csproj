@@ -111,8 +111,8 @@
   <ItemGroup>
     <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Enums\" />
+    <Folder Include="Helpers\ProcessHelpers\" />
     <Folder Include="ViewModels\Tablet\" />
     <Folder Include="Views\Tablet\" />
   </ItemGroup>

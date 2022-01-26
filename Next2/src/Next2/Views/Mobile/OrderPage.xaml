@@ -4,7 +4,6 @@
                        xmlns:controls="clr-namespace:Next2.Controls"
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
-                       x:DataType="viewModels:OrderPageViewModel"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                        x:Class="Next2.Views.Mobile.OrderPage">
     
@@ -73,7 +72,7 @@
 
             <BoxView Grid.Row="3" 
                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
-            <CollectionView Grid.Row="3"
+            <!--CollectionView Grid.Row="3"
                             ItemsSource="{Binding Orders}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -84,7 +83,7 @@
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
+            </CollectionView-->
 
             <BoxView Grid.Row="4" 
                      Margin="17,0,17,0"

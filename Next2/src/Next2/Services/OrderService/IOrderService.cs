@@ -9,6 +9,6 @@ namespace Next2.Services
 {
     public interface IOrderService
     {
-        Task<AOResult<List<OrderModel>>> GetOrdersAsync();
+        Task<List<OrderModel>> GetOrdersAsync();
     }
 }
