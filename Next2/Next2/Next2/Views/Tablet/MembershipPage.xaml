@@ -2,9 +2,7 @@
 <views:BaseContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                        xmlns:local="clr-namespace:Next2"
                         xmlns:effects="clr-namespace:Next2.Effects"
-                        xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
                         xmlns:views="clr-namespace:Next2.Views"
                         x:Class="Next2.Views.Tablet.MembershipPage">
 
@@ -74,6 +72,7 @@
                         <Label VerticalOptions="Center"
                                Text="{xct:Translate SearchByNameOrPhone}"
                                FontSize="{DynamicResource tsize_i7}"
+                               Style="{DynamicResource BaseContent_i3}"
                                TextColor="{DynamicResource textAndbackgroundcolor_i7}"/>
 
                         <Image HorizontalOptions="EndAndExpand"
