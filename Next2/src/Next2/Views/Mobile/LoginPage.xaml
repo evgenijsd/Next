@@ -5,11 +5,12 @@
     <ContentPage.Content>
         <Grid RowSpacing="0"
               RowDefinitions="auto"
+              ColumnSpacing="2"
               BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.33*"/>
+                <ColumnDefinition Width="0.35*"/>
             </Grid.ColumnDefinitions>
 
             <StackLayout Orientation="Horizontal"
@@ -100,8 +101,317 @@
 
                     </Frame>
                 </Frame>
+
+                <Grid Margin="40, 0, 40, 0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="0.25*"/>
+                        <RowDefinition Height="0.25*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.33*"/>
+                        <ColumnDefinition Width="0.33*"/>
+                        <ColumnDefinition Width="0.33*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame
+                        Grid.Column="0"
+                         Grid.Row="0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="1"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="1"
+                         Grid.Row="0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="2"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="2"
+                         Grid.Row="0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="3"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="0"
+                         Grid.Row="1"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="4"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="1"
+                         Grid.Row="1"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="5"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="2"
+                         Grid.Row="1"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="6"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="0"
+                         Grid.Row="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="7"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="1"
+                         Grid.Row="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="8"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="2"
+                         Grid.Row="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="9"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="0"
+                         Grid.Row="3"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="0"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                    <Frame
+                        Grid.Column="1"
+                         Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                        <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                            <Label Text="Clear"
+                                   HorizontalTextAlignment="Center"
+                                   VerticalTextAlignment="Center"
+                                   Style="{DynamicResource BaseContent_i4}"
+                                   FontSize="24"
+                                   TextColor="White"/>
+
+                        </Frame>
+                    </Frame>
+
+                </Grid>
                 
             </StackLayout>
+            <BoxView Grid.Column="1"
+                     
+                     HeightRequest="1"
+                     Color="{DynamicResource textAndbackgroundcolor_i2}">
+                
+            </BoxView>
     
         </Grid>
     </ContentPage.Content>
