@@ -406,12 +406,15 @@
                 </Grid>
                 
             </StackLayout>
-            <BoxView Grid.Column="1"
+            
+            <StackLayout>
+                <BoxView Grid.Column="1"
                      
                      HeightRequest="1"
                      Color="{DynamicResource textAndbackgroundcolor_i2}">
-                
-            </BoxView>
+
+                </BoxView>
+            </StackLayout>
     
         </Grid>
     </ContentPage.Content>
