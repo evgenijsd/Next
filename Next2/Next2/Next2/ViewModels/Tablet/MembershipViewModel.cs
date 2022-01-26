@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services;
 using Next2.Services.Membership;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -60,6 +61,22 @@ namespace Next2.ViewModels.Tablet
 
         public ICommand _sortingByMembershipEndTimeTapCommand;
         public ICommand SortingByMembershipEndTimeTapCommand => _sortingByMembershipEndTimeTapCommand ??= new AsyncCommand(OnSortingByMembershipEndTimeTapCommandAsync);
+
+        public ICommand _testCommand;
+        public ICommand TestCommand => _testCommand ??= new AsyncCommand(OnTestCommandAsync);
+
+        private Task OnTestCommandAsync()
+        {
+            _mockService.AddAsync(new MemberModel
+            {
+                CustomerName = "Andrii Tantsiura",
+                Phone = "123-456-7890",
+                MembershipStartTime = DateTime.Now,
+                MembershipEndTime = DateTime.Now,
+            });
+
+            return Task.CompletedTask;
+        }
 
         #endregion
 
@@ -162,11 +179,6 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnSortingByCustomerNameTapCommandAsync()
         {
-            _mockService.AddAsync(new MemberModel
-            {
-                CustomerName = "Andrii Tantsiura",
-            });
-
             if (CurrentMemberSorting == EMemberSorting.ByCustomerName)
             {
                 ReverseSortingTypeOfMembers();

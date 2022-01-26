@@ -125,6 +125,7 @@
     <MtouchArch>x86_64</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
