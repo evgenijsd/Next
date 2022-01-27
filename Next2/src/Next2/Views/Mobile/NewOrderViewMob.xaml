@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:Next2.Controls"
              xmlns:effects="clr-namespace:Next2.Effects"
              xmlns:models="clr-namespace:Next2.Models"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewModels="clr-namespace:Next2.ViewModels"
              x:Class="Next2.Views.NewOrderViewMob"
              x:DataType="viewModels:NewOrderViewModel">
@@ -43,7 +44,7 @@
             </Frame>
 
             <Label
-                Text="New Order"
+                Text="{xct:Translate NewOrder}"
                 TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                 Style="{DynamicResource BaseContent_i2}"
                 Margin="20, 0, 0, 0"
@@ -77,7 +78,7 @@
             Spacing="0">
 
             <Label
-                Text="Categories"
+                Text="{xct:Translate Categories}"
                 TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                 FontSize="{DynamicResource tsize_i5}"
                 Style="{DynamicResource BaseContent_i2}"
@@ -90,8 +91,7 @@
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never">
 
-                <CollectionView
-                    ItemsSource="{Binding Categories}">
+                <CollectionView ItemsSource="{Binding Categories}">
 
                     <CollectionView.Effects>
                         
