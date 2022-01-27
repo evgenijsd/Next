@@ -15,7 +15,7 @@
         <Grid.RowDefinitions>
 
             <RowDefinition Height="*"/>
-            <RowDefinition Height="90"/>
+            <RowDefinition Height="80"/>
 
         </Grid.RowDefinitions>
 
@@ -65,7 +65,7 @@
                 HeightRequest="1"/>
             
             <controls:TabsControl
-                Margin="10, 6, 0, 0"
+                Margin="10, 8, 10, 8"
                 ItemsSource="{Binding TabsSideMenuMob}"
                 Selected="{Binding SelectedItemSideMenuMob}"
                 Direction="Row">
@@ -77,12 +77,15 @@
                         ImagePath="{Binding ImagePath}"
                         Text="{Binding Title}"
                         TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                        SelectedBackgroundColor="{DynamicResource appcolor_i4}"
                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                        SelectedBorderColor="{DynamicResource appcolor_i1}"
+                        BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
                         FontSize="{DynamicResource tsize_i5}"
                         FontFamily="Barlow-Medium"
-                        WidthRequest="163"
+                        WidthRequest="140"
                         HasShadow="False"
-                        Padding="0, 5"
+                        Padding="0, 8"
                         CornerRadius="5"/>
 
                 </DataTemplate>

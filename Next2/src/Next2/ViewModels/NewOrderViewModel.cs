@@ -12,7 +12,7 @@ namespace Next2.ViewModels
         {
             Text = "NewOrder";
 
-            TabsCategories = new ObservableCollection<ItemMenuModel>()
+            Categories = new ObservableCollection<ItemMenuModel>()
             {
                 new ItemMenuModel()
                 {
@@ -127,8 +127,12 @@ namespace Next2.ViewModels
             };
         }
 
+        #region -- Public properties --
+
         public string? Text { get; set; }
 
-        public ObservableCollection<ItemMenuModel>? TabsCategories { get; set; }
+        public ObservableCollection<ItemMenuModel>? Categories { get; set; }
+
+        #endregion
     }
 }

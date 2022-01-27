@@ -10,6 +10,10 @@ namespace Next2.ViewModels
             Text = "Membership";
         }
 
+        #region -- Public properties --
+
         public string? Text { get; set; }
+
+        #endregion
     }
 }

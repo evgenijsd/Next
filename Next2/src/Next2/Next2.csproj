@@ -78,14 +78,6 @@
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
-    <None Remove="Resources\Images\ic_bookmark.svg" />
-    <None Remove="Resources\Images\ic_buy_disabled.svg" />
-    <None Remove="Resources\Images\ic_folder.svg" />
-    <None Remove="Resources\Images\ic_plus.svg" />
-    <None Remove="Resources\Images\ic_setting.svg" />
-    <None Remove="Resources\Images\ic_time_circle.svg" />
-    <None Remove="Resources\Images\ic_user.svg" />
-    <None Remove="Resources\Images\ic_work.svg" />
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -98,14 +90,6 @@
     <EmbeddedResource Include="Resources\Fonts\Barlow-Medium.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Barlow-Regular.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Barlow-SemiBold.ttf" />
-    <EmbeddedResource Include="Resources\Images\ic_bookmark.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_buy_disabled.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_folder.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_plus.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_setting.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_time_circle.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_user.svg" />
-    <EmbeddedResource Include="Resources\Images\ic_work.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -137,6 +121,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Models\" />
+    <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Strings\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\Mobile\" />

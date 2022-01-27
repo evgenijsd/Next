@@ -9,7 +9,7 @@
 
         <Label
             Text="{Binding Text}"
-            TextColor="White"
+            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
             VerticalOptions="CenterAndExpand"
             VerticalTextAlignment="Center"
             HorizontalTextAlignment="Center"/>

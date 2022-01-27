@@ -14,18 +14,7 @@
 
             <Setter 
                 Property="BackgroundColor"
-                Value="#AB3821" />
-
-        </DataTrigger>
-
-        <DataTrigger 
-            Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
-            Value="False"
-            TargetType="StackLayout">
-
-            <Setter
-                Property="BackgroundColor" 
-                Value="#212430" />
+                Value="{Binding SelectedBackgroundColor, Source={x:Reference customSelectedTabBottomButton}}" />
 
         </DataTrigger>
 
@@ -42,18 +31,7 @@
 
                 <Setter
                     Property="BackgroundColor"
-                    Value="#F45E49" />
-
-            </DataTrigger>
-
-            <DataTrigger
-                Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
-                Value="False"
-                TargetType="BoxView">
-
-                <Setter
-                    Property="BackgroundColor" 
-                    Value="#212430" />
+                    Value="{Binding SelectedBorderColor, Source={x:Reference customSelectedTabBottomButton}}" />
 
             </DataTrigger>
 

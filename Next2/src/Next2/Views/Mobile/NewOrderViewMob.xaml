@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:controls="clr-namespace:Next2.Controls"
+             xmlns:effects="clr-namespace:Next2.Effects"
              xmlns:models="clr-namespace:Next2.Models"
-             xmlns:viewModels="clr-namespace:Next2.ViewModels" xmlns:effects="clr-namespace:Next2.Effects"
+             xmlns:viewModels="clr-namespace:Next2.ViewModels"
              x:Class="Next2.Views.NewOrderViewMob"
              x:DataType="viewModels:NewOrderViewModel">
 
@@ -22,16 +23,16 @@
         <StackLayout
             Grid.Row="0"
             Grid.Column="0"
-            BackgroundColor="#2E3143"
+            BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
             Orientation="Horizontal"
             Spacing="0"
-            Padding="16">
+            Padding="18">
 
             <Frame
                 Padding="1"
-                BackgroundColor="#2E3143"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
                 HasShadow="False"
-                BorderColor="#D24A2E"
+                BorderColor="{DynamicResource appcolor_i3}"
                 CornerRadius="9"
                 HorizontalOptions="Start">
 
@@ -43,9 +44,10 @@
 
             <Label
                 Text="New Order"
-                TextColor="White"
+                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                Style="{DynamicResource BaseContent_i2}"
                 Margin="20, 0, 0, 0"
-                FontSize="17"
+                FontSize="{DynamicResource tsize_i5}"
                 HorizontalOptions="StartAndExpand"
                 VerticalOptions="Center"
                 FontAttributes="Bold"/>
@@ -53,9 +55,9 @@
             <Frame
                 IsClippedToBounds="True"
                 Padding="10"
-                BackgroundColor="#2E3143"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
                 HasShadow="False"
-                BorderColor="#424861"
+                BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
                 CornerRadius="5"
                 HorizontalOptions="End">
 
@@ -71,25 +73,25 @@
             Grid.Row="1"
             Grid.Column="0"
             Padding="20, 0, 0, 0"
-            BackgroundColor="#252836"
+            BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
             Spacing="0">
 
             <Label
                 Text="Categories"
-                TextColor="White"
-                FontSize="18"
-                FontAttributes="Bold"
+                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                FontSize="{DynamicResource tsize_i5}"
+                Style="{DynamicResource BaseContent_i2}"
                 Padding="0, 15"
                 VerticalTextAlignment="Center"/>
 
             <controls:CustomScrollView
                 Padding="0, 0, 20, 5"
-                BackgroundColor="#252836"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never">
 
                 <CollectionView
-                    ItemsSource="{Binding TabsCategories}">
+                    ItemsSource="{Binding Categories}">
 
                     <CollectionView.Effects>
                         
@@ -111,7 +113,7 @@
 
                             <Frame
                                 BorderColor="Transparent"
-                                BackgroundColor="#252836"
+                                BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                                 Padding="2"
                                 HasShadow="False">
 
@@ -121,12 +123,13 @@
                                     HasShadow="False"
                                     CornerRadius="5"
                                     Padding="4"
-                                    BackgroundColor="#34374C">
+                                    BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
                                     <Label
                                         Text="{Binding Title}"
-                                        TextColor="White"
-                                        FontSize="Caption"
+                                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                        FontSize="{DynamicResource tsize_i8}"
+                                        Style="{DynamicResource BaseContent_i1}"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center"/>
 

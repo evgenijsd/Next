@@ -25,7 +25,7 @@
         <StackLayout 
             Grid.Row="0"
             Grid.Column="0"
-            BackgroundColor="#2E3143">
+            BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
             <ffimageloading:CachedImage
                 Source="pic_logo_small.png"
@@ -39,16 +39,20 @@
                 <DataTemplate x:DataType="models:ItemMenuModel">
 
                     <controls:CustomSelectedImageButton
-                        IsSelected="{Binding IsSelected}"
                         ImagePath="{Binding ImagePath}"
                         Text="{Binding Title}"
-                        TextColor="White"
+                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                         FontSize="{DynamicResource tsize_i8}"
                         FontFamily="Barlow-SemiBold"
+                        SelectedBackgroundColor="{DynamicResource appcolor_i4}"
+                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                        SelectedBorderColor="{DynamicResource appcolor_i1}"
+                        BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                        IsSelected="{Binding IsSelected}"
                         HasShadow="False"
                         CornerRadius="10"
-                        Margin="7, 0"
-                        Padding="0, 8"/>
+                        Margin="10, 0"
+                        Padding="0, 13"/>
 
                 </DataTemplate>
 
@@ -58,9 +62,10 @@
                 IsSelected="False"
                 ImagePath="ic_logout_30x30.png"
                 Text="Log out"
-                TextColor="White"
-                FontSize="{DynamicResource tsize_i8}"
+                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                FontSize="{DynamicResource tsize_i9}"
                 FontFamily="Barlow-SemiBold"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
                 HasShadow="False"
                 CornerRadius="10"
                 Margin="7, 0"

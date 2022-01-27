@@ -14,26 +14,11 @@
 
             <Setter
                 Property="BackgroundColor"
-                Value="#AB3821" />
+                Value="{Binding SelectedBackgroundColor, Source={x:Reference customSelectedImageButton}}" />
 
             <Setter
                 Property="BorderColor"
-                Value="#F45E49" />
-
-        </DataTrigger>
-
-        <DataTrigger
-            Binding="{Binding IsSelected, Source={x:Reference customSelectedImageButton}}"
-            Value="False"
-            TargetType="Frame">
-
-            <Setter
-                Property="BackgroundColor" 
-                Value="#34374C" />
-
-            <Setter
-                Property="BorderColor"
-                Value="#34374C" />
+                Value="{Binding SelectedBorderColor, Source={x:Reference customSelectedImageButton}}" />
 
         </DataTrigger>
 
@@ -42,8 +27,9 @@
     <StackLayout Orientation="Vertical">
 
         <ffimageloading:CachedImage
+            HeightRequest="23"
             Source="{Binding ImagePath, Source={x:Reference customSelectedImageButton}}"
-            Margin="0, 3"/>
+            Margin="0, 3, 0, 0"/>
 
         <Label
             Text="{Binding Text, Source={x:Reference customSelectedImageButton}}"
