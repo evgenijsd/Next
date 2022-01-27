@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Next2.Controls.CustomSelectedImageButton"
+    x:Name="customSelectedImageButton">
+
+    <Frame.Triggers>
+
+        <DataTrigger
+            Binding="{Binding IsSelected, Source={x:Reference customSelectedImageButton}}"
+            Value="True" 
+            TargetType="Frame">
+
+            <Setter
+                Property="BackgroundColor"
+                Value="#AB3821" />
+
+            <Setter
+                Property="BorderColor"
+                Value="#F45E49" />
+
+        </DataTrigger>
+
+        <DataTrigger
+            Binding="{Binding IsSelected, Source={x:Reference customSelectedImageButton}}"
+            Value="False"
+            TargetType="Frame">
+
+            <Setter
+                Property="BackgroundColor" 
+                Value="#2E3143" />
+
+            <Setter
+                Property="BorderColor"
+                Value="#2E3143" />
+
+        </DataTrigger>
+
+    </Frame.Triggers>
+
+    <StackLayout Orientation="Vertical">
+
+        <ffimageloading:CachedImage
+            Source="{Binding ImagePath, Source={x:Reference customSelectedImageButton}}"
+            Margin="0, 3"/>
+
+        <Label
+            Text="{Binding Title, Source={x:Reference customSelectedImageButton}}"
+            TextColor="White"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"/>
+
+    </StackLayout>
+
+</Frame>

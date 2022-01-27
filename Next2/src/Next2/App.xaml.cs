@@ -1,14 +1,9 @@
-﻿using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
-using Next2.ViewModels;
+﻿using Next2.ViewModels;
 using Next2.Views;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Next2
 {
@@ -25,7 +20,8 @@ namespace Next2
         {
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+            containerRegistry.RegisterForNavigation<MenuPageMob, MenuPageViewModel>();
+            containerRegistry.RegisterForNavigation<MenuPageTab, MenuPageViewModel>();
         }
 
         protected override async void OnInitialized()
@@ -40,7 +36,9 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
+            var navPage = Device.Idiom == TargetIdiom.Phone ? nameof(MenuPageMob) : nameof(MenuPageTab);
+
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{navPage}");
         }
 
         protected override void OnStart()
