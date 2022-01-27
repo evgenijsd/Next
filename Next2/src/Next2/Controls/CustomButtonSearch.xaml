@@ -1,16 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       CornerRadius="5"
-       BackgroundColor="Transparent"
-       BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
-       x:Class="Next2.Controls.CustomButtonSearch">
-    <StackLayout Orientation="Horizontal">
-        <Label Text="Search by Name or Order" 
-               Margin="-9,-20,0, -20"
-               FontSize="13"
-               TextColor="#6A6C76" 
-               VerticalOptions="Center" 
-               HorizontalOptions="Start"/>
-    </StackLayout>
-</Frame>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+      x:Class="Next2.Controls.CustomButtonSearch">
+    <Frame CornerRadius="5"
+           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+           BackgroundColor="Transparent">
+    </Frame>
+    <Label Text="Search by Name or Order"
+           Margin="10,0,0,0"
+           FontSize="13"
+           TextColor="#6A6C76"
+           VerticalOptions="Center"
+           HorizontalOptions="Start" />
+    
+    <ffimageloading:CachedImage Source="ic_search_24x24"
+                                HeightRequest="20"
+                                Margin="0,0,10,0"
+                                VerticalOptions="CenterAndExpand" 
+                                HorizontalOptions="EndAndExpand"/>
+</Grid>

@@ -21,28 +21,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <BoxView Grid.Row="0" 
-                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i1}" />
+            <controls:CustomNavigationbar />
 
-            <BoxView Grid.Row="0" 
-                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
-            
-            <Grid Grid.Row="0" 
-                  HorizontalOptions="Fill"
-                  VerticalOptions="Fill"
-                  ColumnSpacing="0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <BoxView Grid.Column="1" BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
-            </Grid>
-
-            <BoxView Grid.Row="1" 
-                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
-            
             <Grid Grid.Row="1" 
                   HorizontalOptions="Fill"
                   VerticalOptions="Fill"
@@ -52,13 +32,16 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
-                
-                <BoxView Grid.Column="0" 
-                         BackgroundColor="{DynamicResource appcolor_i4}" />
-                <BoxView Grid.Column="1" 
-                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
-                
+
+                <controls:CustomButtonOrderLeft Grid.Column="0"
+                                               CornerRadius="0"
+                                               VerticalOptions="FillAndExpand" />
+
+
+                <controls:CustomButtonOrderRight Grid.Column="1"
+                                                 VerticalOptions="FillAndExpand"
+                                                 CornerRadius="0" />
+
             </Grid>
 
             <controls:CustomButtonSearch Grid.Row="2" 

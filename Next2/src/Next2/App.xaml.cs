@@ -6,9 +6,7 @@ using Next2.Views.Mobile;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
-using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Next2
 {
@@ -38,6 +36,15 @@ namespace Next2
         {
             InitializeComponent();
             App.Current.UserAppTheme = OSAppTheme.Dark;
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
+
+            await Analytics.SetEnabledAsync(true);
+#endif
+            InitializeComponent();
 
             await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
         }

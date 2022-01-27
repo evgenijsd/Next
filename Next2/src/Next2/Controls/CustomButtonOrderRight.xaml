@@ -3,35 +3,38 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:controls="clr-namespace:Next2.Controls"
       x:DataType="controls:CustomButtonOrderRight"
-      WidthRequest="100"
-      HorizontalOptions="Fill"
-      VerticalOptions="Fill"
+      HorizontalOptions="FillAndExpand"
+      VerticalOptions="FillAndExpand"
       RowSpacing="0"
       x:Name="customButtonRight"
       x:Class="Next2.Controls.CustomButtonOrderRight">
     <Grid.RowDefinitions>
-        <RowDefinition Height="1" />
-        <RowDefinition Height="40" />
+        <RowDefinition Height="*" />
         <RowDefinition Height="3" />
     </Grid.RowDefinitions>
 
+    <Frame Grid.Row="0"
+           BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonRight}}"/>
     <BoxView Grid.Row="0"
-             BackgroundColor="Blue" />
-    <Frame Grid.Row="1"
-           WidthRequest="100"
-           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonRight}}"
-           Margin="0,0,0,0" />
-    <BoxView Grid.Row="1"
              WidthRequest="10"
              HorizontalOptions="Start"
              VerticalOptions="FillAndExpand"
-             BackgroundColor="Yellow" />
-    <BoxView Grid.Row="1"
+             BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+    <BoxView Grid.Row="0"
              WidthRequest="10"
              HeightRequest="10"
              HorizontalOptions="End"
              VerticalOptions="End"
-             BackgroundColor="Yellow" />
-    <BoxView Grid.Row="2"
-             BackgroundColor="Blue" />
+             BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+    <BoxView Grid.Row="1"
+             BackgroundColor="#424861" />
+
+    <Label Grid.Column="0"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="CenterAndExpand"
+           Text="Tabs"
+           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+           FontSize="{DynamicResource tsize_i8}"
+           Style="{DynamicResource BaseContent_i1}" />
 </Grid>

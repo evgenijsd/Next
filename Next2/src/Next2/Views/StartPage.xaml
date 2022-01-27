@@ -2,12 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:Next2.Controls"
-             xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
              x:Class="Next2.Views.StartPage">
     
     <ContentPage.Content>
-        
+
         <StackLayout>
 
             <Label Text="Start Page"
@@ -25,10 +25,11 @@
 
             <Button Text="Orders"
                     Command="{Binding OrderCommand}" />
+            <ffimageloading:CachedImage Source="ic_search_24x24" />
 
             <StackLayout Orientation="Horizontal">
 
-                <controls:CustomButtonOrderTab CornerRadius="10" />
+                <controls:CustomButtonOrderLeft CornerRadius="10"/>
 
                 <controls:CustomButtonOrderRight CornerRadius="10" />
 

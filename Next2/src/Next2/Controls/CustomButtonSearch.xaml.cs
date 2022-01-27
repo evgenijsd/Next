@@ -9,7 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
 {
-    public partial class CustomButtonSearch : Frame
+    public partial class CustomButtonSearch : Grid
     {
         public CustomButtonSearch()
         {

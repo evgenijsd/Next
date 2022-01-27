@@ -1,11 +1,10 @@
 ﻿using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -40,6 +39,9 @@ namespace Next2.ViewModels
             await _navigationService.NavigateAsync($"{nameof(TabPage)}");
         }
 
+        public ICommand CrashCommand => new Command(() => throw new NullReferenceException());
+
         #endregion
+
     }
 }

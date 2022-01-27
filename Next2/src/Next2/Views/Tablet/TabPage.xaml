@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:Next2.Views"
+                       xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
+                       x:DataType="viewModels:TabPageViewModel"
+                       BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
+                       x:Class="Next2.Views.Tablet.TabPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</views:BaseContentPage>

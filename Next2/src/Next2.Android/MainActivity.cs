@@ -3,8 +3,8 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
-using FFImageLoading.Forms.Platform;
-using FFImageLoading.Svg.Forms;
+using AndroidX.AppCompat.App;
+using Xamarin.Forms;
 
 namespace Next2.Droid
 {
@@ -20,14 +20,20 @@ namespace Next2.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
-            CachedImageRenderer.InitImageViewHandler();
-            var ignore = typeof(SvgCachedImage);
+
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+
+            RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Portrait : ScreenOrientation.Landscape;
+
             LoadApplication(new App());
+
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
