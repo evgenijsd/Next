@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Next2.Controls.CustomNumericKeyboard"
+             x:Name="customNumericKeyboard">
+    <ContentView.Content>
+        
+        <StackLayout Orientation="Vertical"
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+
+            <Label Text="Employee ID"
+                   Style="{DynamicResource BaseContent_i1}"
+                   FontSize="24"
+                   HeightRequest="35"
+                   Margin="40, 160, 0, 0"
+                   TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+            </Label>
+
+
+            <Frame Margin="40, 0, 40, 25"
+                   CornerRadius="8"
+                   Padding="0"
+                   HasShadow="False"
+                   BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                       Padding="0"
+                       HeightRequest="50"
+                       Margin="1"
+                       CornerRadius="8"
+                       HasShadow="False">
+
+                    <Label Text="{Binding EmployeeId, Source={x:Reference customNumericKeyboard} }"
+                           Style="{DynamicResource BaseContent_i4}"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                           Margin="15, 8, 0, 8"
+                           FontSize="24">
+                    </Label>
+
+                </Frame>
+
+            </Frame>
+
+            <Grid Margin="40, 0, 40, 0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.33*"/>
+                    <ColumnDefinition Width="0.33*"/>
+                    <ColumnDefinition Width="0.33*"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Column="0"
+                       Grid.Row="0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="4"
+                           HasShadow="False">
+
+                        <Label x:Name="button1"
+                               Text="10"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button1}"/>
+                            </Label.GestureRecognizers>
+                            
+                        </Label>
+
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       Grid.Row="0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                       
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button2"
+                               Text="2"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+                            
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button2}"/>
+                            </Label.GestureRecognizers>
+                            
+                        </Label>
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="2"
+                       Grid.Row="0"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                       
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button3"
+                               Text="3"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button3}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="0"
+                       Grid.Row="1"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button4"
+                               Text="4"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button4}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       Grid.Row="1"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button5"
+                               Text="5"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button5}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="2"
+                       Grid.Row="1"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button6"
+                               Text="6"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button6}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="0"
+                       Grid.Row="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button7"
+                               Text="7"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button7}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       Grid.Row="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                       
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button8"
+                               Text="8"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button8}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="2"
+                       Grid.Row="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                       
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="button9"
+                               Text="9"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference button9}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+
+                </Frame>
+
+                <Frame Grid.Column="0"
+                       Grid.Row="3"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                       
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label x:Name="buttonZero"
+                               Text="0"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                               Style="{DynamicResource BaseContent_i2}"
+                               FontSize="24"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference buttonZero}"/>
+                            </Label.GestureRecognizers>
+
+                        </Label>
+
+                    </Frame>
+                </Frame>
+
+                <Frame Grid.Column="1"
+                       Grid.Row="3"
+                       Grid.ColumnSpan="2"
+                       CornerRadius="8"
+                       Padding="0"
+                       HasShadow="False"
+                       BorderColor="{DynamicResource textAndbackgroundcolor_i2}">
+                       
+                    <Frame BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           BorderColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Padding="0"
+                           HeightRequest="50"
+                           Margin="1"
+                           CornerRadius="8"
+                           HasShadow="False">
+
+                        <Label Text="Clear"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               Style="{DynamicResource BaseContent_i1}"
+                               FontSize="22"
+                               TextColor="White">
+                            
+                            <Label.GestureRecognizers>
+
+                                <TapGestureRecognizer Command="{Binding ButtonClearTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                                      CommandParameter="{x:Reference buttonZero}"/>
+                            </Label.GestureRecognizers>
+                            
+                        </Label>
+                               
+                    </Frame>
+                </Frame>
+
+            </Grid>
+
+            <BoxView Margin="0, 100, 0, 0"
+                     HeightRequest="1"
+                     Color="{DynamicResource textAndbackgroundcolor_i2}">
+
+            </BoxView>
+
+            <Frame HasShadow="False"
+                   CornerRadius="8"
+                   Margin="25, 25, 25, 25"
+                   BackgroundColor="{DynamicResource indicationcolor_i1}">
+                
+                <Label Text="Login"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i3}"
+                       Style="{DynamicResource BaseContent_i1}"
+                       FontSize="18">
+                       
+                    <Label.GestureRecognizers>
+
+                        <TapGestureRecognizer Command="{Binding ButtonClearTabCommand, Source={x:Reference customNumericKeyboard}}"/>
+                        
+                    </Label.GestureRecognizers>
+
+                </Label>
+
+            </Frame>
+            
+
+        </StackLayout>
+        
+    </ContentView.Content>
+    
+</ContentView>
