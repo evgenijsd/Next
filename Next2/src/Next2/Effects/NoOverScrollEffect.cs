@@ -8,5 +8,7 @@ namespace Next2.Effects
             : base($"Next2.Effects.{nameof(NoOverScrollEffect)}")
         {
         }
+
+        public bool IsBouncesVisible { get; set; }
     }
 }

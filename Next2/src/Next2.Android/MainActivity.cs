@@ -2,11 +2,11 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Next2.Droid.Helpers;
+using Android.Views;
+using AndroidX.AppCompat.App;
 using Next2.Helpers;
 using Prism;
 using Prism.Ioc;
-using AndroidX.AppCompat.App;
 using Xamarin.Forms;
 
 namespace Next2.Droid
@@ -14,12 +14,13 @@ namespace Next2.Droid
     [Activity(Label = "Next2", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize, ScreenOrientation = ScreenOrientation.Landscape)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        private static StatusBarHelper _permissionsService = new StatusBarHelper();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -37,14 +38,6 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        public class AndroidInitializer : IPlatformInitializer
-        {
-            public void RegisterTypes(IContainerRegistry containerRegistry)
-            {
-                containerRegistry.RegisterInstance<IStatusBarHelper>(_permissionsService);
-            }
         }
     }
 }

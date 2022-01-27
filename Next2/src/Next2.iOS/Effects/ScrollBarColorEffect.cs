@@ -6,7 +6,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 using UIEffects = Next2.Effects;
 
-[assembly: ResolutionGroupName("Next2.Effects")]
 [assembly: ExportEffect(typeof(ScrollBarColorEffect), nameof(ScrollBarColorEffect))]
 
 namespace Next2.iOS.Effects
@@ -30,8 +29,7 @@ namespace Next2.iOS.Effects
         {
             try
             {
-
-                _view = (UIScrollView)(Control ?? Container);
+                //_view = (UIScrollView)(Control ?? Container);
                 _view.Scrolled += Container_Scrolled;
 
                 var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
@@ -51,7 +49,7 @@ namespace Next2.iOS.Effects
             {
                 _view.Scrolled -= Container_Scrolled;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
             }
         }

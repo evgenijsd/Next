@@ -181,9 +181,9 @@
 
                             <CollectionView.Effects>
 
-                                <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource appcolor_i1}"/>
+                                <!--<effects:ScrollBarColorEffect ScrollBarColor="{StaticResource appcolor_i1}"/>-->
 
-                                <effects:NoOverScrollEffect/>
+                                <effects:NoOverScrollEffect IsBouncesVisible="{OnPlatform Android=true, iOS=false}"/>
 
                             </CollectionView.Effects>
                             

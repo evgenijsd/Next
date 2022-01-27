@@ -1,11 +1,23 @@
-﻿using Xamarin.Forms;
+﻿using Next2.iOS.Effects;
+using System;
+using System.Linq;
+using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
+using UIEffects = Next2.Effects;
 
-namespace Next2.Effects
+[assembly: ResolutionGroupName("Next2.Effects")]
+[assembly: ExportEffect(typeof(NoOverScrollEffect), nameof(NoOverScrollEffect))]
+
+namespace Next2.iOS.Effects
 {
-    public class NoOverScrollEffect : RoutingEffect
+    public class NoOverScrollEffect : PlatformEffect
     {
-        public NoOverScrollEffect()
-            : base($"Next2.Effects.{nameof(NoOverScrollEffect)}")
+        protected override void OnAttached()
+        {
+        }
+
+        protected override void OnDetached()
         {
         }
     }
