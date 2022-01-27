@@ -1,8 +1,6 @@
 ﻿using Next2.Services;
 using Next2.ViewModels;
-using Next2.ViewModels.Mobile;
 using Next2.Views;
-using Next2.Views.Mobile;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -28,8 +26,10 @@ namespace Next2
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
-            containerRegistry.RegisterForNavigation<OrderPage, OrderPageViewModel>();
-            containerRegistry.RegisterForNavigation<TabPage, TabPageViewModel>();
+            containerRegistry.RegisterForNavigation<Views.OrderPageMobile, ViewModels.OrderPageMobileViewModel>();
+            containerRegistry.RegisterForNavigation<Views.TabPageMobile, ViewModels.TabPageMobileViewModel>();
+            containerRegistry.RegisterForNavigation<Views.OrderPageTablet, ViewModels.OrderPageTabletViewModel>();
+            containerRegistry.RegisterForNavigation<Views.TabPageTablet, ViewModels.TabPageTabletViewModel>();
         }
 
         protected override async void OnInitialized()

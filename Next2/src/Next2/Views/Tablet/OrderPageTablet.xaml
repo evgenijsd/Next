@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:controls="clr-namespace:Next2.Controls"
+                       xmlns:views="clr-namespace:Next2.Views"
+                       xmlns:viewModels="clr-namespace:Next2.ViewModels"
+                       BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
+                       x:Class="Next2.Views.OrderPageTablet">
+    
+    <ContentPage.Content>
+        <Grid HorizontalOptions="Fill"
+              VerticalOptions="Fill"
+              ColumnSpacing="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="104" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <BoxView BackgroundColor="DarkGray" />
+
+            <Grid Grid.Column="1"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Fill"
+                  RowSpacing="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="64" />
+                    <RowDefinition Height="48" />
+                    <RowDefinition Height="121" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <controls:CustomNavigationbar />
+
+                <Grid Grid.Row="1"
+                      HorizontalOptions="Fill"
+                      VerticalOptions="Fill"
+                      ColumnSpacing="0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:CustomButtonOrderLeft Grid.Column="0"
+                                                    CornerRadius="10"
+                                                    HeightRequest="50"
+                                                    WidthRequest="150"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="End" />
+
+
+                    <controls:CustomButtonOrderRight Grid.Column="1"
+                                                     HeightRequest="50"
+                                                     WidthRequest="100"
+                                                     VerticalOptions="End"
+                                                     CornerRadius="10" />
+
+                </Grid>
+
+                <controls:CustomButtonSearch Grid.Row="2"
+                                             Margin="17,17,17,63" />
+
+                <Frame Grid.Row="2"
+                       Margin="17,75,17,-20"
+                       CornerRadius="11"
+                       BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                </Frame>
+
+                <BoxView Grid.Row="3"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
+
+                <Grid Grid.Row="2"
+                      Margin="17,90,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0"
+                           HorizontalOptions="StartAndExpand"
+                           Margin="20,0,0,0"
+                           Text="Table Number1"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                           FontSize="{DynamicResource tsize_i8}"
+                           Style="{DynamicResource BaseContent_i1}" />
+                    <Label Grid.Column="1"
+                           HorizontalOptions="StartAndExpand"
+                           Margin="15,0,0,0"
+                           Text="Order Number"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                           FontSize="{DynamicResource tsize_i8}"
+                           Style="{DynamicResource BaseContent_i1}" />
+                    <Label Grid.Column="2"
+                           HorizontalOptions="StartAndExpand"
+                           Margin="10,0,0,0"
+                           Text="Total"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                           FontSize="{DynamicResource tsize_i8}"
+                           Style="{DynamicResource BaseContent_i1}" />
+                </Grid>
+
+
+                <CollectionView Grid.Row="4"
+                                ItemsSource="{Binding Orders}"
+                                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                                Margin="17,0,17,0">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalOptions="Fill"
+                                  VerticalOptions="Fill"
+                                  RowSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="47" />
+                                    <RowDefinition Height="1" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="100" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0"
+                                           HorizontalOptions="StartAndExpand"
+                                           Margin="20,0,0,0"
+                                           VerticalOptions="CenterAndExpand"
+                                           Text="{Binding TableName}"
+                                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                           FontSize="{DynamicResource tsize_i8}"
+                                           Style="{DynamicResource BaseContent_i4}" />
+
+                                    <Label Grid.Column="1"
+                                           HorizontalOptions="StartAndExpand"
+                                           Margin="15,0,0,0"
+                                           VerticalOptions="CenterAndExpand"
+                                           Text="{Binding OrderNumber}"
+                                           Style="{DynamicResource BaseContent_i4}"
+                                           FontSize="{DynamicResource tsize_i8}"
+                                           TextColor="{DynamicResource textAndbackgroundcolor_i1}" />
+
+                                    <Label Grid.Column="2"
+                                           HorizontalOptions="StartAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           Margin="10,0,0,0"
+                                           Style="{DynamicResource BaseContent_i4}"
+                                           FontSize="{DynamicResource tsize_i8}"
+                                           TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Total, StringFormat='$ {0:D0}.00'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                </Grid>
+
+                                <BoxView Grid.Row="1"
+                                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <BoxView Grid.Row="4"
+                         Margin="17,0,17,0"
+                         BackgroundColor="Transparent" />
+
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+    
+</views:BaseContentPage>

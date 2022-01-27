@@ -7,13 +7,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Next2.ViewModels.Mobile
+namespace Next2.ViewModels
 {
-    public class OrderPageViewModel : BaseViewModel
+    public class OrderPageMobileViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
 
-        public OrderPageViewModel(
+        public OrderPageMobileViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)

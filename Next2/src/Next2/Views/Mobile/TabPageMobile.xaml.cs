@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Next2.Views.Mobile
+namespace Next2.Views
 {
-    public partial class TabPage : BaseContentPage
+    public partial class TabPageMobile : BaseContentPage
     {
-        public TabPage()
+        public TabPageMobile()
         {
             InitializeComponent();
         }

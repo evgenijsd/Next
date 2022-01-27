@@ -7,13 +7,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Next2.ViewModels.Tablet
+namespace Next2.ViewModels
 {
-    public class OrderPageViewModel : BaseViewModel
+    public class OrderPageTabletViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
 
-        public OrderPageViewModel(
+        public OrderPageTabletViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)

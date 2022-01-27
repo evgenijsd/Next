@@ -1,4 +1,4 @@
-﻿using Next2.Views.Mobile;
+﻿using Next2.Views;
 using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
@@ -31,12 +31,12 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(OrderPage)}");
+            await _navigationService.NavigateAsync($"{nameof(OrderPageMobile)}");
         }
 
         private async Task OnTabCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(TabPage)}");
+            await _navigationService.NavigateAsync($"{nameof(TabPageMobile)}");
         }
 
         public ICommand CrashCommand => new Command(() => throw new NullReferenceException());

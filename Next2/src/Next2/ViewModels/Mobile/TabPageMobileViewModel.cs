@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.ViewModels.Mobile
+namespace Next2.ViewModels
 {
-    public class TabPageViewModel : BaseViewModel
+    public class TabPageMobileViewModel : BaseViewModel
     {
-        public TabPageViewModel(INavigationService navigationService)
+        public TabPageMobileViewModel(INavigationService navigationService)
             : base(navigationService)
         {
         }

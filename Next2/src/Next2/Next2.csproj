@@ -128,11 +128,17 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\OrderPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Views\Mobile\OrderPageMobile.xaml.cs">
+      <DependentUpon>OrderPageMobile.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\TabPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Views\Mobile\TabPageMobile.xaml.cs">
+      <DependentUpon>TabPageMobile.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\OrderPageTablet.xaml.cs">
+      <DependentUpon>OrderPageTablet.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\TabPageTablet.xaml.cs">
+      <DependentUpon>TabPageTablet.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -150,10 +156,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\OrderPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\OrderPageMobile.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\TabPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\TabPageMobile.xaml">
 		<Generator>MSBuild:UpdateDesignTimeXaml</Generator>
 	</EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DarkModeResources.xaml">
