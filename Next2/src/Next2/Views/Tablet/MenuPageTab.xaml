@@ -15,7 +15,7 @@
 
         <Grid.ColumnDefinitions>
             
-            <ColumnDefinition Width="0.09*"/>
+            <ColumnDefinition Width="0.1*"/>
             <ColumnDefinition Width="*"/>
             
         </Grid.ColumnDefinitions>
@@ -41,7 +41,10 @@
                     <controls:CustomSelectedImageButton
                         IsSelected="{Binding IsSelected}"
                         ImagePath="{Binding ImagePath}"
-                        Title="{Binding Title}"
+                        Text="{Binding Title}"
+                        TextColor="White"
+                        FontSize="{DynamicResource tsize_i8}"
+                        FontFamily="Barlow-SemiBold"
                         HasShadow="False"
                         CornerRadius="10"
                         Margin="7, 0"
@@ -54,7 +57,10 @@
             <controls:CustomSelectedImageButton
                 IsSelected="False"
                 ImagePath="ic_logout_30x30.png"
-                Title="Log out"
+                Text="Log out"
+                TextColor="White"
+                FontSize="{DynamicResource tsize_i8}"
+                FontFamily="Barlow-SemiBold"
                 HasShadow="False"
                 CornerRadius="10"
                 Margin="7, 0"

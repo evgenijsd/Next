@@ -6,9 +6,10 @@
 
     <Label
         Text="{Binding Text, Source={x:Reference customBorderButton}}"
-        TextColor="White"
-        FontSize="14"
-        FontAttributes="Bold"
+        TextColor="{Binding TextColor, Source={x:Reference customBorderButton}}"
+        FontSize="{Binding FontSize, Source={x:Reference customBorderButton}}"
+        FontFamily="{Binding FontFamily, Source={x:Reference customBorderButton}}"
+        HorizontalTextAlignment="Center"
         VerticalTextAlignment="Center"/>
 
 </Frame>

@@ -112,7 +112,8 @@
                             <Frame
                                 BorderColor="Transparent"
                                 BackgroundColor="#252836"
-                                Padding="2">
+                                Padding="2"
+                                HasShadow="False">
 
                                 <Frame
                                     WidthRequest="162"

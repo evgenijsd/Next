@@ -5,7 +5,7 @@
              x:Class="Next2.Views.MembershipView"
              x:DataType="viewModels:MembershipViewModel">
 
-    <StackLayout BackgroundColor="#212430">
+    <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
 
         <Label
             Text="{Binding Text}"

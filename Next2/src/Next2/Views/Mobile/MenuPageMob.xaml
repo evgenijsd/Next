@@ -10,8 +10,7 @@
                        x:Class="Next2.Views.MenuPageMob">
 
     <Grid ColumnSpacing="0"
-          RowSpacing="0"
-          BackgroundColor="Red">
+          RowSpacing="0">
 
         <Grid.RowDefinitions>
 
@@ -56,13 +55,13 @@
         <StackLayout
             Grid.Row="1"
             Grid.Column="0"
-            BackgroundColor="#2E3143"
+            BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
             Orientation="Vertical"
             Padding="0"
             Spacing="0">
 
             <BoxView
-                Color="#424861"
+                Color="{DynamicResource textAndbackgroundcolor_i2}"
                 HeightRequest="1"/>
             
             <controls:TabsControl
@@ -76,7 +75,11 @@
                     <controls:CustomSelectedImageButton
                         IsSelected="{Binding IsSelected}"
                         ImagePath="{Binding ImagePath}"
-                        Title="{Binding Title}"
+                        Text="{Binding Title}"
+                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                        FontSize="{DynamicResource tsize_i5}"
+                        FontFamily="Barlow-Medium"
                         WidthRequest="163"
                         HasShadow="False"
                         Padding="0, 5"

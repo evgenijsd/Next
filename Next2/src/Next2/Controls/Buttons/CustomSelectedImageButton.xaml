@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Frame
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Next2.Controls" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    x:Class="Next2.Controls.CustomSelectedImageButton"
-    x:Name="customSelectedImageButton">
+<Frame xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+       x:Class="Next2.Controls.CustomSelectedImageButton"
+       x:Name="customSelectedImageButton">
 
     <Frame.Triggers>
 
@@ -30,11 +29,11 @@
 
             <Setter
                 Property="BackgroundColor" 
-                Value="#2E3143" />
+                Value="#34374C" />
 
             <Setter
                 Property="BorderColor"
-                Value="#2E3143" />
+                Value="#34374C" />
 
         </DataTrigger>
 
@@ -47,8 +46,10 @@
             Margin="0, 3"/>
 
         <Label
-            Text="{Binding Title, Source={x:Reference customSelectedImageButton}}"
-            TextColor="White"
+            Text="{Binding Text, Source={x:Reference customSelectedImageButton}}"
+            TextColor="{Binding TextColor, Source={x:Reference customSelectedImageButton}}"
+            FontSize="{Binding FontSize, Source={x:Reference customSelectedImageButton}}"
+            FontFamily="{Binding FontFamily, Source={x:Reference customSelectedImageButton}}"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"/>
 
