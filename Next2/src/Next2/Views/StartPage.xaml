@@ -5,34 +5,40 @@
              xmlns:svg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
              x:Class="Next2.Views.StartPage">
+    
     <ContentPage.Content>
+        
         <StackLayout>
 
             <Label Text="Start Page"
                    Style="{DynamicResource BaseContent_i2}"
                    TextColor="{DynamicResource appcolor_i1}"
                    FontSize="{DynamicResource tsize_i2}"
-                   VerticalOptions="CenterAndExpand" 
+                   VerticalOptions="CenterAndExpand"
                    HorizontalOptions="CenterAndExpand" />
 
-            <svg:SvgCachedImage
-            Source="resource://Next2.Resources.Images.Search.svg"
-            WidthRequest="100"
-            HeightRequest="100"/>
+            <controls:SvgImage Source="Search.svg"
+                                WidthRequest="100"
+                                HeightRequest="100" />
 
             <controls:CustomButtonSearch />
 
             <Button Text="Orders"
-                    Command="{Binding OrderCommand}"/>
+                    Command="{Binding OrderCommand}" />
 
             <StackLayout Orientation="Horizontal">
-            <controls:CustomButtonOrderTab />
-                <controls:CustomButtonOrderTab />
+
+                <controls:CustomButtonOrderTab CornerRadius="10" />
+
+                <controls:CustomButtonOrderRight CornerRadius="10" />
+
             </StackLayout>
 
 
             <Button Text="Tabs"
-                    Command="{Binding TabCommand}"/>
+                    Command="{Binding TabCommand}" />
+            
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

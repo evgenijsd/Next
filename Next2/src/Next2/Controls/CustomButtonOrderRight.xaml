@@ -2,14 +2,13 @@
 <Grid xmlns="http://xamarin.com/schemas/2014/forms"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:controls="clr-namespace:Next2.Controls"
-      x:DataType="controls:CustomButtonOrderTab"
+      x:DataType="controls:CustomButtonOrderRight"
       WidthRequest="100"
       HorizontalOptions="Fill"
       VerticalOptions="Fill"
       RowSpacing="0"
-      x:Name="customButtonLeft"
-      x:Class="Next2.Controls.CustomButtonOrderTab">
-    
+      x:Name="customButtonRight"
+      x:Class="Next2.Controls.CustomButtonOrderRight">
     <Grid.RowDefinitions>
         <RowDefinition Height="1" />
         <RowDefinition Height="40" />
@@ -18,20 +17,19 @@
 
     <BoxView Grid.Row="0"
              BackgroundColor="Blue" />
-    <Frame 
-           Grid.Row="1"
+    <Frame Grid.Row="1"
            WidthRequest="100"
-           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonLeft}}"
+           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonRight}}"
            Margin="0,0,0,0" />
     <BoxView Grid.Row="1"
              WidthRequest="10"
-             HorizontalOptions="End"
+             HorizontalOptions="Start"
              VerticalOptions="FillAndExpand"
              BackgroundColor="Yellow" />
     <BoxView Grid.Row="1"
              WidthRequest="10"
              HeightRequest="10"
-             HorizontalOptions="Start"
+             HorizontalOptions="End"
              VerticalOptions="End"
              BackgroundColor="Yellow" />
     <BoxView Grid.Row="2"

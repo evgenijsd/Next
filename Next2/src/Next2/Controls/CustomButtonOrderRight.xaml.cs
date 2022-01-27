@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class CustomButtonOrderTab : Grid
+    public partial class CustomButtonOrderRight : Grid
     {
-        public CustomButtonOrderTab()
+        public CustomButtonOrderRight()
         {
             InitializeComponent();
         }
@@ -19,7 +12,7 @@ namespace Next2.Controls
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             propertyName: nameof(CornerRadius),
             returnType: typeof(float),
-            declaringType: typeof(CustomButtonOrderTab),
+            declaringType: typeof(CustomButtonOrderRight),
             defaultValue: 0F,
             defaultBindingMode: BindingMode.TwoWay);
 

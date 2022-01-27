@@ -75,7 +75,6 @@
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
-    <None Remove="Resources\Images\Search.svg" />
     <None Remove="stylecop.json" />
   </ItemGroup>
 
@@ -118,10 +117,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Images\Search.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Update="Controls\CustomButtonOrderRight.xaml.cs">
+      <DependentUpon>CustomButtonOrderRight.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Strings\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
