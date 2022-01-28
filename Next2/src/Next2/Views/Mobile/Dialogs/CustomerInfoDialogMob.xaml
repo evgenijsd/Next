@@ -1,0 +1,115 @@
+﻿<!--Mobile-->
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+              xmlns:rg="http://rotorgames.com"
+              x:DataType="dialogs:CustomerInfoViewModel"
+              xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+              x:Class="Next2.Views.Mobile.Dialogs.CustomerInfoDialogMob">
+
+    <Frame BackgroundColor="#424861" 
+           HorizontalOptions="Center" 
+           VerticalOptions="Center"
+           Padding="1.5" 
+           CornerRadius="4"
+           HeightRequest="830"
+           WidthRequest="484" >
+
+        <Grid RowDefinitions="0.101*, 0.779*, 0.119*" RowSpacing="1.5"
+                  BackgroundColor="#424861">
+
+            <BoxView Grid.Row="0" BackgroundColor="#34374C" />
+            <Label Grid.Row="0" 
+                       Text="Customer Info" 
+                       TextColor="White" 
+                       VerticalOptions="Center" 
+                       Margin="18,0,0,0" />
+
+            <BoxView Grid.Row="1" BackgroundColor="#34374C" />
+            <StackLayout Grid.Row="1" Margin="24,0,24,0">
+                <StackLayout>
+                    <Label Text="Customer Name" TextColor="White"/>
+                    <Label Text="Binding" TextColor="White"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Customer Name" TextColor="White"/>
+                    <Label Text="Binding" TextColor="White"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Customer Name" TextColor="White"/>
+                    <Label Text="Binding" TextColor="White"/>
+                </StackLayout>
+                <BoxView BackgroundColor="#252836" HeightRequest="1.5"/>
+                <Frame Padding="0" 
+                           Margin="0,24,0,24" 
+                           HasShadow="False" 
+                           BackgroundColor="#424861">
+                    <Grid VerticalOptions="EndAndExpand" RowSpacing="1.5" ColumnSpacing="1.5" Margin="0">
+                        <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="#34374C"/>
+                        <StackLayout Grid.Row="0" 
+                                         Grid.Column="0" 
+                                         VerticalOptions="Center" HorizontalOptions="Center">
+                            <Label Text="Points" />
+                            <Label Text="177 pt" HorizontalOptions="Center"/>
+                        </StackLayout>
+                        <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="#34374C" HeightRequest="300"/>
+                        <StackLayout Grid.Row="0"
+                                         Grid.Column="1" 
+                                         VerticalOptions="Center" HorizontalOptions="Center">
+                            <Label Text="Rewards"/>
+                            <Label Text="12" HorizontalOptions="Center"/>
+                        </StackLayout>
+                        <BoxView Grid.Row="1" Grid.Column="0" BackgroundColor="#34374C"/>
+                        <StackLayout Grid.Row="1" 
+                                         Grid.Column="0" 
+                                         VerticalOptions="Center" HorizontalOptions="Center" 
+                                         Margin="40" >
+                            <Label Text="Number of Gift Cards" />
+                            <Label Text="3" HorizontalOptions="Center"/>
+                        </StackLayout>
+                        <BoxView Grid.Row="1" Grid.Column="1" BackgroundColor="#34374C"/>
+                        <StackLayout Grid.Row="1" 
+                                         Grid.Column="1" 
+                                         VerticalOptions="Center" HorizontalOptions="Center" 
+                                         Margin="40" >
+                            <Label Text="Gift Card Total" />
+                            <Label Text="$24.03"  HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+            </StackLayout>
+
+
+            <BoxView Grid.Row="2" BackgroundColor="#34374C" />
+            <StackLayout Grid.Row="2" Orientation="Horizontal" Margin="18">
+                <Frame HorizontalOptions="FillAndExpand" 
+                                   Padding="0" 
+                                   HasShadow="False" 
+                                   CornerRadius="4" Margin="0,0,3,0"
+                                   WidthRequest="100"
+                                   BackgroundColor="#252836"
+                                   BorderColor="#F45E49">
+                    <Label Text="Cancel" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"
+                                       TextColor="#FEFEFD" 
+                                       Opacity="0.5"/>
+                </Frame>
+                <Frame HorizontalOptions="FillAndExpand" 
+                                   HasShadow="False" 
+                                   CornerRadius="4" 
+                                   Margin="3,0,0,0"
+                                   BackgroundColor="#3CD47D"
+                                   WidthRequest="100"
+                                   Padding="0">
+                    <Label Text="Select" 
+                                       TextColor="Black"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                </Frame>
+            </StackLayout>
+
+        </Grid>
+    </Frame>
+
+</rg:PopupPage>

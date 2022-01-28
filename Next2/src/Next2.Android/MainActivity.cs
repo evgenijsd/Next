@@ -14,6 +14,8 @@ namespace Next2.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this);
+
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -31,6 +33,11 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override void OnBackPressed()
+        {
+            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
         }
     }
 }

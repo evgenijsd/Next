@@ -1,0 +1,230 @@
+﻿<!--TABLET-->
+<view:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                      xmlns:view="clr-namespace:Next2.Views"
+                      x:Class="Next2.Views.Tablet.CustomersPageTab">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label" x:Key="view_cell" >
+                <Setter Property="TextColor" Value="#FEFEFD"/>
+                <Setter Property="Margin" Value="12,0,0,0"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+            <Style TargetType="Label" x:Key="head_cell" >
+                <Setter Property="TextColor" Value="#FEFEFD"/>
+                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid ColumnDefinitions="0.09*,*" 
+              ColumnSpacing="0">
+            <Grid Grid.Column="1" 
+                  RowDefinitions="0.09*,0.79*,0.1*" 
+                  BackgroundColor="#34374C"
+                  RowSpacing="2">
+                <!--header-->
+                <BoxView Grid.Row="0" 
+                         BackgroundColor="#252836">
+                </BoxView>
+                <Label Grid.Row="0"
+                       Text="Customers" 
+                       Margin="30,0,0,0"
+                       HorizontalOptions="Start" 
+                       VerticalOptions="Center"
+                       TextColor="White" 
+                       FontSize="24"/>
+                <Label Grid.Row="0" 
+                       Text="Watch the tutorial" 
+                       HorizontalOptions="End" 
+                       VerticalOptions="Center" 
+                       Margin="0,0,30,0"
+                       TextColor="White"/>
+                <!--body-->
+                <Frame Grid.Row="1" 
+                       Margin="0,-0.2,0,0"
+                       Padding="0"
+                       HasShadow="False"
+                       CornerRadius="0"
+                       BackgroundColor="#252836">
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal" Padding="0,0,0,-12"
+                                     >
+                            <Frame BackgroundColor="#252836" 
+                                   BorderColor="#424861"
+                                   Margin="24" 
+                                   HasShadow="False" 
+                                   HorizontalOptions="StartAndExpand"
+                                   Padding="0"
+                                   CornerRadius="4">
+                                <Frame BackgroundColor="#252836" 
+                                       BorderColor="#252836"
+                                       Margin="2" 
+                                       HasShadow="False"
+                                       HeightRequest="51"
+                                       Padding="0"
+                                       CornerRadius="4" >
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Search by Name or Phone"
+                                               VerticalOptions="Center" FontSize="14"
+                                               Margin="12,0,160,0"
+                                               TextColor="#424861">
+
+                                        </Label>
+                                        <Image Source="ic_search_24x24" 
+                                       Scale="0.95" 
+                                       Margin="0,0,12,0"
+                                       HorizontalOptions="EndAndExpand"
+                                       VerticalOptions="Center">
+                                        </Image>
+                                    </StackLayout>
+                                </Frame>
+                            </Frame>
+                            <Frame x:Name="infoButton" 
+                                   Opacity="0.32"
+                                   HorizontalOptions="End" 
+                                   Padding="-4,0,-4,0" 
+                                   HasShadow="False" 
+                                   CornerRadius="4"
+                                   Margin="0,26,12,24" 
+                                   WidthRequest="100"
+                                   BackgroundColor="#252836"
+                                   BorderColor="#7B61FF">
+                                <Label Text="Info" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"
+                                       TextColor="#FEFEFD" 
+                                       />
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding TabInfoButtonCommand}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                            <Frame HorizontalOptions="End" 
+                                   HasShadow="False" 
+                                   CornerRadius="4"
+                                   Margin="0,26,24,24" 
+                                   BackgroundColor="#F45E49"
+                                   WidthRequest="100"
+                                   Padding="0">
+                                <Label Text="Add New" 
+                                       TextColor="#FEFEFD"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                            </Frame>
+                        </StackLayout>
+                        <Frame Padding="0"
+                               HeightRequest="130"
+                               BackgroundColor="#34374C"
+                               CornerRadius="12" 
+                               HasShadow="False"
+                               Margin="24,0,24,0"
+                               x:Name="tableHeader">
+                            <Grid ColumnDefinitions="0.1*,*" 
+                                  HorizontalOptions="FillAndExpand" 
+                                  Margin="55,0,0,0"
+                                  VerticalOptions="Center" 
+                                  >
+                                <Label Grid.Column="0" 
+                                       IsVisible="false"
+                                       Text="checkbox" 
+                                       Style="{StaticResource head_cell}"/>
+                                <Label Grid.Column="1" 
+                                       Text="Customer Name" 
+                                       Style="{StaticResource head_cell}"/>
+                                <Label Grid.Column="2" 
+                                       Text="Points" 
+                                       Style="{StaticResource head_cell}"/>
+                                <Label Grid.Column="3" 
+                                       Text="Rewards" 
+                                       Style="{StaticResource head_cell}"/>
+                                <Label Grid.Column="4" 
+                                       Text="Gift Card Count" 
+                                       Style="{StaticResource head_cell}"/>
+                                <Label Grid.Column="5" 
+                                       Text="Gift Card Total" 
+                                       Style="{StaticResource head_cell}"/>
+                            </Grid>
+                        </Frame>
+                        <Frame Padding="0,10,0,0" 
+                               Margin="24,-18,24,0" 
+                               HasShadow="False"
+                               BackgroundColor="#34374C">
+                            <ListView ItemsSource="{Binding CustomersList}" x:Name="list"
+                                      IsPullToRefreshEnabled="True" 
+                                      SelectedItem="{Binding SelectedItem}"
+                                      SeparatorColor="#252836"
+                                      BackgroundColor="#2E3143" 
+                                      VerticalScrollBarVisibility="Always">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell Tapped="ViewCellTappedHandler">
+                                                <Grid ColumnDefinitions="0.325*,*" Margin="0,0,0,0" >
+                                                    <Image Grid.Column="0" 
+                                                       Source="{Binding CheckboxImage}" 
+                                                       HorizontalOptions="Start" Margin="24,0,0,0"
+                                                       Scale="0.9" />
+                                                <Label Grid.Column="1" 
+                                                   Text="{Binding Name}" 
+                                                   LineBreakMode="TailTruncation"
+                                                   Style="{StaticResource view_cell}"
+                                                   />
+                                                    <Label Grid.Column="2" 
+                                                   Text="{Binding Points}" 
+                                                   LineBreakMode="TailTruncation"
+                                                   Style="{StaticResource view_cell}"/>
+                                                    <Label Grid.Column="3"
+                                                   Text="{Binding Rewards}" 
+                                                   LineBreakMode="TailTruncation"
+                                                   Style="{StaticResource view_cell}"
+                                                   />
+                                                    <Label Grid.Column="4"
+                                                   Text="{Binding Rewards}" 
+                                                   LineBreakMode="TailTruncation"
+                                                   Style="{StaticResource view_cell}"
+                                                   />
+                                                    <Label Grid.Column="5"
+                                                   Text="{Binding Rewards}" 
+                                                   LineBreakMode="TailTruncation"
+                                                   Style="{StaticResource view_cell}"
+                                                   />
+                                                </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Frame>
+                    </StackLayout>
+                </Frame>
+                <!--footer-->
+                <Frame Grid.Row="2" 
+                       HasShadow="False"
+                       Padding="0"
+                       BackgroundColor="#252836" 
+                       >
+                    <Frame x:Name="selectButton" 
+                           Opacity="0.32"
+                           BackgroundColor="#3CD47D" 
+                           Padding="0"
+                           HasShadow="False"
+                           Margin="30,18,30,18"
+                           CornerRadius="6" >
+                        <Label Text="Select"
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center"
+                               TextColor="#34374C" 
+                               FontSize="14"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding TabSelectButtonCommand}"></TapGestureRecognizer>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </Frame>
+
+            </Grid>
+
+        </Grid>
+    </ContentPage.Content>
+</view:BaseContentPage>
