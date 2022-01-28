@@ -14,7 +14,7 @@
         <RowDefinition Height="3" />
     </Grid.RowDefinitions>
 
-    <Frame 
+    <Frame HasShadow="False"
            Grid.Row="0"
            BackgroundColor="{DynamicResource appcolor_i4}"
            CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonLeft}}" />

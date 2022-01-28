@@ -13,7 +13,7 @@
         <RowDefinition Height="3" />
     </Grid.RowDefinitions>
 
-    <Frame Grid.Row="0"
+    <Frame Grid.Row="0" HasShadow="False"
            BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
            CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonRight}}"/>
     <BoxView Grid.Row="0"

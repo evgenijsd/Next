@@ -14,9 +14,9 @@
               RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="64" />
-                <RowDefinition Height="48" />
-                <RowDefinition Height="121" />
+                <RowDefinition Height="65" />
+                <RowDefinition Height="55" />
+                <RowDefinition Height="135" />
                 <RowDefinition Height="1" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -24,6 +24,7 @@
             <controls:CustomNavigationbar />
 
             <Grid Grid.Row="1" 
+                  Margin="0,1,0,0"
                   HorizontalOptions="Fill"
                   VerticalOptions="Fill"
                   ColumnSpacing="0">
@@ -45,10 +46,10 @@
             </Grid>
 
             <controls:CustomButtonSearch Grid.Row="2" 
-                                         Margin="17,17,17,63"/>
+                                         Margin="17,17,17,73"/>
 
             <Frame Grid.Row="2" 
-                   Margin="17,75,17,-20" 
+                   Margin="17,85,17,-20" 
                    CornerRadius="11" 
                    BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
             </Frame>
@@ -57,7 +58,7 @@
                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
             
             <Grid Grid.Row="2"
-                  Margin="17,90,0,0">
+                  Margin="17,100,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="120" />
@@ -89,7 +90,7 @@
 
                 <CollectionView Grid.Row="4"
                             ItemsSource="{Binding Orders}"
-                            BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                            BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}"
                             Margin="17,0,17,0">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -148,10 +149,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-            <BoxView Grid.Row="4" 
-                     Margin="17,0,17,0"
-                     BackgroundColor="Transparent" />
 
         </Grid>
         

@@ -25,46 +25,80 @@
                   RowSpacing="0">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="64" />
-                    <RowDefinition Height="48" />
-                    <RowDefinition Height="121" />
+                    <RowDefinition Height="75" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="135" />
                     <RowDefinition Height="1" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <controls:CustomNavigationbar />
 
-                <Grid Grid.Row="1"
+                <Grid Grid.Row="0"
                       HorizontalOptions="Fill"
                       VerticalOptions="Fill"
                       ColumnSpacing="0">
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="520" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+
+                    <Label Text="Order &amp; Tabs"
+                           Grid.Column="0"
+                           Margin="30,0,0,0"
+                           VerticalOptions="CenterAndExpand"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                           Style="{DynamicResource BaseContent_i2}"
+                           FontSize="{DynamicResource tsize_i4}"/>
 
                     <controls:CustomButtonOrderLeft Grid.Column="0"
                                                     CornerRadius="10"
                                                     HeightRequest="50"
-                                                    WidthRequest="150"
+                                                    WidthRequest="260"
                                                     HorizontalOptions="End"
                                                     VerticalOptions="End" />
 
 
                     <controls:CustomButtonOrderRight Grid.Column="1"
                                                      HeightRequest="50"
-                                                     WidthRequest="100"
+                                                     WidthRequest="260"
+                                                     HorizontalOptions="Start"
                                                      VerticalOptions="End"
                                                      CornerRadius="10" />
 
                 </Grid>
 
-                <controls:CustomButtonSearch Grid.Row="2"
-                                             Margin="17,17,17,63" />
+                <BoxView Grid.Row="1"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+
+                <Grid Grid.Row="2" Margin="17,30,0,65">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="325" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <controls:CustomButtonSearch />
+                    <StackLayout Grid.Column="1" 
+                                 Orientation="Horizontal" 
+                                 Spacing="15"
+                                 Margin="0,0,17,0">
+                        
+                        <controls:CustomButton CornerRadius="10" 
+                                               HorizontalOptions="EndAndExpand" 
+                                               WidthRequest="100"/>
+
+                        <controls:CustomButton CornerRadius="10"
+                                               WidthRequest="100" />
+
+                        <controls:CustomButton CornerRadius="10"
+                                               WidthRequest="100" />
+                    </StackLayout>
+
+                </Grid>
 
                 <Frame Grid.Row="2"
-                       Margin="17,75,17,-20"
+                       Margin="17,85,17,-20"
                        CornerRadius="11"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
                 </Frame>
@@ -73,7 +107,7 @@
                          BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
 
                 <Grid Grid.Row="2"
-                      Margin="17,90,0,0">
+                      Margin="17,100,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120" />
                         <ColumnDefinition Width="120" />
@@ -164,10 +198,6 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-
-                <BoxView Grid.Row="4"
-                         Margin="17,0,17,0"
-                         BackgroundColor="Transparent" />
 
             </Grid>
         </Grid>
