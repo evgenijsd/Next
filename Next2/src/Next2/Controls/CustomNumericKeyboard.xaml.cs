@@ -64,7 +64,7 @@ namespace Next2.Controls
         {
             var view = sender as Xamarin.Forms.Label;
 
-            if (view is not null)
+            if (view is not null && EmployeeId.Length <= 6)
             {
                 if (_startTyping)
                 {

@@ -123,7 +123,6 @@
     <Folder Include="Resources\Strings\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\Tablet\" />
-    <Folder Include="Views\Tablet\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -140,6 +139,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\StartPage.xaml">

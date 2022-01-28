@@ -4,7 +4,7 @@ using Microsoft.AppCenter.Crashes;
 using Next2.ViewModels;
 using Next2.ViewModels.Mobile;
 using Next2.Views;
-using Next2.Views.Mobile;
+using Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -26,8 +26,14 @@ namespace Next2
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Navigation
-            containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
-            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            {
+                containerRegistry.RegisterForNavigation<Views.Mobile.LoginPage, LoginPageViewModel>();
+            }
+            else
+            {
+                containerRegistry.RegisterForNavigation<Views.Tablet.LoginPage, LoginPageViewModel>();
+            }
         }
 
         protected override async void OnInitialized()
