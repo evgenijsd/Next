@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Controls.Buttons.BorderButton">
+
+    <Label
+        Text="{Binding Source={RelativeSource Self}, Path=Text}"
+        TextColor="{Binding Source={RelativeSource Self}, Path=TextColor}"
+        FontSize="{Binding Source={RelativeSource Self}, Path=FontSize}"
+        FontFamily="{Binding Source={RelativeSource Self}, Path=FontFamily}"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center"/>
+
+</Frame>

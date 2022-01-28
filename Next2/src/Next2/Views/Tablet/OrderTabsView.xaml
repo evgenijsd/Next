@@ -3,8 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
-    x:Class="Next2.Views.ReservationsView"
-    x:DataType="viewModels:ReservationsViewModel">
+    x:Class="Next2.Views.Tablet.OrderTabsView"
+    x:DataType="viewModels:OrderTabsViewModel">
 
     <StackLayout BackgroundColor="{DynamicResource textAndBackgroundColor_i5}">
 

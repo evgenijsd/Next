@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    x:Class="Next2.Resources.Styles.DefaultResources">
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
    
@@ -37,7 +39,40 @@
         <Setter Property="FontFamily" Value="Barlow-Regular"/>
         <!-- 400 -->
     </Style>
-   
 
+
+    <!-- MENU PAGE -->
+
+    <Style x:Key="MenuItemTemplateBaseStyle" TargetType="templates:MenuItemTemplate">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="TextColor" Value="{DynamicResource textAndBackgroundColor_i1}"/>
+        <Setter Property="SelectedBackgroundColor" Value="{DynamicResource appColor_i4}"/>
+        <Setter Property="BackgroundColor" Value="{DynamicResource textAndBackgroundColor_i3}"/>
+        <Setter Property="SelectedBorderColor" Value="{DynamicResource appColor_i1}"/>
+        <Setter Property="BorderColor" Value="{DynamicResource textAndBackgroundColor_i3}"/>
+        <Setter Property="FontSize" Value="{DynamicResource tsize_i5}"/>
+        <Setter Property="FontFamily" Value="Barlow-Medium"/>
+        <Setter Property="HasShadow" Value="False"/>
+    </Style>
+
+    <Style
+        x:Key="MenuItemTemplateMobileStyle"
+        TargetType="templates:MenuItemTemplate"
+        BasedOn="{StaticResource MenuItemTemplateBaseStyle}">
+        
+        <Setter Property="FontSize" Value="{DynamicResource tsize_i5}"/>
+        <Setter Property="FontFamily" Value="Barlow-Medium"/>
+        
+    </Style>
+
+    <Style
+        x:Key="MenuItemTemplateTabletStyle"
+        TargetType="templates:MenuItemTemplate"
+        BasedOn="{StaticResource MenuItemTemplateBaseStyle}">
+        
+        <Setter Property="FontSize" Value="{DynamicResource tsize_i8}"/>
+        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+        
+    </Style>
 
 </ResourceDictionary>

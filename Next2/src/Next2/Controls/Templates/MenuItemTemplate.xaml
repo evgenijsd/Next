@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Next2.Controls.Templates.MenuItemTemplate">
+
+    <Frame.Triggers>
+
+        <DataTrigger
+            Binding="{Binding Source={RelativeSource Self}, Path=IsSelected}"
+            Value="True" 
+            TargetType="Frame">
+
+            <Setter
+                Property="BackgroundColor"
+                Value="{Binding Source={RelativeSource Self}, Path=SelectedBackgroundColor}" />
+
+            <Setter
+                Property="BorderColor"
+                Value="{Binding Source={RelativeSource Self}, Path=SelectedBorderColor}" />
+
+        </DataTrigger>
+
+    </Frame.Triggers>
+
+    <StackLayout Orientation="Vertical">
+
+        <ffimageloading:CachedImage
+            HeightRequest="23"
+            Source="{Binding Source={RelativeSource AncestorType={x:Type Frame}}, Path=ImagePath}"
+            Margin="0, 3, 0, 0"/>
+
+        <Label
+            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=Text}"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=TextColor}"
+            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=FontSize}"
+            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=FontFamily}"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"/>
+
+    </StackLayout>
+
+</Frame>

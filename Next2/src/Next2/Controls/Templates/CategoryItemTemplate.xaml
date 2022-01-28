@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Controls.Templates.CategoryItemTemplate"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates">
+
+    <Frame.Triggers>
+
+        <DataTrigger
+            Binding="{Binding Source={RelativeSource Self}, Path=IsSelected}"
+            Value="True" 
+            TargetType="Frame">
+
+            <Setter 
+                Property="BackgroundColor"
+                Value="{Binding Source={RelativeSource Self}, Path=SelectedBackgroundColor}" />
+
+            <Setter
+                Property="BorderColor"
+                Value="{Binding Source={RelativeSource Self}, Path=SelectedBorderColor}" />
+
+        </DataTrigger>
+
+    </Frame.Triggers>
+
+    <Label
+        Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=Text}"
+        TextColor="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=TextColor}"
+        FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontSize}"
+        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontFamily}"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center"/>
+
+</Frame>

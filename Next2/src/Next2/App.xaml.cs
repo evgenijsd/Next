@@ -1,6 +1,7 @@
 ﻿using Next2.Resources.Strings;
 using Next2.ViewModels;
-using Next2.Views;
+using Mobile = Next2.Views.Mobile;
+using Tablet = Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -23,8 +24,15 @@ namespace Next2
         {
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MenuPageMob, MenuPageViewModel>();
-            containerRegistry.RegisterForNavigation<MenuPageTab, MenuPageViewModel>();
+
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                containerRegistry.RegisterForNavigation<Mobile.MenuPage, MenuPageViewModel>();
+            }
+            else
+            {
+                containerRegistry.RegisterForNavigation<Tablet.MenuPage, MenuPageViewModel>();
+            }
         }
 
         protected override async void OnInitialized()
@@ -39,13 +47,11 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            var navPage = Device.Idiom == TargetIdiom.Phone ? nameof(MenuPageMob) : nameof(MenuPageTab);
-
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{navPage}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Mobile.MenuPage)}");
         }
 
         protected override void OnStart()

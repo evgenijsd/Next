@@ -120,19 +120,61 @@
     <Folder Include="Converters\" />
     <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Models\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Services\" />
-    <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="ViewModels\Tablet\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Tablet\MenuPageTab.xaml.cs">
-      <DependentUpon>MenuPageTab.xaml</DependentUpon>
+    <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
+      <DependentUpon>BorderButton.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\MenuPageMob.xaml.cs">
-      <DependentUpon>MenuPageMob.xaml</DependentUpon>
+    <Compile Update="Controls\Buttons\CategoryItemTemplateCategoryItemTemplate.xaml.cs">
+      <DependentUpon>CategoryItemTemplateCategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
+      <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
+      <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
+      <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\CustomersView.xaml.cs">
+      <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\HoldItemsView.xaml.cs">
+      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\CategoryView.xaml.cs">
+      <DependentUpon>NewOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\OrderTabsView.xaml.cs">
+      <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\CustomersView.xaml.cs">
+      <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
+      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\NewOrderView.xaml.cs">
+      <DependentUpon>NewOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
+      <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -149,10 +191,10 @@
     <EmbeddedResource Update="Views\HoldItemsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\MenuPageTab.xaml">
+    <EmbeddedResource Update="Views\Tablet\MenuPageMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\MenuPageMob.xaml">
+    <EmbeddedResource Update="Views\Mobile\MenuPageMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MembershipView.xaml">
