@@ -17,6 +17,8 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
+        private bool _startTyping;
+
         #region -- Public property --
 
         private ICommand _ButtonTabCommand;
@@ -40,13 +42,18 @@ namespace Next2.Controls
         public static readonly BindableProperty EmployeeIdProperty = BindableProperty.Create(
             propertyName: nameof(EmployeeId),
             returnType: typeof(string),
+            defaultValue: "Type Employee ID",
             declaringType: typeof(CustomNumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
+        public bool DisplayPlaceHolder => !string.IsNullOrWhiteSpace(EmployeeId);
         public string EmployeeId
         {
             get => (string)GetValue(EmployeeIdProperty);
-            set => SetValue(EmployeeIdProperty, value);
+            set
+            {
+                SetValue(EmployeeIdProperty, value);
+            }
         }
 
         #endregion
@@ -59,13 +66,22 @@ namespace Next2.Controls
 
             if (view is not null)
             {
-                EmployeeId += view.Text;
+                if (_startTyping)
+                {
+                    EmployeeId += view.Text;
+                }
+                else
+                {
+                    EmployeeId = view.Text;
+                    _startTyping = true;
+                }
             }
         }
 
         private async Task OnTabClearAsync(object? arg)
         {
-            EmployeeId = string.Empty;
+            EmployeeId = "Type Employee ID";
+            _startTyping = false;
         }
         #endregion
     }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="Next2.Views.StartPage">
     <ContentPage.Content>
         <StackLayout>
@@ -11,12 +11,8 @@
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Start Page"
-                   TextColor="Black"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Start Page"
+                <Label Text="Start Page"
                    Style="{DynamicResource BaseContent_i2}"
                    TextColor="{DynamicResource appcolor_i1}"
                    FontSize="{DynamicResource tsize_i2}"
