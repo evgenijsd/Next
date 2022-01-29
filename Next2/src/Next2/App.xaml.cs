@@ -31,7 +31,6 @@ namespace Next2
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
             containerRegistry.RegisterForNavigation<MembershipPage, MembershipViewModel>();
         }
 

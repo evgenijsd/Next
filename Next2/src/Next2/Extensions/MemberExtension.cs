@@ -2,7 +2,7 @@
 
 namespace Next2.Extensions
 {
-    public static class MemberExtensions
+    public static class MemberExtension
     {
         public static MemberBindableModel ToBindableModel(this MemberModel member)
         {

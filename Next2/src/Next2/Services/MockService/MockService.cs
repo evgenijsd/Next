@@ -12,6 +12,7 @@ namespace Next2.Services
         private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
 
         private IList<MemberModel> _members;
+
         private Dictionary<Type, object> _base;
 
         public MockService()
@@ -22,7 +23,7 @@ namespace Next2.Services
         #region -- IMockService implementation --
 
         public async Task<int> AddAsync<T>(T entity)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
             int id = 1;
@@ -45,7 +46,7 @@ namespace Next2.Services
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -55,7 +56,7 @@ namespace Next2.Services
         }
 
         public async Task<T> GetByIdAsync<T>(int id)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -65,7 +66,7 @@ namespace Next2.Services
         }
 
         public async Task<bool> RemoveAsync<T>(T entity)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -77,7 +78,7 @@ namespace Next2.Services
         }
 
         public async Task<int> RemoveAllAsync<T>(Predicate<T> predicate)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -87,7 +88,7 @@ namespace Next2.Services
         }
 
         public async Task<T> UpdateAsync<T>(T entity)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -100,7 +101,7 @@ namespace Next2.Services
         }
 
         public async Task<T> FindAsync<T>(Func<T, bool> expression)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -110,7 +111,7 @@ namespace Next2.Services
         }
 
         public async Task<bool> AnyAsync<T>(Func<T, bool> expression)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 
@@ -120,7 +121,7 @@ namespace Next2.Services
         }
 
         public async Task<IEnumerable<T>> GetAsync<T>(Func<T, bool> expression)
-            where T : IEntityModelBase, new()
+            where T : IBaseEntityModel, new()
         {
             await _initCompletionSource.Task;
 

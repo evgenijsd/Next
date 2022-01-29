@@ -138,7 +138,4 @@
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
   </data>
-  <data name="WatchTutorial" xml:space="preserve">
-    <value>Watch the tutorial</value>
-  </data>
 </root>

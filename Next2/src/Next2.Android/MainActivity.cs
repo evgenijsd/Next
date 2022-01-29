@@ -4,14 +4,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.App;
-using Next2.Helpers;
-using Prism;
-using Prism.Ioc;
 using Xamarin.Forms;
 
 namespace Next2.Droid
 {
-    [Activity(Label = "Next2", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize, ScreenOrientation = ScreenOrientation.Landscape)]
+
+    [Activity(Label = "Next2", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
 
@@ -27,7 +25,7 @@ namespace Next2.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
 
-            RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Portrait : ScreenOrientation.Landscape;
+            RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Landscape : ScreenOrientation.Landscape;
 
             LoadApplication(new App());
 

@@ -1,6 +1,6 @@
 ﻿namespace Next2.Models
 {
-    public interface IEntityModelBase
+    public interface IBaseEntityModel
     {
         int Id { get; set; }
     }

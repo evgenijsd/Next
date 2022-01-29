@@ -1,11 +1,9 @@
 ﻿using Next2.Enums;
 using Next2.Extensions;
-using Next2.Helpers;
 using Next2.Models;
 using Next2.Services;
 using Next2.Services.Membership;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,48 +22,29 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IMembershipService membershipService,
             IMockService mockService)
-            //IStatusBarHelper statusBarHelper)
             : base(navigationService)
         {
             _mockService = mockService;
             _membershipService = membershipService;
-            //statusBarHelper.HideStatusBar();
-            CurrentMemberSortingCriterion = EMemberSortingCriterion.ByCustomerName;
-            TypeOfMemberSortingOrder = ETypeSortingOrder.ByAscending;
         }
 
         #region -- Public properties --
 
-        public ObservableCollection<MemberBindableModel>? Members { get; set; }
+        public ObservableCollection<MemberBindableModel>? MembersToDisplay { get; set; }
 
         public MemberModel? SelectedMember { get; set; }
 
         public bool IsMembersRefreshing { get; set; }
 
-        public ETypeSortingOrder TypeOfMemberSortingOrder { get; set; }
+        public ETypeSortingOrder TypeOfMemberSortingOrder { get; set; } = ETypeSortingOrder.ByAscending;
 
-        public EMemberSortingCriterion CurrentMemberSortingCriterion { get; set; }
+        public EMemberSortingCriterion CurrentMemberSortingCriterion { get; set; } = EMemberSortingCriterion.ByCustomerName;
 
-        private ICommand _memberTapCommand;
-        public ICommand MemberTapCommand => _memberTapCommand ??= new AsyncCommand<MemberBindableModel>(OnMemberTapCommandAsync);
+        private ICommand _refreshMembersCommand;
+        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
 
-        private ICommand _pullToRefreshMembersCommand;
-        public ICommand PullToRefreshMembersCommand => _pullToRefreshMembersCommand ??= new AsyncCommand(OnPullToRefreshMembersCommandAsync);
-
-        public ICommand _tableHeaderTapCommand;
-        public ICommand TableHeaderTapCommand => _tableHeaderTapCommand ??= new AsyncCommand<EMemberSortingCriterion>(OnTableheaderTapCommandAsync);
-
-        public ICommand _testCommand;
-        public ICommand TestCommand => _testCommand ??= new AsyncCommand(async () =>
-        {
-            _mockService.AddAsync(new MemberModel
-            {
-                CustomerName = "Andrii Tantsiura",
-                Phone = "123-456-7890",
-                MembershipStartTime = DateTime.Now,
-                MembershipEndTime = DateTime.Now,
-            });
-        });
+        public ICommand _tableHeaderColumnTapCommand;
+        public ICommand TableHeaderColumnTapCommand => _tableHeaderColumnTapCommand ??= new AsyncCommand<EMemberSortingCriterion>(OnTableHeaderColumnTapCommandAsync);
 
         #endregion
 
@@ -145,23 +124,18 @@ namespace Next2.ViewModels.Tablet
 
                 var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
 
-                Members = new ObservableCollection<MemberBindableModel>(sortedmemberBindableModels);
+                MembersToDisplay = new ObservableCollection<MemberBindableModel>(sortedmemberBindableModels);
 
                 IsMembersRefreshing = false;
             }
         }
 
-        private Task OnMemberTapCommandAsync(MemberBindableModel selectedMember)
-        {
-            return Task.CompletedTask;
-        }
-
-        private async Task OnPullToRefreshMembersCommandAsync()
+        private async Task OnRefreshMembersCommandAsync()
         {
             await RefreshMembersAsync();
         }
 
-        private Task OnTableheaderTapCommandAsync(EMemberSortingCriterion sortingCriterion)
+        private Task OnTableHeaderColumnTapCommandAsync(EMemberSortingCriterion sortingCriterion)
         {
             bool isCurrentMemberSortingCriterionChanged = false;
 
@@ -185,9 +159,9 @@ namespace Next2.ViewModels.Tablet
 
             CurrentMemberSortingCriterion = sortingCriterion;
 
-            var sortedMembers = GetSortedMembers(Members);
+            var sortedMembers = GetSortedMembers(MembersToDisplay);
 
-            Members = new ObservableCollection<MemberBindableModel>(sortedMembers);
+            MembersToDisplay = new ObservableCollection<MemberBindableModel>(sortedMembers);
 
             return Task.CompletedTask;
         }
