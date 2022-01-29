@@ -21,6 +21,9 @@
                                 WidthRequest="100"
                                 HeightRequest="100" />
 
+            <controls:CustomButton Text="111"
+                                   CornerRadius="10" />
+
             <controls:CustomButtonSearch />
 
             <Button Text="Orders"
@@ -29,15 +32,26 @@
 
             <StackLayout Orientation="Horizontal">
 
-                <controls:CustomButtonOrderLeft CornerRadius="10"/>
+                <controls:CustomButtonLeft CornerRadius="10"
+                                                IsSelected="{Binding IsSelectedOrders}">
+                    <controls:CustomButtonLeft.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
+                    </controls:CustomButtonLeft.GestureRecognizers>
+                </controls:CustomButtonLeft>
 
-                <controls:CustomButtonOrderRight CornerRadius="10" />
+                <controls:CustomButtonRight CornerRadius="10"
+                                                 IsSelected="{Binding IsSelectedTabs}">
+                    <controls:CustomButtonRight.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
+                    </controls:CustomButtonRight.GestureRecognizers>
+                </controls:CustomButtonRight>
 
             </StackLayout>
 
 
             <Button Text="Tabs"
-                    Command="{Binding TabCommand}" />
+                    Command="{Binding TabCommand}" 
+                    BackgroundColor="{Binding ButtonColor}"/>
             
         </StackLayout>
         

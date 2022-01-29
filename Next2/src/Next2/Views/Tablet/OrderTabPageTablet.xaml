@@ -5,7 +5,7 @@
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
-                       x:Class="Next2.Views.OrderPageTablet">
+                       x:Class="Next2.Views.OrderTabPageTablet">
     
     <ContentPage.Content>
         <Grid HorizontalOptions="Fill"
@@ -51,20 +51,20 @@
                            Style="{DynamicResource BaseContent_i2}"
                            FontSize="{DynamicResource tsize_i4}"/>
 
-                    <controls:CustomButtonOrderLeft Grid.Column="0"
-                                                    CornerRadius="10"
-                                                    HeightRequest="50"
-                                                    WidthRequest="260"
-                                                    HorizontalOptions="End"
-                                                    VerticalOptions="End" />
+                    <controls:CustomButtonLeft Grid.Column="0"
+                                               CornerRadius="10"
+                                               HeightRequest="50"
+                                               WidthRequest="260"
+                                               HorizontalOptions="End"
+                                               VerticalOptions="End" />
 
 
-                    <controls:CustomButtonOrderRight Grid.Column="1"
-                                                     HeightRequest="50"
-                                                     WidthRequest="260"
-                                                     HorizontalOptions="Start"
-                                                     VerticalOptions="End"
-                                                     CornerRadius="10" />
+                    <controls:CustomButtonRight Grid.Column="1"
+                                                HeightRequest="50"
+                                                WidthRequest="260"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="End"
+                                                CornerRadius="10" />
 
                 </Grid>
 

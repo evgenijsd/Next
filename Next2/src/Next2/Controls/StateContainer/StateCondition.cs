@@ -1,6 +1,6 @@
 using Xamarin.Forms;
 
-namespace MapNotePad.Controls.StateContainer
+namespace Next2.Controls.StateContainer
 {
     [ContentProperty("Content")]
     public class StateCondition : View

@@ -5,22 +5,40 @@ using System.Text;
 
 namespace Next2.ViewModels
 {
-    public class OrderViewModel : BindableBase
+    public class OrderMobileViewModel : BindableBase
     {
-        private string _customerName;
+        #region -- Public properties --
 
-        public string CustomerName
+        private bool _isSelect;
+
+        public bool IsSelect
         {
-            get => _customerName;
-            set => SetProperty(ref _customerName, value);
+            get => _isSelect;
+            set => SetProperty(ref _isSelect, value);
         }
 
-        private string _tableName;
+        private string _Name;
 
-        public string TableName
+        public string Name
         {
-            get => _tableName;
-            set => SetProperty(ref _tableName, value);
+            get => _Name;
+            set => SetProperty(ref _Name, value);
+        }
+
+        private string _orderStatus;
+
+        public string OrderStatus
+        {
+            get => _orderStatus;
+            set => SetProperty(ref _orderStatus, value);
+        }
+
+        private string _orderType;
+
+        public string OrderType
+        {
+            get => _orderType;
+            set => SetProperty(ref _orderType, value);
         }
 
         private int _orderNumber;
@@ -31,12 +49,14 @@ namespace Next2.ViewModels
             set => SetProperty(ref _orderNumber, value);
         }
 
-        private int _total;
+        private double _total;
 
-        public int Total
+        public double Total
         {
             get => _total;
             set => SetProperty(ref _total, value);
         }
+
+        #endregion
     }
 }

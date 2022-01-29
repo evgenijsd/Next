@@ -17,6 +17,30 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        private bool _isSelectedOrders = true;
+
+        public bool IsSelectedOrders
+        {
+            get => _isSelectedOrders;
+            set => SetProperty(ref _isSelectedOrders, value);
+        }
+
+        private bool _isSelectedTabs = false;
+
+        public bool IsSelectedTabs
+        {
+            get => _isSelectedTabs;
+            set => SetProperty(ref _isSelectedTabs, value);
+        }
+
+        private ICommand _ButtonOrdersCommand;
+
+        public ICommand ButtonOrdersCommand => _ButtonOrdersCommand ??= new AsyncCommand(OnButtonOrdersCommandAsync);
+
+        private ICommand _ButtonTabsCommand;
+
+        public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
+
         private ICommand _OrderCommand;
 
         public ICommand OrderCommand => _OrderCommand ??= new AsyncCommand(OnOrderCommandAsync);
@@ -31,7 +55,7 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(OrderPageTablet)}");
+            await _navigationService.NavigateAsync($"{nameof(OrderTabPageMobile)}");
         }
 
         private async Task OnTabCommandAsync()
@@ -40,6 +64,28 @@ namespace Next2.ViewModels
         }
 
         public ICommand CrashCommand => new Command(() => throw new NullReferenceException());
+
+        private Task OnButtonOrdersCommandAsync()
+        {
+            if (IsSelectedTabs)
+            {
+                IsSelectedOrders = !IsSelectedOrders;
+                IsSelectedTabs = !IsSelectedTabs;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnButtonTabsCommandAsync()
+        {
+            if (IsSelectedOrders)
+            {
+                IsSelectedOrders = !IsSelectedOrders;
+                IsSelectedTabs = !IsSelectedTabs;
+            }
+
+            return Task.CompletedTask;
+        }
 
         #endregion
 

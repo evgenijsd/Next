@@ -113,29 +113,30 @@
     <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
     <Folder Include="Enums\" />
+    <Folder Include="Extensions\" />
     <Folder Include="Helpers\ProcessHelpers\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\CustomButtonOrderRight.xaml.cs">
-      <DependentUpon>CustomButtonOrderRight.xaml</DependentUpon>
+    <Compile Update="Controls\CustomButtonRight.xaml.cs">
+      <DependentUpon>CustomButtonRight.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\CustomButtonOrderLeft.xaml.cs">
-      <DependentUpon>CustomButtonOrderLeft.xaml</DependentUpon>
+    <Compile Update="Controls\CustomButtonLeft.xaml.cs">
+      <DependentUpon>CustomButtonLeft.xaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Strings\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\OrderPageMobile.xaml.cs">
-      <DependentUpon>OrderPageMobile.xaml</DependentUpon>
+    <Compile Update="Views\Mobile\OrderTabPageMobile.xaml.cs">
+      <DependentUpon>OrderTabPageMobile.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\TabPageMobile.xaml.cs">
       <DependentUpon>TabPageMobile.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\OrderPageTablet.xaml.cs">
-      <DependentUpon>OrderPageTablet.xaml</DependentUpon>
+    <Compile Update="Views\Tablet\OrderTabPageTablet.xaml.cs">
+      <DependentUpon>OrderTabPageTablet.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\TabPageTablet.xaml.cs">
       <DependentUpon>TabPageTablet.xaml</DependentUpon>
@@ -146,7 +147,7 @@
     <EmbeddedResource Update="Controls\CustomButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomButtonOrderLeft.xaml">
+    <EmbeddedResource Update="Controls\CustomButtonLeft.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomButtonSearch.xaml">
@@ -159,7 +160,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\OrderPageMobile.xaml">
+    <EmbeddedResource Update="Views\Mobile\OrderTabPageMobile.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\TabPageMobile.xaml">

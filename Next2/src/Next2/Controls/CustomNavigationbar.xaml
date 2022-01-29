@@ -4,6 +4,7 @@
       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
       BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
       ColumnSpacing="0"
+      x:Name="customNavigationbar"
       x:Class="Next2.Controls.CustomNavigationbar">
 
     <Grid.ColumnDefinitions>
@@ -11,16 +12,30 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <StackLayout 
-                 Grid.Column="0">
-        <ffimageloading:CachedImage Source="ic_arrow_left_tail_40x40" HeightRequest="25" VerticalOptions="CenterAndExpand"/>
+    <StackLayout Grid.Column="0">
+
+        <!--ImageButton Source="{Binding LeftButtonImageSource, Source={x:Reference customNavigationbar}}"
+                     VerticalOptions="CenterAndExpand"
+                     HeightRequest="25"
+                     BackgroundColor="Transparent"
+                     Command="{Binding LeftButtonCommand, Source={x:Reference customNavigationbar}}" /-->
+
+        <ffimageloading:CachedImage Source="{Binding LeftButtonImageSource, Source={x:Reference customNavigationbar}}"
+                                    HeightRequest="25"
+                                    VerticalOptions="CenterAndExpand">
+            <ffimageloading:CachedImage.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding LeftButtonCommand, Source={x:Reference customNavigationbar}}" />
+            </ffimageloading:CachedImage.GestureRecognizers>
+        </ffimageloading:CachedImage>
+
     </StackLayout>
 
-    <Label Text="Order &amp; Tabs"
+    <Label Text="{Binding Title, Source={x:Reference customNavigationbar}}"
            Margin="5,0,0,0"
            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
            Style="{DynamicResource BaseContent_i2}"
            FontSize="{DynamicResource tsize_i5}"
            VerticalOptions="CenterAndExpand"
-             Grid.Column="1" />
+           Grid.Column="1" />
+    
 </Grid>

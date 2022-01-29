@@ -9,9 +9,9 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Views
 {
-    public partial class OrderPageTablet : BaseContentPage
+    public partial class OrderTabPageMobile : BaseContentPage
     {
-        public OrderPageTablet()
+        public OrderTabPageMobile()
         {
             InitializeComponent();
         }

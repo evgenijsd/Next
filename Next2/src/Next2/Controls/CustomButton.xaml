@@ -8,12 +8,13 @@
            Grid.Row="0"
            BorderColor="{DynamicResource appcolor_i4}"
            BackgroundColor="Transparent"
-           CornerRadius="{Binding CornerRadius, Source={x:Reference customButton}}" VerticalOptions="FillAndExpand"/>
+           CornerRadius="{Binding CornerRadius, Source={x:Reference customButton}}" 
+           VerticalOptions="FillAndExpand"/>
 
     <Label Grid.Column="0"
            HorizontalOptions="CenterAndExpand"
            VerticalOptions="CenterAndExpand"
-           Text="Orders"
+           Text="{Binding Text, Source={x:Reference customButton}}"
            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
            FontSize="{DynamicResource tsize_i8}"
            Style="{DynamicResource BaseContent_i1}" />

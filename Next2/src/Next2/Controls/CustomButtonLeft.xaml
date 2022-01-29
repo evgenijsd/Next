@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+      xmlns:controls="clr-namespace:Next2.Controls"
+      x:DataType="controls:CustomButtonLeft"
+      HorizontalOptions="FillAndExpand"
+      VerticalOptions="FillAndExpand"
+      RowSpacing="0"
+      x:Name="customButtonLeft"
+      x:Class="Next2.Controls.CustomButtonLeft">
+
+    <Grid.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>        
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="3" />
+    </Grid.RowDefinitions>
+
+    <!--SELECTED-->
+    
+    <Frame HasShadow="False"
+           IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+           Grid.Row="0"
+           Margin="0,0,5,0"
+           BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonLeft}}" />
+    
+    <BoxView Grid.Row="0"
+             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+             WidthRequest="15"
+             HorizontalOptions="EndAndExpand"
+             VerticalOptions="FillAndExpand"
+             BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+    
+    <BoxView Grid.Row="0"
+             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+             WidthRequest="10"
+             HeightRequest="10"
+             HorizontalOptions="Start"
+             VerticalOptions="End"
+             BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" />
+    
+    <BoxView Grid.Row="1"
+             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+             BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}" />
+    
+    <!--UNSELECTED-->
+    
+    <Frame HasShadow="False"
+           IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+           Grid.Row="0"
+           Margin="0,0,5,0"
+           BackgroundColor="{DynamicResource appcolor_i4}"
+           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonLeft}}" />
+    
+    <BoxView Grid.Row="0"
+             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+             WidthRequest="15"
+             HorizontalOptions="EndAndExpand"
+             VerticalOptions="FillAndExpand"
+             BackgroundColor="{DynamicResource appcolor_i4}" />
+    
+    <BoxView Grid.Row="0"
+             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+             WidthRequest="10"
+             HeightRequest="10"
+             HorizontalOptions="Start"
+             VerticalOptions="End"
+             BackgroundColor="{DynamicResource appcolor_i4}" />
+
+    <BoxView Grid.Row="1"
+             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+             BackgroundColor="{DynamicResource appcolor_i1}" />
+    
+    <!--TEXT-->
+
+    <Label Grid.Column="0"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="CenterAndExpand"
+           Text="Orders"
+           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+           FontSize="{DynamicResource tsize_i8}"
+           Style="{DynamicResource BaseContent_i1}" />
+    
+</Grid>

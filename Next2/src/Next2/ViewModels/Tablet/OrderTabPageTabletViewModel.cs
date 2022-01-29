@@ -9,11 +9,11 @@ using System.Text;
 
 namespace Next2.ViewModels
 {
-    public class OrderPageTabletViewModel : BaseViewModel
+    public class OrderTabPageTabletViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
 
-        public OrderPageTabletViewModel(
+        public OrderTabPageTabletViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
@@ -23,9 +23,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        private ObservableCollection<OrderViewModel> _orders;
+        private ObservableCollection<OrderMobileViewModel> _orders;
 
-        public ObservableCollection<OrderViewModel> Orders
+        public ObservableCollection<OrderMobileViewModel> Orders
         {
             get => _orders;
             set => SetProperty(ref _orders, value);
@@ -37,18 +37,21 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            Orders = new ObservableCollection<OrderViewModel>();
+            Orders = new ObservableCollection<OrderMobileViewModel>();
 
-            var result = await _orderService.GetOrdersAsync();
+            List<OrderModel> result = await _orderService.GetOrdersAsync();
             if (result != null)
             {
                 foreach (var r in result)
                 {
-                    Orders.Add(new OrderViewModel
+                    string name;
+
+                    name = r.CustomerName;
+
+                    Orders.Add(new OrderMobileViewModel
                     {
-                        CustomerName = r.CustomerName,
+                        Name = name,
                         OrderNumber = r.OrderNumber,
-                        TableName = r.TableName,
                         Total = r.Total,
                     });
                 }

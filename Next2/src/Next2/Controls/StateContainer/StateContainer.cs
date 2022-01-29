@@ -1,9 +1,10 @@
+using Next2.Controls.StateContainer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace MapNotePad.Controls.StateContainer
+namespace Next2.Controls.StateContainer
 {
     public class StateContainer : ContentView
     {

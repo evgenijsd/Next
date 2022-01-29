@@ -10,7 +10,8 @@
     <Label Text="Search by Name or Order"
            Margin="10,0,0,0"
            FontSize="13"
-           TextColor="#6A6C76"
+           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+           Opacity="0.32"
            VerticalOptions="Center"
            HorizontalOptions="Start" />
     

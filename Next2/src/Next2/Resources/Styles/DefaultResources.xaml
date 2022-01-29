@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:helpers="clr-namespace:Next2.Helpers"
+                    xmlns:mobileDataTemplates="clr-namespace:Next2.Views.Mobile.DataTemplates"
+                    xmlns:tabletDataTemplates="clr-namespace:Next2.Views.Mobile.DataTemplates"
                     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
@@ -42,7 +45,5 @@
         <Setter Property="FontFamily" Value="Barlow-Regular"/>
         <!-- normal -->
     </Style>
-
-
 
 </ResourceDictionary>

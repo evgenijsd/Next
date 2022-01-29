@@ -1,6 +1,6 @@
 using Xamarin.Forms;
 
-namespace MapNotePad.Controls.StateContainer.Animation
+namespace Next2.Controls.StateContainer.Animation
 {
     public abstract class AnimationBase
     {

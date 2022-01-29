@@ -5,7 +5,7 @@
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
-                       x:Class="Next2.Views.OrderPageMobile">
+                       x:Class="Next2.Views.OrderTabPageMobile">
     
     <ContentPage.Content>
 
@@ -21,7 +21,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <controls:CustomNavigationbar />
+            <controls:CustomNavigationbar Title="Order &amp; Tabs"
+                                          LeftButtonImageSource="ic_arrow_left_tail_40x40"
+                                          LeftButtonCommand="{Binding GoBackCommand}"/>
 
             <Grid Grid.Row="1" 
                   Margin="0,1,0,0"
@@ -34,14 +36,24 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <controls:CustomButtonOrderLeft Grid.Column="0"
-                                               CornerRadius="0"
-                                               VerticalOptions="FillAndExpand" />
+                <controls:CustomButtonLeft Grid.Column="0"
+                                                CornerRadius="0"
+                                                VerticalOptions="FillAndExpand"
+                                                IsSelected="{Binding IsSelectedOrders}">
+                    <controls:CustomButtonLeft.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
+                    </controls:CustomButtonLeft.GestureRecognizers>
+                </controls:CustomButtonLeft>
 
 
-                <controls:CustomButtonOrderRight Grid.Column="1"
+                <controls:CustomButtonRight Grid.Column="1"
                                                  VerticalOptions="FillAndExpand"
-                                                 CornerRadius="0" />
+                                                 CornerRadius="0"
+                                            IsSelected="{Binding IsSelectedTabs}">
+                    <controls:CustomButtonRight.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
+                    </controls:CustomButtonRight.GestureRecognizers>
+                </controls:CustomButtonRight>
 
             </Grid>
 
@@ -88,8 +100,9 @@
             </Grid>
 
 
-                <CollectionView Grid.Row="4"
+            <CollectionView Grid.Row="4"
                             ItemsSource="{Binding Orders}"
+                            SelectionMode="Single"
                             BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}"
                             Margin="17,0,17,0">
                 <CollectionView.ItemTemplate>
@@ -97,35 +110,36 @@
                         <Grid HorizontalOptions="Fill"
                               VerticalOptions="Fill"
                               RowSpacing="0">
+
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="47"/>
-                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="47" />
+                                <RowDefinition Height="1" />
                             </Grid.RowDefinitions>
-                            
+
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <Label Grid.Column="0"
                                        HorizontalOptions="StartAndExpand"
                                        Margin="20,0,0,0"
                                        VerticalOptions="CenterAndExpand"
-                                       Text="{Binding TableName}" 
+                                       Text="{Binding Name}"
                                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       Style="{DynamicResource BaseContent_i4}"/>
-                                
+                                       Style="{DynamicResource BaseContent_i4}" />
+
                                 <Label Grid.Column="1"
                                        HorizontalOptions="StartAndExpand"
                                        Margin="15,0,0,0"
                                        VerticalOptions="CenterAndExpand"
-                                       Text="{Binding OrderNumber}" 
+                                       Text="{Binding OrderNumber}"
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}" />
 
                                 <Label Grid.Column="2"
                                        HorizontalOptions="StartAndExpand"
@@ -136,14 +150,14 @@
                                        TextColor="{DynamicResource textAndbackgroundcolor_i1}">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding Total, StringFormat='$ {0:D0}.00'}" />
+                                            <Span Text="{Binding Total, StringFormat='$ {0:F2}'}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                
+
                             </Grid>
 
-                            <BoxView Grid.Row="1" 
+                            <BoxView Grid.Row="1"
                                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
                         </Grid>
                     </DataTemplate>
