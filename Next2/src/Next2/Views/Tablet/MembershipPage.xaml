@@ -5,7 +5,7 @@
                         xmlns:effects="clr-namespace:Next2.Effects"
                         xmlns:enums="clr-namespace:Next2.Enums"
                         xmlns:views="clr-namespace:Next2.Views"
-                        xmlns:models="clr-namespace:Next2.Models" xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet" x:DataType="tablet:MembershipViewModel"
+                        xmlns:models="clr-namespace:Next2.Models" xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet" xmlns:controls="clr-namespace:Next2.Controls" x:DataType="tablet:MembershipViewModel"
                         x:Class="Next2.Views.Tablet.MembershipPage">
 
     <ContentPage.Content>
@@ -150,9 +150,12 @@
                     <RefreshView IsRefreshing="{Binding IsMembersRefreshing}" 
                                  Command="{Binding RefreshMembersCommand}">
 
-                        <CollectionView SelectionMode="Single"
+                        <controls:MyCollectionView SelectionMode="Single"
                                         VerticalScrollBarVisibility="Always"
-                                        ItemsSource="{Binding MembersToDisplay}">
+                                        ItemsSource="{Binding MembersToDisplay}"
+                                                   ScrollColor="{StaticResource AppColor_i1}"
+                                                   ScrollBarWidth="18"
+                                                   >
 
                             <CollectionView.Effects>
 
@@ -219,7 +222,7 @@
 
                             </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                        </controls:MyCollectionView>
 
                     </RefreshView>
                     

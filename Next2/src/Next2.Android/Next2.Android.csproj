@@ -135,6 +135,7 @@
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderers\MyCollectionViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -161,8 +162,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Renderers\" />
-    <Folder Include="Resources\drawable\" />
+    <AndroidResource Include="Resources\drawable\scrollbar_vertical_thumb.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Next2\Next2.csproj">
@@ -2104,6 +2104,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\pic_signature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\scrollbar_vertical_track.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
