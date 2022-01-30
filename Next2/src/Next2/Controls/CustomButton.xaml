@@ -6,8 +6,8 @@
 
     <Frame HasShadow="False"
            Grid.Row="0"
-           BorderColor="{DynamicResource appcolor_i4}"
-           BackgroundColor="Transparent"
+           BorderColor="{Binding BorderColor, Source={x:Reference customButton}}"
+           BackgroundColor="{Binding BackColor, Source={x:Reference customButton}}"
            CornerRadius="{Binding CornerRadius, Source={x:Reference customButton}}" 
            VerticalOptions="FillAndExpand"/>
 
@@ -15,7 +15,15 @@
            HorizontalOptions="CenterAndExpand"
            VerticalOptions="CenterAndExpand"
            Text="{Binding Text, Source={x:Reference customButton}}"
-           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+           TextColor="{Binding TextColor, Source={x:Reference customButton}}"
+           FontSize="{DynamicResource tsize_i8}"
+           Style="{DynamicResource BaseContent_i1}" />
+    
+    <Label Grid.Column="0"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="CenterAndExpand"
+           Text="________"
+           TextColor="Transparent"
            FontSize="{DynamicResource tsize_i8}"
            Style="{DynamicResource BaseContent_i1}" />
 </Grid>

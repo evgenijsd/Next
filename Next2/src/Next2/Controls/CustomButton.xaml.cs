@@ -41,5 +41,41 @@ namespace Next2.Controls
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
         }
+
+        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
+            propertyName: nameof(BorderColor),
+            returnType: typeof(Color),
+            declaringType: typeof(CustomButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color BorderColor
+        {
+            get => (Color)GetValue(BorderColorProperty);
+            set => SetValue(BorderColorProperty, value);
+        }
+
+        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(
+            propertyName: nameof(BackColor),
+            returnType: typeof(Color),
+            declaringType: typeof(CustomButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color BackColor
+        {
+            get => (Color)GetValue(BackColorProperty);
+            set => SetValue(BackColorProperty, value);
+        }
+
+        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
+            propertyName: nameof(TextColor),
+            returnType: typeof(Color),
+            declaringType: typeof(CustomButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color TextColor
+        {
+            get => (Color)GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
+        }
     }
 }

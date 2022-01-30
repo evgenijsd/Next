@@ -23,9 +23,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        private ObservableCollection<OrderMobileViewModel> _orders;
+        private ObservableCollection<OrderViewModel> _orders;
 
-        public ObservableCollection<OrderMobileViewModel> Orders
+        public ObservableCollection<OrderViewModel> Orders
         {
             get => _orders;
             set => SetProperty(ref _orders, value);
@@ -37,7 +37,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            Orders = new ObservableCollection<OrderMobileViewModel>();
+            Orders = new ObservableCollection<OrderViewModel>();
 
             List<OrderModel> result = await _orderService.GetOrdersAsync();
             if (result != null)
@@ -48,7 +48,7 @@ namespace Next2.ViewModels
 
                     name = r.CustomerName;
 
-                    Orders.Add(new OrderMobileViewModel
+                    Orders.Add(new OrderViewModel
                     {
                         Name = name,
                         OrderNumber = r.OrderNumber,

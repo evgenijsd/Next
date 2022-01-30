@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                        xmlns:controls="clr-namespace:Next2.Controls"
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                        x:Class="Next2.Views.OrderTabPageMobile">
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:IsNotNullOrEmptyConverter x:Key="IsNotNullOrEmptyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
 
         <Grid HorizontalOptions="Fill"
@@ -19,6 +26,7 @@
                 <RowDefinition Height="135" />
                 <RowDefinition Height="1" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <controls:CustomNavigationbar Title="Order &amp; Tabs"
@@ -71,32 +79,57 @@
             
             <Grid Grid.Row="2"
                   Margin="17,100,0,0">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="100" />
                 </Grid.ColumnDefinitions>
+
                 <Label Grid.Column="0"
-                                       HorizontalOptions="StartAndExpand"
-                                       Margin="20,0,0,0"
-                                       Text="Table Number" 
-                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                                       FontSize="{DynamicResource tsize_i8}"
-                                       Style="{DynamicResource BaseContent_i1}"/>
+                       HorizontalOptions="StartAndExpand"
+                       Margin="20,0,0,0"
+                       Text="Table Number"
+                       IsVisible="{Binding IsSelectedTabs}"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       FontSize="{DynamicResource tsize_i8}"
+                       Style="{DynamicResource BaseContent_i1}" />
+                
+                <Label Grid.Column="0"
+                       HorizontalOptions="StartAndExpand"
+                       Margin="20,0,0,0"
+                       Text="Customer Name"
+                       IsVisible="{Binding IsSelectedOrders}"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       FontSize="{DynamicResource tsize_i8}"
+                       Style="{DynamicResource BaseContent_i1}" />
+
+                <StackLayout Grid.Column="0">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortByNameCommand}"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
                 <Label Grid.Column="1"
-                                       HorizontalOptions="StartAndExpand"
-                                       Margin="15,0,0,0"
-                                       Text="Order Number" 
-                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                                       FontSize="{DynamicResource tsize_i8}"
-                                       Style="{DynamicResource BaseContent_i1}"/>
+                       HorizontalOptions="StartAndExpand"
+                       Margin="15,0,0,0"
+                       Text="Order Number"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       FontSize="{DynamicResource tsize_i8}"
+                       Style="{DynamicResource BaseContent_i1}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortByOrderCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
                 <Label Grid.Column="2"
-                                       HorizontalOptions="StartAndExpand"
-                                       Margin="10,0,0,0"
-                                       Text="Total" 
-                                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                                       FontSize="{DynamicResource tsize_i8}"
-                                       Style="{DynamicResource BaseContent_i1}"/>
+                       HorizontalOptions="StartAndExpand"
+                       Margin="10,0,0,0"
+                       Text="Total"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       FontSize="{DynamicResource tsize_i8}"
+                       Style="{DynamicResource BaseContent_i1}" />
+
             </Grid>
 
 
@@ -104,12 +137,38 @@
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
                             BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}"
+                            SelectedItem="{Binding SelectedOrder}"
                             Margin="17,0,17,0">
+                
                 <CollectionView.ItemTemplate>
+                    
                     <DataTemplate>
+                        
                         <Grid HorizontalOptions="Fill"
                               VerticalOptions="Fill"
                               RowSpacing="0">
+                            
+                            <VisualStateManager.VisualStateGroups>
+                                
+                                <VisualStateGroup Name="CommonStates">
+                                    
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="{DynamicResource textAndbackgroundcolor_i7}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor"
+                                                    Value="{DynamicResource appcolor_i4}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    
+                                </VisualStateGroup>
+                                
+                            </VisualStateManager.VisualStateGroups>
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="47" />
@@ -117,6 +176,7 @@
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0">
+                                
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120" />
                                     <ColumnDefinition Width="120" />
@@ -148,11 +208,13 @@
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
                                        TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+                                    
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{Binding Total, StringFormat='$ {0:F2}'}" />
                                         </FormattedString>
                                     </Label.FormattedText>
+                                    
                                 </Label>
 
                             </Grid>
@@ -160,9 +222,56 @@
                             <BoxView Grid.Row="1"
                                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" />
                         </Grid>
+                        
                     </DataTemplate>
+                    
                 </CollectionView.ItemTemplate>
+                
             </CollectionView>
+
+            <StackLayout Grid.Row="5"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                         IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                
+                <StackLayout Margin="20,15,20,15"
+                             Spacing="20">
+                    
+                    <controls:CustomButton CornerRadius="5" 
+                                           Text="Print"
+                                           TextColor="{DynamicResource textAndbackgroundcolor_i3}"
+                                           BorderColor="{DynamicResource indicationcolor_i1}"
+                                           BackColor="{DynamicResource indicationcolor_i1}"/>
+                    
+                    <StackLayout Orientation="Horizontal"
+                                 Spacing="10">
+
+                        <controls:CustomButton HorizontalOptions="FillAndExpand"
+                                               Text="Edit"
+                                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                               BorderColor="{DynamicResource indicationcolor_i5}"
+                                               BackColor="Transparent"
+                                               CornerRadius="5" />
+
+                        <controls:CustomButton HorizontalOptions="FillAndExpand"
+                                               Text="Split"
+                                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                               BorderColor="{DynamicResource indicationcolor_i7}"
+                                               BackColor="Transparent"
+                                               IsVisible="{Binding IsSelectedTabs}"
+                                               CornerRadius="5" />
+
+                        <controls:CustomButton HorizontalOptions="FillAndExpand"
+                                               Text="Remove"
+                                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                               BorderColor="{DynamicResource indicationcolor_i3}"
+                                               BackColor="Transparent"
+                                               CornerRadius="5" />
+                        
+                    </StackLayout>
+
+                </StackLayout>
+
+            </StackLayout>
 
         </Grid>
         

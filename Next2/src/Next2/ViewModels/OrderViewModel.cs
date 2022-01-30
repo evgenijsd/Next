@@ -5,9 +5,11 @@ using System.Text;
 
 namespace Next2.ViewModels
 {
-    public class OrderMobileViewModel : BindableBase
+    public class OrderViewModel : BindableBase
     {
         #region -- Public properties --
+
+        public int TableNumber { get; set; }
 
         private bool _isSelect;
 

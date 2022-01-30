@@ -42,9 +42,17 @@ namespace Next2.ViewModels
             set => SetProperty(ref _isSelectedTabs, value);
         }
 
-        private ObservableCollection<OrderMobileViewModel> _orders;
+        private OrderViewModel? _selectedOrder = null;
 
-        public ObservableCollection<OrderMobileViewModel> Orders
+        public OrderViewModel? SelectedOrder
+        {
+            get => _selectedOrder;
+            set => SetProperty(ref _selectedOrder, value);
+        }
+
+        private ObservableCollection<OrderViewModel> _orders;
+
+        public ObservableCollection<OrderViewModel> Orders
         {
             get => _orders;
             set => SetProperty(ref _orders, value);
@@ -62,6 +70,14 @@ namespace Next2.ViewModels
 
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
+        private ICommand _SortByNameCommand;
+
+        public ICommand SortByNameCommand => _SortByNameCommand ??= new AsyncCommand(OnSortByNameCommandAsync);
+
+        private ICommand _SortByOrderCommand;
+
+        public ICommand SortByOrderCommand => _SortByOrderCommand ??= new AsyncCommand(OnSortByOrderCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -77,7 +93,8 @@ namespace Next2.ViewModels
 
         private async Task GetOrders()
         {
-            Orders = new ObservableCollection<OrderMobileViewModel>();
+            SelectedOrder = null;
+            Orders = new ObservableCollection<OrderViewModel>();
 
             var result = await _orderService.GetOrdersAsync();
             if (result != null)
@@ -92,14 +109,15 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        name = r.TableName;
+                        name = $"Table {r.TableNumber}";
                     }
 
-                    Orders.Add(new OrderMobileViewModel
+                    Orders.Add(new OrderViewModel
                     {
                         Name = name,
                         OrderNumber = r.OrderNumber,
                         Total = r.Total,
+                        TableNumber = r.TableNumber,
                     });
                 }
             }
@@ -128,6 +146,27 @@ namespace Next2.ViewModels
         private async Task OnGoBackCommandAsync()
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private Task OnSortByNameCommandAsync()
+        {
+            if (IsSelectedTabs)
+            {
+                Orders = new ObservableCollection<OrderViewModel>(Orders.OrderBy(x => x.TableNumber));
+            }
+            else
+            {
+                Orders = new ObservableCollection<OrderViewModel>(Orders.OrderBy(x => x.Name));
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnSortByOrderCommandAsync()
+        {
+            Orders = new ObservableCollection<OrderViewModel>(Orders.OrderBy(x => x.OrderNumber));
+
+            return Task.CompletedTask;
         }
 
         #endregion

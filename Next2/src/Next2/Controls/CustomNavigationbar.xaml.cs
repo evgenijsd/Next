@@ -55,7 +55,7 @@ namespace Next2.Controls
         }
 
         public static readonly BindableProperty TitleColorProperty = BindableProperty.Create(
-            propertyName: nameof(Title),
+            propertyName: nameof(TitleColor),
             returnType: typeof(Color),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);

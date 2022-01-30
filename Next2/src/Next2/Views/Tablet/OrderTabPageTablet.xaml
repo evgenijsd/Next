@@ -116,7 +116,7 @@
                     <Label Grid.Column="0"
                            HorizontalOptions="StartAndExpand"
                            Margin="20,0,0,0"
-                           Text="Table Number1"
+                           Text="Table Number"
                            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                            FontSize="{DynamicResource tsize_i8}"
                            Style="{DynamicResource BaseContent_i1}" />
