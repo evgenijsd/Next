@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Controls.CustomSelectedTabBottomButton"
+    x:Name="customSelectedTabBottomButton"
+    Orientation="Vertical">
+
+    <StackLayout.Triggers>
+
+        <DataTrigger 
+            Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
+            Value="True" 
+            TargetType="StackLayout">
+
+            <Setter 
+                Property="BackgroundColor"
+                Value="#AB3821" />
+
+        </DataTrigger>
+
+        <DataTrigger 
+            Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
+            Value="False"
+            TargetType="StackLayout">
+
+            <Setter
+                Property="BackgroundColor" 
+                Value="#212430" />
+
+        </DataTrigger>
+
+    </StackLayout.Triggers>
+    
+    <BoxView HeightRequest="3"
+             IsVisible="{Binding IsLowerLineVisible, Source={x:Reference customSelectedTabBottomButton}}">
+
+        <BoxView.Triggers>
+
+            <DataTrigger
+                Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
+                Value="True" 
+                TargetType="BoxView">
+
+                <Setter
+                    Property="BackgroundColor"
+                    Value="#F45E49" />
+
+            </DataTrigger>
+
+            <DataTrigger
+                Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
+                Value="False"
+                TargetType="BoxView">
+
+                <Setter
+                    Property="BackgroundColor" 
+                    Value="#212430" />
+
+            </DataTrigger>
+
+        </BoxView.Triggers>
+
+    </BoxView>
+    
+    <Label
+        Text="{Binding Title, Source={x:Reference customSelectedTabBottomButton}}"
+        TextColor="White"
+        HorizontalTextAlignment="Center"
+        Padding="20, 25"/>
+
+    <BoxView HeightRequest="3"
+             IsVisible="{Binding IsUpperLineVisible, Source={x:Reference customSelectedTabBottomButton}}">
+
+        <BoxView.Triggers>
+
+            <DataTrigger
+                Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
+                Value="True" 
+                TargetType="BoxView">
+
+                <Setter
+                    Property="BackgroundColor"
+                    Value="#F45E49" />
+
+            </DataTrigger>
+
+            <DataTrigger
+                Binding="{Binding IsSelected, Source={x:Reference customSelectedTabBottomButton}}"
+                Value="False"
+                TargetType="BoxView">
+
+                <Setter
+                    Property="BackgroundColor" 
+                    Value="#212430" />
+
+            </DataTrigger>
+
+        </BoxView.Triggers>
+
+    </BoxView>
+
+</StackLayout>

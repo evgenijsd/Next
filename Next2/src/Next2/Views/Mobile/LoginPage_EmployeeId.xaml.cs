@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Next2.Views.Mobile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage_EmployeeId : ContentPage
     {
-        public LoginPage()
+        public LoginPage_EmployeeId()
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);

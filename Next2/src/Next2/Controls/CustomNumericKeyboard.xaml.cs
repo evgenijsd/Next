@@ -46,14 +46,10 @@ namespace Next2.Controls
             declaringType: typeof(CustomNumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool DisplayPlaceHolder => !string.IsNullOrWhiteSpace(EmployeeId);
         public string EmployeeId
         {
             get => (string)GetValue(EmployeeIdProperty);
-            set
-            {
-                SetValue(EmployeeIdProperty, value);
-            }
+            set => SetValue(EmployeeIdProperty, value);
         }
 
         #endregion

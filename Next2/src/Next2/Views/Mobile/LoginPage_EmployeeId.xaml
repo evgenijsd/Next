@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:controls="clr-namespace:Next2.Controls"
+             x:Class="Next2.Views.Mobile.LoginPage_EmployeeId">
+    
+    <ContentPage.Content>
+
+        <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" 
+                     Spacing="0" 
+                     Padding="0">
+
+            <StackLayout Orientation="Horizontal"
+                         HeightRequest="110"
+                         Spacing="0" 
+                         Padding="0"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+
+                <Image Source="ic_arrow_left_tail_40x40"
+                       VerticalOptions="Center"
+                       Margin="20, 0, 0, 0"
+                       Scale="0.6">
+
+                    <Image.GestureRecognizers>
+
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+                <Label Text="Employee ID"
+                       VerticalTextAlignment="Center"
+                       FontSize="18"
+                       Margin="20, 0, 0, 0"
+                       Style="{DynamicResource BaseContent_i2}"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"
+                         Spacing="0" 
+                         Padding="0"
+                         VerticalOptions="StartAndExpand">
+
+                <controls:CustomEntry Placeholder="Type Employee ID"
+                                      Keyboard="Numeric"
+                                      MaxLength="8"
+                                      Text="{Binding EmployeeId}"
+                                      Margin="30, 0, 0, 0"
+                                      PlaceholderColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                      TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                                      Opacity="0.32"
+                                      Style="{DynamicResource BaseContent_i4}"/>
+
+            </StackLayout>
+
+        </StackLayout>
+        
+
+        
+    </ContentPage.Content>
+    
+</ContentPage>

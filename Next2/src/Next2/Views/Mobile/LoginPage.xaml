@@ -1,59 +1,216 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:controls="clr-namespace:Next2.Controls"
              x:Class="Next2.Views.Mobile.LoginPage">
-    <ContentPage.Content>
-        <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
-            <Label Text="Login"
+
+    <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" Spacing="0" Padding="0">
+
+        <Label Text="Login"
                    FontSize="22"
                    Margin="16, 40, 0, 25"
                    Style="{DynamicResource BaseContent_i2}"
                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-            <StackLayout Orientation="Horizontal"
+        <StackLayout Orientation="Horizontal"
+                         Spacing="1"
                          HeightRequest="80">
 
+            <StackLayout Spacing="0"
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+
                 <Label Text="Employee"
-                       HorizontalOptions="FillAndExpand"
-                       HorizontalTextAlignment="Center"
-                       FontSize="16"
-                       Style="{DynamicResource BaseContent_i1}"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}">
-                    
-                    <Label.Triggers>
-                        
-                        <Trigger TargetType="Label"
-                                 Property="IsFocused" Value="True">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource appcolor_i4}"/>
-                        </Trigger>
-                                 
-                    </Label.Triggers>
-                    
-                    
-                </Label>
+                               HeightRequest="80"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               FontSize="16"
+                               Style="{DynamicResource BaseContent_i1}"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-                <Label Text="Waiter"
-                       HorizontalOptions="FillAndExpand"
-                       HorizontalTextAlignment="Center"
-                       FontSize="16"
-                       Style="{DynamicResource BaseContent_i1}"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}">
-
-                    <Label.Triggers>
-
-                        <Trigger TargetType="Label"
-                                 Property="IsFocused" Value="True">
-                            <Setter Property="TextColor" Value="Yellow"/>
-                        </Trigger>
-
-                    </Label.Triggers>
-
-                </Label>
+                <BoxView HeightRequest="5"
+                                 Margin="0, 0, 0,0"
+                                 BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
+                </BoxView>
 
             </StackLayout>
-            
+
+
+            <StackLayout Spacing="0"
+                             HorizontalOptions="FillAndExpand"
+                             BackgroundColor="{DynamicResource appcolor_i4}">
+
+                <Label Text="   Waiter   "
+                           HeightRequest="80"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           FontSize="16"
+                           Style="{DynamicResource BaseContent_i1}"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+
+                <BoxView HeightRequest="5"
+                             BackgroundColor="{DynamicResource appcolor_i1}"/>
+
+            </StackLayout>
+
         </StackLayout>
-        
-    </ContentPage.Content>
-    
+
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="FillAndExpand"
+                     Padding="0"
+                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
+
+            <Frame WidthRequest="305"
+                   HeightRequest="160"
+                   BorderColor="Transparent"
+                   BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
+
+                <Image Source="pic_logo_big"
+                       HorizontalOptions="Center"/>
+
+            </Frame>
+
+            <Label Text="Employee ID"
+                   FontSize="16"
+                   Margin="16, 0, 0, 0"
+                   TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                   Style="{DynamicResource BaseContent_i4}"/>
+
+            <controls:CustomFrame Margin="16, 0, 16, 0"
+                                  CornerRadius="8"
+                                  Padding="4"
+                                  BorderWidth="3"
+                                  HeightRequest="50"
+                                  HasShadow="False"
+                                  BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
+                                  BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+
+                <Label x:Name="employeeID"
+                       Text="{Binding EmployeeId, Mode=TwoWay}"
+                       FontSize="16"
+                       VerticalTextAlignment="Center"
+                       Style="{DynamicResource BaseContent_i3}"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                       Opacity="0.32"
+                       Margin="8, 0, 0, 0"/> 
+                
+                <controls:CustomFrame.GestureRecognizers>
+
+                    <TapGestureRecognizer Command="{Binding GoToEmployeeIdPage}"/>
+
+                </controls:CustomFrame.GestureRecognizers>
+
+            </controls:CustomFrame>
+
+            <StackLayout Orientation="Horizontal"
+                         VerticalOptions="EndAndExpand"
+                         Spacing="11"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                         HeightRequest="100">
+
+                <StackLayout HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="Center">
+
+                    <controls:CustomFrame x:Name="customFrame"
+                                          Margin="16, 0, 0, 0"
+                                          CornerRadius="8"
+                                          Padding="4"
+                                          BorderWidth="3"
+                                          HeightRequest="65"
+                                          HasShadow="False"
+                                          BorderColor="{DynamicResource appcolor_i1}"
+                                          BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+
+                        <Label Text="Clear"
+                               FontSize="16"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"
+                               Style="{DynamicResource BaseContent_i1}"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                               Opacity="0.32">
+                            
+                            <Label.Triggers> 
+                                
+                                <DataTrigger TargetType="Label"
+                                             Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                           
+                                             Value="Type Employee ID">
+
+                                    <Setter Property="TextColor" Value="WhiteSmoke"/>
+                                    
+                                </DataTrigger>
+                                
+                            </Label.Triggers>
+                            
+                        </Label>
+                        
+                        <controls:CustomFrame.Triggers>
+
+                            <DataTrigger TargetType="controls:CustomFrame"
+                                         Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                                        
+                                         Value="Type Employee ID">
+
+                                <Setter Property="BorderColor"
+                                        Value="{DynamicResource textAndbackgroundcolor_i2 }"/>
+
+                            </DataTrigger>
+
+                        </controls:CustomFrame.Triggers>
+                        
+                        <controls:CustomFrame.GestureRecognizers>
+
+                            <TapGestureRecognizer Command="{Binding ButtonClearCommand}"/>
+                            
+                        </controls:CustomFrame.GestureRecognizers>
+
+                    </controls:CustomFrame>
+
+                </StackLayout>
+
+                <StackLayout HorizontalOptions="FillAndExpand"
+                             VerticalOptions="Center">
+
+                    <controls:CustomFrame Margin="0, 0, 16, 0"
+                                          CornerRadius="8"
+                                          Padding="4"
+                                          BorderWidth="3"
+                                          HeightRequest="65"
+                                          HasShadow="False"
+                                          BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
+                                          BackgroundColor="{DynamicResource indicationcolor_i1}">
+
+                        <Label Text="Login"
+                               FontSize="16"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"
+                               Style="{DynamicResource BaseContent_i1}"
+                               TextColor="{DynamicResource textAndbackgroundcolor_i3}"/>
+                        
+                        <controls:CustomFrame.Triggers>
+
+                            <DataTrigger TargetType="controls:CustomFrame"
+                                         Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                                        
+                                         Value="Type Employee ID" >
+
+                                <Setter Property="BackgroundColor"
+                                        Value="{DynamicResource indicationcolor_i2}"/>
+
+                            </DataTrigger>
+
+                        </controls:CustomFrame.Triggers>
+                        
+                        <controls:CustomFrame.GestureRecognizers>
+                            
+                            <TapGestureRecognizer Command="{Binding GoToEmployeeIdPage}"/>
+                            
+                        </controls:CustomFrame.GestureRecognizers>
+
+                    </controls:CustomFrame>
+
+                </StackLayout>
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </StackLayout>
+
 </ContentPage>

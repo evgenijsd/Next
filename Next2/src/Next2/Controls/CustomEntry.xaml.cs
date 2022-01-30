@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Next2.Views.Mobile
+namespace Next2.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class CustomEntry : Entry
     {
-        public LoginPage()
+        public CustomEntry()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
         }
+
+        #region -- Public properties --
+
+        #endregion
     }
 }

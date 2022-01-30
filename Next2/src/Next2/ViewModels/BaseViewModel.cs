@@ -29,6 +29,10 @@ namespace Next2.ViewModels
         {
         }
 
+        public virtual void InitializeAsync(INavigationParameters parameters)
+        {
+        }
+
         #endregion
 
         #region -- INavigationAware implementation --
@@ -42,6 +46,8 @@ namespace Next2.ViewModels
         }
 
         #endregion
-
+        protected virtual void OnAppearing()
+        {
+        }
     }
 }

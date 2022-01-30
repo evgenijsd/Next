@@ -26,9 +26,11 @@ namespace Next2
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Navigation
+            containerRegistry.RegisterForNavigation<NavigationPage>();
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
                 containerRegistry.RegisterForNavigation<Views.Mobile.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<Views.Mobile.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
             }
             else
             {
@@ -48,7 +50,7 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            await NavigationService.NavigateAsync($"{nameof(LoginPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
         }
 
         protected override void OnStart()
