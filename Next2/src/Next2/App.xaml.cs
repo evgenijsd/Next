@@ -63,7 +63,7 @@ namespace Next2
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(CustomersPageMob)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(CustomersPageTab)}");
         }
 
         protected override void OnStart()

@@ -2,19 +2,19 @@
 <view:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                       xmlns:view="clr-namespace:Next2.Views"
+                      xmlns:controls="clr-namespace:Next2.Controls"
                       x:Class="Next2.Views.Tablet.CustomersPageTab">
     
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label" x:Key="view_cell" >
                 <Setter Property="TextColor" Value="#FEFEFD"/>
-                <Setter Property="Margin" Value="12,0,0,0"/>
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
             </Style>
             <Style TargetType="Label" x:Key="head_cell" >
                 <Setter Property="TextColor" Value="#FEFEFD"/>
-                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="Margin" Value="-2,0,0,10"/>
                 <Setter Property="FontSize" Value="14"/>
             </Style>
         </ResourceDictionary>
@@ -123,21 +123,31 @@
                                HasShadow="False"
                                Margin="24,0,24,0"
                                x:Name="tableHeader">
-                            <Grid ColumnDefinitions="0.1*,*" 
+                            <Grid ColumnDefinitions="0.324*,*" 
                                   HorizontalOptions="FillAndExpand" 
-                                  Margin="55,0,0,0"
                                   VerticalOptions="Center" 
                                   >
-                                <Label Grid.Column="0" 
+                                <Label Grid.Column="0"
                                        IsVisible="false"
-                                       Text="checkbox" 
                                        Style="{StaticResource head_cell}"/>
-                                <Label Grid.Column="1" 
-                                       Text="Customer Name" 
-                                       Style="{StaticResource head_cell}"/>
-                                <Label Grid.Column="2" 
-                                       Text="Points" 
-                                       Style="{StaticResource head_cell}"/>
+                                <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                    <Label Text="Customer Name" 
+                                           Style="{StaticResource head_cell}"/>
+                                    <Image Source="ic_sort_primary_24x24"
+                                           Margin="-2,0,0,10"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Name"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                                <StackLayout Grid.Column="2" Orientation="Horizontal">
+                                    <Label Text="Points" 
+                                           Style="{StaticResource head_cell}"/>
+                                    <Image Source="ic_sort_primary_24x24"
+                                           Margin="-2,0,0,10"/>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Points"/>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
                                 <Label Grid.Column="3" 
                                        Text="Rewards" 
                                        Style="{StaticResource head_cell}"/>
@@ -149,53 +159,69 @@
                                        Style="{StaticResource head_cell}"/>
                             </Grid>
                         </Frame>
-                        <Frame Padding="0,10,0,0" 
+                        <Frame Padding="0,0,0,0" 
                                Margin="24,-18,24,0" 
                                HasShadow="False"
                                BackgroundColor="#34374C">
-                            <ListView ItemsSource="{Binding CustomersList}" x:Name="list"
-                                      IsPullToRefreshEnabled="True" 
-                                      SelectedItem="{Binding SelectedItem}"
-                                      SeparatorColor="#252836"
-                                      BackgroundColor="#2E3143" 
-                                      VerticalScrollBarVisibility="Always">
-                                <ListView.ItemTemplate>
+                            <controls:MyCollectionView ItemsSource="{Binding CustomersList}" x:Name="list"
+                                                       SelectedItem="{Binding SelectedItem}"
+                                                       BackgroundColor="#2E3143" 
+                                                       SelectionMode="Single" 
+                                                       SelectionChanged="ItemTappedHandler"
+                                                       ScrollColor="#F45E49"
+                                                       ScrollBarWidth="18"
+                                                       VerticalScrollBarVisibility="Always">
+                                <controls:MyCollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <ViewCell Tapped="ViewCellTappedHandler">
-                                                <Grid ColumnDefinitions="0.325*,*" Margin="0,0,0,0" >
-                                                    <Image Grid.Column="0" 
-                                                       Source="{Binding CheckboxImage}" 
-                                                       HorizontalOptions="Start" Margin="24,0,0,0"
-                                                       Scale="0.9" />
-                                                <Label Grid.Column="1" 
-                                                   Text="{Binding Name}" 
-                                                   LineBreakMode="TailTruncation"
+                                        <Grid ColumnDefinitions="0.325*,*" 
+                                              HeightRequest="45">
+                                            <Image Grid.Column="0"
+                                                   Source="{Binding CheckboxImage}"
+                                                   HorizontalOptions="Start" 
+                                                   Margin="16,0,0,0"
+                                                   Scale="0.9"/>
+                                            <Label Grid.Column="1" 
+                                                   Text="{Binding Name}"
+                                                   LineBreakMode="TailTruncation" 
                                                    Style="{StaticResource view_cell}"
                                                    />
-                                                    <Label Grid.Column="2" 
+                                            <Label Grid.Column="2" 
                                                    Text="{Binding Points}" 
                                                    LineBreakMode="TailTruncation"
                                                    Style="{StaticResource view_cell}"/>
-                                                    <Label Grid.Column="3"
+                                            <Label Grid.Column="3"
                                                    Text="{Binding Rewards}" 
                                                    LineBreakMode="TailTruncation"
                                                    Style="{StaticResource view_cell}"
                                                    />
-                                                    <Label Grid.Column="4"
+                                            <Label Grid.Column="4"
                                                    Text="{Binding Rewards}" 
                                                    LineBreakMode="TailTruncation"
                                                    Style="{StaticResource view_cell}"
                                                    />
-                                                    <Label Grid.Column="5"
+                                            <Label Grid.Column="5"
                                                    Text="{Binding Rewards}" 
                                                    LineBreakMode="TailTruncation"
                                                    Style="{StaticResource view_cell}"
                                                    />
-                                                </Grid>
-                                        </ViewCell>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup Name="CommonStates">
+                                                    <VisualState Name="Selected">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="#AB3821" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                    <VisualState Name="Normal">
+                                                        <VisualState.Setters>
+                                                            <Setter Property="BackgroundColor" Value="#2E3143" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                        </Grid>
                                     </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                                </controls:MyCollectionView.ItemTemplate>
+                            </controls:MyCollectionView>
                         </Frame>
                     </StackLayout>
                 </Frame>

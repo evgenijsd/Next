@@ -24,7 +24,6 @@ namespace InterTwitter.ViewModels
     public class CustomersPageViewModel : BaseViewModel
     {
         private readonly ICustomersService _customersService;
-        private int _oldIndex = -1;
         public CustomersPageViewModel(INavigationService navigationService, ICustomersService customersService)
             : base(navigationService)
         {
@@ -49,6 +48,7 @@ namespace InterTwitter.ViewModels
             set => SetProperty(ref _customer, value);
         }
 
+        private CustomersViewModel _oldSelectedItem;
         private CustomersViewModel _selectedItem;
 
         public CustomersViewModel SelectedItem
@@ -60,6 +60,7 @@ namespace InterTwitter.ViewModels
         public ICommand TabSelectButtonCommand => new Command(OnTabSelectButtonCommand);
         public ICommand MobSelectButtonCommand => new Command(OnMobSelectButtonCommand);
         public ICommand TabInfoButtonCommand => new AsyncCommand(OnTabInfoButtonCommand);
+        public ICommand SortCommand => new AsyncCommand<string>(OnSortCommand);
 
         #endregion
 
@@ -76,21 +77,22 @@ namespace InterTwitter.ViewModels
             base.OnPropertyChanged(args);
             if (args.PropertyName == nameof(SelectedItem))
             {
-                if (_oldIndex == -1)
+                if (_oldSelectedItem == null)
                 {
-                    _oldIndex = CustomersList.IndexOf(SelectedItem);
+                    _oldSelectedItem = SelectedItem;
                     SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
                 }
                 else
                 {
-                    if (CustomersList.IndexOf(SelectedItem) == _oldIndex)
+                    if (SelectedItem == _oldSelectedItem)
                     {
                         SelectedItem.CheckboxImage = "ic_check_box_unhecked_24x24";
                     }
 
-                    CustomersList[_oldIndex].CheckboxImage = "ic_check_box_unhecked_24x24";
+                    var sa = CustomersList.Where(x => x.Id == _oldSelectedItem.Id).FirstOrDefault();
+                    sa.CheckboxImage = "ic_check_box_unhecked_24x24";
                     SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
-                    _oldIndex = CustomersList.IndexOf(SelectedItem);
+                    _oldSelectedItem = SelectedItem;
                 }
             }
         }
@@ -104,7 +106,7 @@ namespace InterTwitter.ViewModels
             var cl = await _customersService.GetAllCustomersAsync();
             if (cl.IsSuccess)
             {
-                var list = cl.Result.Concat(cl.Result);
+                var list = cl.Result;
                 var listvm = list.Select(x => x.ToCustomersViewModel());
                 CustomersList = new ObservableCollection<CustomersViewModel>();
                 foreach (var item in listvm)
@@ -137,13 +139,58 @@ namespace InterTwitter.ViewModels
                 .PushAsync(new CustomerInfoDialogMob(param, CloseDialogCallback));
         }
 
+        private async void CloseDialogCallback(IDialogParameters obj)
+        {
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+        }
+
         private async void OnTabSelectButtonCommand()
         {
         }
 
-        private async void CloseDialogCallback(IDialogParameters obj)
+        private bool _isSortedAscending;
+        private Task OnSortCommand(string param)
         {
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            switch (param)
+            {
+                case "Name":
+                    {
+                        if (_isSortedAscending)
+                        {
+                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                                .OrderByDescending(x => x.Name));
+                            _isSortedAscending = false;
+                        }
+                        else
+                        {
+                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                                .OrderBy(x => x.Name));
+                            _isSortedAscending = true;
+                        }
+
+                        break;
+                    }
+
+                case "Points":
+                    {
+                        if (_isSortedAscending)
+                        {
+                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                                .OrderByDescending(x => x.Points));
+                            _isSortedAscending = false;
+                        }
+                        else
+                        {
+                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                                .OrderBy(x => x.Points));
+                            _isSortedAscending = true;
+                        }
+
+                        break;
+                    }
+            }
+
+            return Task.CompletedTask;
         }
 
         #endregion
