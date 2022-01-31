@@ -68,8 +68,6 @@ namespace Next2.ViewModels
                         ImagePath = "ic_setting_30x30.png",
                     },
                 };
-
-                SelectedMenuItem = MenuItems[0];
             }
             else
             {
@@ -100,9 +98,9 @@ namespace Next2.ViewModels
                         ImagePath = "ic_user_30x30.png",
                     },
                 };
-
-                SelectedMenuItem = MenuItems[0];
             }
+
+            SelectedMenuItem = MenuItems[0];
         }
 
         #region -- Public properties --
