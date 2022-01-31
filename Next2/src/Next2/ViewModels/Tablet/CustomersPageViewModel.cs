@@ -188,6 +188,24 @@ namespace InterTwitter.ViewModels
 
                         break;
                     }
+
+                case "Phone":
+                    {
+                        if (_isSortedAscending)
+                        {
+                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                                .OrderByDescending(x => x.Phone));
+                            _isSortedAscending = false;
+                        }
+                        else
+                        {
+                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                                .OrderBy(x => x.Phone));
+                            _isSortedAscending = true;
+                        }
+
+                        break;
+                    }
             }
 
             return Task.CompletedTask;

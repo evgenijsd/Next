@@ -136,6 +136,7 @@
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -230,6 +231,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Forms.PancakeView">
+      <Version>2.3.0.759</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -793,7 +797,5 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_work_30x30%403x.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Renderers\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

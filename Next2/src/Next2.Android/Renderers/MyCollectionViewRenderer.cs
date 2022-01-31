@@ -48,7 +48,7 @@ namespace Next2.Droid.Renderers
                 shapeDrawable.SetColorFilter(Resources.GetColor(Android.Resource.Color.HoloGreenLight), PorterDuff.Mode.SrcIn);
             }
 
-            this.VerticalScrollbarThumbDrawable = shapeDrawable;
+            //this.VerticalScrollbarThumbDrawable = shapeDrawable;
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<ItemsView> elementChangedEvent)

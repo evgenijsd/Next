@@ -2,6 +2,7 @@
 <view:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                       xmlns:view="clr-namespace:Next2.Views"
+                      xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
                       x:Class="Next2.Views.Mobile.CustomersPageMob">
 
     <ContentPage.Resources>
@@ -59,40 +60,53 @@
                         </StackLayout>
                     </Frame>
 
-                    <Frame Padding="0" HeightRequest="130"
-                           BackgroundColor="#34374C"
-                           CornerRadius="12" 
-                           Margin="24,0,24,0"
-                           HasShadow="False"
-                           x:Name="tableHeader">
-                        <Grid ColumnSpacing="0">
-                            <Label Grid.Column="0" Text="Customer Name" 
+                    <yummy:PancakeView  
+                                       HeightRequest="80"
+                                       BackgroundColor="#34374C"
+                                       CornerRadius="12,12,0,0" 
+                                       Margin="24,0,24,0"
+                                       x:Name="tableHeader">
+                        <Grid ColumnSpacing="0" >
+                            <Label Grid.Column="0" 
+                                   Text="Customer Name" 
+                                   Margin="12,0,0,0"
+                                   VerticalOptions="Center"
                                    FontSize="14" 
-                                   Padding="12, 18, 0, 6"
-                                   TextColor="white"/>
-                            <Label Grid.Column="1" Text="Phone"   
-                                   Padding="12, 18, 0, 6"
+                                   TextColor="white">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Name" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Grid.Column="1" 
+                                   Text="Phone"   
+                                   VerticalOptions="Center"
                                    FontSize="14" 
-                                   TextColor="white"/>
-                            <Label Grid.Column="2" Text="Email"  
-                                   Padding="12, 18, 0, 6"
+                                   Margin="12,0,0,0"
+                                   TextColor="white">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Phone" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label Grid.Column="2" 
+                                   Text="Email"  
+                                   VerticalOptions="Center" 
+                                   Margin="12,0,0,0"
                                    FontSize="14" 
                                    TextColor="white" />
                         </Grid>
-                    </Frame>
+                    </yummy:PancakeView>
                     <Frame Padding="0,0,0,0" 
-                           Margin="24,-18,24,0" 
+                           Margin="24,-6,24,0" 
                            HasShadow="False"
                            BackgroundColor="#34374C">
-                        <ListView ItemsSource="{Binding CustomersList}" 
-                              IsPullToRefreshEnabled="True" 
-                              BackgroundColor="#2E3143"
-                              SeparatorColor="#252836"
-                              VerticalScrollBarVisibility="Never">
-                            <ListView.ItemTemplate>
+                        <CollectionView ItemsSource="{Binding CustomersList}" 
+                                        BackgroundColor="#2E3143"
+                                        SelectedItem="{Binding SelectedItem}"
+                                        SelectionMode="Single"
+                                        VerticalScrollBarVisibility="Never">
+                            <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell Tapped="ViewCellTappedHandler">
-                                        <Grid>
+                                    <Grid HeightRequest="42">
                                             <Label Grid.Column="0"  
                                                    Text="{Binding Name}" 
                                                    LineBreakMode="TailTruncation"
@@ -107,11 +121,24 @@
                                                    LineBreakMode="TailTruncation"
                                                    Style="{StaticResource view_cell}"
                                                    />
-                                        </Grid>
-                                    </ViewCell>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+                                                <VisualState Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="#AB3821" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="#2E3143" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Grid>
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Frame>
                 </StackLayout>
             </Frame>

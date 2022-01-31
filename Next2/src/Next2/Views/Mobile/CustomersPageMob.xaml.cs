@@ -16,23 +16,5 @@ namespace Next2.Views.Mobile
         {
             InitializeComponent();
         }
-
-        private void ViewCellTappedHandler(object sender, EventArgs args)
-        {
-            if (lastCell != null)
-            {
-                lastCell.View.BackgroundColor = Color.Transparent;
-            }
-
-            var viewCell = (ViewCell)sender;
-            if (viewCell.View != null)
-            {
-                viewCell.View.BackgroundColor = Color.FromHex("#AB3821");
-                lastCell = viewCell;
-            }
-
-            //selectButton.Opacity = 1;
-            //infoButton.Opacity = 1;
-        }
     }
 }
