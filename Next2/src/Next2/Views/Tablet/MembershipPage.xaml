@@ -153,7 +153,7 @@
                         <controls:CustomScrollBarCollectionView SelectionMode="Single"
                                         VerticalScrollBarVisibility="Always"
                                         ItemsSource="{Binding MembersToDisplay}"
-                                                   ThumbWidth="20"
+                                                   ThumbWidth="8"
                                                    ScrollBarCornerRadius="10"
                                                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">

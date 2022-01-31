@@ -1,5 +1,6 @@
 ﻿using Next2.Controls;
 using Next2.iOS.Renderers;
+using ObjCRuntime;
 using System;
 using System.Linq;
 using UIKit;
@@ -24,33 +25,25 @@ namespace Next2.iOS.Renderers
         {
             base.OnElementChanged(e);
 
-            if (Control != null)
-            {
-                try
-                {
-                    _view = (Control as UIScrollView);
-                    _view.Scrolled += Container_Scrolled;
-
-                    if (CustomScrollBarCollectionViewElement != null)
-                    {
-                        _scrollBarThumbColor = CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToUIColor();
-                    }
-                }
-                catch (Exception ex)
-                {
-                }
-            }
+            this.Controller.SetContentScrollView(new MyScrollView(), NSDirectionalRectEdge.All);
         }
+    }
 
-        private void Container_Scrolled(object sender, System.EventArgs e)
+    public class MyScrollView : UIScrollView
+    {
+
+        public override void LayoutSubviews()
         {
-            var subViews = _view.Subviews.ToList();
-            var verticalIndicator = subViews.LastOrDefault();
 
-            if (verticalIndicator != null)
+            foreach (UIView view in Subviews)
             {
-                verticalIndicator.BackgroundColor = _scrollBarThumbColor;
+                if (view.IsKindOfClass(new Class("UIImageView")))
+                {
+                    view.BackgroundColor = UIColor.Red;
+                }
             }
+
+            base.LayoutSubviews();
         }
     }
 }

@@ -27,12 +27,18 @@ namespace Next2.Droid.Renderers
 
             this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
 
-            int scrollBarCornerRadius = this.CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
-            Color scrollBarThumbColor = this.CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
-            Color scrollBarTrackColor = this.CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
+            try
+            {
+                int scrollBarCornerRadius = this.CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
+                Color scrollBarThumbColor = this.CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
+                Color scrollBarTrackColor = this.CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
 
-            this.VerticalScrollbarThumbDrawable = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
-            this.VerticalScrollbarTrackDrawable = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+                this.VerticalScrollbarThumbDrawable = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
+                this.VerticalScrollbarTrackDrawable = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+            }
+            catch (System.Exception)
+            {
+            }
         }
 
         protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
