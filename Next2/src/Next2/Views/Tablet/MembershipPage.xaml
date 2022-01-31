@@ -150,12 +150,13 @@
                     <RefreshView IsRefreshing="{Binding IsMembersRefreshing}" 
                                  Command="{Binding RefreshMembersCommand}">
 
-                        <controls:MyCollectionView SelectionMode="Single"
+                        <controls:CustomScrollBarCollectionView SelectionMode="Single"
                                         VerticalScrollBarVisibility="Always"
                                         ItemsSource="{Binding MembersToDisplay}"
-                                                   ScrollColor="{StaticResource AppColor_i1}"
-                                                   ScrollBarWidth="18"
-                                                   >
+                                                   ThumbWidth="20"
+                                                   ScrollBarCornerRadius="10"
+                                                   ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                                   ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
 
                             <CollectionView.Effects>
 
@@ -222,7 +223,7 @@
 
                             </CollectionView.ItemTemplate>
 
-                        </controls:MyCollectionView>
+                        </controls:CustomScrollBarCollectionView>
 
                     </RefreshView>
                     

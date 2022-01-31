@@ -25,7 +25,7 @@ namespace Next2.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
 
-            RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Landscape : ScreenOrientation.Landscape;
+            //RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Landscape : ScreenOrientation.Landscape;
 
             LoadApplication(new App());
 

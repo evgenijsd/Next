@@ -38,6 +38,8 @@
     <BundleAssemblies>false</BundleAssemblies>
     <MandroidI18n />
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -135,7 +137,7 @@
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Renderers\MyCollectionViewRenderer.cs" />
+    <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

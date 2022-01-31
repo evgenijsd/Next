@@ -46,7 +46,7 @@ namespace Next2.Droid.Effects
 
                 ShapeAppearanceModel shapeAppearanceModel = new ShapeAppearanceModel()
                     .ToBuilder()
-                    .SetAllCorners(CornerFamily.Rounded, 2)
+                    .SetAllCorners(CornerFamily.Rounded, 20)
                     .Build();
 
                 MaterialShapeDrawable shapeDrawable2 = new MaterialShapeDrawable(shapeAppearanceModel);
