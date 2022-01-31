@@ -11,6 +11,7 @@ using Xamarin.Forms;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Next2.Services.MockService;
 
 namespace Next2
 {
@@ -31,6 +32,9 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            //Services
+            containerRegistry.RegisterSingleton<IMockService, MockService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
 

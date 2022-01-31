@@ -121,7 +121,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
