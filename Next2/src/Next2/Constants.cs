@@ -1,5 +1,4 @@
-﻿using System;
-namespace Next2
+﻿namespace Next2
 {
     public static class Constants
     {

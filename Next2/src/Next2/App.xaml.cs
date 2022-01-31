@@ -1,14 +1,16 @@
 using Next2.Resources.Strings;
 using Next2.Services;
 using Next2.Services.Membership;
+using Next2.ViewModels;
 using Next2.ViewModels.Tablet;
-using Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using Mobile = Next2.Views.Mobile;
+using Tablet = Next2.Views.Tablet;
 
 namespace Next2
 {
@@ -18,6 +20,12 @@ namespace Next2
             : base(initializer)
         {
         }
+
+        #region -- Public properties --
+
+        public static bool IsTablet = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet;
+
+        #endregion
 
         #region -- Overrides --
 
@@ -29,7 +37,15 @@ namespace Next2
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MembershipPage, MembershipViewModel>();
+
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            {
+                containerRegistry.RegisterForNavigation<Mobile.MenuPage, MenuPageViewModel>();
+            }
+            else
+            {
+                containerRegistry.RegisterForNavigation<Tablet.MenuPage, MenuPageViewModel>();
+            }
         }
 
         protected override async void OnInitialized()
@@ -44,13 +60,11 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            NavigationPage.SetHasNavigationBar(this, false);
+            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(Constants.CURRENT_CULTURE);
-
-            await NavigationService.NavigateAsync($"{nameof(MembershipPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Mobile.MenuPage)}");
         }
 
         protected override void OnStart()

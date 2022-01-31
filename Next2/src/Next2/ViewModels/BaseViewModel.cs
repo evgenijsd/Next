@@ -39,7 +39,7 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- InavigationAware implementation --
+        #region -- IInitializeAsync implementation --
 
         public virtual Task InitializeAsync(INavigationParameters parameters)
         {

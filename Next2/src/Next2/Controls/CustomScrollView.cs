@@ -1,21 +1,21 @@
 ﻿using Xamarin.Forms;
 
-namespace InterTwitter.Controls
+namespace Next2.Controls
 {
     public class CustomScrollView : ScrollView
     {
         #region -- Public properties --
 
-        public static readonly BindableProperty BouncesProperty = BindableProperty.Create(
-            propertyName: nameof(IsBouncesVisible),
+        public static readonly BindableProperty IsBouncesProperty = BindableProperty.Create(
+            propertyName: nameof(IsBounces),
             returnType: typeof(bool),
             declaringType: typeof(CustomScrollView),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool IsBouncesVisible
+        public bool IsBounces
         {
-            get => (bool)GetValue(BouncesProperty);
-            set => SetValue(BouncesProperty, value);
+            get => (bool)GetValue(IsBouncesProperty);
+            set => SetValue(IsBouncesProperty, value);
         }
 
         #endregion

@@ -4,8 +4,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using UIEffects = Next2.Effects;
 
+[assembly: ResolutionGroupName("Next2.Effects")]
 [assembly: ExportEffect(typeof(NoOverScrollEffect), nameof(NoOverScrollEffect))]
-
 namespace Next2.Droid.Effects
 {
     public class NoOverScrollEffect : PlatformEffect

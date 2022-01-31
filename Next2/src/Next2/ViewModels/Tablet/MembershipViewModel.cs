@@ -23,6 +23,8 @@ namespace Next2.ViewModels.Tablet
             : base(navigationService)
         {
             _membershipService = membershipService;
+
+            _ = RefreshMembersAsync();
         }
 
         #region -- Public properties --
@@ -46,6 +48,16 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Overrides --
+
+        public override void Initialize(INavigationParameters parameters)
+        {
+            base.Initialize(parameters);
+        }
+
+        public override Task InitializeAsync(INavigationParameters parameters)
+        {
+            return RefreshMembersAsync();
+        }
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {

@@ -27,16 +27,18 @@
 	<string>com.companyname.Next2</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>Next2</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-  <key>UIUserInterfaceStyle</key>
-  <string>Light</string>
-  <key>UIStatusBarHidden</key>
-  <true/>
-  <key>UIViewControllerBasedStatusBarAppearance</key>
-  <false/>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
 

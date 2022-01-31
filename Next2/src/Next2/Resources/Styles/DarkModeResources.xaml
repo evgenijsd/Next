@@ -2,18 +2,18 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="Next2.Resources.Styles.DarkModeResources">
-    
+
     <!--APP COLORS-->
-    
+
     <!-- Dark/Primary -->
     <Color x:Key="AppColor_i1">#F45E49</Color>
     <!-- Dark/Disabled 10% -->
     <Color x:Key="AppColor_i2">#EB5637</Color>
     <!-- Dark/Pressed_Light -->
-    <Color x:Key="AppColor_i3">#D24A2E</Color>
+    <Color x:Key="AppColor_i3">#D24A2E</Color>TextAndBackgroundColor_i1
     <!-- Dark/Pressed_Dark -->
     <Color x:Key="AppColor_i4">#AB3821</Color>
-    
+
 
     <!-- Text & Background -->
 
@@ -24,15 +24,16 @@
     <!-- System/ Light Gray -->
     <Color x:Key="TextAndBackgroundColor_i3">#34374C</Color>
     <!-- System/ Gray -->
-    <Color x:Key="TextAndBackgroundColor_i4">#464B4A</Color>
+    <Color x:Key="TextAndBackgroundColor_i4">#2E3143</Color>
     <!-- System/ Dark Gray -->
     <Color x:Key="TextAndBackgroundColor_i5">#252836</Color>
     <!-- System/ Black -->
     <Color x:Key="TextAndBackgroundColor_i6">#212430</Color>
-    
-    <Color x:Key="TextAndBackgroundColor_i7">#6A6C76</Color>
 
+    <Color x:Key="TextAndBackgroundColor_i7">#6A6C76</Color>
+    
     <Color x:Key="TextAndBackgroundColor_i8">#2E3143</Color>
+
 
     <!-- Indications -->
 
@@ -41,7 +42,7 @@
     <!-- Indications/ Success Dark -->
     <Color x:Key="IndicationColor_i2">#4E7E62</Color>
     <!-- Indications/ Error Light -->
-    <Color x:Key="IndicationColor_i">#F73E5C</Color>
+    <Color x:Key="IndicationColor_i3">#F73E5C</Color>
     <!-- Indications/ Error Dark -->
     <Color x:Key="IndicationColor_i4">#7C3A45</Color>
     <!-- Indications/ Warning Light -->
