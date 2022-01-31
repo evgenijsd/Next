@@ -42,6 +42,8 @@ namespace Next2.ViewModels.Mobile
         private async Task OnTabClearAsync()
         {
             EmployeeId = "Type Employee ID";
+
+            IsErrorStrokeVisible = false;
         }
 
         private async Task OnGoToEmployeeIdPageAsync()

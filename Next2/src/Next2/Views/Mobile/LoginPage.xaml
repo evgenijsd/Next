@@ -6,49 +6,49 @@
     <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" Spacing="0" Padding="0">
 
         <Label Text="Login"
-                   FontSize="22"
-                   Margin="16, 40, 0, 25"
-                   Style="{DynamicResource BaseContent_i2}"
-                   TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+               FontSize="18"
+               HeightRequest="50"
+               Margin="16, 0, 0, 0"
+               VerticalTextAlignment="Center"
+               Style="{DynamicResource BaseContent_i2}"
+               TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
         <StackLayout Orientation="Horizontal"
-                         Spacing="1"
-                         HeightRequest="80">
+                     Spacing="1"
+                     HeightRequest="45">
 
             <StackLayout Spacing="0"
-                                 HorizontalOptions="FillAndExpand"
-                                 BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
                 <Label Text="Employee"
-                               HeightRequest="80"
-                               HorizontalTextAlignment="Center"
-                               VerticalTextAlignment="Center"
-                               FontSize="16"
-                               Style="{DynamicResource BaseContent_i1}"
-                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                       HeightRequest="45"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"
+                       Style="{DynamicResource BaseContent_i1}"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-                <BoxView HeightRequest="5"
-                                 Margin="0, 0, 0,0"
-                                 BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
+                <BoxView HeightRequest="3"
+                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
                 </BoxView>
 
             </StackLayout>
 
-
             <StackLayout Spacing="0"
-                             HorizontalOptions="FillAndExpand"
-                             BackgroundColor="{DynamicResource appcolor_i4}">
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="{DynamicResource appcolor_i4}">
 
                 <Label Text="   Waiter   "
-                           HeightRequest="80"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"
-                           FontSize="16"
-                           Style="{DynamicResource BaseContent_i1}"
-                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                       HeightRequest="45"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"
+                       Style="{DynamicResource BaseContent_i1}"
+                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-                <BoxView HeightRequest="5"
-                             BackgroundColor="{DynamicResource appcolor_i1}"/>
+                <BoxView HeightRequest="3"
+                         BackgroundColor="{DynamicResource appcolor_i1}"/>
 
             </StackLayout>
 
@@ -61,19 +61,20 @@
 
             <Image Source="pic_logo_rectangular"
                    HorizontalOptions="Center"
-                   Scale="0.6"/>
+                   VerticalOptions="Center"
+                   Scale="0.45"/>
 
             <Label Text="Employee ID"
-                   FontSize="16"
+                   FontSize="14"
                    Margin="16, 0, 0, 0"
                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                    Style="{DynamicResource BaseContent_i4}"/>
 
             <controls:CustomFrame Margin="16, 0, 16, 0"
-                                  CornerRadius="8"
+                                  CornerRadius="5"
                                   Padding="4"
                                   BorderWidth="3"
-                                  HeightRequest="50"
+                                  HeightRequest="30"
                                   HasShadow="False"
                                   BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
                                   BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
@@ -82,14 +83,15 @@
 
                     <Label x:Name="employeeID"
                            Text="{Binding EmployeeId, Mode=TwoWay}"
-                           FontSize="16"
+                           FontSize="14"
                            VerticalTextAlignment="Center"
                            Style="{DynamicResource BaseContent_i3}"
                            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                            Opacity="0.32"
-                           Margin="8, 0, 0, 0"/>
+                           Margin="4, 0, 0, 0"/>
 
                     <Image Source="ic_danger_circle"
+                           IsVisible="{Binding IsErrorStrokeVisible}"
                            Scale="0.6"
                            HorizontalOptions="EndAndExpand"/>
 
@@ -120,24 +122,25 @@
                          VerticalOptions="EndAndExpand"
                          Spacing="11"
                          BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
-                         HeightRequest="100">
+                         HeightRequest="65">
 
                 <StackLayout HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="Center">
+                             VerticalOptions="Center"
+                             HeightRequest="40">
 
                     <controls:CustomFrame x:Name="customFrame"
                                           Margin="16, 0, 0, 0"
-                                          CornerRadius="8"
+                                          CornerRadius="5"
                                           Padding="4"
                                           IsEnabled="True"
                                           BorderWidth="3"
-                                          HeightRequest="65"
                                           HasShadow="False"
                                           BorderColor="{DynamicResource appcolor_i1}"
                                           BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
                         <Label Text="Clear"
                                FontSize="16"
+                               HeightRequest="65"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"
                                Style="{DynamicResource BaseContent_i1}"
@@ -190,10 +193,11 @@
                 </StackLayout>
 
                 <StackLayout HorizontalOptions="FillAndExpand"
+                             HeightRequest="40"
                              VerticalOptions="Center">
 
                     <controls:CustomFrame Margin="0, 0, 16, 0"
-                                          CornerRadius="8"
+                                          CornerRadius="5"
                                           Padding="4"
                                           IsEnabled="False"
                                           BorderWidth="3"

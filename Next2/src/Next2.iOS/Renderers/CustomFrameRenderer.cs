@@ -12,7 +12,6 @@ namespace Next2.iOS.Renderers
     {
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
-            
             if (e.NewElement is CustomFrame frame)
             {
                 Layer.BorderWidth = frame.BorderWidth;

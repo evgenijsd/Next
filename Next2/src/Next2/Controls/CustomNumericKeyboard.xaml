@@ -11,16 +11,16 @@
 
             <Label Text="Employee ID"
                    Style="{DynamicResource BaseContent_i1}"
-                   FontSize="24"
+                   FontSize="20"
                    HeightRequest="35"
                    Margin="40, 160, 0, 0"
                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-            <controls:CustomFrame Margin="40, 0, 40, 25"
-                                  CornerRadius="8"
+            <controls:CustomFrame Margin="40, 0, 40, 15"
+                                  CornerRadius="5"
                                   Padding="4"
                                   BorderWidth="3"
-                                  HeightRequest="50"
+                                  HeightRequest="35"
                                   HasShadow="False"
                                   BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
                                   BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
@@ -29,8 +29,9 @@
                        Style="{DynamicResource BaseContent_i4}"
                        Opacity="0.32"
                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                       Margin="15, 8, 0, 8"
-                       FontSize="24"/>
+                       VerticalTextAlignment="Center"
+                       Margin="10, 0, 0, 0"
+                       FontSize="20"/>
                 
             </controls:CustomFrame>
 
@@ -60,13 +61,13 @@
                                       BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
                     <Label x:Name="button1"
-                               Text="1"
-                               HorizontalTextAlignment="Center"
-                               VerticalTextAlignment="Center"
-                               BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
-                               Style="{DynamicResource BaseContent_i2}"
-                               FontSize="24"
-                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                           Text="1"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                           Style="{DynamicResource BaseContent_i2}"
+                           FontSize="24"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
                     <controls:CustomFrame.GestureRecognizers>
 
@@ -79,7 +80,7 @@
 
                 <controls:CustomFrame Grid.Column="1"
                                       Grid.Row="0"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -107,7 +108,7 @@
 
                 <controls:CustomFrame Grid.Column="2"
                                       Grid.Row="0"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -135,7 +136,7 @@
 
                 <controls:CustomFrame Grid.Column="0"
                                       Grid.Row="1"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -163,7 +164,7 @@
 
                 <controls:CustomFrame Grid.Column="1"
                                       Grid.Row="1"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -191,7 +192,7 @@
 
                 <controls:CustomFrame Grid.Column="2"
                                       Grid.Row="1"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -219,7 +220,7 @@
 
                 <controls:CustomFrame Grid.Column="0"
                                       Grid.Row="2"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -247,7 +248,7 @@
 
                 <controls:CustomFrame Grid.Column="1"
                                       Grid.Row="2"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -275,7 +276,7 @@
 
                 <controls:CustomFrame Grid.Column="2"
                                       Grid.Row="2"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -303,7 +304,7 @@
 
                 <controls:CustomFrame Grid.Column="0"
                                       Grid.Row="3"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -332,7 +333,7 @@
                 <controls:CustomFrame Grid.Column="1"
                                       Grid.Row="3"
                                       Grid.ColumnSpan="2"
-                                      CornerRadius="8"
+                                      CornerRadius="5"
                                       Padding="4"
                                       BorderWidth="3"
                                       HasShadow="False"
@@ -360,13 +361,17 @@
 
             </Grid>
 
-            <BoxView Margin="0, 100, 0, 0"
+            <BoxView Margin="0, 0, 0, 0"
                      HeightRequest="1"
+                     VerticalOptions="EndAndExpand"
                      Color="{DynamicResource textAndbackgroundcolor_i2}"/>
 
             <Frame HasShadow="False"
-                   CornerRadius="8"
-                   Margin="25, 25, 25, 25"
+                   CornerRadius="5"
+                   VerticalOptions="Center"
+                   HeightRequest="38"
+                   Margin="16, 10, 16, 16"
+                   Padding="0"
                    BackgroundColor="{DynamicResource indicationcolor_i1}">
                 
                 <Label Text="Login"
@@ -374,7 +379,7 @@
                        VerticalTextAlignment="Center"
                        TextColor="{DynamicResource textAndbackgroundcolor_i3}"
                        Style="{DynamicResource BaseContent_i1}"
-                       FontSize="18">
+                       FontSize="14">
                        
                     <Label.GestureRecognizers>
 
