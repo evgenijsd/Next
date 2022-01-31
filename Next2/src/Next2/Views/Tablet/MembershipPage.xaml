@@ -2,10 +2,13 @@
 <views:BaseContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                         xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                        xmlns:controls="clr-namespace:Next2.Controls"
                         xmlns:effects="clr-namespace:Next2.Effects"
                         xmlns:enums="clr-namespace:Next2.Enums"
+                        xmlns:models="clr-namespace:Next2.Models"
+                        xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
                         xmlns:views="clr-namespace:Next2.Views"
-                        xmlns:models="clr-namespace:Next2.Models" xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet" xmlns:controls="clr-namespace:Next2.Controls" x:DataType="tablet:MembershipViewModel"
+                        x:DataType="tablet:MembershipViewModel"
                         x:Class="Next2.Views.Tablet.MembershipPage">
 
     <ContentPage.Content>
@@ -151,12 +154,12 @@
                                  Command="{Binding RefreshMembersCommand}">
 
                         <controls:CustomScrollBarCollectionView SelectionMode="Single"
-                                        VerticalScrollBarVisibility="Always"
-                                        ItemsSource="{Binding MembersToDisplay}"
-                                                   ThumbWidth="8"
-                                                   ScrollBarCornerRadius="10"
-                                                   ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                                                   ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
+                                                                VerticalScrollBarVisibility="Always"
+                                                                ItemsSource="{Binding MembersToDisplay}"
+                                                                ThumbWidth="8"
+                                                                ScrollBarCornerRadius="10"
+                                                                ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                                                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
 
                             <CollectionView.Effects>
 

@@ -16,15 +16,12 @@ namespace Next2.ViewModels.Tablet
     public class MembershipViewModel : BaseViewModel
     {
         private IMembershipService _membershipService;
-        private IMockService _mockService;
 
         public MembershipViewModel(
             INavigationService navigationService,
-            IMembershipService membershipService,
-            IMockService mockService)
+            IMembershipService membershipService)
             : base(navigationService)
         {
-            _mockService = mockService;
             _membershipService = membershipService;
         }
 

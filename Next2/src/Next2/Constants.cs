@@ -7,6 +7,8 @@ namespace Next2
 
         public const int SERVER_RESPONCE_DELAY = 1000;
 
+        public const string CURRENT_CULTURE = "en-US";
+
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";
 #elif STAGE

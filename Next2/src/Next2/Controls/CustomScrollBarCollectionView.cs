@@ -11,7 +11,5 @@ namespace Next2.Controls
         public int ThumbWidth { get; set; }
 
         public int ScrollBarCornerRadius { get; set; }
-
-        public int Value { get; set; }
     }
 }

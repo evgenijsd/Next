@@ -11,6 +11,8 @@ namespace Next2.Droid.Effects
     public class NoOverScrollEffect : PlatformEffect
     {
 
+        #region -- Overrides --
+
         protected override void OnAttached()
         {
             if (Control != null)
@@ -27,5 +29,7 @@ namespace Next2.Droid.Effects
         protected override void OnDetached()
         {
         }
+
+        #endregion
     }
 }
