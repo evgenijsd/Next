@@ -55,7 +55,7 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(OrderTabPageMobile)}");
+            await _navigationService.NavigateAsync($"{nameof(OrderTabPageTablet)}");
         }
 
         private async Task OnTabCommandAsync()
