@@ -4,6 +4,7 @@ using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Next2.ViewModels
 {
@@ -100,7 +101,7 @@ namespace Next2.ViewModels
                 };
             }
 
-            SelectedMenuItem = MenuItems[0];
+            SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
         #region -- Public properties --

@@ -8,6 +8,9 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Next2
 {
@@ -20,7 +23,7 @@ namespace Next2
 
         #region -- Public properties --
 
-        public static bool IsTablet = Device.Idiom == TargetIdiom.Tablet;
+        public static bool IsTablet = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet;
 
         #endregion
 
@@ -31,7 +34,7 @@ namespace Next2
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
-            if (Device.Idiom == TargetIdiom.Phone)
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
                 containerRegistry.RegisterForNavigation<Mobile.MenuPage, MenuPageViewModel>();
             }
