@@ -153,7 +153,7 @@
 
                         <CollectionView.Effects>
 
-                            <effects:NoOverScrollEffect IsBouncesVisible="{OnPlatform Android=true, iOS=false}"/>
+                            <effects:NoOverScrollEffect/>
 
                         </CollectionView.Effects>
 
