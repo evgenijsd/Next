@@ -1,7 +1,4 @@
 ﻿using FFImageLoading.Svg.Forms;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -35,7 +32,7 @@ namespace Next2.Controls
 
             if (newvalue is string val)
             {
-                control.Source = val.Contains(".svg") ? val : $"resource://TeaCRM.Resources.SvgIcons.{val}.svg";
+                control.Source = val.Contains(".svg") ? val : $"resource://Next2.Resources.Images.{val}.svg";
             }
         }
 

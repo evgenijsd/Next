@@ -6,47 +6,47 @@
     <!--APP COLORS-->
     
     <!-- Dark/Primary -->
-    <Color x:Key="appcolor_i1">#F45E49</Color>
+    <Color x:Key="appColor_i1">#F45E49</Color>
     <!-- Dark/Disabled 10% -->
-    <Color x:Key="appcolor_i2">#EB5637</Color>
+    <Color x:Key="appColor_i2">#EB5637</Color>
     <!-- Dark/Pressed_Light -->
-    <Color x:Key="appcolor_i3">#D24A2E</Color>
+    <Color x:Key="appColor_i3">#D24A2E</Color>
     <!-- Dark/Pressed_Dark -->
-    <Color x:Key="appcolor_i4">#AB3821</Color>
+    <Color x:Key="appColor_i4">#AB3821</Color>
     
 
     <!-- Text & Background -->
 
     <!-- System / White -->
-    <Color x:Key="textAndbackgroundcolor_i1">#FEFEFD</Color>
+    <Color x:Key="textAndBackgroundColor_i1">#FEFEFD</Color>
     <!-- System/ Lightest Gray -->
-    <Color x:Key="textAndbackgroundcolor_i2">#424861</Color>
+    <Color x:Key="textAndBackgroundColor_i2">#424861</Color>
     <!-- System/ Light Gray -->
-    <Color x:Key="textAndbackgroundcolor_i3">#34374C</Color>
+    <Color x:Key="textAndBackgroundColor_i3">#34374C</Color>
     <!-- System/ Gray -->
-    <Color x:Key="textAndbackgroundcolor_i4">#464B4A</Color>
+    <Color x:Key="textAndBackgroundColor_i4">#2E3143</Color>
     <!-- System/ Dark Gray -->
-    <Color x:Key="textAndbackgroundcolor_i5">#252836</Color>
+    <Color x:Key="textAndBackgroundColor_i5">#252836</Color>
     <!-- System/ Black -->
-    <Color x:Key="textAndbackgroundcolor_i6">#212430</Color>
+    <Color x:Key="textAndBackgroundColor_i6">#212430</Color>
 
     <!-- Indications -->
 
     <!-- Indications/ Success Light -->
-    <Color x:Key="indicationcolor_i1">#3CD47D</Color>
+    <Color x:Key="indicationColor_i1">#3CD47D</Color>
     <!-- Indications/ Success Dark -->
-    <Color x:Key="indicationcolor_i2">#4E7E62</Color>
+    <Color x:Key="indicationColor_i2">#4E7E62</Color>
     <!-- Indications/ Error Light -->
-    <Color x:Key="indicationcolor_i3">#F73E5C</Color>
+    <Color x:Key="indicationColor_i3">#F73E5C</Color>
     <!-- Indications/ Error Dark -->
-    <Color x:Key="indicationcolor_i4">#7C3A45</Color>
+    <Color x:Key="indicationColor_i4">#7C3A45</Color>
     <!-- Indications/ Warning Light -->
-    <Color x:Key="indicationcolor_i5">#F59249</Color>
+    <Color x:Key="indicationColor_i5">#F59249</Color>
     <!-- Indications/ Warning Dark -->
-    <Color x:Key="indicationcolor_i6">#72544A</Color>
+    <Color x:Key="indicationColor_i6">#72544A</Color>
     <!-- Indications/ Info Light -->
-    <Color x:Key="indicationcolor_i7">#7B61FF</Color>
+    <Color x:Key="indicationColor_i7">#7B61FF</Color>
     <!-- Indications/ Info Dark -->
-    <Color x:Key="indicationcolor_i8">#454279</Color>
+    <Color x:Key="indicationColor_i8">#454279</Color>
 
 </ResourceDictionary>

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
+    x:Class="Next2.Views.Mobile.CategoryView"
+    x:DataType="viewModels:CategoryViewModel">
+
+    <Grid
+        RowSpacing="0"
+        RowDefinitions="90, *">
+
+        <!--HEAD PANEL-->
+        
+        <StackLayout
+            Grid.Row="0"
+            Grid.Column="0"
+            BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+            Orientation="Horizontal"
+            Spacing="0"
+            Padding="18">
+
+            <Frame
+                Padding="1"
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+                HasShadow="False"
+                BorderColor="{DynamicResource appColor_i3}"
+                CornerRadius="9"
+                HorizontalOptions="Start">
+
+                <ffimageloading:CachedImage
+                    Source="pic_logo_small.png"
+                    Aspect="AspectFit"/>
+
+            </Frame>
+
+            <Label
+                Text="{xct:Translate NewOrder}"
+                TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                Style="{DynamicResource BaseContent_i2}"
+                Margin="20, 0, 0, 0"
+                FontSize="{DynamicResource tsize_i5}"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="Center"
+                FontAttributes="Bold"/>
+
+            <Frame
+                IsClippedToBounds="True"
+                Padding="10"
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+                HasShadow="False"
+                BorderColor="{DynamicResource textAndBackgroundColor_i2}"
+                CornerRadius="5"
+                HorizontalOptions="End">
+
+                <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png"/>
+
+            </Frame>
+
+        </StackLayout>
+
+        <!--Categories-->
+      
+        <StackLayout
+            Grid.Row="1"
+            Grid.Column="0"
+            Padding="20, 0, 0, 0"
+            BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+            Spacing="0">
+
+            <Label
+                Text="{xct:Translate Categories}"
+                TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                FontSize="{DynamicResource tsize_i5}"
+                Style="{DynamicResource BaseContent_i2}"
+                Padding="0, 15"
+                VerticalTextAlignment="Center"/>
+
+            <controls:CustomScrollView
+                Padding="0, 0, 20, 5"
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                VerticalScrollBarVisibility="Never"
+                HorizontalScrollBarVisibility="Never">
+
+                <CollectionView ItemsSource="{Binding Categories}">
+
+                    <CollectionView.Effects>
+                        
+                        <effects:NoOverScrollEffect/>
+                        
+                    </CollectionView.Effects>
+
+                    <CollectionView.ItemsLayout>
+                        
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2" />
+                        
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate x:DataType="models:CategoryBindableModel">
+
+                            <Frame
+                                BorderColor="Transparent"
+                                BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                                Padding="2"
+                                HasShadow="False">
+
+                                <Frame
+                                    WidthRequest="162"
+                                    HeightRequest="55"
+                                    HasShadow="False"
+                                    CornerRadius="5"
+                                    Padding="4"
+                                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
+
+                                    <Label
+                                        Text="{Binding Title}"
+                                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource tsize_i8}"
+                                        Style="{DynamicResource BaseContent_i1}"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"/>
+
+                                </Frame>
+                                
+                            </Frame>
+
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </controls:CustomScrollView>
+
+        </StackLayout>
+
+    </Grid>
+
+</ContentView>

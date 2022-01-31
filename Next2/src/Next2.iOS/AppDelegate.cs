@@ -37,8 +37,8 @@ namespace Next2.iOS
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
         {
             return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone
-                ? UIInterfaceOrientationMask.Landscape
-                : UIInterfaceOrientationMask.Portrait;
+                ? UIInterfaceOrientationMask.Portrait
+                : UIInterfaceOrientationMask.Landscape;
         }
 
         #endregion

@@ -1,14 +1,13 @@
-﻿using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+﻿using Next2.Resources.Strings;
 using Next2.ViewModels;
-using Next2.Views;
+using Mobile = Next2.Views.Mobile;
+using Tablet = Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
-using System;
+using System.Globalization;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Next2
 {
@@ -19,13 +18,27 @@ namespace Next2
         {
         }
 
+        #region -- Public properties --
+
+        public static bool IsTablet = Device.Idiom == TargetIdiom.Tablet;
+
+        #endregion
+
         #region -- Overrides --
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                containerRegistry.RegisterForNavigation<Mobile.MenuPage, MenuPageViewModel>();
+            }
+            else
+            {
+                containerRegistry.RegisterForNavigation<Tablet.MenuPage, MenuPageViewModel>();
+            }
         }
 
         protected override async void OnInitialized()
@@ -40,7 +53,11 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(StartPage)}");
+            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Mobile.MenuPage)}");
         }
 
         protected override void OnStart()

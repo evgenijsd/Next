@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:viewsMobile="clr-namespace:Next2.Views.Mobile"
+    x:DataType="viewModels:MenuPageViewModel"
+    x:Class="Next2.Views.Mobile.MenuPage">
+
+    <Grid ColumnSpacing="0"
+          RowSpacing="0"
+          RowDefinitions="*, 80">
+
+        <!--TABS PAGES-->
+        <sc:StateContainer
+            Grid.Row="0"
+            Grid.Column="0"
+            State="{Binding SelectedMenuItem.State}">
+
+            <sc:StateCondition State="NewOrder">
+
+                <viewsMobile:CategoryView BindingContext="{Binding CategoryViewModel}"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="HoldItems">
+
+                <viewsMobile:HoldItemsView BindingContext="{Binding HoldItemsViewModel}"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="OrderTabs">
+
+                <viewsMobile:OrderTabsView BindingContext="{Binding OrderTabsViewModel}"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Customers">
+
+                <viewsMobile:CustomersView BindingContext="{Binding CustomersViewModel}"/>
+
+            </sc:StateCondition>
+
+        </sc:StateContainer>
+
+        <!--SIDE MENU-->
+        <StackLayout
+            Grid.Row="1"
+            Grid.Column="0"
+            BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+            Orientation="Vertical"
+            Padding="0"
+            Spacing="0">
+
+            <BoxView
+                Color="{DynamicResource textAndBackgroundColor_i2}"
+                HeightRequest="1"/>
+            
+            <controls:TabsControl
+                Margin="10, 8, 10, 8"
+                ItemsSource="{Binding MenuItems}"
+                SelectedItem="{Binding SelectedMenuItem}"
+                Direction="Row">
+
+                <DataTemplate x:DataType="models:MenuItemBindableModel">
+
+                    <templates:MenuItemTemplate
+                        IsSelected="{Binding IsSelected}"
+                        ImagePath="{Binding ImagePath}"
+                        Text="{Binding Title}"
+                        FontSize="{DynamicResource tsize_i5}"
+                        FontFamily="Barlow-Medium"
+                        WidthRequest="140"
+                        Padding="0, 8"/>
+
+                </DataTemplate>
+
+            </controls:TabsControl>
+
+        </StackLayout>
+
+    </Grid>
+
+</views:BaseContentPage>
