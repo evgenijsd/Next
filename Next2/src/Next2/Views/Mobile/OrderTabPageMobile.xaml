@@ -5,6 +5,7 @@
                        xmlns:controls="clr-namespace:Next2.Controls"
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels"
+                       x:DataType="viewModels:OrderTabPageMobileViewModel"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                        x:Class="Next2.Views.OrderTabPageMobile">
 
@@ -104,7 +105,8 @@
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
 
-                <StackLayout Grid.Column="0">
+                <StackLayout Grid.Column="0" 
+                             Margin="10,-10,-5,0">
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding SortByNameCommand}"/>
                     </StackLayout.GestureRecognizers>
@@ -117,10 +119,14 @@
                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding SortByOrderCommand}"/>
-                    </Label.GestureRecognizers>
                 </Label>
+
+                <StackLayout Grid.Column="1"
+                             Margin="5,-10,10,0">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SortByOrderCommand}" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
 
                 <Label Grid.Column="2"
                        HorizontalOptions="StartAndExpand"
@@ -133,7 +139,7 @@
             </Grid>
 
 
-            <CollectionView Grid.Row="4"
+            <CollectionView Grid.Row="4" x:Name="collectionData"
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
                             BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}"
@@ -142,7 +148,7 @@
                 
                 <CollectionView.ItemTemplate>
                     
-                    <DataTemplate>
+                    <DataTemplate x:DataType="viewModels:OrderViewModel">
                         
                         <Grid HorizontalOptions="Fill"
                               VerticalOptions="Fill"
@@ -229,7 +235,7 @@
                 
             </CollectionView>
 
-            <StackLayout Grid.Row="5"
+            <StackLayout Grid.Row="5" x:Name="StackButton" SizeChanged="StackButton_SizeChanged"
                          BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
                          IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">
                 

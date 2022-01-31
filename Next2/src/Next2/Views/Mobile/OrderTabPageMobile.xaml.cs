@@ -15,5 +15,10 @@ namespace Next2.Views
         {
             InitializeComponent();
         }
+
+        private void StackButton_SizeChanged(object sender, EventArgs e)
+        {
+            collectionData.ScrollTo(14, position: ScrollToPosition.Center);
+        }
     }
 }
