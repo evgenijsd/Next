@@ -1,10 +1,8 @@
-﻿using Foundation;
+﻿using System;
+using Foundation;
 using Next2.Controls;
 using Next2.iOS.Renderers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using ObjCRuntime;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -23,5 +21,12 @@ namespace Next2.iOS.Renderers
                 Control.BorderStyle = UIKit.UITextBorderStyle.None;
             }
         }
+
+        public override bool CanPerform(Selector action, NSObject withSender)
+        {
+            NSOperationQueue.MainQueue.AddOperation(() => { UIMenuController.SharedMenuController.SetMenuVisible(false, false); });
+
+            return base.CanPerform(action, withSender);
+        }
     }
-}
+} 

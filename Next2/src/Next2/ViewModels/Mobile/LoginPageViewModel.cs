@@ -27,7 +27,7 @@ namespace Next2.ViewModels.Mobile
         private ICommand _goToEmployeeIdPage;
         public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
 
-        public DateTime CurrentDate = DateTime.Now;
+        public DateTime CurrentDate { get; set; } = DateTime.Now;
 
         public bool IsErrorStrokeVisible { get; set; } = true;
 

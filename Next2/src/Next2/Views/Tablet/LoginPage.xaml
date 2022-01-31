@@ -35,21 +35,21 @@
                        Scale="0.8"
                        HorizontalOptions="EndAndExpand"/>
 
-                <Label Text="9:32:45 PM" 
+                <Label Text="{Binding CurrentDate, StringFormat='{}{0:h:hh:ss tt}'}"
                        VerticalOptions="Center"
                        FontSize="14"
                        Margin="0, 0, 25, 0"
                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                       Style="{DynamicResource BaseContent_i4}"/>
+                       Style="{DynamicResource BaseContent_i3}"/>
 
                 <Image Source="ic_calendar_24x24"
                        Scale="0.8"/>
 
-                <Label Text="Tuesday, 21 March 2021" 
+                <Label Text="{Binding CurrentDate, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
                        VerticalOptions="Center"
                        Margin="0, 0, 40, 0"
                        FontSize="14"
-                       Style="{DynamicResource BaseContent_i4}"
+                       Style="{DynamicResource BaseContent_i3}"
                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
                 
             </StackLayout>
