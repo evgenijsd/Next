@@ -59,15 +59,9 @@
                      Padding="0"
                      BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
 
-            <Frame WidthRequest="305"
-                   HeightRequest="160"
-                   BorderColor="Transparent"
-                   BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
-
-                <Image Source="pic_logo_big"
-                       HorizontalOptions="Center"/>
-
-            </Frame>
+            <Image Source="pic_logo_rectangular"
+                   HorizontalOptions="Center"
+                   Scale="0.6"/>
 
             <Label Text="Employee ID"
                    FontSize="16"
@@ -84,20 +78,41 @@
                                   BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
                                   BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
-                <Label x:Name="employeeID"
-                       Text="{Binding EmployeeId, Mode=TwoWay}"
-                       FontSize="16"
-                       VerticalTextAlignment="Center"
-                       Style="{DynamicResource BaseContent_i3}"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                       Opacity="0.32"
-                       Margin="8, 0, 0, 0"/> 
+                <StackLayout Orientation="Horizontal">
+
+                    <Label x:Name="employeeID"
+                           Text="{Binding EmployeeId, Mode=TwoWay}"
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           Style="{DynamicResource BaseContent_i3}"
+                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                           Opacity="0.32"
+                           Margin="8, 0, 0, 0"/>
+
+                    <Image Source="ic_danger_circle"
+                           Scale="0.6"
+                           HorizontalOptions="EndAndExpand"/>
+
+                </StackLayout>
                 
                 <controls:CustomFrame.GestureRecognizers>
 
                     <TapGestureRecognizer Command="{Binding GoToEmployeeIdPage}"/>
 
                 </controls:CustomFrame.GestureRecognizers>
+
+                <controls:CustomFrame.Triggers>
+
+                    <DataTrigger TargetType="controls:CustomFrame"
+                                 Binding="{Binding IsErrorStrokeVisible}"                                        
+                                 Value="True">
+
+                        <Setter Property="BorderColor"
+                                Value="{DynamicResource indicationcolor_i3}"/>
+
+                    </DataTrigger>
+
+                </controls:CustomFrame.Triggers>
 
             </controls:CustomFrame>
 
@@ -114,6 +129,7 @@
                                           Margin="16, 0, 0, 0"
                                           CornerRadius="8"
                                           Padding="4"
+                                          IsEnabled="True"
                                           BorderWidth="3"
                                           HeightRequest="65"
                                           HasShadow="False"
@@ -125,8 +141,7 @@
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"
                                Style="{DynamicResource BaseContent_i1}"
-                               TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                               Opacity="0.32">
+                               TextColor="WhiteSmoke">
                             
                             <Label.Triggers> 
                                 
@@ -134,7 +149,7 @@
                                              Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                           
                                              Value="Type Employee ID">
 
-                                    <Setter Property="TextColor" Value="WhiteSmoke"/>
+                                    <Setter Property="TextColor" Value="#757785"/>
                                     
                                 </DataTrigger>
                                 
@@ -150,6 +165,15 @@
 
                                 <Setter Property="BorderColor"
                                         Value="{DynamicResource textAndbackgroundcolor_i2 }"/>
+
+                            </DataTrigger>
+
+                            <DataTrigger TargetType="controls:CustomFrame"
+                                         Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                                        
+                                         Value="Type Employee ID">
+
+                                <Setter Property="IsEnabled"
+                                        Value="False"/>
 
                             </DataTrigger>
 
@@ -171,11 +195,12 @@
                     <controls:CustomFrame Margin="0, 0, 16, 0"
                                           CornerRadius="8"
                                           Padding="4"
+                                          IsEnabled="False"
                                           BorderWidth="3"
                                           HeightRequest="65"
                                           HasShadow="False"
                                           BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
-                                          BackgroundColor="{DynamicResource indicationcolor_i1}">
+                                          BackgroundColor="{DynamicResource indicationcolor_i2}">
 
                         <Label Text="Login"
                                FontSize="16"
@@ -187,13 +212,23 @@
                         <controls:CustomFrame.Triggers>
 
                             <DataTrigger TargetType="controls:CustomFrame"
-                                         Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                                        
-                                         Value="Type Employee ID" >
+                                         Binding="{Binding IsButtonEnable}"                                        
+                                         Value="True">
 
                                 <Setter Property="BackgroundColor"
-                                        Value="{DynamicResource indicationcolor_i2}"/>
+                                        Value="{DynamicResource indicationcolor_i1}"/>
+                               
+                            </DataTrigger>
+                            
+                            <DataTrigger TargetType="controls:CustomFrame"
+                                         Binding="{Binding IsButtonEnable}"                                        
+                                         Value="True">
+
+                                <Setter Property="IsEnabled"
+                                        Value="True"/>
 
                             </DataTrigger>
+
 
                         </controls:CustomFrame.Triggers>
                         

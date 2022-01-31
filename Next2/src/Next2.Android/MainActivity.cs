@@ -4,6 +4,7 @@ using Android.Runtime;
 using Android.OS;
 using AndroidX.AppCompat.App;
 using Xamarin.Forms;
+using Android.Views;
 
 namespace Next2.Droid
 {
@@ -24,6 +25,8 @@ namespace Next2.Droid
 
             LoadApplication(new App());
 
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

@@ -8,6 +8,7 @@ namespace Next2.Views.Tablet
         public LoginPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

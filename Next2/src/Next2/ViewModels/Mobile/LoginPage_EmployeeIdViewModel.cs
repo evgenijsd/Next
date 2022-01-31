@@ -1,6 +1,7 @@
 ﻿using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -33,6 +34,8 @@ namespace Next2.ViewModels.Mobile
         #region -- Private helpers --
         private async Task OnGoBackCommandAsync()
         {
+            EmployeeId = new string(EmployeeId?.Where(char.IsDigit).ToArray());
+
             var navigationParameters = new NavigationParameters
             {
                  { nameof(EmployeeId), EmployeeId },

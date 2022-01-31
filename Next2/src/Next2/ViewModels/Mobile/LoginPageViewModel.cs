@@ -2,6 +2,7 @@
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,6 +16,9 @@ namespace Next2.ViewModels.Mobile
             : base(navigationService)
         {
         }
+
+        private string _inputtedEmployeeId;
+
         #region -- Public properties--
 
         private ICommand _ButtonClearCommand;
@@ -25,38 +29,38 @@ namespace Next2.ViewModels.Mobile
 
         public DateTime CurrentDate = DateTime.Now;
 
-        private string _employeeId = "Type Employee ID";
-        public string EmployeeId
-        {
-            get => _employeeId;
-            set => SetProperty(ref _employeeId, value);
-        }
+        public bool IsErrorStrokeVisible { get; set; } = true;
+
+        public bool IsButtonEnable { get; set; } = false;
+
+        public string EmployeeId { get; set; } = "Type Employee ID";
 
         #endregion
 
         #region -- Private helpers --
+
         private async Task OnTabClearAsync()
         {
-            EmployeeId = string.Empty;
+            EmployeeId = "Type Employee ID";
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(LoginPage_EmployeeId)}");
         }
+
         #endregion
 
         #region -- Overrides --
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            _employeeId = string.Empty;
-           parameters.TryGetValue("EmployeeId", out _employeeId);
+            if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
+            {
+                EmployeeId = !string.IsNullOrWhiteSpace(_inputtedEmployeeId) ? EmployeeId = _inputtedEmployeeId : EmployeeId = EmployeeId;
+            }
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
         #endregion
 
     }
