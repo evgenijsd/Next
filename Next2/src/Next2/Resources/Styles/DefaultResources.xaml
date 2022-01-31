@@ -4,21 +4,23 @@
                     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
-   
+
     <!-- 24px -->
-    <x:Double x:Key="tsize_i4">26</x:Double>
+    <x:Double x:Key="TSize_i3">33</x:Double>
+    <!-- 24px -->
+    <x:Double x:Key="TSize_i4">26</x:Double>
     <!-- 18px -->
-    <x:Double x:Key="tsize_i5">20</x:Double>
+    <x:Double x:Key="TSize_i5">20</x:Double>
     <!-- 16px -->
-    <x:Double x:Key="tsize_i6">18</x:Double>
+    <x:Double x:Key="TSize_i6">18</x:Double>
     <!-- 14px -->
-    <x:Double x:Key="tsize_i7">16</x:Double>
+    <x:Double x:Key="TSize_i7">16</x:Double>
     <!-- 12px -->
-    <x:Double x:Key="tsize_i8">14</x:Double>
+    <x:Double x:Key="TSize_i8">14</x:Double>
     <!-- 10px -->
-    <x:Double x:Key="tsize_i9">12</x:Double>
+    <x:Double x:Key="TSize_i9">12</x:Double>
     <!-- 8px -->
-    <x:Double x:Key="tsize_i10">10</x:Double>
+    <x:Double x:Key="TSize_i10">10</x:Double>
 
     <!-- CONTENT STYLES -->
     <Style x:Key="BaseContent_i1" TargetType="Label">
@@ -37,7 +39,30 @@
         <Setter Property="FontFamily" Value="Barlow-Regular"/>
         <!-- 400 -->
     </Style>
-   
 
+    <Style TargetType="Frame">
+        <Setter Property="HasShadow" Value="False"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <Style TargetType="StackLayout">
+        <Setter Property="Spacing" Value="0"/>
+    </Style>
+
+    <Style TargetType="Grid">
+        <Setter Property="RowSpacing" Value="0"/>
+        <Setter Property="ColumnSpacing" Value="0"/>
+    </Style>
+
+    <Style x:Key="TextCell_i1" TargetType="Label" BasedOn="{StaticResource BaseContent_i3}">
+        <Setter Property="FontSize"  Value="{DynamicResource TSize_i7}"/>
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+        <Setter Property="Padding" Value="20, 10, 5, 10"/>
+    </Style>
+
+    <Style x:Key="SeparatorStyle" TargetType="BoxView" >
+        <Setter Property="HeightRequest" Value="2"/>
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+    </Style>
 
 </ResourceDictionary>

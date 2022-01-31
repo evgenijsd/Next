@@ -17,7 +17,7 @@ namespace Next2.Views.Tablet.Dialogs
         public CustomerInfoDialogTab(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            mainFrame.WidthRequest = Prism.PrismApplicationBase.Current.MainPage.Width / 3;
+            mainFrame.WidthRequest = Prism.PrismApplicationBase.Current.MainPage.Width / 2.8;
             mainFrame.HeightRequest = Prism.PrismApplicationBase.Current.MainPage.Height * 0.84;
             BindingContext = new CustomerInfoViewModel(param, requestClose);
         }

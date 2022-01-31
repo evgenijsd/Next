@@ -2,30 +2,155 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Next2.Views.StartPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Start Page"
-                   TextColor="{DynamicResource appcolor_i1}"
-                   FontSize="{DynamicResource tsize_i2}"
-                   FontFamily="{DynamicResource BaseContent_i4}"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
 
-            <Label Text="Click to crash"
-                   TextColor="Black"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CrashCommand}"/>
-                </Label.GestureRecognizers>
-            </Label>
+    <Frame x:Name="mainFrame" 
+           BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" 
+           HorizontalOptions="Center" 
+           VerticalOptions="Center"
+           Padding="1.5" 
+           CornerRadius="6"
+            >
 
-            <Label Text="Start Page"
-                   Style="{DynamicResource BaseContent_i2}"
-                   TextColor="{DynamicResource appcolor_i1}"
-                   FontSize="{DynamicResource tsize_i2}"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+        <Grid RowDefinitions="0.101*, 0.779*, 0.119*" RowSpacing="1.5"
+                  BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
+
+            <BoxView Grid.Row="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+            <Label Grid.Row="0" 
+                       Text="Customer Info" 
+                       TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+                       VerticalOptions="Center" 
+                       Margin="18,0,0,0" />
+
+            <BoxView Grid.Row="1" 
+                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+            <StackLayout Grid.Row="1" 
+                         Margin="24,0,24,0">
+                <StackLayout>
+                    <Label Text="Customer Name"
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    <Label Text="{Binding Customer.Name}" 
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Phone" TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    <Label Text="{Binding Customer.Phone}" 
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Email" TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    <Label Text="{Binding Customer.Email}"
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                </StackLayout>
+                <BoxView BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" 
+                         HeightRequest="1.5"/>
+                <Frame Padding="0" 
+                       Margin="0,24,0,24" 
+                       HasShadow="False" 
+                       BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
+                    <Grid VerticalOptions="EndAndExpand" 
+                          RowSpacing="1.5"
+                          ColumnSpacing="1.5" 
+                          Margin="0">
+                        <BoxView Grid.Row="0" 
+                                 Grid.Column="0" 
+                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
+                        <StackLayout Grid.Row="0" 
+                                     Grid.Column="0" 
+                                     VerticalOptions="Start"  Margin="0,60,0,0"
+                                     HorizontalOptions="Center">
+                            <Label Text="Points" 
+                                   TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            <Label Text="4" 
+                                   HorizontalOptions="Center" 
+                                   FontSize="24"
+                                   TextColor="{DynamicResource AppColor_i1}"/>
+                        </StackLayout>
+                        <BoxView Grid.Row="0" 
+                                 Grid.Column="1" 
+                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                 HeightRequest="300"/>
+                        <StackLayout Grid.Row="0"
+                                     Grid.Column="1" 
+                                     VerticalOptions="Center" 
+                                     HorizontalOptions="Center">
+                            <Label Text="Rewards" 
+                                   TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                            <Label Text="{Binding Customer.Rewards}" 
+                                   HorizontalOptions="Center" 
+                                   FontSize="32"
+                                   TextColor="{DynamicResource IndicationColor_i7}"/>
+                        </StackLayout>
+                        <BoxView Grid.Row="1" 
+                                 Grid.Column="0" 
+                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
+                        <StackLayout Grid.Row="1" 
+                                     Grid.Column="0" 
+                                     VerticalOptions="Center" HorizontalOptions="Center" 
+                                     Margin="40" >
+                            <Label Text="Number of Gift Cards" 
+                                   TextColor="{DynamicResource TextAndBackgroundColor_i1}"  />
+                            <Label Text="{Binding Customer.GiftCardCount}" 
+                                   HorizontalOptions="Center"
+                                   FontSize="32"
+                                   TextColor="{DynamicResource IndicationColor_i5}"/>
+                        </StackLayout>
+                        <BoxView Grid.Row="1" 
+                                 Grid.Column="1" 
+                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
+                        <StackLayout Grid.Row="1" 
+                                     Grid.Column="1" 
+                                     VerticalOptions="Center" 
+                                     HorizontalOptions="Center" 
+                                     Margin="40" >
+                            <Label Text="Gift Card Total" 
+                                   TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            <Label Text="{Binding Customer.GiftCardTotal}" 
+                                   FontSize="24"
+                                   HorizontalOptions="Center" 
+                                   TextColor="{DynamicResource IndicationColor_i1}"/>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+            </StackLayout>
+
+
+            <BoxView Grid.Row="2" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+            <StackLayout Grid.Row="2" Orientation="Horizontal" Margin="18">
+                <Frame HorizontalOptions="FillAndExpand" 
+                                   Padding="0" 
+                                   HasShadow="False" 
+                                   CornerRadius="4" Margin="0,0,3,0"
+                                   WidthRequest="100"
+                                   BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                   BorderColor="{DynamicResource AppColor_i1}">
+                    <Label Text="{Binding CancelButtonText}" 
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"
+                                       TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+                                       Opacity="0.5"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DeclineCommand}"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+                <Frame HorizontalOptions="FillAndExpand" 
+                                   HasShadow="False" 
+                                   CornerRadius="4" 
+                                   Margin="3,0,0,0"
+                                   BackgroundColor="{DynamicResource IndicationColor_i1}"
+                                   WidthRequest="100"
+                                   Padding="0">
+                    <Label Text="{Binding SelectButtonText}" 
+                                       TextColor="Black"
+                                       HorizontalOptions="Center" 
+                                       VerticalOptions="Center"/>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AcceptCommand}"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </StackLayout>
+
+        </Grid>
+    </Frame>
+
 </ContentPage>
