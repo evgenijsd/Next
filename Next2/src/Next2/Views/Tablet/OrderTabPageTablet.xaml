@@ -65,7 +65,12 @@
                                                HeightRequest="50"
                                                WidthRequest="260"
                                                HorizontalOptions="End"
-                                               VerticalOptions="End" />
+                                               VerticalOptions="End"
+                                               IsSelected="{Binding IsSelectedOrders}">
+                        <controls:CustomButtonLeft.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
+                        </controls:CustomButtonLeft.GestureRecognizers>
+                    </controls:CustomButtonLeft>
 
 
                     <controls:CustomButtonRight Grid.Column="1"
@@ -73,7 +78,12 @@
                                                 WidthRequest="260"
                                                 HorizontalOptions="Start"
                                                 VerticalOptions="End"
-                                                CornerRadius="10" />
+                                                CornerRadius="10"
+                                                IsSelected="{Binding IsSelectedTabs}">
+                        <controls:CustomButtonRight.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
+                        </controls:CustomButtonRight.GestureRecognizers>
+                    </controls:CustomButtonRight>
 
                 </Grid>
 
@@ -148,6 +158,7 @@
 
                     <StackLayout Grid.Column="1"
                                  Orientation="Horizontal">
+
                         <Label HorizontalOptions="StartAndExpand"
                                Margin="20,0,0,0"
                                Text="Table Number"
@@ -159,13 +170,13 @@
                                                     HeightRequest="25"
                                                     HorizontalOptions="StartAndExpand"
                                                     Margin="-45,-15,0,0"
-                                                    VerticalOptions="CenterAndExpand">
-                            <ffimageloading:CachedImage.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SortByNameCommand}" />
-                            </ffimageloading:CachedImage.GestureRecognizers>
-                        </ffimageloading:CachedImage>
-                    </StackLayout>
+                                                    VerticalOptions="CenterAndExpand" />
 
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SortByNameCommand}" />
+                        </StackLayout.GestureRecognizers>
+
+                    </StackLayout>
 
                     <StackLayout Grid.Column="2"
                                  Orientation="Horizontal">
@@ -181,11 +192,11 @@
                                                     HeightRequest="25"
                                                     HorizontalOptions="StartAndExpand"
                                                     Margin="-35,-15,0,0"
-                                                    VerticalOptions="CenterAndExpand">
-                            <ffimageloading:CachedImage.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SortByNameCommand}" />
-                            </ffimageloading:CachedImage.GestureRecognizers>
-                        </ffimageloading:CachedImage>
+                                                    VerticalOptions="CenterAndExpand" />
+                        
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SortByOrderCommand}" />
+                        </StackLayout.GestureRecognizers>
                         
                     </StackLayout>
 
@@ -216,13 +227,40 @@
 
                 <CollectionView Grid.Row="4"
                                 ItemsSource="{Binding Orders}"
-                                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                                SelectionMode="Single"
+                                BackgroundColor="{DynamicResource textAndbackgroundcolor_i7}"
                                 Margin="17,0,17,0">
+                    
                     <CollectionView.ItemTemplate>
+                        
                         <DataTemplate>
+                            
                             <Grid HorizontalOptions="Fill"
                                   VerticalOptions="Fill"
                                   RowSpacing="0">
+
+                                <VisualStateManager.VisualStateGroups>
+
+                                    <VisualStateGroup Name="CommonStates">
+
+                                        <VisualState Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{DynamicResource textAndbackgroundcolor_i7}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor"
+                                                        Value="{DynamicResource appcolor_i4}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
+                                
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="47" />
                                     <RowDefinition Height="1" />

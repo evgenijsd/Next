@@ -13,8 +13,7 @@ namespace Next2.Droid
         Icon = "@mipmap/next_icon",
         Theme = "@style/MainTheme", 
         MainLauncher = true, 
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize,
-        ScreenOrientation = ScreenOrientation.Landscape)]
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -30,7 +29,7 @@ namespace Next2.Droid
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
 
-            //RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Portrait : ScreenOrientation.Landscape;
+            RequestedOrientation = Device.Idiom == TargetIdiom.Phone ? ScreenOrientation.Portrait : ScreenOrientation.Landscape;
 
             LoadApplication(new App());
 
