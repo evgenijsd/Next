@@ -1,11 +1,12 @@
 ﻿using Next2.ENums;
+using Next2.Interfaces;
 using Prism.Mvvm;
 
 namespace Next2.Models
 {
     public class MenuItemBindableModel : BindableBase, ISelectable
     {
-        public EItemsMenu State { get; set; }
+        public EMenuItems State { get; set; }
 
         public bool IsSelected { get; set; }
 

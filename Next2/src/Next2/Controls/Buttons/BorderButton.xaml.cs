@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Next2.Controls.Buttons
 {
@@ -59,6 +60,18 @@ namespace Next2.Controls.Buttons
         {
             get => (string)GetValue(FontFamilyProperty);
             set => SetValue(FontFamilyProperty, value);
+        }
+
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            propertyName: nameof(Command),
+            returnType: typeof(ICommand),
+            declaringType: typeof(SearchBar),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using Next2.Models;
+﻿using Next2.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -151,11 +151,11 @@ namespace Next2.Controls
 
         private void OnSelectedItemPropertyChanged(ISelectable oldSelected, ISelectable newSelected)
         {
-            MakeUnselectedItem();
+            UnselectItem();
 
             if (newSelected != null)
             {
-                MakeSelectedItem(newSelected);
+                SelectItem(newSelected);
             }
         }
 
@@ -186,21 +186,21 @@ namespace Next2.Controls
             }
         }
 
-        private void OnTapMenuItem(ISelectable obj)
+        private void OnTapMenuItem(ISelectable item)
         {
             if (SelectedItem != null)
             {
-                MakeUnselectedItem();
+                UnselectItem();
             }
 
-            MakeSelectedItem(obj);
+            SelectItem(item);
         }
 
-        private void MakeSelectedItem(ISelectable obj)
+        private void SelectItem(ISelectable item)
         {
-            foreach (View item in _flexLayout.Children)
+            foreach (View child in _flexLayout.Children)
             {
-                if (item.BindingContext is ISelectable itemMenu && itemMenu == obj)
+                if (child.BindingContext is ISelectable itemMenu && itemMenu == item)
                 {
                     itemMenu.IsSelected = true;
                     SelectedItem = itemMenu;
@@ -210,11 +210,11 @@ namespace Next2.Controls
             }
         }
 
-        private void MakeUnselectedItem()
+        private void UnselectItem()
         {
-            foreach (View item in _flexLayout.Children)
+            foreach (View child in _flexLayout.Children)
             {
-                if (item.BindingContext is ISelectable itemMenu && itemMenu.IsSelected)
+                if (child.BindingContext is ISelectable itemMenu && itemMenu.IsSelected)
                 {
                     itemMenu.IsSelected = false;
                     break;

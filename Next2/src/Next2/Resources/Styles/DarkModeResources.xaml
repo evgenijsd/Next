@@ -24,7 +24,7 @@
     <!-- System/ Light Gray -->
     <Color x:Key="textAndBackgroundColor_i3">#34374C</Color>
     <!-- System/ Gray -->
-    <Color x:Key="textAndBackgroundColor_i4">#464B4A</Color>
+    <Color x:Key="textAndBackgroundColor_i4">#2E3143</Color>
     <!-- System/ Dark Gray -->
     <Color x:Key="textAndBackgroundColor_i5">#252836</Color>
     <!-- System/ Black -->

@@ -1,6 +1,6 @@
 ﻿namespace Next2.ENums
 {
-    public enum EItemsMenu
+    public enum EMenuItems
     {
         NewOrder,
         HoldItems,

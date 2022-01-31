@@ -128,9 +128,6 @@
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Buttons\CategoryItemTemplateCategoryItemTemplate.xaml.cs">
-      <DependentUpon>CategoryItemTemplateCategoryItemTemplate.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>

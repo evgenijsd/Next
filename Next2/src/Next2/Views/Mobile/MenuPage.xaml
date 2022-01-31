@@ -20,7 +20,7 @@
         <sc:StateContainer
             Grid.Row="0"
             Grid.Column="0"
-            State="{Binding SelectedItemSideMenuMob.State}">
+            State="{Binding SelectedMenuItem.State}">
 
             <sc:StateCondition State="NewOrder">
 
@@ -63,8 +63,8 @@
             
             <controls:TabsControl
                 Margin="10, 8, 10, 8"
-                ItemsSource="{Binding TabsSideMenuMob}"
-                SelectedItem="{Binding SelectedItemSideMenuMob}"
+                ItemsSource="{Binding MenuItems}"
+                SelectedItem="{Binding SelectedMenuItem}"
                 Direction="Row">
 
                 <DataTemplate x:DataType="models:MenuItemBindableModel">
@@ -73,7 +73,8 @@
                         IsSelected="{Binding IsSelected}"
                         ImagePath="{Binding ImagePath}"
                         Text="{Binding Title}"
-                        Style="{DynamicResource MenuItemTemplateMobileStyle}"
+                        FontSize="{DynamicResource tsize_i5}"
+                        FontFamily="Barlow-Medium"
                         WidthRequest="140"
                         Padding="0, 8"/>
 

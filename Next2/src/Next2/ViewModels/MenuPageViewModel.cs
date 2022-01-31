@@ -21,94 +21,95 @@ namespace Next2.ViewModels
             CustomersViewModel = new CustomersViewModel(navigationService);
             SettingsViewModel = new SettingsViewModel(navigationService);
 
-            TabsSideMenuMob = new ObservableCollection<MenuItemBindableModel>()
+            if (App.IsTablet)
             {
-                new MenuItemBindableModel()
+                MenuItems = new ObservableCollection<MenuItemBindableModel>()
                 {
-                    State = EItemsMenu.NewOrder,
-                    Title = "New Order",
-                    ImagePath = "ic_plus_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.HoldItems,
-                    Title = "Hold Items",
-                    ImagePath = "ic_time_circle_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.OrderTabs,
-                    Title = "Order & Tabs",
-                    ImagePath = "ic_folder_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.Customers,
-                    Title = "Customers",
-                    ImagePath = "ic_user_30x30.png",
-                },
-            };
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.NewOrder,
+                        Title = "New Order",
+                        ImagePath = "ic_plus_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.HoldItems,
+                        Title = "Hold Items",
+                        ImagePath = "ic_time_circle_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.OrderTabs,
+                        Title = "Order & Tabs",
+                        ImagePath = "ic_folder_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.Reservations,
+                        Title = "Reservations",
+                        ImagePath = "ic_bookmark_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.Membership,
+                        Title = "Membership",
+                        ImagePath = "ic_work_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.Customers,
+                        Title = "Customers",
+                        ImagePath = "ic_user_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.Settings,
+                        Title = "Settings",
+                        ImagePath = "ic_setting_30x30.png",
+                    },
+                };
 
-            SelectedItemSideMenuMob = TabsSideMenuMob[0];
-
-            TabsSideMenuTab = new ObservableCollection<MenuItemBindableModel>()
+                SelectedMenuItem = MenuItems[0];
+            }
+            else
             {
-                new MenuItemBindableModel()
+                MenuItems = new ObservableCollection<MenuItemBindableModel>()
                 {
-                    State = EItemsMenu.NewOrder,
-                    Title = "New Order",
-                    ImagePath = "ic_plus_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.HoldItems,
-                    Title = "Hold Items",
-                    ImagePath = "ic_time_circle_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.OrderTabs,
-                    Title = "Order & Tabs",
-                    ImagePath = "ic_folder_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.Reservations,
-                    Title = "Reservations",
-                    ImagePath = "ic_bookmark_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.Membership,
-                    Title = "Membership",
-                    ImagePath = "ic_work_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.Customers,
-                    Title = "Customers",
-                    ImagePath = "ic_user_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EItemsMenu.Settings,
-                    Title = "Settings",
-                    ImagePath = "ic_setting_30x30.png",
-                },
-            };
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.NewOrder,
+                        Title = "New Order",
+                        ImagePath = "ic_plus_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.HoldItems,
+                        Title = "Hold Items",
+                        ImagePath = "ic_time_circle_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.OrderTabs,
+                        Title = "Order & Tabs",
+                        ImagePath = "ic_folder_30x30.png",
+                    },
+                    new MenuItemBindableModel()
+                    {
+                        State = EMenuItems.Customers,
+                        Title = "Customers",
+                        ImagePath = "ic_user_30x30.png",
+                    },
+                };
 
-            SelectedItemSideMenuTab = TabsSideMenuTab[0];
+                SelectedMenuItem = MenuItems[0];
+            }
         }
 
         #region -- Public properties --
 
-        public MenuItemBindableModel SelectedItemSideMenuMob { get; set; }
+        public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<MenuItemBindableModel> TabsSideMenuMob { get; set; }
-
-        public MenuItemBindableModel SelectedItemSideMenuTab { get; set; }
-
-        public ObservableCollection<MenuItemBindableModel> TabsSideMenuTab { get; set; }
+        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
         public NewOrderViewModel NewOrderViewModel { get; set; }
 

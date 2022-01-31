@@ -27,11 +27,11 @@
 
             <ffimageloading:CachedImage
                 Source="pic_logo_small.png"
-                Margin="10, 10, 10, 10"/>
+                Margin="10, 10, 10, 15"/>
             
             <controls:TabsControl
-                ItemsSource="{Binding TabsSideMenuTab}"
-                SelectedItem="{Binding SelectedItemSideMenuTab}"
+                ItemsSource="{Binding MenuItems}"
+                SelectedItem="{Binding SelectedMenuItem}"
                 Direction="Column">
 
                 <DataTemplate x:DataType="models:MenuItemBindableModel">
@@ -40,9 +40,11 @@
                         ImagePath="{Binding ImagePath}"
                         Style="{DynamicResource MenuItemTemplateTabletStyle}"
                         Text="{Binding Title}"
+                        FontSize="{DynamicResource tsize_i8}"
+                        FontFamily="Barlow-SemiBold"
                         IsSelected="{Binding IsSelected}"
                         Margin="10, 0"
-                        Padding="0, 13"/>
+                        Padding="0, 15"/>
 
                 </DataTemplate>
 
@@ -52,9 +54,10 @@
                 IsSelected="False"
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
-                Style="{DynamicResource MenuItemTemplateTabletStyle}"
-                Margin="7, 0"
-                Padding="0, 8"/>
+                FontSize="{DynamicResource tsize_i8}"
+                FontFamily="Barlow-SemiBold"
+                Margin="10, 0"
+                Padding="0, 15"/>
 
         </StackLayout>
 
@@ -63,7 +66,7 @@
         <sc:StateContainer
             Grid.Row="0"
             Grid.Column="1"
-            State="{Binding SelectedItemSideMenuTab.State}">
+            State="{Binding SelectedMenuItem.State}">
 
             <sc:StateCondition State="NewOrder">
 

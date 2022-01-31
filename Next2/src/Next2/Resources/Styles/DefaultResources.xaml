@@ -40,39 +40,4 @@
         <!-- 400 -->
     </Style>
 
-
-    <!-- MENU PAGE -->
-
-    <Style x:Key="MenuItemTemplateBaseStyle" TargetType="templates:MenuItemTemplate">
-        <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="TextColor" Value="{DynamicResource textAndBackgroundColor_i1}"/>
-        <Setter Property="SelectedBackgroundColor" Value="{DynamicResource appColor_i4}"/>
-        <Setter Property="BackgroundColor" Value="{DynamicResource textAndBackgroundColor_i3}"/>
-        <Setter Property="SelectedBorderColor" Value="{DynamicResource appColor_i1}"/>
-        <Setter Property="BorderColor" Value="{DynamicResource textAndBackgroundColor_i3}"/>
-        <Setter Property="FontSize" Value="{DynamicResource tsize_i5}"/>
-        <Setter Property="FontFamily" Value="Barlow-Medium"/>
-        <Setter Property="HasShadow" Value="False"/>
-    </Style>
-
-    <Style
-        x:Key="MenuItemTemplateMobileStyle"
-        TargetType="templates:MenuItemTemplate"
-        BasedOn="{StaticResource MenuItemTemplateBaseStyle}">
-        
-        <Setter Property="FontSize" Value="{DynamicResource tsize_i5}"/>
-        <Setter Property="FontFamily" Value="Barlow-Medium"/>
-        
-    </Style>
-
-    <Style
-        x:Key="MenuItemTemplateTabletStyle"
-        TargetType="templates:MenuItemTemplate"
-        BasedOn="{StaticResource MenuItemTemplateBaseStyle}">
-        
-        <Setter Property="FontSize" Value="{DynamicResource tsize_i8}"/>
-        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-        
-    </Style>
-
 </ResourceDictionary>

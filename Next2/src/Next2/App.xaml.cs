@@ -18,6 +18,12 @@ namespace Next2
         {
         }
 
+        #region -- Public properties --
+
+        public static bool IsTablet = Device.Idiom == TargetIdiom.Tablet;
+
+        #endregion
+
         #region -- Overrides --
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

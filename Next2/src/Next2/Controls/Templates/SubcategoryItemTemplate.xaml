@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Controls.Templates.SubCategoryItemTemplate"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    Orientation="Vertical">
+    Orientation="Vertical"
+    BackgroundColor="{DynamicResource textAndBackgroundColor_i4}">
 
     <StackLayout.Triggers>
 
@@ -15,13 +16,15 @@
 
             <Setter 
                 Property="BackgroundColor"
-                Value="{Binding Source={RelativeSource Self}, Path=SelectedBackgroundColor}" />
+                Value="{DynamicResource appColor_i4}" />
 
         </DataTrigger>
 
     </StackLayout.Triggers>
     
-    <BoxView HeightRequest="3">
+    <BoxView
+        HeightRequest="3"
+        BackgroundColor="{DynamicResource textAndBackgroundColor_i5}">
 
         <BoxView.Triggers>
 
@@ -32,7 +35,7 @@
 
                 <Setter
                     Property="BackgroundColor"
-                    Value="{Binding Source={RelativeSource Self}, Path=SelectedBorderColor}" />
+                    Value="{DynamicResource appColor_i1}" />
 
             </DataTrigger>
 
@@ -42,7 +45,7 @@
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=Text}"
-        TextColor="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=TextColor}"
+        TextColor="{DynamicResource textAndBackgroundColor_i1}"
         FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=FontSize}"
         FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:SubCategoryItemTemplate}}, Path=FontFamily}"
         HorizontalTextAlignment="Center"

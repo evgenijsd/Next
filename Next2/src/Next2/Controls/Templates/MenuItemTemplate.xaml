@@ -4,8 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    x:Class="Next2.Controls.Templates.MenuItemTemplate">
-
+    x:Class="Next2.Controls.Templates.MenuItemTemplate"
+    CornerRadius="5"
+    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+    BorderColor="{DynamicResource textAndBackgroundColor_i3}"
+    HasShadow="False">
+    
     <Frame.Triggers>
 
         <DataTrigger
@@ -15,11 +19,11 @@
 
             <Setter
                 Property="BackgroundColor"
-                Value="{Binding Source={RelativeSource Self}, Path=SelectedBackgroundColor}" />
+                Value="{DynamicResource appColor_i4}" />
 
             <Setter
                 Property="BorderColor"
-                Value="{Binding Source={RelativeSource Self}, Path=SelectedBorderColor}" />
+                Value="{DynamicResource appColor_i1}" />
 
         </DataTrigger>
 
@@ -34,7 +38,7 @@
 
         <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=Text}"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=TextColor}"
+            TextColor="{DynamicResource textAndBackgroundColor_i1}"
             FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=FontSize}"
             FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:MenuItemTemplate}}, Path=FontFamily}"
             HorizontalTextAlignment="Center"

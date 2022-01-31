@@ -44,19 +44,6 @@ namespace Next2.Controls.Templates
             set => SetValue(TextProperty, value);
         }
 
-        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
-            propertyName: nameof(TextColor),
-            returnType: typeof(Color),
-            declaringType: typeof(MenuItemTemplate),
-            defaultValue: Color.White,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color TextColor
-        {
-            get => (Color)GetValue(TextColorProperty);
-            set => SetValue(TextColorProperty, value);
-        }
-
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(float),
@@ -81,32 +68,6 @@ namespace Next2.Controls.Templates
         {
             get => (string)GetValue(FontFamilyProperty);
             set => SetValue(FontFamilyProperty, value);
-        }
-
-        public static readonly BindableProperty SelectedBackgroundColorProperty = BindableProperty.Create(
-            propertyName: nameof(SelectedBackgroundColor),
-            returnType: typeof(Color),
-            declaringType: typeof(MenuItemTemplate),
-            defaultValue: Color.Orange,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color SelectedBackgroundColor
-        {
-            get => (Color)GetValue(SelectedBackgroundColorProperty);
-            set => SetValue(SelectedBackgroundColorProperty, value);
-        }
-
-        public static readonly BindableProperty SelectedBorderColorProperty = BindableProperty.Create(
-            propertyName: nameof(SelectedBorderColor),
-            returnType: typeof(Color),
-            declaringType: typeof(MenuItemTemplate),
-            defaultValue: Color.Orange,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color SelectedBorderColor
-        {
-            get => (Color)GetValue(SelectedBorderColorProperty);
-            set => SetValue(SelectedBorderColorProperty, value);
         }
 
         #endregion
