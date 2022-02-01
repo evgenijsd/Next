@@ -10,6 +10,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewsMobile="clr-namespace:Next2.Views.Mobile"
     x:DataType="viewModels:MenuPageViewModel"
+    BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
     x:Class="Next2.Views.Mobile.MenuPage">
 
     <Grid ColumnSpacing="0"

@@ -126,6 +126,7 @@
             </Grid>
 
             <Frame Grid.Row="2"
+                   HasShadow="False"
                    Margin="17,85,17,-20"
                    CornerRadius="11"
                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">

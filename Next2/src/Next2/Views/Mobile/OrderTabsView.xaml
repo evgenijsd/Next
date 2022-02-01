@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Mobile.OrderTabsView"
+    BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
     x:DataType="viewModels:OrderTabsViewModel">
 
     <ContentView.Resources>
@@ -70,6 +71,7 @@
                                          Margin="17,17,17,73" />
 
             <Frame Grid.Row="2"
+                   HasShadow="False"
                    Margin="17,85,17,-20"
                    CornerRadius="11"
                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
