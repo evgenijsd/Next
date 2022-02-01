@@ -8,10 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Next2.Resources.Strings {
+namespace Next2.Resources.Strings
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,59 +23,136 @@ namespace Next2.Resources.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
-        
+    internal class Strings
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        internal Strings()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        internal static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Next2.Resources.Strings.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
-            get {
+        internal static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Not found orders.
+        ///   Looks up a localized string similar to Customer Name.
         /// </summary>
-        internal static string NotFoundOrders {
-            get {
-                return ResourceManager.GetString("NotFoundOrders", resourceCulture);
+        internal static string CustomerName
+        {
+            get
+            {
+                return ResourceManager.GetString("CustomerName", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Some issues.
+        ///   Looks up a localized string similar to Membership.
         /// </summary>
-        internal static string SomeIssues {
-            get {
-                return ResourceManager.GetString("SomeIssues", resourceCulture);
+        internal static string Membership
+        {
+            get
+            {
+                return ResourceManager.GetString("Membership", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Membership End.
+        /// </summary>
+        internal static string MembershipEndTime
+        {
+            get
+            {
+                return ResourceManager.GetString("MembershipEndTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Membership Start.
+        /// </summary>
+        internal static string MembershipStartTime
+        {
+            get
+            {
+                return ResourceManager.GetString("MembershipStartTime", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No internet connection.
+        /// </summary>
+        internal static string NoInternerConnection
+        {
+            get
+            {
+                return ResourceManager.GetString("NoInternerConnection", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        internal static string Phone
+        {
+            get
+            {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Search by Name or Phone.
+        /// </summary>
+        internal static string SearchByNameOrPhone
+        {
+            get
+            {
+                return ResourceManager.GetString("SearchByNameOrPhone", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Watch the tutorial.
+        /// </summary>
+        internal static string WatchTutorial
+        {
+            get
+            {
+                return ResourceManager.GetString("WatchTutorial", resourceCulture);
             }
         }
     }

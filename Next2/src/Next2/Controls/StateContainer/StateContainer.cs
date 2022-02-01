@@ -1,4 +1,3 @@
-using Next2.Controls.StateContainer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +5,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls.StateContainer
 {
+    [ContentProperty("Conditions")]
     public class StateContainer : ContentView
     {
         #region -- Public properties --
@@ -26,6 +26,8 @@ namespace Next2.Controls.StateContainer
 
         #endregion
 
+        #region --- Private helpers ---
+
         private static void OnStatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             if (bindable is StateContainer parent)
@@ -44,5 +46,7 @@ namespace Next2.Controls.StateContainer
 
             return Task.CompletedTask;
         }
+
+        #endregion
     }
 }

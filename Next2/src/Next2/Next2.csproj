@@ -98,6 +98,9 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -115,6 +118,61 @@
     <Folder Include="Enums\" />
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\ProcessHelpers\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
+      <DependentUpon>BorderButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
+      <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
+      <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
+      <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\CustomersView.xaml.cs">
+      <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\HoldItemsView.xaml.cs">
+      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\CategoryView.xaml.cs">
+      <DependentUpon>NewOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\OrderTabsView.xaml.cs">
+      <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\CustomersView.xaml.cs">
+      <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
+      <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
+      <DependentUpon>MenuPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\NewOrderView.xaml.cs">
+      <DependentUpon>NewOrderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
+      <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -163,8 +221,32 @@
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\StartPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <EmbeddedResource Update="Views\CustomersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\HoldItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\MenuPageMenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\MenuPageMenuPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MembershipView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\NewOrderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OrderTabsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\ReservationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
