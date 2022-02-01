@@ -84,13 +84,8 @@ namespace InterTwitter.ViewModels
                 }
                 else
                 {
-                    if (SelectedItem == _oldSelectedItem)
-                    {
-                        SelectedItem.CheckboxImage = "ic_check_box_unhecked_24x24";
-                    }
-
-                    var sa = CustomersList.Where(x => x.Id == _oldSelectedItem.Id).FirstOrDefault();
-                    sa.CheckboxImage = "ic_check_box_unhecked_24x24";
+                    var si = CustomersList.Where(x => x.Id == _oldSelectedItem.Id).FirstOrDefault();
+                    si.CheckboxImage = "ic_check_box_unhecked_24x24";
                     SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
                     _oldSelectedItem = SelectedItem;
                 }
