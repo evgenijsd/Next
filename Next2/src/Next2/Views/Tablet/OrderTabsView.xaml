@@ -151,7 +151,7 @@
                              Spacing="0">
 
                     <Label HorizontalOptions="Start"
-                           Margin="20,0,0,0"
+                           Margin="15,0,0,0"
                            Text="Table Number"
                            TextColor="{DynamicResource textAndBackgroundColor_i1}"
                            FontSize="{DynamicResource tsize_i8}"
@@ -172,7 +172,7 @@
                              Orientation="Horizontal">
 
                     <Label HorizontalOptions="StartAndExpand"
-                           Margin="15,0,0,0"
+                           Margin="10,0,0,0"
                            Text="Order Number"
                            TextColor="{DynamicResource textAndBackgroundColor_i1}"
                            FontSize="{DynamicResource tsize_i8}"
@@ -192,21 +192,22 @@
 
                 <Label Grid.Column="3"
                        HorizontalOptions="StartAndExpand"
-                       Margin="10,0,0,0"
+                       Margin="0,0,0,0"
                        Text="Total"
                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
+                
                 <Label Grid.Column="4"
                        HorizontalOptions="StartAndExpand"
-                       Margin="10,0,0,0"
+                       Margin="5,0,0,0"
                        Text="Order Status"
                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
                 <Label Grid.Column="5"
                        HorizontalOptions="StartAndExpand"
-                       Margin="10,0,0,0"
+                       Margin="0,0,0,0"
                        Text="Order Type"
                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
@@ -300,7 +301,7 @@
                                        TextColor="{DynamicResource textAndBackgroundColor_i1}">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding Total, StringFormat='$ {0:D0}.00'}" />
+                                            <Span Text="{Binding Total, StringFormat='$ {0:F2}'}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -312,7 +313,22 @@
                                        Text="{Binding OrderStatus}"
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       TextColor="{DynamicResource textAndBackgroundColor_i1}" />
+                                       TextColor="{DynamicResource textAndBackgroundColor_i1}">
+                                    <Label.Triggers>
+                                        <Trigger TargetType="Label"
+                                                 Property="Text"
+                                                 Value="Annuled">
+                                            <Setter Property="TextColor"
+                                                    Value="{DynamicResource indicationColor_i3}" />
+                                        </Trigger>
+                                        <Trigger TargetType="Label"
+                                                 Property="Text"
+                                                 Value="Pending">
+                                            <Setter Property="TextColor"
+                                                    Value="{DynamicResource indicationColor_i5}" />
+                                        </Trigger>
+                                    </Label.Triggers>
+                                </Label>
 
                                 <Label Grid.Column="5"
                                        HorizontalOptions="StartAndExpand"
