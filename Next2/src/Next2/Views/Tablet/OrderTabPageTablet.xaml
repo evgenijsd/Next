@@ -6,6 +6,7 @@
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels"
+                       x:DataType="viewModels:OrderTabPageTabletViewModel"
                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}"
                        x:Class="Next2.Views.OrderTabPageTablet">
 
@@ -232,8 +233,8 @@
                                 Margin="17,0,17,0">
                     
                     <CollectionView.ItemTemplate>
-                        
-                        <DataTemplate>
+
+                        <DataTemplate x:DataType="viewModels:OrderViewModel">
                             
                             <Grid HorizontalOptions="Fill"
                                   VerticalOptions="Fill"
@@ -275,15 +276,12 @@
                                         <ColumnDefinition Width="155" />
                                     </Grid.ColumnDefinitions>
 
-                                    <ffimageloading:CachedImage Source="ic_check_box_unhecked_24x24"
+                                    <ffimageloading:CachedImage Source="ic_check_box_unchecked_white"
                                                                 Grid.Column="0"
                                                                 HeightRequest="25"
                                                                 HorizontalOptions="CenterAndExpand"
                                                                 Margin="20,0,0,0"
                                                                 VerticalOptions="CenterAndExpand">
-                                        <ffimageloading:CachedImage.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SortByNameCommand}" />
-                                        </ffimageloading:CachedImage.GestureRecognizers>
                                     </ffimageloading:CachedImage>
 
                                     <Label Grid.Column="1"

@@ -101,11 +101,11 @@ namespace Next2.ViewModels
 
                     if (IsSelectedOrders)
                     {
-                        name = r.CustomerName;
+                        name = $"Table {r.TableNumber}";
                     }
                     else
                     {
-                        name = $"Table {r.TableNumber}";
+                        name = r.CustomerName;
                     }
 
                     Orders.Add(new OrderViewModel
