@@ -1,14 +1,25 @@
-﻿using Next2.Models;
+﻿using Next2.ENums;
+using Next2.Models;
+using Next2.Views.Mobile;
 using Prism.Navigation;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
 
 namespace Next2.ViewModels.Mobile
 {
-    public class CategoryViewModel : BaseViewModel
+    public class MenuPageViewModel : BaseViewModel
     {
-        public CategoryViewModel(INavigationService navigationService)
+        private INavigationService _navigationService;
+
+        public MenuPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
+            _navigationService = navigationService;
+
             Categories = new ObservableCollection<CategoryBindableModel>()
             {
                 new CategoryBindableModel()
@@ -122,11 +133,72 @@ namespace Next2.ViewModels.Mobile
                     Title = "Soups",
                 },
             };
+
+            MenuItems = new ObservableCollection<MenuItemBindableModel>()
+            {
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.NewOrder,
+                    Title = "New Order",
+                    ImagePath = "ic_plus_30x30.png",
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.HoldItems,
+                    Title = "Hold Items",
+                    ImagePath = "ic_time_circle_30x30.png",
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.OrderTabs,
+                    Title = "Order & Tabs",
+                    ImagePath = "ic_folder_30x30.png",
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.Customers,
+                    Title = "Customers",
+                    ImagePath = "ic_user_30x30.png",
+                },
+            };
+
+            SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
         #region -- Public properties --
 
         public ObservableCollection<CategoryBindableModel> Categories { get; set; }
+
+        public MenuItemBindableModel SelectedMenuItem { get; set; }
+
+        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedMenuItem))
+            {
+                switch (SelectedMenuItem.State)
+                {
+                    case EMenuItems.HoldItems:
+                        _navigationService.NavigateAsync(nameof(HoldItemsPage));
+                        break;
+                    case EMenuItems.OrderTabs:
+                        _navigationService.NavigateAsync(nameof(OrderTabsPage));
+                        break;
+                    case EMenuItems.Customers:
+                        _navigationService.NavigateAsync(nameof(CustomersPage));
+                        break;
+                }
+
+                SelectedMenuItem = MenuItems.FirstOrDefault();
+            }
+        }
 
         #endregion
     }

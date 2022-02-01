@@ -8,7 +8,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet"
     x:DataType="viewModels:MenuPageViewModel"

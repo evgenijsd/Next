@@ -15,5 +15,17 @@ namespace Next2.ViewModels
         public string? Text { get; set; }
 
         #endregion
+
+        #region -- IPageActionsHandler implementation --
+
+        public override void OnAppearing()
+        {
+        }
+
+        public override void OnDisappearing()
+        {
+        }
+
+        #endregion
     }
 }

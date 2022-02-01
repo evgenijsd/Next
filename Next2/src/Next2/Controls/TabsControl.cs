@@ -1,8 +1,11 @@
 ﻿using Next2.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -13,7 +16,7 @@ namespace Next2.Controls
         private FlexLayout _flexLayout = new FlexLayout();
 
         private ICommand _menuItemCommand;
-        private ICommand MenuItemCommand => _menuItemCommand = new Command<ISelectable>(OnTapMenuItem);
+        private ICommand MenuItemCommand => _menuItemCommand = new AsyncCommand<ISelectable>(OnTapMenuItem, allowsMultipleExecutions: false);
 
         public TabsControl()
         {
@@ -186,7 +189,7 @@ namespace Next2.Controls
             }
         }
 
-        private void OnTapMenuItem(ISelectable item)
+        private Task OnTapMenuItem(ISelectable item)
         {
             if (SelectedItem != null)
             {
@@ -194,6 +197,8 @@ namespace Next2.Controls
             }
 
             SelectItem(item);
+
+            return Task.CompletedTask;
         }
 
         private void SelectItem(ISelectable item)

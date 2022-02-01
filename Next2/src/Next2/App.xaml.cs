@@ -1,7 +1,9 @@
 ﻿using Next2.Resources.Strings;
 using Next2.ViewModels;
-using Mobile = Next2.Views.Mobile;
-using Tablet = Next2.Views.Tablet;
+using MobileViews = Next2.Views.Mobile;
+using TabletViews = Next2.Views.Tablet;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Unity;
@@ -36,11 +38,14 @@ namespace Next2
 
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
-                containerRegistry.RegisterForNavigation<Mobile.MenuPage, MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
             }
             else
             {
-                containerRegistry.RegisterForNavigation<Tablet.MenuPage, MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
             }
         }
 
@@ -60,7 +65,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(Mobile.MenuPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
 
         protected override void OnStart()
