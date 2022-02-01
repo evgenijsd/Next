@@ -25,7 +25,7 @@
             Grid.Column="0"
             RowDefinitions="105, *, 90"
             RowSpacing="0"
-            BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <ffimageloading:CachedImage
                 Grid.Row="0"
@@ -48,7 +48,7 @@
                         ImagePath="{Binding ImagePath}"
                         Style="{DynamicResource MenuItemTemplateTabletStyle}"
                         Text="{Binding Title}"
-                        FontSize="{DynamicResource tsize_i9}"
+                        FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-Medium"
                         IsSelected="{Binding IsSelected}"
                         Margin="13, 0"
@@ -64,7 +64,7 @@
                 IsSelected="False"
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
-                FontSize="{DynamicResource tsize_i8}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold"
                 Margin="10, 0"
                 Padding="0, 15"/>

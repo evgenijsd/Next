@@ -30,16 +30,16 @@
             <StackLayout
                 Grid.Row="0"
                 Grid.Column="0"
-                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Orientation="Horizontal"
                 Spacing="0"
                 Padding="18">
 
                 <Frame
                     Padding="1"
-                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     HasShadow="False"
-                    BorderColor="{DynamicResource appColor_i3}"
+                    BorderColor="{DynamicResource AppColor_i3}"
                     CornerRadius="9"
                     HorizontalOptions="Start">
 
@@ -51,10 +51,10 @@
 
                 <Label
                     Text="{xct:Translate NewOrder}"
-                    TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Style="{DynamicResource BaseContent_i2}"
                     Margin="20, 0, 0, 0"
-                    FontSize="{DynamicResource tsize_i5}"
+                    FontSize="{DynamicResource TSize_i5}"
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="Center"
                     FontAttributes="Bold"/>
@@ -62,9 +62,9 @@
                 <Frame
                     IsClippedToBounds="True"
                     Padding="10"
-                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     HasShadow="False"
-                    BorderColor="{DynamicResource textAndBackgroundColor_i2}"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                     CornerRadius="5"
                     HorizontalOptions="End">
 
@@ -80,20 +80,20 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Padding="20, 0, 0, 0"
-                BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 Spacing="0">
 
                 <Label
                     Text="{xct:Translate Categories}"
-                    TextColor="{DynamicResource textAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource tsize_i5}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i5}"
                     Style="{DynamicResource BaseContent_i2}"
                     Padding="0, 15"
                     VerticalTextAlignment="Center"/>
 
                 <CollectionView
                     Margin="0, 0, 20, 5"
-                    BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never"
                     ItemsSource="{Binding Categories}">
@@ -118,7 +118,7 @@
 
                             <Frame
                                 BorderColor="Transparent"
-                                BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                                 Padding="2"
                                 HasShadow="False">
 
@@ -128,12 +128,12 @@
                                     HasShadow="False"
                                     CornerRadius="5"
                                     Padding="4"
-                                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <Label
                                         Text="{Binding Title}"
-                                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource tsize_i8}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource TSize_i8}"
                                         Style="{DynamicResource BaseContent_i1}"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center"/>
@@ -156,13 +156,13 @@
         <StackLayout
             Grid.Row="1"
             Grid.Column="0"
-            BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Orientation="Vertical"
             Padding="0"
             Spacing="0">
 
             <BoxView
-                Color="{DynamicResource textAndBackgroundColor_i2}"
+                Color="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="1"/>
             
             <controls:TabsControl
@@ -177,7 +177,7 @@
                         IsSelected="{Binding IsSelected}"
                         ImagePath="{Binding ImagePath}"
                         Text="{Binding Title}"
-                        FontSize="{DynamicResource tsize_i5}"
+                        FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-Medium"
                         WidthRequest="140"
                         Padding="0, 8"/>
