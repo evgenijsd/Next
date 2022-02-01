@@ -26,9 +26,8 @@ namespace Next2
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
-            containerRegistry.RegisterForNavigation<Views.OrderTabPageMobile, ViewModels.OrderTabPageMobileViewModel>();
-            containerRegistry.RegisterForNavigation<Views.OrderTabPageTablet, ViewModels.OrderTabPageTabletViewModel>();
-            containerRegistry.RegisterForNavigation<Views.TabPageTablet, ViewModels.TabPageTabletViewModel>();
+            containerRegistry.RegisterForNavigation<Views.Mobile.OrderTabPage, ViewModels.OrderTabPageViewModel>();
+            containerRegistry.RegisterForNavigation<Views.Tablet.OrderTabPage, ViewModels.OrderTabPageViewModel>();
         }
 
         protected override async void OnInitialized()

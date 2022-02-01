@@ -12,11 +12,11 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
 {
-    public class OrderTabPageTabletViewModel : BaseViewModel
+    public class OrderTabPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
 
-        public OrderTabPageTabletViewModel(
+        public OrderTabPageViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
@@ -66,6 +66,10 @@ namespace Next2.ViewModels
 
         public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
 
+        private ICommand _GoBackCommand;
+
+        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+
         private ICommand _SortByNameCommand;
 
         public ICommand SortByNameCommand => _SortByNameCommand ??= new AsyncCommand(OnSortByNameCommandAsync);
@@ -101,11 +105,11 @@ namespace Next2.ViewModels
 
                     if (IsSelectedOrders)
                     {
-                        name = $"Table {r.TableNumber}";
+                        name = r.CustomerName;
                     }
                     else
                     {
-                        name = r.CustomerName;
+                        name = $"Table {r.TableNumber}";
                     }
 
                     Orders.Add(new OrderViewModel
@@ -114,8 +118,6 @@ namespace Next2.ViewModels
                         OrderNumber = r.OrderNumber,
                         Total = r.Total,
                         TableNumber = r.TableNumber,
-                        OrderStatus = r.OrderStatus,
-                        OrderType = r.OrderType,
                     });
                 }
             }
@@ -139,6 +141,11 @@ namespace Next2.ViewModels
                 IsSelectedTabs = !IsSelectedTabs;
                 await GetOrders();
             }
+        }
+
+        private async Task OnGoBackCommandAsync()
+        {
+            await _navigationService.GoBackAsync();
         }
 
         private Task OnSortByNameCommandAsync()

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Next2.Views
+namespace Next2.Views.Tablet
 {
-    public partial class TabPageTablet : BaseContentPage
+    public partial class OrderTabPage : BaseContentPage
     {
-        public TabPageTablet()
+        public OrderTabPage()
         {
             InitializeComponent();
         }
