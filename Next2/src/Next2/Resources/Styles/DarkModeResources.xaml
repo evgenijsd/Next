@@ -30,7 +30,7 @@
     <!-- System/ Black -->
     <Color x:Key="textAndBackgroundColor_i6">#212430</Color>
 
-    <Color x:Key="textAndbackgroundcolor_i7">#2E3143</Color>
+    <Color x:Key="textAndBackgroundColor_i7">#2E3143</Color>
 
     <!-- Indications -->
 

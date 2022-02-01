@@ -108,29 +108,29 @@
                                                HorizontalOptions="EndAndExpand"
                                                Text="Remove"
                                                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                                               BorderColor="{DynamicResource indicationcolor_i3}"
+                                               BorderColor="{DynamicResource indicationColor_i3}"
                                                BackColor="Transparent"
                                                WidthRequest="100"/>
 
                         <controls:CustomButton CornerRadius="5"
                                                Text="Edit"
                                                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                                               BorderColor="{DynamicResource indicationcolor_i5}"
+                                               BorderColor="{DynamicResource indicationColor_i5}"
                                                BackColor="Transparent"                                               
                                                WidthRequest="100" />
 
                         <controls:CustomButton CornerRadius="5"
                                                Text="Split"
                                                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                                               BorderColor="{DynamicResource indicationcolor_i7}"
+                                               BorderColor="{DynamicResource indicationColor_i7}"
                                                BackColor="Transparent"
                                                WidthRequest="100" />
 
                         <controls:CustomButton CornerRadius="5"
                                                Text="Print"
                                                TextColor="{DynamicResource textAndbackgroundcolor_i3}"
-                                               BorderColor="{DynamicResource indicationcolor_i1}"
-                                               BackColor="{DynamicResource indicationcolor_i1}"
+                                               BorderColor="{DynamicResource indicationColor_i1}"
+                                               BackColor="{DynamicResource indicationColor_i1}"
                                                WidthRequest="100" />
                         
                     </StackLayout>
