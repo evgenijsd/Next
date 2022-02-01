@@ -84,9 +84,9 @@
                   Margin="17,100,0,0">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="120" />
-                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0"
@@ -116,7 +116,7 @@
 
                 <Label Grid.Column="1"
                        HorizontalOptions="StartAndExpand"
-                       Margin="15,0,0,0"
+                       Margin="10,0,0,0"
                        Text="Order Number"
                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
@@ -132,7 +132,7 @@
 
                 <Label Grid.Column="2"
                        HorizontalOptions="StartAndExpand"
-                       Margin="10,0,0,0"
+                       Margin="0,0,0,0"
                        Text="Total"
                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
@@ -187,9 +187,9 @@
                             <Grid Grid.Row="0">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label Grid.Column="0"
