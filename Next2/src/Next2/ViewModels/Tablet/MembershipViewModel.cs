@@ -1,7 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Extensions;
 using Next2.Models;
-using Next2.Services;
 using Next2.Services.Membership;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -37,32 +36,13 @@ namespace Next2.ViewModels.Tablet
 
         public ETypeSortingOrder TypeOfMemberSortingOrder { get; set; } = ETypeSortingOrder.ByAscending;
 
-        public EMemberSortingCriterion CurrentMemberSortingCriterion { get; set; } = EMemberSortingCriterion.ByCustomerName;
+        public EMemberSortingCriterion CurrentMemberSortingCriterion { get; set; } = EMemberSortingCriterion.ByMembershipStartTime;
 
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
 
         public ICommand _tableHeaderColumnTapCommand;
         public ICommand TableHeaderColumnTapCommand => _tableHeaderColumnTapCommand ??= new AsyncCommand<EMemberSortingCriterion>(OnTableHeaderColumnTapCommandAsync);
-
-        #endregion
-
-        #region -- Overrides --
-
-        public override void Initialize(INavigationParameters parameters)
-        {
-            base.Initialize(parameters);
-        }
-
-        public override Task InitializeAsync(INavigationParameters parameters)
-        {
-            return RefreshMembersAsync();
-        }
-
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            await RefreshMembersAsync();
-        }
 
         #endregion
 

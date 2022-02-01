@@ -10,7 +10,7 @@
     <!-- Dark/Disabled 10% -->
     <Color x:Key="AppColor_i2">#EB5637</Color>
     <!-- Dark/Pressed_Light -->
-    <Color x:Key="AppColor_i3">#D24A2E</Color>TextAndBackgroundColor_i1
+    <Color x:Key="AppColor_i3">#D24A2E</Color>
     <!-- Dark/Pressed_Dark -->
     <Color x:Key="AppColor_i4">#AB3821</Color>
 

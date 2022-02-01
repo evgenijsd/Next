@@ -99,6 +99,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="Plugin.DeviceOrientation" Version="1.0.7" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="SkiaSharp" Version="2.80.3" />
@@ -123,7 +124,6 @@
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\Mobile\" />
     <Folder Include="Views\Mobile\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Services\" />
