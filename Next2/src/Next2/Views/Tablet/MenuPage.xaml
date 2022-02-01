@@ -12,7 +12,8 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet"
     x:DataType="viewModels:MenuPageViewModel"
-    x:Class="Next2.Views.Tablet.MenuPage">
+    x:Class="Next2.Views.Tablet.MenuPage"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <Grid
         ColumnSpacing="0"
