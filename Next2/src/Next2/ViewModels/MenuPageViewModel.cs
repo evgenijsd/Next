@@ -1,19 +1,25 @@
 ﻿using Next2.ENums;
 using Next2.Models;
+using Next2.Services.MockService;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Next2.ViewModels
 {
     public class MenuPageViewModel : BaseViewModel
     {
-        public MenuPageViewModel(INavigationService navigationService)
+        private MenuItemBindableModel _oldSelectedMenuItem;
+
+        public MenuPageViewModel(
+            INavigationService navigationService,
+            IMockService mockService)
             : base(navigationService)
         {
-            NewOrderViewModel = new NewOrderViewModel(navigationService);
+            NewOrderViewModel = new NewOrderViewModel(navigationService, mockService);
             CategoryViewModel = new CategoryViewModel(navigationService);
             HoldItemsViewModel = new HoldItemsViewModel(navigationService);
             OrderTabsViewModel = new OrderTabsViewModel(navigationService);
@@ -106,7 +112,19 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public MenuItemBindableModel SelectedMenuItem { get; set; }
+        public MenuItemBindableModel _selectedMenuItem;
+        public MenuItemBindableModel SelectedMenuItem
+        {
+            get
+            {
+                return _selectedMenuItem;
+            }
+            set
+            {
+                _oldSelectedMenuItem = _selectedMenuItem;
+                SetProperty(ref _selectedMenuItem, value);
+            }
+        }
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
@@ -125,6 +143,71 @@ namespace Next2.ViewModels
         public CustomersViewModel CustomersViewModel { get; set; }
 
         public SettingsViewModel SettingsViewModel { get; set; }
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedMenuItem))
+            {
+                switch (SelectedMenuItem.State)
+                {
+                    case EMenuItems.NewOrder:
+                        NewOrderViewModel.OnAppearing();
+                        break;
+                    case EMenuItems.HoldItems:
+
+                        break;
+                    case EMenuItems.OrderTabs:
+
+                        break;
+                    case EMenuItems.Reservations:
+
+                        break;
+                    case EMenuItems.Membership:
+
+                        break;
+                    case EMenuItems.Customers:
+
+                        break;
+                    case EMenuItems.Settings:
+                        //SettingsViewModel
+                        break;
+                }
+
+                if (_oldSelectedMenuItem != null)
+                {
+                    switch (_oldSelectedMenuItem.State)
+                    {
+                        case EMenuItems.NewOrder:
+                            NewOrderViewModel.OnDisappearing();
+                            break;
+                        case EMenuItems.HoldItems:
+
+                            break;
+                        case EMenuItems.OrderTabs:
+
+                            break;
+                        case EMenuItems.Reservations:
+
+                            break;
+                        case EMenuItems.Membership:
+
+                            break;
+                        case EMenuItems.Customers:
+
+                            break;
+                        case EMenuItems.Settings:
+                            //SettingsViewModel
+                            break;
+                    }
+                }
+            }
+        }
 
         #endregion
     }
