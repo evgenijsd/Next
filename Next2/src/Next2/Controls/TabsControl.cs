@@ -15,8 +15,8 @@ namespace Next2.Controls
     {
         private FlexLayout _flexLayout = new FlexLayout();
 
-        private ICommand _menuItemCommand;
-        private ICommand MenuItemCommand => _menuItemCommand = new AsyncCommand<ISelectable>(OnTapMenuItem, allowsMultipleExecutions: false);
+        private ICommand _tapCommand;
+        private ICommand TapCommand => _tapCommand = new AsyncCommand<ISelectable>(OnMenuItemTapCommandAsync, allowsMultipleExecutions: false);
 
         public TabsControl()
         {
@@ -186,7 +186,7 @@ namespace Next2.Controls
 
                     clickableLayout.GestureRecognizers.Add(new TapGestureRecognizer()
                     {
-                        Command = MenuItemCommand,
+                        Command = TapCommand,
                         CommandParameter = item,
                     });
 
@@ -195,7 +195,7 @@ namespace Next2.Controls
             }
         }
 
-        private Task OnTapMenuItem(ISelectable item)
+        private Task OnMenuItemTapCommandAsync(ISelectable item)
         {
             if (SelectedItem != null)
             {

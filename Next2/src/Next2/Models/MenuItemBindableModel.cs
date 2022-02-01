@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Interfaces;
 using Prism.Mvvm;
 

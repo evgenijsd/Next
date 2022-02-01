@@ -18,12 +18,12 @@
         <StackLayout
             Grid.Row="0"
             Grid.Column="0"
-            Padding="20">
+            Padding="20"
+            xct:TouchEffect.Command="{prism:GoBack}">
 
             <ffimageloading:CachedImage
                 HorizontalOptions="StartAndExpand"
-                Source="ic_arrow_left_tail_24x24.png"
-                xct:TouchEffect.Command="{prism:GoBack}"/>
+                Source="ic_arrow_left_tail_24x24.png"/>
 
         </StackLayout>
 

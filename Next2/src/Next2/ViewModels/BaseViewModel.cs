@@ -10,14 +10,7 @@ namespace Next2.ViewModels
     {
         protected INavigationService _navigationService { get; }
 
-        protected bool IsConnectionExist
-        {
-            get
-            {
-                var connectivity = Connectivity.NetworkAccess;
-                return connectivity != NetworkAccess.None && connectivity != NetworkAccess.Unknown;
-            }
-        }
+        protected bool IsInternetConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
         public BaseViewModel(INavigationService navigationService)
         {

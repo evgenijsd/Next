@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Models;
 using Prism.Navigation;
 using System;
@@ -76,19 +76,7 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
-        public MenuItemBindableModel _selectedMenuItem;
-        public MenuItemBindableModel SelectedMenuItem
-        {
-            get
-            {
-                return _selectedMenuItem;
-            }
-            set
-            {
-                _oldSelectedMenuItem = _selectedMenuItem;
-                SetProperty(ref _selectedMenuItem, value);
-            }
-        }
+        public MenuItemBindableModel SelectedMenuItem { get; set; }
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
@@ -168,6 +156,8 @@ namespace Next2.ViewModels.Tablet
                             break;
                     }
                 }
+
+                _oldSelectedMenuItem = SelectedMenuItem;
             }
         }
 

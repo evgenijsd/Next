@@ -1,4 +1,4 @@
-﻿namespace Next2.ENums
+﻿namespace Next2.Enums
 {
     public enum EMenuItems
     {

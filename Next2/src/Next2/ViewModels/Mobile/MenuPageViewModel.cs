@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Models;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -13,15 +13,11 @@ namespace Next2.ViewModels.Mobile
 {
     public class MenuPageViewModel : BaseViewModel
     {
-        private INavigationService _navigationService;
-
         private MenuItemBindableModel _oldSelectedMenuItem;
 
         public MenuPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            _navigationService = navigationService;
-
             Categories = new ObservableCollection<CategoryBindableModel>()
             {
                 new CategoryBindableModel()
@@ -178,17 +174,13 @@ namespace Next2.ViewModels.Mobile
 
         #endregion
 
-        #region -- INavigationAware implementation --
+        #region -- Overrides --
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             SelectedMenuItem = MenuItems.FirstOrDefault();
             _oldSelectedMenuItem = SelectedMenuItem;
         }
-
-        #endregion
-
-        #region -- Overrides --
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {

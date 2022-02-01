@@ -14,17 +14,9 @@ namespace Next2.Views
 
         #region -- Overrides --
 
-        protected override void OnAppearing()
-        {
-        }
-
-        protected override void OnDisappearing()
-        {
-        }
-
         protected override bool OnBackButtonPressed()
         {
-            return base.OnBackButtonPressed();
+            return true;
         }
 
         #endregion
