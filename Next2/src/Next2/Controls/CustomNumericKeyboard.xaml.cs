@@ -21,6 +21,8 @@ namespace Next2.Controls
 
         #region -- Public property --
 
+        public bool IsKeyBoardTyped { get; set; }
+
         private ICommand _ButtonTabCommand;
         public ICommand ButtonTabCommand => _ButtonTabCommand ??= new AsyncCommand<object>(OnTabAsync);
 
@@ -71,6 +73,7 @@ namespace Next2.Controls
                 }
                 else
                 {
+                    IsKeyBoardTyped = true;
                     EmployeeId = view.Text;
                     _startTyping = true;
                 }
@@ -81,6 +84,7 @@ namespace Next2.Controls
         {
             EmployeeId = "Type Employee ID";
             _startTyping = false;
+            IsKeyBoardTyped = false;
         }
         #endregion
     }

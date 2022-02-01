@@ -5,22 +5,18 @@
              x:Class="Next2.Views.Tablet.LoginPage">
     
     <ContentPage.Content>
-        
-        <Grid RowSpacing="0"
-              RowDefinitions="auto"
-              ColumnSpacing="2"
-              BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.45*"/>
-            </Grid.ColumnDefinitions>
+        <Grid RowSpacing="0"
+              ColumnSpacing="2"
+              BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}"
+              ColumnDefinitions="*, 0.45*"
+              RowDefinitions="0.10*,*">
 
             <StackLayout Orientation="Horizontal"
-                         HeightRequest="90"
                          HorizontalOptions="Fill"
                          BackgroundColor="#2E3143"
                          Grid.Column="0"
+                         Grid.Row="0"
                          Padding="0">
 
                 <Label Text="Welcome"
@@ -53,20 +49,21 @@
                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
                 
             </StackLayout>
-            
-            <StackLayout Grid.Column="0"
-                         Grid.Row="1"
-                         Orientation="Vertical"
-                         Padding="0"
+
+            <ContentView Grid.Row="1"
+                         VerticalOptions="Fill"
+                         HorizontalOptions="Fill"
+                         Padding="80, -25, 80, 20"
                          BackgroundColor="{DynamicResource textAndbackgroundcolor_i4}">
-
-                <Image Source="pic_logo_big" 
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       Scale="0.8"/>
-
-            </StackLayout>
-
+                
+                <Image 
+                    Source="pic_logo_big"
+                    Margin="115"
+                    Aspect="AspectFit"
+                    />
+                
+            </ContentView>
+ 
             <controls:CustomNumericKeyboard Grid.Column="1"
                                             Grid.RowSpan="2"/>
 

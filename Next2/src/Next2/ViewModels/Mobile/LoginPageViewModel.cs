@@ -48,7 +48,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnGoToEmployeeIdPageAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(LoginPage_EmployeeId)}");
+            await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
 
         #endregion

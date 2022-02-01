@@ -18,12 +18,13 @@
 
                 <Image Source="ic_arrow_left_tail_40x40"
                        VerticalOptions="Center"
-                       Margin="4, 0, 0, 0"
-                       Scale="0.4">
+                       Scale="0.6"
+                       Margin="15, 0, 0, 0">
 
                     <Image.GestureRecognizers>
 
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"
+                                              NumberOfTapsRequired="1" />
 
                     </Image.GestureRecognizers>
 
