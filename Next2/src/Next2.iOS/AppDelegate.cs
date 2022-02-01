@@ -38,7 +38,7 @@ namespace Next2.iOS
         {
             return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone
                 ? UIInterfaceOrientationMask.Portrait
-                : UIInterfaceOrientationMask.Landscape;
+                : UIInterfaceOrientationMask.LandscapeRight;
         }
 
         #endregion
