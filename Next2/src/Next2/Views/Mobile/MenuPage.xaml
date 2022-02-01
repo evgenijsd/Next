@@ -91,65 +91,62 @@
                     Padding="0, 15"
                     VerticalTextAlignment="Center"/>
 
-                <controls:CustomScrollView
-                    Padding="0, 0, 20, 5"
+                <CollectionView
+                    Margin="0, 0, 20, 5"
                     BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
                     VerticalScrollBarVisibility="Never"
-                    HorizontalScrollBarVisibility="Never">
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding Categories}">
 
-                    <CollectionView ItemsSource="{Binding Categories}">
+                    <CollectionView.Effects>
 
-                        <CollectionView.Effects>
+                        <effects:NoOverScrollEffect/>
 
-                            <effects:NoOverScrollEffect/>
+                    </CollectionView.Effects>
 
-                        </CollectionView.Effects>
+                    <CollectionView.ItemsLayout>
 
-                        <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2" />
 
-                            <GridItemsLayout
-                                Orientation="Vertical"
-                                Span="2" />
+                    </CollectionView.ItemsLayout>
 
-                        </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
 
-                        <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CategoryBindableModel">
 
-                            <DataTemplate x:DataType="models:CategoryBindableModel">
+                            <Frame
+                                BorderColor="Transparent"
+                                BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                                Padding="2"
+                                HasShadow="False">
 
                                 <Frame
-                                    BorderColor="Transparent"
-                                    BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
-                                    Padding="2"
-                                    HasShadow="False">
+                                    WidthRequest="162"
+                                    HeightRequest="55"
+                                    HasShadow="False"
+                                    CornerRadius="5"
+                                    Padding="4"
+                                    BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
 
-                                    <Frame
-                                        WidthRequest="162"
-                                        HeightRequest="55"
-                                        HasShadow="False"
-                                        CornerRadius="5"
-                                        Padding="4"
-                                        BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
-
-                                        <Label
-                                            Text="{Binding Title}"
-                                            TextColor="{DynamicResource textAndBackgroundColor_i1}"
-                                            FontSize="{DynamicResource tsize_i8}"
-                                            Style="{DynamicResource BaseContent_i1}"
-                                            HorizontalTextAlignment="Center"
-                                            VerticalTextAlignment="Center"/>
-
-                                    </Frame>
+                                    <Label
+                                        Text="{Binding Title}"
+                                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource tsize_i8}"
+                                        Style="{DynamicResource BaseContent_i1}"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"/>
 
                                 </Frame>
 
-                            </DataTemplate>
+                            </Frame>
 
-                        </CollectionView.ItemTemplate>
+                        </DataTemplate>
 
-                    </CollectionView>
+                    </CollectionView.ItemTemplate>
 
-                </controls:CustomScrollView>
+                </CollectionView>
 
             </StackLayout>
 

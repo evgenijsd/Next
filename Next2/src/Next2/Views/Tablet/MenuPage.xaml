@@ -16,20 +16,28 @@
 
     <Grid
         ColumnSpacing="0"
-        ColumnDefinitions="0.1*, *">
+        ColumnDefinitions="110, *">
 
         <!--SIDE MENU-->
         
-        <StackLayout 
+        <Grid
             Grid.Row="0"
             Grid.Column="0"
+            RowDefinitions="105, *, 90"
+            RowSpacing="0"
             BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
 
             <ffimageloading:CachedImage
+                Grid.Row="0"
+                Grid.Column="0"
                 Source="pic_logo_small.png"
-                Margin="10, 10, 10, 15"/>
+                Margin="0, 10, 0, 10"/>
             
             <controls:TabsControl
+                Padding="0, 10, 0, 10"
+                Grid.Row="1"
+                Grid.Column="0"
+                AlignContent="Center"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 Direction="Column">
@@ -40,17 +48,19 @@
                         ImagePath="{Binding ImagePath}"
                         Style="{DynamicResource MenuItemTemplateTabletStyle}"
                         Text="{Binding Title}"
-                        FontSize="{DynamicResource tsize_i8}"
-                        FontFamily="Barlow-SemiBold"
+                        FontSize="{DynamicResource tsize_i9}"
+                        FontFamily="Barlow-Medium"
                         IsSelected="{Binding IsSelected}"
-                        Margin="10, 0"
-                        Padding="0, 15"/>
+                        Margin="13, 0"
+                        Padding="0, 13"/>
 
                 </DataTemplate>
 
             </controls:TabsControl>
 
             <templates:MenuItemTemplate
+                Grid.Row="2"
+                Grid.Column="0"
                 IsSelected="False"
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
@@ -59,7 +69,7 @@
                 Margin="10, 0"
                 Padding="0, 15"/>
 
-        </StackLayout>
+        </Grid>
 
         <!--TABS PAGES-->
         

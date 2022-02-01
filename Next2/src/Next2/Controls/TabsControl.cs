@@ -20,6 +20,9 @@ namespace Next2.Controls
 
         public TabsControl()
         {
+            _flexLayout.JustifyContent = JustifyContent;
+            _flexLayout.AlignContent = AlignContent;
+
             Content = _flexLayout;
         }
 
@@ -95,7 +98,7 @@ namespace Next2.Controls
             propertyName: nameof(JustifyContent),
             returnType: typeof(FlexJustify),
             declaringType: typeof(TabsControl),
-            default(FlexJustify),
+            defaultValue: FlexJustify.SpaceBetween,
             defaultBindingMode: BindingMode.TwoWay);
 
         public FlexJustify JustifyContent
@@ -108,7 +111,7 @@ namespace Next2.Controls
             propertyName: nameof(AlignContent),
             returnType: typeof(FlexAlignContent),
             declaringType: typeof(TabsControl),
-            default(FlexAlignContent),
+            defaultValue: FlexAlignContent.SpaceBetween,
             defaultBindingMode: BindingMode.TwoWay);
 
         public FlexAlignContent AlignContent
@@ -134,7 +137,10 @@ namespace Next2.Controls
                     _flexLayout.Wrap = Wrap;
                     break;
                 case nameof(JustifyContent):
-                    _flexLayout.JustifyContent = FlexJustify.Start;
+                    _flexLayout.JustifyContent = JustifyContent;
+                    break;
+                case nameof(AlignContent):
+                    _flexLayout.AlignContent = AlignContent;
                     break;
             }
         }
