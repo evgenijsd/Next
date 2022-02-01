@@ -15,6 +15,8 @@ namespace Next2.ViewModels.Mobile
     {
         private INavigationService _navigationService;
 
+        private MenuItemBindableModel _oldSelectedMenuItem;
+
         public MenuPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
@@ -162,7 +164,8 @@ namespace Next2.ViewModels.Mobile
                 },
             };
 
-            SelectedMenuItem = MenuItems.FirstOrDefault();
+            _oldSelectedMenuItem = MenuItems.FirstOrDefault();
+            SelectedMenuItem = _oldSelectedMenuItem;
         }
 
         #region -- Public properties --
@@ -175,6 +178,16 @@ namespace Next2.ViewModels.Mobile
 
         #endregion
 
+        #region -- INavigationAware implementation --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            SelectedMenuItem = MenuItems.FirstOrDefault();
+            _oldSelectedMenuItem = SelectedMenuItem;
+        }
+
+        #endregion
+
         #region -- Overrides --
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -183,20 +196,23 @@ namespace Next2.ViewModels.Mobile
 
             if (args.PropertyName == nameof(SelectedMenuItem))
             {
-                switch (SelectedMenuItem.State)
+                if (_oldSelectedMenuItem.State == EMenuItems.NewOrder)
                 {
-                    case EMenuItems.HoldItems:
-                        _navigationService.NavigateAsync(nameof(HoldItemsPage));
-                        break;
-                    case EMenuItems.OrderTabs:
-                        _navigationService.NavigateAsync(nameof(OrderTabsPage));
-                        break;
-                    case EMenuItems.Customers:
-                        _navigationService.NavigateAsync(nameof(CustomersPage));
-                        break;
-                }
+                    _oldSelectedMenuItem = SelectedMenuItem;
 
-                SelectedMenuItem = MenuItems.FirstOrDefault();
+                    switch (SelectedMenuItem.State)
+                    {
+                        case EMenuItems.HoldItems:
+                            _navigationService.NavigateAsync(nameof(HoldItemsPage));
+                            break;
+                        case EMenuItems.OrderTabs:
+                            _navigationService.NavigateAsync(nameof(OrderTabsPage));
+                            break;
+                        case EMenuItems.Customers:
+                            _navigationService.NavigateAsync(nameof(CustomersPage));
+                            break;
+                    }
+                }
             }
         }
 
