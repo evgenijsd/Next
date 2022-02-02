@@ -101,16 +101,12 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
@@ -137,19 +133,16 @@
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\CustomersView.xaml.cs">
+    <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\HoldItemsView.xaml.cs">
+    <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\CategoryView.xaml.cs">
-      <DependentUpon>NewOrderView.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Mobile\OrderTabsView.xaml.cs">
+    <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
