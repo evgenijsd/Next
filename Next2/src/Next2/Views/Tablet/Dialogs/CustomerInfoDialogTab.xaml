@@ -43,7 +43,7 @@
     </ContentPage.Resources>
 
     <Frame
-        x:Name="mainFrame"
+        x:Name="mainFrame" HeightRequest="620" WidthRequest="360"
         Padding="1.5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="6"
@@ -213,7 +213,7 @@
                 Margin="18"
                 Orientation="Horizontal">
                 <Frame
-                    Margin="0,0,3,0"
+                    Margin="0,0,5,0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                     BorderColor="{DynamicResource AppColor_i1}"
                     Style="{StaticResource button_frame}">
@@ -226,7 +226,7 @@
                     </Frame.GestureRecognizers>
                 </Frame>
                 <Frame
-                    Margin="3,0,0,0"
+                    Margin="5,0,0,0"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     Style="{StaticResource button_frame}">
                     <Label

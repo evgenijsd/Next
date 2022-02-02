@@ -57,8 +57,6 @@ namespace InterTwitter.ViewModels
             set => SetProperty(ref _selectedItem, value);
         }
 
-        public ICommand TabSelectButtonCommand => new Command(OnTabSelectButtonCommand);
-        public ICommand MobSelectButtonCommand => new Command(OnMobSelectButtonCommand);
         public ICommand TabInfoButtonCommand => new AsyncCommand(OnTabInfoButtonCommand);
         public ICommand SortCommand => new AsyncCommand<string>(OnSortCommand);
 
@@ -75,21 +73,6 @@ namespace InterTwitter.ViewModels
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
-            if (args.PropertyName == nameof(SelectedItem))
-            {
-                if (_oldSelectedItem == null)
-                {
-                    _oldSelectedItem = SelectedItem;
-                    SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
-                }
-                else
-                {
-                    var si = CustomersList.Where(x => x.Id == _oldSelectedItem.Id).FirstOrDefault();
-                    si.CheckboxImage = "ic_check_box_unhecked_24x24";
-                    SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
-                    _oldSelectedItem = SelectedItem;
-                }
-            }
         }
 
         #endregion
@@ -107,26 +90,59 @@ namespace InterTwitter.ViewModels
                 foreach (var item in listvm)
                 {
                     item.CheckboxImage = "ic_check_box_unhecked_24x24";
+                    item.MobSelectCommand = new Command<object>(OnMobSelectButtonCommand);
+                    item.TabSelectCommand = new Command<object>(OnTabSelectCommand);
                     CustomersList?.Add(item);
+                }
+            }
+        }
+
+        private void OnTabSelectCommand(object obj)
+        {
+            SelectedItem = obj as CustomersViewModel;
+
+            if (_oldSelectedItem == null)
+            {
+                    _oldSelectedItem = SelectedItem;
+                    SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
+            }
+            else
+            {
+                if (SelectedItem == _oldSelectedItem)
+                {
+                    SelectedItem.CheckboxImage = "ic_check_box_unhecked_24x24";
+                    SelectedItem = null;
+                    _oldSelectedItem = null;
+                }
+                else
+                {
+                    var si = CustomersList.Where(x => x.Id == _oldSelectedItem.Id).FirstOrDefault();
+                    si.CheckboxImage = "ic_check_box_unhecked_24x24";
+                    SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
+                    _oldSelectedItem = SelectedItem;
                 }
             }
         }
 
         private async Task OnTabInfoButtonCommand()
         {
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
-            param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
-            param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
-            await Rg.Plugins.Popup.Services
-                .PopupNavigation.Instance
-                .PushAsync(new CustomerInfoDialogTab(param, CloseDialogCallback));
+            if (SelectedItem != null)
+            {
+                var param = new DialogParameters();
+                param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
+                param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
+                param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
+                await Rg.Plugins.Popup.Services
+                    .PopupNavigation.Instance
+                    .PushAsync(new CustomerInfoDialogTab(param, CloseDialogCallback));
+            }
         }
 
         private async void OnMobSelectButtonCommand(object obj)
         {
+            SelectedItem = obj as CustomersViewModel;
             var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
+            param.Add(Constants.DialogParameterKeys.MODEL, obj as CustomersViewModel);
             param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
             param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
             await Rg.Plugins.Popup.Services
@@ -137,10 +153,6 @@ namespace InterTwitter.ViewModels
         private async void CloseDialogCallback(IDialogParameters obj)
         {
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
-        }
-
-        private async void OnTabSelectButtonCommand()
-        {
         }
 
         private bool _isSortedAscending;

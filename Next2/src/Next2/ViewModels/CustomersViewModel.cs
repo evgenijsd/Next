@@ -72,11 +72,18 @@ namespace Next2.ViewModels
             set => SetProperty(ref _checkboxImage, value);
         }
 
-        private ICommand? _command;
-        public ICommand? Command
+        private ICommand? _mobselectcommand;
+        public ICommand? MobSelectCommand
         {
-            get => _command;
-            set => SetProperty(ref _command, value);
+            get => _mobselectcommand;
+            set => SetProperty(ref _mobselectcommand, value);
+        }
+
+        private ICommand? _tabselectcommand;
+        public ICommand? TabSelectCommand
+        {
+            get => _tabselectcommand;
+            set => SetProperty(ref _tabselectcommand, value);
         }
     }
 }
