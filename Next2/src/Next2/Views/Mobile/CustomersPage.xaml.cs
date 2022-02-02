@@ -2,9 +2,9 @@
 
 namespace Next2.Views.Mobile
 {
-    public partial class OrderTabsView : ContentView
+    public partial class CustomersPage : BaseContentPage
     {
-        public OrderTabsView()
+        public CustomersPage()
         {
             InitializeComponent();
         }

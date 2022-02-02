@@ -14,11 +14,11 @@
 
             <Setter 
                 Property="BackgroundColor"
-                Value="{DynamicResource appColor_i4}" />
+                Value="{DynamicResource AppColor_i4}" />
 
             <Setter
                 Property="BorderColor"
-                Value="{DynamicResource appColor_i1}" />
+                Value="{DynamicResource AppColor_i1}" />
 
         </DataTrigger>
 
@@ -26,7 +26,7 @@
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=Text}"
-        TextColor="{DynamicResource textAndBackgroundColor_i1}"
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
         FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontSize}"
         FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontFamily}"
         HorizontalTextAlignment="Center"

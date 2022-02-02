@@ -1,5 +1,6 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Interfaces;
+using Next2.ViewModels;
 using Prism.Mvvm;
 
 namespace Next2.Models
@@ -13,5 +14,7 @@ namespace Next2.Models
         public string Title { get; set; }
 
         public string ImagePath { get; set; }
+
+        public BaseViewModel ViewModel { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using FFImageLoading.Svg.Forms;
-using Foundation;
+﻿using Foundation;
 using UIKit;
 
 namespace Next2.iOS
@@ -29,8 +28,6 @@ namespace Next2.iOS
 
             LoadApplication(new App());
 
-            var ignore = typeof(SvgCachedImage);
-
             return base.FinishedLaunching(app, options);
         }
 
@@ -38,7 +35,7 @@ namespace Next2.iOS
         {
             return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone
                 ? UIInterfaceOrientationMask.Portrait
-                : UIInterfaceOrientationMask.Landscape;
+                : UIInterfaceOrientationMask.LandscapeRight;
         }
 
         #endregion

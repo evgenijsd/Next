@@ -1,4 +1,6 @@
 ﻿using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace Next2.Views
 {
@@ -6,7 +8,17 @@ namespace Next2.Views
     {
         public BaseContentPage()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            On<iOS>().SetUseSafeArea(true);
+            Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
         }
+
+        #region -- Overrides --
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
+
+        #endregion
     }
 }
