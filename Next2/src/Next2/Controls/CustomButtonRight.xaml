@@ -26,7 +26,7 @@
     <Frame Grid.Row="0"
            IsVisible="{Binding IsSelected, Source={x:Reference customButtonRight}}"
            HasShadow="False"
-           BackgroundColor="{DynamicResource appColor_i4}"
+           BackgroundColor="{DynamicResource AppColor_i4}"
            CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonRight}}"/>
     
     <BoxView Grid.Row="0"
@@ -34,7 +34,7 @@
              WidthRequest="10"
              HorizontalOptions="Start"
              VerticalOptions="FillAndExpand"
-             BackgroundColor="{DynamicResource appColor_i4}" />
+             BackgroundColor="{DynamicResource AppColor_i4}" />
     
     <BoxView Grid.Row="0"
              IsVisible="{Binding IsSelected, Source={x:Reference customButtonRight}}"
@@ -42,18 +42,18 @@
              HeightRequest="10"
              HorizontalOptions="End"
              VerticalOptions="End"
-             BackgroundColor="{DynamicResource appColor_i4}" />
+             BackgroundColor="{DynamicResource AppColor_i4}" />
     
     <BoxView Grid.Row="1"
              IsVisible="{Binding IsSelected, Source={x:Reference customButtonRight}}"
-             BackgroundColor="{DynamicResource appColor_i1}" />
+             BackgroundColor="{DynamicResource AppColor_i1}" />
 
     <!--UNSELECTED-->
 
     <Frame HasShadow="False"
            IsVisible="{Binding IsSelected, Source={x:Reference customButtonRight}, Converter={StaticResource InvertedBoolConverter}}"
            Grid.Row="0"
-           BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+           BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
            CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonRight}}" />
 
     <BoxView Grid.Row="0"
@@ -61,7 +61,7 @@
              WidthRequest="10"
              HorizontalOptions="Start"
              VerticalOptions="FillAndExpand"
-             BackgroundColor="{DynamicResource textAndBackgroundColor_i3}" />
+             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
     <BoxView Grid.Row="0"
              IsVisible="{Binding IsSelected, Source={x:Reference customButtonRight}, Converter={StaticResource InvertedBoolConverter}}"
@@ -69,11 +69,11 @@
              HeightRequest="10"
              HorizontalOptions="End"
              VerticalOptions="End"
-             BackgroundColor="{DynamicResource textAndBackgroundColor_i3}" />
+             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
     <BoxView Grid.Row="1"
              IsVisible="{Binding IsSelected, Source={x:Reference customButtonRight}, Converter={StaticResource InvertedBoolConverter}}"
-             BackgroundColor="{DynamicResource textAndBackgroundColor_i2}" />
+             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
     <!--TEXT-->
 
@@ -81,7 +81,7 @@
            HorizontalOptions="CenterAndExpand"
            VerticalOptions="CenterAndExpand"
            Text="Tabs"
-           TextColor="{DynamicResource textAndBackgroundColor_i1}"
+           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
            FontSize="{DynamicResource tsize_i8}"
            Style="{DynamicResource BaseContent_i1}" />
 </Grid>

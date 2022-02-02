@@ -37,14 +37,6 @@ namespace Next2.ViewModels
             set => SetProperty(ref _isSelectedOrders, value);
         }
 
-        private bool _isSelectedTabs = false;
-
-        public bool IsSelectedTabs
-        {
-            get => _isSelectedTabs;
-            set => SetProperty(ref _isSelectedTabs, value);
-        }
-
         private OrderViewModel? _selectedOrder = null;
 
         public OrderViewModel? SelectedOrder
@@ -83,24 +75,29 @@ namespace Next2.ViewModels
 
         #endregion
 
+        #region -- Overrides --
+
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _orders_base = await _orderService.GetOrdersAsync();
+
+            _tabs_base = await _orderService.GetOrdersAsync();
+
+            await GetVisualCollection();
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
-        private async Task GetVisualCollection()
+        private Task GetVisualCollection()
         {
             SelectedOrder = null;
             Orders = new ObservableCollection<OrderViewModel>();
 
-            if (_orders_base is null)
-            {
-                _orders_base = await _orderService.GetOrdersAsync();
-            }
-
-            if (_tabs_base is null)
-            {
-                _tabs_base = await _orderService.GetOrdersAsync();
-            }
-
-            var result = new List<OrderModel>();
+            List<OrderModel>? result = new List<OrderModel>();
 
             if (IsSelectedOrders)
             {
@@ -137,6 +134,8 @@ namespace Next2.ViewModels
                     });
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private async Task OnButtonOrdersCommandAsync()
@@ -144,7 +143,6 @@ namespace Next2.ViewModels
             if (!IsSelectedOrders)
             {
                 IsSelectedOrders = !IsSelectedOrders;
-                IsSelectedTabs = !IsSelectedTabs;
                 await GetVisualCollection();
             }
         }
@@ -154,7 +152,6 @@ namespace Next2.ViewModels
             if (IsSelectedOrders)
             {
                 IsSelectedOrders = !IsSelectedOrders;
-                IsSelectedTabs = !IsSelectedTabs;
                 await GetVisualCollection();
             }
         }

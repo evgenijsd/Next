@@ -2,7 +2,7 @@
 <Grid xmlns="http://xamarin.com/schemas/2014/forms"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-      BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+      BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
       ColumnSpacing="0"
       x:Name="customNavigationbar"
       x:Class="Next2.Controls.CustomNavigationbar">
@@ -32,7 +32,7 @@
 
     <Label Text="{Binding Title, Source={x:Reference customNavigationbar}}"
            Margin="5,0,0,0"
-           TextColor="{DynamicResource textAndBackgroundColor_i1}"
+           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
            Style="{DynamicResource BaseContent_i2}"
            FontSize="{DynamicResource tsize_i5}"
            VerticalOptions="CenterAndExpand"

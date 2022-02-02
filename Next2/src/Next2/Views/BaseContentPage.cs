@@ -11,5 +11,14 @@ namespace Next2.Views
             On<iOS>().SetUseSafeArea(true);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
         }
+
+        #region -- Overrides --
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
+
+        #endregion
     }
 }

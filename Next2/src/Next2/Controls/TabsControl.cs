@@ -1,8 +1,11 @@
 ﻿using Next2.Interfaces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -12,11 +15,14 @@ namespace Next2.Controls
     {
         private FlexLayout _flexLayout = new FlexLayout();
 
-        private ICommand _menuItemCommand;
-        private ICommand MenuItemCommand => _menuItemCommand = new Command<ISelectable>(OnTapMenuItem);
+        private ICommand _tapCommand;
+        private ICommand TapCommand => _tapCommand = new AsyncCommand<ISelectable>(OnMenuItemTapCommandAsync, allowsMultipleExecutions: false);
 
         public TabsControl()
         {
+            _flexLayout.JustifyContent = JustifyContent;
+            _flexLayout.AlignContent = AlignContent;
+
             Content = _flexLayout;
         }
 
@@ -92,7 +98,7 @@ namespace Next2.Controls
             propertyName: nameof(JustifyContent),
             returnType: typeof(FlexJustify),
             declaringType: typeof(TabsControl),
-            default(FlexJustify),
+            defaultValue: FlexJustify.SpaceBetween,
             defaultBindingMode: BindingMode.TwoWay);
 
         public FlexJustify JustifyContent
@@ -105,7 +111,7 @@ namespace Next2.Controls
             propertyName: nameof(AlignContent),
             returnType: typeof(FlexAlignContent),
             declaringType: typeof(TabsControl),
-            default(FlexAlignContent),
+            defaultValue: FlexAlignContent.SpaceBetween,
             defaultBindingMode: BindingMode.TwoWay);
 
         public FlexAlignContent AlignContent
@@ -131,7 +137,10 @@ namespace Next2.Controls
                     _flexLayout.Wrap = Wrap;
                     break;
                 case nameof(JustifyContent):
-                    _flexLayout.JustifyContent = FlexJustify.Start;
+                    _flexLayout.JustifyContent = JustifyContent;
+                    break;
+                case nameof(AlignContent):
+                    _flexLayout.AlignContent = AlignContent;
                     break;
             }
         }
@@ -177,7 +186,7 @@ namespace Next2.Controls
 
                     clickableLayout.GestureRecognizers.Add(new TapGestureRecognizer()
                     {
-                        Command = MenuItemCommand,
+                        Command = TapCommand,
                         CommandParameter = item,
                     });
 
@@ -186,7 +195,7 @@ namespace Next2.Controls
             }
         }
 
-        private void OnTapMenuItem(ISelectable item)
+        private Task OnMenuItemTapCommandAsync(ISelectable item)
         {
             if (SelectedItem != null)
             {
@@ -194,6 +203,8 @@ namespace Next2.Controls
             }
 
             SelectItem(item);
+
+            return Task.CompletedTask;
         }
 
         private void SelectItem(ISelectable item)

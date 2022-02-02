@@ -2,64 +2,166 @@
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:viewsMobile="clr-namespace:Next2.Views.Mobile"
     x:DataType="viewModels:MenuPageViewModel"
-    BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
-    x:Class="Next2.Views.Mobile.MenuPage">
+    x:Class="Next2.Views.Mobile.MenuPage"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <Grid ColumnSpacing="0"
           RowSpacing="0"
           RowDefinitions="*, 80">
 
-        <!--TABS PAGES-->
-        <sc:StateContainer
+        <!--CATEGORIES-->
+        
+        <Grid
             Grid.Row="0"
             Grid.Column="0"
-            State="{Binding SelectedMenuItem.State}">
+            RowSpacing="0"
+            RowDefinitions="90, *">
 
-            <sc:StateCondition State="NewOrder">
+            <!--HEAD PANEL-->
 
-                <viewsMobile:CategoryView BindingContext="{Binding CategoryViewModel}"/>
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                Orientation="Horizontal"
+                Spacing="0"
+                Padding="18">
 
-            </sc:StateCondition>
+                <Frame
+                    Padding="1"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    HasShadow="False"
+                    BorderColor="{DynamicResource AppColor_i3}"
+                    CornerRadius="9"
+                    HorizontalOptions="Start">
 
-            <sc:StateCondition State="HoldItems">
+                    <ffimageloading:CachedImage
+                        Source="pic_logo_small.png"
+                        Aspect="AspectFit"/>
 
-                <viewsMobile:HoldItemsView BindingContext="{Binding HoldItemsViewModel}"/>
+                </Frame>
 
-            </sc:StateCondition>
+                <Label
+                    Text="{xct:Translate NewOrder}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Style="{DynamicResource BaseContent_i2}"
+                    Margin="20, 0, 0, 0"
+                    FontSize="{DynamicResource TSize_i5}"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold"/>
 
-            <sc:StateCondition State="OrderTabs">
+                <Frame
+                    IsClippedToBounds="True"
+                    Padding="10"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    HasShadow="False"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    CornerRadius="5"
+                    HorizontalOptions="End">
 
-                <viewsMobile:OrderTabsView BindingContext="{Binding OrderTabsViewModel}"/>
+                    <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png"/>
 
-            </sc:StateCondition>
+                </Frame>
 
-            <sc:StateCondition State="Customers">
+            </StackLayout>
 
-                <viewsMobile:CustomersView BindingContext="{Binding CustomersViewModel}"/>
+            <!--Categories-->
 
-            </sc:StateCondition>
+            <StackLayout
+                Grid.Row="1"
+                Grid.Column="0"
+                Padding="20, 0, 0, 0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                Spacing="0">
 
-        </sc:StateContainer>
+                <Label
+                    Text="{xct:Translate Categories}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i5}"
+                    Style="{DynamicResource BaseContent_i2}"
+                    Padding="0, 15"
+                    VerticalTextAlignment="Center"/>
+
+                <CollectionView
+                    Margin="0, 0, 20, 5"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                    VerticalScrollBarVisibility="Never"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding Categories}">
+
+                    <CollectionView.Effects>
+
+                        <effects:NoOverScrollEffect/>
+
+                    </CollectionView.Effects>
+
+                    <CollectionView.ItemsLayout>
+
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2" />
+
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+
+                        <DataTemplate x:DataType="models:CategoryBindableModel">
+
+                            <ContentView
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                Padding="2">
+
+                                <Frame
+                                    WidthRequest="162"
+                                    HeightRequest="55"
+                                    HasShadow="False"
+                                    CornerRadius="5"
+                                    Padding="4"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                                    <Label
+                                        Text="{Binding Title}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource TSize_i8}"
+                                        Style="{DynamicResource BaseContent_i1}"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"/>
+
+                                </Frame>
+
+                            </ContentView>
+
+                        </DataTemplate>
+
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </StackLayout>
+
+        </Grid>
 
         <!--SIDE MENU-->
         <StackLayout
             Grid.Row="1"
             Grid.Column="0"
-            BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Orientation="Vertical"
             Padding="0"
             Spacing="0">
 
             <BoxView
-                Color="{DynamicResource textAndBackgroundColor_i2}"
+                Color="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="1"/>
             
             <controls:TabsControl
@@ -74,7 +176,7 @@
                         IsSelected="{Binding IsSelected}"
                         ImagePath="{Binding ImagePath}"
                         Text="{Binding Title}"
-                        FontSize="{DynamicResource tsize_i5}"
+                        FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-Medium"
                         WidthRequest="140"
                         Padding="0, 8"/>

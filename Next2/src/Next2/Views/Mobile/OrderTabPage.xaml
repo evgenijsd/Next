@@ -6,7 +6,7 @@
                        xmlns:views="clr-namespace:Next2.Views"
                        xmlns:viewModels="clr-namespace:Next2.ViewModels"
                        x:DataType="viewModels:OrderTabPageViewModel"
-                       BackgroundColor="{DynamicResource textAndBackgroundColor_i5}"
+                       BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                        x:Class="Next2.Views.Mobile.OrderTabPage">
 
     <ContentPage.Resources>
@@ -72,11 +72,11 @@
             <Frame Grid.Row="2" 
                    Margin="17,85,17,-20" 
                    CornerRadius="11" 
-                   BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
+                   BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
             </Frame>
 
             <BoxView Grid.Row="3" 
-                     BackgroundColor="{DynamicResource textAndBackgroundColor_i5}" />
+                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
             
             <Grid Grid.Row="2"
                   Margin="17,100,0,0">
@@ -92,7 +92,7 @@
                        Margin="20,0,0,0"
                        Text="Table Number"
                        IsVisible="{Binding IsSelectedTabs}"
-                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
                 
@@ -101,7 +101,7 @@
                        Margin="20,0,0,0"
                        Text="Customer Name"
                        IsVisible="{Binding IsSelectedOrders}"
-                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
 
@@ -116,7 +116,7 @@
                        HorizontalOptions="StartAndExpand"
                        Margin="15,0,0,0"
                        Text="Order Number"
-                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}">
                 </Label>
@@ -132,7 +132,7 @@
                        HorizontalOptions="StartAndExpand"
                        Margin="10,0,0,0"
                        Text="Total"
-                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
 
@@ -142,7 +142,7 @@
             <CollectionView Grid.Row="4" x:Name="collectionData"
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
-                            BackgroundColor="{DynamicResource textAndBackgroundColor_i7}"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             SelectedItem="{Binding SelectedOrder}"
                             Margin="17,0,17,0">
                 
@@ -161,14 +161,14 @@
                                     <VisualState Name="Normal">
                                         <VisualState.Setters>
                                             <Setter Property="BackgroundColor"
-                                                    Value="{DynamicResource textAndBackgroundColor_i7}" />
+                                                    Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     
                                     <VisualState Name="Selected">
                                         <VisualState.Setters>
                                             <Setter Property="BackgroundColor"
-                                                    Value="{DynamicResource appColor_i4}" />
+                                                    Value="{DynamicResource AppColor_i4}" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     
@@ -194,7 +194,7 @@
                                        Margin="20,0,0,0"
                                        VerticalOptions="CenterAndExpand"
                                        Text="{Binding Name}"
-                                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                        FontSize="{DynamicResource tsize_i8}"
                                        Style="{DynamicResource BaseContent_i4}" />
 
@@ -205,7 +205,7 @@
                                        Text="{Binding OrderNumber}"
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       TextColor="{DynamicResource textAndBackgroundColor_i1}" />
+                                       TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                 <Label Grid.Column="2"
                                        HorizontalOptions="StartAndExpand"
@@ -213,7 +213,7 @@
                                        Margin="10,0,0,0"
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       TextColor="{DynamicResource textAndBackgroundColor_i1}">
+                                       TextColor="{DynamicResource TextAndBackgroundColor_i1}">
                                     
                                     <Label.FormattedText>
                                         <FormattedString>
@@ -226,7 +226,7 @@
                             </Grid>
 
                             <BoxView Grid.Row="1"
-                                     BackgroundColor="{DynamicResource textAndBackgroundColor_i5}" />
+                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
                         </Grid>
                         
                     </DataTemplate>
@@ -236,7 +236,7 @@
             </CollectionView>
 
             <StackLayout Grid.Row="5" x:Name="StackButton" SizeChanged="StackButton_SizeChanged"
-                         BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
+                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                          IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">
                 
                 <StackLayout Margin="20,15,20,15"
@@ -244,32 +244,32 @@
                     
                     <controls:CustomButton CornerRadius="5" 
                                            Text="Print"
-                                           TextColor="{DynamicResource textAndBackgroundColor_i3}"
-                                           BorderColor="{DynamicResource indicationColor_i1}"
-                                           BackColor="{DynamicResource indicationColor_i1}"/>
+                                           TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                           BorderColor="{DynamicResource IndicationColor_i1}"
+                                           BackColor="{DynamicResource IndicationColor_i1}"/>
                     
                     <StackLayout Orientation="Horizontal"
                                  Spacing="10">
 
                         <controls:CustomButton HorizontalOptions="FillAndExpand"
                                                Text="Edit"
-                                               TextColor="{DynamicResource textAndBackgroundColor_i1}"
-                                               BorderColor="{DynamicResource indicationColor_i5}"
+                                               TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                               BorderColor="{DynamicResource IndicationColor_i5}"
                                                BackColor="Transparent"
                                                CornerRadius="5" />
 
                         <controls:CustomButton HorizontalOptions="FillAndExpand"
                                                Text="Split"
-                                               TextColor="{DynamicResource textAndBackgroundColor_i1}"
-                                               BorderColor="{DynamicResource indicationColor_i7}"
+                                               TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                               BorderColor="{DynamicResource IndicationColor_i7}"
                                                BackColor="Transparent"
                                                IsVisible="{Binding IsSelectedTabs}"
                                                CornerRadius="5" />
 
                         <controls:CustomButton HorizontalOptions="FillAndExpand"
                                                Text="Remove"
-                                               TextColor="{DynamicResource textAndBackgroundColor_i1}"
-                                               BorderColor="{DynamicResource indicationColor_i3}"
+                                               TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                               BorderColor="{DynamicResource IndicationColor_i3}"
                                                BackColor="Transparent"
                                                CornerRadius="5" />
                         
