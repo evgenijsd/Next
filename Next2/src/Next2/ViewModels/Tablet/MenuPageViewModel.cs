@@ -12,8 +12,6 @@ namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
-        private MenuItemBindableModel _oldSelectedMenuItem;
-
         public MenuPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
@@ -25,58 +23,22 @@ namespace Next2.ViewModels.Tablet
             CustomersViewModel = new CustomersViewModel(navigationService);
             SettingsViewModel = new SettingsViewModel(navigationService);
 
-            MenuItems = new ObservableCollection<MenuItemBindableModel>()
-            {
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.NewOrder,
-                    Title = "New Order",
-                    ImagePath = "ic_plus_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.HoldItems,
-                    Title = "Hold Items",
-                    ImagePath = "ic_time_circle_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.OrderTabs,
-                    Title = "Order & Tabs",
-                    ImagePath = "ic_folder_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Reservations,
-                    Title = "Reservations",
-                    ImagePath = "ic_bookmark_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Membership,
-                    Title = "Membership",
-                    ImagePath = "ic_work_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Customers,
-                    Title = "Customers",
-                    ImagePath = "ic_user_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Settings,
-                    Title = "Settings",
-                    ImagePath = "ic_setting_30x30.png",
-                },
-            };
-
-            SelectedMenuItem = MenuItems.FirstOrDefault();
+            InitMenuItems();
         }
 
         #region -- Public properties --
+        private MenuItemBindableModel _selectedMenuItem;
+        public MenuItemBindableModel SelectedMenuItem
+        {
+            get => _selectedMenuItem;
+            set
+            {
+                _selectedMenuItem?.ViewModel?.OnDisappearing();
+                SetProperty(ref _selectedMenuItem, value);
 
-        public MenuItemBindableModel SelectedMenuItem { get; set; }
+                _selectedMenuItem?.ViewModel?.OnAppearing();
+            }
+        }
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
@@ -96,69 +58,64 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
-        #region -- Overrides --
+        #region -- Private methods --
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        private void InitMenuItems()
         {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName == nameof(SelectedMenuItem))
+            MenuItems = new ObservableCollection<MenuItemBindableModel>()
             {
-                switch (SelectedMenuItem.State)
+                new MenuItemBindableModel()
                 {
-                    case EMenuItems.NewOrder:
-                        NewOrderViewModel.OnAppearing();
-                        break;
-                    case EMenuItems.HoldItems:
-                        HoldItemsViewModel.OnAppearing();
-                        break;
-                    case EMenuItems.OrderTabs:
-                        OrderTabsViewModel.OnAppearing();
-                        break;
-                    case EMenuItems.Reservations:
-                        ReservationsViewModel.OnAppearing();
-                        break;
-                    case EMenuItems.Membership:
-                        MembershipViewModel.OnAppearing();
-                        break;
-                    case EMenuItems.Customers:
-                        CustomersViewModel.OnAppearing();
-                        break;
-                    case EMenuItems.Settings:
-                        SettingsViewModel.OnAppearing();
-                        break;
-                }
-
-                if (_oldSelectedMenuItem != null)
+                    State = EMenuItems.NewOrder,
+                    Title = "New Order",
+                    ImagePath = "ic_plus_30x30.png",
+                    ViewModel = NewOrderViewModel,
+                },
+                new MenuItemBindableModel()
                 {
-                    switch (_oldSelectedMenuItem.State)
-                    {
-                        case EMenuItems.NewOrder:
-                            NewOrderViewModel.OnDisappearing();
-                            break;
-                        case EMenuItems.HoldItems:
-                            HoldItemsViewModel.OnDisappearing();
-                            break;
-                        case EMenuItems.OrderTabs:
-                            OrderTabsViewModel.OnDisappearing();
-                            break;
-                        case EMenuItems.Reservations:
-                            ReservationsViewModel.OnDisappearing();
-                            break;
-                        case EMenuItems.Membership:
-                            MembershipViewModel.OnDisappearing();
-                            break;
-                        case EMenuItems.Customers:
-                            CustomersViewModel.OnDisappearing();
-                            break;
-                        case EMenuItems.Settings:
-                            SettingsViewModel.OnDisappearing();
-                            break;
-                    }
-                }
+                    State = EMenuItems.HoldItems,
+                    Title = "Hold Items",
+                    ImagePath = "ic_time_circle_30x30.png",
+                    ViewModel = HoldItemsViewModel,
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.OrderTabs,
+                    Title = "Order & Tabs",
+                    ImagePath = "ic_folder_30x30.png",
+                    ViewModel = OrderTabsViewModel,
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.Reservations,
+                    Title = "Reservations",
+                    ImagePath = "ic_bookmark_30x30.png",
+                    ViewModel = ReservationsViewModel,
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.Membership,
+                    Title = "Membership",
+                    ImagePath = "ic_work_30x30.png",
+                    ViewModel = MembershipViewModel,
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.Customers,
+                    Title = "Customers",
+                    ImagePath = "ic_user_30x30.png",
+                    ViewModel = CustomersViewModel,
+                },
+                new MenuItemBindableModel()
+                {
+                    State = EMenuItems.Settings,
+                    Title = "Settings",
+                    ImagePath = "ic_setting_30x30.png",
+                    ViewModel = SettingsViewModel,
+                },
+            };
 
-                _oldSelectedMenuItem = SelectedMenuItem;
-            }
+            SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
         #endregion

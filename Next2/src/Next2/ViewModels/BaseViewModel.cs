@@ -1,6 +1,8 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
