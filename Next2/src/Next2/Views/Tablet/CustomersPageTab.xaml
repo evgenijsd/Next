@@ -130,14 +130,20 @@
                                     Grid.Column="0"
                                     IsVisible="false"
                                     Style="{StaticResource view_cell}" />
-                                <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="-3,0,0,0">
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Margin="-3,0,0,0"
+                                    Orientation="Horizontal">
                                     <Label Style="{StaticResource view_cell}" Text="Customer Name" />
                                     <Image Source="ic_sort_primary_24x24" />
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Name" />
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>
-                                <StackLayout Grid.Column="2" Orientation="Horizontal" Margin="-3,0,0,0">
+                                <StackLayout
+                                    Grid.Column="2"
+                                    Margin="-3,0,0,0"
+                                    Orientation="Horizontal">
                                     <Label Style="{StaticResource view_cell}" Text="Points" />
                                     <Image Source="ic_sort_primary_24x24" />
                                     <StackLayout.GestureRecognizers>
@@ -146,15 +152,18 @@
                                 </StackLayout>
                                 <Label
                                     Grid.Column="3"
-                                    Style="{StaticResource view_cell}" Margin="-3,0,0,0"
+                                    Margin="-3,0,0,0"
+                                    Style="{StaticResource view_cell}"
                                     Text="Rewards" />
                                 <Label
                                     Grid.Column="4"
-                                    Style="{StaticResource view_cell}" Margin="-3,0,0,0"
+                                    Margin="-3,0,0,0"
+                                    Style="{StaticResource view_cell}"
                                     Text="Gift Card Count" />
                                 <Label
                                     Grid.Column="5"
-                                    Style="{StaticResource view_cell}" Margin="-3,0,0,0"
+                                    Margin="-3,0,0,0"
+                                    Style="{StaticResource view_cell}"
                                     Text="Gift Card Total" />
                             </Grid>
                         </yummy:PancakeView>
@@ -163,7 +172,7 @@
                             Padding="0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             CornerRadius="0,0,4,4">
-                            <RefreshView>
+                            <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
                                 <controls:CustomScrollBarCollectionView
                                     x:Name="collectionView"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
@@ -182,42 +191,64 @@
                                     </CollectionView.Effects>
                                     <controls:CustomScrollBarCollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid ColumnDefinitions="0.325*,*" RowDefinitions="*, 1" HeightRequest="45">
+                                            <Grid
+                                                ColumnDefinitions="0.325*,*"
+                                                HeightRequest="45"
+                                                RowDefinitions="*, 1">
                                                 <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding TabSelectCommand}" CommandParameter="{Binding .}"/>
+                                                    <TapGestureRecognizer Command="{Binding TabSelectCommand}" CommandParameter="{Binding .}" />
                                                 </Grid.GestureRecognizers>
                                                 <Image
-                                                    Grid.Column="0" Grid.Row="0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
                                                     Margin="16,0,0,0"
                                                     HorizontalOptions="Start"
                                                     Scale="0.9"
                                                     Source="{Binding CheckboxImage}" />
                                                 <Label
-                                                    Grid.Column="1" Grid.Row="0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
                                                     LineBreakMode="TailTruncation"
                                                     Style="{StaticResource view_cell}"
                                                     Text="{Binding Name}" />
                                                 <Label
-                                                    Grid.Column="2" Grid.Row="0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
                                                     LineBreakMode="TailTruncation"
-                                                    Style="{StaticResource view_cell}"
-                                                    Text="{Binding Points}" />
+                                                    Style="{StaticResource view_cell}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Points, StringFormat='{0:D} pt'}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
                                                 <Label
-                                                    Grid.Column="3" Grid.Row="0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="3"
                                                     LineBreakMode="TailTruncation"
                                                     Style="{StaticResource view_cell}"
                                                     Text="{Binding Rewards}" />
                                                 <Label
-                                                    Grid.Column="4" Grid.Row="0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="4"
                                                     LineBreakMode="TailTruncation"
                                                     Style="{StaticResource view_cell}"
                                                     Text="{Binding GiftCardCount}" />
                                                 <Label
-                                                    Grid.Column="5" Grid.Row="0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="5"
                                                     LineBreakMode="TailTruncation"
-                                                    Style="{StaticResource view_cell}"
-                                                    Text="{Binding GiftCardTotal}" />
-                                                <BoxView Grid.Row="1" Grid.ColumnSpan="6" BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+                                                    Style="{StaticResource view_cell}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding GiftCardTotal, StringFormat='{0:C}'}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <BoxView
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="6"
+                                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                                 <VisualStateManager.VisualStateGroups>
                                                     <VisualStateGroup Name="CommonStates">

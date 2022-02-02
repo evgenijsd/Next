@@ -48,6 +48,14 @@ namespace InterTwitter.ViewModels
             set => SetProperty(ref _customer, value);
         }
 
+        private bool _isRefreshing;
+
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
+
         private CustomersViewModel _oldSelectedItem;
         private CustomersViewModel _selectedItem;
 
@@ -59,6 +67,7 @@ namespace InterTwitter.ViewModels
 
         public ICommand TabInfoButtonCommand => new AsyncCommand(OnTabInfoButtonCommand);
         public ICommand SortCommand => new AsyncCommand<string>(OnSortCommand);
+        public ICommand RefreshCommand => new AsyncCommand(OnRefreshCommand);
 
         #endregion
 
@@ -68,11 +77,6 @@ namespace InterTwitter.ViewModels
         {
             base.Initialize(parameters);
             await InitAsync();
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
         }
 
         #endregion
@@ -95,6 +99,13 @@ namespace InterTwitter.ViewModels
                     CustomersList?.Add(item);
                 }
             }
+        }
+
+        private async Task OnRefreshCommand()
+        {
+            IsRefreshing = true;
+            await InitAsync();
+            IsRefreshing = false;
         }
 
         private void OnTabSelectCommand(object obj)
