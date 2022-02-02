@@ -112,7 +112,8 @@
                                            TextColor="{DynamicResource textAndBackgroundColor_i1}"
                                            BorderColor="{DynamicResource indicationColor_i7}"
                                            BackColor="Transparent"
-                                           WidthRequest="100" />
+                                           WidthRequest="100"
+                                           IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}" />
 
                     <controls:CustomButton CornerRadius="5"
                                            Text="Print"
@@ -230,6 +231,7 @@
                               VerticalOptions="Fill"
                               RowSpacing="0">
 
+
                             <VisualStateManager.VisualStateGroups>
 
                                 <VisualStateGroup Name="CommonStates">
@@ -244,7 +246,13 @@
                                     <VisualState Name="Selected">
                                         <VisualState.Setters>
                                             <Setter Property="BackgroundColor"
-                                                    Value="{DynamicResource appcolor_i4}" />
+                                                    Value="{DynamicResource appColor_i4}" />
+                                            <Setter TargetName="_label"
+                                                    Property="Label.TextColor"
+                                                    Value="{DynamicResource textAndBackgroundColor_i1}" />
+                                            <Setter TargetName="_image"
+                                                    Property="ffimageloading:CachedImage.Source"
+                                                    Value="ic_check_box_checked_white" />
                                         </VisualState.Setters>
                                     </VisualState>
 
@@ -271,7 +279,8 @@
                                                             HeightRequest="25"
                                                             HorizontalOptions="CenterAndExpand"
                                                             Margin="20,0,0,0"
-                                                            VerticalOptions="CenterAndExpand">
+                                                            VerticalOptions="CenterAndExpand"
+                                                            x:Name="_image">
                                 </ffimageloading:CachedImage>
 
                                 <Label Grid.Column="1"
@@ -313,7 +322,8 @@
                                        Text="{Binding OrderStatus}"
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       TextColor="{DynamicResource textAndBackgroundColor_i1}">
+                                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                                       x:Name="_label">
                                     <Label.Triggers>
                                         <Trigger TargetType="Label"
                                                  Property="Text"
@@ -326,6 +336,12 @@
                                                  Value="Pending">
                                             <Setter Property="TextColor"
                                                     Value="{DynamicResource indicationColor_i5}" />
+                                        </Trigger>
+                                        <Trigger TargetType="Label"
+                                                 Property="BackgroundColor"
+                                                 Value="{DynamicResource appColor_i4}">
+                                            <Setter Property="TextColor"
+                                                    Value="{DynamicResource textAndBackgroundColor_i1}" />
                                         </Trigger>
                                     </Label.Triggers>
                                 </Label>
