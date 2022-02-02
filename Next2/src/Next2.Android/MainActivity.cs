@@ -17,14 +17,13 @@ namespace Next2.Droid
 
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+            RequestedOrientation = Device.Idiom == TargetIdiom.Tablet ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
-
-            RequestedOrientation = Device.Idiom == TargetIdiom.Tablet ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 
             LoadApplication(new App());
         }

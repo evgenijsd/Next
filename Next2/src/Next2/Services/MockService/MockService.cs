@@ -137,7 +137,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 1,
-                    IsSelect = true,
                     CustomerName = "Bill Gates",
                     TableNumber = 10,
                     OrderStatus = "Pending",
@@ -148,7 +147,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 2,
-                    IsSelect = true,
                     CustomerName = "Kate White",
                     TableNumber = 7,
                     OrderStatus = "Pending",
@@ -159,7 +157,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 3,
-                    IsSelect = true,
                     CustomerName = "Sam Smith",
                     TableNumber = 6,
                     OrderStatus = "Pending",
@@ -170,7 +167,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 4,
-                    IsSelect = true,
                     CustomerName = "Steve Jobs",
                     TableNumber = 4,
                     OrderStatus = "Annuled",
@@ -181,7 +177,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 5,
-                    IsSelect = true,
                     CustomerName = "Elon musk",
                     TableNumber = 3,
                     OrderStatus = "Pending",
@@ -192,7 +187,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 6,
-                    IsSelect = true,
                     CustomerName = "Keano Reaves",
                     TableNumber = 1,
                     OrderStatus = "Pending",
@@ -203,7 +197,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 7,
-                    IsSelect = true,
                     CustomerName = "Roderick Marvin",
                     TableNumber = 2,
                     OrderStatus = "Annuled",
@@ -214,7 +207,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 8,
-                    IsSelect = true,
                     CustomerName = "Clinton Gleichner",
                     TableNumber = 8,
                     OrderStatus = "Annuled",
@@ -225,7 +217,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 9,
-                    IsSelect = true,
                     CustomerName = "Victor Dickinson",
                     TableNumber = 9,
                     OrderStatus = "Pending",
@@ -236,7 +227,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 10,
-                    IsSelect = true,
                     CustomerName = "Dave Glover",
                     TableNumber = 10,
                     OrderStatus = "Pending",
@@ -247,7 +237,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 11,
-                    IsSelect = true,
                     CustomerName = "Dave Glover",
                     TableNumber = 1,
                     OrderStatus = "Pending",
@@ -258,7 +247,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 12,
-                    IsSelect = true,
                     CustomerName = "Dave Glover",
                     TableNumber = 2,
                     OrderStatus = "Annuled",
@@ -269,7 +257,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 13,
-                    IsSelect = true,
                     CustomerName = "Dave Glover",
                     TableNumber = 10,
                     OrderStatus = "Annuled",
@@ -280,7 +267,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 14,
-                    IsSelect = true,
                     CustomerName = "Dave Glover",
                     TableNumber = 3,
                     OrderStatus = "Pending",
@@ -291,7 +277,6 @@ namespace Next2.Services
                 new OrderModel()
                 {
                     Id = 15,
-                    IsSelect = true,
                     CustomerName = "Dave Glover",
                     TableNumber = 10,
                     OrderStatus = "Pending",

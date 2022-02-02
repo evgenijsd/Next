@@ -11,14 +11,6 @@ namespace Next2.ViewModels
 
         public int TableNumber { get; set; }
 
-        private bool _isSelect;
-
-        public bool IsSelect
-        {
-            get => _isSelect;
-            set => SetProperty(ref _isSelect, value);
-        }
-
         private string _Name;
 
         public string Name

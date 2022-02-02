@@ -154,6 +154,15 @@
                     <Label HorizontalOptions="Start"
                            Margin="15,0,0,0"
                            Text="Table Number"
+                           IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
+                           TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                           FontSize="{DynamicResource tsize_i8}"
+                           Style="{DynamicResource BaseContent_i1}" />
+
+                    <Label HorizontalOptions="Start"
+                           Margin="15,0,0,0"
+                           Text="Customer Name"
+                           IsVisible="{Binding IsSelectedOrders}"
                            TextColor="{DynamicResource textAndBackgroundColor_i1}"
                            FontSize="{DynamicResource tsize_i8}"
                            Style="{DynamicResource BaseContent_i1}" />
@@ -172,7 +181,7 @@
                 <StackLayout Grid.Column="2"
                              Orientation="Horizontal">
 
-                    <Label HorizontalOptions="StartAndExpand"
+                    <Label HorizontalOptions="Start"
                            Margin="10,0,0,0"
                            Text="Order Number"
                            TextColor="{DynamicResource textAndBackgroundColor_i1}"
@@ -181,8 +190,7 @@
 
                     <ffimageloading:CachedImage Source="ic_sort_primary_24x24"
                                                 HeightRequest="25"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="-35,-15,0,0"
+                                                Margin="5,-15,0,0"
                                                 VerticalOptions="CenterAndExpand" />
 
                     <StackLayout.GestureRecognizers>
@@ -221,7 +229,8 @@
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
                             BackgroundColor="{DynamicResource textAndBackgroundColor_i7}"
-                            Margin="17,0,17,0">
+                            Margin="17,0,17,0"
+                            VerticalScrollBarVisibility="Default">
 
                 <CollectionView.ItemTemplate>
 

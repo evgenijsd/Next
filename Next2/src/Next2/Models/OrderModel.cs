@@ -3,7 +3,6 @@
     public class OrderModel : IEntityBase
     {
         public int Id { get; set; }
-        public bool IsSelect { get; set; }
         public string CustomerName { get; set; }
         public int TableNumber { get; set; }
         public string OrderStatus { get; set; }

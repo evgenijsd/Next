@@ -1,5 +1,7 @@
-﻿using Next2.Services;
+﻿using Next2.Models;
+using Next2.Services;
 using Prism.Navigation;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +15,8 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private bool _isDirectionSortNames = true;
         private bool _isDirectionSortOrders = true;
+        private List<OrderModel>? _orders_base;
+        private List<OrderModel>? _tabs_base;
 
         public OrderTabsViewModel(INavigationService navigationService, IOrderService orderService)
             : base(navigationService)
@@ -81,12 +85,32 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task GetOrders()
+        private async Task GetVisualCollection()
         {
             SelectedOrder = null;
             Orders = new ObservableCollection<OrderViewModel>();
 
-            var result = await _orderService.GetOrdersAsync();
+            if (_orders_base is null)
+            {
+                _orders_base = await _orderService.GetOrdersAsync();
+            }
+
+            if (_tabs_base is null)
+            {
+                _tabs_base = await _orderService.GetOrdersAsync();
+            }
+
+            var result = new List<OrderModel>();
+
+            if (IsSelectedOrders)
+            {
+                result = _orders_base;
+            }
+            else
+            {
+                result = _tabs_base;
+            }
+
             if (result != null)
             {
                 foreach (var r in result)
@@ -104,7 +128,6 @@ namespace Next2.ViewModels
 
                     Orders.Add(new OrderViewModel
                     {
-                        IsSelect = r.IsSelect,
                         Name = name,
                         OrderNumber = r.OrderNumber,
                         Total = r.Total,
@@ -122,7 +145,7 @@ namespace Next2.ViewModels
             {
                 IsSelectedOrders = !IsSelectedOrders;
                 IsSelectedTabs = !IsSelectedTabs;
-                await GetOrders();
+                await GetVisualCollection();
             }
         }
 
@@ -132,7 +155,7 @@ namespace Next2.ViewModels
             {
                 IsSelectedOrders = !IsSelectedOrders;
                 IsSelectedTabs = !IsSelectedTabs;
-                await GetOrders();
+                await GetVisualCollection();
             }
         }
 
