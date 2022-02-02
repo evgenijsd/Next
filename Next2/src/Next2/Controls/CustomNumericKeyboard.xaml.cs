@@ -23,24 +23,6 @@ namespace Next2.Controls
 
         public bool IsKeyBoardTyped { get; set; }
 
-        private ICommand _ButtonTabCommand;
-        public ICommand ButtonTabCommand => _ButtonTabCommand ??= new AsyncCommand<object>(OnTabAsync);
-
-        private ICommand _ButtonClearTabCommand;
-        public ICommand ButtonClearTabCommand => _ButtonClearTabCommand ??= new AsyncCommand<object>(OnTabClearAsync);
-
-        //public static readonly BindableProperty ButtonCommandProperty = BindableProperty.Create(
-        //  propertyName: nameof(ButtonCommand),
-        //  returnType: typeof(ICommand),
-        //  declaringType: typeof(CustomNumericKeyboard),
-        //  defaultValue: null,
-        //  defaultBindingMode: BindingMode.TwoWay);
-
-        //public ICommand ButtonCommand
-        //{
-        //    get => (ICommand)GetValue(ButtonCommandProperty);
-        //    set => SetValue(ButtonCommandProperty, value);
-        //}
         public static readonly BindableProperty EmployeeIdProperty = BindableProperty.Create(
             propertyName: nameof(EmployeeId),
             returnType: typeof(string),
@@ -53,6 +35,24 @@ namespace Next2.Controls
             get => (string)GetValue(EmployeeIdProperty);
             set => SetValue(EmployeeIdProperty, value);
         }
+
+        public static readonly BindableProperty ErrorMessageProperty = BindableProperty.Create(
+           propertyName: nameof(ErrorMessage),
+           returnType: typeof(bool),
+           declaringType: typeof(CustomNumericKeyboard),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public bool ErrorMessage
+        {
+            get => (bool)GetValue(ErrorMessageProperty);
+            set => SetValue(ErrorMessageProperty, value);
+        }
+
+        private ICommand _ButtonTabCommand;
+        public ICommand ButtonTabCommand => _ButtonTabCommand ??= new AsyncCommand<object>(OnTabAsync);
+
+        private ICommand _ButtonClearTabCommand;
+        public ICommand ButtonClearTabCommand => _ButtonClearTabCommand ??= new AsyncCommand<object>(OnTabClearAsync);
 
         #endregion
 
@@ -85,6 +85,7 @@ namespace Next2.Controls
             EmployeeId = "Type Employee ID";
             _startTyping = false;
             IsKeyBoardTyped = false;
+            ErrorMessage = false;
         }
         #endregion
     }

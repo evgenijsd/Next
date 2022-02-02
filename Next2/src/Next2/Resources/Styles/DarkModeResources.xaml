@@ -24,12 +24,17 @@
     <!-- System/ Light Gray -->
     <Color x:Key="textAndbackgroundcolor_i3">#34374C</Color>
     <!-- System/ Gray -->
-    <Color x:Key="textAndbackgroundcolor_i4">#2E3143</Color>
+    <Color x:Key="textAndbackgroundcolor_i4">#2E3143</Color> 
     <!-- SystemMain/ Dark Gray -->
     <Color x:Key="textAndbackgroundcolor_i5">#252836</Color>
     <!-- System/ Black -->
     <Color x:Key="textAndbackgroundcolor_i6">#212430</Color>
-
+    
+    <!-- Hask colors -->
+    <!-- System / White Without opasity -->
+    <!--<Color x:Key="textAndbackgroundcolor_i7">#f5f5f5</Color>--> 
+    <!-- System / Gray Without opasity -->
+    <Color x:Key="textAndbackgroundcolor_i8">#757785</Color>
     <!-- Indications -->
 
     <!-- Indications/ Success Light -->

@@ -5,95 +5,111 @@
 
     <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" Spacing="0" Padding="0">
 
-        <Label Text="Login"
-               FontSize="18"
-               HeightRequest="50"
-               Margin="16, 0, 0, 0"
-               VerticalTextAlignment="Center"
-               Style="{DynamicResource BaseContent_i2}"
-               TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+        <Label 
+            Text="Login"
+            FontSize="18"
+            HeightRequest="50"
+            Margin="16, 0, 0, 0"
+            VerticalTextAlignment="Center"
+            Style="{DynamicResource BaseContent_i2}"
+            TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-        <StackLayout Orientation="Horizontal"
-                     Spacing="1"
-                     HeightRequest="45">
+        <Grid 
+            ColumnDefinitions="0.5*,0.5*"
+            RowDefinitions="45"
+            ColumnSpacing="1">
+            
+            <StackLayout 
+                Grid.Column="0"
+                Spacing="0"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                
+                <Label 
+                    Text="Employee"
+                    HeightRequest="45"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="14"
+                    Style="{DynamicResource BaseContent_i1}"
+                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-            <StackLayout Spacing="0"
-                         HorizontalOptions="FillAndExpand"
-                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
-
-                <Label Text="Employee"
-                       HeightRequest="45"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"
-                       FontSize="14"
-                       Style="{DynamicResource BaseContent_i1}"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
-
-                <BoxView HeightRequest="3"
-                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
+                <BoxView 
+                    HeightRequest="3"
+                    BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
                 </BoxView>
 
             </StackLayout>
 
-            <StackLayout Spacing="0"
-                         HorizontalOptions="FillAndExpand"
-                         BackgroundColor="{DynamicResource appcolor_i4}">
+            <StackLayout 
+                Grid.Column="1"
+                Spacing="0"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="{DynamicResource appcolor_i4}">
+                
+                <Label 
+                    Text="Waiter"
+                    HeightRequest="45"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="14"
+                    Style="{DynamicResource BaseContent_i1}"
+                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
 
-                <Label Text="   Waiter   "
-                       HeightRequest="45"
-                       HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center"
-                       FontSize="14"
-                       Style="{DynamicResource BaseContent_i1}"
-                       TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
-
-                <BoxView HeightRequest="3"
-                         BackgroundColor="{DynamicResource appcolor_i1}"/>
+                <BoxView 
+                    HeightRequest="3"
+                    BackgroundColor="{DynamicResource appcolor_i1}"/>
 
             </StackLayout>
+            
+        </Grid>
 
-        </StackLayout>
+        <StackLayout 
+            Orientation="Vertical"
+            VerticalOptions="FillAndExpand"
+            Padding="0"
+            BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
+            
+            <Image 
+                Source="pic_logo_rectangular"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Scale="0.45"/>
 
-        <StackLayout Orientation="Vertical"
-                     VerticalOptions="FillAndExpand"
-                     Padding="0"
-                     BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
+            <Label 
+                Text="Employee ID"
+                FontSize="14"
+                Margin="16, 0, 0, 0"
+                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                Style="{DynamicResource BaseContent_i4}"/>
 
-            <Image Source="pic_logo_rectangular"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   Scale="0.45"/>
-
-            <Label Text="Employee ID"
-                   FontSize="14"
-                   Margin="16, 0, 0, 0"
-                   TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                   Style="{DynamicResource BaseContent_i4}"/>
-
-            <controls:CustomFrame Margin="16, 0, 16, 0"
-                                  CornerRadius="5"
-                                  Padding="4"
-                                  BorderWidth="3"
-                                  HeightRequest="30"
-                                  HasShadow="False"
-                                  BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
-                                  BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+            <controls:CustomFrame 
+                Margin="16, 0, 16, 0"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                Padding="4"
+                BorderWidth="3"
+                HeightRequest="30"
+                HasShadow="False"
+                BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
                 <StackLayout Orientation="Horizontal">
 
-                    <Label x:Name="employeeID"
-                           Text="{Binding EmployeeId, Mode=TwoWay}"
-                           FontSize="14"
-                           VerticalTextAlignment="Center"
-                           Style="{DynamicResource BaseContent_i3}"
-                           TextColor="{DynamicResource textAndbackgroundcolor_i1}"
-                           Opacity="0.32"
-                           Margin="4, 0, 0, 0"/>
-
-                    <Image Source="ic_danger_circle"
-                           IsVisible="{Binding IsErrorStrokeVisible}"
-                           Scale="0.6"
-                           HorizontalOptions="EndAndExpand"/>
+                    <Label 
+                        x:Name="employeeID"
+                        Text="{Binding EmployeeId, Mode=TwoWay}"
+                        FontSize="14"
+                        VerticalTextAlignment="Center"
+                        Style="{DynamicResource BaseContent_i3}"
+                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                        Opacity="0.32"
+                        Margin="4, 0, 0, 0"/>
+                        
+                    <Image 
+                        Source="ic_danger_circle"
+                        IsVisible="{Binding IsErrorStrokeVisible}"
+                        Scale="0.6"
+                        HorizontalOptions="EndAndExpand"/>
 
                 </StackLayout>
                 
@@ -105,12 +121,15 @@
 
                 <controls:CustomFrame.Triggers>
 
-                    <DataTrigger TargetType="controls:CustomFrame"
-                                 Binding="{Binding IsErrorStrokeVisible}"                                        
-                                 Value="True">
-
-                        <Setter Property="BorderColor"
-                                Value="{DynamicResource indicationcolor_i3}"/>
+                    <DataTrigger 
+                        
+                        TargetType="controls:CustomFrame"
+                        Binding="{Binding IsErrorStrokeVisible}"                                        
+                        Value="True">
+                        
+                        <Setter 
+                            Property="BorderColor"
+                            Value="{DynamicResource indicationcolor_i3}"/>
 
                     </DataTrigger>
 
@@ -118,41 +137,46 @@
 
             </controls:CustomFrame>
 
-            <StackLayout Orientation="Horizontal"
-                         VerticalOptions="EndAndExpand"
-                         Spacing="11"
-                         BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
-                         HeightRequest="65">
+            <StackLayout 
+                Orientation="Horizontal"
+                VerticalOptions="EndAndExpand"
+                Spacing="11"
+                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                HeightRequest="65">
 
-                <StackLayout HorizontalOptions="FillAndExpand"
-                             VerticalOptions="Center"
-                             HeightRequest="40">
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="40">
 
-                    <controls:CustomFrame x:Name="customFrame"
-                                          Margin="16, 0, 0, 0"
-                                          CornerRadius="5"
-                                          Padding="4"
-                                          IsEnabled="True"
-                                          BorderWidth="3"
-                                          HasShadow="False"
-                                          BorderColor="{DynamicResource appcolor_i1}"
-                                          BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                    <controls:CustomFrame 
+                        x:Name="customFrame"
+                        Margin="16, 0, 0, 0"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="True"
+                        BorderWidth="3"
+                        HasShadow="False"
+                        BorderColor="{DynamicResource appcolor_i1}"
+                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
-                        <Label Text="Clear"
-                               FontSize="16"
-                               HeightRequest="65"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center"
-                               Style="{DynamicResource BaseContent_i1}"
-                               TextColor="WhiteSmoke">
+                        <Label 
+                            Text="Clear"
+                            FontSize="16"
+                            HeightRequest="65"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            Style="{DynamicResource BaseContent_i1}"
+                            TextColor="{DynamicResource textAndbackgroundcolor_i1}">
                             
                             <Label.Triggers> 
                                 
-                                <DataTrigger TargetType="Label"
-                                             Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                           
-                                             Value="Type Employee ID">
-
-                                    <Setter Property="TextColor" Value="#757785"/>
+                                <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding IsClearButtonEnabled}"                           
+                                    Value="False">
+                                    
+                                    <Setter Property="TextColor" Value="{DynamicResource textAndbackgroundcolor_i8}"/>
                                     
                                 </DataTrigger>
                                 
@@ -162,21 +186,26 @@
                         
                         <controls:CustomFrame.Triggers>
 
-                            <DataTrigger TargetType="controls:CustomFrame"
-                                         Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                                        
-                                         Value="Type Employee ID">
+                            <DataTrigger 
+                                TargetType="controls:CustomFrame"
+                                Binding="{Binding IsClearButtonEnabled}"                                        
+                                Value="False">
 
-                                <Setter Property="BorderColor"
-                                        Value="{DynamicResource textAndbackgroundcolor_i2 }"/>
+                                <Setter 
+                                    Property="BorderColor"
+                                    Value="{DynamicResource textAndbackgroundcolor_i2 }"/>
 
                             </DataTrigger>
 
-                            <DataTrigger TargetType="controls:CustomFrame"
-                                         Binding="{Binding Source={x:Reference employeeID}, Path=Text}"                                        
-                                         Value="Type Employee ID">
-
-                                <Setter Property="IsEnabled"
-                                        Value="False"/>
+                            <DataTrigger 
+                                
+                                TargetType="controls:CustomFrame"
+                                Binding="{Binding IsClearButtonEnabled}"                                         
+                                Value="False">
+                                
+                                <Setter 
+                                    Property="IsEnabled"
+                                    Value="False"/>
 
                             </DataTrigger>
 
@@ -192,44 +221,51 @@
 
                 </StackLayout>
 
-                <StackLayout HorizontalOptions="FillAndExpand"
-                             HeightRequest="40"
-                             VerticalOptions="Center">
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"
+                    VerticalOptions="Center">
 
-                    <controls:CustomFrame Margin="0, 0, 16, 0"
-                                          CornerRadius="5"
-                                          Padding="4"
-                                          IsEnabled="False"
-                                          BorderWidth="3"
-                                          HeightRequest="65"
-                                          HasShadow="False"
-                                          BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
-                                          BackgroundColor="{DynamicResource indicationcolor_i2}">
+                    <controls:CustomFrame 
+                        Margin="0, 0, 16, 0"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="False"
+                        BorderWidth="3"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
+                        BackgroundColor="{DynamicResource indicationcolor_i2}">
 
-                        <Label Text="Login"
-                               FontSize="16"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center"
-                               Style="{DynamicResource BaseContent_i1}"
-                               TextColor="{DynamicResource textAndbackgroundcolor_i3}"/>
+                        <Label
+                            Text="Login"
+                            FontSize="16"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Center"
+                            Style="{DynamicResource BaseContent_i1}"
+                            TextColor="{DynamicResource textAndbackgroundcolor_i3}"/>
                         
                         <controls:CustomFrame.Triggers>
 
-                            <DataTrigger TargetType="controls:CustomFrame"
-                                         Binding="{Binding IsButtonEnable}"                                        
-                                         Value="True">
-
-                                <Setter Property="BackgroundColor"
-                                        Value="{DynamicResource indicationcolor_i1}"/>
+                            <DataTrigger 
+                                TargetType="controls:CustomFrame"
+                                Binding="{Binding IsLoginButtonEnabled }"                                        
+                                Value="True">
+                                
+                                <Setter 
+                                    Property="BackgroundColor"
+                                    Value="{DynamicResource indicationcolor_i1}"/>
                                
                             </DataTrigger>
                             
-                            <DataTrigger TargetType="controls:CustomFrame"
-                                         Binding="{Binding IsButtonEnable}"                                        
-                                         Value="True">
+                            <DataTrigger 
+                                TargetType="controls:CustomFrame"
+                                Binding="{Binding IsLoginButtonEnabled}"                                        
+                                Value="True">
 
-                                <Setter Property="IsEnabled"
-                                        Value="True"/>
+                                <Setter   
+                                    Property="IsEnabled"
+                                    Value="True"/>
 
                             </DataTrigger>
 

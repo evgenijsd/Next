@@ -35,6 +35,7 @@ namespace Next2
             else
             {
                 containerRegistry.RegisterForNavigation<Views.Tablet.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<Views.StartPage, StartPageViewModel>();
             }
         }
 

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Next2.Controls.CustomDateTimePanel"
+             x:Name="customDateTimePanel">
+    
+    <StackLayout 
+        Orientation="Horizontal"
+        HorizontalOptions="Fill"
+        BackgroundColor="{DynamicResource textAndbackgroundcolor_i4}"
+        Grid.Column="0"
+        Grid.Row="0"
+        Padding="0">
+        
+        <Label 
+            Text="Welcome"
+            FontSize="24"
+            VerticalOptions="Center"
+            Margin="40, 0, 0, 0"
+            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+            Style="{DynamicResource BaseContent_i2}"/>
+            
+        <Image 
+            Source="ic_time_circle_24x24"
+            VerticalOptions="Center"
+            Scale="0.6"
+            HorizontalOptions="EndAndExpand"/>
+
+        <Label 
+            Text="{Binding CurrentDateTime, StringFormat='{}{0:h:hh:ss tt}', Source={x:Reference customDateTimePanel}}"
+            VerticalOptions="Center"
+            FontSize="12"
+            Margin="0, 0, 25, 0"
+            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+            Style="{DynamicResource BaseContent_i3}"/>
+
+        <Image 
+            Source="ic_calendar_24x24"
+            Scale="0.6"/>
+
+        <Label 
+            Text="{Binding CurrentDateTime, StringFormat='{}{0:dddd, d MMMM yyyy}', Source={x:Reference customDateTimePanel}}"
+            VerticalOptions="Center"
+            Margin="0, 0, 40, 0"
+            FontSize="12"
+            Style="{DynamicResource BaseContent_i3}"
+            TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+
+    </StackLayout>
+    
+</ContentView>
