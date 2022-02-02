@@ -1,6 +1,6 @@
 ﻿namespace Next2.Enums
 {
-    public enum EMemberSortingCriterion
+    public enum EMemberSorting
     {
         ByCustomerName,
         ByMembershipStartTime,

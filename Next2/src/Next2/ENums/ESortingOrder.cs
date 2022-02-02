@@ -1,6 +1,6 @@
 ﻿namespace Next2.Enums
 {
-    public enum ETypeSortingOrder
+    public enum ESortingOrder
     {
         ByAscending,
         ByDescending,

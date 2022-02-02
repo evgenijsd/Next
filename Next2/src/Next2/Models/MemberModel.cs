@@ -2,7 +2,7 @@
 
 namespace Next2.Models
 {
-    public class MemberModel : IBaseEntityModel
+    public class MemberModel : IBaseModel
     {
         public int Id { get; set; }
 

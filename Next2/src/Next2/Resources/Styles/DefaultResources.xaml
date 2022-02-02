@@ -2,14 +2,14 @@
 <ResourceDictionary
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:converters="clr-namespace:Next2.Converters"
     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
 
-    <x:Double x:Key="TSize_i2">33</x:Double>
+    <x:Double x:Key="TSize_i2">32</x:Double>
     
-    <x:Double x:Key="TSize_i3">30</x:Double>
+    <x:Double x:Key="TSize_i3">28</x:Double>
     <!-- 24px -->
     <x:Double x:Key="TSize_i4">26</x:Double>
     <!-- 18px -->
@@ -56,16 +56,12 @@
         <Setter Property="RowSpacing" Value="0"/>
         <Setter Property="ColumnSpacing" Value="0"/>
     </Style>
-
-    <Style x:Key="TextCell_i1" TargetType="Label" BasedOn="{StaticResource BaseContent_i3}">
-        <Setter Property="FontSize"  Value="{DynamicResource TSize_i7}"/>
-        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-        <Setter Property="Padding" Value="20, 10, 5, 11"/>
-    </Style>
     
     <Style x:Key="SeparatorStyle" TargetType="BoxView" >
         <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}"/>
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
     </Style>
+
+    <!-- CONVERTERS -->
 
 </ResourceDictionary>

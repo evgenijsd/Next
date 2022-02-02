@@ -123,28 +123,16 @@
   <data name="CustomerName" xml:space="preserve">
     <value>Customer Name</value>
   </data>
-  <data name="CustomerName1" xml:space="preserve">
-    <value>Customer Name</value>
-  </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
   </data>
   <data name="Membership" xml:space="preserve">
     <value>Membership</value>
   </data>
-  <data name="Membership1" xml:space="preserve">
-    <value>Membership</value>
-  </data>
   <data name="MembershipEndTime" xml:space="preserve">
     <value>Membership End</value>
   </data>
-  <data name="MembershipEndTime1" xml:space="preserve">
-    <value>Membership End</value>
-  </data>
   <data name="MembershipStartTime" xml:space="preserve">
-    <value>Membership Start</value>
-  </data>
-  <data name="MembershipStartTime1" xml:space="preserve">
     <value>Membership Start</value>
   </data>
   <data name="NewOrder" xml:space="preserve">
@@ -153,22 +141,10 @@
   <data name="NoInternerConnection" xml:space="preserve">
     <value>No internet connection</value>
   </data>
-  <data name="NoInternerConnection1" xml:space="preserve">
-    <value>No internet connection</value>
-  </data>
   <data name="Phone" xml:space="preserve">
-    <value>Phone</value>
-  </data>
-  <data name="Phone1" xml:space="preserve">
     <value>Phone</value>
   </data>
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
-  </data>
-  <data name="SearchByNameOrPhone1" xml:space="preserve">
-    <value>Search by Name or Phone</value>
-  </data>
-  <data name="WatchTutorial" xml:space="preserve">
-    <value>Watch the tutorial</value>
   </data>
 </root>

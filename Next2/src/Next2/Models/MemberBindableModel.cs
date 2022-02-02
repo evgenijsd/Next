@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace Next2.Models
 {
     public class MemberBindableModel :
-        IBaseEntityModel,
+        IBaseModel,
         INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

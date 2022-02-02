@@ -34,15 +34,15 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsMembersRefreshing { get; set; }
 
-        public ETypeSortingOrder TypeOfMemberSortingOrder { get; set; } = ETypeSortingOrder.ByAscending;
+        public ESortingOrder TypeOfMemberSortingOrder { get; set; } = ESortingOrder.ByAscending;
 
-        public EMemberSortingCriterion CurrentMemberSortingCriterion { get; set; } = EMemberSortingCriterion.ByMembershipStartTime;
+        public EMemberSorting CurrentMemberSortingCriterion { get; set; } = EMemberSorting.ByMembershipStartTime;
 
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
 
         public ICommand _tableHeaderColumnTapCommand;
-        public ICommand TableHeaderColumnTapCommand => _tableHeaderColumnTapCommand ??= new AsyncCommand<EMemberSortingCriterion>(OnTableHeaderColumnTapCommandAsync);
+        public ICommand TableHeaderColumnTapCommand => _tableHeaderColumnTapCommand ??= new AsyncCommand<EMemberSorting>(OnTableHeaderColumnTapCommandAsync);
 
         #endregion
 
@@ -50,9 +50,9 @@ namespace Next2.ViewModels.Tablet
 
         private void ReverseSortingTypeOfMembers()
         {
-            TypeOfMemberSortingOrder = TypeOfMemberSortingOrder == ETypeSortingOrder.ByDescending
-                ? ETypeSortingOrder.ByAscending
-                : ETypeSortingOrder.ByDescending;
+            TypeOfMemberSortingOrder = TypeOfMemberSortingOrder == ESortingOrder.ByDescending
+                ? ESortingOrder.ByAscending
+                : ESortingOrder.ByDescending;
         }
 
         private IEnumerable<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
@@ -61,34 +61,34 @@ namespace Next2.ViewModels.Tablet
 
             switch (TypeOfMemberSortingOrder)
             {
-                case ETypeSortingOrder.ByAscending:
+                case ESortingOrder.ByAscending:
 
                     switch (CurrentMemberSortingCriterion)
                     {
-                        case EMemberSortingCriterion.ByCustomerName:
+                        case EMemberSorting.ByCustomerName:
                             sortedMembers = members.OrderBy(x => x.CustomerName);
                             break;
-                        case EMemberSortingCriterion.ByMembershipStartTime:
+                        case EMemberSorting.ByMembershipStartTime:
                             sortedMembers = members.OrderBy(x => x.MembershipStartTime);
                             break;
-                        case EMemberSortingCriterion.ByMembershipEndTime:
+                        case EMemberSorting.ByMembershipEndTime:
                             sortedMembers = members.OrderBy(x => x.MembershipEndTime);
                             break;
                     }
 
                     break;
 
-                case ETypeSortingOrder.ByDescending:
+                case ESortingOrder.ByDescending:
 
                     switch (CurrentMemberSortingCriterion)
                     {
-                        case EMemberSortingCriterion.ByCustomerName:
+                        case EMemberSorting.ByCustomerName:
                             sortedMembers = members.OrderByDescending(x => x.CustomerName);
                             break;
-                        case EMemberSortingCriterion.ByMembershipStartTime:
+                        case EMemberSorting.ByMembershipStartTime:
                             sortedMembers = members.OrderByDescending(x => x.MembershipStartTime);
                             break;
-                        case EMemberSortingCriterion.ByMembershipEndTime:
+                        case EMemberSorting.ByMembershipEndTime:
                             sortedMembers = members.OrderByDescending(x => x.MembershipEndTime);
                             break;
                     }
@@ -103,11 +103,11 @@ namespace Next2.ViewModels.Tablet
         {
             IsMembersRefreshing = true;
 
-            var getAllMembersAsyncResult = await _membershipService.GetAllMembersAsync();
+            var membershipResult = await _membershipService.GetAllMembersAsync();
 
-            if (getAllMembersAsyncResult.IsSuccess)
+            if (membershipResult.IsSuccess)
             {
-                var allMembers = getAllMembersAsyncResult.Result;
+                var allMembers = membershipResult.Result;
 
                 var memberBindableModels = new ObservableCollection<MemberBindableModel>(allMembers.Select(x => x.ToBindableModel()));
 
@@ -124,20 +124,20 @@ namespace Next2.ViewModels.Tablet
             await RefreshMembersAsync();
         }
 
-        private Task OnTableHeaderColumnTapCommandAsync(EMemberSortingCriterion sortingCriterion)
+        private Task OnTableHeaderColumnTapCommandAsync(EMemberSorting sortingCriterion)
         {
             bool isCurrentMemberSortingCriterionChanged = false;
 
             switch (sortingCriterion)
             {
-                case EMemberSortingCriterion.ByCustomerName:
-                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSortingCriterion.ByCustomerName;
+                case EMemberSorting.ByCustomerName:
+                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSorting.ByCustomerName;
                     break;
-                case EMemberSortingCriterion.ByMembershipStartTime:
-                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSortingCriterion.ByMembershipStartTime;
+                case EMemberSorting.ByMembershipStartTime:
+                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSorting.ByMembershipStartTime;
                     break;
-                case EMemberSortingCriterion.ByMembershipEndTime:
-                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSortingCriterion.ByMembershipEndTime;
+                case EMemberSorting.ByMembershipEndTime:
+                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSorting.ByMembershipEndTime;
                     break;
             }
 
