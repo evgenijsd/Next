@@ -20,9 +20,9 @@ namespace Next2.Droid.Effects
 
                 if (effect.IsBouncesVisible)
                 {
-                    Control.OverScrollMode = Android.Views.OverScrollMode.Never;
-                }
+                Control.OverScrollMode = Android.Views.OverScrollMode.Never;
             }
+        }
         }
 
         protected override void OnDetached()

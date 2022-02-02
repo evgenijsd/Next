@@ -6,6 +6,10 @@ using Microsoft.AppCenter.Crashes;
 using Next2.Resources.Strings;
 using Next2.Services.CustomersService;
 using Next2.ViewModels;
+using MobileViews = Next2.Views.Mobile;
+using TabletViews = Next2.Views.Tablet;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
 using Next2.ViewModels.Dialogs;
 using Next2.Views;
 using Next2.Views.Mobile;
@@ -16,10 +20,13 @@ using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
 using Prism.Unity;
-using System;
+using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Next2.ViewModels.Tablet;
 
 namespace Next2
 {
@@ -29,6 +36,12 @@ namespace Next2
             : base(initializer)
         {
         }
+
+        #region -- Public properties --
+
+        public static bool IsTablet = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet;
+
+        #endregion
 
         #region -- Overrides --
 
@@ -47,6 +60,26 @@ namespace Next2
             containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomersPageMob, CustomersPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomersPageTab, CustomersPageViewModel>();
+
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            {
+                containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+            }
+            else
+            {
+                containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
+
+                containerRegistry.RegisterSingleton<NewOrderViewModel>();
+                containerRegistry.RegisterSingleton<HoldItemsViewModel>();
+                containerRegistry.RegisterSingleton<OrderTabsViewModel>();
+                containerRegistry.RegisterSingleton<ReservationsViewModel>();
+                containerRegistry.RegisterSingleton<MembershipViewModel>();
+                containerRegistry.RegisterSingleton<CustomersViewModel>();
+                containerRegistry.RegisterSingleton<SettingsViewModel>();
+            }
         }
 
         protected override async void OnInitialized()
@@ -61,9 +94,11 @@ namespace Next2
 #endif
             InitializeComponent();
 
-            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(CustomersPageMob)}");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
 
         protected override void OnStart()

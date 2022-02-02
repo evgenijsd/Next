@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace InterTwitter.Controls.StateContainer
+namespace Next2.Controls.StateContainer
 {
     [ContentProperty("Conditions")]
     public class StateContainer : ContentView

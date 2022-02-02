@@ -53,7 +53,7 @@ namespace Next2.ViewModels
 
         private int _points;
         public int Points
-        {
+    {
             get => _points;
             set => SetProperty(ref _points, value);
         }

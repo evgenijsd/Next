@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    x:Class="Next2.Views.MembershipView"
+    x:DataType="viewModels:MembershipViewModel">
+
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <Label
+            Text="{Binding Text}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            VerticalOptions="CenterAndExpand"
+            VerticalTextAlignment="Center"
+            HorizontalTextAlignment="Center"/>
+
+    </StackLayout>
+
+</ContentView>
