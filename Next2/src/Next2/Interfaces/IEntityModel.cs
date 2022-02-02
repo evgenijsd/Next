@@ -1,6 +1,6 @@
 ﻿namespace Next2.Interfaces
 {
-    public interface IEntityBase
+    public interface IEntityModel
     {
         int Id { get; set; }
     }

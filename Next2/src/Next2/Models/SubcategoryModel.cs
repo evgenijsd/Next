@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Models
 {
-    public class SubcategoryModel : IEntityBase
+    public class SubcategoryModel : IEntityModel
     {
         public int Id { get; set; }
 

@@ -15,6 +15,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Next2.Services.MockService;
 using Next2.ViewModels.Tablet;
+using Next2.Services.Menu;
 
 namespace Next2
 {
@@ -37,6 +38,7 @@ namespace Next2
         {
             //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IMenuService, MenuService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();

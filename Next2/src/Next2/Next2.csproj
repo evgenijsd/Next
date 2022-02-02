@@ -114,8 +114,6 @@
   <ItemGroup>
     <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
 
