@@ -61,10 +61,6 @@ namespace Next2.ViewModels
 
         public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
 
-        private ICommand _GoBackCommand;
-
-        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
-
         private ICommand _SortByNameCommand;
 
         public ICommand SortByNameCommand => _SortByNameCommand ??= new AsyncCommand(OnSortByNameCommandAsync);
@@ -77,11 +73,21 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        public override async void OnNavigatedTo(INavigationParameters parametrs)
+        {
+            _orders_base = await _orderService.GetOrdersAsync();
+
+            _tabs_base = await _orderService.GetOrdersAsync();
+
+            await GetVisualCollection();
+        }
+
         public override async void OnAppearing()
         {
             base.OnAppearing();
 
             _orders_base = await _orderService.GetOrdersAsync();
+            System.Diagnostics.Debugger.Break();
 
             _tabs_base = await _orderService.GetOrdersAsync();
 
@@ -154,11 +160,6 @@ namespace Next2.ViewModels
                 IsSelectedOrders = !IsSelectedOrders;
                 await GetVisualCollection();
             }
-        }
-
-        private async Task OnGoBackCommandAsync()
-        {
-            await _navigationService.GoBackAsync();
         }
 
         private Task OnSortByNameCommandAsync()

@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace Next2.Views.Mobile
 {
@@ -7,6 +8,11 @@ namespace Next2.Views.Mobile
         public OrderTabsPage()
         {
             InitializeComponent();
+        }
+
+        private void StackButton_SizeChanged(object sender, EventArgs e)
+        {
+            collectionData.ScrollTo(14, position: ScrollToPosition.Center);
         }
     }
 }
