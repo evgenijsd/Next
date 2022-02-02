@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Next2.ViewModels.Tablet;
 
 namespace Next2
 {
@@ -46,6 +47,14 @@ namespace Next2
             else
             {
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
+
+                containerRegistry.RegisterSingleton<NewOrderViewModel>();
+                containerRegistry.RegisterSingleton<HoldItemsViewModel>();
+                containerRegistry.RegisterSingleton<OrderTabsViewModel>();
+                containerRegistry.RegisterSingleton<ReservationsViewModel>();
+                containerRegistry.RegisterSingleton<MembershipViewModel>();
+                containerRegistry.RegisterSingleton<CustomersViewModel>();
+                containerRegistry.RegisterSingleton<SettingsViewModel>();
             }
         }
 

@@ -117,11 +117,9 @@
 
                         <DataTemplate x:DataType="models:CategoryBindableModel">
 
-                            <Frame
-                                BorderColor="Transparent"
+                            <ContentView
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                                Padding="2"
-                                HasShadow="False">
+                                Padding="2">
 
                                 <Frame
                                     WidthRequest="162"
@@ -141,7 +139,7 @@
 
                                 </Frame>
 
-                            </Frame>
+                            </ContentView>
 
                         </DataTemplate>
 

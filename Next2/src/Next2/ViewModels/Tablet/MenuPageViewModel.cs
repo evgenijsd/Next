@@ -12,16 +12,24 @@ namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
-        public MenuPageViewModel(INavigationService navigationService)
+        public MenuPageViewModel(
+            INavigationService navigationService,
+            NewOrderViewModel newOrderViewModel,
+            HoldItemsViewModel holdItemsViewModel,
+            OrderTabsViewModel orderTabsViewModel,
+            ReservationsViewModel reservationsViewModel,
+            MembershipViewModel membershipViewModel,
+            CustomersViewModel customersViewModel,
+            SettingsViewModel settingsViewModel)
             : base(navigationService)
         {
-            NewOrderViewModel = new NewOrderViewModel(navigationService);
-            HoldItemsViewModel = new HoldItemsViewModel(navigationService);
-            OrderTabsViewModel = new OrderTabsViewModel(navigationService);
-            ReservationsViewModel = new ReservationsViewModel(navigationService);
-            MembershipViewModel = new MembershipViewModel(navigationService);
-            CustomersViewModel = new CustomersViewModel(navigationService);
-            SettingsViewModel = new SettingsViewModel(navigationService);
+            NewOrderViewModel = newOrderViewModel;
+            HoldItemsViewModel = holdItemsViewModel;
+            OrderTabsViewModel = orderTabsViewModel;
+            ReservationsViewModel = reservationsViewModel;
+            MembershipViewModel = membershipViewModel;
+            CustomersViewModel = customersViewModel;
+            SettingsViewModel = settingsViewModel;
 
             InitMenuItems();
         }
