@@ -331,7 +331,7 @@
                                        Text="{Binding OrderStatus}"
                                        Style="{DynamicResource BaseContent_i4}"
                                        FontSize="{DynamicResource tsize_i8}"
-                                       TextColor="{DynamicResource textAndBackgroundColor_i1}"
+                                       TextColor="{DynamicResource indicationColor_i5}"
                                        x:Name="_label">
                                     <Label.Triggers>
                                         <Trigger TargetType="Label"
@@ -340,18 +340,18 @@
                                             <Setter Property="TextColor"
                                                     Value="{DynamicResource indicationColor_i3}" />
                                         </Trigger>
-                                        <Trigger TargetType="Label"
+                                        <!--Trigger TargetType="Label"
                                                  Property="Text"
                                                  Value="Pending">
                                             <Setter Property="TextColor"
                                                     Value="{DynamicResource indicationColor_i5}" />
-                                        </Trigger>
-                                        <Trigger TargetType="Label"
+                                        </Trigger-->
+                                        <!--Trigger TargetType="Label"
                                                  Property="BackgroundColor"
                                                  Value="{DynamicResource appColor_i4}">
                                             <Setter Property="TextColor"
                                                     Value="{DynamicResource textAndBackgroundColor_i1}" />
-                                        </Trigger>
+                                        </Trigger-->
                                     </Label.Triggers>
                                 </Label>
 
