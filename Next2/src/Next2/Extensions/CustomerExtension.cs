@@ -8,9 +8,9 @@ namespace Next2.Extensions
 {
     public static class CustomerExtension
     {
-        public static CustomersViewModel ToCustomersViewModel(this CustomerModel cm)
+        public static CustomerViewModel ToCustomersViewModel(this CustomerModel cm)
         {
-            return new CustomersViewModel
+            return new CustomerViewModel
             {
                 Id = cm.Id,
                 Name = cm.Name,
@@ -23,7 +23,7 @@ namespace Next2.Extensions
             };
         }
 
-        public static CustomerModel ToCustomerModel(this CustomersViewModel cvm)
+        public static CustomerModel ToCustomerModel(this CustomerViewModel cvm)
         {
             return new CustomerModel
             {

@@ -57,7 +57,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<StartPage, StartPageViewModel>();
+            containerRegistry.RegisterForNavigation<StartPage>();
             containerRegistry.RegisterForNavigation<CustomersPageMob, CustomersPageViewModel>();
             containerRegistry.RegisterForNavigation<CustomersPageTab, CustomersPageViewModel>();
 
@@ -66,7 +66,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomerViewModel>();
             }
             else
             {
@@ -77,7 +77,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
-                containerRegistry.RegisterSingleton<CustomersViewModel>();
+                containerRegistry.RegisterSingleton<CustomerViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
             }
         }
@@ -98,7 +98,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(CustomersPageMob)}");
         }
 
         protected override void OnStart()

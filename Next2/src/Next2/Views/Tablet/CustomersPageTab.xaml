@@ -186,7 +186,6 @@
                                     ThumbWidth="10"
                                     VerticalScrollBarVisibility="Always">
                                     <CollectionView.Effects>
-                                        <effects:NoOverScrollEffect IsBouncesVisible="{OnPlatform Android=true, iOS=false}" />
                                         <effects:ScrollBarColorEffect ScrollBarColor="#F45E49" />
                                     </CollectionView.Effects>
                                     <controls:CustomScrollBarCollectionView.ItemTemplate>

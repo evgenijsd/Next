@@ -34,8 +34,8 @@ namespace Next2.ViewModels.Dialogs
             set => SetProperty(ref _selectButtonText, value);
         }
 
-        private CustomersViewModel _customer;
-        public CustomersViewModel Customer
+        private CustomerViewModel _customer;
+        public CustomerViewModel Customer
         {
             get => _customer;
             set => SetProperty(ref _customer, value);

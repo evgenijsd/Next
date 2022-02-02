@@ -18,10 +18,6 @@ namespace Next2.Droid.Effects
                 var effect = (UIEffects.NoOverScrollEffect)Element.Effects
                     .FirstOrDefault(e => e is UIEffects.NoOverScrollEffect);
 
-                if (effect.IsBouncesVisible)
-                {
-                Control.OverScrollMode = Android.Views.OverScrollMode.Never;
-            }
         }
         }
 

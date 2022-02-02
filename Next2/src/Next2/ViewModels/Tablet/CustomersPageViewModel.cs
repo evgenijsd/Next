@@ -32,9 +32,9 @@ namespace InterTwitter.ViewModels
 
         #region -- Public Properties --
 
-        private ObservableCollection<CustomersViewModel>? _customersList;
+        private ObservableCollection<CustomerViewModel>? _customersList;
 
-        public ObservableCollection<CustomersViewModel>? CustomersList
+        public ObservableCollection<CustomerViewModel>? CustomersList
         {
             get => _customersList;
             set => SetProperty(ref _customersList, value);
@@ -56,10 +56,10 @@ namespace InterTwitter.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
-        private CustomersViewModel _oldSelectedItem;
-        private CustomersViewModel _selectedItem;
+        private CustomerViewModel _oldSelectedItem;
+        private CustomerViewModel _selectedItem;
 
-        public CustomersViewModel SelectedItem
+        public CustomerViewModel SelectedItem
         {
             get => _selectedItem;
             set => SetProperty(ref _selectedItem, value);
@@ -90,7 +90,7 @@ namespace InterTwitter.ViewModels
             {
                 var list = cl.Result;
                 var listvm = list.Select(x => x.ToCustomersViewModel());
-                CustomersList = new ObservableCollection<CustomersViewModel>();
+                CustomersList = new ObservableCollection<CustomerViewModel>();
                 foreach (var item in listvm)
                 {
                     item.CheckboxImage = "ic_check_box_unhecked_24x24";
@@ -110,7 +110,7 @@ namespace InterTwitter.ViewModels
 
         private void OnTabSelectCommand(object obj)
         {
-            SelectedItem = obj as CustomersViewModel;
+            SelectedItem = obj as CustomerViewModel;
 
             if (_oldSelectedItem == null)
             {
@@ -151,9 +151,9 @@ namespace InterTwitter.ViewModels
 
         private async void OnMobSelectButtonCommand(object obj)
         {
-            SelectedItem = obj as CustomersViewModel;
+            SelectedItem = obj as CustomerViewModel;
             var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.MODEL, obj as CustomersViewModel);
+            param.Add(Constants.DialogParameterKeys.MODEL, obj as CustomerViewModel);
             param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
             param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
             await Rg.Plugins.Popup.Services
@@ -175,13 +175,13 @@ namespace InterTwitter.ViewModels
                     {
                         if (_isSortedAscending)
                         {
-                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
                                 .OrderByDescending(x => x.Name));
                             _isSortedAscending = false;
                         }
                         else
                         {
-                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
                                 .OrderBy(x => x.Name));
                             _isSortedAscending = true;
                         }
@@ -193,13 +193,13 @@ namespace InterTwitter.ViewModels
                     {
                         if (_isSortedAscending)
                         {
-                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
                                 .OrderByDescending(x => x.Points));
                             _isSortedAscending = false;
                         }
                         else
                         {
-                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
                                 .OrderBy(x => x.Points));
                             _isSortedAscending = true;
                         }
@@ -211,13 +211,13 @@ namespace InterTwitter.ViewModels
                     {
                         if (_isSortedAscending)
                         {
-                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
                                 .OrderByDescending(x => x.Phone));
                             _isSortedAscending = false;
                         }
                         else
                         {
-                            CustomersList = new ObservableCollection<CustomersViewModel>(CustomersList
+                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
                                 .OrderBy(x => x.Phone));
                             _isSortedAscending = true;
                         }
