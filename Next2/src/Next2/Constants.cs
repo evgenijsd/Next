@@ -4,8 +4,6 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
-        public const string SHORT_DATE_FORMAT = "MMM dd yyyy";
-
         public const int SERVER_RESPONCE_DELAY = 1000;
 
         public const string DEFAULT_CULTURE = "en-US";

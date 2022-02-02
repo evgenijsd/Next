@@ -1,28 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentView 
+<ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:local="clr-namespace:Next2"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet" xmlns:converters="clr-namespace:Next2.Converters"
+    xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
     x:DataType="tablet:MembershipViewModel"
     x:Class="Next2.Views.Tablet.MembershipPage">
 
-    <ContentView.Resources>
-        <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
-        
-        <Style x:Key="TableCellStyle" TargetType="Label" BasedOn="{StaticResource BaseContent_i3}">
-            <Setter Property="FontSize"  Value="{DynamicResource TSize_i7}"/>
-            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-            <Setter Property="Padding" Value="20, 10, 5, 11"/>
-        </Style>
-        
-    </ContentView.Resources>
-    
     <Grid 
         RowDefinitions="auto, auto, *"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
@@ -38,7 +27,7 @@
                 <!-- TITLE -->
                 <Label 
                     VerticalOptions="Center"
-                    Style="{DynamicResource BaseContent_i2}"
+                    FontFamily="Barlow-Bold"
                     FontSize="{DynamicResource TSize_i3}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Text="{xct:Translate Membership}"/>
@@ -72,7 +61,7 @@
                         VerticalOptions="Center"
                         Padding="0, 0, 0, 2"
                         Text="{xct:Translate SearchByNameOrPhone}"
-                        Style="{DynamicResource BaseContent_i3}"
+                        FontFamily="Barlow-Medium"
                         FontSize="{DynamicResource TSize_i7}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i7}"/>
 
@@ -111,13 +100,13 @@
                         <StackLayout.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding TableHeaderColumnTapCommand}"
+                                Command="{Binding MemberSortingChangeCommand}"
                                 CommandParameter="{x:Static enums:EMemberSorting.ByCustomerName}"/>
 
                         </StackLayout.GestureRecognizers>
 
                         <Label 
-                            Style="{DynamicResource TableCellStyle}"
+                            Style="{DynamicResource TableCellStyle_i1}"
                             Text="{xct:Translate CustomerName}"/>
 
                         <Image Source="ic_sort_primary_24x24"/>
@@ -126,7 +115,7 @@
 
                     <Label 
                         Grid.Column="1"
-                        Style="{DynamicResource TableCellStyle}"
+                        Style="{DynamicResource TableCellStyle_i1}"
                         Text="{xct:Translate Phone}"/>
 
                     <StackLayout 
@@ -136,13 +125,13 @@
                         <StackLayout.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding TableHeaderColumnTapCommand}"
+                                Command="{Binding MemberSortingChangeCommand}"
                                 CommandParameter="{x:Static enums:EMemberSorting.ByMembershipStartTime}"/>
 
                         </StackLayout.GestureRecognizers>
 
                         <Label 
-                            Style="{DynamicResource TableCellStyle}"
+                            Style="{DynamicResource TableCellStyle_i1}"
                             Text="{xct:Translate MembershipStartTime}"/>
 
                         <Image Source="ic_sort_primary_24x24"/>
@@ -156,13 +145,13 @@
                         <StackLayout.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding TableHeaderColumnTapCommand}"
+                                Command="{Binding MemberSortingChangeCommand}"
                                 CommandParameter="{x:Static enums:EMemberSorting.ByMembershipEndTime}"/>
 
                         </StackLayout.GestureRecognizers>
 
                         <Label 
-                            Style="{DynamicResource TableCellStyle}"
+                            Style="{DynamicResource TableCellStyle_i1}"
                             Text="{xct:Translate MembershipEndTime}"/>
 
                         <Image Source="ic_sort_primary_24x24"/>
@@ -183,14 +172,16 @@
                     <controls:CustomScrollBarCollectionView 
                         SelectionMode="Single"
                         VerticalScrollBarVisibility="Always"
-                        ItemsSource="{Binding MembersToDisplay}"
+                        ItemsSource="{Binding Members}"
                         ThumbWidth="8"
                         ScrollBarCornerRadius="10"
                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
 
                         <CollectionView.Effects>
+                            
                             <effects:NoOverScrollEffect/>
+                            
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
@@ -205,17 +196,17 @@
 
                                         <Label 
                                             Grid.Column="0"
-                                            Style="{DynamicResource TableCellStyle}"
+                                            Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding CustomerName}"/>
 
                                         <Label 
                                             Grid.Column="1"
-                                            Style="{DynamicResource TableCellStyle}"
+                                            Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding Phone}"/>
 
                                         <Label 
                                             Grid.Column="2"
-                                            Style="{DynamicResource TableCellStyle}"
+                                            Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipStartTime, 
                                                 Converter={x:StaticResource timeToFormattedStringConverter}, 
                                                 ConverterParameter={x:Static local:Constants.LONG_DATE_FORMAT}}">
@@ -224,10 +215,10 @@
 
                                         <Label 
                                             Grid.Column="3"
-                                            Style="{DynamicResource TableCellStyle}"
+                                            Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipEndTime, 
                                                 Converter={x:StaticResource timeToFormattedStringConverter}, 
-                                                ConverterParameter={x:Static local:Constants.SHORT_DATE_FORMAT}}"/>
+                                                ConverterParameter='ddd dd MMM '}"/>
                                         
                                     </Grid>
 

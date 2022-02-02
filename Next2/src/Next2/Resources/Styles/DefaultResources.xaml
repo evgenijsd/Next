@@ -1,14 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:Next2.Converters"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converters="clr-namespace:Next2.Converters"
     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
-
-    <x:Double x:Key="TSize_i2">32</x:Double>
-    
+    <!-- 32px -->
     <x:Double x:Key="TSize_i3">28</x:Double>
     <!-- 24px -->
     <x:Double x:Key="TSize_i4">26</x:Double>
@@ -25,24 +22,6 @@
     <!-- 8px -->
     <x:Double x:Key="TSize_i10">10</x:Double>
 
-    <!-- CONTENT STYLES -->
-    <Style x:Key="BaseContent_i1" TargetType="Label">
-        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-        <!-- 600 -->
-    </Style>
-    <Style x:Key="BaseContent_i2" TargetType="Label">
-        <Setter Property="FontFamily" Value="Barlow-Bold"/>
-        <!-- 700  -->
-    </Style>
-    <Style x:Key="BaseContent_i3" TargetType="Label">
-        <Setter Property="FontFamily" Value="Barlow-Medium"/>
-        <!-- 500 -->
-    </Style>
-    <Style x:Key="BaseContent_i4" TargetType="Label">
-        <Setter Property="FontFamily" Value="Barlow-Regular"/>
-        <!-- 400 -->
-    </Style>
-
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False"/>
         <Setter Property="Padding" Value="0"/>
@@ -56,12 +35,20 @@
         <Setter Property="RowSpacing" Value="0"/>
         <Setter Property="ColumnSpacing" Value="0"/>
     </Style>
-    
+
     <Style x:Key="SeparatorStyle" TargetType="BoxView" >
         <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}"/>
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
     </Style>
 
+    <Style x:Key="TableCellStyle_i1" TargetType="Label">
+        <Setter Property="FontFamily" Value="Barlow-Medium"/>
+        <Setter Property="FontSize"  Value="{DynamicResource TSize_i7}"/>
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+        <Setter Property="Padding" Value="20, 10, 5, 11"/>
+    </Style>
+
     <!-- CONVERTERS -->
+    <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
 
 </ResourceDictionary>

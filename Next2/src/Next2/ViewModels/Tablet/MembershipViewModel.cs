@@ -28,21 +28,19 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
-        public ObservableCollection<MemberBindableModel>? MembersToDisplay { get; set; }
-
-        public MemberModel? SelectedMember { get; set; }
+        public ObservableCollection<MemberBindableModel> Members { get; set; }
 
         public bool IsMembersRefreshing { get; set; }
 
-        public ESortingOrder TypeOfMemberSortingOrder { get; set; } = ESortingOrder.ByAscending;
+        public ESortingOrder MembersSortingOrder { get; set; } = ESortingOrder.ByAscending;
 
-        public EMemberSorting CurrentMemberSortingCriterion { get; set; } = EMemberSorting.ByMembershipStartTime;
+        public EMemberSorting MemberSorting { get; set; } = EMemberSorting.ByMembershipStartTime;
 
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
 
-        public ICommand _tableHeaderColumnTapCommand;
-        public ICommand TableHeaderColumnTapCommand => _tableHeaderColumnTapCommand ??= new AsyncCommand<EMemberSorting>(OnTableHeaderColumnTapCommandAsync);
+        private ICommand _memberSortingChangeCommand;
+        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync);
 
         #endregion
 
@@ -50,7 +48,7 @@ namespace Next2.ViewModels.Tablet
 
         private void ReverseSortingTypeOfMembers()
         {
-            TypeOfMemberSortingOrder = TypeOfMemberSortingOrder == ESortingOrder.ByDescending
+            MembersSortingOrder = MembersSortingOrder == ESortingOrder.ByDescending
                 ? ESortingOrder.ByAscending
                 : ESortingOrder.ByDescending;
         }
@@ -59,11 +57,11 @@ namespace Next2.ViewModels.Tablet
         {
             IEnumerable<MemberBindableModel> sortedMembers = null;
 
-            switch (TypeOfMemberSortingOrder)
+            switch (MembersSortingOrder)
             {
                 case ESortingOrder.ByAscending:
 
-                    switch (CurrentMemberSortingCriterion)
+                    switch (MemberSorting)
                     {
                         case EMemberSorting.ByCustomerName:
                             sortedMembers = members.OrderBy(x => x.CustomerName);
@@ -80,7 +78,7 @@ namespace Next2.ViewModels.Tablet
 
                 case ESortingOrder.ByDescending:
 
-                    switch (CurrentMemberSortingCriterion)
+                    switch (MemberSorting)
                     {
                         case EMemberSorting.ByCustomerName:
                             sortedMembers = members.OrderByDescending(x => x.CustomerName);
@@ -113,7 +111,7 @@ namespace Next2.ViewModels.Tablet
 
                 var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
 
-                MembersToDisplay = new ObservableCollection<MemberBindableModel>(sortedmemberBindableModels);
+                Members = new ObservableCollection<MemberBindableModel>(sortedmemberBindableModels);
 
                 IsMembersRefreshing = false;
             }
@@ -124,20 +122,20 @@ namespace Next2.ViewModels.Tablet
             await RefreshMembersAsync();
         }
 
-        private Task OnTableHeaderColumnTapCommandAsync(EMemberSorting sortingCriterion)
+        private Task OnMemberSortingChangeCommandAsync(EMemberSorting memberSorting)
         {
             bool isCurrentMemberSortingCriterionChanged = false;
 
-            switch (sortingCriterion)
+            switch (memberSorting)
             {
                 case EMemberSorting.ByCustomerName:
-                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSorting.ByCustomerName;
+                    isCurrentMemberSortingCriterionChanged = MemberSorting != EMemberSorting.ByCustomerName;
                     break;
                 case EMemberSorting.ByMembershipStartTime:
-                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSorting.ByMembershipStartTime;
+                    isCurrentMemberSortingCriterionChanged = MemberSorting != EMemberSorting.ByMembershipStartTime;
                     break;
                 case EMemberSorting.ByMembershipEndTime:
-                    isCurrentMemberSortingCriterionChanged = CurrentMemberSortingCriterion != EMemberSorting.ByMembershipEndTime;
+                    isCurrentMemberSortingCriterionChanged = MemberSorting != EMemberSorting.ByMembershipEndTime;
                     break;
             }
 
@@ -146,11 +144,11 @@ namespace Next2.ViewModels.Tablet
                 ReverseSortingTypeOfMembers();
             }
 
-            CurrentMemberSortingCriterion = sortingCriterion;
+            MemberSorting = memberSorting;
 
-            var sortedMembers = GetSortedMembers(MembersToDisplay);
+            var sortedMembers = GetSortedMembers(Members);
 
-            MembersToDisplay = new ObservableCollection<MemberBindableModel>(sortedMembers);
+            Members = new ObservableCollection<MemberBindableModel>(sortedMembers);
 
             return Task.CompletedTask;
         }
