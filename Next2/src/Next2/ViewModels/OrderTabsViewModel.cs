@@ -87,7 +87,6 @@ namespace Next2.ViewModels
             base.OnAppearing();
 
             _orders_base = await _orderService.GetOrdersAsync();
-            System.Diagnostics.Debugger.Break();
 
             _tabs_base = await _orderService.GetOrdersAsync();
 
