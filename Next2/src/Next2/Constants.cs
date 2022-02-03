@@ -3,6 +3,12 @@ namespace Next2
 {
     public static class Constants
     {
+        public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
+
+        public const int SERVER_RESPONCE_DELAY = 1000;
+
+        public const string DEFAULT_CULTURE = "en-US";
+
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";
 #elif STAGE

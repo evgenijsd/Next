@@ -1,6 +1,10 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Next2.Services;
+using Next2.Services.Authentication;
+using Next2.Services.ProfileService;
+using Next2.Services.Services;
 using Next2.ViewModels;
 using Next2.ViewModels.Mobile;
 using Next2.Views;
@@ -25,6 +29,12 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Services
+            containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
+            containerRegistry.RegisterSingleton<IUserService, UserService>();
+            containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)

@@ -1,4 +1,5 @@
-﻿using Next2.Views;
+﻿using Next2.Services.Authentication;
+using Next2.Views;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
@@ -13,16 +14,21 @@ namespace Next2.ViewModels.Mobile
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        public LoginPageViewModel(INavigationService navigationService)
-            : base(navigationService)
-        {
-        }
+        private readonly IAuthenticationService _authenticationService;
 
         private string _inputtedEmployeeId;
 
         private int _inputtedEmployeeIdToDigist;
 
         private int _correctEmployeeId = 2020;
+
+        public LoginPageViewModel(
+            INavigationService navigationService,
+            IAuthenticationService authenticationService)
+            : base(navigationService)
+        {
+            _authenticationService = authenticationService;
+        }
 
         #region -- Public properties--
 
@@ -75,9 +81,7 @@ namespace Next2.ViewModels.Mobile
             {
                 int.TryParse(label.Text, out _inputtedEmployeeIdToDigist);
 
-                IsEmployeeExists = _inputtedEmployeeIdToDigist == _correctEmployeeId;
-
-                if (IsEmployeeExists)
+                if (_authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist).Result.IsSuccess)
                 {
                     await _navigationService.NavigateAsync(nameof(StartPage));
                 }
@@ -101,12 +105,14 @@ namespace Next2.ViewModels.Mobile
                 EmployeeId = !string.IsNullOrWhiteSpace(_inputtedEmployeeId) ? EmployeeId = _inputtedEmployeeId : EmployeeId = EmployeeId;
 
                 int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
+                if (_authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist).Result.IsSuccess)
+                {
+                    Console.WriteLine();
+                }
 
-                IsErrorStrokeVisible = (_inputtedEmployeeIdToDigist != _correctEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId);
+                (IsEmployeeExists, IsLoginButtonEnabled) = _authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist).Result.IsSuccess ? (IsEmployeeExists, true) : (IsLoginButtonEnabled, true);
 
-                IsEmployeeExists = (_inputtedEmployeeIdToDigist != _correctEmployeeId) ? false : true;
-
-                IsLoginButtonEnabled = IsEmployeeExists;
+                IsErrorStrokeVisible = !IsEmployeeExists && !string.IsNullOrWhiteSpace(_inputtedEmployeeId);
             }
         }
 
