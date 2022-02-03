@@ -208,9 +208,7 @@
                                             Grid.Column="2"
                                             Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipStartTime, 
-                                                Converter={x:StaticResource timeToFormattedStringConverter}}">
-
-                                        </Label>
+                                                Converter={x:StaticResource timeToFormattedStringConverter}}"/>
 
                                         <Label 
                                             Grid.Column="3"

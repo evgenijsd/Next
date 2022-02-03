@@ -54,7 +54,7 @@ namespace Next2.ViewModels.Tablet
 
         public override void OnDisappearing()
         {
-            Members = null;
+            Members.Clear();
 
             base.OnDisappearing();
         }
@@ -65,26 +65,14 @@ namespace Next2.ViewModels.Tablet
 
         private IEnumerable<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
         {
-            IEnumerable<MemberBindableModel> sortedMembers = null;
-
-            Func<MemberBindableModel, object> comparer = null;
-
-            switch (MemberSorting)
+            Func<MemberBindableModel, object> comparer = MemberSorting switch
             {
-                case EMemberSorting.ByCustomerName:
-                    comparer = x => x.CustomerName;
-                    break;
-                case EMemberSorting.ByMembershipStartTime:
-                    comparer = x => x.MembershipStartTime;
-                    break;
-                case EMemberSorting.ByMembershipEndTime:
-                    comparer = x => x.MembershipEndTime;
-                    break;
-            }
+                EMemberSorting.ByMembershipStartTime => x => x.MembershipStartTime,
+                EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
+                _ => x => x.CustomerName,
+            };
 
-            sortedMembers = members.OrderBy(comparer);
-
-            return sortedMembers;
+            return members.OrderBy(comparer);
         }
 
         private async Task RefreshMembersAsync()
@@ -101,7 +89,7 @@ namespace Next2.ViewModels.Tablet
 
                 var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
 
-                Members = new ObservableCollection<MemberBindableModel>(sortedmemberBindableModels);
+                Members = new (sortedmemberBindableModels);
 
                 IsMembersRefreshing = false;
             }
@@ -116,9 +104,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (MemberSorting == memberSorting)
             {
-                var reversedMembers = Members.Reverse();
-
-                Members = new ObservableCollection<MemberBindableModel>(reversedMembers);
+                Members = new (Members.Reverse());
             }
             else
             {
@@ -126,7 +112,7 @@ namespace Next2.ViewModels.Tablet
 
                 var sortedMembers = GetSortedMembers(Members);
 
-                Members = new ObservableCollection<MemberBindableModel>(sortedMembers);
+                Members = new (sortedMembers);
             }
 
             return Task.CompletedTask;
