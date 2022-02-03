@@ -132,6 +132,7 @@
     <MtouchArch>x86_64</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

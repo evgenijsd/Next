@@ -1,4 +1,6 @@
-﻿using Next2.Resources.Strings;
+using Next2.Resources.Strings;
+using Next2.Services;
+using Next2.Services.Membership;
 using Next2.ViewModels;
 using MobileViews = Next2.Views.Mobile;
 using TabletViews = Next2.Views.Tablet;
@@ -34,6 +36,10 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Services
+            containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
@@ -72,7 +78,7 @@ namespace Next2
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
             await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
@@ -90,6 +96,5 @@ namespace Next2
         }
 
         #endregion
-
     }
 }

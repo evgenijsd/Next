@@ -5,7 +5,7 @@
     x:Class="Next2.Resources.Styles.DarkModeResources">
     
     <!--APP COLORS-->
-    
+
     <!-- Dark/Primary -->
     <Color x:Key="AppColor_i1">#F45E49</Color>
     <!-- Dark/Disabled 10% -->
@@ -30,6 +30,11 @@
     <Color x:Key="TextAndBackgroundColor_i5">#252836</Color>
     <!-- System/ Black -->
     <Color x:Key="TextAndBackgroundColor_i6">#212430</Color>
+
+    <Color x:Key="TextAndBackgroundColor_i7">#6A6C76</Color>
+    
+    <Color x:Key="TextAndBackgroundColor_i8">#2E3143</Color>
+
 
     <!-- Indications -->
 

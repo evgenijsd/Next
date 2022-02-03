@@ -113,8 +113,11 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Converters\" />
-    <Folder Include="Helpers\" />
+    <Folder Include="Resources\Fonts\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Styles\" />
+    <Folder Include="ViewModels\Mobile\" />
+    <Folder Include="Views\Mobile\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Services\" />
@@ -175,6 +178,8 @@
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\MembershipPage.xaml">
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\CustomersView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -185,9 +190,6 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\MenuPageMenuPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\MembershipView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewOrderView.xaml">
