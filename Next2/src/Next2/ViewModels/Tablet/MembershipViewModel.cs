@@ -33,8 +33,6 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsMembersRefreshing { get; set; }
 
-        public ESortingOrder MembersSortingOrder { get; set; } = ESortingOrder.ByAscending;
-
         public EMemberSorting MemberSorting { get; set; } = EMemberSorting.ByMembershipStartTime;
 
         private ICommand _refreshMembersCommand;
@@ -46,13 +44,6 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Private helpers --
-
-        private void ReverseMembersSortingOrder()
-        {
-            MembersSortingOrder = MembersSortingOrder == ESortingOrder.ByAscending
-                ? ESortingOrder.ByDescending
-                : ESortingOrder.ByAscending;
-        }
 
         private IEnumerable<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
         {
@@ -73,9 +64,7 @@ namespace Next2.ViewModels.Tablet
                     break;
             }
 
-            sortedMembers = MembersSortingOrder == ESortingOrder.ByAscending
-                ? members.OrderBy(comparer)
-                : members.OrderByDescending(comparer);
+            sortedMembers = members.OrderBy(comparer);
 
             return sortedMembers;
         }
@@ -109,16 +98,18 @@ namespace Next2.ViewModels.Tablet
         {
             if (MemberSorting == memberSorting)
             {
-                ReverseMembersSortingOrder();
+                var reversedMembers = Members.Reverse();
+
+                Members = new ObservableCollection<MemberBindableModel>(reversedMembers);
             }
             else
             {
                 MemberSorting = memberSorting;
+
+                var sortedMembers = GetSortedMembers(Members);
+
+                Members = new ObservableCollection<MemberBindableModel>(sortedMembers);
             }
-
-            var sortedMembers = GetSortedMembers(Members);
-
-            Members = new ObservableCollection<MemberBindableModel>(sortedMembers);
 
             return Task.CompletedTask;
         }
