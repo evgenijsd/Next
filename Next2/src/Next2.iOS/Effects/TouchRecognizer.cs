@@ -69,7 +69,7 @@ namespace Next2.Effects.iOS
                 {
                     CheckForBoundaryHop(touch);
 
-                    if (idToTouchDictionary[id] != null)
+                    if (idToTouchDictionary.ContainsKey(id) && idToTouchDictionary[id] != null)
                     {
                         FireEvent(idToTouchDictionary[id], id, TouchActionType.Moved, touch, true);
                     }
@@ -93,7 +93,7 @@ namespace Next2.Effects.iOS
                 {
                     CheckForBoundaryHop(touch);
 
-                    if (idToTouchDictionary[id] != null)
+                    if (idToTouchDictionary.ContainsKey(id) && idToTouchDictionary[id] != null)
                     {
                         FireEvent(idToTouchDictionary[id], id, TouchActionType.Released, touch, false);
                     }
@@ -115,7 +115,7 @@ namespace Next2.Effects.iOS
                 {
                     this.FireEvent(this, id, TouchActionType.Cancelled, touch, false);
                 }
-                else if (idToTouchDictionary[id] != null)
+                else if (idToTouchDictionary.ContainsKey(id) && (idToTouchDictionary[id] != null))
                 {
                     this.FireEvent(idToTouchDictionary[id], id, TouchActionType.Cancelled, touch, false);
                 }
@@ -140,19 +140,22 @@ namespace Next2.Effects.iOS
                 }
             }
 
-            if (recognizerHit != idToTouchDictionary[id])
+            if (idToTouchDictionary.ContainsKey(id))
             {
-                if (idToTouchDictionary[id] != null)
+                if (recognizerHit != idToTouchDictionary[id])
                 {
-                    this.FireEvent(idToTouchDictionary[id], id, TouchActionType.Exited, touch, true);
-                }
+                    if (idToTouchDictionary[id] != null)
+                    {
+                        this.FireEvent(idToTouchDictionary[id], id, TouchActionType.Exited, touch, true);
+                    }
 
-                if (recognizerHit != null)
-                {
-                    this.FireEvent(recognizerHit, id, TouchActionType.Entered, touch, true);
-                }
+                    if (recognizerHit != null)
+                    {
+                        this.FireEvent(recognizerHit, id, TouchActionType.Entered, touch, true);
+                    }
 
-                idToTouchDictionary[id] = recognizerHit;
+                    idToTouchDictionary[id] = recognizerHit;
+                }
             }
         }
 
@@ -162,6 +165,8 @@ namespace Next2.Effects.iOS
             Point xfPoint = new Point(cgPoint.X, cgPoint.Y);
 
             Action<Element, TouchActionEventArgs> onTouchAction = recognizer.touchEffect.OnTouchAction;
+
+            Console.WriteLine($"Event = {recognizer.element}, {actionType}");
 
             onTouchAction(recognizer.element, new TouchActionEventArgs(id, actionType, xfPoint, isInContact));
         }
