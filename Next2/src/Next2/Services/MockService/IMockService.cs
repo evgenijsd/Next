@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace InterTwitter.Services
+namespace Next2.Services
 {
     public interface IMockService
     {

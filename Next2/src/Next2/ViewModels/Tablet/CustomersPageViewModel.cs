@@ -7,19 +7,14 @@ using Next2.Views.Mobile.Dialogs;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace InterTwitter.ViewModels
+namespace Next2.ViewModels
 {
     public class CustomersPageViewModel : BaseViewModel
     {

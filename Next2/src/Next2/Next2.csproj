@@ -210,14 +210,8 @@
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\CustomersPageMob.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Views\StartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\CustomersPageTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

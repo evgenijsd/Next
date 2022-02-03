@@ -1,10 +1,8 @@
-﻿using InterTwitter.Services;
-using InterTwitter.ViewModels;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Next2.Resources.Strings;
-using Next2.Services.CustomersService;
+using Next2.Services;
 using Next2.ViewModels;
 using MobileViews = Next2.Views.Mobile;
 using TabletViews = Next2.Views.Tablet;
@@ -23,10 +21,8 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Next2.ViewModels.Tablet;
+using Next2.Services.CustomersService;
 
 namespace Next2
 {
@@ -66,7 +62,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomerViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
             }
             else
             {
@@ -98,7 +94,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(CustomersPageMob)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(TabletViews.MenuPage)}");
         }
 
         protected override void OnStart()

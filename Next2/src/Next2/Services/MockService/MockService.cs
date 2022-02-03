@@ -1,12 +1,11 @@
 ﻿using Next2.Models;
-using Next2.Services.MockService;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InterTwitter.Services
+namespace Next2.Services
 {
     public class MockService : IMockService
     {
