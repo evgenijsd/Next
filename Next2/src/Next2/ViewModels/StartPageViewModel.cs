@@ -1,8 +1,4 @@
-﻿using Microsoft.AppCenter.Crashes;
-using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Prism.Navigation;
 
 namespace Next2.ViewModels
 {
