@@ -23,8 +23,6 @@ namespace Next2.ViewModels.Tablet
             : base(navigationService)
         {
             _membershipService = membershipService;
-
-            _ = RefreshMembersAsync();
         }
 
         #region -- Public properties --
@@ -33,13 +31,33 @@ namespace Next2.ViewModels.Tablet
 
         public bool IsMembersRefreshing { get; set; }
 
-        public EMemberSorting MemberSorting { get; set; } = EMemberSorting.ByMembershipStartTime;
+        public EMemberSorting MemberSorting { get; set; }
 
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
 
         private ICommand _memberSortingChangeCommand;
         public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override async void OnAppearing()
+        {
+            MemberSorting = EMemberSorting.ByMembershipStartTime;
+
+            await RefreshMembersAsync();
+
+            base.OnAppearing();
+        }
+
+        public override void OnDisappearing()
+        {
+            Members = null;
+
+            base.OnDisappearing();
+        }
 
         #endregion
 

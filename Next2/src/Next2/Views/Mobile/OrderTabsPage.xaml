@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<views:BaseContentPage
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    x:Class="Next2.Views.Mobile.OrderTabsPage"
+    x:DataType="viewModels:OrderTabsViewModel"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:prism="http://prismlibrary.com" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+    <Grid
+        RowSpacing="0"
+        RowDefinitions="50, *">
+
+        <StackLayout
+            Grid.Row="0"
+            Grid.Column="0"
+            Padding="20"
+            xct:TouchEffect.Command="{prism:GoBack}">
+
+            <ffimageloading:CachedImage
+                HorizontalOptions="StartAndExpand"
+                Source="ic_arrow_left_tail_24x24.png"/>
+
+        </StackLayout>
+
+        <StackLayout
+            Grid.Row="1"
+            Grid.Column="0">
+
+            <Label
+                Text="{Binding Text}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                VerticalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+
+        </StackLayout>
+
+    </Grid>
+
+</views:BaseContentPage>

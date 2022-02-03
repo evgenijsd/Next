@@ -1,7 +1,6 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
 using System;
-using System.ComponentModel;
 
 namespace Next2.Models
 {

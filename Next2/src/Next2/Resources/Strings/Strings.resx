@@ -138,7 +138,7 @@
   <data name="NewOrder" xml:space="preserve">
     <value>New Order</value>
   </data>
-  <data name="NoInternerConnection" xml:space="preserve">
+  <data name="NoInternetConnection" xml:space="preserve">
     <value>No internet connection</value>
   </data>
   <data name="Phone" xml:space="preserve">

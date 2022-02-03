@@ -1,22 +1,18 @@
-﻿using Prism.Mvvm;
+﻿using Next2.Interfaces;
+using Prism.Mvvm;
 using Prism.Navigation;
+using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace Next2.ViewModels
 {
-    public class BaseViewModel : BindableBase, IDestructible, IInitialize, IInitializeAsync, INavigationAware
+    public class BaseViewModel : BindableBase, IDestructible, IInitialize, IInitializeAsync, INavigationAware, IPageActionsHandler
     {
         protected INavigationService _navigationService { get; }
 
-        protected bool IsConnectionExist
-        {
-            get
-            {
-                var connectivity = Connectivity.NetworkAccess;
-                return connectivity != NetworkAccess.None && connectivity != NetworkAccess.Unknown;
-            }
-        }
+        protected bool IsInternetConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
         public BaseViewModel(INavigationService navigationService)
         {
@@ -55,6 +51,18 @@ namespace Next2.ViewModels
         }
 
         public virtual void OnNavigatedTo(INavigationParameters parameters)
+        {
+        }
+
+        #endregion
+
+        #region -- IPageActionsHandler implementation --
+
+        public virtual void OnAppearing()
+        {
+        }
+
+        public virtual void OnDisappearing()
         {
         }
 

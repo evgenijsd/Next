@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Membership;
 using Next2.ViewModels.Mobile;
@@ -17,7 +17,6 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             NewOrderViewModel = new NewOrderViewModel(navigationService);
-            CategoryViewModel = new CategoryViewModel(navigationService);
             HoldItemsViewModel = new HoldItemsViewModel(navigationService);
             OrderTabsViewModel = new OrderTabsViewModel(navigationService);
             ReservationsViewModel = new ReservationsViewModel(navigationService);
@@ -114,8 +113,6 @@ namespace Next2.ViewModels
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
         public NewOrderViewModel NewOrderViewModel { get; set; }
-
-        public CategoryViewModel CategoryViewModel { get; set; }
 
         public HoldItemsViewModel HoldItemsViewModel { get; set; }
 

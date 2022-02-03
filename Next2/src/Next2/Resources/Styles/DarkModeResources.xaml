@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    x:Class="Next2.Resources.Styles.DarkModeResources">
-
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Resources.Styles.DarkModeResources">
+    
     <!--APP COLORS-->
 
     <!-- Dark/Primary -->
@@ -13,7 +14,7 @@
     <Color x:Key="AppColor_i3">#D24A2E</Color>
     <!-- Dark/Pressed_Dark -->
     <Color x:Key="AppColor_i4">#AB3821</Color>
-
+    
 
     <!-- Text & Background -->
 

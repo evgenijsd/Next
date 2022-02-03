@@ -1,5 +1,4 @@
-﻿using FFImageLoading.Svg.Forms;
-using Foundation;
+﻿using Foundation;
 using UIKit;
 
 namespace Next2.iOS
@@ -28,8 +27,6 @@ namespace Next2.iOS
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
 
             LoadApplication(new App());
-
-            var ignore = typeof(SvgCachedImage);
 
             return base.FinishedLaunching(app, options);
         }

@@ -16,7 +16,7 @@ namespace Next2.Extensions
             };
         }
 
-        public static MemberModel ToeModel(this MemberBindableModel member)
+        public static MemberModel ToModel(this MemberBindableModel member)
         {
             return new MemberModel
             {
