@@ -21,16 +21,8 @@
 
     <ContentPage.Content>
 
-        <Grid RowSpacing="0">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="65" />
-                <RowDefinition Height="55" />
-                <RowDefinition Height="135" />
-                <RowDefinition Height="1" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
+        <Grid RowSpacing="0"
+              RowDefinitions="65,55,135,1,*,auto">
 
             <controls:CustomNavigationbar Title="Order &amp; Tabs"
                                           LeftButtonImageSource="ic_arrow_left_tail_40x40"
@@ -82,37 +74,30 @@
                      BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
             <Grid Grid.Row="2"
-                  Margin="17,100,0,0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                  Margin="17,100,0,0"
+                  ColumnDefinitions="*,*,*">
 
                 <StackLayout Grid.Column="0" HeightRequest="10">
 
-                <Label 
-                       HorizontalOptions="StartAndExpand"
-                       Margin="20,0,0,0"
-                       Text="Table Number"
-                    HeightRequest="{DynamicResource tsize_i8}"
-                    LineBreakMode="TailTruncation"
-                       IsVisible="{Binding IsSelectedOrders}"
-                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                       FontSize="{DynamicResource tsize_i8}"
-                       Style="{DynamicResource BaseContent_i1}" />
+                    <Label HorizontalOptions="StartAndExpand"
+                           Margin="20,0,0,0"
+                           Text="Table Number"
+                           HeightRequest="{DynamicResource tsize_i8}"
+                           LineBreakMode="TailTruncation"
+                           IsVisible="{Binding IsSelectedOrders}"
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                           FontSize="{DynamicResource tsize_i8}"
+                           Style="{DynamicResource BaseContent_i1}" />
 
-                <Label 
-                       HorizontalOptions="StartAndExpand"
-                       Margin="20,0,0,0" 
-                       Text="Customer Name"
-                    HeightRequest="{DynamicResource tsize_i8}"
-                       LineBreakMode="TailTruncation"
-                       IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
-                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                       FontSize="{DynamicResource tsize_i8}"
-                       Style="{DynamicResource BaseContent_i1}" />
+                    <Label HorizontalOptions="StartAndExpand"
+                           Margin="20,0,0,0"
+                           Text="Customer Name"
+                           HeightRequest="{DynamicResource tsize_i8}"
+                           LineBreakMode="TailTruncation"
+                           IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                           FontSize="{DynamicResource tsize_i8}"
+                           Style="{DynamicResource BaseContent_i1}" />
 
                 </StackLayout>
 
@@ -165,7 +150,8 @@
 
                         <Grid HorizontalOptions="Fill"
                               VerticalOptions="Fill"
-                              RowSpacing="0">
+                              RowSpacing="0"
+                              RowDefinitions="47,1">
 
                             <VisualStateManager.VisualStateGroups>
 
@@ -189,18 +175,8 @@
 
                             </VisualStateManager.VisualStateGroups>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="47" />
-                                <RowDefinition Height="1" />
-                            </Grid.RowDefinitions>
-
-                            <Grid Grid.Row="0">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="0"
+                                  ColumnDefinitions="*,*,*" >
 
                                 <Label Grid.Column="0"
                                        HorizontalOptions="StartAndExpand"
@@ -208,7 +184,7 @@
                                        VerticalOptions="CenterAndExpand"
                                        Text="{Binding Name}"
                                        HeightRequest="{DynamicResource tsize_i8}"
-                       LineBreakMode="TailTruncation"
+                                       LineBreakMode="TailTruncation"
                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                        FontSize="{DynamicResource tsize_i8}"
                                        Style="{DynamicResource BaseContent_i4}" />
