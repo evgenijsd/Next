@@ -165,6 +165,7 @@
     <ProjectReference Include="..\Next2\Next2.csproj">
       <Project>{AE5A299A-CB3C-44C0-A7B1-634F8657A7D0}</Project>
       <Name>Next2</Name>
+      <ReferenceSourceTarget></ReferenceSourceTarget>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -21,9 +21,7 @@
 
     <ContentPage.Content>
 
-        <Grid HorizontalOptions="Fill"
-              VerticalOptions="Fill"
-              RowSpacing="0">
+        <Grid RowSpacing="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="65" />
@@ -36,7 +34,7 @@
 
             <controls:CustomNavigationbar Title="Order &amp; Tabs"
                                           LeftButtonImageSource="ic_arrow_left_tail_40x40"
-                                          xct:TouchEffect.Command="{prism:GoBack}" />
+                                          LeftButtonCommand="{Binding GoBackCommand}" />
 
             <Grid Grid.Row="1"
                   Margin="0,1,0,0"
@@ -92,23 +90,31 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0"
+                <StackLayout Grid.Column="0" HeightRequest="10">
+
+                <Label 
                        HorizontalOptions="StartAndExpand"
                        Margin="20,0,0,0"
                        Text="Table Number"
+                    HeightRequest="{DynamicResource tsize_i8}"
+                    LineBreakMode="TailTruncation"
+                       IsVisible="{Binding IsSelectedOrders}"
+                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                       FontSize="{DynamicResource tsize_i8}"
+                       Style="{DynamicResource BaseContent_i1}" />
+
+                <Label 
+                       HorizontalOptions="StartAndExpand"
+                       Margin="20,0,0,0" 
+                       Text="Customer Name"
+                    HeightRequest="{DynamicResource tsize_i8}"
+                       LineBreakMode="TailTruncation"
                        IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                        FontSize="{DynamicResource tsize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
 
-                <Label Grid.Column="0"
-                       HorizontalOptions="StartAndExpand"
-                       Margin="20,0,0,0"
-                       Text="Customer Name"
-                       IsVisible="{Binding IsSelectedOrders}"
-                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                       FontSize="{DynamicResource tsize_i8}"
-                       Style="{DynamicResource BaseContent_i1}" />
+                </StackLayout>
 
                 <StackLayout Grid.Column="0"
                              Margin="10,-10,-5,0">
@@ -149,6 +155,7 @@
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            VerticalOptions="FillAndExpand"
                             SelectedItem="{Binding SelectedOrder}"
                             Margin="17,0,17,0">
 
@@ -200,6 +207,8 @@
                                        Margin="20,0,0,0"
                                        VerticalOptions="CenterAndExpand"
                                        Text="{Binding Name}"
+                                       HeightRequest="{DynamicResource tsize_i8}"
+                       LineBreakMode="TailTruncation"
                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                        FontSize="{DynamicResource tsize_i8}"
                                        Style="{DynamicResource BaseContent_i4}" />
@@ -242,8 +251,6 @@
             </CollectionView>
 
             <StackLayout Grid.Row="5"
-                         x:Name="StackButton"
-                         SizeChanged="StackButton_SizeChanged"
                          BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                          IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">
 

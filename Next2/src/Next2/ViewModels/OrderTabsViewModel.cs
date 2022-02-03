@@ -61,6 +61,10 @@ namespace Next2.ViewModels
 
         public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
 
+        private ICommand _GoBackCommand;
+
+        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+
         private ICommand _SortByNameCommand;
 
         public ICommand SortByNameCommand => _SortByNameCommand ??= new AsyncCommand(OnSortByNameCommandAsync);
@@ -122,11 +126,11 @@ namespace Next2.ViewModels
 
                     if (IsSelectedOrders)
                     {
-                        name = r.CustomerName;
+                        name = $"Table {r.TableNumber}";
                     }
                     else
                     {
-                        name = $"Table {r.TableNumber}";
+                        name = r.CustomerName;
                     }
 
                     Orders.Add(new OrderViewModel
@@ -160,6 +164,11 @@ namespace Next2.ViewModels
                 IsSelectedOrders = !IsSelectedOrders;
                 await GetVisualCollection();
             }
+        }
+
+        private async Task OnGoBackCommandAsync()
+        {
+            await _navigationService.GoBackAsync();
         }
 
         private Task OnSortByNameCommandAsync()
