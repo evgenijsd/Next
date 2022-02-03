@@ -144,7 +144,7 @@
   <data name="NewOrder" xml:space="preserve">
     <value>New Order</value>
   </data>
-  <data name="NoInternerConnection" xml:space="preserve">
+  <data name="NoInternetConnection" xml:space="preserve">
     <value>No internet connection</value>
   </data>
   <data name="Phone" xml:space="preserve">
@@ -152,8 +152,5 @@
   </data>
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
-  </data>
-  <data name="WatchTutorial" xml:space="preserve">
-    <value>Watch the tutorial</value>
   </data>
 </root>
