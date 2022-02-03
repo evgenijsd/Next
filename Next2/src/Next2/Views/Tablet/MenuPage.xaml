@@ -47,7 +47,6 @@
 
                     <templates:MenuItemTemplate
                         ImagePath="{Binding ImagePath}"
-                        Style="{DynamicResource MenuItemTemplateTabletStyle}"
                         Text="{Binding Title}"
                         FontSize="{DynamicResource TSize_i9}"
                         FontFamily="Barlow-Medium"

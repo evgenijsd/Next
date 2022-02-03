@@ -35,6 +35,7 @@ namespace Next2.ViewModels.Tablet
         }
 
         #region -- Public properties --
+
         private MenuItemBindableModel _selectedMenuItem;
         public MenuItemBindableModel SelectedMenuItem
         {

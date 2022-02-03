@@ -3,7 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Controls.Templates.CategoryItemTemplate"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates">
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <Frame.Triggers>
 

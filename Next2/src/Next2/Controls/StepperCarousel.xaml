@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:behaviors="http://prismlibrary.com"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:models="clr-namespace:Next2.Models" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    x:Class="Next2.Controls.StepperCarousel"
+    MinimumHeightRequest="100"
+    HeightRequest="100"
+    VerticalOptions="Start"
+    Orientation="Horizontal"
+    x:Name="stackLayout">
+
+    <Frame
+        HeightRequest="100"
+        HasShadow="False"
+        Padding="5"
+        BackgroundColor="#212430"
+        BorderColor="#424861"
+        CornerRadius="5">
+        
+        <Frame.Effects>
+            <effects:TouchEffect TouchAction="TouchEffect_TouchAction"/>
+        </Frame.Effects>
+        
+        <ffimageloading:CachedImage Source="ic_arrow_left_24x24.png"/>
+
+    </Frame>
+
+    <ScrollView
+        x:Name="scrollCategories"
+        HorizontalOptions="StartAndExpand"
+        Orientation="Horizontal"
+        HeightRequest="100"
+        Padding="0">
+
+        <ScrollView.Behaviors>
+
+            <behaviors:EventToCommandBehavior
+                Command="{Binding ScrolledCommand, Source={x:Reference stackLayout}}"
+                EventName="Scrolled"
+                EventArgsParameterPath="ScrollX"/>
+
+        </ScrollView.Behaviors>
+        
+        <ScrollView.Effects>
+            <effects:TouchEffect TouchAction="TouchEffect_TouchAction2"/>
+        </ScrollView.Effects>
+
+        <controls:TabsControl
+            HeightRequest="110"
+            VerticalOptions="Start"
+            Direction="Column"
+            Wrap="Wrap"
+            JustifyContent="Start"
+            AlignContent="Center"
+            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
+            SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}">
+
+            <DataTemplate x:DataType="models:CategoryBindableModel">
+
+                <templates:CategoryItemTemplate
+                    WidthRequest="135"
+                    HeightRequest="45"
+                    HasShadow="False"
+                    CornerRadius="10"
+                    Margin="0, 0, 7, 7"
+                    Padding="10"
+                    IsSelected="{Binding IsSelected}"
+                    Text="{Binding Title}">
+                    
+                    <templates:CategoryItemTemplate.Effects>
+                        <effects:TouchEffect TouchAction="TouchEffect_TouchAction"/>
+                    </templates:CategoryItemTemplate.Effects>
+
+                </templates:CategoryItemTemplate>
+
+            </DataTemplate>
+
+        </controls:TabsControl>
+
+    </ScrollView>
+
+    <Frame
+        HeightRequest="100"
+        HasShadow="False"
+        Padding="5"
+        BackgroundColor="#212430"
+        BorderColor="#424861"
+        CornerRadius="5"
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapRightButtonCommand}">
+
+        <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
+
+    </Frame>
+
+</StackLayout>

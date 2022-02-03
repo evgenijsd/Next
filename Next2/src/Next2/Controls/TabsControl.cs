@@ -1,5 +1,4 @@
 ﻿using Next2.Interfaces;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -22,6 +21,8 @@ namespace Next2.Controls
         {
             _flexLayout.JustifyContent = JustifyContent;
             _flexLayout.AlignContent = AlignContent;
+            _flexLayout.Direction = Direction;
+            _flexLayout.Wrap = Wrap;
 
             Content = _flexLayout;
         }
@@ -72,7 +73,7 @@ namespace Next2.Controls
             propertyName: nameof(Direction),
             returnType: typeof(FlexDirection),
             declaringType: typeof(TabsControl),
-            default(FlexDirection),
+            defaultValue: FlexDirection.Column,
             defaultBindingMode: BindingMode.TwoWay);
 
         public FlexDirection Direction
@@ -85,7 +86,7 @@ namespace Next2.Controls
             propertyName: nameof(Wrap),
             returnType: typeof(FlexWrap),
             declaringType: typeof(TabsControl),
-            default(FlexWrap),
+            defaultValue: FlexWrap.NoWrap,
             defaultBindingMode: BindingMode.TwoWay);
 
         public FlexWrap Wrap
@@ -179,11 +180,13 @@ namespace Next2.Controls
                         SelectedItem = item;
                     }
 
+                    var content = (View)Template.CreateContent();
+
                     var clickableLayout = new StackLayout();
-
+                    clickableLayout.HeightRequest = content.HeightRequest;
+                    clickableLayout.WidthRequest = content.WidthRequest;
                     clickableLayout.BindingContext = item;
-                    clickableLayout.Children.Add((View)Template.CreateContent());
-
+                    clickableLayout.Children.Add(content);
                     clickableLayout.GestureRecognizers.Add(new TapGestureRecognizer()
                     {
                         Command = TapCommand,
