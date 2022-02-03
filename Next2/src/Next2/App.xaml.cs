@@ -54,8 +54,6 @@ namespace Next2
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<StartPage>();
-            containerRegistry.RegisterForNavigation<CustomersPageMob, CustomersPageViewModel>();
-            containerRegistry.RegisterForNavigation<CustomersPageTab, CustomersPageViewModel>();
 
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {

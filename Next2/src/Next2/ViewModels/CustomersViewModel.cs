@@ -68,9 +68,9 @@ namespace Next2.ViewModels
 
         #region --Overrides--
 
-        public override async void Initialize(INavigationParameters parameters)
+        public override async void OnAppearing()
         {
-            base.Initialize(parameters);
+            base.OnAppearing();
             await InitAsync();
         }
 
