@@ -15,9 +15,5 @@ namespace Next2.Controls
         {
             InitializeComponent();
         }
-
-        #region -- Public properties --
-
-        #endregion
     }
 }

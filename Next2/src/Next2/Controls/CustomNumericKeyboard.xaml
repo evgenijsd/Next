@@ -34,7 +34,7 @@
                                  Padding="0">
                         <Label 
                             x:Name="employeeId"
-                            Text="{Binding EmployeeId, Source={x:Reference customNumericKeyboard}}"
+                            Text="{Binding PlaceHolder, Source={x:Reference customNumericKeyboard}}"
                             Style="{DynamicResource BaseContent_i4}"
                             TextColor="{DynamicResource textAndbackgroundcolor_i8}"
                             VerticalTextAlignment="Center"
@@ -49,8 +49,9 @@
                                     Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource textAndbackgroundcolor_i1}"/>
-                    
-                                </DataTrigger>
+                                <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={x:Reference customNumericKeyboard}}"/>
+
+                            </DataTrigger>
                     
                             </Label.Triggers>
                     
@@ -58,7 +59,7 @@
                     
                         <Image 
                             Source="ic_danger_circle"
-                            IsVisible="{Binding ErrorMessage, Source={x:Reference customNumericKeyboard}}"  
+                            IsVisible="{Binding ErrorNotification, Source={x:Reference customNumericKeyboard}}"  
                             Scale="0.6"
                             HorizontalOptions="EndAndExpand"/>
                     
@@ -68,7 +69,7 @@
                     
                         <DataTrigger 
                             TargetType="controls:CustomFrame"
-                            Binding="{Binding ErrorMessage, Source={x:Reference customNumericKeyboard}}"                                        
+                            Binding="{Binding ErrorNotification, Source={x:Reference customNumericKeyboard}}"                                        
                             Value="True">
                     
                             <Setter 
@@ -120,7 +121,6 @@
                     </controls:CustomFrame>
 
                     <controls:CustomFrame 
-                        
                         Grid.Column="1"
                         Grid.Row="0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"

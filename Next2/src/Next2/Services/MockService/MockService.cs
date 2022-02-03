@@ -140,22 +140,15 @@ namespace Next2.Services
 
         private async Task InitMocksAsync()
         {
-            try
-            {
                 _base = new Dictionary<Type, object>();
 
                 await Task.WhenAll(InitMembers());
 
                 _initCompletionSource.TrySetResult(true);
-            }
-            catch (Exception e)
-            {
-            }
         }
 
         private Task InitMembers() => Task.Run(() =>
         {
-            _users = new List<UserModel>();
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
 
             _users = new List<UserModel>

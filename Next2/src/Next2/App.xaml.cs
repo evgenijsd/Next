@@ -41,6 +41,7 @@ namespace Next2
             {
                 containerRegistry.RegisterForNavigation<Views.Mobile.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<Views.Mobile.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
+                containerRegistry.RegisterForNavigation<Views.StartPage, StartPageViewModel>();
             }
             else
             {

@@ -32,7 +32,8 @@
             <controls:CustomNumericKeyboard 
                 Grid.Column="1"
                 Grid.RowSpan="2"
-                ErrorMessage="{Binding IsErrorStrokeVisible}"/>
+                PlaceHolder="Type Employee Id"
+                ErrorNotification="{Binding IsErrorNotificationVisible}"/>
 
         </Grid>
         

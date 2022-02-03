@@ -18,21 +18,23 @@
                 Padding="0"
                 BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
 
-                <Image 
-                    Source="ic_arrow_left_tail_40x40"
-                    VerticalOptions="Center"
-                    Scale="0.5"
-                    Margin="13, 0, 0, 0">
+                <ContentView>
 
-                    <Image.GestureRecognizers>
+                    <Image 
+                        Source="ic_arrow_left_tail_40x40"
+                        VerticalOptions="Center"
+                        Scale="0.5"
+                        Margin="13, 0, 0, 0">
 
-                        <TapGestureRecognizer 
-                            Command="{Binding GoBackCommand}"
-                            NumberOfTapsRequired="1" />
-
-                    </Image.GestureRecognizers>
-
-                </Image>
+                    </Image>
+                    
+                    <ContentView.GestureRecognizers>
+                        
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                        
+                    </ContentView.GestureRecognizers>
+                    
+                </ContentView>
 
                 <Label 
                     Text="Employee ID"

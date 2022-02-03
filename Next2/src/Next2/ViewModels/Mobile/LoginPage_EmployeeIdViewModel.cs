@@ -19,15 +19,10 @@ namespace Next2.ViewModels.Mobile
 
           #region -- Public properties--
 
+        public string EmployeeId { get; set; }
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
-
-        private string _employeeId;
-        public string EmployeeId
-        {
-            get => _employeeId;
-            set => SetProperty(ref _employeeId, value);
-        }
 
         #endregion
 

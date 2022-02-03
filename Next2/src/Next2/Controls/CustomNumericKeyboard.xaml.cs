@@ -23,29 +23,40 @@ namespace Next2.Controls
 
         public bool IsKeyBoardTyped { get; set; }
 
-        public static readonly BindableProperty EmployeeIdProperty = BindableProperty.Create(
-            propertyName: nameof(EmployeeId),
+        public static readonly BindableProperty ScreenKeyboardProperty = BindableProperty.Create(
+            propertyName: nameof(ScreenKeyboard),
             returnType: typeof(string),
-            defaultValue: "Type Employee ID",
             declaringType: typeof(CustomNumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public string EmployeeId
+        public string ScreenKeyboard
         {
-            get => (string)GetValue(EmployeeIdProperty);
-            set => SetValue(EmployeeIdProperty, value);
+            get => (string)GetValue(ScreenKeyboardProperty);
+            set => SetValue(ScreenKeyboardProperty, value);
         }
 
-        public static readonly BindableProperty ErrorMessageProperty = BindableProperty.Create(
-           propertyName: nameof(ErrorMessage),
+        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(
+            propertyName: nameof(PlaceHolder),
+            returnType: typeof(string),
+            declaringType: typeof(CustomNumericKeyboard),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string PlaceHolder
+        {
+            get => (string)GetValue(PlaceHolderProperty);
+            set => SetValue(PlaceHolderProperty, value);
+        }
+
+        public static readonly BindableProperty ErrorNotificationProperty = BindableProperty.Create(
+           propertyName: nameof(ErrorNotification),
            returnType: typeof(bool),
            declaringType: typeof(CustomNumericKeyboard),
            defaultBindingMode: BindingMode.TwoWay);
 
-        public bool ErrorMessage
+        public bool ErrorNotification
         {
-            get => (bool)GetValue(ErrorMessageProperty);
-            set => SetValue(ErrorMessageProperty, value);
+            get => (bool)GetValue(ErrorNotificationProperty);
+            set => SetValue(ErrorNotificationProperty, value);
         }
 
         private ICommand _ButtonTabCommand;
@@ -66,26 +77,26 @@ namespace Next2.Controls
             {
                 if (_startTyping)
                 {
-                    if (EmployeeId.Length <= 5)
+                    if (PlaceHolder.Length <= 5)
                     {
-                        EmployeeId += view.Text;
+                        PlaceHolder += view.Text;
                     }
                 }
                 else
                 {
                     IsKeyBoardTyped = true;
-                    EmployeeId = view.Text;
                     _startTyping = true;
+                    ScreenKeyboard = view.Text;
                 }
             }
         }
 
         private async Task OnTabClearAsync(object? arg)
         {
-            EmployeeId = "Type Employee ID";
+            ScreenKeyboard = PlaceHolder;
             _startTyping = false;
             IsKeyBoardTyped = false;
-            ErrorMessage = false;
+            ErrorNotification = false;
         }
         #endregion
     }
