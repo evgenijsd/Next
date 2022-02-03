@@ -170,10 +170,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\CustomButtonRight.xaml.cs">
+    <Compile Update="Controls\Buttons\CustomButtonRight.xaml.cs">
       <DependentUpon>CustomButtonRight.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\CustomButtonLeft.xaml.cs">
+    <Compile Update="Controls\Buttons\CustomButtonLeft.xaml.cs">
       <DependentUpon>CustomButtonLeft.xaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Strings\Strings.Designer.cs">
@@ -181,22 +181,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\OrderTabPage.xaml.cs">
-      <DependentUpon>OrderTabPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Tablet\OrderTabPage.xaml.cs">
-      <DependentUpon>OrderTabPage.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Controls\CustomButton.xaml">
+    <EmbeddedResource Update="Controls\Buttons\CustomButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomButtonLeft.xaml">
+    <EmbeddedResource Update="Controls\Buttons\CustomButtonLeft.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomButtonSearch.xaml">
+    <EmbeddedResource Update="Controls\Buttons\CustomButtonSearch.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
@@ -205,9 +199,6 @@
     <EmbeddedResource Update="Resources\Strings\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\OrderTabPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DarkModeResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

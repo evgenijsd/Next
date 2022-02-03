@@ -75,27 +75,28 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            _orders_base = await _orderService.GetOrdersAsync();
-
-            _tabs_base = await _orderService.GetOrdersAsync();
-
-            await GetVisualCollection();
+            await LoadData();
         }
 
         public override async void OnAppearing()
         {
             base.OnAppearing();
 
+            await LoadData();
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private async Task LoadData()
+        {
             _orders_base = await _orderService.GetOrdersAsync();
 
             _tabs_base = await _orderService.GetOrdersAsync();
 
             await GetVisualCollection();
         }
-
-        #endregion
-
-        #region -- Private helpers --
 
         private Task GetVisualCollection()
         {
