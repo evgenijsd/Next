@@ -1,9 +1,9 @@
-﻿using Next2.Helpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Next2.Services
@@ -19,11 +19,29 @@ namespace Next2.Services
 
         #region -- Interface implementation --
 
-        public async Task<List<OrderModel>> GetOrdersAsync()
+        public async Task<AOResult<List<OrderModel>>> GetOrdersAsync()
         {
-            var result = await _mockService.GetAllAsync<OrderModel>();
+            var result = new AOResult<List<OrderModel>>();
 
-            return (List<OrderModel>)result;
+            try
+            {
+                var orders = await _mockService.GetAllAsync<OrderModel>();
+
+                if (orders != null)
+                {
+                    result.SetSuccess(orders.ToList());
+                }
+                else
+                {
+                    result.SetFailure(Strings.NotFoundOrders);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetOrdersAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
         }
 
         #endregion

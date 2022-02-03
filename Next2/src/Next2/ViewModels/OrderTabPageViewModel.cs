@@ -97,9 +97,9 @@ namespace Next2.ViewModels
             Orders = new ObservableCollection<OrderViewModel>();
 
             var result = await _orderService.GetOrdersAsync();
-            if (result != null)
+            if (result.IsSuccess)
             {
-                foreach (var r in result)
+                foreach (var r in result?.Result)
                 {
                     string name;
 

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace Next2.Controls
 {
@@ -76,6 +69,19 @@ namespace Next2.Controls
         {
             get => (Color)GetValue(TextColorProperty);
             set => SetValue(TextColorProperty, value);
+        }
+
+        public static readonly BindableProperty IsVisibleSearchProperty = BindableProperty.Create(
+            propertyName: nameof(IsVisibleSearch),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomButton),
+            defaultValue: false,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsVisibleSearch
+        {
+            get => (bool)GetValue(IsVisibleSearchProperty);
+            set => SetValue(IsVisibleSearchProperty, value);
         }
     }
 }

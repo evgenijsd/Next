@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Grid xmlns="http://xamarin.com/schemas/2014/forms"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:controls="clr-namespace:Next2.Controls"
+      x:DataType="controls:CustomNavigationbar"
       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
       BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
       ColumnSpacing="0"
-      x:Name="customNavigationbar"
       x:Class="Next2.Controls.CustomNavigationbar">
 
     <Grid.ColumnDefinitions>
@@ -14,27 +15,21 @@
 
     <StackLayout Grid.Column="0">
 
-        <!--ImageButton Source="{Binding LeftButtonImageSource, Source={x:Reference customNavigationbar}}"
-                     VerticalOptions="CenterAndExpand"
-                     HeightRequest="25"
-                     BackgroundColor="Transparent"
-                     Command="{Binding LeftButtonCommand, Source={x:Reference customNavigationbar}}" /-->
-
-        <ffimageloading:CachedImage Source="{Binding LeftButtonImageSource, Source={x:Reference customNavigationbar}}"
+        <ffimageloading:CachedImage Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonImageSource}"
                                     HeightRequest="25"
                                     VerticalOptions="CenterAndExpand">
             <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding LeftButtonCommand, Source={x:Reference customNavigationbar}}" />
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}" />
             </ffimageloading:CachedImage.GestureRecognizers>
         </ffimageloading:CachedImage>
 
     </StackLayout>
 
-    <Label Text="{Binding Title, Source={x:Reference customNavigationbar}}"
+    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"
            Margin="5,0,0,0"
            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
            Style="{DynamicResource BaseContent_i2}"
-           FontSize="{DynamicResource tsize_i5}"
+           FontSize="{DynamicResource TSize_i5}"
            VerticalOptions="CenterAndExpand"
            Grid.Column="1" />
     

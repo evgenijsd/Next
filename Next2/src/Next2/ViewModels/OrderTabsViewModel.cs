@@ -18,7 +18,9 @@ namespace Next2.ViewModels
         private List<OrderModel>? _orders_base;
         private List<OrderModel>? _tabs_base;
 
-        public OrderTabsViewModel(INavigationService navigationService, IOrderService orderService)
+        public OrderTabsViewModel(
+            INavigationService navigationService,
+            IOrderService orderService)
             : base(navigationService)
         {
             Text = "OrderTabs";
@@ -95,9 +97,9 @@ namespace Next2.ViewModels
 
         private async Task LoadData()
         {
-            _orders_base = await _orderService.GetOrdersAsync();
+            _orders_base = (await _orderService.GetOrdersAsync()).Result;
 
-            _tabs_base = await _orderService.GetOrdersAsync();
+            _tabs_base = (await _orderService.GetOrdersAsync()).Result;
 
             await GetVisualCollection();
         }
@@ -105,6 +107,8 @@ namespace Next2.ViewModels
         private Task GetVisualCollection()
         {
             SelectedOrder = null;
+            _isDirectionSortNames = true;
+            _isDirectionSortOrders = true;
             Orders = new ObservableCollection<OrderViewModel>();
 
             List<OrderModel>? result = new List<OrderModel>();
@@ -122,7 +126,7 @@ namespace Next2.ViewModels
             {
                 foreach (var r in result)
                 {
-                    string name;
+                    string? name;
 
                     if (IsSelectedOrders)
                     {
@@ -173,7 +177,7 @@ namespace Next2.ViewModels
 
         private Task OnSortByNameCommandAsync()
         {
-            if (!IsSelectedOrders)
+            if (IsSelectedOrders)
             {
                 if (_isDirectionSortNames)
                 {

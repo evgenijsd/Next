@@ -46,7 +46,7 @@
                        VerticalOptions="CenterAndExpand"
                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                        Style="{DynamicResource BaseContent_i2}"
-                       FontSize="{DynamicResource tsize_i4}" />
+                       FontSize="{DynamicResource TSize_i4}" />
 
                 <controls:CustomButtonLeft Grid.Column="0"
                                            CornerRadius="10"
@@ -86,7 +86,24 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <controls:CustomButtonSearch />
+                <controls:CustomButton Grid.Row="0"
+                                       CornerRadius="5"
+                                       IsVisible="{Binding IsSelectedOrders}"
+                                       IsVisibleSearch="True"
+                                       Text="Search by Table Number or Order"
+                                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                       BackColor="Transparent"
+                                       BorderColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                <controls:CustomButton Grid.Row="0"
+                                       CornerRadius="5"
+                                       IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
+                                       IsVisibleSearch="True"
+                                       Text="Search by Name or Order"
+                                       TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                       BackColor="Transparent"
+                                       BorderColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                
                 <StackLayout Grid.Column="1"
                              Orientation="Horizontal"
                              Spacing="15"
@@ -129,7 +146,7 @@
             <Frame Grid.Row="2"
                    HasShadow="False"
                    Margin="17,85,17,-20"
-                   CornerRadius="11"
+                   CornerRadius="10"
                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
             </Frame>
 
@@ -147,21 +164,21 @@
                     <Label HorizontalOptions="Start"
                            Margin="15,0,0,0"
                            Text="Table Number"
-                           HeightRequest="{DynamicResource tsize_i8}"
+                           HeightRequest="{DynamicResource TSize_i8}"
                            LineBreakMode="TailTruncation"
                            IsVisible="{Binding IsSelectedOrders}"
                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                           FontSize="{DynamicResource tsize_i8}"
+                           FontSize="{DynamicResource TSize_i8}"
                            Style="{DynamicResource BaseContent_i1}" />
 
                     <Label HorizontalOptions="Start"
                            Margin="15,0,0,0"
                            Text="Customer Name"
-                           HeightRequest="{DynamicResource tsize_i8}"
+                           HeightRequest="{DynamicResource TSize_i8}"
                            LineBreakMode="TailTruncation"
                            IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                           FontSize="{DynamicResource tsize_i8}"
+                           FontSize="{DynamicResource TSize_i8}"
                            Style="{DynamicResource BaseContent_i1}" />
 
                     <ffimageloading:CachedImage Source="ic_sort_primary_24x24"
@@ -182,7 +199,7 @@
                            Margin="10,0,0,0"
                            Text="Order Number"
                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                           FontSize="{DynamicResource tsize_i8}"
+                           FontSize="{DynamicResource TSize_i8}"
                            Style="{DynamicResource BaseContent_i1}" />
 
                     <ffimageloading:CachedImage Source="ic_sort_primary_24x24"
@@ -198,10 +215,9 @@
 
                 <Label Grid.Column="3"
                        HorizontalOptions="StartAndExpand"
-                       Margin="0,0,0,0"
                        Text="Total"
                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                       FontSize="{DynamicResource tsize_i8}"
+                       FontSize="{DynamicResource TSize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
                 
                 <Label Grid.Column="4"
@@ -209,15 +225,14 @@
                        Margin="5,0,0,0"
                        Text="Order Status"
                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                       FontSize="{DynamicResource tsize_i8}"
+                       FontSize="{DynamicResource TSize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
 
                 <Label Grid.Column="5"
                        HorizontalOptions="StartAndExpand"
-                       Margin="0,0,0,0"
                        Text="Order Type"
                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                       FontSize="{DynamicResource tsize_i8}"
+                       FontSize="{DynamicResource TSize_i8}"
                        Style="{DynamicResource BaseContent_i1}" />
 
             </Grid>
@@ -285,31 +300,28 @@
                                 </ffimageloading:CachedImage>
 
                                 <Label Grid.Column="1"
-                                       HorizontalOptions="StartAndExpand"
-                                       Margin="20,0,0,0"
-                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="Start"
+                                       Margin="20,13,0,0"
                                        Text="{Binding Name}"
-                                       HeightRequest="{DynamicResource tsize_i8}"
+                                       HeightRequest="{DynamicResource TSize_i8}"
                                        LineBreakMode="TailTruncation"
                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                       FontSize="{DynamicResource tsize_i8}"
+                                       FontSize="{DynamicResource TSize_i8}"
                                        Style="{DynamicResource BaseContent_i4}" />
 
                                 <Label Grid.Column="2"
                                        HorizontalOptions="StartAndExpand"
-                                       Margin="15,0,0,0"
-                                       VerticalOptions="CenterAndExpand"
+                                       Margin="15,13,0,0"
                                        Text="{Binding OrderNumber}"
                                        Style="{DynamicResource BaseContent_i4}"
-                                       FontSize="{DynamicResource tsize_i8}"
+                                       FontSize="{DynamicResource TSize_i8}"
                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                 <Label Grid.Column="3"
                                        HorizontalOptions="StartAndExpand"
-                                       VerticalOptions="CenterAndExpand"
-                                       Margin="10,0,0,0"
+                                       Margin="10,13,0,0"
                                        Style="{DynamicResource BaseContent_i4}"
-                                       FontSize="{DynamicResource tsize_i8}"
+                                       FontSize="{DynamicResource TSize_i8}"
                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}">
                                     <Label.FormattedText>
                                         <FormattedString>
@@ -320,11 +332,10 @@
 
                                 <Label Grid.Column="4"
                                        HorizontalOptions="StartAndExpand"
-                                       Margin="15,0,0,0"
-                                       VerticalOptions="CenterAndExpand"
+                                       Margin="15,13,0,0"
                                        Text="{Binding OrderStatus}"
                                        Style="{DynamicResource BaseContent_i4}"
-                                       FontSize="{DynamicResource tsize_i8}"
+                                       FontSize="{DynamicResource TSize_i8}"
                                        TextColor="{DynamicResource IndicationColor_i5}"
                                        x:Name="_label">
                                     
@@ -341,11 +352,10 @@
 
                                 <Label Grid.Column="5"
                                        HorizontalOptions="StartAndExpand"
-                                       Margin="15,0,0,0"
-                                       VerticalOptions="CenterAndExpand"
+                                       Margin="15,13,0,0"
                                        Text="{Binding OrderType}"
                                        Style="{DynamicResource BaseContent_i4}"
-                                       FontSize="{DynamicResource tsize_i8}"
+                                       FontSize="{DynamicResource TSize_i8}"
                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             </Grid>

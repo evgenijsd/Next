@@ -7,7 +7,6 @@
       HorizontalOptions="FillAndExpand"
       VerticalOptions="FillAndExpand"
       RowSpacing="0"
-      x:Name="customButtonLeft"
       x:Class="Next2.Controls.CustomButtonLeft">
 
     <Grid.Resources>
@@ -24,21 +23,21 @@
     <!--SELECTED-->
     
     <Frame HasShadow="False"
-           IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+           IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected}"
            Grid.Row="0"
            Margin="0,0,5,0"
            BackgroundColor="{DynamicResource AppColor_i4}"
-           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonLeft}}" />
+           CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=CornerRadius}" />
     
     <BoxView Grid.Row="0"
-             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected}"
              WidthRequest="15"
              HorizontalOptions="EndAndExpand"
              VerticalOptions="FillAndExpand"
              BackgroundColor="{DynamicResource AppColor_i4}" />
     
     <BoxView Grid.Row="0"
-             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected}"
              WidthRequest="10"
              HeightRequest="10"
              HorizontalOptions="Start"
@@ -46,27 +45,27 @@
              BackgroundColor="{DynamicResource AppColor_i4}" />
     
     <BoxView Grid.Row="1"
-             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}}"
+             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected}"
              BackgroundColor="{DynamicResource AppColor_i1}" />
     
     <!--UNSELECTED-->
     
     <Frame HasShadow="False"
-           IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+           IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected, Converter={StaticResource InvertedBoolConverter}}"
            Grid.Row="0"
            Margin="0,0,5,0"
            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-           CornerRadius="{Binding CornerRadius, Source={x:Reference customButtonLeft}}" />
+           CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=CornerRadius}" />
     
     <BoxView Grid.Row="0"
-             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected, Converter={StaticResource InvertedBoolConverter}}"
              WidthRequest="15"
              HorizontalOptions="EndAndExpand"
              VerticalOptions="FillAndExpand"
              BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
     
     <BoxView Grid.Row="0"
-             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected, Converter={StaticResource InvertedBoolConverter}}"
              WidthRequest="10"
              HeightRequest="10"
              HorizontalOptions="Start"
@@ -74,9 +73,9 @@
              BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
     <BoxView Grid.Row="1"
-             IsVisible="{Binding IsSelected, Source={x:Reference customButtonLeft}, Converter={StaticResource InvertedBoolConverter}}"
+             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonLeft}}, Path=IsSelected, Converter={StaticResource InvertedBoolConverter}}"
              BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-    
+
     <!--TEXT-->
 
     <Label Grid.Column="0"
@@ -84,7 +83,7 @@
            VerticalOptions="CenterAndExpand"
            Text="Orders"
            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-           FontSize="{DynamicResource tsize_i8}"
+           FontSize="{DynamicResource TSize_i8}"
            Style="{DynamicResource BaseContent_i1}" />
     
 </Grid>

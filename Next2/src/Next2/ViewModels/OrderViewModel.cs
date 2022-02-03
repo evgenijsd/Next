@@ -11,25 +11,25 @@ namespace Next2.ViewModels
 
         public int TableNumber { get; set; }
 
-        private string _Name;
+        private string? _name;
 
-        public string Name
+        public string? Name
         {
-            get => _Name;
-            set => SetProperty(ref _Name, value);
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
-        private string _orderStatus;
+        private string? _orderStatus;
 
-        public string OrderStatus
+        public string? OrderStatus
         {
             get => _orderStatus;
             set => SetProperty(ref _orderStatus, value);
         }
 
-        private string _orderType;
+        private string? _orderType;
 
-        public string OrderType
+        public string? OrderType
         {
             get => _orderType;
             set => SetProperty(ref _orderType, value);

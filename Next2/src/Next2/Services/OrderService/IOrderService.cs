@@ -1,4 +1,5 @@
 ﻿using Next2.Helpers;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,6 @@ namespace Next2.Services
 {
     public interface IOrderService
     {
-        Task<List<OrderModel>> GetOrdersAsync();
+        Task<AOResult<List<OrderModel>>> GetOrdersAsync();
     }
 }
