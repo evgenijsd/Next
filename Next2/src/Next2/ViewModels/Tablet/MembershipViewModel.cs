@@ -3,6 +3,7 @@ using Next2.Extensions;
 using Next2.Models;
 using Next2.Services.Membership;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -46,53 +47,35 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private helpers --
 
-        private void ReverseSortingTypeOfMembers()
+        private void ReverseMembersSortingOrder()
         {
-            MembersSortingOrder = MembersSortingOrder == ESortingOrder.ByDescending
-                ? ESortingOrder.ByAscending
-                : ESortingOrder.ByDescending;
+            MembersSortingOrder = MembersSortingOrder == ESortingOrder.ByAscending
+                ? ESortingOrder.ByDescending
+                : ESortingOrder.ByAscending;
         }
 
         private IEnumerable<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
         {
             IEnumerable<MemberBindableModel> sortedMembers = null;
 
-            switch (MembersSortingOrder)
+            Func<MemberBindableModel, object> comparer = null;
+
+            switch (MemberSorting)
             {
-                case ESortingOrder.ByAscending:
-
-                    switch (MemberSorting)
-                    {
-                        case EMemberSorting.ByCustomerName:
-                            sortedMembers = members.OrderBy(x => x.CustomerName);
-                            break;
-                        case EMemberSorting.ByMembershipStartTime:
-                            sortedMembers = members.OrderBy(x => x.MembershipStartTime);
-                            break;
-                        case EMemberSorting.ByMembershipEndTime:
-                            sortedMembers = members.OrderBy(x => x.MembershipEndTime);
-                            break;
-                    }
-
+                case EMemberSorting.ByCustomerName:
+                    comparer = x => x.CustomerName;
                     break;
-
-                case ESortingOrder.ByDescending:
-
-                    switch (MemberSorting)
-                    {
-                        case EMemberSorting.ByCustomerName:
-                            sortedMembers = members.OrderByDescending(x => x.CustomerName);
-                            break;
-                        case EMemberSorting.ByMembershipStartTime:
-                            sortedMembers = members.OrderByDescending(x => x.MembershipStartTime);
-                            break;
-                        case EMemberSorting.ByMembershipEndTime:
-                            sortedMembers = members.OrderByDescending(x => x.MembershipEndTime);
-                            break;
-                    }
-
+                case EMemberSorting.ByMembershipStartTime:
+                    comparer = x => x.MembershipStartTime;
+                    break;
+                case EMemberSorting.ByMembershipEndTime:
+                    comparer = x => x.MembershipEndTime;
                     break;
             }
+
+            sortedMembers = MembersSortingOrder == ESortingOrder.ByAscending
+                ? members.OrderBy(comparer)
+                : members.OrderByDescending(comparer);
 
             return sortedMembers;
         }
@@ -124,27 +107,14 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnMemberSortingChangeCommandAsync(EMemberSorting memberSorting)
         {
-            bool isCurrentMemberSortingCriterionChanged = false;
-
-            switch (memberSorting)
+            if (MemberSorting == memberSorting)
             {
-                case EMemberSorting.ByCustomerName:
-                    isCurrentMemberSortingCriterionChanged = MemberSorting != EMemberSorting.ByCustomerName;
-                    break;
-                case EMemberSorting.ByMembershipStartTime:
-                    isCurrentMemberSortingCriterionChanged = MemberSorting != EMemberSorting.ByMembershipStartTime;
-                    break;
-                case EMemberSorting.ByMembershipEndTime:
-                    isCurrentMemberSortingCriterionChanged = MemberSorting != EMemberSorting.ByMembershipEndTime;
-                    break;
+                ReverseMembersSortingOrder();
             }
-
-            if (!isCurrentMemberSortingCriterionChanged)
+            else
             {
-                ReverseSortingTypeOfMembers();
+                MemberSorting = memberSorting;
             }
-
-            MemberSorting = memberSorting;
 
             var sortedMembers = GetSortedMembers(Members);
 

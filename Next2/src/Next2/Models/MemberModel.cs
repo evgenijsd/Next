@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 
 namespace Next2.Models
 {

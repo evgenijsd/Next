@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Next2.Interfaces;
+using Prism.Mvvm;
 using System;
 using System.ComponentModel;
 

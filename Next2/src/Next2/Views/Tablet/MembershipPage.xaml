@@ -161,6 +161,7 @@
                 </Grid>
                 
                 <BoxView 
+                    HeightRequest="{OnPlatform Android=1.5, iOS=1}"
                     Style="{DynamicResource SeparatorStyle}"
                     Color="{DynamicResource TextAndBackgroundColor_i5}"/>
                 
@@ -208,8 +209,7 @@
                                             Grid.Column="2"
                                             Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipStartTime, 
-                                                Converter={x:StaticResource timeToFormattedStringConverter}, 
-                                                ConverterParameter={x:Static local:Constants.LONG_DATE_FORMAT}}">
+                                                Converter={x:StaticResource timeToFormattedStringConverter}}">
 
                                         </Label>
 
@@ -217,8 +217,7 @@
                                             Grid.Column="3"
                                             Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipEndTime, 
-                                                Converter={x:StaticResource timeToFormattedStringConverter}, 
-                                                ConverterParameter='ddd dd MMM '}"/>
+                                                Converter={x:StaticResource timeToFormattedStringConverter}}"/>
                                         
                                     </Grid>
 

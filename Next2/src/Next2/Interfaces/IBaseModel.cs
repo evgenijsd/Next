@@ -1,4 +1,4 @@
-﻿namespace Next2.Models
+﻿namespace Next2.Interfaces
 {
     public interface IBaseModel
     {
