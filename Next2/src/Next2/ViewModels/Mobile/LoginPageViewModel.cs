@@ -103,7 +103,9 @@ namespace Next2.ViewModels.Mobile
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
+            parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId);
+
+            if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId))
             {
                 IsEmployeeExists = IsLoginButtonEnabled = false;
 

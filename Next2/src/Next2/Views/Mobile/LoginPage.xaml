@@ -108,7 +108,7 @@
                         
                     <Image 
                         Source="ic_danger_circle"
-                        IsVisible="{Binding IsErrorStrokeVisible}"
+                        IsVisible="{Binding IsErrorNotificationVisible}"
                         Scale="0.6"
                         HorizontalOptions="EndAndExpand"/>
 
@@ -125,7 +125,7 @@
                     <DataTrigger 
                         
                         TargetType="controls:CustomFrame"
-                        Binding="{Binding IsErrorStrokeVisible}"                                        
+                        Binding="{Binding IsErrorNotificationVisible}"                                        
                         Value="True">
                         
                         <Setter 
