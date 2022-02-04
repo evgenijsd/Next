@@ -145,8 +145,8 @@ namespace Next2.Services
         {
             _base = new Dictionary<Type, object>();
 
-            await Task.WhenAll(
-                InitOrdersAsync());
+            await Task.WhenAll(InitOrdersAsync());
+			await Task.WhenAll(InitMembersAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
@@ -310,9 +310,8 @@ namespace Next2.Services
             _base.Add(typeof(OrderModel), _orders);
         });
 
-        private Task InitMembers() => Task.Run(() =>
+        private Task InitMembersAsync() => Task.Run(() =>
         {
-            _members = new List<MemberModel>();
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
 
             _members = new List<MemberModel>
