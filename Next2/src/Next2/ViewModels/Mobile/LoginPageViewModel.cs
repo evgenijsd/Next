@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -56,12 +57,6 @@ namespace Next2.ViewModels.Mobile
         #endregion
 
         #region -- Private helpers --
-
-        private async Task CheckEmployeeExists()
-        {
-            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
-        }
-
         private async Task OnTabClearAsync()
         {
             EmployeeId = "Type Employee ID";
@@ -76,22 +71,31 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnStartPageCommandAsync(object? sender)
         {
-            var label = sender as Xamarin.Forms.Label;
-
-            if (label is not null)
+            if (sender is Label label)
             {
-                int.TryParse(label.Text, out _inputtedEmployeeIdToDigist);
-
-                await CheckEmployeeExists();
-
-                if (IsEmployeeExists)
+                if (label.Text.Length == 6)
                 {
-                    await _navigationService.NavigateAsync(nameof(StartPage));
+                    int.TryParse(label.Text, out _inputtedEmployeeIdToDigist);
+
+                    await CheckEmployeeExists();
+
+                    if (IsEmployeeExists)
+                    {
+                        await _navigationService.NavigateAsync(nameof(StartPage));
+                    }
+                    else
+                    {
+                        IsErrorNotificationVisible = true;
+                    }
                 }
                 else
                 {
                     IsErrorNotificationVisible = true;
                 }
+            }
+            else if (IsEmployeeExists && sender is not Label)
+            {
+                await _navigationService.NavigateAsync(nameof(StartPage));
             }
         }
 
@@ -101,22 +105,34 @@ namespace Next2.ViewModels.Mobile
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId);
-
-            if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId))
+            if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
             {
-                IsEmployeeExists = IsLoginButtonEnabled = false;
+                if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == 6)
+                {
+                    IsEmployeeExists = IsLoginButtonEnabled = false;
 
-                IsClearButtonEnabled = !string.IsNullOrWhiteSpace(_inputtedEmployeeId);
+                    IsClearButtonEnabled = true;
 
-                EmployeeId = !string.IsNullOrWhiteSpace(_inputtedEmployeeId) ? _inputtedEmployeeId : EmployeeId;
+                    EmployeeId = _inputtedEmployeeId;
 
-                int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
+                    int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
 
-                await CheckEmployeeExists();
+                    await CheckEmployeeExists();
 
-                IsErrorNotificationVisible = !IsEmployeeExists && !string.IsNullOrWhiteSpace(_inputtedEmployeeId);
+                    IsErrorNotificationVisible = !IsEmployeeExists && !string.IsNullOrWhiteSpace(_inputtedEmployeeId);
+                }
+                else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != 6)
+                {
+                    EmployeeId = _inputtedEmployeeId;
+
+                    IsErrorNotificationVisible = IsClearButtonEnabled = true;
+                }
             }
+        }
+
+        private async Task CheckEmployeeExists()
+        {
+            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
         #endregion

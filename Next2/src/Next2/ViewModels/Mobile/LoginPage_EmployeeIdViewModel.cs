@@ -13,7 +13,7 @@ namespace Next2.ViewModels.Mobile
         {
         }
 
-          #region -- Public properties--
+        #region -- Public properties--
 
         public string EmployeeId { get; set; }
 

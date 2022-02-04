@@ -155,12 +155,12 @@ namespace Next2.Services
             {
                 new UserModel
                 {
-                    Id = 1,
+                    Id = 000001,
                     UserName = "Bob Marley",
                 },
                 new UserModel
                 {
-                    Id = 2,
+                    Id = 000002,
                     UserName = "Tom Black",
                 },
             };
