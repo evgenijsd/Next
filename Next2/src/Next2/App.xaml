@@ -1,16 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<prism:PrismApplication xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
-                        xmlns="http://xamarin.com/schemas/2014/forms"
-                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-                        xmlns:styles="clr-namespace:Next2.Resources.Styles"
-                        x:Class="Next2.App">
+<prism:PrismApplication
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:styles="clr-namespace:Next2.Resources.Styles"
+    xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+    x:Class="Next2.App">
     
     <prism:PrismApplication.Resources>
+        
         <styles:DefaultResources>
+            
             <styles:DefaultResources.MergedDictionaries>
+                
                 <styles:DarkModeResources />
+                
             </styles:DefaultResources.MergedDictionaries>
+            
         </styles:DefaultResources>
+        
     </prism:PrismApplication.Resources>
     
 </prism:PrismApplication>

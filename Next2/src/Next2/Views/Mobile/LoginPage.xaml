@@ -4,7 +4,7 @@
              xmlns:controls="clr-namespace:Next2.Controls"
              x:Class="Next2.Views.Mobile.LoginPage">
 
-    <StackLayout BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}" Spacing="0" Padding="0">
+    <StackLayout BackgroundColor="{DynamicResource textAndBackgroundColor_i3}" Spacing="0" Padding="0">
 
         <Label 
             Text="Login"
@@ -13,7 +13,7 @@
             Margin="16, 0, 0, 0"
             VerticalTextAlignment="Center"
             Style="{DynamicResource BaseContent_i2}"
-            TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+            TextColor="{DynamicResource textAndBackgroundColor_i1}"/>
 
         <Grid 
             ColumnDefinitions="0.5*,0.5*"
@@ -24,7 +24,7 @@
                 Grid.Column="0"
                 Spacing="0"
                 HorizontalOptions="FillAndExpand"
-                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
                 
                 <Label 
                     Text="Employee"
@@ -33,11 +33,11 @@
                     VerticalTextAlignment="Center"
                     FontSize="14"
                     Style="{DynamicResource BaseContent_i1}"
-                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                    TextColor="{DynamicResource textAndBackgroundColor_i1}"/>
 
                 <BoxView 
                     HeightRequest="3"
-                    BackgroundColor="{DynamicResource textAndbackgroundcolor_i2}">
+                    BackgroundColor="{DynamicResource textAndBackgroundColor_i2}">
                 </BoxView>
 
             </StackLayout>
@@ -55,7 +55,7 @@
                     VerticalTextAlignment="Center"
                     FontSize="14"
                     Style="{DynamicResource BaseContent_i1}"
-                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                    TextColor="{DynamicResource textAndBackgroundColor_i1}"/>
 
                 <BoxView 
                     HeightRequest="3"
@@ -69,7 +69,7 @@
             Orientation="Vertical"
             VerticalOptions="FillAndExpand"
             Padding="0"
-            BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}">
+            BackgroundColor="{DynamicResource textAndBackgroundColor_i5}">
             
             <Image 
                 Source="pic_logo_rectangular"
@@ -81,7 +81,7 @@
                 Text="Employee ID"
                 FontSize="14"
                 Margin="16, 0, 0, 0"
-                TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                TextColor="{DynamicResource textAndBackgroundColor_i1}"
                 Style="{DynamicResource BaseContent_i4}"/>
 
             <controls:CustomFrame 
@@ -91,8 +91,8 @@
                 BorderWidth="3"
                 HeightRequest="30"
                 HasShadow="False"
-                BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
-                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                BorderColor="{DynamicResource textAndBackgroundColor_i2}"
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
 
                 <StackLayout Orientation="Horizontal">
 
@@ -102,7 +102,7 @@
                         FontSize="14"
                         VerticalTextAlignment="Center"
                         Style="{DynamicResource BaseContent_i3}"
-                        TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                        TextColor="{DynamicResource textAndBackgroundColor_i1}"
                         Opacity="0.32"
                         Margin="4, 0, 0, 0"/>
                         
@@ -142,7 +142,7 @@
                 Orientation="Horizontal"
                 VerticalOptions="EndAndExpand"
                 Spacing="11"
-                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}"
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}"
                 HeightRequest="65">
 
                 <StackLayout 
@@ -159,7 +159,7 @@
                         BorderWidth="3"
                         HasShadow="False"
                         BorderColor="{DynamicResource appcolor_i1}"
-                        BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                        BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
 
                         <Label 
                             Text="Clear"
@@ -168,7 +168,7 @@
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
                             Style="{DynamicResource BaseContent_i1}"
-                            TextColor="{DynamicResource textAndbackgroundcolor_i1}">
+                            TextColor="{DynamicResource textAndBackgroundColor_i1}">
                             
                             <Label.Triggers> 
                                 
@@ -176,8 +176,8 @@
                                     TargetType="Label"
                                     Binding="{Binding IsClearButtonEnabled}"                           
                                     Value="False">
-                                    
-                                    <Setter Property="TextColor" Value="{DynamicResource textAndbackgroundcolor_i8}"/>
+
+                                    <Setter Property="TextColor" Value="{DynamicResource textAndBackgroundColor_i8}"/>
                                     
                                 </DataTrigger>
                                 
@@ -235,7 +235,7 @@
                         BorderWidth="3"
                         HeightRequest="65"
                         HasShadow="False"
-                        BorderColor="{DynamicResource textAndbackgroundcolor_i2}"
+                        BorderColor="{DynamicResource textAndBackgroundColor_i2}"
                         BackgroundColor="{DynamicResource indicationcolor_i2}">
 
                         <Label
@@ -244,7 +244,7 @@
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
                             Style="{DynamicResource BaseContent_i1}"
-                            TextColor="{DynamicResource textAndbackgroundcolor_i3}"/>
+                            TextColor="{DynamicResource textAndBackgroundColor_i3}"/>
                         
                         <controls:CustomFrame.Triggers>
 

@@ -7,7 +7,7 @@
     <StackLayout 
         Orientation="Horizontal"
         HorizontalOptions="Fill"
-        BackgroundColor="{DynamicResource textAndbackgroundcolor_i4}"
+        BackgroundColor="{DynamicResource textAndBackgroundColor_i4}"
         Grid.Column="0"
         Grid.Row="0"
         Padding="0">
@@ -17,7 +17,7 @@
             FontSize="24"
             VerticalOptions="Center"
             Margin="40, 0, 0, 0"
-            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+            TextColor="{DynamicResource textAndBackgroundColor_i1}"
             Style="{DynamicResource BaseContent_i2}"/>
             
         <Image 
@@ -31,7 +31,7 @@
             VerticalOptions="Center"
             FontSize="12"
             Margin="0, 0, 25, 0"
-            TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+            TextColor="{DynamicResource textAndBackgroundColor_i1}"
             Style="{DynamicResource BaseContent_i3}"/>
 
         <Image 
@@ -44,7 +44,7 @@
             Margin="0, 0, 40, 0"
             FontSize="12"
             Style="{DynamicResource BaseContent_i3}"
-            TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+            TextColor="{DynamicResource textAndBackgroundColor_i1}"/>
 
     </StackLayout>
     

@@ -7,7 +7,7 @@
     <ContentPage.Content>
 
         <StackLayout 
-            BackgroundColor="{DynamicResource textAndbackgroundcolor_i5}" 
+            BackgroundColor="{DynamicResource textAndBackgroundColor_i5}" 
             Spacing="0" 
             Padding="0">
             
@@ -16,7 +16,7 @@
                 HeightRequest="70"
                 Spacing="0" 
                 Padding="0"
-                BackgroundColor="{DynamicResource textAndbackgroundcolor_i3}">
+                BackgroundColor="{DynamicResource textAndBackgroundColor_i3}">
 
                 <ContentView>
 
@@ -42,7 +42,7 @@
                     FontSize="18"
                     Margin="4, 0, 0, 0"
                     Style="{DynamicResource BaseContent_i2}"
-                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"/>
+                    TextColor="{DynamicResource textAndBackgroundColor_i1}"/>
 
             </StackLayout>
 
@@ -59,8 +59,8 @@
                     MaxLength="6"
                     Text="{Binding EmployeeId}"
                     Margin="22, 0, 0, 0"
-                    PlaceholderColor="{DynamicResource textAndbackgroundcolor_i8}"
-                    TextColor="{DynamicResource textAndbackgroundcolor_i1}"
+                    PlaceholderColor="{DynamicResource textAndBackgroundColor_i8}"
+                    TextColor="{DynamicResource textAndBackgroundColor_i1}"
                     Style="{DynamicResource BaseContent_i4}"/>
 
             </StackLayout>

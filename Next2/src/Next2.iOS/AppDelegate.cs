@@ -1,4 +1,3 @@
-﻿using FFImageLoading.Svg.Forms;
 using Foundation;
 using UIKit;
 
@@ -29,16 +28,14 @@ namespace Next2.iOS
 
             LoadApplication(new App());
 
-            var ignore = typeof(SvgCachedImage);
-
             return base.FinishedLaunching(app, options);
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
         {
-            return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Pad
-                ? UIInterfaceOrientationMask.Landscape
-                : UIInterfaceOrientationMask.Portrait;
+            return UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone
+                ? UIInterfaceOrientationMask.Portrait
+                : UIInterfaceOrientationMask.LandscapeRight;
         }
 
         #endregion

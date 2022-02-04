@@ -1,6 +1,5 @@
 ﻿using Next2.Services;
 using Next2.Services.Authentication;
-using Next2.Views;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
@@ -81,7 +80,7 @@ namespace Next2.ViewModels.Mobile
 
                     if (IsEmployeeExists)
                     {
-                        await _navigationService.NavigateAsync(nameof(StartPage));
+                        await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
                     }
                     else
                     {
@@ -95,8 +94,13 @@ namespace Next2.ViewModels.Mobile
             }
             else if (IsEmployeeExists && sender is not Label)
             {
-                await _navigationService.NavigateAsync(nameof(StartPage));
+                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
+        }
+
+        private async Task CheckEmployeeExists()
+        {
+            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
         #endregion
@@ -128,11 +132,6 @@ namespace Next2.ViewModels.Mobile
                     IsErrorNotificationVisible = IsClearButtonEnabled = true;
                 }
             }
-        }
-
-        private async Task CheckEmployeeExists()
-        {
-            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
         #endregion
