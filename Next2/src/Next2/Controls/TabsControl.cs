@@ -192,7 +192,6 @@ namespace Next2.Controls
                         Command = TapCommand,
                         CommandParameter = item,
                     });
-
                     _flexLayout.Children.Add(clickableLayout);
                 }
             }

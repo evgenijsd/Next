@@ -109,7 +109,7 @@
 
                         <GridItemsLayout
                             Orientation="Vertical"
-                            Span="2" />
+                            Span="2"/>
 
                     </CollectionView.ItemsLayout>
 
