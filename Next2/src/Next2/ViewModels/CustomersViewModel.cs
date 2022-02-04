@@ -19,6 +19,7 @@ namespace Next2.ViewModels
     public class CustomersViewModel : BaseViewModel
     {
         private readonly ICustomersService _customersService;
+        private bool _isInitialized;
         public CustomersViewModel(INavigationService navigationService, ICustomersService customersService)
             : base(navigationService)
         {
@@ -60,9 +61,9 @@ namespace Next2.ViewModels
             set => SetProperty(ref _selectedItem, value);
         }
 
-        public ICommand TabInfoButtonCommand => new AsyncCommand(OnTabInfoButtonCommand);
-        public ICommand SortCommand => new AsyncCommand<string>(OnSortCommand);
-        public ICommand RefreshCommand => new AsyncCommand(OnRefreshCommand);
+        public ICommand TabInfoButtonCommand => new AsyncCommand(ShowCustomerInfoAsync);
+        public ICommand SortCommand => new AsyncCommand<string>(SortAsync);
+        public ICommand RefreshCommand => new AsyncCommand(RefreshAsync);
 
         #endregion
 
@@ -71,7 +72,11 @@ namespace Next2.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
-            await InitAsync();
+            if (!_isInitialized)
+            {
+                await InitAsync();
+                _isInitialized = true;
+            }
         }
 
         #endregion
@@ -89,21 +94,21 @@ namespace Next2.ViewModels
                 foreach (var item in listvm)
                 {
                     item.CheckboxImage = "ic_check_box_unhecked_24x24";
-                    item.MobSelectCommand = new Command<object>(OnMobSelectButtonCommand);
-                    item.TabSelectCommand = new Command<object>(OnTabSelectCommand);
+                    item.MobSelectCommand = new Command<object>(ShowInfoAndSelectAsync);
+                    item.TabSelectCommand = new Command<object>(SelectDeselectItem);
                     CustomersList?.Add(item);
                 }
             }
         }
 
-        private async Task OnRefreshCommand()
+        private async Task RefreshAsync()
         {
             IsRefreshing = true;
             await InitAsync();
             IsRefreshing = false;
         }
 
-        private void OnTabSelectCommand(object obj)
+        private void SelectDeselectItem(object obj)
         {
             SelectedItem = obj as CustomerViewModel;
 
@@ -130,7 +135,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnTabInfoButtonCommand()
+        private async Task ShowCustomerInfoAsync()
         {
             if (SelectedItem != null)
             {
@@ -144,7 +149,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async void OnMobSelectButtonCommand(object obj)
+        private async void ShowInfoAndSelectAsync(object obj)
         {
             SelectedItem = obj as CustomerViewModel;
             var param = new DialogParameters();
@@ -162,7 +167,7 @@ namespace Next2.ViewModels
         }
 
         private bool _isSortedAscending;
-        private Task OnSortCommand(string param)
+        private Task SortAsync(string param)
         {
             switch (param)
             {

@@ -291,7 +291,7 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Center" />
                     <!--<Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding TabSelectButtonCommand}" />
+                            <TapGestureRecognizer Command="{Binding SomeCommand}" />
                         </Frame.GestureRecognizers>-->
                 </Frame>
             </Frame>
