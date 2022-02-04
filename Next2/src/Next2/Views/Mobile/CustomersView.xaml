@@ -9,7 +9,7 @@
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <Label
-            Text="{Binding Text}"
+            Text="Customers"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             VerticalOptions="CenterAndExpand"
             VerticalTextAlignment="Center"

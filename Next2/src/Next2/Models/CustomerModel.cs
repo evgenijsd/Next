@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Next2.Models
 {
-    public class CustomerModel : IEntityModelBase
+    public class CustomerModel : IBaseModel
     {
         public int Id { get; set; }
         public string? Name { get; set; }
