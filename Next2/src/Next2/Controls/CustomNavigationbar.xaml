@@ -28,7 +28,7 @@
     <Label Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"
            Margin="5,0,0,0"
            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-           Style="{DynamicResource BaseContent_i2}"
+           FontFamily="Barlow-SemiBold"
            FontSize="{DynamicResource TSize_i5}"
            VerticalOptions="CenterAndExpand"
            Grid.Column="1" />

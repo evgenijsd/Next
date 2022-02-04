@@ -61,11 +61,29 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Categories.
+        /// </summary>
+        internal static string Categories {
+            get {
+                return ResourceManager.GetString("Categories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer Name.
         /// </summary>
         internal static string CustomerName {
             get {
                 return ResourceManager.GetString("CustomerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
             }
         }
         
@@ -117,9 +135,9 @@ namespace Next2.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to No internet connection.
         /// </summary>
-        internal static string NoInternerConnection {
+        internal static string NoInternetConnection {
             get {
-                return ResourceManager.GetString("NoInternerConnection", resourceCulture);
+                return ResourceManager.GetString("NoInternetConnection", resourceCulture);
             }
         }
         
@@ -133,11 +151,65 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order Number.
+        /// </summary>
+        internal static string OrderNumber {
+            get {
+                return ResourceManager.GetString("OrderNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oreder Status.
+        /// </summary>
+        internal static string OrderStatus {
+            get {
+                return ResourceManager.GetString("OrderStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order &amp; Tabs.
+        /// </summary>
+        internal static string OrderTabs {
+            get {
+                return ResourceManager.GetString("OrderTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Type.
+        /// </summary>
+        internal static string OrderType {
+            get {
+                return ResourceManager.GetString("OrderType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         internal static string Phone {
             get {
                 return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        internal static string Print {
+            get {
+                return ResourceManager.GetString("Print", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        internal static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
         
@@ -151,6 +223,24 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search by Name or Order.
+        /// </summary>
+        internal static string SearchName {
+            get {
+                return ResourceManager.GetString("SearchName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search by Table Number or Order.
+        /// </summary>
+        internal static string SearchTableNumber {
+            get {
+                return ResourceManager.GetString("SearchTableNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some issues.
         /// </summary>
         internal static string SomeIssues {
@@ -160,11 +250,29 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Watch the tutorial.
+        ///   Looks up a localized string similar to Split.
         /// </summary>
-        internal static string WatchTutorial {
+        internal static string Split {
             get {
-                return ResourceManager.GetString("WatchTutorial", resourceCulture);
+                return ResourceManager.GetString("Split", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table Number.
+        /// </summary>
+        internal static string TableNumber {
+            get {
+                return ResourceManager.GetString("TableNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
     }

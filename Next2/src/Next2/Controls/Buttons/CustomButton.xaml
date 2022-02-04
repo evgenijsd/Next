@@ -1,55 +1,63 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Grid xmlns="http://xamarin.com/schemas/2014/forms"
-      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-      xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-      xmlns:controls="clr-namespace:Next2.Controls"
-      xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-      x:DataType="controls:CustomButton"
-      x:Class="Next2.Controls.CustomButton">
+<Grid
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:DataType="controls:CustomButton"
+    HeightRequest="42"
+    x:Class="Next2.Controls.CustomButton">
 
     <Grid.Resources>
         <ResourceDictionary>
-            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <xct:InvertedBoolConverter
+                x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </Grid.Resources>
 
-    <Frame HasShadow="False"
-           Grid.Row="0"
-           BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BorderColor}"
-           BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BackColor}"
-           CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CornerRadius}" 
-           VerticalOptions="FillAndExpand"/>
+    <Frame
+        HasShadow="False"
+        Grid.Row="0"
+        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BorderColor}"
+        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BackColor}"
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CornerRadius}"
+        VerticalOptions="FillAndExpand" />
 
-    <Label Grid.Column="0"
-           HorizontalOptions="CenterAndExpand"
-           VerticalOptions="CenterAndExpand"
-           IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch, Converter={StaticResource InvertedBoolConverter}}"
-           Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
-           TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
-           FontSize="{DynamicResource TSize_i8}"
-           Style="{DynamicResource BaseContent_i1}" />
-    
-    <Label Grid.Column="0"
-           HorizontalOptions="CenterAndExpand"
-           VerticalOptions="CenterAndExpand"
-           Text="________"
-           TextColor="Transparent"
-           FontSize="{DynamicResource TSize_i8}"
-           Style="{DynamicResource BaseContent_i1}" />
+    <Label
+        Grid.Column="0"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch, Converter={StaticResource InvertedBoolConverter}}"
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
+        TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
+        FontSize="{DynamicResource TSize_i8}"
+        FontFamily="Barlow-Medium" />
 
-    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
-           IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch}"
-           Margin="10,0,0,0"
-           FontSize="13"
-           TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
-           Opacity="0.32"
-           VerticalOptions="Center"
-           HorizontalOptions="Start" />
+    <Label
+        Grid.Column="0"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand"
+        Text="________"
+        TextColor="Transparent"
+        FontSize="{DynamicResource TSize_i8}"
+        FontFamily="Barlow-Medium" />
 
-    <ffimageloading:CachedImage Source="ic_search_24x24"
-                                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch}"
-                                HeightRequest="20"
-                                Margin="0,0,10,0"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="EndAndExpand" />
+    <Label
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch}"
+        Margin="10,0,0,0"
+        FontSize="13"
+        TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
+        Opacity="0.32"
+        VerticalOptions="Center"
+        HorizontalOptions="Start" />
+
+    <ffimageloading:CachedImage
+        Source="ic_search_24x24"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch}"
+        HeightRequest="20"
+        Margin="0,0,10,0"
+        VerticalOptions="CenterAndExpand"
+        HorizontalOptions="EndAndExpand" />
 </Grid>

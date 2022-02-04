@@ -15,8 +15,8 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private bool _isDirectionSortNames = true;
         private bool _isDirectionSortOrders = true;
-        private List<OrderModel>? _orders_base;
-        private List<OrderModel>? _tabs_base;
+        private List<OrderModel>? _ordersBase;
+        private List<OrderModel>? _tabsBase;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -30,6 +30,8 @@ namespace Next2.ViewModels
         #region -- Public properties --
 
         public string? Text { get; set; }
+
+        public bool IsOrdersRefreshing { get; set; }
 
         private bool _isSelectedOrders = true;
 
@@ -75,6 +77,9 @@ namespace Next2.ViewModels
 
         public ICommand SortByOrderCommand => _SortByOrderCommand ??= new AsyncCommand(OnSortByOrderCommandAsync);
 
+        private ICommand _refreshOrdersCommand;
+        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -82,6 +87,7 @@ namespace Next2.ViewModels
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
             await LoadData();
+            await OnSortByNameCommandAsync();
         }
 
         public override async void OnAppearing()
@@ -95,11 +101,27 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
+        private async Task OnRefreshOrdersCommandAsync()
+        {
+            await LoadData();
+        }
+
         private async Task LoadData()
         {
-            _orders_base = (await _orderService.GetOrdersAsync()).Result;
+            IsOrdersRefreshing = true;
 
-            _tabs_base = (await _orderService.GetOrdersAsync()).Result;
+            var resultOrders = await _orderService.GetOrdersAsync();
+            if (resultOrders.IsSuccess)
+            {
+                _ordersBase = resultOrders.Result;
+
+                var resultTabs = await _orderService.GetOrdersAsync();
+                if (resultTabs.IsSuccess)
+                {
+                    _tabsBase = resultTabs.Result;
+                    IsOrdersRefreshing = false;
+                }
+            }
 
             await GetVisualCollection();
         }
@@ -115,11 +137,11 @@ namespace Next2.ViewModels
 
             if (IsSelectedOrders)
             {
-                result = _orders_base;
+                result = _ordersBase;
             }
             else
             {
-                result = _tabs_base;
+                result = _tabsBase;
             }
 
             if (result != null)
