@@ -13,12 +13,16 @@ namespace Next2.iOS.Effects
 {
     public class NoOverScrollEffect : PlatformEffect
     {
+        #region -- Overrides -- 
+
         protected override void OnAttached()
         {
         }
 
         protected override void OnDetached()
         {
-        }
+        } 
+
+        #endregion
     }
 }

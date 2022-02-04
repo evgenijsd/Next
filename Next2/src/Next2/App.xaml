@@ -7,11 +7,17 @@
     x:Class="Next2.App">
     
     <prism:PrismApplication.Resources>
+        
         <styles:DefaultResources>
+            
             <styles:DefaultResources.MergedDictionaries>
+                
                 <styles:DarkModeResources />
+                
             </styles:DefaultResources.MergedDictionaries>
+            
         </styles:DefaultResources>
+        
     </prism:PrismApplication.Resources>
 
 </prism:PrismApplication>

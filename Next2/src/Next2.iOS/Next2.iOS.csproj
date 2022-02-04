@@ -133,7 +133,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Effects\NoOverScrollEffect.cs" />
-    <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />

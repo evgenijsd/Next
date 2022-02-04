@@ -3,6 +3,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Next2.Controls;
 using Next2.Droid.Renderers;
+using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -21,18 +22,31 @@ namespace Next2.Droid.Renderers
         {
         }
 
+        #region -- Overrides -- 
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs changedProperty)
         {
             base.OnElementPropertyChanged(sender, changedProperty);
 
             this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
 
-            int scrollBarCornerRadius = this.CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
-            Color scrollBarThumbColor = this.CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
-            Color scrollBarTrackColor = this.CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
-            //this.VerticalScrollbarThumbDrawable = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
-           // this.VerticalScrollbarTrackDrawable = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+            try
+            {
+                int scrollBarCornerRadius = this.CustomScrollBarCollectionViewElement.ScrollBarCornerRadius;
+                Color scrollBarThumbColor = this.CustomScrollBarCollectionViewElement.ScrollBarThumbColor.ToAndroid();
+                Color scrollBarTrackColor = this.CustomScrollBarCollectionViewElement.ScrollBarTrackColor.ToAndroid();
+
+                this.VerticalScrollbarThumbDrawable = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
+                this.VerticalScrollbarTrackDrawable = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+            }
+            catch (Exception e)
+            {
+            }
         }
+
+        #endregion
+
+        #region -- Private helpers --
 
         protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
         {
@@ -41,6 +55,8 @@ namespace Next2.Droid.Renderers
             gradient.SetColorFilter(color, PorterDuff.Mode.SrcIn);
 
             return gradient;
-        }
+        } 
+
+        #endregion
     }
 }

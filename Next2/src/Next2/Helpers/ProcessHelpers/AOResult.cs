@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace InterTwitter.Helpers
+namespace Next2.Helpers.ProcessHelpers
 {
     public class AOResult
     {

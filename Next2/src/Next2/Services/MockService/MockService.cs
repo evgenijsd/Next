@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using Next2.Interfaces;
+using Next2.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +12,8 @@ namespace Next2.Services
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
 
+        private IList<MemberModel> _members;
+
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
 
@@ -22,7 +25,7 @@ namespace Next2.Services
         #region -- IMockService implementation --
 
         public async Task<int> AddAsync<T>(T entity)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
             int id = 1;
@@ -39,74 +42,92 @@ namespace Next2.Services
 
             GetBase<T>().Add(entity);
 
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+
             return id;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
+
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>();
         }
 
         public async Task<T> GetByIdAsync<T>(int id)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
+
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault(x => x.Id == id);
         }
 
         public async Task<bool> RemoveAsync<T>(T entity)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
 
             var entityDelete = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
 
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+
             return GetBase<T>().Remove(entityDelete);
         }
 
         public async Task<int> RemoveAllAsync<T>(Predicate<T> predicate)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
+
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().RemoveAll(predicate);
         }
 
         public async Task<T> UpdateAsync<T>(T entity)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
 
             var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
             entityUpdate = entity;
 
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+
             return entityUpdate;
         }
 
         public async Task<T> FindAsync<T>(Func<T, bool> expression)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
+
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault<T>(expression);
         }
 
         public async Task<bool> AnyAsync<T>(Func<T, bool> expression)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
+
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Any<T>(expression);
         }
 
         public async Task<IEnumerable<T>> GetAsync<T>(Func<T, bool> expression)
-            where T : IEntityModelBase, new()
+            where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
+
+            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Where<T>(expression);
         }
@@ -126,7 +147,7 @@ namespace Next2.Services
             {
                 _base = new Dictionary<Type, object>();
 
-                await Task.WhenAll(InitCustomers());
+                await Task.WhenAll(InitMembers());
 
                 _initCompletionSource.TrySetResult(true);
             }
