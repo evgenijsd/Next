@@ -366,7 +366,7 @@ namespace Next2.Services
 
         private Task InitCustomers() => Task.Run(() =>
         {
-            CustomersMock.Create(out _customers);
+            _customers = CustomersMock.Create();
             _base.Add(typeof(CustomerModel), _customers);
         });
 

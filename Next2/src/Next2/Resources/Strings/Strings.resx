@@ -59,7 +59,6 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-	
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -118,11 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddNew" xml:space="preserve">
+    <value>Add New</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
   <data name="CustomerName" xml:space="preserve">
     <value>Customer Name</value>
+  </data>
+  <data name="Customers" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="GiftCardCount" xml:space="preserve">
+    <value>Gift Card Count</value>
+  </data>
+  <data name="GiftCardTotal" xml:space="preserve">
+    <value>Gift Card Total</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Info</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
@@ -145,7 +165,19 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="Points" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="Rewards" xml:space="preserve">
+    <value>Rewards</value>
+  </data>
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>вынести все стринги в ресурсы
+переписать через визуал стейт менеджер изменение чекбокса
+почитать пулреквесты и внести соответсвтующие изменения
+исключение выбрасывает рендерер на иос</value>
   </data>
 </root>

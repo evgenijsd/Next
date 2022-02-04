@@ -9,81 +9,26 @@ namespace Next2.ViewModels
 {
     public class CustomerViewModel : BindableBase
     {
-        private int _id;
-        public int Id
-        {
-            get => _id;
-            set => SetProperty(ref _id, value);
-        }
+        public int Id { get; set; }
 
-        private string? _name;
-        public string? Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+        public string Name { get; set; }
 
-        private string? _email;
-        public string? Email
-        {
-            get => _email;
-            set => SetProperty(ref _email, value);
-        }
+        public string Email { get; set; }
 
-        private string? _phone;
-        public string? Phone
-        {
-            get => _phone;
-            set => SetProperty(ref _phone, value);
-        }
+        public string Phone { get; set; }
 
-        private int _rewards;
-        public int Rewards
-        {
-            get => _rewards;
-            set => SetProperty(ref _rewards, value);
-        }
+        public int Rewards { get; set; }
 
-        private int _giftCardCount;
-        public int GiftCardCount
-        {
-            get => _giftCardCount;
-            set => SetProperty(ref _giftCardCount, value);
-        }
+        public int GiftCardCount { get; set; }
 
-        private int _points;
-        public int Points
-    {
-            get => _points;
-            set => SetProperty(ref _points, value);
-        }
+        public int Points { get; set; }
 
-        private double _giftCardTotal;
-        public double GiftCardTotal
-        {
-            get => _giftCardTotal;
-            set => SetProperty(ref _giftCardTotal, value);
-        }
+        public double GiftCardTotal { get; set; }
 
-        private ImageSource? _checkboxImage;
-        public ImageSource? CheckboxImage
-        {
-            get => _checkboxImage;
-            set => SetProperty(ref _checkboxImage, value);
-        }
+        public ImageSource CheckboxImage { get; set; }
 
-        private ICommand? _mobselectcommand;
-        public ICommand? MobSelectCommand
-        {
-            get => _mobselectcommand;
-            set => SetProperty(ref _mobselectcommand, value);
-        }
+        public ICommand MobSelectCommand { get; set; }
 
-        private ICommand? _tabselectcommand;
-        public ICommand? TabSelectCommand
-        {
-            get => _tabselectcommand;
-            set => SetProperty(ref _tabselectcommand, value);
-        }
+        public ICommand TabSelectCommand { get; set; }
     }
 }

@@ -12,13 +12,11 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Views.Tablet.Dialogs
 {
-    public partial class CustomerInfoDialogTab : PopupPage
+    public partial class CustomerInfoDialog : PopupPage
     {
-        public CustomerInfoDialogTab(DialogParameters param, Action<IDialogParameters> requestClose)
+        public CustomerInfoDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            //mainFrame.WidthRequest = Prism.PrismApplicationBase.Current.MainPage.Width / 2.8;
-            //mainFrame.HeightRequest = Prism.PrismApplicationBase.Current.MainPage.Height * 0.84;
             BindingContext = new CustomerInfoViewModel(param, requestClose);
         }
     }

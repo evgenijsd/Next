@@ -6,51 +6,80 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:DataType="viewModels:CustomersViewModel">
 
 
     <ContentView.Resources>
+
         <ResourceDictionary>
-            <Style x:Key="view_cell" TargetType="Label">
+
+            <Style x:Key="ViewCellStyle" TargetType="Label">
+
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
                 <Setter Property="FontSize" Value="14" />
+
                 <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i3}" />
+
                 <Setter Property="VerticalOptions" Value="Center" />
+
             </Style>
-            <Style x:Key="button_text" TargetType="Label">
+
+            <Style x:Key="ButtonTextStyle" TargetType="Label">
+
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
                 <Setter Property="FontSize" Value="14" />
+
                 <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i1}" />
+
                 <Setter Property="HorizontalOptions" Value="Center" />
+
                 <Setter Property="VerticalOptions" Value="Center" />
+
             </Style>
-            <Style x:Key="button_frame" TargetType="Frame">
+
+            <Style x:Key="ButtonFrameStyle" TargetType="Frame">
+
                 <Setter Property="CornerRadius" Value="5" />
+
                 <Setter Property="HasShadow" Value="False" />
+
                 <Setter Property="HorizontalOptions" Value="End" />
+
                 <Setter Property="WidthRequest" Value="100" />
+
             </Style>
+
         </ResourceDictionary>
+
     </ContentView.Resources>
 
     <ContentView.Content>
+
         <Grid
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             RowDefinitions="0.09*,0.79*,0.1*"
             RowSpacing="2">
+
             <!--  header  -->
+
             <BoxView Grid.Row="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
             <Label
                 Grid.Row="0"
                 Margin="30,0,0,0"
                 FontFamily="{DynamicResource BaseContent_i2}"
                 FontSize="24"
                 HorizontalOptions="Start"
-                Text="Customers"
+                Text="{xct:Translate Customers}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalOptions="Center" />
+
             <!--  body  -->
+
             <Frame
                 Grid.Row="1"
                 Margin="0,-0.2,0,0"
@@ -58,8 +87,11 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 CornerRadius="0"
                 HasShadow="False">
+
                 <StackLayout>
+
                     <StackLayout Padding="0,0,0,-12" Orientation="Horizontal">
+
                         <Frame
                             Margin="24"
                             Padding="0"
@@ -68,6 +100,7 @@
                             CornerRadius="4"
                             HasShadow="False"
                             HorizontalOptions="StartAndExpand">
+
                             <Frame
                                 Margin="2"
                                 Padding="0"
@@ -77,22 +110,29 @@
                                 HasShadow="False"
                                 HeightRequest="42">
                                 <StackLayout Orientation="Horizontal">
+
                                     <Label
                                         Margin="12,0,160,0"
                                         FontFamily="{DynamicResource BaseContent_i3}"
                                         FontSize="14"
-                                        Text="Search by Name or Phone"
+                                        Text="{xct:Translate SearchByNameOrPhone}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i2}"
                                         VerticalOptions="Center" />
+
                                     <Image
                                         Margin="0,0,12,0"
+                                        HeightRequest="20"
                                         HorizontalOptions="EndAndExpand"
-                                        Scale="0.85"
                                         Source="ic_search_24x24"
-                                        VerticalOptions="Center" />
+                                        VerticalOptions="Center"
+                                        WidthRequest="20" />
+
                                 </StackLayout>
+
                             </Frame>
+
                         </Frame>
+
                         <Frame
                             x:Name="infoButton"
                             Margin="0,26,12,24"
@@ -100,20 +140,28 @@
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource IndicationColor_i7}"
                             Opacity="0.32"
-                            Style="{StaticResource button_frame}">
-                            <Label Style="{StaticResource button_text}" Text="Info" />
+                            Style="{StaticResource ButtonFrameStyle}">
+                            <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
+
                             <Frame.GestureRecognizers>
+
                                 <TapGestureRecognizer Command="{Binding TabInfoButtonCommand}" />
+
                             </Frame.GestureRecognizers>
+
                         </Frame>
+
                         <Frame
                             Margin="0,26,24,24"
                             Padding="0"
                             BackgroundColor="{DynamicResource AppColor_i1}"
-                            Style="{StaticResource button_frame}">
-                            <Label Style="{StaticResource button_text}" Text="Add New" />
+                            Style="{StaticResource ButtonFrameStyle}">
+                            <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate AddNew}" />
+
                         </Frame>
+
                     </StackLayout>
+
                     <yummy:PancakeView
                         x:Name="tableHeader"
                         Margin="24,0,24,0"
@@ -121,161 +169,242 @@
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="4,4,0,0"
                         HeightRequest="80">
+
                         <Grid
                             ColumnDefinitions="0.324*,*"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
+
                             <Label
                                 Grid.Column="0"
                                 IsVisible="false"
-                                Style="{StaticResource view_cell}" />
+                                Style="{StaticResource ViewCellStyle}" />
+
                             <StackLayout
                                 Grid.Column="1"
                                 Margin="-3,0,0,0"
                                 Orientation="Horizontal">
-                                <Label Style="{StaticResource view_cell}" Text="Customer Name" />
+                                <Label Style="{StaticResource ViewCellStyle}" Text="{xct:Translate CustomerName}" />
+
                                 <Image Source="ic_sort_primary_24x24" />
+
                                 <StackLayout.GestureRecognizers>
+
                                     <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Name" />
+
                                 </StackLayout.GestureRecognizers>
+
                             </StackLayout>
+
                             <StackLayout
                                 Grid.Column="2"
                                 Margin="-3,0,0,0"
                                 Orientation="Horizontal">
-                                <Label Style="{StaticResource view_cell}" Text="Points" />
-                                <Image Source="ic_sort_primary_24x24" />
+                                <Label Style="{StaticResource ViewCellStyle}" Text="{xct:Translate Points}" />
+
+                                <Image
+                                    x:Name="sortPointsImage"
+                                    IsVisible="false"
+                                    Source="ic_sort_primary_24x24" />
+
                                 <StackLayout.GestureRecognizers>
+
                                     <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Points" />
+
                                 </StackLayout.GestureRecognizers>
+
                             </StackLayout>
+
                             <Label
                                 Grid.Column="3"
                                 Margin="-3,0,0,0"
-                                Style="{StaticResource view_cell}"
-                                Text="Rewards" />
+                                Style="{StaticResource ViewCellStyle}"
+                                Text="{xct:Translate Rewards}" />
+
                             <Label
                                 Grid.Column="4"
                                 Margin="-3,0,0,0"
-                                Style="{StaticResource view_cell}"
-                                Text="Gift Card Count" />
+                                Style="{StaticResource ViewCellStyle}"
+                                Text="{xct:Translate GiftCardCount}" />
+
                             <Label
                                 Grid.Column="5"
                                 Margin="-3,0,0,0"
-                                Style="{StaticResource view_cell}"
-                                Text="Gift Card Total" />
+                                Style="{StaticResource ViewCellStyle}"
+                                Text="{xct:Translate GiftCardTotal}" />
+
                         </Grid>
+
                     </yummy:PancakeView>
+
                     <yummy:PancakeView
                         Margin="24,-6,24,21"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="0,0,4,4">
+
                         <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+
                             <controls:CustomScrollBarCollectionView
                                 x:Name="collectionView"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 ItemsSource="{Binding CustomersList}"
                                 ScrollBarCornerRadius="9"
-                                ScrollBarThumbColor="#F45E49"
-                                ScrollBarTrackColor="#424861"
+                                ScrollBarThumbColor="{DynamicResource AppColor_i1}"
+                                ScrollBarTrackColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                 SelectionChanged="ItemTappedHandler"
                                 SelectionMode="Single"
                                 ThumbWidth="10"
                                 VerticalScrollBarVisibility="Always">
+
                                 <CollectionView.Effects>
+
                                     <effects:ScrollBarColorEffect ScrollBarColor="#F45E49" />
+
                                 </CollectionView.Effects>
+
                                 <CollectionView.ItemTemplate>
+
                                     <DataTemplate x:DataType="viewModels:CustomerViewModel">
-                                        <Grid
-                                            ColumnDefinitions="0.325*,*"
-                                            HeightRequest="45"
-                                            RowDefinitions="*, 1">
+
+                                        <Grid ColumnDefinitions="0.325*,*" HeightRequest="45">
+                                            <Grid.RowDefinitions>
+
+                                                <RowDefinition Height="{OnPlatform Android=*, iOS=*}" />
+
+                                                <RowDefinition Height="{OnPlatform Android=1.5, iOS=2}" />
+
+                                            </Grid.RowDefinitions>
+
                                             <Grid.GestureRecognizers>
+
                                                 <TapGestureRecognizer Command="{Binding TabSelectCommand}" CommandParameter="{Binding .}" />
+
                                             </Grid.GestureRecognizers>
+
                                             <Image
                                                 Grid.Row="0"
                                                 Grid.Column="0"
                                                 Margin="16,0,0,0"
+                                                HeightRequest="20"
                                                 HorizontalOptions="Start"
-                                                Scale="0.9"
-                                                Source="{Binding CheckboxImage}" />
+                                                Source="{Binding CheckboxImage}"
+                                                WidthRequest="20" />
+
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource view_cell}"
+                                                Style="{StaticResource ViewCellStyle}"
                                                 Text="{Binding Name}" />
+
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource view_cell}">
+                                                Style="{StaticResource ViewCellStyle}">
+
                                                 <Label.FormattedText>
+
                                                     <FormattedString>
+
                                                         <Span Text="{Binding Points, StringFormat='{0:D} pt'}" />
+
                                                     </FormattedString>
+
                                                 </Label.FormattedText>
+
                                             </Label>
+
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="3"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource view_cell}"
+                                                Style="{StaticResource ViewCellStyle}"
                                                 Text="{Binding Rewards}" />
+
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="4"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource view_cell}"
+                                                Style="{StaticResource ViewCellStyle}"
                                                 Text="{Binding GiftCardCount}" />
+
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="5"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource view_cell}">
+                                                Style="{StaticResource ViewCellStyle}">
+
                                                 <Label.FormattedText>
+
                                                     <FormattedString>
+
                                                         <Span Text="{Binding GiftCardTotal, StringFormat='{0:C}'}" />
+
                                                     </FormattedString>
+
                                                 </Label.FormattedText>
+
                                             </Label>
+
                                             <BoxView
                                                 Grid.Row="1"
                                                 Grid.ColumnSpan="6"
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                             <VisualStateManager.VisualStateGroups>
+
                                                 <VisualStateGroup Name="CommonStates">
+
                                                     <VisualState Name="Selected">
+
                                                         <VisualState.Setters>
+
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+
                                                         </VisualState.Setters>
+
                                                     </VisualState>
+
                                                     <VisualState Name="Normal">
+
                                                         <VisualState.Setters>
+
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+
                                                         </VisualState.Setters>
+
                                                     </VisualState>
+
                                                 </VisualStateGroup>
+
                                             </VisualStateManager.VisualStateGroups>
                                         </Grid>
+
                                     </DataTemplate>
+
                                 </CollectionView.ItemTemplate>
+
                             </controls:CustomScrollBarCollectionView>
+
                         </RefreshView>
+
                     </yummy:PancakeView>
+
                 </StackLayout>
+
             </Frame>
+
             <!--  footer  -->
+
             <Frame
                 Grid.Row="2"
                 Padding="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 HasShadow="False">
+
                 <Frame
                     x:Name="selectButton"
                     Margin="30,18,30,18"
@@ -284,16 +413,20 @@
                     CornerRadius="6"
                     HasShadow="False"
                     Opacity="0.32">
+
                     <Label
                         FontSize="14"
                         HorizontalOptions="Center"
                         Text="Select"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Center" />
+
                     <!--<Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SomeCommand}" />
                         </Frame.GestureRecognizers>-->
+
                 </Frame>
+
             </Frame>
 
         </Grid>

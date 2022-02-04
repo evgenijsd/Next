@@ -47,18 +47,12 @@ namespace Next2
             // Dialogs
             containerRegistry.RegisterPopupNavigationService();
             containerRegistry.RegisterPopupDialogService();
-            containerRegistry.RegisterDialog<CustomerInfoDialogMob, CustomerInfoViewModel>();
-            containerRegistry.RegisterDialog<CustomerInfoDialogTab, CustomerInfoViewModel>();
             //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
-            // Services
-            containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
-
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<StartPage>();
 
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
@@ -66,6 +60,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
             }
             else
             {
@@ -78,6 +73,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<CustomerViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
             }
         }
 

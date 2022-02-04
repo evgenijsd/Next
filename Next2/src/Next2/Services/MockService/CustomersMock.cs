@@ -8,9 +8,9 @@ namespace Next2.Services
 {
     public static class CustomersMock
     {
-        public static void Create(out List<CustomerModel> result)
+        public static List<CustomerModel> Create()
         {
-            var customers = new List<CustomerModel>()
+            return new List<CustomerModel>()
             {
                 new CustomerModel()
                 {
@@ -277,7 +277,6 @@ namespace Next2.Services
                     GiftCardTotal = 12.99,
                 },
             };
-            result = customers;
         }
     }
 }

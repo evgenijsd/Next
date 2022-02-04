@@ -19,9 +19,11 @@ namespace Next2.Views.Tablet
             {
                 selectButton.Opacity = 0.32;
                 infoButton.Opacity = 0.32;
+                sortPointsImage.IsVisible = false;
             }
             else
             {
+                sortPointsImage.IsVisible = true;
                 selectButton.Opacity = 1;
                 infoButton.Opacity = 1;
             }

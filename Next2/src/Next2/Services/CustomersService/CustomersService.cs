@@ -17,7 +17,7 @@ namespace Next2.Services.CustomersService
             _mockService = mockService;
         }
 
-        #region -- IMembership implementation --
+        #region -- ICustomersSerice implementation --
 
         public async Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null)
         {

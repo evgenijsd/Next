@@ -20,26 +20,12 @@ namespace Next2.ViewModels.Dialogs
 
         #region --Public Properties--
 
-        private string _cancelButtonText;
-        public string CancelButtonText
-        {
-            get => _cancelButtonText;
-            set => SetProperty(ref _cancelButtonText, value);
-        }
+        public string CancelButtonText { get; set; }
 
-        private string _selectButtonText;
-        public string SelectButtonText
-        {
-            get => _selectButtonText;
-            set => SetProperty(ref _selectButtonText, value);
-        }
+        public string SelectButtonText { get; set; }
 
-        private CustomerViewModel _customer;
-        public CustomerViewModel Customer
-        {
-            get => _customer;
-            set => SetProperty(ref _customer, value);
-        }
+        public CustomerViewModel Customer { get; set; }
+
         #endregion
 
         public DelegateCommand CloseCommand { get; }
@@ -54,17 +40,23 @@ namespace Next2.ViewModels.Dialogs
         {
             if (param.ContainsKey(Constants.DialogParameterKeys.MODEL))
             {
-                param.TryGetValue(Constants.DialogParameterKeys.MODEL, out _customer);
+                CustomerViewModel customer;
+                param.TryGetValue(Constants.DialogParameterKeys.MODEL, out customer);
+                Customer = customer;
             }
 
             if (param.ContainsKey(Constants.DialogParameterKeys.OK_BUTTON_TEXT))
             {
-                param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out _selectButtonText);
+                string s;
+                param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out s);
+                SelectButtonText = s;
             }
 
             if (param.ContainsKey(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT))
             {
-                param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out _cancelButtonText);
+                string s;
+                param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out s);
+                CancelButtonText = s;
             }
         }
 

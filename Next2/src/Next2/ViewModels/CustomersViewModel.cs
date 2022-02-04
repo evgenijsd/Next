@@ -145,7 +145,7 @@ namespace Next2.ViewModels
                 param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
                 await Rg.Plugins.Popup.Services
                     .PopupNavigation.Instance
-                    .PushAsync(new CustomerInfoDialogTab(param, CloseDialogCallback));
+                    .PushAsync(new Views.Tablet.Dialogs.CustomerInfoDialog(param, this.CloseDialogCallback));
             }
         }
 
@@ -158,7 +158,7 @@ namespace Next2.ViewModels
             param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
             await Rg.Plugins.Popup.Services
                 .PopupNavigation.Instance
-                .PushAsync(new CustomerInfoDialogMob(param, CloseDialogCallback));
+                .PushAsync(new Views.Mobile.Dialogs.CustomerInfoDialog(param, this.CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters obj)
