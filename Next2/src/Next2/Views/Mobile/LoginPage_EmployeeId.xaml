@@ -54,6 +54,7 @@
 
                 <controls:CustomEntry 
                     Placeholder="Type Employee ID"
+                    VerticalTextAlignment="Center"
                     Keyboard="Numeric"
                     MaxLength="6"
                     Text="{Binding EmployeeId}"

@@ -1,6 +1,7 @@
 ﻿using Foundation;
 using Next2.Controls;
 using Next2.iOS.Renderers;
+using System.ComponentModel;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -10,13 +11,27 @@ namespace Next2.iOS.Renderers
 {
     public class CustomFrameRenderer : FrameRenderer
     {
+        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+
+            var s = sender as CustomFrame;
+
+            switch (e.PropertyName)
+            {
+                case "BorderColor":
+                    Layer.BorderColor = s.BorderColor.ToCGColor();
+                    break;
+            }
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Frame> e)
         {
             if (e.NewElement is CustomFrame frame)
             {
                 Layer.BorderWidth = frame.BorderWidth;
                 Layer.CornerRadius = frame.CornerRadius;
-                Layer.BorderColor = frame.BorderColor.ToCGColor(); //Color.FromHex(hex: "#424861").ToCGColor();
+                Layer.BorderColor = frame.BorderColor.ToCGColor(); 
             }
 
             base.OnElementChanged(e);

@@ -93,8 +93,6 @@ namespace Next2.ViewModels.Mobile
                     IsErrorNotificationVisible = true;
                 }
             }
-
-            await _navigationService.NavigateAsync(nameof(StartPage));
         }
 
         #endregion

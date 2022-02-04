@@ -77,9 +77,9 @@ namespace Next2.Controls
             {
                 if (_startTyping)
                 {
-                    if (PlaceHolder.Length <= 5)
+                    if (ScreenKeyboard.Length <= 5)
                     {
-                        PlaceHolder += view.Text;
+                        ScreenKeyboard += view.Text;
                     }
                 }
                 else
