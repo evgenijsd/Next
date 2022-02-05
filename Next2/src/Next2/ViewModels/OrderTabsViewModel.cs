@@ -31,7 +31,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        private GridLength _listViewHeight = 500;
+        public double HeightPage { get; set; }
+
+        private GridLength _listViewHeight;
         public GridLength ListViewHeight
         {
             get => _listViewHeight;
@@ -95,6 +97,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
+            ListViewHeight = new GridLength(HeightPage - 300);
             await LoadData();
             await OnSortByNameCommandAsync();
         }
@@ -114,11 +117,11 @@ namespace Next2.ViewModels
             {
                 if (SelectedOrder != null)
                 {
-                    ListViewHeight = new GridLength(300);
+                    ListViewHeight = new GridLength(HeightPage - 300 - 170);
                 }
                 else
                 {
-                    ListViewHeight = new GridLength(500);
+                    ListViewHeight = new GridLength(HeightPage - 300);
                 }
             }
         }

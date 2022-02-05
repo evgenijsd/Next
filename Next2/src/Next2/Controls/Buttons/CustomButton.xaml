@@ -24,7 +24,6 @@
         VerticalOptions="FillAndExpand" />
 
     <Label
-        Margin="0,-3,0,0"
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch, Converter={StaticResource InvertedBoolConverter}}"
