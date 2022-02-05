@@ -2,12 +2,26 @@
 
 namespace Next2.Views.Mobile
 {
-    public partial class LoginPage_EmployeeId : ContentPage
+    public partial class LoginPage_EmployeeId : BaseContentPage
     {
         public LoginPage_EmployeeId()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
         }
+
+        #region -- Overrides --
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await System.Threading.Tasks.Task.Delay(250);
+                customEntry.Focus();
+            });
+        }
+
+        #endregion
+
     }
 }

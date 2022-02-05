@@ -1208,7 +1208,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\pic_logo_rectangular.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_arrow_down_24x24.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2668,6 +2667,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\scrollbar_vertical_track.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_screen_land.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

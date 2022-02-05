@@ -34,6 +34,8 @@ namespace Next2.ViewModels.Mobile
 
         public bool IsEmployeeExists { get; set; }
 
+        public bool IsEmployeeIdProvided { get; set; }
+
         public bool IsErrorNotificationVisible { get; set; }
 
         public bool IsClearButtonEnabled { get; set; }
@@ -59,6 +61,8 @@ namespace Next2.ViewModels.Mobile
         private async Task OnTabClearAsync()
         {
             EmployeeId = "Type Employee ID";
+
+            IsEmployeeIdProvided = false;
 
             IsErrorNotificationVisible = IsClearButtonEnabled = IsLoginButtonEnabled = false;
         }
@@ -119,6 +123,8 @@ namespace Next2.ViewModels.Mobile
 
                     EmployeeId = _inputtedEmployeeId;
 
+                    IsEmployeeIdProvided = true;
+
                     int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
 
                     await CheckEmployeeExists();
@@ -128,6 +134,8 @@ namespace Next2.ViewModels.Mobile
                 else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != 6)
                 {
                     EmployeeId = _inputtedEmployeeId;
+
+                    IsEmployeeIdProvided = true;
 
                     IsErrorNotificationVisible = IsClearButtonEnabled = true;
                 }

@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:controls="clr-namespace:Next2.Controls"
-             x:Class="Next2.Views.Mobile.LoginPage_EmployeeId">
-    
-    <ContentPage.Content>
+<views:BaseContentPage
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.Mobile.LoginPage_EmployeeId">
 
         <StackLayout 
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" 
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i10}"
             Spacing="0" 
             Padding="0">
             
@@ -39,9 +39,8 @@
                 <Label 
                     Text="Employee ID"
                     VerticalTextAlignment="Center"
-                    FontSize="18"
+                    FontSize="{DynamicResource TSize_i6}"
                     Margin="4, 0, 0, 0"
-                    Style="{DynamicResource BaseContent_i2}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
             </StackLayout>
@@ -53,20 +52,18 @@
                 VerticalOptions="StartAndExpand">
 
                 <controls:CustomEntry 
+                    x:Name="customEntry"
                     Placeholder="Type Employee ID"
                     VerticalTextAlignment="Center"
                     Keyboard="Numeric"
                     MaxLength="6"
                     Text="{Binding EmployeeId}"
-                    Margin="22, 0, 0, 0"
-                    PlaceholderColor="{DynamicResource TextAndBackgroundColor_i8}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Style="{DynamicResource BaseContent_i4}"/>
+                    Margin="22, 15, 0, 0"
+                    PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
             </StackLayout>
 
         </StackLayout>
-       
-    </ContentPage.Content>
-    
-</ContentPage>
+      
+</views:BaseContentPage>

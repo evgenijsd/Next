@@ -1,42 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:controls="clr-namespace:Next2.Controls"
-             x:Class="Next2.Views.Tablet.LoginPage">
-    
-    <ContentPage.Content>
+<views:BaseContentPage  
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.Tablet.LoginPage">
 
-        <Grid 
-            RowSpacing="0"
-            ColumnSpacing="2"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-            ColumnDefinitions="*, 0.45*"
-            RowDefinitions="0.10*,*">
-            
-            <controls:CustomDateTimePanel/>
-
-            <ContentView 
-                Grid.Row="1"
-                VerticalOptions="Fill"
-                HorizontalOptions="Fill"
-                Padding="80, -25, 80, 20"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
-                
-                <Image 
-                    Source="pic_logo_big"
-                    Margin="115"
-                    Aspect="AspectFit"/>
-                
-            </ContentView>
-
-            <controls:CustomNumericKeyboard 
-                Grid.Column="1"
-                Grid.RowSpan="2"
-                PlaceHolder="Type Employee ID"
-                ErrorNotification="{Binding IsErrorNotificationVisible}"/>
-
-        </Grid>
+    <Grid 
+        RowSpacing="0"
+        ColumnSpacing="2"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+        ColumnDefinitions="*, 0.45*"
+        RowDefinitions="0.10*,*">
         
-    </ContentPage.Content>
-    
-</ContentPage>
+        <controls:CustomDateTimePanel/>
+
+        <ContentView 
+            Grid.Row="1"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            Padding="80, -25, 80, 20"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+
+            <Image 
+                Source="pic_logo_big"
+                Margin="115"
+                Aspect="AspectFit"/>
+                
+        </ContentView>
+
+        <controls:CustomNumericKeyboard 
+            Grid.Column="1"
+            Grid.RowSpan="2"
+            PlaceHolder="Type Employee ID"
+            ErrorNotification="{Binding IsErrorNotificationVisible}"/>
+
+    </Grid>
+
+</views:BaseContentPage>

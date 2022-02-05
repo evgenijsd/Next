@@ -14,8 +14,7 @@
             <Label 
                 Text="Employee ID"
                 Grid.Row="0"
-                Style="{DynamicResource BaseContent_i1}"
-                FontSize="18"
+                FontSize="{DynamicResource TSize_i6}"
                 VerticalTextAlignment="End"
                 Margin="30, 0, 0, 10"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -30,16 +29,17 @@
                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                     BackgroundColor="{DynamicResource TextAndbackgroundcolor_i3}">
 
-                    <StackLayout Orientation="Horizontal"
-                                 Padding="0">
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0">
+                        
                         <Label 
                             x:Name="employeeId"
                             Text="{Binding PlaceHolder, Source={x:Reference customNumericKeyboard}}"
-                            Style="{DynamicResource BaseContent_i4}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i8}"
                             VerticalTextAlignment="Center"
                             Margin="10, 0, 0, 0"
-                            FontSize="18">
+                            FontSize="{DynamicResource TSize_i6}">
                     
                             <Label.Triggers>
                     
@@ -107,8 +107,7 @@
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center"
                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                           Style="{DynamicResource BaseContent_i2}"
-                           FontSize="24"
+                           FontSize="{DynamicResource TSize_i4_5}"
                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -136,8 +135,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -166,8 +164,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -196,8 +193,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -226,8 +222,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -256,8 +251,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -286,8 +280,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
                             
                         <controls:CustomFrame.GestureRecognizers>
@@ -316,8 +309,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -346,8 +338,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
                             
                         <controls:CustomFrame.GestureRecognizers>
@@ -376,8 +367,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <controls:CustomFrame.GestureRecognizers>
@@ -407,8 +397,7 @@
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            Style="{DynamicResource BaseContent_i2}"
-                            FontSize="24"
+                            FontSize="{DynamicResource TSize_i4_5}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
                             
                         <controls:CustomFrame.GestureRecognizers>
@@ -450,8 +439,7 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Style="{DynamicResource BaseContent_i1}"
-                    FontSize="14"/>
+                    FontSize="{DynamicResource TSize_i8}"/>
 
                 <Frame.GestureRecognizers>
                     

@@ -2,12 +2,11 @@
 
 namespace Next2.Views.Mobile
 {
-    public partial class LoginPage : ContentPage
+    public partial class LoginPage : BaseContentPage
     {
         public LoginPage()
         {
             InitializeComponent();
-            NavigationPage.SetHasNavigationBar(this, false);
         }
     }
 }

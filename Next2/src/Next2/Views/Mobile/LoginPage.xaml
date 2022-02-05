@@ -1,18 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:controls="clr-namespace:Next2.Controls"
-             x:Class="Next2.Views.Mobile.LoginPage">
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.Mobile.LoginPage">
 
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" Spacing="0" Padding="0">
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" Spacing="0" Padding="0"> 
 
         <Label 
             Text="Login"
-            FontSize="18"
+            FontSize="{DynamicResource TSize_i6}"
             HeightRequest="50"
             Margin="16, 0, 0, 0"
             VerticalTextAlignment="Center"
-            Style="{DynamicResource BaseContent_i2}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
         <Grid 
@@ -31,8 +33,7 @@
                     HeightRequest="45"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    FontSize="14"
-                    Style="{DynamicResource BaseContent_i1}"
+                    FontSize="{DynamicResource TSize_i8}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                 <BoxView 
@@ -53,8 +54,7 @@
                     HeightRequest="45"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    FontSize="14"
-                    Style="{DynamicResource BaseContent_i1}"
+                    FontSize="{DynamicResource TSize_i8}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                 <BoxView 
@@ -69,7 +69,7 @@
             Orientation="Vertical"
             VerticalOptions="FillAndExpand"
             Padding="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i10}">
             
             <Image 
                 Source="pic_logo_rectangular"
@@ -79,10 +79,9 @@
 
             <Label 
                 Text="Employee ID"
-                FontSize="14"
-                Margin="16, 0, 0, 0"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Style="{DynamicResource BaseContent_i4}"/>
+                FontSize="{DynamicResource TSize_i8}"
+                Margin="18, 0, 0, 8"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
             <controls:CustomFrame 
                 Margin="16, 0, 16, 0"
@@ -99,12 +98,27 @@
                     <Label 
                         x:Name="employeeID"
                         Text="{Binding EmployeeId, Mode=TwoWay}"
-                        FontSize="14"
+                        FontSize="{DynamicResource TSize_i8}"
                         VerticalTextAlignment="Center"
-                        Style="{DynamicResource BaseContent_i3}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Opacity="0.32"
-                        Margin="4, 0, 0, 0"/>
+                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                        Margin="4, 0, 0, 0">
+
+                        <Label.Triggers>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding IsEmployeeIdProvided, Mode=TwoWay}"
+                                Value="True">
+
+                                <Setter 
+                                    Property="TextColor"
+                                    Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+
+                    </Label>
                         
                     <Image 
                         Source="ic_danger_circle"
@@ -155,29 +169,28 @@
                         Margin="16, 0, 0, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="True"
+                        IsEnabled="False"
                         BorderWidth="3"
                         HasShadow="False"
-                        BorderColor="{DynamicResource AppColor_i1}"
+                        BorderColor="{DynamicResource IndicationColor_i4}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                         <Label 
                             Text="Clear"
-                            FontSize="16"
+                            FontSize="{DynamicResource TSize_i7}"
                             HeightRequest="65"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
-                            Style="{DynamicResource BaseContent_i1}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                            TextColor="{DynamicResource TextAndBackgroundColor_i7}">
                             
                             <Label.Triggers> 
                                 
                                 <DataTrigger 
                                     TargetType="Label"
                                     Binding="{Binding IsClearButtonEnabled}"                           
-                                    Value="False">
+                                    Value="True">
 
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i8}"/>
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
                                     
                                 </DataTrigger>
                                 
@@ -190,11 +203,11 @@
                             <DataTrigger 
                                 TargetType="controls:CustomFrame"
                                 Binding="{Binding IsClearButtonEnabled}"                                        
-                                Value="False">
+                                Value="True">
 
                                 <Setter 
                                     Property="BorderColor"
-                                    Value="{DynamicResource TextAndbackgroundcolor_i2 }"/>
+                                    Value="{DynamicResource IndicationColor_i3}"/>
 
                             </DataTrigger>
 
@@ -202,11 +215,11 @@
                                 
                                 TargetType="controls:CustomFrame"
                                 Binding="{Binding IsClearButtonEnabled}"                                         
-                                Value="False">
+                                Value="True">
                                 
                                 <Setter 
                                     Property="IsEnabled"
-                                    Value="False"/>
+                                    Value="True"/>
 
                             </DataTrigger>
 
@@ -232,18 +245,17 @@
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
                         IsEnabled="False"
-                        BorderWidth="3"
+                        BorderWidth="0"
                         HeightRequest="65"
                         HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        BorderColor="Transparent"
                         BackgroundColor="{DynamicResource IndicationColor_i2}">
 
                         <Label
                             Text="Login"
-                            FontSize="16"
+                            FontSize="{DynamicResource TSize_i8}"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
-                            Style="{DynamicResource BaseContent_i1}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i3}"/>
                         
                         <controls:CustomFrame.Triggers>
@@ -289,4 +301,4 @@
 
     </StackLayout>
 
-</ContentPage>
+</views:BaseContentPage>
