@@ -1,5 +1,6 @@
 ﻿using Next2.Models;
 using Next2.Services;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +16,7 @@ namespace Next2.ViewModels
     public class OrderTabsViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private bool _isDirectionSortNames = true;
+        private bool _isDirectionSortNames = false;
         private bool _isDirectionSortOrders = true;
         private List<OrderModel>? _ordersBase;
         private List<OrderModel>? _tabsBase;
@@ -30,15 +31,6 @@ namespace Next2.ViewModels
         }
 
         #region -- Public properties --
-
-        public double HeightPage { get; set; }
-
-        private GridLength _listViewHeight;
-        public GridLength ListViewHeight
-        {
-            get => _listViewHeight;
-            set => SetProperty(ref _listViewHeight, value);
-        }
 
         public string? Text { get; set; }
 
@@ -60,9 +52,9 @@ namespace Next2.ViewModels
             set => SetProperty(ref _selectedOrder, value);
         }
 
-        private ObservableCollection<OrderViewModel> _orders;
+        private ObservableCollection<OrderViewModel>? _orders;
 
-        public ObservableCollection<OrderViewModel> Orders
+        public ObservableCollection<OrderViewModel>? Orders
         {
             get => _orders;
             set => SetProperty(ref _orders, value);
@@ -95,11 +87,34 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parametrs)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            ListViewHeight = new GridLength(HeightPage - 300);
-            await LoadData();
-            await OnSortByNameCommandAsync();
+            if (parameters.TryGetValue(Constants.Navigation.ORDERS, out bool isOrders))
+            {
+                var parametersSelected = new NavigationParameters { { Constants.Navigation.SELECTED, isOrders } };
+                await _navigationService.GoBackAsync(parametersSelected);
+            }
+            else
+            {
+                if (parameters.TryGetValue(Constants.Navigation.TABS, out string isTabs))
+                {
+                    var parameterSelected = new NavigationParameters { { Constants.Navigation.SELECTED, isTabs } };
+                    await _navigationService.GoBackAsync(parameterSelected);
+                }
+                else
+                {
+                    if (parameters.TryGetValue(Constants.Navigation.SELECTED, out bool parametersSelected))
+                    {
+                        IsOrdersRefreshing = false;
+                        IsSelectedOrders = parametersSelected;
+                        await GetVisualCollection();
+                    }
+                    else
+                    {
+                        await LoadData();
+                    }
+                }
+            }
         }
 
         public override async void OnAppearing()
@@ -107,23 +122,6 @@ namespace Next2.ViewModels
             base.OnAppearing();
 
             await LoadData();
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName == nameof(SelectedOrder))
-            {
-                if (SelectedOrder != null)
-                {
-                    ListViewHeight = new GridLength(HeightPage - 300 - 170);
-                }
-                else
-                {
-                    ListViewHeight = new GridLength(HeightPage - 300);
-                }
-            }
         }
 
         #endregion
@@ -142,12 +140,12 @@ namespace Next2.ViewModels
             var resultOrders = await _orderService.GetOrdersAsync();
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = resultOrders.Result;
+                _ordersBase = new List<OrderModel>(resultOrders.Result.OrderBy(x => x.TableNumber));
 
                 var resultTabs = await _orderService.GetOrdersAsync();
                 if (resultTabs.IsSuccess)
                 {
-                    _tabsBase = resultTabs.Result;
+                    _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
                     IsOrdersRefreshing = false;
                 }
             }
@@ -158,7 +156,7 @@ namespace Next2.ViewModels
         private Task GetVisualCollection()
         {
             SelectedOrder = null;
-            _isDirectionSortNames = true;
+            _isDirectionSortNames = false;
             _isDirectionSortOrders = true;
             Orders = new ObservableCollection<OrderViewModel>();
 
@@ -207,8 +205,8 @@ namespace Next2.ViewModels
         {
             if (!IsSelectedOrders)
             {
-                IsSelectedOrders = !IsSelectedOrders;
-                await GetVisualCollection();
+                var parameters = new NavigationParameters { { Constants.Navigation.ORDERS, !IsSelectedOrders } };
+                await _navigationService.NavigateAsync(nameof(OrderTabsPage), parameters);
             }
         }
 
@@ -216,8 +214,8 @@ namespace Next2.ViewModels
         {
             if (IsSelectedOrders)
             {
-                IsSelectedOrders = !IsSelectedOrders;
-                await GetVisualCollection();
+                var parameters = new NavigationParameters { { Constants.Navigation.TABS, !IsSelectedOrders } };
+                await _navigationService.NavigateAsync(nameof(OrderTabsPage), parameters);
             }
         }
 

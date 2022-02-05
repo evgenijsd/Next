@@ -8,7 +8,6 @@
     x:DataType="viewModels:OrderTabsViewModel"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
-    Height="{Binding HeightPage}"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
     <ContentPage.Resources>
@@ -22,28 +21,10 @@
 
     <ContentPage.Content>
 
-        <!--Grid
-            RowSpacing="0"
-            RowDefinitions="65,55,135,2,*,auto"-->
         <Grid
-            RowSpacing="0">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="65" />
-                <RowDefinition
-                    Height="55" />
-                <RowDefinition
-                    Height="135" />
-                <RowDefinition
-                    Height="2" />
-                <RowDefinition
-                    Height="{Binding ListViewHeight}" />
-                <RowDefinition
-                    Height="140" />
-            </Grid.RowDefinitions>
+            RowSpacing="0"
+            RowDefinitions="65,55,135,2,*,auto">
 
-            <Label Text="{Binding HeightPage}"/>
             <controls:CustomNavigationbar
                 Title="{xct:Translate OrderTabs}"
                 LeftButtonImageSource="ic_arrow_left_tail_40x40"

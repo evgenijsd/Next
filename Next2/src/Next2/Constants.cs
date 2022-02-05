@@ -23,5 +23,12 @@
 
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
         }
+
+        public static class Navigation
+        {
+            public const string ORDERS = nameof(ORDERS);
+            public const string TABS = nameof(TABS);
+            public const string SELECTED = nameof(SELECTED);
+        }
     }
 }
