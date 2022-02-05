@@ -145,7 +145,7 @@
 
                             <Frame.GestureRecognizers>
 
-                                <TapGestureRecognizer Command="{Binding TabInfoButtonCommand}" />
+                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" />
 
                             </Frame.GestureRecognizers>
 
@@ -279,17 +279,18 @@
 
                                             <Grid.GestureRecognizers>
 
-                                                <TapGestureRecognizer Command="{Binding TabSelectCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
 
                                             </Grid.GestureRecognizers>
 
                                             <Image
+                                                x:Name="checkbox"
                                                 Grid.Row="0"
                                                 Grid.Column="0"
                                                 Margin="16,0,0,0"
                                                 HeightRequest="20"
                                                 HorizontalOptions="Start"
-                                                Source="{Binding CheckboxImage}"
+                                                Source="ic_check_box_unhecked_24x24"
                                                 WidthRequest="20" />
 
                                             <Label
@@ -362,6 +363,8 @@
 
                                                         <VisualState.Setters>
 
+                                                            <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_checked_primary_24x24" />
+
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
 
                                                         </VisualState.Setters>
@@ -371,6 +374,8 @@
                                                     <VisualState Name="Normal">
 
                                                         <VisualState.Setters>
+
+                                                            <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_unhecked_24x24" />
 
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
 

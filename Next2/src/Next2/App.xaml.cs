@@ -93,7 +93,14 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(TabletViews.MenuPage)}");
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            {
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
+            }
+            else
+            {
+                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(TabletViews.MenuPage)}");
+            }
         }
 
         protected override void OnStart()

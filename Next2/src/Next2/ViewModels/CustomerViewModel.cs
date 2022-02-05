@@ -27,8 +27,8 @@ namespace Next2.ViewModels
 
         public ImageSource CheckboxImage { get; set; }
 
-        public ICommand MobSelectCommand { get; set; }
+        public ICommand SelectItemCommand { get; set; }
 
-        public ICommand TabSelectCommand { get; set; }
+        public ICommand ShowInfoCommand { get; set; }
     }
 }

@@ -161,7 +161,9 @@
                                         <Grid HeightRequest="45" RowDefinitions="0.99*,0.01*">
                                             <Grid.GestureRecognizers>
 
-                                                <TapGestureRecognizer Command="{Binding MobSelectCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" NumberOfTapsRequired="2" CommandParameter="{Binding .}" />
+
+                                                <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
 
                                             </Grid.GestureRecognizers>
 

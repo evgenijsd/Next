@@ -7,6 +7,8 @@ using Next2.Views.Mobile.Dialogs;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,11 +21,13 @@ namespace Next2.ViewModels
     public class CustomersViewModel : BaseViewModel
     {
         private readonly ICustomersService _customersService;
+        private readonly IPopupNavigation _popupNavigation;
         private bool _isInitialized;
-        public CustomersViewModel(INavigationService navigationService, ICustomersService customersService)
+        public CustomersViewModel(INavigationService navigationService, ICustomersService customersService, IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _customersService = customersService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public Properties --
@@ -61,7 +65,7 @@ namespace Next2.ViewModels
             set => SetProperty(ref _selectedItem, value);
         }
 
-        public ICommand TabInfoButtonCommand => new AsyncCommand(ShowCustomerInfoAsync);
+        public ICommand ShowInfoCommand => new AsyncCommand<CustomerViewModel>(ShowCustomerInfoAsync);
         public ICommand SortCommand => new AsyncCommand<string>(SortAsync);
         public ICommand RefreshCommand => new AsyncCommand(RefreshAsync);
 
@@ -85,17 +89,16 @@ namespace Next2.ViewModels
 
         private async Task InitAsync()
         {
-            var cl = await _customersService.GetAllCustomersAsync();
-            if (cl.IsSuccess)
+            var castomersAoresult = await _customersService.GetAllCustomersAsync();
+            if (castomersAoresult.IsSuccess)
             {
-                var list = cl.Result;
+                var list = castomersAoresult.Result;
                 var listvm = list.Select(x => x.ToCustomersViewModel());
                 CustomersList = new ObservableCollection<CustomerViewModel>();
                 foreach (var item in listvm)
                 {
-                    item.CheckboxImage = "ic_check_box_unhecked_24x24";
-                    item.MobSelectCommand = new Command<object>(ShowInfoAndSelectAsync);
-                    item.TabSelectCommand = new Command<object>(SelectDeselectItem);
+                    item.ShowInfoCommand = new AsyncCommand<CustomerViewModel>(ShowCustomerInfoAsync);
+                    item.SelectItemCommand = new AsyncCommand<CustomerViewModel>(SelectDeselectItemAsync);
                     CustomersList?.Add(item);
                 }
             }
@@ -108,62 +111,42 @@ namespace Next2.ViewModels
             IsRefreshing = false;
         }
 
-        private void SelectDeselectItem(object obj)
+        private async Task SelectDeselectItemAsync(CustomerViewModel customer)
         {
-            SelectedItem = obj as CustomerViewModel;
+            SelectedItem = customer as CustomerViewModel;
 
             if (_oldSelectedItem == null)
             {
                 _oldSelectedItem = SelectedItem;
-                SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
             }
             else
             {
                 if (SelectedItem == _oldSelectedItem)
                 {
-                    SelectedItem.CheckboxImage = "ic_check_box_unhecked_24x24";
                     SelectedItem = null;
                     _oldSelectedItem = null;
                 }
                 else
                 {
-                    var si = CustomersList.Where(x => x.Id == _oldSelectedItem.Id).FirstOrDefault();
-                    si.CheckboxImage = "ic_check_box_unhecked_24x24";
-                    SelectedItem.CheckboxImage = "ic_check_box_checked_primary_24x24";
                     _oldSelectedItem = SelectedItem;
                 }
             }
         }
 
-        private async Task ShowCustomerInfoAsync()
+        private async Task ShowCustomerInfoAsync(CustomerViewModel customer)
         {
-            if (SelectedItem != null)
+            if (customer != null)
             {
-                var param = new DialogParameters();
-                param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
-                param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
-                param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
-                await Rg.Plugins.Popup.Services
-                    .PopupNavigation.Instance
-                    .PushAsync(new Views.Tablet.Dialogs.CustomerInfoDialog(param, this.CloseDialogCallback));
+                SelectedItem = customer as CustomerViewModel;
             }
-        }
 
-        private async void ShowInfoAndSelectAsync(object obj)
-        {
-            SelectedItem = obj as CustomerViewModel;
             var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.MODEL, obj as CustomerViewModel);
+            param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
             param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
             param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
-            await Rg.Plugins.Popup.Services
-                .PopupNavigation.Instance
-                .PushAsync(new Views.Mobile.Dialogs.CustomerInfoDialog(param, this.CloseDialogCallback));
-        }
 
-        private async void CloseDialogCallback(IDialogParameters obj)
-        {
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
         }
 
         private bool _isSortedAscending;
