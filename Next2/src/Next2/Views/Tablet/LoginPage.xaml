@@ -9,7 +9,7 @@
         <Grid 
             RowSpacing="0"
             ColumnSpacing="2"
-            BackgroundColor="{DynamicResource textAndBackgroundColor_i2}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
             ColumnDefinitions="*, 0.45*"
             RowDefinitions="0.10*,*">
             
@@ -20,7 +20,7 @@
                 VerticalOptions="Fill"
                 HorizontalOptions="Fill"
                 Padding="80, -25, 80, 20"
-                BackgroundColor="{DynamicResource textAndBackgroundColor_i4}">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
                 
                 <Image 
                     Source="pic_logo_big"
