@@ -1,15 +1,11 @@
-﻿using Next2.Enums;
-using Next2.Extensions;
-using Next2.Interfaces;
+﻿using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
-using Next2.Services.MockService;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -24,106 +20,74 @@ namespace Next2.ViewModels.Tablet
         {
             _menuService = menuService;
 
-            if (IsInternetConnected)
-            {
-                var result = _menuService.GetCategories();
-                if (result.IsCompleted)
-                {
-                    if (result.Result.IsSuccess)
-                    {
-                        CategoriesItems = new ObservableCollection<CategoryBindableModel>(result.Result.Result.Select(row => row.ToBindableModel()));
-                        SelectedCategoryItem = CategoriesItems.FirstOrDefault();
-                    }
-                }
-            }
-
-            MenuItems = new ObservableCollection<MenuItemBindableModel>()
-            {
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.NewOrder,
-                    Title = "New Order",
-                    ImagePath = "ic_plus_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.HoldItems,
-                    Title = "Hold Items",
-                    ImagePath = "ic_time_circle_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.OrderTabs,
-                    Title = "Order & Tabs",
-                    ImagePath = "ic_folder_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Reservations,
-                    Title = "Reservations",
-                    ImagePath = "ic_bookmark_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Membership,
-                    Title = "Membership",
-                    ImagePath = "ic_work_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Customers,
-                    Title = "Customers",
-                    ImagePath = "ic_user_30x30.png",
-                },
-                new MenuItemBindableModel()
-                {
-                    State = EMenuItems.Settings,
-                    Title = "Settings",
-                    ImagePath = "ic_setting_30x30.png",
-                },
-            };
-
-            SelectedMenuItem = MenuItems.FirstOrDefault();
+            Task.Run(InitStartDataAsync);
         }
 
         #region -- Public properties --
 
-        private ObservableCollection<CategoryBindableModel> _categoriesItems;
-        public ObservableCollection<CategoryBindableModel> CategoriesItems
+        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+
+        public int SelectedCategoryItemIndex { get; set; }
+
+        public ObservableCollection<SetModel> SetsItems { get; set; }
+
+        public SetModel SelectedSetsItem
         {
-            get => _categoriesItems;
-            set => SetProperty(ref _categoriesItems, value);
+            get;
+            set;
         }
 
-        private CategoryBindableModel _selectedCategoryItem;
-        public CategoryBindableModel SelectedCategoryItem
-        {
-            get => _selectedCategoryItem;
-            set => SetProperty(ref _selectedCategoryItem, value);
-        }
+        public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
 
-        private MenuItemBindableModel _selectedMenuItem;
-        public MenuItemBindableModel SelectedMenuItem
-        {
-            get => _selectedMenuItem;
-            set
-            {
-                SetProperty(ref _selectedMenuItem, value);
-            }
-        }
-
-        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
+        public int SelectedSubcategoryItemIndex { get; set; }
 
         #endregion
 
-        #region -- IPageActionsHandler implementation --
+        #region -- Overrides --
 
-        public void OnAppearing()
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
+            base.OnPropertyChanged(args);
+
+            switch (args.PropertyName)
+            {
+                case nameof(SelectedCategoryItemIndex):
+
+                    break;
+            }
         }
 
-        public void OnDisappearing()
+        #endregion
+
+        #region -- Private methods --
+
+        private async Task InitStartDataAsync()
         {
+            if (IsInternetConnected)
+            {
+                var resultCategories = await _menuService.GetCategoriesAsync();
+
+                if (resultCategories.IsSuccess)
+                {
+                    CategoriesItems = new (resultCategories.Result);
+                    SelectedCategoryItemIndex = CategoriesItems.FirstOrDefault().Id;
+                }
+
+                var resultSets = await _menuService.GetSetsAsync(SelectedCategoryItemIndex);
+
+                if (resultSets.IsSuccess)
+                {
+                    SetsItems = new (resultSets.Result);
+                }
+
+                var resultSubcategories = await _menuService.GetSubcategoriesAsync(SelectedCategoryItemIndex);
+
+                if (resultSubcategories.IsSuccess)
+                {
+                    SubcategoriesItems = new (resultSubcategories.Result);
+                    SelectedCategoryItemIndex = SubcategoriesItems.FirstOrDefault().Id;
+                }
+            }
         }
 
         #endregion

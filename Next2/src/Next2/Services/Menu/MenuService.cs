@@ -19,7 +19,7 @@ namespace Next2.Services.Menu
 
         #region -- IMenuService implementation --
 
-        public async Task<AOResult<IEnumerable<CategoryModel>>> GetCategories()
+        public async Task<AOResult<IEnumerable<CategoryModel>>> GetCategoriesAsync()
         {
             var result = new AOResult<IEnumerable<CategoryModel>>();
 
@@ -38,13 +38,13 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetCategories)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetCategoriesAsync)}: exception", "Some issues", ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategories(int categoryId)
+        public async Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategoriesAsync(int categoryId)
         {
             var result = new AOResult<IEnumerable<SubcategoryModel>>();
 
@@ -63,13 +63,13 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetSubcategories)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetSubcategoriesAsync)}: exception", "Some issues", ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SetModel>>> GetSets(int categoryId, int subcategoryId = 0)
+        public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId = 0)
         {
             var result = new AOResult<IEnumerable<SetModel>>();
 
@@ -99,7 +99,7 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetSets)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetSetsAsync)}: exception", "Some issues", ex);
             }
 
             return result;

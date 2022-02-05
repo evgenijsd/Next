@@ -115,7 +115,7 @@
 
                     <CollectionView.ItemTemplate>
 
-                        <DataTemplate x:DataType="models:CategoryBindableModel">
+                        <DataTemplate x:DataType="models:CategoryModel">
 
                             <ContentView
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"

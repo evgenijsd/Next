@@ -1,15 +1,11 @@
 ﻿using Next2.Enums;
-using Next2.Extensions;
 using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Views.Mobile;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -32,7 +28,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public ObservableCollection<CategoryBindableModel> Categories { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; }
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
@@ -80,7 +76,7 @@ namespace Next2.ViewModels.Mobile
 
         private void InitMenuItems()
         {
-            MenuItems = new ObservableCollection<MenuItemBindableModel>()
+            MenuItems = new ()
             {
                 new MenuItemBindableModel()
                 {
@@ -116,10 +112,10 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                var result = _menuService.GetCategories();
+                var result = _menuService.GetCategoriesAsync();
                 var categories = result?.Result?.Result;
 
-                Categories = new ObservableCollection<CategoryBindableModel>(categories.Select(row => row.ToBindableModel()));
+                Categories = new (categories);
             }
         }
 

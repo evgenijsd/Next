@@ -9,10 +9,10 @@ namespace Next2.Services.Menu
 {
     public interface IMenuService
     {
-        Task<AOResult<IEnumerable<CategoryModel>>> GetCategories();
+        Task<AOResult<IEnumerable<CategoryModel>>> GetCategoriesAsync();
 
-        Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategories(int categoryId);
+        Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategoriesAsync(int categoryId);
 
-        Task<AOResult<IEnumerable<SetModel>>> GetSets(int categoryId, int subcategoryId = 0);
+        Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId = 0);
     }
 }

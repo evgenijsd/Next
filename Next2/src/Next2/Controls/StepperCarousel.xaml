@@ -3,16 +3,14 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:behaviors="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:models="clr-namespace:Next2.Models" 
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Controls.StepperCarousel"
     MinimumHeightRequest="100"
-    HeightRequest="100"
     VerticalOptions="Start"
     Orientation="Horizontal"
     x:Name="stepperCarousel">
@@ -21,8 +19,8 @@
         HeightRequest="100"
         HasShadow="False"
         Padding="5"
-        BackgroundColor="#212430"
-        BorderColor="#424861"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapLeftButtonCommand}">
 
@@ -31,18 +29,18 @@
     </Frame>
 
     <CollectionView
-        SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
         HorizontalOptions="StartAndExpand"
         HeightRequest="100"
         x:Name="collectionView"
-        Margin="0, 0, 20, 5"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}">
 
         <CollectionView.Effects>
+            
             <effects:NoOverScrollEffect/>
+            
         </CollectionView.Effects>
 
         <CollectionView.Behaviors>
@@ -66,7 +64,7 @@
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="models:CategoryBindableModel">
+            <DataTemplate x:DataType="models:CategoryModel">
 
                 <ContentView Padding="5">
 
@@ -76,7 +74,8 @@
                         HasShadow="False"
                         CornerRadius="10"
                         Padding="5"
-                        IsSelected="{Binding IsSelected}"
+                        State="{Binding Id}"
+                        BindableState="{Binding SelectedItemIndex, Source={x:Reference stepperCarousel}}"
                         Text="{Binding Title}"/>
 
                 </ContentView>
@@ -91,8 +90,8 @@
         HeightRequest="100"
         HasShadow="False"
         Padding="5"
-        BackgroundColor="#212430"
-        BorderColor="#424861"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapRightButtonCommand}">
 

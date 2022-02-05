@@ -3,8 +3,10 @@ using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Effects;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -12,12 +14,6 @@ namespace Next2.Controls
     public partial class StepperCarousel : StackLayout
     {
         private int firstVisibleItemIndex;
-
-        public ICommand TapLeftButtonCommand => new Command(OnToachStartedLeftButtonCommand);
-
-        public ICommand TapRightButtonCommand => new Command(OnToachStartedRightButtonCommand);
-
-        public ICommand ScrolledCommand => new Command<int>(OnScrolledCommand);
 
         public StepperCarousel()
         {
@@ -28,49 +24,58 @@ namespace Next2.Controls
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
-            typeof(IEnumerable<ISelectable>),
+            typeof(IEnumerable<IEntityModel>),
             typeof(StepperCarousel),
-            default(IEnumerable<ISelectable>));
+            default(IEnumerable<IEntityModel>));
 
-        public IEnumerable<ISelectable> ItemsSource
+        public IEnumerable<IEntityModel> ItemsSource
         {
-            get => (IEnumerable<ISelectable>)GetValue(ItemsSourceProperty);
+            get => (IEnumerable<IEntityModel>)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
-            propertyName: nameof(SelectedItem),
-            returnType: typeof(ISelectable),
+        public static readonly BindableProperty SelectedItemIndexProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedItemIndex),
+            returnType: typeof(int),
             declaringType: typeof(StepperCarousel),
-            default(ISelectable),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ISelectable SelectedItem
+        public int SelectedItemIndex
         {
-            get => (ISelectable)GetValue(SelectedItemProperty);
-            set => SetValue(SelectedItemProperty, value);
+            get => (int)GetValue(SelectedItemIndexProperty);
+            set => SetValue(SelectedItemIndexProperty, value);
         }
+
+        public ICommand TapLeftButtonCommand => new AsyncCommand(OnTapLeftButtonCommandAsync);
+
+        public ICommand TapRightButtonCommand => new AsyncCommand(OnTapRightButtonCommandAsync);
+
+        public ICommand ScrolledCommand => new AsyncCommand<int>(OnScrolledCommandAsync);
 
         #endregion
 
         #region --Private methods--
 
-        private void OnToachStartedLeftButtonCommand(object obj)
+        private Task OnTapLeftButtonCommandAsync()
         {
             if (firstVisibleItemIndex > 1)
             {
                 collectionView.ScrollTo(firstVisibleItemIndex - 2, -1, ScrollToPosition.Start, true);
             }
+
+            return Task.CompletedTask;
         }
 
-        private void OnToachStartedRightButtonCommand(object obj)
+        private Task OnTapRightButtonCommandAsync()
         {
             collectionView.ScrollTo(firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
+            return Task.CompletedTask;
         }
 
-        private void OnScrolledCommand(int firstVisibleItemIdx)
+        private Task OnScrolledCommandAsync(int firstVisibleItemIdx)
         {
             firstVisibleItemIndex = firstVisibleItemIdx;
+            return Task.CompletedTask;
         }
 
         #endregion

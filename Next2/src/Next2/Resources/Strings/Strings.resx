@@ -135,6 +135,9 @@
   <data name="MembershipStartTime" xml:space="preserve">
     <value>Membership Start</value>
   </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
   <data name="NewOrder" xml:space="preserve">
     <value>New Order</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
+  </data>
+  <data name="TypeOrder" xml:space="preserve">
+    <value>A-Z</value>
   </data>
   <data name="WatchTutorial" xml:space="preserve">
     <value>Watch the tutorial</value>

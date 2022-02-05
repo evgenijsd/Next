@@ -71,7 +71,7 @@ namespace Next2.ViewModels.Tablet
 
         private void InitMenuItems()
         {
-            MenuItems = new ObservableCollection<MenuItemBindableModel>()
+            MenuItems = new ()
             {
                 new MenuItemBindableModel()
                 {
