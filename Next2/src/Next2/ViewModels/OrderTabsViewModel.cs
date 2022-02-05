@@ -3,10 +3,12 @@ using Next2.Services;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -28,6 +30,13 @@ namespace Next2.ViewModels
         }
 
         #region -- Public properties --
+
+        private GridLength _listViewHeight = 500;
+        public GridLength ListViewHeight
+        {
+            get => _listViewHeight;
+            set => SetProperty(ref _listViewHeight, value);
+        }
 
         public string? Text { get; set; }
 
@@ -95,6 +104,23 @@ namespace Next2.ViewModels
             base.OnAppearing();
 
             await LoadData();
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedOrder))
+            {
+                if (SelectedOrder != null)
+                {
+                    ListViewHeight = new GridLength(300);
+                }
+                else
+                {
+                    ListViewHeight = new GridLength(500);
+                }
+            }
         }
 
         #endregion

@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:DataType="controls:CustomButton"
-    HeightRequest="42"
+    HeightRequest="45"
     x:Class="Next2.Controls.CustomButton">
 
     <Grid.Resources>
@@ -18,30 +18,28 @@
 
     <Frame
         HasShadow="False"
-        Grid.Row="0"
         BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BorderColor}"
         BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BackColor}"
         CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CornerRadius}"
         VerticalOptions="FillAndExpand" />
 
     <Label
-        Grid.Column="0"
+        Margin="0,-3,0,0"
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch, Converter={StaticResource InvertedBoolConverter}}"
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
-        FontSize="{DynamicResource TSize_i8}"
-        FontFamily="Barlow-Medium" />
+        FontSize="{DynamicResource TSize_i7}"
+        FontFamily="Barlow-SemiBold" />
 
     <Label
-        Grid.Column="0"
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
         Text="________"
         TextColor="Transparent"
-        FontSize="{DynamicResource TSize_i8}"
-        FontFamily="Barlow-Medium" />
+        FontSize="{DynamicResource TSize_i7}"
+        FontFamily="Barlow-SemiBold" />
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"

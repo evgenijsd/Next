@@ -21,9 +21,26 @@
 
     <ContentPage.Content>
 
-        <Grid
+        <!--Grid
             RowSpacing="0"
-            RowDefinitions="65,55,135,2,*,auto">
+            RowDefinitions="65,55,135,2,*,auto"-->
+        <Grid
+            RowSpacing="0">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="65" />
+                <RowDefinition
+                    Height="55" />
+                <RowDefinition
+                    Height="135" />
+                <RowDefinition
+                    Height="2" />
+                <RowDefinition
+                    Height="{Binding ListViewHeight}" />
+                <RowDefinition
+                    Height="140" />
+            </Grid.RowDefinitions>
 
             <controls:CustomNavigationbar
                 Title="{xct:Translate OrderTabs}"
@@ -281,11 +298,16 @@
             </RefreshView>
 
             <StackLayout
-                Grid.Row="4"
+                Grid.Row="5"
                 VerticalOptions="EndAndExpand"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">
 
+                <BoxView
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    HeightRequest="2"
+                    VerticalOptions="StartAndExpand" />
+                
                 <StackLayout
                     Margin="20,15,20,15"
                     Spacing="20">
