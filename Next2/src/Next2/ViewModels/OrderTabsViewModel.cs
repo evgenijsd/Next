@@ -16,10 +16,13 @@ namespace Next2.ViewModels
     public class OrderTabsViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+
         private bool _isDirectionSortNames = false;
         private bool _isDirectionSortOrders = true;
         private List<OrderModel>? _ordersBase;
         private List<OrderModel>? _tabsBase;
+        private double SummRowHeight = 65 + 55 + 135 + 2;
+        private double ButtonsHeight = 142;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -31,6 +34,15 @@ namespace Next2.ViewModels
         }
 
         #region -- Public properties --
+
+        public double HeightPage { get; set; }
+
+        private GridLength _heightCollectionGrid;
+        public GridLength HeightCollectionGrid
+        {
+            get => _heightCollectionGrid;
+            set => SetProperty(ref _heightCollectionGrid, value);
+        }
 
         public string? Text { get; set; }
 
@@ -87,41 +99,33 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            if (parameters.TryGetValue(Constants.Navigation.ORDERS, out bool isOrders))
-            {
-                var parametersSelected = new NavigationParameters { { Constants.Navigation.SELECTED, isOrders } };
-                await _navigationService.GoBackAsync(parametersSelected);
-            }
-            else
-            {
-                if (parameters.TryGetValue(Constants.Navigation.TABS, out string isTabs))
-                {
-                    var parameterSelected = new NavigationParameters { { Constants.Navigation.SELECTED, isTabs } };
-                    await _navigationService.GoBackAsync(parameterSelected);
-                }
-                else
-                {
-                    if (parameters.TryGetValue(Constants.Navigation.SELECTED, out bool parametersSelected))
-                    {
-                        IsOrdersRefreshing = false;
-                        IsSelectedOrders = parametersSelected;
-                        await GetVisualCollection();
-                    }
-                    else
-                    {
-                        await LoadData();
-                    }
-                }
-            }
+            HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight);
+
+            await LoadData();
         }
 
         public override async void OnAppearing()
         {
-            base.OnAppearing();
-
             await LoadData();
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedOrder))
+            {
+                if (SelectedOrder != null)
+                {
+                    HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight - ButtonsHeight);
+                }
+                else
+                {
+                    HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight);
+                }
+            }
         }
 
         #endregion
@@ -205,8 +209,8 @@ namespace Next2.ViewModels
         {
             if (!IsSelectedOrders)
             {
-                var parameters = new NavigationParameters { { Constants.Navigation.ORDERS, !IsSelectedOrders } };
-                await _navigationService.NavigateAsync(nameof(OrderTabsPage), parameters);
+                IsSelectedOrders = !IsSelectedOrders;
+                await GetVisualCollection();
             }
         }
 
@@ -214,8 +218,8 @@ namespace Next2.ViewModels
         {
             if (IsSelectedOrders)
             {
-                var parameters = new NavigationParameters { { Constants.Navigation.TABS, !IsSelectedOrders } };
-                await _navigationService.NavigateAsync(nameof(OrderTabsPage), parameters);
+                IsSelectedOrders = !IsSelectedOrders;
+                await GetVisualCollection();
             }
         }
 
