@@ -208,7 +208,6 @@ namespace Next2.ViewModels
         {
             if (!IsSelectedOrders)
             {
-                HeightCollectionGrid = new GridLength(500);
                 IsSelectedOrders = !IsSelectedOrders;
                 await GetVisualCollection();
             }
@@ -218,7 +217,6 @@ namespace Next2.ViewModels
         {
             if (IsSelectedOrders)
             {
-                HeightCollectionGrid = new GridLength(500);
                 IsSelectedOrders = !IsSelectedOrders;
                 await GetVisualCollection();
             }
