@@ -19,6 +19,8 @@ namespace Next2.ViewModels
         private bool _isDirectionSortOrders = true;
         private List<OrderModel>? _ordersBase;
         private List<OrderModel>? _tabsBase;
+        private double _maxHeightButton = 0;
+        private double _maxHeightCollection = 0;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -31,13 +33,14 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public double HeightPage { get; set; }
+        public double HeightStackLayoutGrid { get; }
+        public double HeightStackLayoutButton { get; }
 
-        private GridLength _listViewHeight;
-        public GridLength ListViewHeight
+        private GridLength _heightCollectionGrid;
+        public GridLength HeightCollectionGrid
         {
-            get => _listViewHeight;
-            set => SetProperty(ref _listViewHeight, value);
+            get => _heightCollectionGrid;
+            set => SetProperty(ref _heightCollectionGrid, value);
         }
 
         public string? Text { get; set; }
@@ -97,15 +100,13 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            ListViewHeight = new GridLength(HeightPage - 300);
+            HeightCollectionGrid = new GridLength(500);
+
             await LoadData();
-            await OnSortByNameCommandAsync();
         }
 
         public override async void OnAppearing()
         {
-            base.OnAppearing();
-
             await LoadData();
         }
 
@@ -113,15 +114,27 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
+            if (args.PropertyName == nameof(HeightStackLayoutGrid))
+            {
+                if (HeightStackLayoutGrid > _maxHeightCollection)
+                {
+                    _maxHeightCollection = HeightStackLayoutGrid;
+                }
+            }
+
+            if (args.PropertyName == nameof(HeightStackLayoutButton))
+            {
+                if (HeightStackLayoutButton > _maxHeightButton)
+                {
+                    _maxHeightButton = HeightStackLayoutButton;
+                }
+            }
+
             if (args.PropertyName == nameof(SelectedOrder))
             {
                 if (SelectedOrder != null)
                 {
-                    ListViewHeight = new GridLength(HeightPage - 300 - 170);
-                }
-                else
-                {
-                    ListViewHeight = new GridLength(HeightPage - 300);
+                    HeightCollectionGrid = new GridLength(300);
                 }
             }
         }
@@ -207,6 +220,7 @@ namespace Next2.ViewModels
         {
             if (!IsSelectedOrders)
             {
+                HeightCollectionGrid = new GridLength(500);
                 IsSelectedOrders = !IsSelectedOrders;
                 await GetVisualCollection();
             }
@@ -216,6 +230,7 @@ namespace Next2.ViewModels
         {
             if (IsSelectedOrders)
             {
+                HeightCollectionGrid = new GridLength(500);
                 IsSelectedOrders = !IsSelectedOrders;
                 await GetVisualCollection();
             }
