@@ -194,6 +194,8 @@
                     Command="{Binding RefreshOrdersCommand}">
 
                     <CollectionView
+                        x:Name="collectionView"
+                        SelectionChanged="collectionView_SelectionChanged"
                         ItemsSource="{Binding Orders}"
                         SelectionMode="Single"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
