@@ -138,64 +138,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon10241.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1202.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1203.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1521.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1671.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1801.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon201.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon291.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon40.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon402.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon403.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon58.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon581.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon601.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon761.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon802.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon803.png">
-      <Visible>false</Visible>
-    </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon871.png">
-      <Visible>false</Visible>
-    </ImageAsset>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
-      <Visible>false</Visible>
-    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -1044,5 +987,55 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\pic_rewards.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets %28copy%29.xcassets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon58.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon64.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon152.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon512-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1024.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon66.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon76.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon196.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon88.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon180.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon180-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon48.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon60.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon234.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon32-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon29.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon120-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon256.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon16.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon120.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon120-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon32.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1024-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon80-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon40-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon1024-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon80-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon512.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon20.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon102.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon128.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon100.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon92.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon167.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon58-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon172.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon87.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon58-2.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon256-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon80.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon216.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon87-1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon40.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\next_icon55.png" />
   </ItemGroup>
 </Project>

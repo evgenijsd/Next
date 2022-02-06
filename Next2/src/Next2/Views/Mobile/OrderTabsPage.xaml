@@ -8,7 +8,7 @@
     x:DataType="viewModels:OrderTabsViewModel"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,7 +21,7 @@
 
     <ContentPage.Content>
 
-        <StackLayout>
+        <StackLayout Height="{Binding HeightPage}">
             
             <!--Grid
                 RowSpacing="0"
@@ -191,7 +191,6 @@
 
                 <RefreshView
                     Grid.Row="4"
-                    Height="{Binding HeightStackLayoutGrid}"
                     VerticalOptions="StartAndExpand"
                     IsRefreshing="{Binding IsOrdersRefreshing}"
                     Command="{Binding RefreshOrdersCommand}">
@@ -269,20 +268,12 @@
 
                                         <Label
                                             Grid.Column="2"
+                                            Text="{Binding Total, StringFormat='$ {0:F2}'}"
                                             HorizontalOptions="FillAndExpand"
                                             Margin="10,13,0,0"
                                             FontFamily="Barlow-Regular"
                                             FontSize="{DynamicResource TSize_i8}"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}">
-
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span
-                                                        Text="{Binding Total, StringFormat='$ {0:F2}'}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-
-                                        </Label>
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                     </Grid>
 
@@ -302,7 +293,6 @@
             </Grid>
 
             <StackLayout
-                Height="{Binding HeightStackLayoutButton}"
                 VerticalOptions="EndAndExpand"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">

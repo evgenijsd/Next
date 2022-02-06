@@ -15,12 +15,13 @@ namespace Next2.ViewModels
     public class OrderTabsViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private bool _isDirectionSortNames = true;
+
+        private bool _isDirectionSortNames = false;
         private bool _isDirectionSortOrders = true;
         private List<OrderModel>? _ordersBase;
         private List<OrderModel>? _tabsBase;
-        private double _maxHeightButton = 0;
-        private double _maxHeightCollection = 0;
+        private double SummRowHeight = 65 + 55 + 135 + 2;
+        private double ButtonsHeight = 142;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -33,8 +34,7 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public double HeightStackLayoutGrid { get; }
-        public double HeightStackLayoutButton { get; }
+        public double HeightPage { get; set; }
 
         private GridLength _heightCollectionGrid;
         public GridLength HeightCollectionGrid
@@ -100,7 +100,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            HeightCollectionGrid = new GridLength(500);
+            HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight);
 
             await LoadData();
         }
@@ -114,27 +114,15 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(HeightStackLayoutGrid))
-            {
-                if (HeightStackLayoutGrid > _maxHeightCollection)
-                {
-                    _maxHeightCollection = HeightStackLayoutGrid;
-                }
-            }
-
-            if (args.PropertyName == nameof(HeightStackLayoutButton))
-            {
-                if (HeightStackLayoutButton > _maxHeightButton)
-                {
-                    _maxHeightButton = HeightStackLayoutButton;
-                }
-            }
-
             if (args.PropertyName == nameof(SelectedOrder))
             {
                 if (SelectedOrder != null)
                 {
-                    HeightCollectionGrid = new GridLength(300);
+                    HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight - ButtonsHeight);
+                }
+                else
+                {
+                    HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight);
                 }
             }
         }
@@ -155,12 +143,12 @@ namespace Next2.ViewModels
             var resultOrders = await _orderService.GetOrdersAsync();
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = resultOrders.Result;
+                _ordersBase = new List<OrderModel>(resultOrders.Result.OrderBy(x => x.TableNumber));
 
                 var resultTabs = await _orderService.GetOrdersAsync();
                 if (resultTabs.IsSuccess)
                 {
-                    _tabsBase = resultTabs.Result;
+                    _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
                     IsOrdersRefreshing = false;
                 }
             }
@@ -171,7 +159,7 @@ namespace Next2.ViewModels
         private Task GetVisualCollection()
         {
             SelectedOrder = null;
-            _isDirectionSortNames = true;
+            _isDirectionSortNames = false;
             _isDirectionSortOrders = true;
             Orders = new ObservableCollection<OrderViewModel>();
 
