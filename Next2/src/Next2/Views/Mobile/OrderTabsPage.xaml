@@ -21,7 +21,9 @@
 
     <ContentPage.Content>
 
-        <StackLayout Height="{Binding HeightPage}">
+        <StackLayout
+            Height="{Binding HeightPage}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
             
             <!--Grid
                 RowSpacing="0"
