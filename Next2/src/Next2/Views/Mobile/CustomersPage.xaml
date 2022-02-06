@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:prism="http://prismlibrary.com"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -94,6 +95,7 @@
                         HeightRequest="51">
 
                         <StackLayout Orientation="Horizontal">
+                            
                             <Label
                                 Margin="12,0,0,0"
                                 FontFamily="{DynamicResource BaseContent_i3}"
@@ -112,8 +114,8 @@
 
                     </Frame>
 
+                    <!--  Table header  -->
                     <yummy:PancakeView
-                        x:Name="tableHeader"
                         Margin="24,0,24,0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="12,12,0,0"
@@ -139,6 +141,7 @@
 
                     </yummy:PancakeView>
 
+                    <!--  Table content  -->
                     <Frame
                         Margin="24,0,24,0"
                         Padding="0,0,0,0"
@@ -149,19 +152,22 @@
 
                             <CollectionView
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                ItemsSource="{Binding CustomersList}"
+                                ItemsSource="{Binding Customers}"
                                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                 SelectionMode="Single"
                                 VerticalScrollBarVisibility="Never">
 
                                 <CollectionView.ItemTemplate>
 
-                                    <DataTemplate x:DataType="viewModels:CustomerViewModel">
+                                    <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                         <Grid HeightRequest="45" RowDefinitions="0.99*,0.01*">
                                             <Grid.GestureRecognizers>
 
-                                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" NumberOfTapsRequired="2" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer
+                                                    Command="{Binding ShowInfoCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="2" />
 
                                                 <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
 
@@ -251,6 +257,7 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand">
 
+                    <!--  add button  -->
                     <Frame
                         Padding="0"
                         BackgroundColor="{DynamicResource AppColor_i1}"

@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Next2.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -24,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
 
         public string SelectButtonText { get; set; }
 
-        public CustomerViewModel Customer { get; set; }
+        public CustomerBindableModel Customer { get; set; }
 
         #endregion
 
@@ -40,7 +41,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (param.ContainsKey(Constants.DialogParameterKeys.MODEL))
             {
-                CustomerViewModel customer;
+                CustomerBindableModel customer;
                 param.TryGetValue(Constants.DialogParameterKeys.MODEL, out customer);
                 Customer = customer;
             }

@@ -9,6 +9,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,8 +23,11 @@ namespace Next2.ViewModels
     {
         private readonly ICustomersService _customersService;
         private readonly IPopupNavigation _popupNavigation;
-        private bool _isInitialized;
-        public CustomersViewModel(INavigationService navigationService, ICustomersService customersService, IPopupNavigation popupNavigation)
+
+        public CustomersViewModel(
+            INavigationService navigationService,
+            ICustomersService customersService,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _customersService = customersService;
@@ -32,41 +36,18 @@ namespace Next2.ViewModels
 
         #region -- Public Properties --
 
-        private ObservableCollection<CustomerViewModel>? _customersList;
+        public ObservableCollection<CustomerBindableModel>? Customers { get; set; }
 
-        public ObservableCollection<CustomerViewModel>? CustomersList
-        {
-            get => _customersList;
-            set => SetProperty(ref _customersList, value);
-        }
+        public CustomerModel Customer { get; set; }
 
-        private CustomerModel _customer;
+        public bool IsRefreshing { get; set; }
 
-        public CustomerModel Customer
-        {
-            get => _customer;
-            set => SetProperty(ref _customer, value);
-        }
+        public CustomerBindableModel SelectedItem { get; set; }
 
-        private bool _isRefreshing;
+        public ICommand ShowInfoCommand => new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
 
-        public bool IsRefreshing
-        {
-            get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
-        }
-
-        private CustomerViewModel _oldSelectedItem;
-        private CustomerViewModel _selectedItem;
-
-        public CustomerViewModel SelectedItem
-        {
-            get => _selectedItem;
-            set => SetProperty(ref _selectedItem, value);
-        }
-
-        public ICommand ShowInfoCommand => new AsyncCommand<CustomerViewModel>(ShowCustomerInfoAsync);
         public ICommand SortCommand => new AsyncCommand<string>(SortAsync);
+
         public ICommand RefreshCommand => new AsyncCommand(RefreshAsync);
 
         #endregion
@@ -76,44 +57,46 @@ namespace Next2.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
-            if (!_isInitialized)
-            {
-                await InitAsync();
-                _isInitialized = true;
-            }
+            await RefreshAsync();
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            Customers?.Clear();
         }
 
         #endregion
 
         #region --Private Helpers--
 
-        private async Task InitAsync()
+        private async Task RefreshAsync()
         {
+            IsRefreshing = true;
+
             var castomersAoresult = await _customersService.GetAllCustomersAsync();
             if (castomersAoresult.IsSuccess)
             {
                 var list = castomersAoresult.Result;
-                var listvm = list.Select(x => x.ToCustomersViewModel());
-                CustomersList = new ObservableCollection<CustomerViewModel>();
+                var listvm = list.Select(x => x.ToCustomerBindableModel());
+                Customers = new ObservableCollection<CustomerBindableModel>();
                 foreach (var item in listvm)
                 {
-                    item.ShowInfoCommand = new AsyncCommand<CustomerViewModel>(ShowCustomerInfoAsync);
-                    item.SelectItemCommand = new AsyncCommand<CustomerViewModel>(SelectDeselectItemAsync);
-                    CustomersList?.Add(item);
+                    item.ShowInfoCommand = new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
+                    item.SelectItemCommand = new AsyncCommand<CustomerBindableModel>(SelectDeselectItemAsync);
+                    Customers?.Add(item);
                 }
-            }
-        }
 
-        private async Task RefreshAsync()
-        {
-            IsRefreshing = true;
-            await InitAsync();
+                await SortAsync("Name");
+            }
+
             IsRefreshing = false;
         }
 
-        private async Task SelectDeselectItemAsync(CustomerViewModel customer)
+        private CustomerBindableModel _oldSelectedItem;
+        private Task SelectDeselectItemAsync(CustomerBindableModel customer)
         {
-            SelectedItem = customer as CustomerViewModel;
+            SelectedItem = customer as CustomerBindableModel;
 
             if (_oldSelectedItem == null)
             {
@@ -131,82 +114,46 @@ namespace Next2.ViewModels
                     _oldSelectedItem = SelectedItem;
                 }
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task ShowCustomerInfoAsync(CustomerViewModel customer)
+        private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
         {
             if (customer != null)
             {
-                SelectedItem = customer as CustomerViewModel;
+                SelectedItem = customer as CustomerBindableModel;
             }
 
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
-            param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
-            param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
+            if (SelectedItem != null)
+            {
+                var param = new DialogParameters();
+                param.Add(Constants.DialogParameterKeys.MODEL, SelectedItem);
+                param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, "Select");
+                param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, "Cancel");
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                    .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            }
         }
 
-        private bool _isSortedAscending;
-        private Task SortAsync(string param)
+        private string _sortCriterion;
+        private Task SortAsync(string criterion)
         {
-            switch (param)
+            if (_sortCriterion == criterion)
             {
-                case "Name":
-                    {
-                        if (_isSortedAscending)
-                        {
-                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
-                                .OrderByDescending(x => x.Name));
-                            _isSortedAscending = false;
-                        }
-                        else
-                        {
-                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
-                                .OrderBy(x => x.Name));
-                            _isSortedAscending = true;
-                        }
-
-                        break;
-                    }
-
-                case "Points":
-                    {
-                        if (_isSortedAscending)
-                        {
-                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
-                                .OrderByDescending(x => x.Points));
-                            _isSortedAscending = false;
-                        }
-                        else
-                        {
-                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
-                                .OrderBy(x => x.Points));
-                            _isSortedAscending = true;
-                        }
-
-                        break;
-                    }
-
-                case "Phone":
-                    {
-                        if (_isSortedAscending)
-                        {
-                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
-                                .OrderByDescending(x => x.Phone));
-                            _isSortedAscending = false;
-                        }
-                        else
-                        {
-                            CustomersList = new ObservableCollection<CustomerViewModel>(CustomersList
-                                .OrderBy(x => x.Phone));
-                            _isSortedAscending = true;
-                        }
-
-                        break;
-                    }
+                Customers = new (Customers.Reverse());
+            }
+            else
+            {
+                _sortCriterion = criterion;
+                Func<CustomerBindableModel, object> comparer = criterion switch
+                {
+                    "Name" => x => x.Name,
+                    "Points" => x => x.Points,
+                    "Phone" => x => x.Phone,
+                };
+                Customers = new (Customers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;

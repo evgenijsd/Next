@@ -5,11 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:DataType="viewModels:CustomersViewModel">
-
 
     <ContentView.Resources>
 
@@ -79,7 +79,6 @@
                 VerticalOptions="Center" />
 
             <!--  body  -->
-
             <Frame
                 Grid.Row="1"
                 Margin="0,-0.2,0,0"
@@ -133,14 +132,15 @@
 
                         </Frame>
 
+                        <!--  Info Button  -->
                         <Frame
-                            x:Name="infoButton"
                             Margin="0,26,12,24"
                             Padding="-4,0,-4,0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource IndicationColor_i7}"
-                            Opacity="0.32"
+                            Opacity="1"
                             Style="{StaticResource ButtonFrameStyle}">
+
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
 
                             <Frame.GestureRecognizers>
@@ -149,8 +149,20 @@
 
                             </Frame.GestureRecognizers>
 
+                            <Frame.Triggers>
+
+                                <DataTrigger
+                                    Binding="{Binding SelectedItem, TargetNullValue='null'}"
+                                    TargetType="Frame"
+                                    Value="null">
+                                    <Setter Property="Opacity" Value="0.32" />
+                                </DataTrigger>
+
+                            </Frame.Triggers>
+
                         </Frame>
 
+                        <!--  add buttom  -->
                         <Frame
                             Margin="0,26,24,24"
                             Padding="0"
@@ -162,8 +174,8 @@
 
                     </StackLayout>
 
+                    <!--  Table header  -->
                     <yummy:PancakeView
-                        x:Name="tableHeader"
                         Margin="24,0,24,0"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -204,8 +216,23 @@
 
                                 <Image
                                     x:Name="sortPointsImage"
-                                    IsVisible="false"
-                                    Source="ic_sort_primary_24x24" />
+                                    IsVisible="true"
+                                    Source="ic_sort_primary_24x24">
+
+                                    <Image.Triggers>
+
+                                        <DataTrigger
+                                            Binding="{Binding SelectedItem, TargetNullValue='null'}"
+                                            TargetType="Image"
+                                            Value="null">
+
+                                            <Setter Property="IsVisible" Value="false" />
+
+                                        </DataTrigger>
+
+                                    </Image.Triggers>
+
+                                </Image>
 
                                 <StackLayout.GestureRecognizers>
 
@@ -237,6 +264,7 @@
 
                     </yummy:PancakeView>
 
+                    <!--  Table content  -->
                     <yummy:PancakeView
                         Margin="24,-6,24,21"
                         Padding="0"
@@ -246,14 +274,12 @@
                         <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
 
                             <controls:CustomScrollBarCollectionView
-                                x:Name="collectionView"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                ItemsSource="{Binding CustomersList}"
+                                ItemsSource="{Binding Customers}"
                                 ScrollBarCornerRadius="9"
                                 ScrollBarThumbColor="{DynamicResource AppColor_i1}"
                                 ScrollBarTrackColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                                SelectionChanged="ItemTappedHandler"
                                 SelectionMode="Single"
                                 ThumbWidth="10"
                                 VerticalScrollBarVisibility="Always">
@@ -266,7 +292,7 @@
 
                                 <CollectionView.ItemTemplate>
 
-                                    <DataTemplate x:DataType="viewModels:CustomerViewModel">
+                                    <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                         <Grid ColumnDefinitions="0.325*,*" HeightRequest="45">
                                             <Grid.RowDefinitions>
@@ -402,22 +428,20 @@
 
             </Frame>
 
-            <!--  footer  -->
-
             <Frame
                 Grid.Row="2"
                 Padding="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 HasShadow="False">
 
+                <!--  select button  -->
                 <Frame
-                    x:Name="selectButton"
                     Margin="30,18,30,18"
                     Padding="0"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="6"
                     HasShadow="False"
-                    Opacity="0.32">
+                    Opacity="1">
 
                     <Label
                         FontSize="14"
@@ -426,8 +450,19 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Center" />
 
+                    <Frame.Triggers>
+
+                        <DataTrigger
+                            Binding="{Binding SelectedItem, TargetNullValue='null'}"
+                            TargetType="Frame"
+                            Value="null">
+                            <Setter Property="Opacity" Value="0.32" />
+                        </DataTrigger>
+
+                    </Frame.Triggers>
+
                     <!--<Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SomeCommand}" />
+                            <TapGestureRecognizer Command="{Binding Command}" />
                         </Frame.GestureRecognizers>-->
 
                 </Frame>

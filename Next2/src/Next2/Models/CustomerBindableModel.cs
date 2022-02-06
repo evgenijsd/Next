@@ -1,13 +1,11 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Next2.Interfaces;
+using Prism.Mvvm;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Next2.ViewModels
+namespace Next2.Models
 {
-    public class CustomerViewModel : BindableBase
+    public class CustomerBindableModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
 

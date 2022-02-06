@@ -1,40 +1,36 @@
 ﻿using Next2.Models;
-using Next2.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Next2.Extensions
 {
     public static class CustomerExtension
     {
-        public static CustomerViewModel ToCustomersViewModel(this CustomerModel cm)
+        public static CustomerBindableModel ToCustomerBindableModel(this CustomerModel customerModel)
         {
-            return new CustomerViewModel
+            return new CustomerBindableModel
             {
-                Id = cm.Id,
-                Name = cm.Name,
-                Email = cm.Email,
-                Rewards = cm.Rewards,
-                Phone = cm.Phone,
-                Points = cm.Points,
-                GiftCardCount = cm.GiftCardCount,
-                GiftCardTotal = cm.GiftCardTotal,
+                Id = customerModel.Id,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                Rewards = customerModel.Rewards,
+                Phone = customerModel.Phone,
+                Points = customerModel.Points,
+                GiftCardCount = customerModel.GiftCardCount,
+                GiftCardTotal = customerModel.GiftCardTotal,
             };
         }
 
-        public static CustomerModel ToCustomerModel(this CustomerViewModel cvm)
+        public static CustomerModel ToCustomerModel(this CustomerBindableModel customerBindableModel)
         {
             return new CustomerModel
             {
-                Id = cvm.Id,
-                Name = cvm.Name,
-                Email = cvm.Email,
-                Rewards = cvm.Rewards,
-                Phone = cvm.Phone,
-                Points = cvm.Points,
-                GiftCardCount = cvm.GiftCardCount,
-                GiftCardTotal = cvm.GiftCardTotal,
+                Id = customerBindableModel.Id,
+                Name = customerBindableModel.Name,
+                Email = customerBindableModel.Email,
+                Rewards = customerBindableModel.Rewards,
+                Phone = customerBindableModel.Phone,
+                Points = customerBindableModel.Points,
+                GiftCardCount = customerBindableModel.GiftCardCount,
+                GiftCardTotal = customerBindableModel.GiftCardTotal,
             };
         }
     }
