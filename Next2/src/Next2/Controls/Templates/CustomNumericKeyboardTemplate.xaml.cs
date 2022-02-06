@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System;
+using Xamarin.Forms;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
-namespace Next2.Controls
+namespace Next2.Controls.Templates
 {
-    public partial class CustomNumericKeyboard : ContentView
+    public partial class CustomNumericKeyboardTemplate : ContentView
     {
-        public CustomNumericKeyboard()
+        private bool _startTyping;
+        public CustomNumericKeyboardTemplate()
         {
             InitializeComponent();
         }
-
-        private bool _startTyping;
 
         #region -- Public property --
 
@@ -26,7 +21,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ScreenKeyboardProperty = BindableProperty.Create(
             propertyName: nameof(ScreenKeyboard),
             returnType: typeof(string),
-            declaringType: typeof(CustomNumericKeyboard),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
             defaultBindingMode: BindingMode.TwoWay);
 
         public string ScreenKeyboard
@@ -38,7 +33,7 @@ namespace Next2.Controls
         public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(
             propertyName: nameof(PlaceHolder),
             returnType: typeof(string),
-            declaringType: typeof(CustomNumericKeyboard),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
             defaultBindingMode: BindingMode.TwoWay);
 
         public string PlaceHolder
@@ -50,7 +45,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ErrorNotificationProperty = BindableProperty.Create(
            propertyName: nameof(ErrorNotification),
            returnType: typeof(bool),
-           declaringType: typeof(CustomNumericKeyboard),
+           declaringType: typeof(CustomNumericKeyboardTemplate),
            defaultBindingMode: BindingMode.TwoWay);
 
         public bool ErrorNotification
@@ -71,7 +66,7 @@ namespace Next2.Controls
 
         private async Task OnTabAsync(object? sender)
         {
-            var view = sender as Xamarin.Forms.Label;
+            var view = sender as Label;
 
             if (view is not null)
             {

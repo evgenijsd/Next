@@ -3,13 +3,19 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:controls="clr-namespace:Next2.Controls"
-    x:Class="Next2.Views.Mobile.LoginPage">
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Mobile.LoginPage"
+    x:DataType="viewModels:LoginPageViewModel">
 
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" Spacing="0" Padding="0"> 
+    <StackLayout 
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" 
+        Spacing="0" 
+        Padding="0"> 
 
         <Label 
-            Text="Login"
+            Text="{xct:Translate Login}"
             FontSize="{DynamicResource TSize_i6}"
             HeightRequest="50"
             Margin="16, 0, 0, 0"
@@ -29,7 +35,7 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
                 
                 <Label 
-                    Text="Employee"
+                    Text="{xct:Translate Employee}"
                     HeightRequest="45"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
@@ -50,7 +56,7 @@
                 BackgroundColor="{DynamicResource AppColor_i4}">
                 
                 <Label 
-                    Text="Waiter"
+                    Text="{xct:Translate Waiter}"
                     HeightRequest="45"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
@@ -78,7 +84,7 @@
                 Scale="0.45"/>
 
             <Label 
-                Text="Employee ID"
+                Text="{xct:Translate EmployeeId}"
                 FontSize="{DynamicResource TSize_i8}"
                 Margin="18, 0, 0, 8"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -176,7 +182,7 @@
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                         <Label 
-                            Text="Clear"
+                            Text="{xct:Translate Clear}"
                             FontSize="{DynamicResource TSize_i7}"
                             HeightRequest="65"
                             VerticalTextAlignment="Center"
@@ -252,7 +258,7 @@
                         BackgroundColor="{DynamicResource IndicationColor_i2}">
 
                         <Label
-                            Text="Login"
+                            Text="{xct:Translate Login}"
                             FontSize="{DynamicResource TSize_i8}"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"

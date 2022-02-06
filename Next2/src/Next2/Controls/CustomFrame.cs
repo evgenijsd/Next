@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class CustomFrame : Frame
+    public class CustomFrame : Frame
     {
-        public CustomFrame()
-        {
-            InitializeComponent();
-        }
-
         #region -- Public properties
 
         public static readonly BindableProperty BorderWidthProperty = BindableProperty.Create(

@@ -1,9 +1,7 @@
-﻿using Next2.Helpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Services.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Next2.Services.ProfileService

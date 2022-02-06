@@ -3,8 +3,11 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:controls="clr-namespace:Next2.Controls"
-    x:Class="Next2.Views.Tablet.LoginPage">
+    xmlns:controls="clr-namespace:Next2.Controls.Templates" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Tablet.LoginPage"
+    x:DataType="viewModels:LoginPageViewModel">
 
     <Grid 
         RowSpacing="0"
@@ -13,7 +16,7 @@
         ColumnDefinitions="*, 0.45*"
         RowDefinitions="0.10*,*">
         
-        <controls:CustomDateTimePanel/>
+        <controls:CustomDateTimePanelTemplate/>
 
         <ContentView 
             Grid.Row="1"
@@ -29,10 +32,10 @@
                 
         </ContentView>
 
-        <controls:CustomNumericKeyboard 
+        <controls:CustomNumericKeyboardTemplate
             Grid.Column="1"
             Grid.RowSpan="2"
-            PlaceHolder="Type Employee ID"
+            PlaceHolder="{xct:Translate TypeEmployeeId}"
             ErrorNotification="{Binding IsErrorNotificationVisible}"/>
 
     </Grid>

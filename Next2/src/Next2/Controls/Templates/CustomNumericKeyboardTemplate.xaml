@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:controls="clr-namespace:Next2.Controls"
-             x:Class="Next2.Controls.CustomNumericKeyboard"
-             x:Name="customNumericKeyboard">
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls">
     
     <ContentView.Content>
 
@@ -12,7 +14,7 @@
             RowDefinitions="0.33*, 60, 0.37*, 0.12*, 60">
 
             <Label 
-                Text="Employee ID"
+                Text="{xct:Translate EmployeeId}"
                 Grid.Row="0"
                 FontSize="{DynamicResource TSize_i6}"
                 VerticalTextAlignment="End"
@@ -35,7 +37,7 @@
                         
                         <Label 
                             x:Name="employeeId"
-                            Text="{Binding PlaceHolder, Source={x:Reference customNumericKeyboard}}"
+                            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}" 
                             TextColor="{DynamicResource TextAndBackgroundColor_i8}"
                             VerticalTextAlignment="Center"
                             Margin="10, 0, 0, 0"
@@ -45,11 +47,16 @@
                     
                                 <DataTrigger 
                                     TargetType="Label"
-                                    Binding="{Binding IsKeyBoardTyped, Source={x:Reference customNumericKeyboard}}"                           
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
                                     Value="True">
 
-                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-                                <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={x:Reference customNumericKeyboard}}"/>
+                                <Setter 
+                                    Property="TextColor" 
+                                    Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                    
+                                <Setter 
+                                    Property="Text" 
+                                    Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
 
                             </DataTrigger>
                     
@@ -59,7 +66,7 @@
                     
                         <Image 
                             Source="ic_danger_circle"
-                            IsVisible="{Binding ErrorNotification, Source={x:Reference customNumericKeyboard}}"  
+                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ErrorNotification}"  
                             Scale="0.6"
                             HorizontalOptions="EndAndExpand"/>
                     
@@ -69,7 +76,7 @@
                     
                         <DataTrigger 
                             TargetType="controls:CustomFrame"
-                            Binding="{Binding ErrorNotification, Source={x:Reference customNumericKeyboard}}"                                        
+                            Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ErrorNotification}"                                        
                             Value="True">
                     
                             <Setter 
@@ -112,8 +119,9 @@
 
                         <controls:CustomFrame.GestureRecognizers>
 
-                            <TapGestureRecognizer Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
-                                                  CommandParameter="{x:Reference button1}"/>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
+                                CommandParameter="{x:Reference button1}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
 
@@ -141,7 +149,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button2}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -170,7 +178,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button3}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -199,7 +207,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button4}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -228,7 +236,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button5}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -257,7 +265,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button6}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -286,7 +294,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button7}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -315,7 +323,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button8}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -344,7 +352,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference button9}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -373,7 +381,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference buttonZero}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -393,7 +401,7 @@
 
                         <Label 
                             x:Name="buttonClear"
-                            Text="Clear"
+                            Text="{xct:Translate Clear}"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -403,7 +411,7 @@
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding ButtonClearTabCommand, Source={x:Reference customNumericKeyboard}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
                                 CommandParameter="{x:Reference buttonZero}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -431,25 +439,25 @@
                 CornerRadius="5"
                 Margin="16, 11, 16, 15"
                 Padding="0"
-                IsEnabled="{Binding IsKeyBoardTyped, Source={x:Reference customNumericKeyboard}}"
+                IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}">
 
                 <Label 
-                    Text="Login"
+                    Text="{xct:Translate Login}"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                     FontSize="{DynamicResource TSize_i8}"/>
 
                 <Frame.GestureRecognizers>
-                    
-                    <TapGestureRecognizer Command="{Binding GoToStartPageCommand}"
-                                          CommandParameter="{x:Reference employeeId}"/>
-                    
+
+                    <TapGestureRecognizer 
+                        Command="{Binding GoToStartPageCommand}"
+                        CommandParameter="{x:Reference employeeId}"/>
+
                 </Frame.GestureRecognizers>
 
             </Frame>
-            
 
         </Grid>
         

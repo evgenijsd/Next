@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace Next2.ViewModels.Mobile
+namespace Next2.ViewModels
 {
     public class LoginPage_EmployeeIdViewModel : BaseViewModel
     {

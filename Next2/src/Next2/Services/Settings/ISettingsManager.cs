@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Next2.Services.Services
+﻿namespace Next2.Services.Services
 {
     public interface ISettingsManager
     {
