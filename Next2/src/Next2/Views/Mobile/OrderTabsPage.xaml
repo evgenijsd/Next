@@ -195,6 +195,7 @@
 
                     <CollectionView
                         x:Name="collectionView"
+                         
                         SelectionChanged="collectionView_SelectionChanged"
                         ItemsSource="{Binding Orders}"
                         SelectionMode="Single"
