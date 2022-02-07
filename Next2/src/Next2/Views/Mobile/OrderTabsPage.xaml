@@ -189,7 +189,7 @@
 
                 <RefreshView
                     Grid.Row="4"
-                    VerticalOptions="StartAndExpand"
+                    VerticalOptions="FillAndExpand"
                     IsRefreshing="{Binding IsOrdersRefreshing}"
                     Command="{Binding RefreshOrdersCommand}">
 

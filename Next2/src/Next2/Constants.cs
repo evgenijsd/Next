@@ -24,11 +24,10 @@
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
         }
 
-        public static class Navigation
+        public static class LayoutOrderTabs
         {
-            public const string ORDERS = nameof(ORDERS);
-            public const string TABS = nameof(TABS);
-            public const string SELECTED = nameof(SELECTED);
+            public const double SUMM_ROW_HEIGHT = 65 + 55 + 135 + 2;
+            public const double BUTTONS_HEIGHT = 142;
         }
     }
 }

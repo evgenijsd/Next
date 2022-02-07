@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using static Next2.Constants;
 
 namespace Next2.ViewModels
 {
@@ -21,8 +22,6 @@ namespace Next2.ViewModels
         private bool _isDirectionSortOrders = true;
         private List<OrderModel>? _ordersBase;
         private List<OrderModel>? _tabsBase;
-        private double SummRowHeight = 65 + 55 + 135 + 2;
-        private double ButtonsHeight = 142;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -101,7 +100,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight);
+            HeightCollectionGrid = new GridLength(HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT);
 
             await LoadData();
         }
@@ -119,11 +118,11 @@ namespace Next2.ViewModels
             {
                 if (SelectedOrder != null)
                 {
-                    HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight - ButtonsHeight);
+                    HeightCollectionGrid = new GridLength(HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT - LayoutOrderTabs.BUTTONS_HEIGHT);
                 }
                 else
                 {
-                    HeightCollectionGrid = new GridLength(HeightPage - SummRowHeight);
+                    HeightCollectionGrid = new GridLength(HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT);
                 }
             }
         }
