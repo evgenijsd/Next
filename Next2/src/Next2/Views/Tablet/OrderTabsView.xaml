@@ -174,7 +174,7 @@
 
                     <Label
                         HorizontalOptions="Start"
-                        Margin="15,0,0,0"
+                        Margin="20,0,0,0"
                         Text="{xct:Translate TableNumber}"
                         HeightRequest="{DynamicResource TSize_i8}"
                         LineBreakMode="TailTruncation"
@@ -185,7 +185,7 @@
 
                     <Label
                         HorizontalOptions="Start"
-                        Margin="15,0,0,0"
+                        Margin="20,0,0,0"
                         Text="{xct:Translate CustomerName}"
                         HeightRequest="{DynamicResource TSize_i8}"
                         LineBreakMode="TailTruncation"
@@ -213,7 +213,7 @@
 
                     <Label
                         HorizontalOptions="Start"
-                        Margin="10,0,0,0"
+                        Margin="11,0,0,0"
                         Text="{xct:Translate OrderNumber}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i8}"
@@ -235,6 +235,7 @@
                 <Label
                     Grid.Column="3"
                     HorizontalOptions="StartAndExpand"
+                    Margin="3,0,0,0"
                     Text="{xct:Translate Total}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i8}"
@@ -252,6 +253,7 @@
                 <Label
                     Grid.Column="5"
                     HorizontalOptions="StartAndExpand"
+                    Margin="1,0,0,0"
                     Text="{xct:Translate OrderType}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i8}"
@@ -368,14 +370,8 @@
                                         Margin="10,13,0,0"
                                         Style="{DynamicResource BaseContent_i4}"
                                         FontSize="{DynamicResource TSize_i8}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span
-                                                    Text="{Binding Total, StringFormat='$ {0:F2}'}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        Text="{Binding Total, StringFormat='$ {0:F2}'}" />
 
                                     <Label
                                         Grid.Column="4"

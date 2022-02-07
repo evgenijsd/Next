@@ -160,7 +160,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Oreder Status.
+        ///   Looks up a localized string similar to Order Status.
         /// </summary>
         internal static string OrderStatus {
             get {
