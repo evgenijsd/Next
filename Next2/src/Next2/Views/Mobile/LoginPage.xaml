@@ -21,7 +21,8 @@
             Margin="16, 0, 0, 0"
             VerticalTextAlignment="Center"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontFamily="Barlow-Bold"/>
 
         <Grid 
             ColumnDefinitions="0.5*,0.5*"
@@ -40,7 +41,8 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     FontSize="{DynamicResource TSize_i8}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-SemiBold"/>
 
                 <BoxView 
                     HeightRequest="3"
@@ -61,7 +63,8 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     FontSize="{DynamicResource TSize_i8}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-SemiBold"/>
 
                 <BoxView 
                     HeightRequest="3"
@@ -87,7 +90,8 @@
                 Text="{xct:Translate EmployeeId}"
                 FontSize="{DynamicResource TSize_i8}"
                 Margin="18, 0, 0, 8"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Regular"/>
 
             <controls:CustomFrame 
                 Margin="16, 0, 16, 0"
@@ -107,7 +111,8 @@
                         FontSize="{DynamicResource TSize_i8}"
                         VerticalTextAlignment="Center"
                         TextColor="{DynamicResource TextAndBackgroundColor_i9}"
-                        Margin="4, 0, 0, 0">
+                        Margin="4, 0, 0, 0"
+                        FontFamily="Barlow-Medium">
 
                         <Label.Triggers>
 
@@ -187,7 +192,8 @@
                             HeightRequest="65"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i7}">
+                            TextColor="{DynamicResource TextAndBackgroundColor_i7}"
+                            FontFamily="Barlow-SemiBold">
                             
                             <Label.Triggers> 
                                 
@@ -262,8 +268,9 @@
                             FontSize="{DynamicResource TSize_i8}"
                             VerticalTextAlignment="Center"
                             HorizontalTextAlignment="Center"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i3}"/>
-                        
+                            TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            FontFamily="Barlow-SemiBold"/>
+
                         <controls:CustomFrame.Triggers>
 
                             <DataTrigger 

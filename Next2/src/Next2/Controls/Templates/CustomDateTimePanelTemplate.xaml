@@ -19,7 +19,8 @@
             FontSize="{DynamicResource TSize_i4_5}"
             VerticalOptions="Center"
             Margin="40, 0, 0, 0"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontFamily="Barlow-Bold"/>
             
         <Image 
             Source="ic_time_circle_24x24"
@@ -28,22 +29,24 @@
             HorizontalOptions="EndAndExpand"/>
 
         <Label 
-            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, StringFormat='{}{0:h:hh:ss tt}', Path=CurrentDateTime}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:h:hh:ss tt}', Path=CurrentDateTime}"
             VerticalOptions="Center"
             FontSize="{DynamicResource TSize_i9}"
             Margin="0, 0, 25, 0"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontFamily="Barlow-Medium"/>
 
         <Image 
             Source="ic_calendar_24x24"
             Scale="0.6"/>
 
         <Label 
-            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, StringFormat='{}{0:dddd, d MMMM yyyy}', Path=CurrentDateTime}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:dddd, d MMMM yyyy}', Path=CurrentDateTime}"
             VerticalOptions="Center"
             Margin="0, 0, 40, 0"
             FontSize="{DynamicResource TSize_i9}"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontFamily="Barlow-Medium"/>
 
     </StackLayout>
     

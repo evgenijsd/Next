@@ -26,8 +26,7 @@
                     <Image 
                         Source="ic_arrow_left_tail_40x40"
                         VerticalOptions="Center"
-                        Scale="0.5"
-                        Margin="13, 0, 0, 0">
+                        Margin="20, 25, 10, 25">
 
                     </Image>
                     
@@ -44,7 +43,8 @@
                     VerticalTextAlignment="Center"
                     FontSize="{DynamicResource TSize_i6}"
                     Margin="4, 0, 0, 0"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-Bold"/>
 
             </StackLayout>
 
@@ -63,7 +63,8 @@
                     Text="{Binding EmployeeId}"
                     Margin="22, 15, 0, 0"
                     PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-Regular"/>
 
             </StackLayout>
 

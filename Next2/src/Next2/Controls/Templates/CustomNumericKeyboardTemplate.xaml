@@ -19,7 +19,8 @@
                 FontSize="{DynamicResource TSize_i6}"
                 VerticalTextAlignment="End"
                 Margin="30, 0, 0, 10"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-SemiBold"/>
 
                 <controls:CustomFrame 
                     Grid.Row="1"
@@ -29,7 +30,7 @@
                     BorderWidth="3"
                     HasShadow="False"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                    BackgroundColor="{DynamicResource TextAndbackgroundcolor_i3}">
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                     <StackLayout 
                         Orientation="Horizontal"
@@ -38,10 +39,11 @@
                         <Label 
                             x:Name="employeeId"
                             Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}" 
-                            TextColor="{DynamicResource TextAndBackgroundColor_i8}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"
                             VerticalTextAlignment="Center"
                             Margin="10, 0, 0, 0"
-                            FontSize="{DynamicResource TSize_i6}">
+                            FontSize="{DynamicResource TSize_i6}"
+                            FontFamily="Barlow-Regular">
                     
                             <Label.Triggers>
                     
@@ -49,7 +51,7 @@
                                     TargetType="Label"
                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
                                     Value="True">
-
+                    
                                 <Setter 
                                     Property="TextColor" 
                                     Value="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -57,7 +59,7 @@
                                 <Setter 
                                     Property="Text" 
                                     Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
-
+                    
                             </DataTrigger>
                     
                             </Label.Triggers>
@@ -96,6 +98,7 @@
                 <Grid 
                     ColumnSpacing="10"
                     RowDefinitions="0.25*, 0.25*, 0.25*, 0.25*"
+                    RowSpacing="10"
                     ColumnDefinitions="0.33*,0.33*,0.33*">
                   
                     <controls:CustomFrame 
@@ -115,7 +118,8 @@
                            VerticalTextAlignment="Center"
                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                            FontSize="{DynamicResource TSize_i4_5}"
-                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                           FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -144,7 +148,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -173,7 +178,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -202,7 +208,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -231,7 +238,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -251,7 +259,7 @@
                         BorderWidth="3"
                         HasShadow="False"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndbackgroundcolor_i3}">
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                         <Label 
                             x:Name="button6"
@@ -260,7 +268,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -289,7 +298,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
                             
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -318,7 +328,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -347,7 +358,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
                             
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -376,7 +388,8 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
 
                         <controls:CustomFrame.GestureRecognizers>
 
@@ -406,12 +419,13 @@
                             VerticalTextAlignment="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-Bold"/>
                             
                         <controls:CustomFrame.GestureRecognizers>
 
                             <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTabCommand}"
                                 CommandParameter="{x:Reference buttonZero}"/>
 
                         </controls:CustomFrame.GestureRecognizers>
@@ -447,7 +461,8 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    FontSize="{DynamicResource TSize_i8}"/>
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Bold"/>
 
                 <Frame.GestureRecognizers>
 
