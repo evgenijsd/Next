@@ -1,55 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
+    x:Class="Next2.Resources.Styles.DefaultResources"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:Next2.Converters"
-    x:Class="Next2.Resources.Styles.DefaultResources">
+    xmlns:converters="clr-namespace:Next2.Converters">
 
-    <!-- TEXT SIZE -->
-    <!-- 32px -->
+    <!--  TEXT SIZE  -->
+    <!--  32px  -->
     <x:Double x:Key="TSize_i3">28</x:Double>
-    <!-- 24px -->
+    <!--  24px  -->
     <x:Double x:Key="TSize_i4">26</x:Double>
-    <!-- 18px -->
+    <!--  18px  -->
     <x:Double x:Key="TSize_i5">20</x:Double>
-    <!-- 16px -->
+    <!--  16px  -->
     <x:Double x:Key="TSize_i6">18</x:Double>
-    <!-- 14px -->
+    <!--  14px  -->
     <x:Double x:Key="TSize_i7">16</x:Double>
-    <!-- 12px -->
+    <!--  12px  -->
     <x:Double x:Key="TSize_i8">14</x:Double>
-    <!-- 10px -->
+    <!--  10px  -->
     <x:Double x:Key="TSize_i9">12</x:Double>
-    <!-- 8px -->
+    <!--  8px  -->
     <x:Double x:Key="TSize_i10">10</x:Double>
 
     <Style TargetType="Frame">
-        <Setter Property="HasShadow" Value="False"/>
-        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="Padding" Value="0" />
     </Style>
 
     <Style TargetType="StackLayout">
-        <Setter Property="Spacing" Value="0"/>
+        <Setter Property="Spacing" Value="0" />
     </Style>
 
     <Style TargetType="Grid">
-        <Setter Property="RowSpacing" Value="0"/>
-        <Setter Property="ColumnSpacing" Value="0"/>
+        <Setter Property="RowSpacing" Value="0" />
+        <Setter Property="ColumnSpacing" Value="0" />
     </Style>
 
-    <Style x:Key="SeparatorStyle" TargetType="BoxView" >
-        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}"/>
-        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+    <Style x:Key="SeparatorStyle" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}" />
     </Style>
 
     <Style x:Key="TableCellStyle_i1" TargetType="Label">
-        <Setter Property="FontFamily" Value="Barlow-Medium"/>
-        <Setter Property="FontSize"  Value="{DynamicResource TSize_i7}"/>
-        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-        <Setter Property="Padding" Value="20, 10, 5, 11"/>
+        <Setter Property="FontFamily" Value="Barlow-Medium" />
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+        <Setter Property="Padding" Value="20, 10, 5, 11" />
     </Style>
 
-    <!-- CONVERTERS -->
-    <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
+    <!--  CONVERTERS  -->
+    <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter" />
 
 </ResourceDictionary>

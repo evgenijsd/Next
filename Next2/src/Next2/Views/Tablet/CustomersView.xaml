@@ -81,7 +81,7 @@
             <!--  body  -->
             <Frame
                 Grid.Row="1"
-                Margin="0,-0.2,0,0"
+                Margin="0,0,0,0"
                 Padding="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 CornerRadius="0"

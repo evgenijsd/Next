@@ -1,22 +1,29 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Next2.Controls.DialogsButton"
-             x:Name="dialogsButton"
-             HorizontalOptions="FillAndExpand" 
-             HasShadow="False" 
-             CornerRadius="4" 
-             Margin="3,0,0,0"
-             BackgroundColor="{Binding Color, Source={x:Reference dialogsButton}}"
-             BorderColor="{Binding BorderColor, Source={x:Reference dialogsButton}}"
-             WidthRequest="100"
-             Padding="0">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Frame
+    x:Class="Next2.Controls.DialogsButton"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="dialogsButton"
+    Margin="3,0,0,0"
+    Padding="0"
+    BackgroundColor="{Binding Color, Source={RelativeSource Self}}"
+    BorderColor="{Binding BorderColor, Source={RelativeSource Self}}"
+    CornerRadius="4"
+    HasShadow="False"
+    HorizontalOptions="FillAndExpand"
+    WidthRequest="100">
+
     <Frame.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding Command, Source={x:Reference dialogsButton}}"/>
+
+        <TapGestureRecognizer Command="{Binding Command, Source={x:Reference dialogsButton}}" />
+
     </Frame.GestureRecognizers>
-        <Label Text="{Binding Text, Source={x:Reference dialogsButton}}" 
-               TextColor="{DynamicResource textAndbackgroundcolor_i3}"
-               FontSize="24"
-               HorizontalOptions="Center" 
-               VerticalOptions="Center"/>
+
+    <Label
+        FontSize="24"
+        HorizontalOptions="Center"
+        Text="{Binding Text, Source={x:Reference dialogsButton}}"
+        TextColor="{DynamicResource textAndbackgroundcolor_i3}"
+        VerticalOptions="Center" />
+
 </Frame>

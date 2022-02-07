@@ -42,7 +42,7 @@ namespace Next2.ViewModels
 
         public bool IsRefreshing { get; set; }
 
-        public CustomerBindableModel SelectedItem { get; set; }
+        public CustomerBindableModel? SelectedItem { get; set; }
 
         public ICommand ShowInfoCommand => new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
 
@@ -93,7 +93,7 @@ namespace Next2.ViewModels
             IsRefreshing = false;
         }
 
-        private CustomerBindableModel _oldSelectedItem;
+        private CustomerBindableModel? _oldSelectedItem;
         private Task SelectDeselectItemAsync(CustomerBindableModel customer)
         {
             SelectedItem = customer as CustomerBindableModel;

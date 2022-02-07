@@ -37,10 +37,5 @@ namespace Next2.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-        public override void OnBackPressed()
-        {
-            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
-        }
     }
 }

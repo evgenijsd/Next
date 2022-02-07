@@ -23,7 +23,6 @@ namespace Next2.Controls
           propertyName: nameof(Command),
           returnType: typeof(ICommand),
           declaringType: typeof(DialogsButton),
-          defaultValue: null,
           defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand Command
@@ -62,7 +61,6 @@ namespace Next2.Controls
           propertyName: nameof(Color),
           returnType: typeof(Color),
           declaringType: typeof(DialogsButton),
-          defaultValue: null,
           defaultBindingMode: BindingMode.TwoWay);
 
         public Color Color
@@ -75,7 +73,6 @@ namespace Next2.Controls
           propertyName: nameof(BorderColor),
           returnType: typeof(Color),
           declaringType: typeof(DialogsButton),
-          defaultValue: null,
           defaultBindingMode: BindingMode.TwoWay);
 
         public Color BorderColor
@@ -90,8 +87,8 @@ namespace Next2.Controls
 
         protected override void OnPropertyChanged(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
-            if (propertyName == nameof(IsActive))
+            base.OnPropertyChanged();
+            if (IsActiveProperty.PropertyName == nameof(IsActive))
             {
                 if (IsActive)
                 {
