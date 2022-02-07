@@ -172,11 +172,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\Buttons\CustomButtonRight.xaml.cs">
-      <DependentUpon>CustomButtonRight.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\Buttons\CustomButtonLeft.xaml.cs">
-      <DependentUpon>CustomButtonLeft.xaml</DependentUpon>
+    <Compile Update="Controls\Buttons\CustomButtonSwitch.xaml.cs">
+      <DependentUpon>CustomButtonSwitchxaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Strings\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -187,9 +184,6 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Controls\Buttons\CustomButton.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Buttons\CustomButtonLeft.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">

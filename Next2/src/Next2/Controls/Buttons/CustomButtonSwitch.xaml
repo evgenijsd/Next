@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:DataType="controls:CustomButtonSwitch"
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="FillAndExpand"
+    RowSpacing="0"
+    RowDefinitions="*,3"
+    x:Class="Next2.Controls.CustomButtonSwitch">
+
+    <!--BACKGROUND-->
+
+    <Frame
+        HasShadow="False"
+        Grid.Row="0"
+        BackgroundColor="{DynamicResource AppColor_i4}"
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=CornerRadius}">
+        
+        <Frame.Triggers>
+			
+            <DataTrigger
+                TargetType="Frame"
+                Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=IsSelected}"
+                Value="False">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="{DynamicResource TextAndBackgroundColor_i3}" />
+            </DataTrigger>
+		
+        </Frame.Triggers>
+        
+    </Frame>
+
+    <BoxView
+        Grid.Row="0"
+        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=CornerRadius}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="EndAndExpand"
+        BackgroundColor="{DynamicResource AppColor_i4}">
+
+        <BoxView.Triggers>
+			
+            <DataTrigger
+                TargetType="BoxView"
+                Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=IsSelected}"
+                Value="False">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="{DynamicResource TextAndBackgroundColor_i3}" />
+            </DataTrigger>
+		
+        </BoxView.Triggers>
+        
+    </BoxView>
+
+    <BoxView
+        Grid.Row="0"
+        WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=CornerRadius}"
+        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=CornerRadius}"
+        HorizontalOptions="End"
+        VerticalOptions="Start"
+        BackgroundColor="{DynamicResource AppColor_i4}">
+
+        <BoxView.Triggers>
+			
+            <DataTrigger
+                TargetType="BoxView"
+                Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=IsSelected}"
+                Value="False">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="{DynamicResource TextAndBackgroundColor_i3}" />
+            </DataTrigger>
+
+			<DataTrigger
+                TargetType="BoxView"
+                Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=IsRight}"
+                Value="True">
+                <Setter
+                    Property="HorizontalOptions"
+                    Value="Start" />
+            </DataTrigger>
+		
+        </BoxView.Triggers>
+        
+    </BoxView>
+
+    <BoxView
+        Grid.Row="1"
+        BackgroundColor="{DynamicResource AppColor_i1}">
+
+        <BoxView.Triggers>
+			
+            <DataTrigger
+                TargetType="BoxView"
+                Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=IsSelected}"
+                Value="False">
+                <Setter
+                    Property="BackgroundColor"
+                    Value="{DynamicResource TextAndBackgroundColor_i2}" />
+            </DataTrigger>
+		
+		
+        </BoxView.Triggers>
+
+    </BoxView>
+
+    <!--TEXT-->
+
+    <Label
+        Grid.Column="0"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand"
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonSwitch}}, Path=Text}"
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+        FontSize="{DynamicResource TSize_i8}"
+        FontFamily="Barlow-SemiBold" />
+
+</Grid>

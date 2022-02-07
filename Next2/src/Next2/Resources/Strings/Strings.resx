@@ -189,4 +189,10 @@
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Tabs</value>
+  </data>
 </root>

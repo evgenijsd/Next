@@ -9,13 +9,6 @@
     HeightRequest="45"
     x:Class="Next2.Controls.CustomButton">
 
-    <Grid.Resources>
-        <ResourceDictionary>
-            <xct:InvertedBoolConverter
-                x:Key="InvertedBoolConverter" />
-        </ResourceDictionary>
-    </Grid.Resources>
-
     <Frame
         HasShadow="False"
         BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BorderColor}"
@@ -26,7 +19,7 @@
     <Label
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="Center"
-        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch, Converter={StaticResource InvertedBoolConverter}}"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch, Converter={xct:InvertedBoolConverter}}"
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
         FontSize="{DynamicResource TSize_i7}"

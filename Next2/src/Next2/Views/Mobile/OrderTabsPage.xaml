@@ -10,15 +10,6 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <xct:IsNotNullOrEmptyConverter
-                x:Key="IsNotNullOrEmptyConverter" />
-            <xct:InvertedBoolConverter
-                x:Key="InvertedBoolConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <ContentPage.Content>
 
         <StackLayout
@@ -54,28 +45,31 @@
                     ColumnSpacing="0"
                     ColumnDefinitions="*,*">
 
-                    <controls:CustomButtonLeft
+                    <controls:CustomButtonSwitch
+                        Text="{xct:Translate Orders}"
                         Grid.Column="0"
                         CornerRadius="0"
                         VerticalOptions="FillAndExpand"
                         IsSelected="{Binding IsSelectedOrders}">
-                        <controls:CustomButtonLeft.GestureRecognizers>
+                        <controls:CustomButtonSwitch.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding ButtonOrdersCommand}" />
-                        </controls:CustomButtonLeft.GestureRecognizers>
-                    </controls:CustomButtonLeft>
+                        </controls:CustomButtonSwitch.GestureRecognizers>
+                    </controls:CustomButtonSwitch>
 
 
-                    <controls:CustomButtonRight
+                    <controls:CustomButtonSwitch
+                        Text="{xct:Translate Tabs}"
                         Grid.Column="1"
                         VerticalOptions="FillAndExpand"
                         CornerRadius="0"
-                        IsSelected="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}">
-                        <controls:CustomButtonRight.GestureRecognizers>
+                        IsSelected="{Binding IsSelectedOrders, Converter={xct:InvertedBoolConverter}}"
+                        IsRight="True">
+                        <controls:CustomButtonSwitch.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding ButtonTabsCommand}" />
-                        </controls:CustomButtonRight.GestureRecognizers>
-                    </controls:CustomButtonRight>
+                        </controls:CustomButtonSwitch.GestureRecognizers>
+                    </controls:CustomButtonSwitch>
 
                 </Grid>
 
@@ -93,7 +87,7 @@
                 <controls:CustomButton
                     Grid.Row="2"
                     CornerRadius="5"
-                    IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
+                    IsVisible="{Binding IsSelectedOrders, Converter={xct:InvertedBoolConverter}}"
                     IsVisibleSearch="True"
                     Text="{xct:Translate SearchName}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -137,7 +131,7 @@
                             Text="{xct:Translate CustomerName}"
                             HeightRequest="{DynamicResource TSize_i8}"
                             LineBreakMode="TailTruncation"
-                            IsVisible="{Binding IsSelectedOrders, Converter={StaticResource InvertedBoolConverter}}"
+                            IsVisible="{Binding IsSelectedOrders, Converter={xct:InvertedBoolConverter}}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-Medium" />
@@ -296,7 +290,7 @@
             <StackLayout
                 VerticalOptions="EndAndExpand"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                IsVisible="{Binding SelectedOrder, Converter={StaticResource IsNotNullOrEmptyConverter}}">
+                IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                 <BoxView
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"

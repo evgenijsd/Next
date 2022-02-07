@@ -160,6 +160,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Orders.
+        /// </summary>
+        internal static string Orders {
+            get {
+                return ResourceManager.GetString("Orders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order Status.
         /// </summary>
         internal static string OrderStatus {
@@ -264,6 +273,15 @@ namespace Next2.Resources.Strings {
         internal static string TableNumber {
             get {
                 return ResourceManager.GetString("TableNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tabs.
+        /// </summary>
+        internal static string Tabs {
+            get {
+                return ResourceManager.GetString("Tabs", resourceCulture);
             }
         }
         
