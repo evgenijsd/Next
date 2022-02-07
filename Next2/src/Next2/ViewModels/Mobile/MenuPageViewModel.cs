@@ -6,6 +6,9 @@ using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -23,16 +26,19 @@ namespace Next2.ViewModels.Mobile
             _menuService = menuService;
 
             InitMenuItems();
-            InitCategories();
+            Task.Run(LoadCategoriesAsync);
         }
 
         #region -- Public properties --
 
-        public ObservableCollection<CategoryModel> Categories { get; set; }
+        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
+        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+
+        private ICommand _tapCategoryCommand;
+        public ICommand TapCategoryCommand => _tapCategoryCommand = new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync);
 
         #endregion
 
@@ -108,15 +114,25 @@ namespace Next2.ViewModels.Mobile
             SelectedMenuItem = _oldSelectedMenuItem;
         }
 
-        private void InitCategories()
+        private async Task LoadCategoriesAsync()
         {
             if (IsInternetConnected)
             {
-                var result = _menuService.GetCategoriesAsync();
-                var categories = result?.Result?.Result;
+                var resultCategories = await _menuService.GetCategoriesAsync();
 
-                Categories = new (categories);
+                if (resultCategories.IsSuccess)
+                {
+                    CategoriesItems = new (resultCategories.Result);
+                }
             }
+        }
+
+        private async Task OnTapCategoryCommandAsync(CategoryModel category)
+        {
+            var navigationParams = new NavigationParameters();
+            navigationParams.Add(Constants.DialogParameterKeys.CATEGORY, category);
+
+            await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
         }
 
         #endregion

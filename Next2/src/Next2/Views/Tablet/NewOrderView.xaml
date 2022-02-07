@@ -61,8 +61,7 @@
                 HeightRequest="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-            <StackLayout
-                VerticalOptions="Start">
+            <StackLayout VerticalOptions="Start">
 
                 <!--Categories header-->
                 
@@ -185,8 +184,7 @@
 
                 <CollectionView.ItemTemplate>
 
-                    <DataTemplate
-                        x:DataType="models:SetModel">
+                    <DataTemplate x:DataType="models:SetModel">
 
                         <templates:SetItemTemplate
                             SourceSet="{Binding .}"

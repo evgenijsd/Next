@@ -19,7 +19,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         Padding="15">
 
-        <VisualStateManager.VisualStateGroups>
+        <!--<VisualStateManager.VisualStateGroups>
 
             <VisualStateGroup Name="CommonStates">
 
@@ -37,16 +37,62 @@
 
             </VisualStateGroup>
 
-        </VisualStateManager.VisualStateGroups>
+        </VisualStateManager.VisualStateGroups>-->
 
         <StackLayout>
 
             <pkView:PancakeView CornerRadius="10">
 
                 <ffimageloading:CachedImage
-                    HeightRequest="179"
+                    HeightRequest="120"
                     Aspect="AspectFill"
-                    Source="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.ImagePath}"/>
+                    Source="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.ImagePath}">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroup Name="OrientationState">
+
+                            <VisualState Name="Landscape">
+                                
+                                <VisualState.StateTriggers>
+                                    
+                                    <OrientationStateTrigger Orientation="Landscape"/>
+                                    
+                                </VisualState.StateTriggers>
+                                
+                                <VisualState.Setters>
+                                    
+                                    <Setter
+                                        Property="HeightRequest"
+                                        Value="179" />
+                                    
+                                </VisualState.Setters>
+                                
+                            </VisualState>
+
+                            <VisualState Name="Portrait">
+
+                                <VisualState.StateTriggers>
+
+                                    <OrientationStateTrigger Orientation="Portrait"/>
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter
+                                        Property="HeightRequest"
+                                        Value="120" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                        
+                    </VisualStateManager.VisualStateGroups>
+                    
+                </ffimageloading:CachedImage>
 
             </pkView:PancakeView>
 

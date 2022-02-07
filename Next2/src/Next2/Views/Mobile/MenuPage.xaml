@@ -97,7 +97,7 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never"
-                    ItemsSource="{Binding Categories}">
+                    ItemsSource="{Binding CategoriesItems}">
 
                     <CollectionView.Effects>
 
@@ -125,7 +125,9 @@
                                 HasShadow="False"
                                 CornerRadius="5"
                                 Padding="4"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                xct:TouchEffect.Command="{Binding TapCategoryCommand, Source={RelativeSource AncestorType={x:Type viewModels:MenuPageViewModel}}}"
+                                xct:TouchEffect.CommandParameter="{Binding .}">
 
                                 <Label
                                     Text="{Binding Title}"
