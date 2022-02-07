@@ -7,7 +7,8 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Class="Next2.Views.Mobile.LoginPage"
-    x:DataType="viewModels:LoginPageViewModel">
+    x:DataType="viewModels:LoginPageViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
 
     <StackLayout 
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" 
@@ -97,7 +98,7 @@
                 Margin="16, 0, 16, 0"
                 CornerRadius="{OnPlatform Android='5', iOS='8'}"
                 Padding="4"
-                BorderWidth="3"
+                BorderWidth="1"
                 HeightRequest="30"
                 HasShadow="False"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -181,7 +182,7 @@
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
                         IsEnabled="False"
-                        BorderWidth="3"
+                        BorderWidth="1"
                         HasShadow="False"
                         BorderColor="{DynamicResource IndicationColor_i4}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">

@@ -7,9 +7,10 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Class="Next2.Views.Mobile.LoginPage_EmployeeId"
-    x:DataType="viewModels:LoginPage_EmployeeIdViewModel">
+    x:DataType="viewModels:LoginPage_EmployeeIdViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-        <StackLayout 
+    <StackLayout 
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i10}"
             Spacing="0" 
             Padding="0">
