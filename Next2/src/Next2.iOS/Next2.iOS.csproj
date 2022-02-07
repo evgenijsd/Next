@@ -889,4 +889,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\pic_rewards.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_checked_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_checked_white%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_checked_white%403x.png" />
+  </ItemGroup>
 </Project>

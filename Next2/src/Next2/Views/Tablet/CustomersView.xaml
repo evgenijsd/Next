@@ -21,7 +21,7 @@
 
                 <Setter Property="FontSize" Value="14" />
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i3}" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
 
                 <Setter Property="VerticalOptions" Value="Center" />
 
@@ -33,7 +33,7 @@
 
                 <Setter Property="FontSize" Value="14" />
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i1}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
 
                 <Setter Property="HorizontalOptions" Value="Center" />
 
@@ -71,7 +71,7 @@
             <Label
                 Grid.Row="0"
                 Margin="30,0,0,0"
-                FontFamily="{DynamicResource BaseContent_i2}"
+                FontFamily="Barlow-Bold"
                 FontSize="24"
                 HorizontalOptions="Start"
                 Text="{xct:Translate Customers}"
@@ -112,7 +112,7 @@
 
                                     <Label
                                         Margin="12,0,160,0"
-                                        FontFamily="{DynamicResource BaseContent_i3}"
+                                        FontFamily="Barlow-Medium"
                                         FontSize="14"
                                         Text="{xct:Translate SearchByNameOrPhone}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -281,7 +281,7 @@
                                 ScrollBarTrackColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                                 SelectionMode="Single"
-                                ThumbWidth="10"
+                                ThumbWidth="6"
                                 VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.Effects>
@@ -354,7 +354,7 @@
                                                 Style="{StaticResource ViewCellStyle}"
                                                 Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
 
-                                                    <BoxView
+                                            <BoxView
                                                 Grid.Row="1"
                                                 Grid.ColumnSpan="6"
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />

@@ -64,6 +64,7 @@ namespace Next2.ViewModels
         {
             base.OnDisappearing();
             Customers?.Clear();
+            SelectedItem = null;
         }
 
         #endregion
@@ -140,23 +141,30 @@ namespace Next2.ViewModels
         private string _sortCriterion;
         private Task SortAsync(string criterion)
         {
-            if (_sortCriterion == criterion)
+            if (SelectedItem == null && criterion == "Points")
             {
-                Customers = new (Customers.Reverse());
+                return Task.CompletedTask;
             }
             else
             {
-                _sortCriterion = criterion;
-                Func<CustomerBindableModel, object> comparer = criterion switch
+                if (_sortCriterion == criterion)
                 {
-                    "Name" => x => x.Name,
-                    "Points" => x => x.Points,
-                    "Phone" => x => x.Phone,
-                };
-                Customers = new (Customers.OrderBy(comparer));
-            }
+                    Customers = new (Customers.Reverse());
+                }
+                else
+                {
+                    _sortCriterion = criterion;
+                    Func<CustomerBindableModel, object> comparer = criterion switch
+                    {
+                        "Name" => x => x.Name,
+                        "Points" => x => x.Points,
+                        "Phone" => x => x.Phone,
+                    };
+                    Customers = new (Customers.OrderBy(comparer));
+                }
 
-            return Task.CompletedTask;
+                return Task.CompletedTask;
+            }
         }
 
         #endregion

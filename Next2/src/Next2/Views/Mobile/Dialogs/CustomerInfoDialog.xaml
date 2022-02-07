@@ -19,7 +19,7 @@
 
             <Style x:Key="HeadTextStyle" TargetType="Label">
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i3}" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
 
                 <Setter Property="FontSize" Value="12" />
 
@@ -27,7 +27,7 @@
 
             <Style x:Key="GridTextStyle" TargetType="Label">
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i3}" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
 
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
@@ -61,7 +61,7 @@
 
             <Style x:Key="ButtonTextStyle" TargetType="Label">
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i1}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
 
                 <Setter Property="FontSize" Value="14" />
 
@@ -105,7 +105,7 @@
                     <Label
                         Grid.Row="0"
                         Margin="18,0,0,0"
-                        FontFamily="{DynamicResource BaseContent_i1}"
+                        FontFamily="Barlow-SemiBold"
                         FontSize="18"
                         Text="Customer Info"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -197,7 +197,7 @@
 
                                     <Label
                                         Margin="0,12,0,0"
-                                        FontFamily="{DynamicResource BaseContent_i1}"
+                                        FontFamily="Barlow-SemiBold"
                                         FontSize="21"
                                         HorizontalOptions="Center"
                                         Text="{Binding Customer.Points}"
@@ -235,7 +235,7 @@
 
                                     <Label
                                         Margin="0,12,0,0"
-                                        FontFamily="{DynamicResource BaseContent_i2}"
+                                        FontFamily="Barlow-Bold"
                                         FontSize="29"
                                         HorizontalOptions="Center"
                                         Text="{Binding Customer.Rewards}"
@@ -260,7 +260,7 @@
 
                                     <Label
                                         Margin="0,12,0,0"
-                                        FontFamily="{DynamicResource BaseContent_i2}"
+                                        FontFamily="Barlow-Bold"
                                         FontSize="29"
                                         HorizontalOptions="Center"
                                         Text="{Binding Customer.GiftCardCount}"
@@ -285,7 +285,7 @@
 
                                     <Label
                                         Margin="0,12,0,0"
-                                        FontFamily="{DynamicResource BaseContent_i1}"
+                                        FontFamily="Barlow-SemiBold"
                                         FontSize="21"
                                         HorizontalOptions="Center"
                                         TextColor="{DynamicResource IndicationColor_i1}">

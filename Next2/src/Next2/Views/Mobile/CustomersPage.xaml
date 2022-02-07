@@ -23,7 +23,7 @@
 
                 <Setter Property="Margin" Value="12,0,0,0" />
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i4}" />
+                <Setter Property="FontFamily" Value="Barlow-Regular" />
 
                 <Setter Property="FontSize" Value="14" />
 
@@ -37,7 +37,7 @@
 
                 <Setter Property="Margin" Value="12,0,0,0" />
 
-                <Setter Property="FontFamily" Value="{DynamicResource BaseContent_i1}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
 
                 <Setter Property="FontSize" Value="14" />
 
@@ -67,7 +67,7 @@
 
                 <Label
                     Margin="12,0,0,0"
-                    FontFamily="{DynamicResource BaseContent_i2}"
+                    FontFamily="Barlow-Bold"
                     FontSize="24"
                     Text="{xct:Translate Customer}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -98,7 +98,7 @@
 
                             <Label
                                 Margin="12,0,0,0"
-                                FontFamily="{DynamicResource BaseContent_i3}"
+                                FontFamily="Barlow-Medium"
                                 Text="{xct:Translate SearchByNameOrPhone}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i7}"
                                 VerticalOptions="Center" />
@@ -266,7 +266,7 @@
                         HasShadow="False">
 
                         <Label
-                            FontFamily="{DynamicResource BaseContent_i1}"
+                            FontFamily="Barlow-SemiBold"
                             FontSize="18"
                             HorizontalOptions="Center"
                             Text="{xct:Translate AddNew}"
