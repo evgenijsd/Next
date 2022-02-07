@@ -27,7 +27,7 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
-        public ObservableCollection<MemberBindableModel> Members { get; set; }
+        public ObservableCollection<MemberBindableModel> Members { get; set; } = new ();
 
         public bool IsMembersRefreshing { get; set; }
 
