@@ -330,19 +330,8 @@
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}">
-
-                                                <Label.FormattedText>
-
-                                                    <FormattedString>
-
-                                                        <Span Text="{Binding Points, StringFormat='{0:D} pt'}" />
-
-                                                    </FormattedString>
-
-                                                </Label.FormattedText>
-
-                                            </Label>
+                                                Style="{StaticResource ViewCellStyle}"
+                                                Text="{Binding Points, StringFormat='{0:D} pt'}" />
 
                                             <Label
                                                 Grid.Row="0"
@@ -362,21 +351,10 @@
                                                 Grid.Row="0"
                                                 Grid.Column="5"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}">
+                                                Style="{StaticResource ViewCellStyle}"
+                                                Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
 
-                                                <Label.FormattedText>
-
-                                                    <FormattedString>
-
-                                                        <Span Text="{Binding GiftCardTotal, StringFormat='{0:C}'}" />
-
-                                                    </FormattedString>
-
-                                                </Label.FormattedText>
-
-                                            </Label>
-
-                                            <BoxView
+                                                    <BoxView
                                                 Grid.Row="1"
                                                 Grid.ColumnSpan="6"
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
@@ -389,7 +367,7 @@
 
                                                         <VisualState.Setters>
 
-                                                            <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_checked_primary_24x24" />
+                                                            <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_checked_white" />
 
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
 
