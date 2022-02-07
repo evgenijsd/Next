@@ -1,21 +1,19 @@
 ﻿using Next2.Resources.Strings;
+using Next2.Services.Menu;
+using Next2.Services.MockService;
 using Next2.ViewModels;
-using MobileViews = Next2.Views.Mobile;
-using TabletViews = Next2.Views.Tablet;
-using MobileViewModels = Next2.ViewModels.Mobile;
-using TabletViewModels = Next2.ViewModels.Tablet;
+using Next2.ViewModels.Tablet;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
-using Next2.Services.MockService;
-using Next2.ViewModels.Tablet;
-using Next2.Services.Menu;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using MobileViews = Next2.Views.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
+using TabletViews = Next2.Views.Tablet;
 
 namespace Next2
 {
@@ -36,6 +34,10 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Dialogs
+            containerRegistry.RegisterPopupNavigationService();
+            containerRegistry.RegisterPopupDialogService();
+
             //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();

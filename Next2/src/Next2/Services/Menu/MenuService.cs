@@ -27,7 +27,7 @@ namespace Next2.Services.Menu
             {
                 var categories = await _mockService.GetAllAsync<CategoryModel>();
 
-                if (categories != null)
+                if (categories is not null)
                 {
                     result.SetSuccess(categories);
                 }
@@ -52,7 +52,7 @@ namespace Next2.Services.Menu
             {
                 var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
 
-                if (subcategories != null)
+                if (subcategories is not null)
                 {
                     result.SetSuccess(subcategories);
                 }
@@ -69,7 +69,7 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId = 0)
+        public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId)
         {
             var result = new AOResult<IEnumerable<SetModel>>();
 
@@ -88,7 +88,7 @@ namespace Next2.Services.Menu
                     sets = await _mockService.GetAsync<SetModel>(row => row.SubcategoryId == subcategoryId);
                 }
 
-                if (sets != null)
+                if (sets is not null)
                 {
                     result.SetSuccess(sets);
                 }

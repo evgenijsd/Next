@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Controls.Templates.SetItemTemplate"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+    BorderColor="{DynamicResource TextAndBackgroundColor_i6}"
+    HasShadow="False"
+    CornerRadius="0"
+    Padding="1">
+    
+    <Frame
+        HasShadow="False"
+        CornerRadius="10"
+        BorderColor="Transparent"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        Padding="15">
+
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroup Name="CommonStates">
+
+                <VisualState Name="Selected">
+
+                    <VisualState.Setters>
+
+                        <Setter
+                            Property="BackgroundColor"
+                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
+
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
+
+        <StackLayout>
+
+            <pkView:PancakeView CornerRadius="10">
+
+                <ffimageloading:CachedImage
+                    HeightRequest="179"
+                    Aspect="AspectFill"
+                    Source="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.ImagePath}"/>
+
+            </pkView:PancakeView>
+
+            <Label
+                Text="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.Title}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i6}"
+                FontFamily="Barlow-Medium"
+                LineBreakMode="TailTruncation"
+                MaxLines="1"
+                Margin="0, 10"/>
+
+            <Label
+                Text="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.Price}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                Margin="0, 10"/>
+
+        </StackLayout>
+
+    </Frame>
+    
+</Frame>

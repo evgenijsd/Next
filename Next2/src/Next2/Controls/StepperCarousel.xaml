@@ -32,10 +32,11 @@
         HorizontalOptions="StartAndExpand"
         HeightRequest="100"
         x:Name="collectionView"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
-        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}">
+        SelectionMode="Single"
+        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
+        SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}">
 
         <CollectionView.Effects>
             
@@ -58,7 +59,9 @@
                 Orientation="Horizontal"
                 Span="2"
                 SnapPointsType="Mandatory" 
-                SnapPointsAlignment="Start"/>
+                SnapPointsAlignment="Start"
+                VerticalItemSpacing="5"
+                HorizontalItemSpacing="5"/>
 
         </CollectionView.ItemsLayout>
 
@@ -66,19 +69,13 @@
 
             <DataTemplate x:DataType="models:CategoryModel">
 
-                <ContentView Padding="5">
+                <templates:CategoryItemTemplate
+                    Text="{Binding Title}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    WidthRequest="{OnPlatform Android='135', iOS='158'}">
 
-                    <templates:CategoryItemTemplate
-                        WidthRequest="135"
-                        HeightRequest="45"
-                        HasShadow="False"
-                        CornerRadius="10"
-                        Padding="5"
-                        State="{Binding Id}"
-                        BindableState="{Binding SelectedItemIndex, Source={x:Reference stepperCarousel}}"
-                        Text="{Binding Title}"/>
-
-                </ContentView>
+                </templates:CategoryItemTemplate>
 
             </DataTemplate>
 

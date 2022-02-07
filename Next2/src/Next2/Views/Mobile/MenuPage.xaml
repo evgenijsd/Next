@@ -109,7 +109,9 @@
 
                         <GridItemsLayout
                             Orientation="Vertical"
-                            Span="2"/>
+                            Span="2"
+                            VerticalItemSpacing="2"
+                            HorizontalItemSpacing="2"/>
 
                     </CollectionView.ItemsLayout>
 
@@ -117,29 +119,25 @@
 
                         <DataTemplate x:DataType="models:CategoryModel">
 
-                            <ContentView
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                                Padding="2">
+                            <Frame
+                                WidthRequest="162"
+                                HeightRequest="55"
+                                HasShadow="False"
+                                CornerRadius="5"
+                                Padding="4"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                                <Frame
-                                    WidthRequest="162"
-                                    HeightRequest="55"
-                                    HasShadow="False"
-                                    CornerRadius="5"
-                                    Padding="4"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                <Label
+                                    Text="{Binding Title}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    Style="{DynamicResource BaseContent_i1}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"/>
 
-                                    <Label
-                                        Text="{Binding Title}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        Style="{DynamicResource BaseContent_i1}"
-                                        HorizontalTextAlignment="Center"
-                                        VerticalTextAlignment="Center"/>
-
-                                </Frame>
-
-                            </ContentView>
+                            </Frame>
 
                         </DataTemplate>
 

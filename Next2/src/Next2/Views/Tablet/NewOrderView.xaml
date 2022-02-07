@@ -2,6 +2,7 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
@@ -10,8 +11,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     x:Class="Next2.Views.Tablet.NewOrderView"
-    x:DataType="viewModels:NewOrderViewModel"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit">
+    x:DataType="viewModels:NewOrderViewModel">
 
     <Grid
         ColumnSpacing="0"
@@ -91,11 +91,11 @@
                             <ffimageloading:CachedImage Source="ic_category_24x24"/>
 
                             <Label
-                                Text="Expand"
+                                Text="{xct:Translate Expand}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i6}"
-                                FontFamily="Barlow-SemiBold"
-                                VerticalTextAlignment="Center"/>
+                                FontSize="{DynamicResource TSize_i7}"
+                                FontFamily="Barlow-Medium"
+                                Margin="10, 0, 0, 0"/>
 
                         </StackLayout>
 
@@ -103,12 +103,11 @@
 
                 </StackLayout>
 
-                
                 <controls:StepperCarousel
                     HeightRequest="100"
                     Margin="20, 0"
                     ItemsSource="{Binding CategoriesItems}"
-                    SelectedItemIndex="{Binding SelectedCategoryItemIndex}"/>
+                    SelectedItem="{Binding SelectedCategoriesItem}"/>
 
                 <BoxView
                     Margin="20"
@@ -138,7 +137,8 @@
                     BorderColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                     Padding="5"
-                    HorizontalOptions="EndAndExpand">
+                    HorizontalOptions="EndAndExpand"
+                    xct:TouchEffect.Command="{Binding TapSortCommand}">
 
                     <StackLayout Orientation="Horizontal">
 
@@ -147,9 +147,9 @@
                         <Label
                             Text="{xct:Translate TypeOrder}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i6}"
-                            FontFamily="Barlow-SemiBold"
-                            VerticalTextAlignment="Center"/>
+                            FontSize="{DynamicResource TSize_i7}"
+                            FontFamily="Barlow-Medium"
+                            Margin="10, 0, 0, 0"/>
 
                     </StackLayout>
 
@@ -163,7 +163,6 @@
                 Margin="20, 20, 20, 0"
                 VerticalOptions="StartAndExpand"
                 ItemsSource="{Binding SetsItems}"
-                SelectedItem="{Binding SelectedSetsItem}"
                 VerticalScrollBarVisibility="Always"
                 SelectionMode="Single">
 
@@ -186,67 +185,13 @@
 
                 <CollectionView.ItemTemplate>
 
-                    <DataTemplate x:DataType="models:SetModel">
-                        
-                        <Frame
-                            HasShadow="False"
-                            CornerRadius="10"
-                            BorderColor="Transparent"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            Padding="15">
-                            
-                            <VisualStateManager.VisualStateGroups>
+                    <DataTemplate
+                        x:DataType="models:SetModel">
 
-                                <VisualStateGroup Name="CommonStates">
-
-                                    <VisualState Name="Selected">
-
-                                        <VisualState.Setters>
-
-                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-
-                            </VisualStateManager.VisualStateGroups>
-                            
-                            <StackLayout>
-
-                                <Frame
-                                    HasShadow="False"
-                                    CornerRadius="10"
-                                    Padding="0"
-                                    IsClippedToBounds="True"
-                                    BorderColor="Transparent"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
-
-                                    <ffimageloading:CachedImage
-                                        WidthRequest="210"
-                                        HeightRequest="179"
-                                        Aspect="AspectFit"
-                                        Source="{Binding ImagePath}"/>
-
-                                </Frame>
-
-                                <Label
-                                    Text="{Binding Title}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i6}"
-                                    FontFamily="Barlow-Medium"/>
-
-                                <Label
-                                    Text="{Binding Price}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    FontSize="{DynamicResource TSize_i5}"
-                                    FontFamily="Barlow-SemiBold"
-                                    Margin="0, 10"/>
-
-                            </StackLayout>
-
-                        </Frame>
+                        <templates:SetItemTemplate
+                            SourceSet="{Binding .}"
+                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                            xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                     </DataTemplate>
 
@@ -255,24 +200,46 @@
             </CollectionView>
 
             <!--Tabs Subcategories Menu-->
-            
-            <controls:TabsControl
+
+            <CollectionView
+                HeightRequest="60"
                 VerticalOptions="End"
-                Direction="Row"
                 ItemsSource="{Binding SubcategoriesItems}"
-                SelectedItem="{Binding SelectedSubcategoryItemIndex}">
+                SelectedItem="{Binding SelectedSubcategoriesItem}"
+                VerticalScrollBarVisibility="Never"
+                SelectionMode="Single">
 
-                <DataTemplate x:DataType="models:SubcategoryModel">
+                <CollectionView.Effects>
 
-                    <templates:SubCategoryItemTemplate
-                        WidthRequest="155"
-                        Text="{Binding Title}"
-                        FontSize="{DynamicResource TSize_i6}"
-                        FontFamily="Barlow-Medium"/>
+                    <effects:NoOverScrollEffect/>
 
-                </DataTemplate>
+                </CollectionView.Effects>
 
-            </controls:TabsControl>
+                <CollectionView.ItemsLayout>
+
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="5"
+                        VerticalItemSpacing="1"
+                        HorizontalItemSpacing="0"/>
+
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+
+                    <DataTemplate x:DataType="models:SubcategoryModel">
+
+                        <templates:SubCategoryItemTemplate
+                            HeightRequest="60"
+                            Text="{Binding Title}"
+                            FontSize="{DynamicResource TSize_i6}"
+                            FontFamily="Barlow-Medium"/>
+
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
         </StackLayout>
 
@@ -305,16 +272,6 @@
                     <Label
                         Text="Order #53642"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                </StackLayout>
-
-                <!--Second line-->
-                <StackLayout
-                    IsClippedToBounds="False"
-                    Orientation="Horizontal">
-
-                    <!--dropdown-->
-                    <Label Text="eerr"/>
 
                 </StackLayout>
 
@@ -378,61 +335,6 @@
                     CornerRadius="4"/>
 
             </StackLayout>
-
-            <Frame
-                CornerRadius="5"
-                HasShadow="True"
-                BorderColor="Transparent"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                Grid.Row="0"
-                Grid.Column="0"
-                Padding="5"
-                WidthRequest="100"
-                Margin="250, 10, 30, -30"
-                HeightRequest="100">
-
-                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                    <Label
-                        Text="Table 1"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
-
-                    <BoxView
-                        Color="{DynamicResource TextAndBackgroundColor_i6}"
-                        HeightRequest="1"/>
-
-                    <Label
-                        Text="Table 2"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                    <BoxView
-                        Color="{DynamicResource TextAndBackgroundColor_i6}"
-                        HeightRequest="1"/>
-
-                    <Label
-                        Text="Table 3"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                    <BoxView
-                        Color="{DynamicResource TextAndBackgroundColor_i6}"
-                        HeightRequest="1"/>
-
-                    <Label
-                        Text="Table 4"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                    <BoxView
-                        Color="{DynamicResource TextAndBackgroundColor_i6}"
-                        HeightRequest="1"/>
-
-                    <Label
-                        Text="Table 5"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                </StackLayout>
-
-            </Frame>
 
         </Grid>
 

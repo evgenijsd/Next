@@ -1,11 +1,7 @@
-﻿using Next2.Controls.Templates;
-using Next2.Interfaces;
-using System;
+﻿using Next2.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.Effects;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -34,16 +30,16 @@ namespace Next2.Controls
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public static readonly BindableProperty SelectedItemIndexProperty = BindableProperty.Create(
-            propertyName: nameof(SelectedItemIndex),
-            returnType: typeof(int),
+        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedItem),
+            returnType: typeof(IEntityModel),
             declaringType: typeof(StepperCarousel),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int SelectedItemIndex
+        public IEntityModel SelectedItem
         {
-            get => (int)GetValue(SelectedItemIndexProperty);
-            set => SetValue(SelectedItemIndexProperty, value);
+            get => (IEntityModel)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         public ICommand TapLeftButtonCommand => new AsyncCommand(OnTapLeftButtonCommandAsync);
