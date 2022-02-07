@@ -16,6 +16,8 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Next2.ViewModels.Tablet;
+using Next2.Services.Mock;
+using Next2.Services.Order;
 
 namespace Next2
 {
@@ -39,6 +41,7 @@ namespace Next2
             // Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+            containerRegistry.RegisterSingleton<IOrderService, NewOrderService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -46,6 +49,7 @@ namespace Next2
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.NewOrderPage, NewOrderViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();

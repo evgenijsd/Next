@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Membership;
+using Next2.Services.Order;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Prism.Navigation;
@@ -13,10 +14,11 @@ namespace Next2.ViewModels
     {
         public MenuPageViewModel(
             INavigationService navigationService,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            IOrderService orderService)
             : base(navigationService)
         {
-            NewOrderViewModel = new NewOrderViewModel(navigationService);
+            NewOrderViewModel = new NewOrderViewModel(navigationService, orderService);
             HoldItemsViewModel = new HoldItemsViewModel(navigationService);
             OrderTabsViewModel = new OrderTabsViewModel(navigationService);
             ReservationsViewModel = new ReservationsViewModel(navigationService);

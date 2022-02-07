@@ -117,10 +117,7 @@
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="Views\Mobile\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -145,6 +142,9 @@
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\NewOrderPage.xaml.cs">
+      <DependentUpon>NewOrderPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
@@ -154,6 +154,9 @@
     <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\MembershipView.xaml.cs">
+      <DependentUpon>MembershipView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
     </Compile>
@@ -162,9 +165,6 @@
     </Compile>
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Tablet\NewOrderView.xaml.cs">
-      <DependentUpon>NewOrderView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
@@ -176,6 +176,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\NewOrderPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OrderView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\MembershipPage.xaml">

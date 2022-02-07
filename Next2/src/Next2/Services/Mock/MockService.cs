@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 using Next2.Models;
 using System;
 using System.Collections.Generic;
@@ -6,12 +7,14 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services
+namespace Next2.Services.Mock
 {
     public class MockService : IMockService
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
 
+        private IList<TableModel> _tables;
+        private IList<OrderModel> _orders;
         private IList<MemberModel> _members;
 
         private Dictionary<Type, object> _base;
@@ -146,7 +149,10 @@ namespace Next2.Services
             {
                 _base = new Dictionary<Type, object>();
 
-                await Task.WhenAll(InitMembers());
+                await Task.WhenAll(
+                    InitOrders(),
+                    InitTables(),
+                    InitMembers());
 
                 _initCompletionSource.TrySetResult(true);
             }
@@ -155,9 +161,122 @@ namespace Next2.Services
             }
         }
 
+        private Task InitOrders() => Task.Run(() =>
+        {
+            _orders = new List<OrderModel>
+            {
+                new OrderModel
+                {
+                    Id = 1,
+                    Ordertype = EOrderType.DineIn,
+                    Total = 125,
+                },
+                new OrderModel
+                {
+                    Id = 2,
+                    Ordertype = EOrderType.DineIn,
+                    Total = 50,
+                },
+                new OrderModel
+                {
+                    Id = 3,
+                    Ordertype = EOrderType.DineIn,
+                    Total = 200,
+                },
+                new OrderModel
+                {
+                    Id = 4,
+                    Ordertype = EOrderType.DineIn,
+                    Total = 300,
+                },
+                new OrderModel
+                {
+                    Id = 5,
+                    Ordertype = EOrderType.DineIn,
+                    Total = 270,
+                },
+                new OrderModel
+                {
+                    Id = 6,
+                    Ordertype = EOrderType.DineIn,
+                    Total = 215,
+                },
+            };
+
+            _base.Add(typeof(OrderModel), _orders);
+        });
+
+        private Task InitTables() => Task.Run(() =>
+        {
+            _tables = new List<TableModel>
+            {
+                 new TableModel
+                 {
+                     Id = 1,
+                     NumberOfSeats = 4,
+                     NumberOfAvailableSeats = 4,
+                 },
+                 new TableModel
+                 {
+                     Id = 2,
+                     NumberOfSeats = 4,
+                     NumberOfAvailableSeats = 2,
+                 },
+                 new TableModel
+                 {
+                     Id = 3,
+                     NumberOfSeats = 6,
+                     NumberOfAvailableSeats = 6,
+                 },
+                 new TableModel
+                 {
+                     Id = 4,
+                     NumberOfSeats = 6,
+                     NumberOfAvailableSeats = 3,
+                 },
+                 new TableModel
+                 {
+                     Id = 5,
+                     NumberOfSeats = 8,
+                     NumberOfAvailableSeats = 8,
+                 },
+                 new TableModel
+                 {
+                     Id = 6,
+                     NumberOfSeats = 8,
+                     NumberOfAvailableSeats = 0,
+                 },
+                 new TableModel
+                 {
+                     Id = 7,
+                     NumberOfSeats = 10,
+                     NumberOfAvailableSeats = 10,
+                 },
+                 new TableModel
+                 {
+                     Id = 8,
+                     NumberOfSeats = 10,
+                     NumberOfAvailableSeats = 4,
+                 },
+                 new TableModel
+                 {
+                     Id = 9,
+                     NumberOfSeats = 2,
+                     NumberOfAvailableSeats = 2,
+                 },
+                 new TableModel
+                 {
+                     Id = 10,
+                     NumberOfSeats = 2,
+                     NumberOfAvailableSeats = 0,
+                 },
+            };
+
+            _base.Add(typeof(TableModel), _tables);
+        });
+
         private Task InitMembers() => Task.Run(() =>
         {
-            _members = new List<MemberModel>();
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
 
             _members = new List<MemberModel>

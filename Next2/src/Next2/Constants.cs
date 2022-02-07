@@ -6,6 +6,8 @@
 
         public const int SERVER_RESPONCE_DELAY = 1000;
 
+        public const float TAX_PERCENTAGE = 20;
+
         public const string DEFAULT_CULTURE = "en-US";
 
 #if RELEASE

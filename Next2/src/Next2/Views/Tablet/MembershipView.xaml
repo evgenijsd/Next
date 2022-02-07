@@ -9,7 +9,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
     x:DataType="tablet:MembershipViewModel"
-    x:Class="Next2.Views.Tablet.MembershipPage">
+    x:Class="Next2.Views.Tablet.MembershipView">
 
     <Grid 
         RowDefinitions="auto, auto, *"

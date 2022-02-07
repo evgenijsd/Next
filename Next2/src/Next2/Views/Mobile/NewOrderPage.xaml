@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
+    x:Class="Next2.Views.Mobile.NewOrderPage"
+    x:DataType="viewModels:NewOrderViewModel">
+
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+        <!-- HEADER -->
+        <StackLayout
+            Orientation="Horizontal"
+            Padding="20"
+            Spacing="20"
+            xct:TouchEffect.Command="{prism:GoBack}">
+
+            <ffimageloading:CachedImage
+                Margin="0, 5, 0, 0"
+                VerticalOptions="Center"
+                Source="ic_arrow_left_tail_24x24.png"/>
+
+            <Label 
+                VerticalOptions="Center"
+                FontSize="24"
+                FontFamily="Barlow-Bold"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{Binding NewOrder.Id, StringFormat='Order #{0}'}"/>
+
+            <StackLayout 
+                Orientation="Horizontal"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="Center">
+
+                <Label
+                    VerticalOptions="Center"
+                    Text="{xct:Translate DineIn}"/>
+
+                <ffimageloading:CachedImage Source="ic_arrow_down_32x32"/>
+
+            </StackLayout>
+            
+        </StackLayout>
+
+        <CollectionView Background="gray">
+
+        </CollectionView>
+
+        
+        <!-- FOOTER -->
+
+        <StackLayout >
+
+            <!-- SUMMARY -->
+            <StackLayout Orientation="Horizontal">
+
+                <Label                 
+                    VerticalOptions="Center"
+                    FontSize="24"
+                    FontFamily="Barlow-Bold"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Text="{xct:Translate Summary}"/> 
+
+                <ffimageloading:CachedImage
+                    HorizontalOptions="EndAndExpand"
+                    Source="ic_time_circle_40x40"/>
+
+                <ffimageloading:CachedImage
+                    Source="ic_time_circle_40x40"/>
+
+                <ffimageloading:CachedImage
+                    Source="ic_time_circle_40x40"/>
+
+            </StackLayout>
+            
+            <!-- BUTTONS -->
+            <StackLayout Orientation="Horizontal"
+                     Margin="13, 7"
+                     Spacing="4">
+
+                <Button Text="Order"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Button Text="Tab"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Button Text="Pay"
+                    HorizontalOptions="FillAndExpand"/>
+
+            </StackLayout>
+
+        </StackLayout>
+        
+    </StackLayout>
+    
+</views:BaseContentPage>

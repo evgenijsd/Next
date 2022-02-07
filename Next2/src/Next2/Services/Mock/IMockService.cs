@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Next2.Services
+namespace Next2.Services.Mock
 {
     public interface IMockService
     {

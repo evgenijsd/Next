@@ -8,6 +8,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -172,6 +175,9 @@ namespace Next2.ViewModels.Mobile
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
+        private ICommand _openNewOrderPageCommand;
+        public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -206,6 +212,15 @@ namespace Next2.ViewModels.Mobile
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region -- Private helperes --
+
+        private Task OnOpenNewOrderPageCommandAsync()
+        {
+            return _navigationService.NavigateAsync(nameof(NewOrderPage));
         }
 
         #endregion
