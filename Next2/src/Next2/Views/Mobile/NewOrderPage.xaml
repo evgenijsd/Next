@@ -5,96 +5,325 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:controls="clr-namespace:Next2.Controls"
     x:Class="Next2.Views.Mobile.NewOrderPage"
     x:DataType="viewModels:NewOrderViewModel">
 
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    <ContentView>
 
-        <!-- HEADER -->
-        <StackLayout
-            Orientation="Horizontal"
-            Padding="20"
-            Spacing="20"
-            xct:TouchEffect.Command="{prism:GoBack}">
+        <ContentView.Resources>
 
-            <ffimageloading:CachedImage
-                Margin="0, 5, 0, 0"
-                VerticalOptions="Center"
-                Source="ic_arrow_left_tail_24x24.png"/>
+            <Style TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            </Style>
 
-            <Label 
-                VerticalOptions="Center"
-                FontSize="24"
-                FontFamily="Barlow-Bold"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Text="{Binding NewOrder.Id, StringFormat='Order #{0}'}"/>
+            <!-- Bold (700) 32px -->
+            <Style x:Key="Bold32pxStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Bold"/>
+                <Setter Property="FontSize" Value="22"/>
+            </Style>
 
+            <!-- SemiBold (600) 32px -->
+            <Style x:Key="SemiBold32pxStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                <Setter Property="FontSize" Value="32"/>
+            </Style>
+            
+            <!-- SemiBold (600) 24px -->
+            <Style x:Key="SemiBold24pxStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            
+             <!-- Regular (400) 32px -->
+            <Style x:Key="Regular32pxStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Regular"/>
+                <Setter Property="FontSize" Value="22"/>
+            </Style>
+
+            <Style x:Key="SeparatorLightStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+                <Setter Property="HeightRequest" Value="1"/>
+            </Style>
+            
+            <Style x:Key="SeparatorDarkStyle" TargetType="BoxView">
+                <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+                <Setter Property="HeightRequest" Value="1"/>
+            </Style>
+
+            <Style TargetType="ffimageloading:CachedImage">
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+            
+        </ContentView.Resources>
+
+        <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <!-- HEADER, 1 ROW -->
+            <StackLayout
+                Padding="20"
+                Orientation="Horizontal"
+                Spacing="20">
+
+                <ffimageloading:CachedImage
+                    Margin="0, 3, 0, 0"
+                    Source="ic_arrow_left_tail_24x24.png"
+                    xct:TouchEffect.Command="{prism:GoBack}"/>
+
+                <Label Style="{DynamicResource Bold32pxStyle}">
+
+                    <Label.FormattedText>
+
+                        <FormattedString>
+                            
+                            <Span Text="{xct:Translate Order, StringFormat='{0} #'}"/>
+                            <Span Text="{Binding NewOrder.Id}"/>
+                            
+                        </FormattedString>
+
+                    </Label.FormattedText>
+                    
+                </Label>
+
+                <!-- REPLACE TO DROPDOWN CONTROL !!! -->
+                <Button
+                    HorizontalOptions="EndAndExpand"
+                    Text="DropDown" />
+
+            </StackLayout>
+
+            <!-- HEADER, 2 ROW -->
             <StackLayout 
                 Orientation="Horizontal"
-                HorizontalOptions="EndAndExpand"
-                VerticalOptions="Center">
+                Padding="20, 12">
 
-                <Label
+                <!-- REPLACE TO DROPDOWN CONTROL !!! -->
+                <Button
                     VerticalOptions="Center"
-                    Text="{xct:Translate DineIn}"/>
+                    Text="DropDown" />
 
-                <ffimageloading:CachedImage Source="ic_arrow_down_32x32"/>
+                <!-- STEPPER CONTROL -->
+                <!--<StackLayout
+                    Orientation="Horizontal"
+                    HorizontalOptions="EndAndExpand"
+                    Spacing="15">
+
+                    <Label
+                        Style="{DynamicResource Bold32pxStyle}"
+                        Text="{xct:Translate Seats}" />
+
+                    <ffimageloading:CachedImage
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        Source="ic_minus_primary_32x32" />
+
+                    <Label
+                        Style="{DynamicResource Bold32pxStyle}"
+                        Text="{Binding NumberOfSeats}" />
+
+                    <ffimageloading:CachedImage
+                        WidthRequest="32"
+                        HeightRequest="32"
+                        Source="ic_plus_primary_32x32" />
+
+                </StackLayout>-->
+
+                <!--DecrementIconSource="{DynamicResource ic_minus_primary_32x32}"
+                    IncrementIconSource="{DynamicResource ic_plus_primary_32x32}"-->
+
+                <controls:CustomStepper
+                    DecrementIconSource="ic_minus_primary_32x32"
+                    IncrementIconSource="ic_plus_primary_32x32"
+                    IconSizes="32"
+                    Spacing="15"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-Bold"
+                    FontSize="24"
+                    ValueFormat="/{0}%/"
+                    Text="Seats"
+                    Value="{Binding NumberOfSeats}"
+                    IncrementValue="1"
+                    MinValue="1"
+                    MaxValue="10"
+                    />
 
             </StackLayout>
-            
-        </StackLayout>
 
-        <CollectionView Background="gray">
+            <BoxView Style="{DynamicResource SeparatorLightStyle}"/>
 
-        </CollectionView>
+            <!-- MEALS LIST -->
+            <CollectionView 
+                Background="{DynamicResource TextAndBackgroundColor_i5}"
+                ItemsSource="{Binding Tables}">
 
-        
-        <!-- FOOTER -->
+                <CollectionView.Effects>
 
-        <StackLayout >
+                    <effects:NoOverScrollEffect />
+
+                </CollectionView.Effects>
+
+                <CollectionView.ItemTemplate>
+                    
+                    <DataTemplate>
+                        
+                        <StackLayout>
+
+                            <StackLayout Orientation="Horizontal"
+                                         Padding="20"
+                                         x:DataType="models:TableBindableModel">
+
+                                <Label HorizontalOptions="FillAndExpand" 
+                                       Text="{Binding Id}"/>
+
+                                <Label
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding NumberOfSeats}"/>
+
+                                <Label
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding NumberOfAvailableSeats}"/>
+
+                            </StackLayout>
+
+                            <BoxView Style="{DynamicResource SeparatorLightStyle}" />
+
+                        </StackLayout>
+
+                    </DataTemplate>
+                    
+                </CollectionView.ItemTemplate>
+                
+            </CollectionView>
+
+            <BoxView Style="{DynamicResource SeparatorLightStyle}" />
 
             <!-- SUMMARY -->
-            <StackLayout Orientation="Horizontal">
+            <StackLayout>
 
-                <Label                 
-                    VerticalOptions="Center"
-                    FontSize="24"
-                    FontFamily="Barlow-Bold"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Text="{xct:Translate Summary}"/> 
+                <!-- SUMMARY HEADER -->
+                <StackLayout
+                    Padding="15, 8"
+                    Orientation="Horizontal">
 
-                <ffimageloading:CachedImage
-                    HorizontalOptions="EndAndExpand"
-                    Source="ic_time_circle_40x40"/>
+                    <Label
+                        Style="{DynamicResource Bold32pxStyle}"
+                        Text="{xct:Translate Summary}" />
 
-                <ffimageloading:CachedImage
-                    Source="ic_time_circle_40x40"/>
+                    <ffimageloading:CachedImage
+                        HeightRequest="40"
+                        HorizontalOptions="EndAndExpand"
+                        Source="ic_time_circle_40x40" />
 
-                <ffimageloading:CachedImage
-                    Source="ic_time_circle_40x40"/>
+                    <ffimageloading:CachedImage
+                        HeightRequest="40"
+                        Source="ic_discount_48x48" />
+
+                    <ffimageloading:CachedImage
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        Source="ic_tax">
+                        
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            
+                            <TapGestureRecognizer Command="{Binding RemoveTaxFromOrderCommand}"/>
+                            
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                        
+                        <ffimageloading:CachedImage.Triggers>
+                            
+                            <DataTrigger 
+                                TargetType="ffimageloading:CachedImage"
+                                Binding="{Binding IsOrderWithTax}"
+                                Value="false">
+                                
+                                <Setter Property="WidthRequest" Value="0"/>
+                                
+                            </DataTrigger>
+                            
+                        </ffimageloading:CachedImage.Triggers>
+                        
+                    </ffimageloading:CachedImage>
+
+                </StackLayout>
+
+                <BoxView Style="{DynamicResource SeparatorDarkStyle}"/>
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Padding="13, 7">
+
+                    <Label
+                        Style="{DynamicResource SemiBold24pxStyle}"
+                        Text="{xct:Translate Subtotal}" />
+
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding SubTotal}" />
+
+                </StackLayout>
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Padding="13, 7">
+
+                    <Label
+                        Style="{DynamicResource SemiBold24pxStyle}"
+                        Text="{xct:Translate Tax}"/>
+                    
+                    <Label
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding Tax}" />
+
+                </StackLayout>
+
+                <BoxView
+                    Margin="13, 0"
+                    Color="{DynamicResource TextAndBackgroundColor_i2}"
+                    HeightRequest="1" />
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Padding="13, 7">
+
+                    <Label
+                        Style="{DynamicResource Regular32pxStyle}"
+                        Text="{xct:Translate Total}" />
+
+                    <Label
+                        Style="{DynamicResource Bold32pxStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding Total}" />
+
+                </StackLayout>
 
             </StackLayout>
-            
+
             <!-- BUTTONS -->
-            <StackLayout Orientation="Horizontal"
-                     Margin="13, 7"
-                     Spacing="4">
+            <StackLayout
+                Padding="13, 7"
+                Orientation="Horizontal">
 
-                <Button Text="Order"
-                    HorizontalOptions="FillAndExpand"/>
+                <Button
+                    Text="Order"
+                    HorizontalOptions="FillAndExpand" />
 
-                <Button Text="Tab"
-                    HorizontalOptions="FillAndExpand"/>
+                <Button
+                    Text="Tab"
+                    HorizontalOptions="FillAndExpand" />
 
-                <Button Text="Pay"
-                    HorizontalOptions="FillAndExpand"/>
+                <Button
+                    Text="Pay"
+                    HorizontalOptions="FillAndExpand" />
 
             </StackLayout>
 
         </StackLayout>
-        
-    </StackLayout>
+
+    </ContentView>
     
 </views:BaseContentPage>

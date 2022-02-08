@@ -51,5 +51,6 @@
 
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
+    <converters:ValueToFormattedStringConverter x:Key="valueToFormattedStringConverter"/>
 
 </ResourceDictionary>
