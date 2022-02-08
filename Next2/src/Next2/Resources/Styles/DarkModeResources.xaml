@@ -37,7 +37,7 @@
 
     <Color x:Key="TextAndBackgroundColor_i9">#757785</Color>
     
-    <Color x:Key="TextAndBackgroundColor_i10">#252836</Color> 
+    <!--<Color x:Key="TextAndBackgroundColor_i10">#252836</Color>--> 
 
 
 

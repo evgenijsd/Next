@@ -79,7 +79,7 @@
             Orientation="Vertical"
             VerticalOptions="FillAndExpand"
             Padding="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i10}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
             
             <Image 
                 Source="pic_logo_rectangular"

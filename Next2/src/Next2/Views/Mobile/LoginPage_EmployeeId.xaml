@@ -11,7 +11,7 @@
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <StackLayout 
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i10}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
             Spacing="0" 
             Padding="0">
             
@@ -57,6 +57,8 @@
 
                 <controls:CustomEntry 
                     x:Name="customEntry"
+                    ReturnType="Done"
+                    ReturnCommand="{Binding GoBackCommand}"
                     Placeholder="{xct:Translate TypeEmployeeId}"
                     VerticalTextAlignment="Center"
                     Keyboard="Numeric"
