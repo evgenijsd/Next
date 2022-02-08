@@ -56,13 +56,11 @@ namespace Next2.ViewModels
 
         public override async void OnAppearing()
         {
-            base.OnAppearing();
             await RefreshAsync();
         }
 
         public override void OnDisappearing()
         {
-            base.OnDisappearing();
             Customers?.Clear();
             SelectedItem = null;
         }

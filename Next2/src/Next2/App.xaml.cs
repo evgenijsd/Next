@@ -91,9 +91,9 @@ namespace Next2
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
                 await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
             }

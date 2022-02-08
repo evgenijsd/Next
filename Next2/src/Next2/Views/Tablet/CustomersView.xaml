@@ -297,7 +297,7 @@
                                         <Grid ColumnDefinitions="0.325*,*" HeightRequest="45">
                                             <Grid.RowDefinitions>
 
-                                                <RowDefinition Height="{OnPlatform Android=*, iOS=*}" />
+                                                <RowDefinition Height="*" />
 
                                                 <RowDefinition Height="{OnPlatform Android=1.5, iOS=2}" />
 
@@ -438,10 +438,6 @@
                         </DataTrigger>
 
                     </Frame.Triggers>
-
-                    <!--<Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Command}" />
-                        </Frame.GestureRecognizers>-->
 
                 </Frame>
 
