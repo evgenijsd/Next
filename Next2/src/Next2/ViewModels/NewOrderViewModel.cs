@@ -35,16 +35,13 @@ namespace Next2.ViewModels
 
         public int NumberOfSeats { get; set; } = 1;
 
-        // сомнительное свойство
-        public bool IsAnyDishSelected { get; set; } = false;
-
         public bool IsOrderWithTax { get; set; } = true;
 
-        public float Tax { get; set; }
+        public float Tax { get; set; } = 3;
 
-        public float SubTotal { get; set; }
+        public float SubTotal { get; set; } = 24;
 
-        public float Total { get; set; }
+        public float Total { get; set; } = 27;
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
@@ -72,7 +69,9 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            await InitData();
+            await Task.WhenAll(
+                RefreshOrderId(),
+                RefreshTables());
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
@@ -86,7 +85,9 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            await InitData();
+            await Task.WhenAll(
+                RefreshOrderId(),
+                RefreshTables());
         }
 
         public override void OnDisappearing()
@@ -105,7 +106,7 @@ namespace Next2.ViewModels
             return Total / 100 * Constants.TAX_PERCENTAGE;
         }
 
-        private async Task InitData()
+        private async Task RefreshOrderId()
         {
             var orderResult = await _orderService.GetNewOrderIdAsync();
 
@@ -113,7 +114,10 @@ namespace Next2.ViewModels
             {
                 NewOrderId = orderResult.Result;
             }
+        }
 
+        private async Task RefreshTables()
+        {
             var tablesResult = await _orderService.GetTables();
 
             if (tablesResult.IsSuccess)
@@ -153,9 +157,16 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnPayCommandAsync()
+        private async Task OnPayCommandAsync()
         {
-            return Task.CompletedTask;
+            if (Tables.Count > 0)
+            {
+                Tables = new ();
+            }
+            else
+            {
+                await RefreshTables();
+            }
         }
 
         #endregion
