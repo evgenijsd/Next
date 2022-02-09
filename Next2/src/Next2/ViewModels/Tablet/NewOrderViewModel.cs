@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -45,6 +46,20 @@ namespace Next2.ViewModels.Tablet
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
+        public GridItemsLayout GridItemsLayoutTwoSpan { get; set; } = new GridItemsLayout(ItemsLayoutOrientation.Vertical)
+        {
+            VerticalItemSpacing = 5,
+            HorizontalItemSpacing = 5,
+            Span = 2,
+        };
+
+        public GridItemsLayout GridItemsLayoutThreeSpan { get; set; } = new GridItemsLayout(ItemsLayoutOrientation.Vertical)
+        {
+            VerticalItemSpacing = 5,
+            HorizontalItemSpacing = 5,
+            Span = 3,
+        };
+
         private ICommand _tapSetCommand;
         public ICommand TapSetCommand => _tapSetCommand = new AsyncCommand<SetModel>(OnTapSetCommandAsync);
 
@@ -54,6 +69,21 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Overrides --
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            Task.Run(LoadCategoriesAsync);
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            SelectedCategoriesItem = new ();
+            SelectedSubcategoriesItem = new ();
+        }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {

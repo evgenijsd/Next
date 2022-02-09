@@ -12,10 +12,48 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
+    
+    <ContentView.Resources>
 
+        <ResourceDictionary>
+
+            <Style x:Key="StackLayoutPaddingStyle" TargetType="StackLayout">
+
+                <Setter Property="Padding" Value="24, 22, 24, 0" />
+
+                <Setter Property="VisualStateManager.VisualStateGroups">
+
+                    <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+
+                        <VisualState Name="moreiPadMini">
+
+                            <VisualState.StateTriggers>
+
+                                <AdaptiveTrigger MinWindowWidth="1025" />
+
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+
+                                <Setter Property="Padding" Value="40, 34, 40, 0" />
+
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+
+                </Setter>
+
+            </Style>
+
+        </ResourceDictionary>
+
+    </ContentView.Resources>
+    
     <Grid
         ColumnSpacing="0"
-        ColumnDefinitions="*, 0.4*">
+        ColumnDefinitions="*, 375">
 
         <!--Left Part-->
         
@@ -28,14 +66,42 @@
             
             <StackLayout
                 Orientation="Horizontal"
-                Padding="20"
+                Style="{StaticResource StackLayoutPaddingStyle}"
                 VerticalOptions="Start">
 
                 <Label
                     Text="{xct:Translate NewOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i3}"
-                    FontFamily="Barlow-Bold"/>
+                    FontSize="{DynamicResource TSize_i4}"
+                    FontFamily="Barlow-SemiBold">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroup Name="AdaptiveLabel">
+
+                            <VisualState Name="moreiPadMini">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1025" />
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i3}" />
+
+                                    <Setter Property="FontFamily" Value="Barlow-Bold" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </Label>
 
                 <ffimageloading:CachedImage
                     Source="ic_time_circle_24x24"
@@ -44,7 +110,35 @@
                 <Label
                     Text="9:32:45 PM"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center"/>
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i7}"
+                    FontFamily="Barlow-Medium">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroup Name="AdaptiveLabel">
+
+                            <VisualState Name="moreiPadMini">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1025" />
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </Label>
 
                 <ffimageloading:CachedImage
                     Source="ic_calendar_24x24"
@@ -53,11 +147,40 @@
                 <Label
                     Text="Tuesday, 21 March 2021"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center"/>
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i7}"
+                    FontFamily="Barlow-Medium">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroup Name="AdaptiveLabel">
+
+                            <VisualState Name="moreiPadMini">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1025" />
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </Label>
 
             </StackLayout>
 
             <BoxView
+                Margin="0, 22, 0, 0"
                 HeightRequest="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
@@ -68,14 +191,40 @@
                 <StackLayout
                     VerticalOptions="Start"
                     Orientation="Horizontal"
-                    Padding="20">
+                    Style="{StaticResource StackLayoutPaddingStyle}">
 
                     <Label
                         Text="{xct:Translate Categories}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i4}"
+                        FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        VerticalTextAlignment="Center"/>
+                        VerticalTextAlignment="Center">
+
+                        <VisualStateManager.VisualStateGroups>
+
+                            <VisualStateGroup Name="AdaptiveLabel">
+
+                                <VisualState Name="moreiPadMini">
+
+                                    <VisualState.StateTriggers>
+
+                                        <AdaptiveTrigger MinWindowWidth="1025" />
+
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i4}" />
+
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+
+                        </VisualStateManager.VisualStateGroups>
+
+                    </Label>
 
                     <Frame
                         HasShadow="False"
@@ -103,13 +252,38 @@
                 </StackLayout>
 
                 <controls:StepperCarousel
-                    HeightRequest="100"
-                    Margin="20, 0"
+                    HeightRequest="116"
+                    Margin="24, 26, 24, 32"
                     ItemsSource="{Binding CategoriesItems}"
-                    SelectedItem="{Binding SelectedCategoriesItem}"/>
+                    SelectedItem="{Binding SelectedCategoriesItem}">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                            <VisualState Name="moreiPadMini">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1025" />
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="Margin" Value="40, 26, 40, 32" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+                    
+                </controls:StepperCarousel>
 
                 <BoxView
-                    Margin="20"
                     HeightRequest="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
@@ -120,15 +294,40 @@
             <StackLayout
                 VerticalOptions="Start"
                 Orientation="Horizontal"
-                Margin="0, 10, 0, 0"
-                Padding="30, 0">
+                Style="{StaticResource StackLayoutPaddingStyle}">
 
                 <Label
                     Text="{xct:Translate Menu}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i4}"
+                    FontSize="{DynamicResource TSize_i5}"
                     FontFamily="Barlow-SemiBold"
-                    VerticalTextAlignment="Center"/>
+                    VerticalTextAlignment="Center">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroup Name="AdaptiveLabel">
+
+                            <VisualState Name="moreiPadMini">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1025" />
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i4}" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateManager.VisualStateGroups>
+
+                </Label>
 
                 <Frame
                     HasShadow="False"
@@ -159,28 +358,61 @@
             <!--Menu-->
 
             <CollectionView
-                Margin="20, 20, 20, 0"
+                x:Name="menuCollectionView"
+                Margin="24, 16, 24, 0"
                 VerticalOptions="StartAndExpand"
                 ItemsSource="{Binding SetsItems}"
                 VerticalScrollBarVisibility="Always"
                 SelectionMode="Single">
+                
+                <VisualStateManager.VisualStateGroups>
+
+                    <VisualStateGroup Name="AdaptiveColumn">
+
+                        <VisualState Name="allMiniColumn">
+
+                            <VisualState.StateTriggers>
+
+                                <AdaptiveTrigger MinWindowWidth="0" />
+
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+
+                                <Setter Property="ItemsLayout" Value="{Binding GridItemsLayoutTwoSpan}" />
+
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="moreiPadMiniColumn">
+
+                            <VisualState.StateTriggers>
+
+                                <AdaptiveTrigger MinWindowWidth="1025" />
+
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+
+                                <Setter Property="ItemsLayout" Value="{Binding GridItemsLayoutThreeSpan}" />
+
+                                <Setter Property="Margin" Value="40, 26, 40, 0"/>
+
+                            </VisualState.Setters>
+
+                        </VisualState>
+                        
+                    </VisualStateGroup>
+                    
+                </VisualStateManager.VisualStateGroups>
 
                 <CollectionView.Effects>
 
                     <effects:NoOverScrollEffect/>
-                    <effects:ScrollBarColorEffect ScrollBarColor="Red"/>
+                    <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}"/>
 
                 </CollectionView.Effects>
-
-                <CollectionView.ItemsLayout>
-
-                    <GridItemsLayout
-                        Orientation="Vertical"
-                        Span="3"
-                        VerticalItemSpacing="5"
-                        HorizontalItemSpacing="5"/>
-
-                </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
 
@@ -200,7 +432,7 @@
             <!--Tabs Subcategories Menu-->
 
             <CollectionView
-                HeightRequest="60"
+                HeightRequest="82"
                 VerticalOptions="End"
                 ItemsSource="{Binding SubcategoriesItems}"
                 SelectedItem="{Binding SelectedSubcategoriesItem}"
@@ -228,7 +460,7 @@
                     <DataTemplate x:DataType="models:SubcategoryModel">
 
                         <templates:SubCategoryItemTemplate
-                            HeightRequest="60"
+                            HeightRequest="82"
                             Text="{Binding Title}"
                             FontSize="{DynamicResource TSize_i6}"
                             FontFamily="Barlow-Medium"/>
@@ -297,15 +529,15 @@
             </StackLayout>
 
             <!--Footer-->
-            <StackLayout
+            <Grid
                 Grid.Row="2"
+                ColumnSpacing="10"
                 Grid.Column="0"
-                Spacing="10"
-                Orientation="Horizontal"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Padding="20">
 
                 <buttons:BorderButton
+                    Grid.Column="0"
                     HasShadow="False"
                     Text="Order"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -315,6 +547,7 @@
                     CornerRadius="4"/>
 
                 <buttons:BorderButton
+                    Grid.Column="1"
                     HasShadow="False"
                     Text="Tab"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -324,6 +557,7 @@
                     CornerRadius="4"/>
 
                 <buttons:BorderButton
+                    Grid.Column="2"
                     HasShadow="False"
                     Text="Pay"
                     BackgroundColor="{DynamicResource IndicationColor_i2}"
@@ -332,7 +566,7 @@
                     Padding="25, 5"
                     CornerRadius="4"/>
 
-            </StackLayout>
+            </Grid>
 
         </Grid>
 

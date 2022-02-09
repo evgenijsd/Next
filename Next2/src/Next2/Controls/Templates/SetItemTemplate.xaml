@@ -11,33 +11,13 @@
     HasShadow="False"
     CornerRadius="0"
     Padding="1">
-    
+
     <Frame
         HasShadow="False"
         CornerRadius="10"
         BorderColor="Transparent"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         Padding="15">
-
-        <!--<VisualStateManager.VisualStateGroups>
-
-            <VisualStateGroup Name="CommonStates">
-
-                <VisualState Name="Selected">
-
-                    <VisualState.Setters>
-
-                        <Setter
-                            Property="BackgroundColor"
-                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
-
-                    </VisualState.Setters>
-
-                </VisualState>
-
-            </VisualStateGroup>
-
-        </VisualStateManager.VisualStateGroups>-->
 
         <StackLayout>
 
@@ -62,9 +42,7 @@
                                 
                                 <VisualState.Setters>
                                     
-                                    <Setter
-                                        Property="HeightRequest"
-                                        Value="179" />
+                                    <Setter Property="HeightRequest" Value="179" />
                                     
                                 </VisualState.Setters>
                                 
@@ -80,9 +58,7 @@
 
                                 <VisualState.Setters>
 
-                                    <Setter
-                                        Property="HeightRequest"
-                                        Value="120" />
+                                    <Setter Property="HeightRequest" Value="120" />
 
                                 </VisualState.Setters>
 

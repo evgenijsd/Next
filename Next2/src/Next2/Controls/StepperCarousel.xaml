@@ -10,13 +10,14 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Controls.StepperCarousel"
-    MinimumHeightRequest="100"
+    MinimumHeightRequest="116"
     VerticalOptions="Start"
+    Spacing="16"
     Orientation="Horizontal"
     x:Name="stepperCarousel">
-
+<!--16 40-->
     <Frame
-        HeightRequest="100"
+        HeightRequest="116"
         HasShadow="False"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
@@ -30,7 +31,7 @@
 
     <CollectionView
         HorizontalOptions="StartAndExpand"
-        HeightRequest="100"
+        HeightRequest="116"
         x:Name="collectionView"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
@@ -60,8 +61,8 @@
                 Span="2"
                 SnapPointsType="Mandatory" 
                 SnapPointsAlignment="Start"
-                VerticalItemSpacing="5"
-                HorizontalItemSpacing="5"/>
+                VerticalItemSpacing="8"
+                HorizontalItemSpacing="8"/>
 
         </CollectionView.ItemsLayout>
 
@@ -72,10 +73,7 @@
                 <templates:CategoryItemTemplate
                     Text="{Binding Title}"
                     FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Medium"
-                    WidthRequest="{OnPlatform Android='135', iOS='158'}">
-
-                </templates:CategoryItemTemplate>
+                    FontFamily="Barlow-Medium"/>
 
             </DataTemplate>
 
@@ -84,7 +82,7 @@
     </CollectionView>
     
     <Frame
-        HeightRequest="100"
+        HeightRequest="116"
         HasShadow="False"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
