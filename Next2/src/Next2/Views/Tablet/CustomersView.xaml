@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -15,7 +16,7 @@
 
         <ResourceDictionary>
 
-            <Style x:Key="ViewCellStyle" TargetType="Label">
+            <Style x:Key="ViewCellLabelStyle" TargetType="Label">
 
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
@@ -89,16 +90,20 @@
 
                 <StackLayout>
 
-                    <StackLayout Padding="0,0,0,-12" Orientation="Horizontal">
+                    <StackLayout
+                        Padding="0,0,0,0"
+                        HeightRequest="108"
+                        Orientation="Horizontal">
 
                         <Frame
-                            Margin="24"
+                            Margin="24,12,0,0"
                             Padding="0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                             CornerRadius="4"
                             HasShadow="False"
-                            HorizontalOptions="StartAndExpand">
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="Center">
 
                             <Frame
                                 Margin="2"
@@ -107,7 +112,7 @@
                                 BorderColor="{DynamicResource TextAndBackgroundColor_i5}"
                                 CornerRadius="4"
                                 HasShadow="False"
-                                HeightRequest="42">
+                                HeightRequest="32">
                                 <StackLayout Orientation="Horizontal">
 
                                     <Label
@@ -134,25 +139,25 @@
 
                         <!--  Info Button  -->
                         <Frame
-                            Margin="0,26,12,24"
-                            Padding="-4,0,-4,0"
+                            Margin="0,12,12,0" HeightRequest="38" VerticalOptions="Center"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource IndicationColor_i7}"
                             Opacity="1"
-                            Style="{StaticResource ButtonFrameStyle}">
+                            Style="{StaticResource ButtonFrameStyle}"
+                            WidthRequest="100">
 
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
 
                             <Frame.GestureRecognizers>
 
-                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" />
+                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" CommandParameter="{Binding SelectedItem, Source={x:Reference collectiomView}}" />
 
                             </Frame.GestureRecognizers>
 
                             <Frame.Triggers>
 
                                 <DataTrigger
-                                    Binding="{Binding SelectedItem, TargetNullValue='null'}"
+                                    Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
                                     TargetType="Frame"
                                     Value="null">
                                     <Setter Property="Opacity" Value="0.32" />
@@ -164,10 +169,11 @@
 
                         <!--  add buttom  -->
                         <Frame
-                            Margin="0,26,24,24"
+                            Margin="0,12,24,0" VerticalOptions="Center" HeightRequest="38"
                             Padding="0"
                             BackgroundColor="{DynamicResource AppColor_i1}"
-                            Style="{StaticResource ButtonFrameStyle}">
+                            Style="{StaticResource ButtonFrameStyle}"
+                            WidthRequest="110">
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate AddNew}" />
 
                         </Frame>
@@ -176,33 +182,32 @@
 
                     <!--  Table header  -->
                     <yummy:PancakeView
-                        Margin="24,0,24,0"
+                        Margin="24,0,24,0" 
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="4,4,0,0"
-                        HeightRequest="80">
+                        HeightRequest="72">
 
                         <Grid
-                            ColumnDefinitions="0.324*,*"
+                            ColumnDefinitions="65,0.16*,0.161*,0.161*,0.161*,0.164*"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
 
                             <Label
-                                Grid.Column="0"
+                                Grid.Column="0" 
                                 IsVisible="false"
-                                Style="{StaticResource ViewCellStyle}" />
+                                Style="{StaticResource ViewCellLabelStyle}" />
 
                             <StackLayout
                                 Grid.Column="1"
-                                Margin="-3,0,0,0"
                                 Orientation="Horizontal">
-                                <Label Style="{StaticResource ViewCellStyle}" Text="{xct:Translate CustomerName}" />
+                                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate CustomerName}" />
 
                                 <Image Source="ic_sort_primary_24x24" />
 
                                 <StackLayout.GestureRecognizers>
 
-                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Name" />
+                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ESorting.ByName}" />
 
                                 </StackLayout.GestureRecognizers>
 
@@ -210,9 +215,8 @@
 
                             <StackLayout
                                 Grid.Column="2"
-                                Margin="-3,0,0,0"
                                 Orientation="Horizontal">
-                                <Label Style="{StaticResource ViewCellStyle}" Text="{xct:Translate Points}" />
+                                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate Points}" />
 
                                 <Image
                                     x:Name="sortPointsImage"
@@ -222,7 +226,7 @@
                                     <Image.Triggers>
 
                                         <DataTrigger
-                                            Binding="{Binding SelectedItem, TargetNullValue='null'}"
+                                            Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
                                             TargetType="Image"
                                             Value="null">
 
@@ -236,7 +240,7 @@
 
                                 <StackLayout.GestureRecognizers>
 
-                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="Points" />
+                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ESorting.ByPoints}" />
 
                                 </StackLayout.GestureRecognizers>
 
@@ -244,20 +248,17 @@
 
                             <Label
                                 Grid.Column="3"
-                                Margin="-3,0,0,0"
-                                Style="{StaticResource ViewCellStyle}"
+                                Style="{StaticResource ViewCellLabelStyle}"
                                 Text="{xct:Translate Rewards}" />
 
                             <Label
                                 Grid.Column="4"
-                                Margin="-3,0,0,0"
-                                Style="{StaticResource ViewCellStyle}"
+                                Style="{StaticResource ViewCellLabelStyle}"
                                 Text="{xct:Translate GiftCardCount}" />
 
                             <Label
                                 Grid.Column="5"
-                                Margin="-3,0,0,0"
-                                Style="{StaticResource ViewCellStyle}"
+                                Style="{StaticResource ViewCellLabelStyle}"
                                 Text="{xct:Translate GiftCardTotal}" />
 
                         </Grid>
@@ -266,7 +267,7 @@
 
                     <!--  Table content  -->
                     <yummy:PancakeView
-                        Margin="24,-6,24,21"
+                        Margin="24,0,24,21"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="0,0,4,4">
@@ -274,12 +275,13 @@
                         <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
 
                             <controls:CustomScrollBarCollectionView
+                                x:Name="collectiomView"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 ItemsSource="{Binding Customers}"
                                 ScrollBarCornerRadius="9"
                                 ScrollBarThumbColor="{DynamicResource AppColor_i1}"
                                 ScrollBarTrackColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 SelectionMode="Single"
                                 ThumbWidth="6"
                                 VerticalScrollBarVisibility="Always">
@@ -323,35 +325,35 @@
                                                 Grid.Row="0"
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding Name}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding Points, StringFormat='{0:D} pt'}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="3"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding Rewards}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="4"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding GiftCardCount}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="5"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
 
                                             <BoxView
@@ -431,7 +433,7 @@
                     <Frame.Triggers>
 
                         <DataTrigger
-                            Binding="{Binding SelectedItem, TargetNullValue='null'}"
+                            Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
                             TargetType="Frame"
                             Value="null">
                             <Setter Property="Opacity" Value="0.32" />

@@ -120,11 +120,17 @@
   <data name="AddNew" xml:space="preserve">
     <value>Add New</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Customer</value>
+  </data>
+  <data name="CustomerInfo" xml:space="preserve">
+    <value>Customer Info</value>
   </data>
   <data name="CustomerName" xml:space="preserve">
     <value>Customer Name</value>
@@ -135,8 +141,14 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="GiftCard" xml:space="preserve">
+    <value>GiftCard</value>
+  </data>
   <data name="GiftCardCount" xml:space="preserve">
     <value>Gift Card Count</value>
+  </data>
+  <data name="GiftCards" xml:space="preserve">
+    <value>Gift Cards</value>
   </data>
   <data name="GiftCardTotal" xml:space="preserve">
     <value>Gift Card Total</value>
@@ -162,6 +174,9 @@
   <data name="NoInternetConnection" xml:space="preserve">
     <value>No internet connection</value>
   </data>
+  <data name="NumberOf" xml:space="preserve">
+    <value>NumberOf</value>
+  </data>
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
@@ -171,10 +186,13 @@
   <data name="Rewards" xml:space="preserve">
     <value>Rewards</value>
   </data>
-  <data name="s" xml:space="preserve">
-    <value />
-  </data>
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
   </data>
 </root>

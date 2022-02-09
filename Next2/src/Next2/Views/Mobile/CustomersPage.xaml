@@ -17,7 +17,7 @@
 
         <ResourceDictionary>
 
-            <Style x:Key="ViewCellStyle" TargetType="Label">
+            <Style x:Key="ViewCellLabelStyle" TargetType="Label">
 
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
@@ -31,7 +31,7 @@
 
             </Style>
 
-            <Style x:Key="HeaderCellStyle" TargetType="Label">
+            <Style x:Key="HeaderLabelStyle" TargetType="Label">
 
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
 
@@ -125,17 +125,17 @@
 
                             <Label
                                 Grid.Column="0"
-                                Style="{StaticResource HeaderCellStyle}"
+                                Style="{StaticResource HeaderLabelStyle}"
                                 Text="{xct:Translate CustomerName}" />
 
                             <Label
                                 Grid.Column="1"
-                                Style="{StaticResource HeaderCellStyle}"
+                                Style="{StaticResource HeaderLabelStyle}"
                                 Text="{xct:Translate Phone}" />
 
                             <Label
                                 Grid.Column="2"
-                                Style="{StaticResource HeaderCellStyle}"
+                                Style="{StaticResource HeaderLabelStyle}"
                                 Text="{xct:Translate Email}" />
 
                         </Grid>
@@ -154,7 +154,7 @@
                             <CollectionView
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 ItemsSource="{Binding Customers}"
-                                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 SelectionMode="Single"
                                 VerticalScrollBarVisibility="Never">
 
@@ -178,21 +178,21 @@
                                                 Grid.Row="0"
                                                 Grid.Column="0"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding Name}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding Phone}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellStyle}"
+                                                Style="{StaticResource ViewCellLabelStyle}"
                                                 Text="{Binding Email}" />
 
                                             <BoxView

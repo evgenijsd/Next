@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="http://rotorgames.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="dialogs:CustomerInfoViewModel">
 
     <ContentPage.Resources>
@@ -107,7 +108,7 @@
                         Margin="18,0,0,0"
                         FontFamily="Barlow-SemiBold"
                         FontSize="18"
-                        Text="Customer Info"
+                        Text="{xct:Translate CustomerInfo}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         VerticalOptions="Center" />
 
@@ -121,7 +122,7 @@
 
                             <Label
                                 Style="{StaticResource HeadTextStyle}"
-                                Text="Customer Name"
+                                Text="{xct:Translate CustomerName}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             <Label
@@ -136,7 +137,7 @@
 
                             <Label
                                 Style="{StaticResource HeadTextStyle}"
-                                Text="Phone"
+                                Text="{xct:Translate Phone}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             <Label
@@ -151,7 +152,7 @@
 
                             <Label
                                 Style="{StaticResource HeadTextStyle}"
-                                Text="Email"
+                                Text="{xct:Translate Email}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             <Label
@@ -169,13 +170,12 @@
 
 
                         <Frame
-                            Margin="0,24,0,24"
+                            Margin="0,23,0,24"
                             Padding="0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                             HasShadow="False">
 
                             <Grid
-                                Margin="0,-1,0,0"
                                 ColumnSpacing="1.5"
                                 RowSpacing="1.5"
                                 VerticalOptions="EndAndExpand">
@@ -192,7 +192,7 @@
 
                                     <Label
                                         Style="{StaticResource GridTextStyle}"
-                                        Text="Points"
+                                        Text="{xct:Translate Points}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                     <Label
@@ -230,7 +230,7 @@
 
                                     <Label
                                         Style="{StaticResource GridTextStyle}"
-                                        Text="Rewards"
+                                        Text="{xct:Translate Rewards}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                     <Label
@@ -253,10 +253,19 @@
                                     Grid.Column="0"
                                     Style="{StaticResource GridLayoutStyle}">
 
-                                    <Label
-                                        Style="{StaticResource GridTextStyle}"
-                                        Text="Number of &#10; Gift Cards"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                    <Label Style="{StaticResource GridTextStyle}" TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                                        
+                                        <Label.FormattedText>
+                                            
+                                            <FormattedString>
+                                                <Span Text="{xct:Translate NumberOf}" />
+                                                <Span Text=" &#10; " />
+                                                <Span Text="{xct:Translate GiftCards}" />
+                                            </FormattedString>
+                                            
+                                        </Label.FormattedText>
+                                        
+                                    </Label>
 
                                     <Label
                                         Margin="0,12,0,0"
@@ -278,10 +287,19 @@
                                     Grid.Column="1"
                                     Style="{StaticResource GridLayoutStyle}">
 
-                                    <Label
-                                        Style="{StaticResource GridTextStyle}"
-                                        Text="Gift Card &#10;   Total"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                    <Label Style="{StaticResource GridTextStyle}" TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                                        
+                                        <Label.FormattedText>
+                                            
+                                            <FormattedString>
+                                                <Span Text="{xct:Translate GiftCard}" />
+                                                <Span Text="&#10;    " />
+                                                <Span Text="{xct:Translate Total}" />
+                                            </FormattedString>
+                                            
+                                        </Label.FormattedText>
+                                        
+                                    </Label>
 
                                     <Label
                                         Margin="0,12,0,0"
@@ -338,7 +356,7 @@
 
                             <Label
                                 Style="{StaticResource ButtonTextStyle}"
-                                Text="{Binding CancelButtonText}"
+                                Text="{xct:Translate Cancel}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             <Frame.GestureRecognizers>
@@ -356,7 +374,7 @@
 
                             <Label
                                 Style="{StaticResource ButtonTextStyle}"
-                                Text="{Binding SelectButtonText}"
+                                Text="{xct:Translate Select}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                             <Frame.GestureRecognizers>
