@@ -5,7 +5,7 @@
     x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate"
     xmlns:templates="clr-namespace:Next2.Controls.Templates" 
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:controls="clr-namespace:Next2.Controls">
+    xmlns:controls="clr-namespace:Next2.Controls" xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
     
     <ContentView.Content>
 
@@ -52,13 +52,9 @@
                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
                                     Value="True">
                     
-                                <Setter 
-                                    Property="TextColor" 
-                                    Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
                                     
-                                <Setter 
-                                    Property="Text" 
-                                    Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
+                                 <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
                     
                             </DataTrigger>
                     
@@ -69,7 +65,7 @@
                         <Image 
                             Source="ic_danger_circle"
                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ErrorNotification}"  
-                            Scale="0.6"
+                            Margin="0, 8, 5, 8"
                             HorizontalOptions="EndAndExpand"/>
                     
                     </StackLayout>
@@ -81,9 +77,7 @@
                             Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ErrorNotification}"                                        
                             Value="True">
                     
-                            <Setter 
-                                Property="BorderColor"
-                                Value="{DynamicResource IndicationColor_i3}"/>
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
                     
                         </DataTrigger>
                     
@@ -97,340 +91,78 @@
 
                 <Grid 
                     ColumnSpacing="10"
-                    RowDefinitions="0.25*, 0.25*, 0.25*, 0.25*"
+                    RowDefinitions="*, *, *, *"
                     RowSpacing="10"
-                    ColumnDefinitions="0.33*,0.33*,0.33*">
-                  
-                    <controls:CustomFrame 
-                        Grid.Column="0"
+                    ColumnDefinitions="*, *, *">
+
+                    <buttons:NumericKeyboardButton
                         Grid.Row="0"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        Grid.Column="0"
+                        Title="1"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
 
-                        <Label 
-                           x:Name="button1"
-                           Text="1"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center"
-                           BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                           FontSize="{DynamicResource TSize_i4_5}"
-                           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                           FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button1}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
-                        Grid.Column="1"
+                    <buttons:NumericKeyboardButton
                         Grid.Row="0"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        Grid.Column="1"
+                        Title="2"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
 
-                        <Label 
-                            x:Name="button2"
-                            Text="2"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button2}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
-                        Grid.Column="2"
+                    <buttons:NumericKeyboardButton
                         Grid.Row="0"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False" 
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Label 
-                            x:Name="button3"
-                            Text="3"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button3}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
-                        Grid.Column="0"
-                        Grid.Row="1"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Label 
-                            x:Name="button4"
-                            Text="4"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button4}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False" 
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Label 
-                            x:Name="button5"
-                            Text="5"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button5}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
                         Grid.Column="2"
+                        Title="3"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+
+                    <buttons:NumericKeyboardButton
                         Grid.Row="1"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Label 
-                            x:Name="button6"
-                            Text="6"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button6}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
                         Grid.Column="0"
-                        Grid.Row="2"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        Title="4"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
 
-                        <Label 
-                            x:Name="button7"
-                            Text="7"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-                            
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button7}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="1"
                         Grid.Column="1"
-                        Grid.Row="2"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        Title="5"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
 
-                        <Label 
-                            x:Name="button8"
-                            Text="8"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button8}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="1"
                         Grid.Column="2"
+                        Title="6"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+
+                    <buttons:NumericKeyboardButton
                         Grid.Row="2"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Label 
-                            x:Name="button9"
-                            Text="9"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-                            
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference button9}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
                         Grid.Column="0"
+                        Title="7"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Title="8"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Title="9"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+
+
+                    <buttons:NumericKeyboardButton
                         Grid.Row="3"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False" 
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        Grid.Column="0"
+                        Title="0"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
 
-                        <Label 
-                            x:Name="buttonZero"
-                            Text="0"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"
-                                CommandParameter="{x:Reference buttonZero}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
-                    <controls:CustomFrame 
-                        Grid.Column="1"
+                    <buttons:NumericKeyboardButton                       
                         Grid.Row="3"
+                        Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="3"
-                        HasShadow="False"
-                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                        <Label 
-                            x:Name="buttonClear"
-                            Text="{xct:Translate Clear}"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-Bold"/>
-                            
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTabCommand}"
-                                CommandParameter="{x:Reference buttonZero}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
+                        Title="Clear"
+                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTabCommand}"/>
 
                 </Grid>
                 

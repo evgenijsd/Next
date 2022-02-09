@@ -28,7 +28,8 @@
         <Grid 
             ColumnDefinitions="0.5*,0.5*"
             RowDefinitions="45"
-            ColumnSpacing="1">
+            ColumnSpacing="1"
+            Margin="0, 0, 0, 0">
             
             <StackLayout 
                 Grid.Column="0"
@@ -85,7 +86,9 @@
                 Source="pic_logo_rectangular"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Scale="0.45"/>
+                HeightRequest="157"
+                WidthRequest="150"
+                Margin="0, 20, 0, 0"/>
 
             <Label 
                 Text="{xct:Translate EmployeeId}"
@@ -122,9 +125,7 @@
                                 Binding="{Binding IsEmployeeIdProvided, Mode=TwoWay}"
                                 Value="True">
 
-                                <Setter 
-                                    Property="TextColor"
-                                    Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                             </DataTrigger>
 
@@ -135,7 +136,7 @@
                     <Image 
                         Source="ic_danger_circle"
                         IsVisible="{Binding IsErrorNotificationVisible}"
-                        Scale="0.6"
+                        Margin="0, 5, 5, 5"
                         HorizontalOptions="EndAndExpand"/>
 
                 </StackLayout>
@@ -154,9 +155,7 @@
                         Binding="{Binding IsErrorNotificationVisible}"                                        
                         Value="True">
                         
-                        <Setter 
-                            Property="BorderColor"
-                            Value="{DynamicResource IndicationColor_i3}"/>
+                        <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
 
                     </DataTrigger>
 
@@ -218,9 +217,7 @@
                                 Binding="{Binding IsClearButtonEnabled}"                                        
                                 Value="True">
 
-                                <Setter 
-                                    Property="BorderColor"
-                                    Value="{DynamicResource IndicationColor_i3}"/>
+                                <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
 
                             </DataTrigger>
 
@@ -230,9 +227,7 @@
                                 Binding="{Binding IsClearButtonEnabled}"                                         
                                 Value="True">
                                 
-                                <Setter 
-                                    Property="IsEnabled"
-                                    Value="True"/>
+                                <Setter Property="IsEnabled" Value="True"/>
 
                             </DataTrigger>
 
@@ -279,9 +274,7 @@
                                 Binding="{Binding IsLoginButtonEnabled }"                                        
                                 Value="True">
                                 
-                                <Setter 
-                                    Property="BackgroundColor"
-                                    Value="{DynamicResource IndicationColor_i1}"/>
+                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
                                
                             </DataTrigger>
                             
@@ -290,9 +283,7 @@
                                 Binding="{Binding IsLoginButtonEnabled}"                                        
                                 Value="True">
 
-                                <Setter   
-                                    Property="IsEnabled"
-                                    Value="True"/>
+                                <Setter Property="IsEnabled" Value="True"/>
 
                             </DataTrigger>
 

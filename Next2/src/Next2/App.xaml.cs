@@ -56,10 +56,13 @@ namespace Next2
             }
             else
             {
+                // Services
+                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+
+                //Navigation
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
-
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
@@ -81,8 +84,6 @@ namespace Next2
             await Analytics.SetEnabledAsync(true);
 #endif
             InitializeComponent();
-
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
