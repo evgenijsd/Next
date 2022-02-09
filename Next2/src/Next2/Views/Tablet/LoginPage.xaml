@@ -36,7 +36,8 @@
             Grid.Column="1"
             Grid.RowSpan="2"
             PlaceHolder="{xct:Translate TypeEmployeeId}"
-            ErrorNotification="{Binding IsErrorNotificationVisible}"/>
+            IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
+            ApplyCommand="{Binding GoToStartPageCommand}"/>
 
     </Grid>
 

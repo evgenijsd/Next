@@ -22,16 +22,16 @@ namespace Next2.Controls.Buttons
             set => SetValue(TitleProperty, value);
         }
 
-        public static readonly BindableProperty TabGestureRecognizerCommandProperty = BindableProperty.Create(
-            propertyName: nameof(TabGestureRecognizerCommand),
+        public static readonly BindableProperty TapGestureRecognizerCommandProperty = BindableProperty.Create(
+            propertyName: nameof(TapGestureRecognizerCommand),
             returnType: typeof(ICommand),
             declaringType: typeof(NumericKeyboardButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand TabGestureRecognizerCommand
+        public ICommand TapGestureRecognizerCommand
         {
-            get => (ICommand)GetValue(TabGestureRecognizerCommandProperty);
-            set => SetValue(TabGestureRecognizerCommandProperty, value);
+            get => (ICommand)GetValue(TapGestureRecognizerCommandProperty);
+            set => SetValue(TapGestureRecognizerCommandProperty, value);
         }
     }
 }

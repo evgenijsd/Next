@@ -74,11 +74,11 @@ namespace Next2.ViewModels
 
         private async Task OnStartPageCommandAsync(object? sender)
         {
-            if (sender is Label label)
+            if (sender is string str)
             {
-                if (label.Text.Length == 6)
+                if (str.Length == 6)
                 {
-                    int.TryParse(label.Text, out _inputtedEmployeeIdToDigist);
+                    int.TryParse(str, out _inputtedEmployeeIdToDigist);
 
                     await CheckEmployeeExists();
 
@@ -96,7 +96,7 @@ namespace Next2.ViewModels
                     IsErrorNotificationVisible = true;
                 }
             }
-            else if (IsEmployeeExists && sender is not Label)
+            else if (IsEmployeeExists)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
@@ -104,7 +104,7 @@ namespace Next2.ViewModels
 
         private async Task CheckEmployeeExists()
         {
-            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizationAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
+            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
         #endregion

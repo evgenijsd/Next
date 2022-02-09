@@ -23,13 +23,13 @@ namespace Next2.Services.Authentication
         #region -- Public properties --
 
         private UserModel _user;
-        public UserModel User { get => _user; }
+        public UserModel User => _user;
 
         #endregion
 
         #region -- AuthenticationService implementation --
 
-        public async Task<AOResult<UserModel>> AuthorizationAsync(int userId)
+        public async Task<AOResult<UserModel>> AuthorizeAsync(int userId)
         {
             var result = new AOResult<UserModel>();
 
@@ -51,7 +51,7 @@ namespace Next2.Services.Authentication
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AuthorizationAsync)}: exception", "Error from UserService AuthorizationAsync", ex);
+                result.SetError($"{nameof(AuthorizeAsync)}: exception", "Error from UserService AuthorizationAsync", ex);
             }
 
             return result;

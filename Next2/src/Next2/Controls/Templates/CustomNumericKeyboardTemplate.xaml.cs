@@ -8,7 +8,6 @@ namespace Next2.Controls.Templates
 {
     public partial class CustomNumericKeyboardTemplate : ContentView
     {
-        private bool _startTyping;
         public CustomNumericKeyboardTemplate()
         {
             InitializeComponent();
@@ -42,23 +41,35 @@ namespace Next2.Controls.Templates
             set => SetValue(PlaceHolderProperty, value);
         }
 
-        public static readonly BindableProperty ErrorNotificationProperty = BindableProperty.Create(
-           propertyName: nameof(ErrorNotification),
+        public static readonly BindableProperty IsErrorNotificationVisibleProperty = BindableProperty.Create(
+           propertyName: nameof(IsErrorNotificationVisible),
            returnType: typeof(bool),
            declaringType: typeof(CustomNumericKeyboardTemplate),
            defaultBindingMode: BindingMode.TwoWay);
 
-        public bool ErrorNotification
+        public bool IsErrorNotificationVisible
         {
-            get => (bool)GetValue(ErrorNotificationProperty);
-            set => SetValue(ErrorNotificationProperty, value);
+            get => (bool)GetValue(IsErrorNotificationVisibleProperty);
+            set => SetValue(IsErrorNotificationVisibleProperty, value);
         }
 
-        private ICommand _ButtonTabCommand;
-        public ICommand ButtonTabCommand => _ButtonTabCommand ??= new AsyncCommand<object>(OnTabAsync);
+        private ICommand _ButtonTapCommand;
+        public ICommand ButtonTapCommand => _ButtonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
 
-        private ICommand _ButtonClearTabCommand;
-        public ICommand ButtonClearTabCommand => _ButtonClearTabCommand ??= new AsyncCommand<object>(OnTabClearAsync);
+        private ICommand _ButtonClearTapCommand;
+        public ICommand ButtonClearTapCommand => _ButtonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
+
+        public static readonly BindableProperty ApplyCommandProperty = BindableProperty.Create(
+         propertyName: nameof(ApplyCommand),
+         returnType: typeof(ICommand),
+         declaringType: typeof(CustomNumericKeyboardTemplate),
+         defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand ApplyCommand
+        {
+            get => (ICommand)GetValue(ApplyCommandProperty);
+            set => SetValue(ApplyCommandProperty, value);
+        }
 
         #endregion
 
@@ -66,22 +77,19 @@ namespace Next2.Controls.Templates
 
         private async Task OnTabAsync(object? sender)
         {
-            var view = sender as Label;
-
-            if (view is not null)
+            if (sender is string str && str is not null)
             {
-                if (_startTyping)
+                if (IsKeyBoardTyped)
                 {
                     if (ScreenKeyboard.Length <= 5)
                     {
-                        ScreenKeyboard += view.Text;
+                        ScreenKeyboard += str;
                     }
                 }
                 else
                 {
                     IsKeyBoardTyped = true;
-                    _startTyping = true;
-                    ScreenKeyboard = view.Text;
+                    ScreenKeyboard = str;
                 }
             }
         }
@@ -89,9 +97,8 @@ namespace Next2.Controls.Templates
         private async Task OnTabClearAsync(object? arg)
         {
             ScreenKeyboard = PlaceHolder;
-            _startTyping = false;
             IsKeyBoardTyped = false;
-            ErrorNotification = false;
+            IsErrorNotificationVisible = false;
         }
         #endregion
     }

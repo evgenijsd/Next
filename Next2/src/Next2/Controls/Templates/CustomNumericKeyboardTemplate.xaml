@@ -64,7 +64,7 @@
                     
                         <Image 
                             Source="ic_danger_circle"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ErrorNotification}"  
+                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"  
                             Margin="0, 8, 5, 8"
                             HorizontalOptions="EndAndExpand"/>
                     
@@ -74,7 +74,7 @@
                     
                         <DataTrigger 
                             TargetType="controls:CustomFrame"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ErrorNotification}"                                        
+                            Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"                                        
                             Value="True">
                     
                             <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
@@ -99,70 +99,70 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Title="1"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="0"
                         Grid.Column="1"
                         Title="2"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="0"
                         Grid.Column="2"
                         Title="3"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="1"
                         Grid.Column="0"
                         Title="4"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="1"
                         Grid.Column="1"
                         Title="5"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="1"
                         Grid.Column="2"
                         Title="6"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="2"
                         Grid.Column="0"
                         Title="7"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="2"
                         Grid.Column="1"
                         Title="8"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="2"
                         Grid.Column="2"
                         Title="9"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="3"
                         Grid.Column="0"
                         Title="0"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
                     <buttons:NumericKeyboardButton                       
                         Grid.Row="3"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         Title="Clear"
-                        TabGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTabCommand}"/>
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTapCommand}"/>
 
                 </Grid>
                 
@@ -199,8 +199,8 @@
                 <Frame.GestureRecognizers>
 
                     <TapGestureRecognizer 
-                        Command="{Binding GoToStartPageCommand}"
-                        CommandParameter="{x:Reference employeeId}"/>
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ApplyCommand}" 
+                        CommandParameter="{Binding Source={x:Reference employeeId}, Path=Text}"/>
 
                 </Frame.GestureRecognizers>
 

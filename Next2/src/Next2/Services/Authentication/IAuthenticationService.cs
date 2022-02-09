@@ -7,7 +7,7 @@ namespace Next2.Services.Authentication
     public interface IAuthenticationService
     {
         UserModel User { get; }
-        Task<AOResult<UserModel>> AuthorizationAsync(int userId);
+        Task<AOResult<UserModel>> AuthorizeAsync(int userId);
         void LogOut();
     }
 }

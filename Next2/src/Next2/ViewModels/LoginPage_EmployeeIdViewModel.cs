@@ -24,6 +24,7 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
         private async Task OnGoBackCommandAsync()
         {
             EmployeeId = new string(EmployeeId?.Where(char.IsDigit).ToArray());

@@ -25,8 +25,8 @@
     <controls:CustomFrame.GestureRecognizers>
     
         <TapGestureRecognizer 
-            Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}, Path=TabGestureRecognizerCommand}"
-            CommandParameter="{x:Reference buttonTitle}"/>
+            Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:NumericKeyboardButton}}, Path=TapGestureRecognizerCommand}"
+            CommandParameter="{Binding Source={x:Reference buttonTitle}, Path=Text}"/>
     
     </controls:CustomFrame.GestureRecognizers>
 

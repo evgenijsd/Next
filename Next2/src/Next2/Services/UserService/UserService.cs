@@ -22,7 +22,7 @@ namespace Next2.Services.ProfileService
 
         #region -- Public Properties --
 
-        public int UserId
+        public int AuthorizedUserId
         {
             get => _settingsManager.UserId;
         }
