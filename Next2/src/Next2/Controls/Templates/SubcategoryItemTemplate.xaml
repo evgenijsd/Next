@@ -5,10 +5,10 @@
     x:Class="Next2.Controls.Templates.SubCategoryItemTemplate"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     Orientation="Vertical"
+    IsClippedToBounds="True"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
     x:Name="stackLayout"
     Spacing="0"
-    IsClippedToBounds="True"
     Padding="0">
 
     <VisualStateManager.VisualStateGroups>

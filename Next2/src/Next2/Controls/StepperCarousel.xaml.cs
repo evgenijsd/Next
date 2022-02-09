@@ -11,6 +11,8 @@ namespace Next2.Controls
     {
         private int firstVisibleItemIndex;
 
+        private double viewItemWidth;
+
         public StepperCarousel()
         {
             InitializeComponent();
@@ -46,8 +48,6 @@ namespace Next2.Controls
 
         public ICommand TapRightButtonCommand => new AsyncCommand(OnTapRightButtonCommandAsync);
 
-        public ICommand ScrolledCommand => new AsyncCommand<int>(OnScrolledCommandAsync);
-
         #endregion
 
         #region --Private methods--
@@ -68,10 +68,19 @@ namespace Next2.Controls
             return Task.CompletedTask;
         }
 
-        private Task OnScrolledCommandAsync(int firstVisibleItemIdx)
+        private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            firstVisibleItemIndex = firstVisibleItemIdx;
-            return Task.CompletedTask;
+            if (viewItemWidth == 0f)
+            {
+                if (sender is CollectionView collectionView)
+                {
+                    var template = collectionView.ItemTemplate;
+                    var view = (View)template.CreateContent();
+                    viewItemWidth = view.WidthRequest;
+                }
+            }
+
+            firstVisibleItemIndex = (int)(e.HorizontalOffset / viewItemWidth) * 2;
         }
 
         #endregion

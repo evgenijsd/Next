@@ -52,26 +52,10 @@
 
                 <VisualState.Setters>
 
-                    <Setter Property="WidthRequest" Value="122" />
+                    <Setter Property="WidthRequest" Value="129" />
 
                 </VisualState.Setters>
 
-            </VisualState>
-            
-            <!--<VisualState Name="allMini">
-
-                <VisualState.StateTriggers>
-                    
-                    <AdaptiveTrigger MinWindowWidth="0" />
-                    
-                </VisualState.StateTriggers>
-                
-                <VisualState.Setters>
-
-                    <Setter TargetName="frame" Property="Frame.WidthRequest" Value="162" />
-                    
-                </VisualState.Setters>
-                
             </VisualState>
 
             <VisualState Name="moreiPadMini">
@@ -84,7 +68,7 @@
 
                 <VisualState.Setters>
 
-                    <Setter TargetName="frame" Property="Frame.WidthRequest" Value="137" />
+                    <Setter Property="WidthRequest" Value="165" />
 
                 </VisualState.Setters>
                 
@@ -100,13 +84,13 @@
 
                 <VisualState.Setters>
 
-                    <Setter TargetName="frame" Property="Frame.WidthRequest" Value="100" />
+                    <Setter Property="WidthRequest" Value="127" />
 
                 </VisualState.Setters>
-                
-            </VisualState>-->
 
-            <!--<VisualState Name="moreiPadPro11">
+            </VisualState>
+
+            <VisualState Name="moreiPadPro11">
 
                 <VisualState.StateTriggers>
 
@@ -116,23 +100,7 @@
 
                 <VisualState.Setters>
 
-                    <Setter TargetName="frame" Property="Frame.WidthRequest" Value="50" />
-
-                </VisualState.Setters>
-                
-            </VisualState>-->
-
-            <VisualState Name="moreiPadMini6th">
-
-                <VisualState.StateTriggers>
-
-                    <AdaptiveTrigger MinWindowWidth="1366" />
-
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-
-                    <Setter Property="WidthRequest" Value="132" />
+                    <Setter Property="WidthRequest" Value="138" />
 
                 </VisualState.Setters>
 

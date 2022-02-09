@@ -17,7 +17,47 @@
 
     <Grid
         ColumnSpacing="0"
-        ColumnDefinitions="110, *">
+        ColumnDefinitions="100, *">
+
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroup Name="AdaptiveSideMenu">
+
+                <VisualState Name="moreiPadMini">
+
+                    <VisualState.StateTriggers>
+
+                        <AdaptiveTrigger MinWindowWidth="1134" />
+
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+
+                        <Setter Property="ColumnDefinitions" Value="110, *" />
+
+                    </VisualState.Setters>
+
+                </VisualState>
+
+                <VisualState Name="moreiPadPro11">
+
+                    <VisualState.StateTriggers>
+
+                        <AdaptiveTrigger MinWindowWidth="1195" />
+
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+
+                        <Setter Property="ColumnDefinitions" Value="130, *" />
+
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
 
         <!--SIDE MENU-->
         

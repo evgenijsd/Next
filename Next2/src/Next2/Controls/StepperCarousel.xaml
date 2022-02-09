@@ -15,9 +15,9 @@
     Spacing="16"
     Orientation="Horizontal"
     x:Name="stepperCarousel">
-<!--16 40-->
+
     <Frame
-        HeightRequest="116"
+        HeightRequest="100"
         HasShadow="False"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
@@ -25,34 +25,80 @@
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapLeftButtonCommand}">
 
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                <VisualState Name="miniHeight">
+
+                    <VisualState.StateTriggers>
+
+                        <AdaptiveTrigger MinWindowHeight="601" />
+
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+
+                        <Setter Property="HeightRequest" Value="116" />
+
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
+
         <ffimageloading:CachedImage Source="ic_arrow_left_24x24.png"/>
 
     </Frame>
 
     <CollectionView
         HorizontalOptions="StartAndExpand"
-        HeightRequest="116"
+        HeightRequest="100"
         x:Name="collectionView"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         SelectionMode="Single"
         ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
-        SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}">
+        SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
+        Scrolled="collectionView_Scrolled">
+        
+        <VisualStateManager.VisualStateGroups>
 
-        <CollectionView.Effects>
-            
-            <effects:NoOverScrollEffect/>
-            
-        </CollectionView.Effects>
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
 
-        <CollectionView.Behaviors>
+                <VisualState Name="miniHeight">
 
-            <behaviors:EventToCommandBehavior
-                Command="{Binding ScrolledCommand, Source={x:Reference stepperCarousel}}"
-                EventName="Scrolled"
-                EventArgsParameterPath="FirstVisibleItemIndex"/>
+                    <VisualState.StateTriggers>
 
-        </CollectionView.Behaviors>
+                        <AdaptiveTrigger MinWindowHeight="601" />
+
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+
+                        <Setter Property="HeightRequest" Value="116" />
+
+                        <Setter Property="ItemsLayout">
+
+                            <GridItemsLayout
+                                Orientation="Horizontal"
+                                Span="2"
+                                SnapPointsType="Mandatory" 
+                                SnapPointsAlignment="Start"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="8"/>
+                            
+                        </Setter>
+
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
 
         <CollectionView.ItemsLayout>
 
@@ -61,10 +107,16 @@
                 Span="2"
                 SnapPointsType="Mandatory" 
                 SnapPointsAlignment="Start"
-                VerticalItemSpacing="8"
-                HorizontalItemSpacing="8"/>
+                VerticalItemSpacing="4"
+                HorizontalItemSpacing="4"/>
 
         </CollectionView.ItemsLayout>
+
+        <CollectionView.Effects>
+
+            <effects:NoOverScrollEffect/>
+
+        </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
 
@@ -82,14 +134,38 @@
     </CollectionView>
     
     <Frame
-        HeightRequest="116"
+        HeightRequest="100"
         HasShadow="False"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapRightButtonCommand}">
+        
+        <VisualStateManager.VisualStateGroups>
 
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                <VisualState Name="miniHeight">
+
+                    <VisualState.StateTriggers>
+
+                        <AdaptiveTrigger MinWindowHeight="601" />
+
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+
+                        <Setter Property="HeightRequest" Value="116" />
+
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
+        
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 
     </Frame>

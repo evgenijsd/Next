@@ -395,7 +395,7 @@ namespace Next2.Services.MockService
                 {
                     Id = id++,
                     SubcategoryId = 1,
-                    Title = "A Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
