@@ -43,7 +43,7 @@
                     WidthRequest="260"
                     HorizontalOptions="End"
                     VerticalOptions="End"
-                    IsSelected="{Binding IsSelectedOrders}">
+                    IsSelected="{Binding IsOrderTabsSelected}">
                     <controls:CustomButtonSwitch.GestureRecognizers>
                         <TapGestureRecognizer
                             Command="{Binding ButtonOrdersCommand}" />
@@ -59,7 +59,7 @@
                     HorizontalOptions="Start"
                     VerticalOptions="End"
                     CornerRadius="10"
-                    IsSelected="{Binding IsSelectedOrders, Converter={xct:InvertedBoolConverter}}"
+                    IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
                     IsRight="True">
                     <controls:CustomButtonSwitch.GestureRecognizers>
                         <TapGestureRecognizer
@@ -81,7 +81,7 @@
                 <controls:CustomButton
                     Grid.Row="0"
                     CornerRadius="5"
-                    IsVisible="{Binding IsSelectedOrders}"
+                    IsVisible="{Binding IsOrderTabsSelected}"
                     IsVisibleSearch="True"
                     Text="{xct:Translate SearchTableNumber}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -91,7 +91,7 @@
                 <controls:CustomButton
                     Grid.Row="0"
                     CornerRadius="5"
-                    IsVisible="{Binding IsSelectedOrders, Converter={xct:InvertedBoolConverter}}"
+                    IsVisible="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
                     IsVisibleSearch="True"
                     Text="{xct:Translate SearchName}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -128,7 +128,7 @@
                         BorderColor="{DynamicResource IndicationColor_i7}"
                         BackColor="Transparent"
                         WidthRequest="100"
-                        IsVisible="{Binding IsSelectedOrders}" />
+                        IsVisible="{Binding IsOrderTabsSelected}" />
 
                     <controls:CustomButton
                         CornerRadius="5"
@@ -172,7 +172,7 @@
                         Text="{xct:Translate TableNumber}"
                         HeightRequest="{DynamicResource TSize_i8}"
                         LineBreakMode="TailTruncation"
-                        IsVisible="{Binding IsSelectedOrders}"
+                        IsVisible="{Binding IsOrderTabsSelected}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i8}"
                         Style="{DynamicResource BaseContent_i1}" />
@@ -183,7 +183,7 @@
                         Text="{xct:Translate CustomerName}"
                         HeightRequest="{DynamicResource TSize_i8}"
                         LineBreakMode="TailTruncation"
-                        IsVisible="{Binding IsSelectedOrders, Converter={xct:InvertedBoolConverter}}"
+                        IsVisible="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i8}"
                         Style="{DynamicResource BaseContent_i1}" />
@@ -382,9 +382,7 @@
                                                 TargetType="Label"
                                                 Property="Text"
                                                 Value="Annuled">
-                                                <Setter
-                                                    Property="TextColor"
-                                                    Value="{DynamicResource IndicationColor_i3}" />
+                                                <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                                             </Trigger>
                                         </Label.Triggers>
 

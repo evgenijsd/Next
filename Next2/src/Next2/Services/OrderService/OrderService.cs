@@ -19,17 +19,17 @@ namespace Next2.Services
 
         #region -- Interface implementation --
 
-        public async Task<AOResult<List<OrderModel>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync()
         {
-            var result = new AOResult<List<OrderModel>>();
+            var result = new AOResult<IEnumerable<OrderModel>>();
 
             try
             {
-                var orders = await _mockService.GetAllAsync<OrderModel>();
+                var orders = await _mockService.GetAllAsync<OrderModel>(); // GetAsync<OrderModel>(x => x.Id == 2 || x.Id == 3);
 
                 if (orders != null)
                 {
-                    result.SetSuccess(orders.ToList());
+                    result.SetSuccess(orders);
                 }
                 else
                 {

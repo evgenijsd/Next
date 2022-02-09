@@ -28,6 +28,7 @@
         {
             public const double SUMM_ROW_HEIGHT = 65 + 55 + 135 + 2;
             public const double BUTTONS_HEIGHT = 142;
+            public const double ROW_HEIGHT = 47 + 2;
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using Next2.Models;
+﻿using AutoMapper;
+using Next2.Enums;
+using Next2.Models;
 using Next2.Services;
-using Next2.Views.Mobile;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,21 +21,22 @@ namespace Next2.ViewModels
 
         private bool _isDirectionSortNames = false;
         private bool _isDirectionSortOrders = true;
-        private List<OrderModel>? _ordersBase;
-        private List<OrderModel>? _tabsBase;
+        private IEnumerable<OrderModel>? _ordersBase;
+        private IEnumerable<OrderModel>? _tabsBase;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
         {
-            Text = "OrderTabs";
             _orderService = orderService;
         }
 
         #region -- Public properties --
 
         public double HeightPage { get; set; }
+
+        public EOrderTabSorting OrderSorting { get; set; }
 
         private GridLength _heightCollectionGrid;
         public GridLength HeightCollectionGrid
@@ -47,16 +49,14 @@ namespace Next2.ViewModels
 
         public bool IsOrdersRefreshing { get; set; }
 
-        private bool _isSelectedOrders = true;
-
-        public bool IsSelectedOrders
+        private bool _isOrderTabsSelected = true;
+        public bool IsOrderTabsSelected
         {
-            get => _isSelectedOrders;
-            set => SetProperty(ref _isSelectedOrders, value);
+            get => _isOrderTabsSelected;
+            set => SetProperty(ref _isOrderTabsSelected, value);
         }
 
         private OrderViewModel? _selectedOrder = null;
-
         public OrderViewModel? SelectedOrder
         {
             get => _selectedOrder;
@@ -64,7 +64,6 @@ namespace Next2.ViewModels
         }
 
         private ObservableCollection<OrderViewModel>? _orders;
-
         public ObservableCollection<OrderViewModel>? Orders
         {
             get => _orders;
@@ -72,23 +71,18 @@ namespace Next2.ViewModels
         }
 
         private ICommand _ButtonOrdersCommand;
-
         public ICommand ButtonOrdersCommand => _ButtonOrdersCommand ??= new AsyncCommand(OnButtonOrdersCommandAsync);
 
         private ICommand _ButtonTabsCommand;
-
         public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
 
         private ICommand _GoBackCommand;
-
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
         private ICommand _SortByNameCommand;
-
         public ICommand SortByNameCommand => _SortByNameCommand ??= new AsyncCommand(OnSortByNameCommandAsync);
 
         private ICommand _SortByOrderCommand;
-
         public ICommand SortByOrderCommand => _SortByOrderCommand ??= new AsyncCommand(OnSortByOrderCommandAsync);
 
         private ICommand _refreshOrdersCommand;
@@ -100,9 +94,18 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            HeightCollectionGrid = new GridLength(HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT);
+            var heightCollectionScreen = HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT;
+            HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
             await LoadData();
+
+            var heightCollection = Orders.Count * LayoutOrderTabs.ROW_HEIGHT;
+            if (heightCollectionScreen > heightCollection)
+            {
+                heightCollectionScreen = heightCollection;
+            }
+
+            HeightCollectionGrid = new GridLength(heightCollectionScreen);
         }
 
         public override async void OnAppearing()
@@ -116,20 +119,38 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(SelectedOrder))
             {
+                var heightCollection = Orders.Count * LayoutOrderTabs.ROW_HEIGHT;
+                var heightCollectionScreen = HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT;
+
                 if (SelectedOrder != null)
                 {
-                    HeightCollectionGrid = new GridLength(HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT - LayoutOrderTabs.BUTTONS_HEIGHT);
+                    heightCollectionScreen = HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT - LayoutOrderTabs.BUTTONS_HEIGHT;
                 }
-                else
+
+                if (heightCollectionScreen > heightCollection)
                 {
-                    HeightCollectionGrid = new GridLength(HeightPage - LayoutOrderTabs.SUMM_ROW_HEIGHT);
+                    heightCollectionScreen = heightCollection;
                 }
+
+                HeightCollectionGrid = new GridLength(heightCollectionScreen);
             }
         }
 
         #endregion
 
         #region -- Private helpers --
+
+        /*private IEnumerable<OrderViewModel> GetSortedMembers(IEnumerable<OrderViewModel> orderTabs)
+        {
+            Func<OrderViewModel, object> comparer = OrderSorting switch
+            {
+                EOrderTabSorting.ByTableNumber => x =>
+                //EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
+                _ => x => x.CustomerName,
+            };
+
+            return orderTabs.OrderBy(comparer);
+        }*/
 
         private async Task OnRefreshOrdersCommandAsync()
         {
@@ -149,56 +170,43 @@ namespace Next2.ViewModels
                 if (resultTabs.IsSuccess)
                 {
                     _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
-                    IsOrdersRefreshing = false;
                 }
             }
 
-            await GetVisualCollection();
+            IsOrdersRefreshing = false;
+
+            await SetVisualCollection();
         }
 
-        private Task GetVisualCollection()
+        private Task SetVisualCollection()
         {
             SelectedOrder = null;
             _isDirectionSortNames = false;
             _isDirectionSortOrders = true;
+            MapperConfiguration config;
+
             Orders = new ObservableCollection<OrderViewModel>();
 
-            List<OrderModel>? result = new List<OrderModel>();
+            IEnumerable<OrderModel>? result;
 
-            if (IsSelectedOrders)
+            if (IsOrderTabsSelected)
             {
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderViewModel>()
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName)));
                 result = _ordersBase;
             }
             else
             {
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderViewModel>()
+                            .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}")));
                 result = _tabsBase;
             }
 
             if (result != null)
             {
-                foreach (var r in result)
-                {
-                    string? name;
+                var mapper = new Mapper(config);
 
-                    if (IsSelectedOrders)
-                    {
-                        name = $"Table {r.TableNumber}";
-                    }
-                    else
-                    {
-                        name = r.CustomerName;
-                    }
-
-                    Orders.Add(new OrderViewModel
-                    {
-                        Name = name,
-                        OrderNumber = r.OrderNumber,
-                        Total = r.Total,
-                        TableNumber = r.TableNumber,
-                        OrderStatus = r.OrderStatus,
-                        OrderType = r.OrderType,
-                    });
-                }
+                Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderViewModel>>(result);
             }
 
             return Task.CompletedTask;
@@ -206,19 +214,19 @@ namespace Next2.ViewModels
 
         private async Task OnButtonOrdersCommandAsync()
         {
-            if (!IsSelectedOrders)
+            if (!IsOrderTabsSelected)
             {
-                IsSelectedOrders = !IsSelectedOrders;
-                await GetVisualCollection();
+                IsOrderTabsSelected = !IsOrderTabsSelected;
+                await SetVisualCollection();
             }
         }
 
         private async Task OnButtonTabsCommandAsync()
         {
-            if (IsSelectedOrders)
+            if (IsOrderTabsSelected)
             {
-                IsSelectedOrders = !IsSelectedOrders;
-                await GetVisualCollection();
+                IsOrderTabsSelected = !IsOrderTabsSelected;
+                await SetVisualCollection();
             }
         }
 
@@ -229,7 +237,7 @@ namespace Next2.ViewModels
 
         private Task OnSortByNameCommandAsync()
         {
-            if (IsSelectedOrders)
+            if (IsOrderTabsSelected)
             {
                 if (_isDirectionSortNames)
                 {

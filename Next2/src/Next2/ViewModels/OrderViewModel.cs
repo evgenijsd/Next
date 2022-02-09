@@ -12,7 +12,6 @@ namespace Next2.ViewModels
         public int TableNumber { get; set; }
 
         private string? _name;
-
         public string? Name
         {
             get => _name;
@@ -20,7 +19,6 @@ namespace Next2.ViewModels
         }
 
         private string? _orderStatus;
-
         public string? OrderStatus
         {
             get => _orderStatus;
@@ -28,7 +26,6 @@ namespace Next2.ViewModels
         }
 
         private string? _orderType;
-
         public string? OrderType
         {
             get => _orderType;
@@ -36,7 +33,6 @@ namespace Next2.ViewModels
         }
 
         private int _orderNumber;
-
         public int OrderNumber
         {
             get => _orderNumber;
@@ -44,7 +40,6 @@ namespace Next2.ViewModels
         }
 
         private double _total;
-
         public double Total
         {
             get => _total;
