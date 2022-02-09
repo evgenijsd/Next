@@ -11,13 +11,24 @@
     x:DataType="viewModels:OrderTabsViewModel">
 
     <StackLayout
+        Height="{Binding HeightPage}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <Grid
             HorizontalOptions="Fill"
             VerticalOptions="Fill"
-            RowSpacing="0"
-            RowDefinitions="75,2,135,2,*">
+            RowSpacing="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="75" />
+                <RowDefinition
+                    Height="2" />
+                <RowDefinition
+                    Height="95" />
+                <RowDefinition
+                    Height="{Binding HeightCollectionGrid}" />
+            </Grid.RowDefinitions>
 
             <Grid
                 Grid.Row="0"
@@ -75,7 +86,7 @@
 
             <Grid
                 Grid.Row="2"
-                Margin="17,30,0,65"
+                Margin="20,30,0,20"
                 ColumnDefinitions="325,*">
 
                 <controls:CustomButton
@@ -102,7 +113,7 @@
                     Grid.Column="1"
                     Orientation="Horizontal"
                     Spacing="15"
-                    Margin="0,0,17,0">
+                    Margin="0,0,20,0">
 
                     <controls:CustomButton
                         CornerRadius="5"
@@ -143,274 +154,284 @@
             </Grid>
 
             <Frame
-                Grid.Row="2"
+                Grid.Row="3"
                 HasShadow="False"
-                Margin="17,85,17,-20"
+                Margin="20,0,20,20"
                 CornerRadius="10"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                <StackLayout>
+                    <!--BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" /-->
+
+                    <!-- TABLE -->
+
+                    <Grid
+                        Margin="0,15,0,0"
+                        VerticalOptions="Start"
+                        HeightRequest="35"
+                        MinimumHeightRequest="35"
+                        ColumnDefinitions="50,*,*,*,*">
+
+                        <StackLayout
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="0">
+
+                            <Label
+                                Margin="20,0,0,0"
+                                Text="{xct:Translate TableNumber}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i8}"
+                                FontFamily="Barlow-Medium">
+
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding SortByNameCommand}" />
+                                </Label.GestureRecognizers>
+
+                                <Label.Triggers>
+                                    <DataTrigger
+                                        TargetType="Label"
+                                        Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
+                                        Value="False">
+                                        <Setter
+                                            Property="Text"
+                                            Value="{xct:Translate CustomerName}" />
+                                    </DataTrigger>
+
+                                </Label.Triggers>
+
+                            </Label>
+
+                            <ffimageloading:CachedImage
+                                Source="ic_sort_primary_24x24"
+                                HeightRequest="25"
+                                Margin="10,0,0,0"
+                                VerticalOptions="StartAndExpand" />
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding SortByNameCommand}" />
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Column="2"
+                            Orientation="Horizontal">
+
+                            <Label
+                                HorizontalOptions="Start"
+                                Margin="11,0,0,0"
+                                Text="{xct:Translate OrderNumber}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i8}"
+                                Style="{DynamicResource BaseContent_i1}" />
+
+                            <ffimageloading:CachedImage
+                                Source="ic_sort_primary_24x24"
+                                HeightRequest="25"
+                                Margin="5,-15,0,0"
+                                VerticalOptions="CenterAndExpand" />
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding SortByOrderCommand}" />
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <Label
+                            Grid.Column="3"
+                            HorizontalOptions="StartAndExpand"
+                            Margin="3,0,0,0"
+                            Text="{xct:Translate Total}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            Style="{DynamicResource BaseContent_i1}" />
+
+                        <Label
+                            Grid.Column="4"
+                            HorizontalOptions="StartAndExpand"
+                            Margin="5,0,0,0"
+                            Text="{xct:Translate OrderStatus}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            Style="{DynamicResource BaseContent_i1}" />
+
+                        <Label
+                            Grid.Column="5"
+                            HorizontalOptions="StartAndExpand"
+                            Margin="1,0,0,0"
+                            Text="{xct:Translate OrderType}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            Style="{DynamicResource BaseContent_i1}" />
+
+                    </Grid>
+
+                    <!-- TABLE CONTENT -->
+
+                    <RefreshView
+                        IsRefreshing="{Binding IsOrdersRefreshing}"
+                        Command="{Binding RefreshOrdersCommand}">
+
+                        <controls:CustomScrollBarCollectionView
+                            ItemsSource="{Binding Orders}"
+                            SelectionMode="Single"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            VerticalScrollBarVisibility="Always"
+                            ThumbWidth="8"
+                            ScrollBarCornerRadius="10"
+                            ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                            ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
+
+                            <CollectionView.Effects>
+                                <effects:NoOverScrollEffect />
+                            </CollectionView.Effects>
+
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate
+                                    x:DataType="viewModels:OrderViewModel">
+
+                                    <Grid
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill"
+                                        RowSpacing="0"
+                                        RowDefinitions="48,2">
+
+
+                                        <VisualStateManager.VisualStateGroups>
+
+                                            <VisualStateGroup
+                                                Name="CommonStates">
+
+                                                <VisualState
+                                                    Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter
+                                                            Property="BackgroundColor"
+                                                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+
+                                                <VisualState
+                                                    Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter
+                                                            Property="BackgroundColor"
+                                                            Value="{DynamicResource AppColor_i4}" />
+                                                        <Setter
+                                                            TargetName="_label"
+                                                            Property="Label.TextColor"
+                                                            Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                        <Setter
+                                                            TargetName="_image"
+                                                            Property="ffimageloading:CachedImage.Source"
+                                                            Value="ic_check_box_checked_white" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+
+                                        </VisualStateManager.VisualStateGroups>
+
+                                        <Grid
+                                            Grid.Row="0"
+                                            ColumnDefinitions="50,*,*,*,*">
+
+                                            <ffimageloading:CachedImage
+                                                Source="ic_check_box_unchecked_white"
+                                                Grid.Column="0"
+                                                HeightRequest="25"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Margin="20,0,0,0"
+                                                VerticalOptions="CenterAndExpand"
+                                                x:Name="_image">
+                                            </ffimageloading:CachedImage>
+
+                                            <Label
+                                                Grid.Column="1"
+                                                HorizontalOptions="FillAndExpand"
+                                                Margin="20,13,0,0"
+                                                Text="{Binding Name}"
+                                                HeightRequest="{DynamicResource TSize_i8}"
+                                                LineBreakMode="TailTruncation"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                Style="{DynamicResource BaseContent_i4}" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                HorizontalOptions="StartAndExpand"
+                                                Margin="15,13,0,0"
+                                                Text="{Binding OrderNumber}"
+                                                Style="{DynamicResource BaseContent_i4}"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                            <Label
+                                                Grid.Column="3"
+                                                HorizontalOptions="StartAndExpand"
+                                                Margin="10,13,0,0"
+                                                Style="{DynamicResource BaseContent_i4}"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                Text="{Binding Total, StringFormat='$ {0:F2}'}" />
+
+                                            <Label
+                                                Grid.Column="4"
+                                                HorizontalOptions="StartAndExpand"
+                                                Margin="15,13,0,0"
+                                                Text="{Binding OrderStatus}"
+                                                Style="{DynamicResource BaseContent_i4}"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                TextColor="{DynamicResource IndicationColor_i5}"
+                                                x:Name="_label">
+
+                                                <Label.Triggers>
+                                                    <Trigger
+                                                        TargetType="Label"
+                                                        Property="Text"
+                                                        Value="Annuled">
+                                                        <Setter
+                                                            Property="TextColor"
+                                                            Value="{DynamicResource IndicationColor_i3}" />
+                                                    </Trigger>
+                                                </Label.Triggers>
+
+                                            </Label>
+
+                                            <Label
+                                                Grid.Column="5"
+                                                HorizontalOptions="StartAndExpand"
+                                                Margin="15,13,0,0"
+                                                Text="{Binding OrderType}"
+                                                Style="{DynamicResource BaseContent_i4}"
+                                                FontSize="{DynamicResource TSize_i8}"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                        </Grid>
+
+                                        <BoxView
+                                            Grid.Row="1"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                    </Grid>
+
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+
+                        </controls:CustomScrollBarCollectionView>
+
+                    </RefreshView>
+
+
+                </StackLayout>
+
             </Frame>
-
-            <BoxView
-                Grid.Row="3"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
-            <!-- TABLE -->
-
-            <Grid
-                Grid.Row="2"
-                Margin="17,100,0,0"
-                ColumnDefinitions="50,*,*,*,*">
-
-                <StackLayout
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Spacing="0">
-
-                    <Label
-                        HorizontalOptions="Start"
-                        Margin="20,0,0,0"
-                        Text="{xct:Translate TableNumber}"
-                        HeightRequest="{DynamicResource TSize_i8}"
-                        LineBreakMode="TailTruncation"
-                        IsVisible="{Binding IsOrderTabsSelected}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        Style="{DynamicResource BaseContent_i1}" />
-
-                    <Label
-                        HorizontalOptions="Start"
-                        Margin="20,0,0,0"
-                        Text="{xct:Translate CustomerName}"
-                        HeightRequest="{DynamicResource TSize_i8}"
-                        LineBreakMode="TailTruncation"
-                        IsVisible="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        Style="{DynamicResource BaseContent_i1}" />
-
-                    <ffimageloading:CachedImage
-                        Source="ic_sort_primary_24x24"
-                        HeightRequest="25"
-                        Margin="10,-15,0,0"
-                        VerticalOptions="CenterAndExpand" />
-
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding SortByNameCommand}" />
-                    </StackLayout.GestureRecognizers>
-
-                </StackLayout>
-
-                <StackLayout
-                    Grid.Column="2"
-                    Orientation="Horizontal">
-
-                    <Label
-                        HorizontalOptions="Start"
-                        Margin="11,0,0,0"
-                        Text="{xct:Translate OrderNumber}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        Style="{DynamicResource BaseContent_i1}" />
-
-                    <ffimageloading:CachedImage
-                        Source="ic_sort_primary_24x24"
-                        HeightRequest="25"
-                        Margin="5,-15,0,0"
-                        VerticalOptions="CenterAndExpand" />
-
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding SortByOrderCommand}" />
-                    </StackLayout.GestureRecognizers>
-
-                </StackLayout>
-
-                <Label
-                    Grid.Column="3"
-                    HorizontalOptions="StartAndExpand"
-                    Margin="3,0,0,0"
-                    Text="{xct:Translate Total}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    Style="{DynamicResource BaseContent_i1}" />
-
-                <Label
-                    Grid.Column="4"
-                    HorizontalOptions="StartAndExpand"
-                    Margin="5,0,0,0"
-                    Text="{xct:Translate OrderStatus}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    Style="{DynamicResource BaseContent_i1}" />
-
-                <Label
-                    Grid.Column="5"
-                    HorizontalOptions="StartAndExpand"
-                    Margin="1,0,0,0"
-                    Text="{xct:Translate OrderType}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    Style="{DynamicResource BaseContent_i1}" />
-
-            </Grid>
-
-            <!-- TABLE CONTENT -->
-
-            <RefreshView
-                IsRefreshing="{Binding IsOrdersRefreshing}"
-                Command="{Binding RefreshOrdersCommand}"
-                Grid.Row="4">
-
-                <controls:CustomScrollBarCollectionView
-                    ItemsSource="{Binding Orders}"
-                    SelectionMode="Single"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                    Margin="17,0,17,0"
-                    VerticalScrollBarVisibility="Always"
-                    ThumbWidth="8"
-                    ScrollBarCornerRadius="10"
-                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
-
-                    <CollectionView.Effects>
-                        <effects:NoOverScrollEffect />
-                    </CollectionView.Effects>
-
-                    <CollectionView.ItemTemplate>
-
-                        <DataTemplate
-                            x:DataType="viewModels:OrderViewModel">
-
-                            <Grid
-                                HorizontalOptions="Fill"
-                                VerticalOptions="Fill"
-                                RowSpacing="0"
-                                RowDefinitions="47,2">
-
-
-                                <VisualStateManager.VisualStateGroups>
-
-                                    <VisualStateGroup
-                                        Name="CommonStates">
-
-                                        <VisualState
-                                            Name="Normal">
-                                            <VisualState.Setters>
-                                                <Setter
-                                                    Property="BackgroundColor"
-                                                    Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                        <VisualState
-                                            Name="Selected">
-                                            <VisualState.Setters>
-                                                <Setter
-                                                    Property="BackgroundColor"
-                                                    Value="{DynamicResource AppColor_i4}" />
-                                                <Setter
-                                                    TargetName="_label"
-                                                    Property="Label.TextColor"
-                                                    Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                                <Setter
-                                                    TargetName="_image"
-                                                    Property="ffimageloading:CachedImage.Source"
-                                                    Value="ic_check_box_checked_white" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-
-                                </VisualStateManager.VisualStateGroups>
-
-                                <Grid
-                                    Grid.Row="0"
-                                    ColumnDefinitions="50,*,*,*,*">
-
-                                    <ffimageloading:CachedImage
-                                        Source="ic_check_box_unchecked_white"
-                                        Grid.Column="0"
-                                        HeightRequest="25"
-                                        HorizontalOptions="CenterAndExpand"
-                                        Margin="20,0,0,0"
-                                        VerticalOptions="CenterAndExpand"
-                                        x:Name="_image">
-                                    </ffimageloading:CachedImage>
-
-                                    <Label
-                                        Grid.Column="1"
-                                        HorizontalOptions="FillAndExpand"
-                                        Margin="20,13,0,0"
-                                        Text="{Binding Name}"
-                                        HeightRequest="{DynamicResource TSize_i8}"
-                                        LineBreakMode="TailTruncation"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        Style="{DynamicResource BaseContent_i4}" />
-
-                                    <Label
-                                        Grid.Column="2"
-                                        HorizontalOptions="StartAndExpand"
-                                        Margin="15,13,0,0"
-                                        Text="{Binding OrderNumber}"
-                                        Style="{DynamicResource BaseContent_i4}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                                    <Label
-                                        Grid.Column="3"
-                                        HorizontalOptions="StartAndExpand"
-                                        Margin="10,13,0,0"
-                                        Style="{DynamicResource BaseContent_i4}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        Text="{Binding Total, StringFormat='$ {0:F2}'}" />
-
-                                    <Label
-                                        Grid.Column="4"
-                                        HorizontalOptions="StartAndExpand"
-                                        Margin="15,13,0,0"
-                                        Text="{Binding OrderStatus}"
-                                        Style="{DynamicResource BaseContent_i4}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        TextColor="{DynamicResource IndicationColor_i5}"
-                                        x:Name="_label">
-
-                                        <Label.Triggers>
-                                            <Trigger
-                                                TargetType="Label"
-                                                Property="Text"
-                                                Value="Annuled">
-                                                <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
-                                            </Trigger>
-                                        </Label.Triggers>
-
-                                    </Label>
-
-                                    <Label
-                                        Grid.Column="5"
-                                        HorizontalOptions="StartAndExpand"
-                                        Margin="15,13,0,0"
-                                        Text="{Binding OrderType}"
-                                        Style="{DynamicResource BaseContent_i4}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                                </Grid>
-
-                                <BoxView
-                                    Grid.Row="1"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-                            </Grid>
-
-                        </DataTemplate>
-
-                    </CollectionView.ItemTemplate>
-
-                </controls:CustomScrollBarCollectionView>
-
-            </RefreshView>
 
         </Grid>
 
