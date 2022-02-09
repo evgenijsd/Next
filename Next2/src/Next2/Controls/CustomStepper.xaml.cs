@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -50,6 +52,19 @@ namespace Next2.Controls
             set => SetValue(IconSizesProperty, value);
         }
 
+        public static readonly BindableProperty TextWidthProperty = BindableProperty.Create(
+            propertyName: nameof(TextWidth),
+            returnType: typeof(int),
+            defaultValue: 25,
+            declaringType: typeof(CustomStepper),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int TextWidth
+        {
+            get => (int)GetValue(TextWidthProperty);
+            set => SetValue(TextWidthProperty, value);
+        }
+
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
             propertyName: nameof(TextColor),
             returnType: typeof(Color),
@@ -89,6 +104,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ValueFormatProperty = BindableProperty.Create(
             propertyName: nameof(ValueFormat),
             returnType: typeof(string),
+            defaultValue: "{0}",
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -96,18 +112,6 @@ namespace Next2.Controls
         {
             get => (string)GetValue(ValueFormatProperty);
             set => SetValue(ValueFormatProperty, value);
-        }
-
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(
-            propertyName: nameof(Text),
-            returnType: typeof(string),
-            declaringType: typeof(CustomStepper),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public string Text
-        {
-            get => (string)GetValue(TextProperty);
-            set => SetValue(TextProperty, value);
         }
 
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(
@@ -125,6 +129,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IncrementValueProperty = BindableProperty.Create(
             propertyName: nameof(IncrementValue),
             returnType: typeof(int),
+            defaultValue: 1,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -137,6 +142,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MinValueProperty = BindableProperty.Create(
             propertyName: nameof(MinValue),
             returnType: typeof(int),
+            defaultValue: 1,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -149,6 +155,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MaxValueProperty = BindableProperty.Create(
             propertyName: nameof(MaxValue),
             returnType: typeof(int),
+            defaultValue: 10,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -158,11 +165,35 @@ namespace Next2.Controls
             set => SetValue(MaxValueProperty, value);
         }
 
+        public string DisplayingValue { get; private set; }
+
         private ICommand _decrementCommand;
         public ICommand DecrementCommand => _decrementCommand ??= new AsyncCommand(OnDecrementCommandAsync);
 
         private ICommand _incrementCommand;
         public ICommand IncrementCommand => _incrementCommand ??= new AsyncCommand(OnIncrementCommandAsync);
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == nameof(Value))
+            {
+                try
+                {
+                    DisplayingValue = ValueFormat != null
+                        ? string.Format(ValueFormat, Value)
+                        : Value.ToString();
+                }
+                catch (Exception)
+                {
+                }
+            }
+        }
 
         #endregion
 

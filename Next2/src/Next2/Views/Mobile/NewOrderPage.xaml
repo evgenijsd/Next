@@ -10,6 +10,7 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     x:Class="Next2.Views.Mobile.NewOrderPage"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -22,42 +23,46 @@
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
 
-            <!-- Bold (700) 32px -->
-            <Style x:Key="Bold32pxStyle" TargetType="Label">
-                <Setter Property="FontFamily" Value="Barlow-Bold"/>
-                <Setter Property="FontSize" Value="22"/>
+             <Style TargetType="ffimageloading:CachedImage">
+                <Setter Property="VerticalOptions" Value="Center"/>
             </Style>
-
-            <!-- SemiBold (600) 32px -->
-            <Style x:Key="SemiBold32pxStyle" TargetType="Label">
+            
+            <Style x:Key="ButtonStyle_i1" TargetType="buttons:BorderButton">
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+                <Setter Property="CornerRadius" Value="4"/>
                 <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                <Setter Property="FontSize" Value="32"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Padding" Value="9"/>
+            </Style>
+            
+            <!-- Bold (700) 32px -->
+            <Style x:Key="Bold32pxLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Bold"/>
+                <Setter Property="FontSize" Value="18"/>
             </Style>
             
             <!-- SemiBold (600) 24px -->
-            <Style x:Key="SemiBold24pxStyle" TargetType="Label">
+            <Style x:Key="SemiBold24pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontSize" Value="15"/>
             </Style>
             
              <!-- Regular (400) 32px -->
-            <Style x:Key="Regular32pxStyle" TargetType="Label">
+            <Style x:Key="Regular32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Regular"/>
-                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="FontSize" Value="18"/>
             </Style>
 
-            <Style x:Key="SeparatorLightStyle" TargetType="BoxView">
+            <!-- SEPARATORS -->
+            <Style x:Key="SeparatorLightBoxViewStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
-                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="HeightRequest" Value="0.5"/>
             </Style>
             
-            <Style x:Key="SeparatorDarkStyle" TargetType="BoxView">
+            <Style x:Key="SeparatorDarkBoxViewStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
-                <Setter Property="HeightRequest" Value="1"/>
-            </Style>
-
-            <Style TargetType="ffimageloading:CachedImage">
-                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HeightRequest" Value="0.5"/>
             </Style>
             
         </ContentView.Resources>
@@ -66,23 +71,25 @@
 
             <!-- HEADER, 1 ROW -->
             <StackLayout
-                Padding="20"
+                Padding="20, 13"
                 Orientation="Horizontal"
-                Spacing="20">
+                Spacing="17">
 
                 <ffimageloading:CachedImage
                     Margin="0, 3, 0, 0"
+                    HeightRequest="24"
+                    WidthRequest="24"
                     Source="ic_arrow_left_tail_24x24.png"
                     xct:TouchEffect.Command="{prism:GoBack}"/>
 
-                <Label Style="{DynamicResource Bold32pxStyle}">
+                <Label Style="{DynamicResource Bold32pxLabelStyle}">
 
                     <Label.FormattedText>
 
                         <FormattedString>
                             
                             <Span Text="{xct:Translate Order, StringFormat='{0} #'}"/>
-                            <Span Text="{Binding NewOrder.Id}"/>
+                            <Span Text="{Binding NewOrderId}"/>
                             
                         </FormattedString>
 
@@ -98,63 +105,29 @@
             </StackLayout>
 
             <!-- HEADER, 2 ROW -->
-            <StackLayout 
+            <StackLayout
+                Padding="20, 5"
                 Orientation="Horizontal"
-                Padding="20, 12">
+                Spacing="15">
 
                 <!-- REPLACE TO DROPDOWN CONTROL !!! -->
-                <Button
-                    VerticalOptions="Center"
-                    Text="DropDown" />
+                <Button Text="DropDown" />
 
-                <!-- STEPPER CONTROL -->
-                <!--<StackLayout
-                    Orientation="Horizontal"
+                <Label
+                    Style="{DynamicResource Bold32pxLabelStyle}"
+                    Padding="0, 0, 0, 4"
                     HorizontalOptions="EndAndExpand"
-                    Spacing="15">
-
-                    <Label
-                        Style="{DynamicResource Bold32pxStyle}"
-                        Text="{xct:Translate Seats}" />
-
-                    <ffimageloading:CachedImage
-                        WidthRequest="32"
-                        HeightRequest="32"
-                        Source="ic_minus_primary_32x32" />
-
-                    <Label
-                        Style="{DynamicResource Bold32pxStyle}"
-                        Text="{Binding NumberOfSeats}" />
-
-                    <ffimageloading:CachedImage
-                        WidthRequest="32"
-                        HeightRequest="32"
-                        Source="ic_plus_primary_32x32" />
-
-                </StackLayout>-->
-
-                <!--DecrementIconSource="{DynamicResource ic_minus_primary_32x32}"
-                    IncrementIconSource="{DynamicResource ic_plus_primary_32x32}"-->
-
+                    Text="{xct:Translate Seats}"/>
+                
                 <controls:CustomStepper
-                    DecrementIconSource="ic_minus_primary_32x32"
-                    IncrementIconSource="ic_plus_primary_32x32"
-                    IconSizes="32"
-                    Spacing="15"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontFamily="Barlow-Bold"
-                    FontSize="24"
-                    ValueFormat="/{0}%/"
-                    Text="Seats"
-                    Value="{Binding NumberOfSeats}"
-                    IncrementValue="1"
-                    MinValue="1"
-                    MaxValue="10"
-                    />
+                    IconSizes="28"
+                    Spacing="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Spacing}"
+                    FontSize="18"
+                    Value="{Binding NumberOfSeats}"/>
 
             </StackLayout>
 
-            <BoxView Style="{DynamicResource SeparatorLightStyle}"/>
+            <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}"/>
 
             <!-- MEALS LIST -->
             <CollectionView 
@@ -173,12 +146,14 @@
                         
                         <StackLayout>
 
-                            <StackLayout Orientation="Horizontal"
-                                         Padding="20"
-                                         x:DataType="models:TableBindableModel">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Padding="20"
+                                x:DataType="models:TableBindableModel">
 
-                                <Label HorizontalOptions="FillAndExpand" 
-                                       Text="{Binding Id}"/>
+                                <Label
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding Id}"/>
 
                                 <Label
                                     HorizontalOptions="FillAndExpand"
@@ -190,7 +165,7 @@
 
                             </StackLayout>
 
-                            <BoxView Style="{DynamicResource SeparatorLightStyle}" />
+                            <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}" />
 
                         </StackLayout>
 
@@ -200,127 +175,168 @@
                 
             </CollectionView>
 
-            <BoxView Style="{DynamicResource SeparatorLightStyle}" />
+            <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}" />
 
             <!-- SUMMARY -->
             <StackLayout>
 
                 <!-- SUMMARY HEADER -->
                 <StackLayout
-                    Padding="15, 8"
+                    Padding="20, 8"
+                    Spacing="13"
                     Orientation="Horizontal">
 
                     <Label
-                        Style="{DynamicResource Bold32pxStyle}"
+                        Style="{DynamicResource Bold32pxLabelStyle}"
                         Text="{xct:Translate Summary}" />
 
-                    <ffimageloading:CachedImage
-                        HeightRequest="40"
+                    <Frame 
                         HorizontalOptions="EndAndExpand"
-                        Source="ic_time_circle_40x40" />
+                        Padding="10"
+                        CornerRadius="3"
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        BackgroundColor="Transparent">
 
-                    <ffimageloading:CachedImage
-                        HeightRequest="40"
-                        Source="ic_discount_48x48" />
+                        <ffimageloading:CachedImage
+                            HeightRequest="28"
+                            WidthRequest="28"
+                            Source="ic_time_circle_40x40" />
 
-                    <ffimageloading:CachedImage
-                        HeightRequest="40"
-                        WidthRequest="40"
-                        Source="ic_tax">
-                        
-                        <ffimageloading:CachedImage.GestureRecognizers>
-                            
-                            <TapGestureRecognizer Command="{Binding RemoveTaxFromOrderCommand}"/>
-                            
-                        </ffimageloading:CachedImage.GestureRecognizers>
-                        
-                        <ffimageloading:CachedImage.Triggers>
-                            
+                    </Frame>
+
+                    <Frame
+                        Padding="10"
+                        CornerRadius="3"
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        BackgroundColor="Transparent">
+
+                        <ffimageloading:CachedImage
+                            HeightRequest="28"
+                            WidthRequest="28"
+                            Source="ic_discount_48x48" />
+
+                    </Frame>
+
+                    <Frame
+                        Padding="10"
+                        CornerRadius="3"
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        BackgroundColor="Transparent">
+
+                        <ffimageloading:CachedImage
+                            HeightRequest="28"
+                            WidthRequest="28"
+                            Source="ic_tax">
+
+                        </ffimageloading:CachedImage>
+
+                        <Frame.GestureRecognizers>
+
+                            <TapGestureRecognizer
+                                Command="{Binding RemoveTaxFromOrderCommand}" />
+
+                        </Frame.GestureRecognizers>
+
+                        <Frame.Triggers>
+
                             <DataTrigger 
-                                TargetType="ffimageloading:CachedImage"
-                                Binding="{Binding IsOrderWithTax}"
+                                TargetType="Frame" 
+                                Binding="{Binding IsOrderWithTax}" 
                                 Value="false">
-                                
-                                <Setter Property="WidthRequest" Value="0"/>
-                                
+
+                                <Setter Property="IsVisible" Value="false" />
+
                             </DataTrigger>
-                            
-                        </ffimageloading:CachedImage.Triggers>
-                        
-                    </ffimageloading:CachedImage>
+
+                        </Frame.Triggers>
+
+                    </Frame>
+
 
                 </StackLayout>
 
-                <BoxView Style="{DynamicResource SeparatorDarkStyle}"/>
+                <BoxView Style="{DynamicResource SeparatorDarkBoxViewStyle}"/>
 
-                <StackLayout
-                    Orientation="Horizontal"
-                    Padding="13, 7">
+                <!-- SUMMARY BODY -->
+                <StackLayout 
+                    Padding="20, 12, 20, 10"
+                    Spacing="15">
 
-                    <Label
-                        Style="{DynamicResource SemiBold24pxStyle}"
-                        Text="{xct:Translate Subtotal}" />
+                    <StackLayout
+                        Orientation="Horizontal">
 
-                    <Label
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding SubTotal}" />
+                        <Label
+                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            Text="{xct:Translate Subtotal}" />
 
-                </StackLayout>
+                        <Label
+                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding SubTotal}" />
 
-                <StackLayout
-                    Orientation="Horizontal"
-                    Padding="13, 7">
+                    </StackLayout>
 
-                    <Label
-                        Style="{DynamicResource SemiBold24pxStyle}"
-                        Text="{xct:Translate Tax}"/>
-                    
-                    <Label
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding Tax}" />
+                    <StackLayout
+                        Orientation="Horizontal">
 
-                </StackLayout>
+                        <Label
+                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            Text="{xct:Translate Tax}" />
 
-                <BoxView
-                    Margin="13, 0"
-                    Color="{DynamicResource TextAndBackgroundColor_i2}"
-                    HeightRequest="1" />
+                        <Label
+                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Tax}" />
 
-                <StackLayout
-                    Orientation="Horizontal"
-                    Padding="13, 7">
+                    </StackLayout>
 
-                    <Label
-                        Style="{DynamicResource Regular32pxStyle}"
-                        Text="{xct:Translate Total}" />
+                    <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}" />
 
-                    <Label
-                        Style="{DynamicResource Bold32pxStyle}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding Total}" />
+                    <StackLayout
+                        Orientation="Horizontal">
+
+                        <Label
+                            Style="{DynamicResource Regular32pxLabelStyle}"
+                            Text="{xct:Translate Total}" />
+
+                        <Label
+                            Style="{DynamicResource Bold32pxLabelStyle}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Total}" />
+
+                    </StackLayout>
 
                 </StackLayout>
 
             </StackLayout>
 
             <!-- BUTTONS -->
-            <StackLayout
-                Padding="13, 7"
-                Orientation="Horizontal">
+            <Grid 
+                Padding="20, 15, 20, 15"
+                RowDefinitions="auto"
+                ColumnSpacing="10">
 
-                <Button
-                    Text="Order"
-                    HorizontalOptions="FillAndExpand" />
+                <buttons:BorderButton
+                    Grid.Column="0"
+                    Style="{DynamicResource ButtonStyle_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i5}"
+                    Text="{xct:Translate Order}" />
 
-                <Button
-                    Text="Tab"
-                    HorizontalOptions="FillAndExpand" />
+                <buttons:BorderButton
+                    Grid.Column="1"
+                    Style="{DynamicResource ButtonStyle_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i7}"
+                    Text="{xct:Translate Tab}" />
 
-                <Button
-                    Text="Pay"
-                    HorizontalOptions="FillAndExpand" />
+                <buttons:BorderButton
+                    Grid.Column="2"
+                    Style="{DynamicResource ButtonStyle_i1}"
+                    Background="{DynamicResource IndicationColor_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    Text="{xct:Translate Pay}" />
 
-            </StackLayout>
+            </Grid>
 
         </StackLayout>
 

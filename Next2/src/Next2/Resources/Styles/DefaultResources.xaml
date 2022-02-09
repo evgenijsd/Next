@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:Next2.Converters"
+    xmlns:controls="clr-namespace:Next2.Controls"
     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
@@ -51,6 +52,15 @@
 
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
-    <converters:ValueToFormattedStringConverter x:Key="valueToFormattedStringConverter"/>
+
+    <Style TargetType="controls:CustomStepper">
+        <Setter Property="DecrementIconSource" Value="ic_minus_primary_32x32"/>
+        <Setter Property="IncrementIconSource" Value="ic_plus_primary_32x32"/>
+        <Setter Property="IconSizes" Value="32"/>
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+        <Setter Property="FontFamily" Value="Barlow-Bold"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="TextWidth" Value="22"/>
+    </Style>
 
 </ResourceDictionary>

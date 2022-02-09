@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Next2.Services
 {
-    public class NewOrderService : IOrderService
+    public class OrderService : IOrderService
     {
         private IMockService _mockService;
 
-        public NewOrderService(IMockService mockService)
+        public OrderService(IMockService mockService)
         {
             _mockService = mockService;
         }

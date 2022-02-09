@@ -13,31 +13,32 @@ namespace Next2.ViewModels
 {
     public class NewOrderViewModel : BaseViewModel
     {
-        private readonly IOrderService _newOrderService;
+        private readonly IOrderService _orderService;
 
         public NewOrderViewModel(
             INavigationService navigationService,
-            IOrderService newOrderService)
+            IOrderService orderService)
             : base(navigationService)
         {
-            _newOrderService = newOrderService;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
 
-        public OrderBindableModel NewOrder { get; set; }
+        public int NewOrderId { get; set; }
 
-        public EOrderType OrderType { get; set; }
+        public EOrderType OrderType { get; set; } = EOrderType.DineIn;
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
 
         public TableBindableModel SelectedTable { get; set; } = new ();
 
-        public int NumberOfSeats { get; set; }
+        public int NumberOfSeats { get; set; } = 1;
 
-        public bool IsAnyDishSelected { get; set; }
+        // сомнительное свойство
+        public bool IsAnyDishSelected { get; set; } = false;
 
-        public bool IsOrderWithTax { get; set; }
+        public bool IsOrderWithTax { get; set; } = true;
 
         public float Tax { get; set; }
 
@@ -71,13 +72,6 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            NewOrder = new ();
-            SelectedTable = new ();
-            OrderType = EOrderType.DineIn;
-            NumberOfSeats = 1;
-            IsOrderWithTax = true;
-            IsAnyDishSelected = false;
-
             await InitData();
         }
 
@@ -91,13 +85,6 @@ namespace Next2.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
-
-            NewOrder = new ();
-            SelectedTable = new ();
-            OrderType = EOrderType.DineIn;
-            NumberOfSeats = 1;
-            IsOrderWithTax = true;
-            IsAnyDishSelected = false;
 
             await InitData();
         }
@@ -120,14 +107,14 @@ namespace Next2.ViewModels
 
         private async Task InitData()
         {
-            var orderResult = await _newOrderService.GetNewOrderIdAsync();
+            var orderResult = await _orderService.GetNewOrderIdAsync();
 
             if (orderResult.IsSuccess)
             {
-                NewOrder.Id = orderResult.Result;
+                NewOrderId = orderResult.Result;
             }
 
-            var tablesResult = await _newOrderService.GetTables();
+            var tablesResult = await _orderService.GetTables();
 
             if (tablesResult.IsSuccess)
             {

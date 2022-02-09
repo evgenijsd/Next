@@ -3,31 +3,25 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    HorizontalOptions="EndAndExpand"
-    Orientation="Horizontal"
-    x:Name="stackLayout"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    VerticalOptions="Center"
     x:Class="Next2.Controls.CustomStepper">
-
-    <Label
-        Padding="0, 0, 0, 4"
-        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=FontFamily}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=FontSize}"
-        TextColor="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=TextColor}"
-        Text="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Text}" />
 
     <Grid
         ColumnDefinitions="auto, auto, auto"
-        ColumnSpacing="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Spacing}">
+        ColumnSpacing="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=Spacing}">
 
         <ffimageloading:CachedImage 
             Grid.Column ="0"
-            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=IconSizes}"
-            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=IconSizes}"
             HorizontalOptions="StartAndExpand"
-            Source="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=DecrementIconSource}">
+            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementIconSource}">
 
             <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=DecrementCommand}" />
+            
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementCommand}" />
+            
             </ffimageloading:CachedImage.GestureRecognizers>
 
         </ffimageloading:CachedImage>
@@ -35,22 +29,24 @@
         <Label
             Grid.Column="1"
             HorizontalTextAlignment="Center"
+            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextWidth}"
             Padding="0, 0, 0, 4"
-            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=FontFamily}"
-            FontSize="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=FontSize}"
-            Text="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Value, Converter={x:StaticResource valueToFormattedStringConverter}, 
-                ConverterParameter={Binding Source={x:Reference stackLayout}}}"/>
-                <!--ConverterParameter='{0}%'}"/>-->
-
+            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontFamily}"
+            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontSize}"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextColor}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DisplayingValue}" />
+        
         <ffimageloading:CachedImage
             Grid.Column="2"
             HorizontalOptions="EndAndExpand"
-            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=IconSizes}"
-            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=IconSizes}"
-            Source="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=IncrementIconSource}">
+            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementIconSource}">
 
             <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=IncrementCommand}" />
+            
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementCommand}" />
+          
             </ffimageloading:CachedImage.GestureRecognizers>
 
         </ffimageloading:CachedImage>

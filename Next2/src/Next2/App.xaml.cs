@@ -40,8 +40,7 @@ namespace Next2
         {
             // Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
-            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
-            containerRegistry.RegisterSingleton<IOrderService, NewOrderService>();
+            containerRegistry.RegisterSingleton<IOrderService, OrderService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -56,14 +55,17 @@ namespace Next2
             }
             else
             {
-                containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
+                // Services
+                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
 
+                // ViewModels
+                containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
-                containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
+                containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
             }
         }
