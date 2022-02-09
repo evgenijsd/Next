@@ -16,12 +16,9 @@ namespace Next2.iOS.Renderers
             base.OnElementPropertyChanged(sender, e);
 
             var s = sender as CustomFrame;
-
-            switch (e.PropertyName)
+            if (e.PropertyName == "BorderColor")
             {
-                case "BorderColor":
-                    Layer.BorderColor = s.BorderColor.ToCGColor();
-                    break;
+                Layer.BorderColor = s.BorderColor.ToCGColor();
             }
         }
 
