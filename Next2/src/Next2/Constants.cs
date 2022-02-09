@@ -4,7 +4,7 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
-        public const string PRICE_FORMAT = "$ {0:0.00}";
+        public const string PRICE_FORMAT = "{0:0.00}";
 
         public const int SERVER_RESPONCE_DELAY = 600;
 

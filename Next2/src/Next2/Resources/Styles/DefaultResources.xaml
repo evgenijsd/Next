@@ -53,6 +53,7 @@
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
 
+    <!-- CONTROLS -->
     <Style TargetType="controls:CustomStepper">
         <Setter Property="DecrementIconSource" Value="ic_minus_primary_32x32"/>
         <Setter Property="IncrementIconSource" Value="ic_plus_primary_32x32"/>

@@ -11,6 +11,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:local="clr-namespace:Next2"
     x:Class="Next2.Views.Mobile.NewOrderPage"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -91,13 +92,15 @@
                     xct:TouchEffect.Command="{prism:GoBack}"/>
 
                 <Label Style="{DynamicResource Bold32pxLabelStyle}">
-
+                    
                     <Label.FormattedText>
 
+                        <!--переделать-->
                         <FormattedString>
                             
-                            <Span Text="{xct:Translate Order, StringFormat='{0} #'}"/>
-
+                            <Span Text="{xct:Translate Order}"/>
+                            <Span Text=" "/>
+                            <Span Text="{xct:Translate NumberSign}"/>
                             <Span Text="{Binding NewOrderId}"/>
                             
                         </FormattedString>
@@ -169,7 +172,7 @@
 
             <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}"/>
 
-            <!-- MEALS LIST -->
+            <!-- PSEUDO-MEALS LIST (REPLACE) -->
             <CollectionView 
                 Background="{DynamicResource TextAndBackgroundColor_i5}"
                 ItemsSource="{Binding Tables}">
@@ -222,14 +225,11 @@
 
                 <StackLayout.Triggers>
                     
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding Tables.Count}"
-                            Value="0">
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Tables.Count}" Value="0">
                             
-                            <Setter Property="IsVisible" Value="false"/>
+                        <Setter Property="IsVisible" Value="false"/>
                             
-                        </DataTrigger>
+                    </DataTrigger>
                     
                 </StackLayout.Triggers>
                 
@@ -258,10 +258,7 @@
                         
                         <buttons:IconBorderButton.Triggers>
 
-                            <DataTrigger 
-                                TargetType="buttons:IconBorderButton"
-                                Binding="{Binding IsOrderWithTax}"
-                                Value="false">
+                            <DataTrigger TargetType="buttons:IconBorderButton" Binding="{Binding IsOrderWithTax}" Value="false">
 
                                 <Setter Property="IsVisible" Value="false" />
 
@@ -289,8 +286,21 @@
 
                         <Label
                             Style="{DynamicResource SemiBold24pxLabelStyle}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding SubTotal, StringFormat='$ {0:0.00}'}" />
+                            HorizontalOptions="EndAndExpand">
+                            
+                            <Label.FormattedText>
+                                
+                                <FormattedString>
+                                    
+                                    <Span Text="{xct:Translate CurrencySign}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"/>
+                                    
+                                </FormattedString>
+                                
+                            </Label.FormattedText>
+                            
+                        </Label>
 
                     </StackLayout>
 
@@ -302,8 +312,21 @@
 
                         <Label
                             Style="{DynamicResource SemiBold24pxLabelStyle}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding Tax, StringFormat='$ {0:0.00}'}" />
+                            HorizontalOptions="EndAndExpand">
+                            
+                            <Label.FormattedText>
+                                
+                                <FormattedString>
+                                    
+                                    <Span Text="{xct:Translate CurrencySign}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"/>
+                                    
+                                </FormattedString>
+                                
+                            </Label.FormattedText>
+                            
+                        </Label>
 
                     </StackLayout>
 
@@ -317,8 +340,21 @@
 
                         <Label
                             Style="{DynamicResource Bold32pxLabelStyle}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding Total, StringFormat='$ {0:0.00}'}" />
+                            HorizontalOptions="EndAndExpand">
+                            
+                            <Label.FormattedText>
+                                
+                                <FormattedString>
+                                    
+                                    <Span Text="{xct:Translate CurrencySign}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"/>
+                                    
+                                </FormattedString>
+                                
+                            </Label.FormattedText>
+                            
+                        </Label>
                         
                     </StackLayout>
 
@@ -334,10 +370,7 @@
 
                 <Grid.Triggers>
 
-                    <DataTrigger
-                        TargetType="Grid"
-                        Binding="{Binding Tables.Count}"
-                        Value="0">
+                    <DataTrigger TargetType="Grid" Binding="{Binding Tables.Count}" Value="0">
 
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled}" />
                         <Setter Property="IsEnabled" Value="False" />
