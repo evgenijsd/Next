@@ -5,6 +5,7 @@ using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -32,9 +33,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties--
 
-        public bool IsEmployeeExists { get; set; }
-
         public bool IsEmployeeIdProvided { get; set; }
+
+        public bool IsEmployeeExists { get; set; }
 
         public bool IsErrorNotificationVisible { get; set; }
 
@@ -44,7 +45,7 @@ namespace Next2.ViewModels
 
         public DateTime CurrentDate { get; set; } = DateTime.Now;
 
-        public string EmployeeId { get; set; } = "Type Employee ID";
+        public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
 
         private ICommand _ButtonClearCommand;
         public ICommand ButtonClearCommand => _ButtonClearCommand ??= new AsyncCommand(OnTabClearAsync);
@@ -60,11 +61,7 @@ namespace Next2.ViewModels
         #region -- Private helpers --
         private async Task OnTabClearAsync()
         {
-            EmployeeId = "Type Employee ID";
-
-            IsEmployeeIdProvided = false;
-
-            IsErrorNotificationVisible = IsClearButtonEnabled = IsLoginButtonEnabled = false;
+            EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
@@ -104,7 +101,8 @@ namespace Next2.ViewModels
 
         private async Task CheckEmployeeExists()
         {
-            IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
+            //IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
+            IsEmployeeExists = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
         #endregion
@@ -117,27 +115,14 @@ namespace Next2.ViewModels
             {
                 if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == 6)
                 {
-                    IsEmployeeExists = IsLoginButtonEnabled = false;
-
-                    IsClearButtonEnabled = true;
-
-                    EmployeeId = _inputtedEmployeeId;
-
-                    IsEmployeeIdProvided = true;
-
                     int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
-
                     await CheckEmployeeExists();
-
-                    IsErrorNotificationVisible = !IsEmployeeExists && !string.IsNullOrWhiteSpace(_inputtedEmployeeId);
+                    EmployeeId = _inputtedEmployeeId;
                 }
                 else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != 6)
                 {
+                    IsEmployeeExists = false;
                     EmployeeId = _inputtedEmployeeId;
-
-                    IsEmployeeIdProvided = true;
-
-                    IsErrorNotificationVisible = IsClearButtonEnabled = true;
                 }
             }
         }

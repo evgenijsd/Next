@@ -5,7 +5,9 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:controls="clr-namespace:Next2.Controls" 
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     x:Class="Next2.Views.Mobile.LoginPage"
     x:DataType="viewModels:LoginPageViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
@@ -97,71 +99,22 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontFamily="Barlow-Regular"/>
 
-            <controls:CustomFrame 
-                Margin="16, 0, 16, 0"
-                CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                Padding="4"
-                BorderWidth="1"
+            <buttons:InputButton
+                x:Name="employeeId"
                 HeightRequest="30"
-                HasShadow="False"
-                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                Margin="16, 0, 16, 0"
+                TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                Text="{Binding EmployeeId, Mode=TwoWay}"
+                IsEmployeeExists="{Binding IsEmployeeExists, Mode=TwoWay}"
+                TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
 
-                <StackLayout Orientation="Horizontal">
+                <buttons:InputButton.Behaviors>
 
-                    <Label 
-                        x:Name="employeeID"
-                        Text="{Binding EmployeeId, Mode=TwoWay}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        VerticalTextAlignment="Center"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"
-                        Margin="4, 0, 0, 0"
-                        FontFamily="Barlow-Medium">
+                    <behaviors:InputButtonBehavior/>
 
-                        <Label.Triggers>
-
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding IsEmployeeIdProvided, Mode=TwoWay}"
-                                Value="True">
-
-                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                            </DataTrigger>
-
-                        </Label.Triggers>
-
-                    </Label>
-                        
-                    <Image 
-                        Source="ic_danger_circle"
-                        IsVisible="{Binding IsErrorNotificationVisible}"
-                        Margin="0, 5, 5, 5"
-                        HorizontalOptions="EndAndExpand"/>
-
-                </StackLayout>
+                </buttons:InputButton.Behaviors>
                 
-                <controls:CustomFrame.GestureRecognizers>
-
-                    <TapGestureRecognizer Command="{Binding GoToEmployeeIdPage}"/>
-
-                </controls:CustomFrame.GestureRecognizers>
-
-                <controls:CustomFrame.Triggers>
-
-                    <DataTrigger 
-                        
-                        TargetType="controls:CustomFrame"
-                        Binding="{Binding IsErrorNotificationVisible}"                                        
-                        Value="True">
-                        
-                        <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
-
-                    </DataTrigger>
-
-                </controls:CustomFrame.Triggers>
-
-            </controls:CustomFrame>
+            </buttons:InputButton>
 
             <StackLayout 
                 Orientation="Horizontal"
@@ -175,72 +128,29 @@
                     VerticalOptions="Center"
                     HeightRequest="40">
 
-                    <controls:CustomFrame 
-                        x:Name="customFrame"
+                    <buttons:BorderButton 
                         Margin="16, 0, 0, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
                         IsEnabled="False"
                         BorderWidth="1"
+                        HeightRequest="65"
                         HasShadow="False"
+                        Text="{xct:Translate Clear}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i7}"
+                        FontSize="{DynamicResource TSize_i7}"
                         BorderColor="{DynamicResource IndicationColor_i4}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        FontFamily="Barlow-SemiBold"
+                        Command="{Binding ButtonClearCommand}">
 
-                        <Label 
-                            Text="{xct:Translate Clear}"
-                            FontSize="{DynamicResource TSize_i7}"
-                            HeightRequest="65"
-                            VerticalTextAlignment="Center"
-                            HorizontalTextAlignment="Center"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i7}"
-                            FontFamily="Barlow-SemiBold">
-                            
-                            <Label.Triggers> 
-                                
-                                <DataTrigger 
-                                    TargetType="Label"
-                                    Binding="{Binding IsClearButtonEnabled}"                           
-                                    Value="True">
+                        <buttons:BorderButton.Behaviors>
 
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-                                    
-                                </DataTrigger>
-                                
-                            </Label.Triggers>
-                            
-                        </Label>
-                        
-                        <controls:CustomFrame.Triggers>
+                            <behaviors:BorderButtonBehavior Title="{Binding Text, Source={x:Reference employeeId}}"/>
 
-                            <DataTrigger 
-                                TargetType="controls:CustomFrame"
-                                Binding="{Binding IsClearButtonEnabled}"                                        
-                                Value="True">
+                        </buttons:BorderButton.Behaviors>
 
-                                <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
-
-                            </DataTrigger>
-
-                            <DataTrigger 
-                                
-                                TargetType="controls:CustomFrame"
-                                Binding="{Binding IsClearButtonEnabled}"                                         
-                                Value="True">
-                                
-                                <Setter Property="IsEnabled" Value="True"/>
-
-                            </DataTrigger>
-
-                        </controls:CustomFrame.Triggers>
-                        
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer Command="{Binding ButtonClearCommand}"/>
-                            
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
+                    </buttons:BorderButton>
+                    
                 </StackLayout>
 
                 <StackLayout 

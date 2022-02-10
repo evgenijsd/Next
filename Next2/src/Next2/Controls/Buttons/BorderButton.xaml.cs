@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls.Buttons
 {
-    public partial class BorderButton : Frame
+    public partial class BorderButton : CustomFrame
     {
         public BorderButton()
         {
