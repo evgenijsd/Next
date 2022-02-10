@@ -1,20 +1,20 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView
+    x:Class="Next2.Views.Tablet.NewOrderView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
 
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <Label
+            HorizontalTextAlignment="Center"
             Text="{Binding Text}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             VerticalOptions="CenterAndExpand"
-            VerticalTextAlignment="Center"
-            HorizontalTextAlignment="Center"/>
+            VerticalTextAlignment="Center" />
 
     </StackLayout>
 

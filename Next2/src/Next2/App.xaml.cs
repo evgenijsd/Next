@@ -1,3 +1,6 @@
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Next2.Resources.Strings;
 using Next2.Services;
 using Next2.Services.Membership;
@@ -6,16 +9,21 @@ using MobileViews = Next2.Views.Mobile;
 using TabletViews = Next2.Views.Tablet;
 using MobileViewModels = Next2.ViewModels.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
+using Next2.ViewModels.Dialogs;
+using Next2.Views;
+using Next2.Views.Mobile;
+using Next2.Views.Mobile.Dialogs;
+using Next2.Views.Tablet;
+using Next2.Views.Tablet.Dialogs;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Next2.ViewModels.Tablet;
+using Next2.Services.CustomersService;
 
 namespace Next2
 {
@@ -36,10 +44,13 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Services
+            // Dialogs
+            containerRegistry.RegisterPopupNavigationService();
+            containerRegistry.RegisterPopupDialogService();
+            //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
-
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
@@ -49,6 +60,8 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
             else
             {
@@ -61,6 +74,8 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
         }
 
@@ -78,8 +93,7 @@ namespace Next2
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
-
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
             await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
 

@@ -1,59 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
+    x:Class="Next2.Views.Tablet.MenuPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="viewModels:MenuPageViewModel"
-    x:Class="Next2.Views.Tablet.MenuPage"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-    <Grid
-        ColumnSpacing="0"
-        ColumnDefinitions="110, *">
+    <Grid ColumnDefinitions="110, *" ColumnSpacing="0">
 
-        <!--SIDE MENU-->
-        
+        <!--  SIDE MENU  -->
+
         <Grid
             Grid.Row="0"
             Grid.Column="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             RowDefinitions="105, *, 90"
-            RowSpacing="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+            RowSpacing="0">
 
             <ffimageloading:CachedImage
                 Grid.Row="0"
                 Grid.Column="0"
-                Source="pic_logo_small.png"
-                Margin="0, 10, 0, 10"/>
-            
+                Margin="0,10,0,10"
+                Source="pic_logo_small.png" />
+
             <controls:TabsControl
-                Padding="0, 10, 0, 10"
                 Grid.Row="1"
                 Grid.Column="0"
+                Padding="0,10,0,10"
                 AlignContent="Center"
+                Direction="Column"
                 ItemsSource="{Binding MenuItems}"
-                SelectedItem="{Binding SelectedMenuItem}"
-                Direction="Column">
+                SelectedItem="{Binding SelectedMenuItem}">
 
                 <DataTemplate x:DataType="models:MenuItemBindableModel">
 
                     <templates:MenuItemTemplate
-                        ImagePath="{Binding ImagePath}"
-                        Style="{DynamicResource MenuItemTemplateTabletStyle}"
-                        Text="{Binding Title}"
-                        FontSize="{DynamicResource TSize_i9}"
+                        Margin="13,0"
+                        Padding="0,13"
                         FontFamily="Barlow-Medium"
+                        FontSize="{DynamicResource TSize_i9}"
+                        ImagePath="{Binding ImagePath}"
                         IsSelected="{Binding IsSelected}"
-                        Margin="13, 0"
-                        Padding="0, 13"/>
+                        Style="{DynamicResource MenuItemTemplateTabletStyle}"
+                        Text="{Binding Title}" />
 
                 </DataTemplate>
 
@@ -62,18 +60,18 @@
             <templates:MenuItemTemplate
                 Grid.Row="2"
                 Grid.Column="0"
-                IsSelected="False"
-                ImagePath="ic_logout_30x30.png"
-                Text="{xct:Translate LogOut}"
-                FontSize="{DynamicResource TSize_i8}"
+                Margin="10,0"
+                Padding="0,15"
                 FontFamily="Barlow-SemiBold"
-                Margin="10, 0"
-                Padding="0, 15"/>
+                FontSize="{DynamicResource TSize_i8}"
+                ImagePath="ic_logout_30x30.png"
+                IsSelected="False"
+                Text="{xct:Translate LogOut}" />
 
         </Grid>
 
-        <!--TABS PAGES-->
-        
+        <!--  TABS PAGES  -->
+
         <sc:StateContainer
             Grid.Row="0"
             Grid.Column="1"
@@ -81,25 +79,25 @@
 
             <sc:StateCondition State="NewOrder">
 
-                <viewsTablet:NewOrderView BindingContext="{Binding NewOrderViewModel}"/>
-                
+                <viewsTablet:NewOrderView BindingContext="{Binding NewOrderViewModel}" />
+
             </sc:StateCondition>
 
             <sc:StateCondition State="HoldItems">
 
-                <viewsTablet:HoldItemsView BindingContext="{Binding HoldItemsViewModel}"/>
+                <viewsTablet:HoldItemsView BindingContext="{Binding HoldItemsViewModel}" />
 
             </sc:StateCondition>
 
             <sc:StateCondition State="OrderTabs">
 
-                <viewsTablet:OrderTabsView BindingContext="{Binding OrderTabsViewModel}"/>
+                <viewsTablet:OrderTabsView BindingContext="{Binding OrderTabsViewModel}" />
 
             </sc:StateCondition>
 
             <sc:StateCondition State="Reservations">
 
-                <views:ReservationsView BindingContext="{Binding ReservationsViewModel}"/>
+                <views:ReservationsView BindingContext="{Binding ReservationsViewModel}" />
 
             </sc:StateCondition>
 
@@ -111,16 +109,16 @@
 
             <sc:StateCondition State="Customers">
 
-                <viewsTablet:CustomersView BindingContext="{Binding CustomersViewModel}"/>
+                <viewsTablet:CustomersView BindingContext="{Binding CustomersViewModel}" />
 
             </sc:StateCondition>
 
             <sc:StateCondition State="Settings">
 
-                <views:SettingsView BindingContext="{Binding SettingsViewModel}"/>
+                <views:SettingsView BindingContext="{Binding SettingsViewModel}" />
 
             </sc:StateCondition>
-            
+
         </sc:StateContainer>
 
     </Grid>

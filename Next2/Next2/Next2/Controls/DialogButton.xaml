@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="Next2.Controls.DialogButton" x:Name="dialogButton"
+       BackgroundColor="red" 
+       HasShadow="False"
+       CornerRadius="4"
+       Padding="2">
+    
+    <Frame.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding Command, Source={x:Reference dialogButton}}"/>
+    </Frame.GestureRecognizers>
+    
+    <Frame BackgroundColor="#3CD47D" 
+           x:Name="addButton"
+           HasShadow="False"
+           CornerRadius="4"
+           Padding="0">
+        
+        <Label Text="Add New" 
+               x:Name="buttonText"
+               HorizontalOptions="Center" 
+               VerticalOptions="Center"
+               FontSize="24"
+               TextColor="#34374C">
+        </Label>
+    </Frame>
+
+</Frame>

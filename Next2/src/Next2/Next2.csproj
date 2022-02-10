@@ -99,16 +99,20 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.0" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
   </ItemGroup>
 
   <ItemGroup>
@@ -117,7 +121,8 @@
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="Views\Mobile\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Services\" />
@@ -139,6 +144,9 @@
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
+      <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
     </Compile>
@@ -150,6 +158,9 @@
     </Compile>
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
+      <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
@@ -169,13 +180,26 @@
     <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
+    <Folder Include="ViewModels\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\CalendarGrid.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DialogsButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DarkModeResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\CustomerAddDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\MembershipPage.xaml">
@@ -203,6 +227,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+      </EmbeddedResource>
   </ItemGroup>
 </Project>

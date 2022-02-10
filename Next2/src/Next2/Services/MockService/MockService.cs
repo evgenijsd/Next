@@ -15,6 +15,7 @@ namespace Next2.Services
         private IList<MemberModel> _members;
 
         private Dictionary<Type, object> _base;
+        private List<CustomerModel> _customers;
 
         public MockService()
         {
@@ -146,7 +147,7 @@ namespace Next2.Services
             {
                 _base = new Dictionary<Type, object>();
 
-                await Task.WhenAll(InitMembers());
+                await Task.WhenAll(InitCustomers(), InitMembers());
 
                 _initCompletionSource.TrySetResult(true);
             }
@@ -361,6 +362,12 @@ namespace Next2.Services
             };
 
             _base.Add(typeof(MemberModel), _members);
+        });
+
+        private Task InitCustomers() => Task.Run(() =>
+        {
+            _customers = CustomersMock.Create();
+            _base.Add(typeof(CustomerModel), _customers);
         });
 
         #endregion

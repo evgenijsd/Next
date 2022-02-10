@@ -1,9 +1,11 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Services.CustomersService;
 using Next2.Services.Membership;
 using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -13,7 +15,9 @@ namespace Next2.ViewModels
     {
         public MenuPageViewModel(
             INavigationService navigationService,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            IPopupNavigation popupNavigation,
+            ICustomersService customersService)
             : base(navigationService)
         {
             NewOrderViewModel = new NewOrderViewModel(navigationService);
@@ -21,7 +25,7 @@ namespace Next2.ViewModels
             OrderTabsViewModel = new OrderTabsViewModel(navigationService);
             ReservationsViewModel = new ReservationsViewModel(navigationService);
             MembershipViewModel = new MembershipViewModel(navigationService, membershipService);
-            CustomersViewModel = new CustomersViewModel(navigationService);
+            CustomersViewModel = new CustomersViewModel(navigationService, customersService, popupNavigation);
             SettingsViewModel = new SettingsViewModel(navigationService);
 
             if (App.IsTablet)

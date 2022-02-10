@@ -16,6 +16,8 @@ namespace Next2.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this);
+
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
