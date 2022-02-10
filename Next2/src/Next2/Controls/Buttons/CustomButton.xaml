@@ -6,15 +6,16 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:DataType="controls:CustomButton"
+    MinimumWidthRequest="100"
     HeightRequest="45"
     x:Class="Next2.Controls.CustomButton">
 
     <Frame
-        HasShadow="False"
         BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BorderColor}"
         BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=BackColor}"
         CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CornerRadius}"
-        VerticalOptions="FillAndExpand" />
+        VerticalOptions="FillAndExpand">
+    </Frame>
 
     <Label
         HorizontalOptions="CenterAndExpand"
@@ -25,13 +26,13 @@
         FontSize="{DynamicResource TSize_i7}"
         FontFamily="Barlow-Medium" />
 
-    <!--Label
+    <Label
         HorizontalOptions="CenterAndExpand"
-        VerticalOptions="CenterAndExpand"
-        Text="________"
+        VerticalOptions="Center"
+        Text="_________"
         TextColor="Transparent"
         FontSize="{DynamicResource TSize_i7}"
-        FontFamily="Barlow-Medium" /-->
+        FontFamily="Barlow-Medium" /> 
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"

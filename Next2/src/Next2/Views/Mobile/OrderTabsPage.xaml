@@ -4,6 +4,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:enums="clr-namespace:Next2.Enums"
     x:Class="Next2.Views.Mobile.OrderTabsPage"
     x:DataType="viewModels:OrderTabsViewModel"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -43,33 +45,33 @@
                     ColumnSpacing="0"
                     ColumnDefinitions="*,*">
 
-                    <controls:CustomButtonSwitch
+                    <controls:CustomButtonOrderTab
                         Text="{xct:Translate Orders}"
                         Grid.Column="0"
                         CornerRadius="0"
                         VerticalOptions="FillAndExpand"
                         IsSelected="{Binding IsOrderTabsSelected}">
-                        
-                        <controls:CustomButtonSwitch.GestureRecognizers>
+
+                        <controls:CustomButtonOrderTab.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
-                        </controls:CustomButtonSwitch.GestureRecognizers>
+                        </controls:CustomButtonOrderTab.GestureRecognizers>
                         
-                    </controls:CustomButtonSwitch>
+                    </controls:CustomButtonOrderTab>
 
 
-                    <controls:CustomButtonSwitch
+                    <controls:CustomButtonOrderTab
                         Text="{xct:Translate Tabs}"
                         Grid.Column="1"
                         VerticalOptions="FillAndExpand"
                         CornerRadius="0"
                         IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
                         IsRight="True">
-                        
-                        <controls:CustomButtonSwitch.GestureRecognizers>
+
+                        <controls:CustomButtonOrderTab.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
-                        </controls:CustomButtonSwitch.GestureRecognizers>
+                        </controls:CustomButtonOrderTab.GestureRecognizers>
                         
-                    </controls:CustomButtonSwitch>
+                    </controls:CustomButtonOrderTab>
 
                 </Grid>
 
@@ -123,7 +125,10 @@
                                 FontFamily="Barlow-Medium">
 
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SortByNameCommand}" />
+                                    <!--TapGestureRecognizer Command="{Binding SortByNameCommand}" /-->
+                                    <TapGestureRecognizer
+                                        Command="{Binding OrderTabSortingChangeCommand}"
+                                        CommandParameter="{x:Static enums:EOrderTabSorting.ByCustomerName}" />
                                 </Label.GestureRecognizers>
 
                                 <Label.Triggers>
@@ -150,7 +155,10 @@
                                 FontFamily="Barlow-Medium">
 
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SortByOrderCommand}" />
+                                    <!--TapGestureRecognizer Command="{Binding SortByOrderCommand}" /-->
+                                    <TapGestureRecognizer
+                                        Command="{Binding OrderTabSortingChangeCommand}"
+                                        CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}" />
                                 </Label.GestureRecognizers>
 
                             </Label>
@@ -167,7 +175,7 @@
 
                         <BoxView
                             HorizontalOptions="FillAndExpand" 
-                            VerticalOptions="StartAndExpand"
+                            VerticalOptions="FillAndExpand"
                             HeightRequest="2"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
 
@@ -187,13 +195,13 @@
                                 <CollectionView.ItemTemplate>
 
                                     <DataTemplate
-                                        x:DataType="viewModels:OrderViewModel">
+                                        x:DataType="models:OrderBindableModel">
 
                                         <Grid
                                             HorizontalOptions="Fill"
                                             VerticalOptions="Start"
                                             RowSpacing="0"
-                                            RowDefinitions="48,2">
+                                            RowDefinitions="2,48">
 
                                             <VisualStateManager.VisualStateGroups>
 
@@ -203,14 +211,18 @@
                                                     <VisualState
                                                         Name="Normal">
                                                         <VisualState.Setters>
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                            <Setter
+                                                                Property="BackgroundColor"
+                                                                Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
 
                                                     <VisualState
                                                         Name="Selected">
                                                         <VisualState.Setters>
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                            <Setter
+                                                                Property="BackgroundColor"
+                                                                Value="{DynamicResource AppColor_i4}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
 
@@ -218,13 +230,9 @@
 
                                             </VisualStateManager.VisualStateGroups>
 
-                                            <BoxView
-                                                VerticalOptions="Start"
-                                                HeightRequest="10" />
-
                                             <Grid
-                                                Grid.Row="0"
-                                                Margin="0,1,0,0"
+                                                Grid.Row="1"
+                                                Margin="0,0,0,0"
                                                 ColumnDefinitions="*,*,*">
 
                                                 <Label
@@ -260,7 +268,7 @@
 
 
                                             <BoxView
-                                                Grid.Row="1"
+                                                Grid.Row="0"
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
                                         </Grid>
 
@@ -279,6 +287,7 @@
             </Grid>
 
             <StackLayout
+                Margin="0,0,0,0"
                 VerticalOptions="EndAndExpand"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">

@@ -3,16 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.ViewModels
+namespace Next2.Models
 {
-    public class OrderViewModel : BindableBase
+    public class OrderBindableModel : BindableBase
     {
         #region -- Public properties --
 
         public int TableNumber { get; set; }
 
-        private string? _name;
-        public string? Name
+        private string _name;
+        public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);

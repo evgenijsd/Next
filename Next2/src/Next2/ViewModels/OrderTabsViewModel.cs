@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Services;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -37,7 +38,7 @@ namespace Next2.ViewModels
 
         public double HeightPage { get; set; }
 
-        public EOrderTabSorting OrderSorting { get; set; }
+        public EOrderTabSorting OrderTabSorting { get; set; }
 
         private GridLength _heightCollectionGrid;
         public GridLength HeightCollectionGrid
@@ -57,15 +58,15 @@ namespace Next2.ViewModels
             set => SetProperty(ref _isOrderTabsSelected, value);
         }
 
-        private OrderViewModel? _selectedOrder = null;
-        public OrderViewModel? SelectedOrder
+        private OrderBindableModel? _selectedOrder = null;
+        public OrderBindableModel? SelectedOrder
         {
             get => _selectedOrder;
             set => SetProperty(ref _selectedOrder, value);
         }
 
-        private ObservableCollection<OrderViewModel>? _orders;
-        public ObservableCollection<OrderViewModel>? Orders
+        private ObservableCollection<OrderBindableModel>? _orders;
+        public ObservableCollection<OrderBindableModel>? Orders
         {
             get => _orders;
             set => SetProperty(ref _orders, value);
@@ -80,14 +81,11 @@ namespace Next2.ViewModels
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
-        private ICommand _SortByNameCommand;
-        public ICommand SortByNameCommand => _SortByNameCommand ??= new AsyncCommand(OnSortByNameCommandAsync);
-
-        private ICommand _SortByOrderCommand;
-        public ICommand SortByOrderCommand => _SortByOrderCommand ??= new AsyncCommand(OnSortByOrderCommandAsync);
-
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
+
+        private ICommand _orderTabSortingChangeCommand;
+        public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
 
         #endregion
 
@@ -108,20 +106,19 @@ namespace Next2.ViewModels
                 heightCollectionScreen = heightCollection;
             }
 
-            //HeightCollectionGrid = new GridLength(heightCollectionScreen);
+            HeightCollectionGrid = new GridLength(heightCollectionScreen);
         }
 
         public override async void OnAppearing()
         {
             _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET;
-            double offcet = 0;
 
             var heightCollectionScreen = HeightPage - _summRowHight;
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
             await LoadData();
 
-            var heightCollection = ((Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT) + offcet;
+            var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
             if (heightCollectionScreen > heightCollection)
             {
                 heightCollectionScreen = heightCollection;
@@ -157,18 +154,6 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        /*private IEnumerable<OrderViewModel> GetSortedMembers(IEnumerable<OrderViewModel> orderTabs)
-        {
-            Func<OrderViewModel, object> comparer = OrderSorting switch
-            {
-                EOrderTabSorting.ByTableNumber => x =>
-                //EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
-                _ => x => x.CustomerName,
-            };
-
-            return orderTabs.OrderBy(comparer);
-        }*/
-
         private async Task OnRefreshOrdersCommandAsync()
         {
             await LoadData();
@@ -177,6 +162,7 @@ namespace Next2.ViewModels
         private async Task LoadData()
         {
             IsOrdersRefreshing = true;
+            OrderTabSorting = EOrderTabSorting.ByCustomerName;
 
             var resultOrders = await _orderService.GetOrdersAsync();
             if (resultOrders.IsSuccess)
@@ -198,23 +184,21 @@ namespace Next2.ViewModels
         private Task SetVisualCollection()
         {
             SelectedOrder = null;
-            _isDirectionSortNames = false;
-            _isDirectionSortOrders = true;
             MapperConfiguration config;
 
-            Orders = new ObservableCollection<OrderViewModel>();
+            Orders = new ObservableCollection<OrderBindableModel>();
 
             IEnumerable<OrderModel>? result;
 
             if (IsOrderTabsSelected)
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderViewModel>()
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
                             .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}")));
                 result = _ordersBase;
             }
             else
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderViewModel>()
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
                             .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName)));
                 result = _tabsBase;
             }
@@ -223,7 +207,7 @@ namespace Next2.ViewModels
             {
                 var mapper = new Mapper(config);
 
-                Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderViewModel>>(result);
+                Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
             }
 
             return Task.CompletedTask;
@@ -234,6 +218,7 @@ namespace Next2.ViewModels
             if (!IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
+                OrderTabSorting = EOrderTabSorting.ByCustomerName;
                 await SetVisualCollection();
             }
         }
@@ -243,6 +228,7 @@ namespace Next2.ViewModels
             if (IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
+                OrderTabSorting = EOrderTabSorting.ByCustomerName;
                 await SetVisualCollection();
             }
         }
@@ -252,50 +238,34 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private Task OnSortByNameCommandAsync()
+        private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
         {
-            if (IsOrderTabsSelected)
-            {
-                if (_isDirectionSortNames)
-                {
-                    Orders = new ObservableCollection<OrderViewModel>(Orders.OrderBy(x => x.TableNumber));
-                }
-                else
-                {
-                    Orders = new ObservableCollection<OrderViewModel>(Orders.OrderByDescending(x => x.TableNumber));
-                }
-            }
-            else
-            {
-                if (_isDirectionSortNames)
-                {
-                    Orders = new ObservableCollection<OrderViewModel>(Orders.OrderBy(x => x.Name));
-                }
-                else
-                {
-                    Orders = new ObservableCollection<OrderViewModel>(Orders.OrderByDescending(x => x.Name));
-                }
-            }
+            EOrderTabSorting orderTabSorting = OrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : OrderTabSorting;
 
-            _isDirectionSortNames = !_isDirectionSortNames;
-            _isDirectionSortOrders = true;
+            Func<OrderBindableModel, object> comparer = orderTabSorting switch
+            {
+                EOrderTabSorting.ByOrderNumber => x => x.OrderNumber,
+                EOrderTabSorting.ByTableNumber => x => x.TableNumber,
+                _ => x => x.Name,
+            };
 
-            return Task.CompletedTask;
+            return orders.OrderBy(comparer);
         }
 
-        private Task OnSortByOrderCommandAsync()
+        private Task OnOrderTabSortingChangeCommandAsync(EOrderTabSorting orderTabSorting)
         {
-            if (_isDirectionSortOrders)
+            if (OrderTabSorting == orderTabSorting)
             {
-                Orders = new ObservableCollection<OrderViewModel>(Orders.OrderBy(x => x.OrderNumber));
+                Orders = new (Orders.Reverse());
             }
             else
             {
-                Orders = new ObservableCollection<OrderViewModel>(Orders.OrderByDescending(x => x.OrderNumber));
-            }
+                OrderTabSorting = orderTabSorting;
 
-            _isDirectionSortOrders = !_isDirectionSortOrders;
-            _isDirectionSortNames = true;
+                var sortedOrders = GetSortedMembers(Orders);
+
+                Orders = new (sortedOrders);
+            }
 
             return Task.CompletedTask;
         }

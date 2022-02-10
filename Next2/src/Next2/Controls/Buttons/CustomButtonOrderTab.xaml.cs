@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
 {
-    public partial class CustomButtonSwitch : Grid
+    public partial class CustomButtonOrderTab : Grid
     {
-        public CustomButtonSwitch()
+        public CustomButtonOrderTab()
         {
             InitializeComponent();
         }
@@ -20,7 +20,7 @@ namespace Next2.Controls
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             propertyName: nameof(CornerRadius),
             returnType: typeof(float),
-            declaringType: typeof(CustomButtonSwitch),
+            declaringType: typeof(CustomButtonOrderTab),
             defaultValue: 0F,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -33,7 +33,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
             propertyName: nameof(IsSelected),
             returnType: typeof(bool),
-            declaringType: typeof(CustomButtonSwitch),
+            declaringType: typeof(CustomButtonOrderTab),
             defaultValue: false,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -46,7 +46,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IsRightProperty = BindableProperty.Create(
             propertyName: nameof(IsRight),
             returnType: typeof(bool),
-            declaringType: typeof(CustomButtonSwitch),
+            declaringType: typeof(CustomButtonOrderTab),
             defaultValue: false,
             defaultBindingMode: BindingMode.TwoWay);
 

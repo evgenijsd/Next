@@ -5,8 +5,10 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Views.Tablet.OrderTabsView"
     x:DataType="viewModels:OrderTabsViewModel">
 
@@ -46,37 +48,35 @@
                     Style="{DynamicResource BaseContent_i2}"
                     FontSize="{DynamicResource TSize_i4}" />
 
-                <controls:CustomButtonSwitch
+                <controls:CustomButtonOrderTab
                     Text="{xct:Translate Orders}"
                     Grid.Column="0"
-                    CornerRadius="10"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="End"
                     VerticalOptions="End"
                     IsSelected="{Binding IsOrderTabsSelected}">
-                    <controls:CustomButtonSwitch.GestureRecognizers>
+                    <controls:CustomButtonOrderTab.GestureRecognizers>
                         <TapGestureRecognizer
                             Command="{Binding ButtonOrdersCommand}" />
-                    </controls:CustomButtonSwitch.GestureRecognizers>
-                </controls:CustomButtonSwitch>
+                    </controls:CustomButtonOrderTab.GestureRecognizers>
+                </controls:CustomButtonOrderTab>
 
 
-                <controls:CustomButtonSwitch
+                <controls:CustomButtonOrderTab
                     Text="{xct:Translate Tabs}"
                     Grid.Column="1"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="Start"
                     VerticalOptions="End"
-                    CornerRadius="10"
                     IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
                     IsRight="True">
-                    <controls:CustomButtonSwitch.GestureRecognizers>
+                    <controls:CustomButtonOrderTab.GestureRecognizers>
                         <TapGestureRecognizer
                             Command="{Binding ButtonTabsCommand}" />
-                    </controls:CustomButtonSwitch.GestureRecognizers>
-                </controls:CustomButtonSwitch>
+                    </controls:CustomButtonOrderTab.GestureRecognizers>
+                </controls:CustomButtonOrderTab>
 
             </Grid>
 
@@ -183,11 +183,6 @@
                                 FontSize="{DynamicResource TSize_i8}"
                                 FontFamily="Barlow-Medium">
 
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding SortByNameCommand}" />
-                                </Label.GestureRecognizers>
-
                                 <Label.Triggers>
                                     <DataTrigger
                                         TargetType="Label"
@@ -210,7 +205,8 @@
 
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding SortByNameCommand}" />
+                                    Command="{Binding OrderTabSortingChangeCommand}"
+                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByCustomerName}" />
                             </StackLayout.GestureRecognizers>
 
                         </StackLayout>
@@ -235,7 +231,8 @@
 
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding SortByOrderCommand}" />
+                                    Command="{Binding OrderTabSortingChangeCommand}"
+                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}" />
                             </StackLayout.GestureRecognizers>
 
                         </StackLayout>
@@ -301,7 +298,7 @@
                             <CollectionView.ItemTemplate>
 
                                 <DataTemplate
-                                    x:DataType="viewModels:OrderViewModel">
+                                    x:DataType="models:OrderBindableModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"
