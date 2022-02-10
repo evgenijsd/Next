@@ -112,70 +112,6 @@
                 </Setter>
 
             </Style>
-                
-            <Style x:Key="stackLayoutPaddingStyle" TargetType="StackLayout">
-
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    
-                    <VisualStateGroupList>
-
-                        <VisualStateGroup Name="AdaptiveStackLayoutPadding">
-
-                            <VisualState Name="defaultPadding">
-
-                                <VisualState.StateTriggers>
-
-                                    <AdaptiveTrigger MinWindowHeight="0"/>
-
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-
-                                    <Setter Property="Padding" Value="12, 11, 12, 0" />
-
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                            <VisualState Name="miniPadding">
-
-                                <VisualState.StateTriggers>
-
-                                    <AdaptiveTrigger MinWindowHeight="601"/>
-
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-
-                                    <Setter Property="Padding" Value="24, 22, 24, 0" />
-
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                            <VisualState Name="moreiPadMiniPadding">
-
-                                <VisualState.StateTriggers>
-
-                                    <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-
-                                    <Setter Property="Padding" Value="40, 34, 40, 0" />
-
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                        </VisualStateGroup>
-                        
-                    </VisualStateGroupList>
-
-                </Setter>
-
-            </Style>
 
         </ResourceDictionary>
 
@@ -217,11 +153,55 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
             <!--Header-->
-            
+
             <StackLayout
+                VerticalOptions="Start"
                 Orientation="Horizontal"
-                Style="{StaticResource stackLayoutPaddingStyle}"
-                VerticalOptions="Start">
+                Padding="12, 11, 12, 0">
+
+                <VisualStateManager.VisualStateGroups>
+
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+
+                            <VisualState Name="miniPadding">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowHeight="601"/>
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="Padding" Value="24, 22, 24, 0" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="moreiPadMiniPadding">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="Padding" Value="40, 34, 40, 0" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+                    
+                </VisualStateManager.VisualStateGroups>
 
                 <Label
                     Text="{xct:Translate NewOrder}"
@@ -321,7 +301,51 @@
                 <StackLayout
                     VerticalOptions="Start"
                     Orientation="Horizontal"
-                    Style="{StaticResource stackLayoutPaddingStyle}">
+                    Padding="12, 11, 12, 0">
+
+                    <VisualStateManager.VisualStateGroups>
+
+                        <VisualStateGroupList>
+
+                            <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+
+                                <VisualState Name="miniPadding">
+
+                                    <VisualState.StateTriggers>
+
+                                        <AdaptiveTrigger MinWindowHeight="601"/>
+
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+
+                                        <Setter Property="Padding" Value="24, 22, 24, 0" />
+
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                                <VisualState Name="moreiPadMiniPadding">
+
+                                    <VisualState.StateTriggers>
+
+                                        <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
+
+                                    </VisualState.StateTriggers>
+
+                                    <VisualState.Setters>
+
+                                        <Setter Property="Padding" Value="40, 34, 40, 0" />
+
+                                    </VisualState.Setters>
+
+                                </VisualState>
+
+                            </VisualStateGroup>
+
+                        </VisualStateGroupList>
+
+                    </VisualStateManager.VisualStateGroups>
 
                     <Label
                         Text="{xct:Translate Categories}"
@@ -459,7 +483,51 @@
             <StackLayout
                 VerticalOptions="Start"
                 Orientation="Horizontal"
-                Style="{StaticResource stackLayoutPaddingStyle}">
+                Padding="12, 11, 12, 0">
+
+                <VisualStateManager.VisualStateGroups>
+
+                    <VisualStateGroupList>
+
+                        <VisualStateGroup Name="AdaptiveStackLayoutPadding">
+
+                            <VisualState Name="miniPadding">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowHeight="601"/>
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="Padding" Value="24, 22, 24, 0" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="moreiPadMiniPadding">
+
+                                <VisualState.StateTriggers>
+
+                                    <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
+
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+
+                                    <Setter Property="Padding" Value="40, 34, 40, 0" />
+
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+
+                    </VisualStateGroupList>
+
+                </VisualStateManager.VisualStateGroups>
 
                 <Label
                     Text="{xct:Translate Menu}"
@@ -501,9 +569,18 @@
                 Margin="12, 8, 12, 0"
                 VerticalOptions="StartAndExpand"
                 ItemsSource="{Binding SetsItems}"
-                ItemsLayout="{Binding GridItemsLayoutTwoSpan}"
                 VerticalScrollBarVisibility="Always"
                 SelectionMode="Single">
+
+                <CollectionView.ItemsLayout>
+                    
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        VerticalItemSpacing="5"
+                        HorizontalItemSpacing="5"
+                        Span="2"/>
+                    
+                </CollectionView.ItemsLayout>
                 
                 <VisualStateManager.VisualStateGroups>
 
@@ -513,13 +590,12 @@
 
                             <VisualState.StateTriggers>
 
-                                <AdaptiveTrigger MinWindowWidth="601" />
+                                <AdaptiveTrigger MinWindowHeight="601" />
 
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
 
-                                <Setter Property="ItemsLayout" Value="{Binding GridItemsLayoutTwoSpan}" />
                                 <Setter Property="Margin" Value="24, 16, 24, 0"/>
 
                             </VisualState.Setters>
@@ -536,7 +612,15 @@
 
                             <VisualState.Setters>
 
-                                <Setter Property="ItemsLayout" Value="{Binding GridItemsLayoutThreeSpan}" />
+                                <Setter Property="ItemsLayout">
+
+                                    <GridItemsLayout
+                                        Orientation="Vertical"
+                                        VerticalItemSpacing="5"
+                                        HorizontalItemSpacing="5"
+                                        Span="3"/>
+
+                                </Setter>
 
                                 <Setter Property="Margin" Value="40, 26, 40, 0"/>
 
@@ -713,6 +797,7 @@
                 <ffimageloading:CachedImage
                     Source="pic_payment.png"
                     HorizontalOptions="Center"
+                    WidthRequest="200"
                     VerticalOptions="EndAndExpand"/>
 
                 <Label
