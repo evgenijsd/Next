@@ -61,27 +61,20 @@ namespace Next2.ViewModels
 
         public override async void OnAppearing()
         {
-            cts = new CancellationTokenSource();
-            token = cts.Token;
-
             await RefreshAsync();
         }
 
         public override async void OnDisappearing()
         {
             Customers = new ();
-           // Customers?.Clear();
             SelectedCustomer = null;
-            cts.Cancel();
-            await Task.Delay(100);
+            //await Task.Delay(64);
         }
 
         #endregion
 
         #region --Private Helpers--
 
-        private CancellationTokenSource cts;
-        private CancellationToken token;
         private async Task RefreshAsync()
         {
             IsRefreshing = true;
@@ -94,16 +87,9 @@ namespace Next2.ViewModels
                 var customers = new ObservableCollection<CustomerBindableModel>();
                 foreach (var item in listvm)
                 {
-                    if (token.IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    else
-                    {
                         item.ShowInfoCommand = new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
                         item.SelectItemCommand = new AsyncCommand<CustomerBindableModel>(SelectDeselectItemAsync);
                         customers.Add(item);
-                    }
                 }
 
                 if (customers.Count > 0)
