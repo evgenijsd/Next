@@ -7,8 +7,8 @@ namespace Next2.Services.Order
 {
     public interface IOrderService
     {
-        Task<AOResult<IEnumerable<TableModel>>> GetTables();
-
         Task<AOResult<int>> GetNewOrderIdAsync();
+
+        Task<AOResult<IEnumerable<TableModel>>> GetAvailableTables();
     }
 }

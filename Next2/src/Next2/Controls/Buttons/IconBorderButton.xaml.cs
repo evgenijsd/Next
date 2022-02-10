@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Buttons
 {
@@ -24,16 +25,28 @@ namespace Next2.Controls.Buttons
             set => SetValue(IconSourceProperty, value);
         }
 
-        public static readonly BindableProperty IconSizesProperty = BindableProperty.Create(
-            propertyName: nameof(IconSizes),
+        public static readonly BindableProperty IconWidthProperty = BindableProperty.Create(
+            propertyName: nameof(IconWidth),
             returnType: typeof(int),
-            declaringType: typeof(CustomStepper),
+            declaringType: typeof(IconBorderButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int IconSizes
+        public int IconWidth
         {
-            get => (int)GetValue(IconSizesProperty);
-            set => SetValue(IconSizesProperty, value);
+            get => (int)GetValue(IconWidthProperty);
+            set => SetValue(IconWidthProperty, value);
+        }
+
+        public static readonly BindableProperty IconHeightProperty = BindableProperty.Create(
+            propertyName: nameof(IconHeight),
+            returnType: typeof(int),
+            declaringType: typeof(IconBorderButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int IconHeight
+        {
+            get => (int)GetValue(IconHeightProperty);
+            set => SetValue(IconHeightProperty, value);
         }
 
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(

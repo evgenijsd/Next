@@ -33,12 +33,19 @@
             <Style x:Key="ButtonStyle_i1" TargetType="buttons:BorderButton">
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
                 <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="FontSiz" Value="{DynamicResource TSize_i6}"/>
                 <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="Padding" Value="9"/>
+                <Setter Property="Padding" Value="8"/>
             </Style>
-            
+
+            <Style TargetType="buttons:IconBorderButton">
+                <Setter Property="IconWidth" Value="28"/>
+                <Setter Property="IconHeight" Value="28"/>
+                <Setter Property="CornerRadius" Value="3"/>
+                <Setter Property="Padding" Value="10"/>
+            </Style>
+
             <!-- Bold (700) 32px -->
             <Style x:Key="Bold32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Bold"/>
@@ -57,6 +64,12 @@
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
             </Style>
             
+            <!-- Medium (500) 24px -->
+            <Style x:Key="Medium24pxLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+            </Style>
+            
              <!-- Regular (400) 32px -->
             <Style x:Key="Regular32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Regular"/>
@@ -66,12 +79,12 @@
             <!-- SEPARATORS -->
             <Style x:Key="SeparatorLightBoxViewStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
-                <Setter Property="HeightRequest" Value="0.5"/>
+                <Setter Property="HeightRequest" Value="0.25"/>
             </Style>
             
             <Style x:Key="SeparatorDarkBoxViewStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
-                <Setter Property="HeightRequest" Value="0.5"/>
+                <Setter Property="HeightRequest" Value="0.25"/>
             </Style>
             
         </ContentView.Resources>
@@ -80,7 +93,7 @@
 
             <!-- HEADER, 1 ROW -->
             <StackLayout
-                Padding="20, 13"
+                Padding="17, 13"
                 Orientation="Horizontal"
                 Spacing="17">
 
@@ -95,7 +108,6 @@
                     
                     <Label.FormattedText>
 
-                        <!--переделать-->
                         <FormattedString>
                             
                             <Span Text="{xct:Translate Order}"/>
@@ -107,34 +119,99 @@
 
                     </Label.FormattedText>
                     
+                    <Label.GestureRecognizers>
+                        
+                        <TapGestureRecognizer Command="{Binding PayCommand}" />
+                        
+                    </Label.GestureRecognizers>
+                    
                 </Label>
-
-                <!-- BUTTON FOR TESTING HIDING AND DISABLING CONTROLS (REMOVE) --> 
-                <Button
-                    HorizontalOptions="EndAndExpand"
-                    BackgroundColor="Transparent"
-                    Opacity="0.2"
-                    Text="Clear/Fill"
-                    Command="{Binding PayCommand}" />
-
-                <!-- REPLACE TO DROPDOWN CONTROL (REMOVE) -->
-                <Button Text="DropDown" />
                 
+                <!-- TEMPORARILY. LATER REPLACE TO DROPDOWNLIST --> 
+                <Frame
+                    Padding="10, 7"
+                    HorizontalOptions="EndAndExpand"
+                    WidthRequest="74"
+                    CornerRadius="4"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    BackgroundColor="Transparent">
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <Label
+                            Style="{DynamicResource Medium24pxLabelStyle}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"
+                            Text="Dine In"/>
+
+                        <ffimageloading:CachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            Source="ic_arrow_down_32x32" />
+
+                    </StackLayout>
+
+                </Frame>
+
             </StackLayout>
 
             <!-- HEADER, 2 ROW -->
             <StackLayout
-                Padding="20, 5"
+                Padding="17, 15"
                 Orientation="Horizontal"
                 Spacing="15">
 
-                <!-- REPLACE TO DROPDOWN CONTROL (REMOVE) -->
-                <Button Text="DropDown" />
+                <!-- TEMPORARILY. LATER REPLACE TO DROPDOWNLIST -->
+                <Frame
+                    Padding="10, 7"
+                    WidthRequest="125"
+                    CornerRadius="4"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    BackgroundColor="Transparent">
+
+                    <StackLayout
+                        Orientation="Horizontal">
+
+                        <Label
+                            Style="{DynamicResource Medium24pxLabelStyle}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand"
+                            Text="{Binding SelectedTable.Number, StringFormat='Table {0}'}">
+                            
+                            <Label.FormattedText>
+                                
+                                <FormattedString>
+                                    
+                                    <FormattedString.Spans>
+                                        
+                                        <Span Text="{xct:Translate Table}"/>
+                                        <Span Text="{Binding SelectedTable.Id, StringFormat=' {0}'}"/>
+
+                                    </FormattedString.Spans>
+                                    
+                                </FormattedString>
+                                
+                            </Label.FormattedText>
+                            
+                        </Label>
+
+                        <ffimageloading:CachedImage
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            Source="ic_arrow_down_32x32" />
+
+                    </StackLayout>
+
+                </Frame>
 
                 <Label
                     Style="{DynamicResource SemiBold32pxLabelStyle}"
-                    Padding="0, 0, 0, 4"
                     HorizontalOptions="EndAndExpand"
+                    Padding="0, 0, 0, 4"
                     Text="{xct:Translate Seats}">
                     
                     <Label.Triggers>
@@ -150,9 +227,10 @@
                 </Label>
                 
                 <controls:CustomStepper
-                    Spacing="{Binding Source={RelativeSource AncestorType={x:Type StackLayout}}, Path=Spacing}"
+                    Spacing="8"
                     IconSizes="28"
                     FontSize="{DynamicResource TSize_i6}"
+                    MaxValue="{Binding SelectedTable.NumberOfAvailableSeats}"
                     Value="{Binding NumberOfSeats}">
                     
                     <controls:CustomStepper.Triggers>
@@ -175,7 +253,10 @@
             <!-- PSEUDO-MEALS LIST (REPLACE) -->
             <CollectionView 
                 Background="{DynamicResource TextAndBackgroundColor_i5}"
-                ItemsSource="{Binding Tables}">
+                ItemsSource="{Binding Tables}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding SelectTableCommand}"
+                SelectedItem="{Binding SelectedTable}">
 
                 <CollectionView.Effects>
 
@@ -190,7 +271,7 @@
                         <StackLayout>
 
                             <StackLayout
-                                Padding="20"
+                                Padding="17"
                                 Orientation="Horizontal"
                                 x:DataType="models:TableBindableModel">
 
@@ -235,7 +316,7 @@
                 
                 <!-- SUMMARY HEADER -->
                 <StackLayout
-                    Padding="20, 8"
+                    Padding="17, 8"
                     Spacing="13"
                     Orientation="Horizontal">
 
@@ -273,9 +354,9 @@
                 <BoxView Style="{DynamicResource SeparatorDarkBoxViewStyle}"/>
 
                 <!-- SUMMARY BODY -->
-                <StackLayout 
-                    Padding="20, 12, 20, 10"
-                    Spacing="15">
+                <StackLayout
+                    Padding="17, 12, 17, 0"
+                    Spacing="10">
 
                     <StackLayout
                         Orientation="Horizontal">
@@ -363,8 +444,9 @@
             </StackLayout>
 
             <!-- BUTTONS -->
-            <Grid 
-                Padding="20, 15, 20, 15"
+            <Grid
+                VerticalOptions="EndAndExpand"
+                Padding="17, 15, 17, 15"
                 RowDefinitions="auto"
                 ColumnSpacing="10">
 
@@ -404,7 +486,7 @@
 
             </Grid>
 
-        </StackLayout>
+        </StackLayout> 
 
     </ContentView>
     

@@ -17,8 +17,8 @@
     </Frame.GestureRecognizers>
 
     <ffimageloading:CachedImage
-        HeightRequest="28"
-        WidthRequest="28"
+        HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=IconHeight}"
+        WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=IconWidth}"
         Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:IconBorderButton}}, Path=IconSource}"/>
     
 </Frame>

@@ -36,17 +36,16 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
-            propertyName: nameof(FontSize),
-            returnType: typeof(float),
+        public static readonly BindableProperty FontSizProperty = BindableProperty.Create(
+            propertyName: nameof(FontSiz),
+            returnType: typeof(double),
             declaringType: typeof(BorderButton),
-            defaultValue: 12f,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public float FontSize
+        public double FontSiz
         {
-            get => (float)GetValue(FontSizeProperty);
-            set => SetValue(FontSizeProperty, value);
+            get => (double)GetValue(FontSizProperty);
+            set => SetValue(FontSizProperty, value);
         }
 
         public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(

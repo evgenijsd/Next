@@ -47,26 +47,32 @@ namespace Next2.Services
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetTables()
+        public async Task<AOResult<IEnumerable<TableModel>>> GetAvailableTables()
         {
             var result = new AOResult<IEnumerable<TableModel>>();
 
             try
             {
-                var tables = await _mockService.GetAllAsync<TableModel>();
+                var allTables = await _mockService.GetAllAsync<TableModel>();
 
-                if (tables != null)
+                if (allTables != null)
                 {
-                    result.SetSuccess(tables);
+                    var availableTables = allTables.Where(x => x.NumberOfAvailableSeats > 0);
+
+                    if (availableTables.Count() > 0)
+                    {
+                        result.SetSuccess(availableTables);
+                    }
                 }
-                else
+
+                if (!result.IsSuccess)
                 {
                     result.SetFailure();
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetTables)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetAvailableTables)}: exception", "Some issues", ex);
             }
 
             return result;

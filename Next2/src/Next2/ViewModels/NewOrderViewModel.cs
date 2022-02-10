@@ -3,6 +3,7 @@ using Next2.Extensions;
 using Next2.Models;
 using Next2.Services.Order;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Next2.ViewModels
 
         public TableBindableModel SelectedTable { get; set; } = new ();
 
-        public int NumberOfSeats { get; set; } = 1;
+        public int NumberOfSeats { get; set; } = 0;
 
         public bool IsOrderWithTax { get; set; } = true;
 
@@ -57,6 +58,10 @@ namespace Next2.ViewModels
 
         private ICommand _tabCommand;
         public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync);
+
+        //for testing
+        private ICommand _selectTableCommand;
+        public ICommand SelectTableCommand => _selectTableCommand ??= new AsyncCommand<TableBindableModel>(OnSelectTableCommandAsync);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync);
@@ -118,16 +123,27 @@ namespace Next2.ViewModels
 
         private async Task RefreshTables()
         {
-            var tablesResult = await _orderService.GetTables();
+            var availableTablesResult = await _orderService.GetAvailableTables();
 
-            if (tablesResult.IsSuccess)
+            if (availableTablesResult.IsSuccess)
             {
-                var allTables = tablesResult.Result;
+                var availableTables = availableTablesResult.Result;
 
-                var tableBindableModels = new ObservableCollection<TableBindableModel>(allTables.Select(x => x.ToBindableModel()));
+                var tableBindableModels = new ObservableCollection<TableBindableModel>(availableTables.Select(x => x.ToBindableModel()));
 
                 Tables = new (tableBindableModels);
+
+                SelectedTable = Tables[0];
+                NumberOfSeats = 1;
             }
+        }
+
+        //for testing
+        private Task OnSelectTableCommandAsync(TableBindableModel? table)
+        {
+            NumberOfSeats = 1;
+
+            return Task.CompletedTask;
         }
 
         private Task OnOpenHoldSelectionCommandAsync()
@@ -161,7 +177,7 @@ namespace Next2.ViewModels
         {
             if (Tables.Count > 0)
             {
-                Tables = new ();
+                Tables.Clear();
             }
             else
             {

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    Padding="0"
+    BackgroundColor="Gray"
+    x:Class="Next2.Controls.DropDownList">
+
+    <Frame.GestureRecognizers>
+        
+        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandListCommand}"/>
+        
+    </Frame.GestureRecognizers>
+
+    <Frame.Triggers>
+
+        <DataTrigger
+            TargetType="controls:DropDownList"
+            Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}" Value="false">
+            <Setter Property="BackgroundColor" Value="green"/>
+
+        </DataTrigger>
+
+    </Frame.Triggers>
+
+
+    <StackLayout 
+        Orientation="Horizontal"
+        Padding="10, 0">
+        
+        <Label
+            VerticalOptions="Center"
+            HorizontalOptions="StartAndExpand"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"/>
+        
+        <ffimageloading:CachedImage
+            VerticalOptions="Center"
+            HorizontalOptions="EndAndExpand"
+            HeightRequest="24"
+            WidthRequest="24"
+            Source="ic_arrow_down_32x32" />
+
+    </StackLayout>
+    
+</Frame>
