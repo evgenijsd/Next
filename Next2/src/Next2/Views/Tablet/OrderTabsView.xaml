@@ -51,6 +51,7 @@
                 <controls:CustomButtonOrderTab
                     Text="{xct:Translate Orders}"
                     Grid.Column="0"
+                    CRadius="10,0,0,0"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="End"
@@ -66,6 +67,7 @@
                 <controls:CustomButtonOrderTab
                     Text="{xct:Translate Tabs}"
                     Grid.Column="1"
+                    CRadius="0,10,0,0"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="Start"

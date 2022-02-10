@@ -17,17 +17,17 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
-        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
-            propertyName: nameof(CornerRadius),
-            returnType: typeof(float),
+        public static readonly BindableProperty CRadiusProperty = BindableProperty.Create(
+            propertyName: nameof(CRadius),
+            returnType: typeof(CornerRadius),
             declaringType: typeof(CustomButtonOrderTab),
-            defaultValue: 0F,
+            /*defaultValue: (0, 0, 0, 0),*/
             defaultBindingMode: BindingMode.TwoWay);
 
-        public float CornerRadius
+        public CornerRadius CRadius
         {
-            get => (float)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
+            get => (CornerRadius)GetValue(CRadiusProperty);
+            set => SetValue(CRadiusProperty, value);
         }
 
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
