@@ -21,7 +21,6 @@ namespace Next2.Controls
             propertyName: nameof(CRadius),
             returnType: typeof(CornerRadius),
             declaringType: typeof(CustomButtonOrderTab),
-            /*defaultValue: (0, 0, 0, 0),*/
             defaultBindingMode: BindingMode.TwoWay);
 
         public CornerRadius CRadius
@@ -41,19 +40,6 @@ namespace Next2.Controls
         {
             get => (bool)GetValue(IsSelectedProperty);
             set => SetValue(IsSelectedProperty, value);
-        }
-
-        public static readonly BindableProperty IsRightProperty = BindableProperty.Create(
-            propertyName: nameof(IsRight),
-            returnType: typeof(bool),
-            declaringType: typeof(CustomButtonOrderTab),
-            defaultValue: false,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public bool IsRight
-        {
-            get => (bool)GetValue(IsRightProperty);
-            set => SetValue(IsRightProperty, value);
         }
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(

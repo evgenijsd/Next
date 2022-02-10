@@ -22,14 +22,10 @@
             RowSpacing="0">
 
             <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="75" />
-                <RowDefinition
-                    Height="2" />
-                <RowDefinition
-                    Height="95" />
-                <RowDefinition
-                    Height="{Binding HeightCollectionGrid}" />
+                <RowDefinition Height="75" />
+                <RowDefinition Height="2" />
+                <RowDefinition Height="95" />
+                <RowDefinition Height="{Binding HeightCollectionGrid}" />
             </Grid.RowDefinitions>
 
             <Grid
@@ -57,10 +53,12 @@
                     HorizontalOptions="End"
                     VerticalOptions="End"
                     IsSelected="{Binding IsOrderTabsSelected}">
+                    
                     <controls:CustomButtonOrderTab.GestureRecognizers>
                         <TapGestureRecognizer
                             Command="{Binding ButtonOrdersCommand}" />
                     </controls:CustomButtonOrderTab.GestureRecognizers>
+                    
                 </controls:CustomButtonOrderTab>
 
 
@@ -72,12 +70,13 @@
                     WidthRequest="260"
                     HorizontalOptions="Start"
                     VerticalOptions="End"
-                    IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
-                    IsRight="True">
+                    IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}">
+                    
                     <controls:CustomButtonOrderTab.GestureRecognizers>
                         <TapGestureRecognizer
                             Command="{Binding ButtonTabsCommand}" />
                     </controls:CustomButtonOrderTab.GestureRecognizers>
+                    
                 </controls:CustomButtonOrderTab>
 
             </Grid>
@@ -186,13 +185,12 @@
                                 FontFamily="Barlow-Medium">
 
                                 <Label.Triggers>
+                                    
                                     <DataTrigger
                                         TargetType="Label"
                                         Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
                                         Value="False">
-                                        <Setter
-                                            Property="Text"
-                                            Value="{xct:Translate CustomerName}" />
+                                        <Setter Property="Text" Value="{xct:Translate CustomerName}" />
                                     </DataTrigger>
 
                                 </Label.Triggers>
@@ -317,26 +315,19 @@
                                                 <VisualState
                                                     Name="Normal">
                                                     <VisualState.Setters>
-                                                        <Setter
-                                                            Property="BackgroundColor"
-                                                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                                 <VisualState
                                                     Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter
-                                                            Property="BackgroundColor"
-                                                            Value="{DynamicResource AppColor_i4}" />
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
                                                         <Setter
                                                             TargetName="_label"
                                                             Property="Label.TextColor"
                                                             Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                                        <Setter
-                                                            TargetName="_image"
-                                                            Property="ffimageloading:CachedImage.Source"
-                                                            Value="ic_check_box_checked_white" />
+                                                        <Setter TargetName="_image" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -404,9 +395,7 @@
                                                         TargetType="Label"
                                                         Property="Text"
                                                         Value="Annuled">
-                                                        <Setter
-                                                            Property="TextColor"
-                                                            Value="{DynamicResource IndicationColor_i3}" />
+                                                        <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                                                     </Trigger>
                                                 </Label.Triggers>
 

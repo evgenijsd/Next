@@ -20,8 +20,6 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
 
-        private bool _isDirectionSortNames = false;
-        private bool _isDirectionSortOrders = true;
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
         private double _summRowHight;
@@ -38,6 +36,8 @@ namespace Next2.ViewModels
 
         public double HeightPage { get; set; }
 
+        public bool IsOrdersRefreshing { get; set; }
+
         public EOrderTabSorting OrderTabSorting { get; set; }
 
         private GridLength _heightCollectionGrid;
@@ -46,10 +46,6 @@ namespace Next2.ViewModels
             get => _heightCollectionGrid;
             set => SetProperty(ref _heightCollectionGrid, value);
         }
-
-        public string? Text { get; set; }
-
-        public bool IsOrdersRefreshing { get; set; }
 
         private bool _isOrderTabsSelected = true;
         public bool IsOrderTabsSelected
