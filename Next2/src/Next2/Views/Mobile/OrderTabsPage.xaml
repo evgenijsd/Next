@@ -95,6 +95,7 @@
                 </controls:CustomButton>
 
                 <Frame
+                    VerticalOptions="Start"
                     Grid.Row="3"
                     HasShadow="False"
                     CornerRadius="10"
@@ -171,6 +172,7 @@
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
 
                         <RefreshView
+                            VerticalOptions="Start"
                             IsRefreshing="{Binding IsOrdersRefreshing}"
                             Command="{Binding RefreshOrdersCommand}">
 
@@ -189,7 +191,7 @@
 
                                         <Grid
                                             HorizontalOptions="Fill"
-                                            VerticalOptions="Fill"
+                                            VerticalOptions="Start"
                                             RowSpacing="0"
                                             RowDefinitions="48,2">
 

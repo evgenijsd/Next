@@ -25,13 +25,13 @@
         FontSize="{DynamicResource TSize_i7}"
         FontFamily="Barlow-Medium" />
 
-    <Label
+    <!--Label
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
         Text="________"
         TextColor="Transparent"
         FontSize="{DynamicResource TSize_i7}"
-        FontFamily="Barlow-Medium" />
+        FontFamily="Barlow-Medium" /-->
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"

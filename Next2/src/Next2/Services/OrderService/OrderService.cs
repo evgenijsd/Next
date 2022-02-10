@@ -25,7 +25,7 @@ namespace Next2.Services
 
             try
             {
-                var orders = await _mockService.GetAsync<OrderModel>(x => x.Id == 1); // GetAllAsync<OrderModel>();
+                var orders = await _mockService.GetAsync<OrderModel>(x => x.Id < 3); // GetAllAsync<OrderModel>();
 
                 if (orders != null)
                 {

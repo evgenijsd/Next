@@ -96,6 +96,7 @@ namespace Next2.ViewModels
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
             _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
+
             var heightCollectionScreen = HeightPage - _summRowHight;
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
@@ -107,19 +108,20 @@ namespace Next2.ViewModels
                 heightCollectionScreen = heightCollection;
             }
 
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
+            //HeightCollectionGrid = new GridLength(heightCollectionScreen);
         }
 
         public override async void OnAppearing()
         {
             _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET;
+            double offcet = 0;
 
             var heightCollectionScreen = HeightPage - _summRowHight;
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
             await LoadData();
 
-            var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
+            var heightCollection = ((Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT) + offcet;
             if (heightCollectionScreen > heightCollection)
             {
                 heightCollectionScreen = heightCollection;
