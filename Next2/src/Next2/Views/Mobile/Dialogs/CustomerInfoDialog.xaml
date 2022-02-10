@@ -254,17 +254,17 @@
                                     Style="{StaticResource GridLayoutStyle}">
 
                                     <Label Style="{StaticResource GridTextStyle}" TextColor="{DynamicResource TextAndBackgroundColor_i1}">
-                                        
+
                                         <Label.FormattedText>
-                                            
+
                                             <FormattedString>
                                                 <Span Text="{xct:Translate NumberOf}" />
                                                 <Span Text=" &#10; " />
                                                 <Span Text="{xct:Translate GiftCards}" />
                                             </FormattedString>
-                                            
+
                                         </Label.FormattedText>
-                                        
+
                                     </Label>
 
                                     <Label
@@ -288,17 +288,17 @@
                                     Style="{StaticResource GridLayoutStyle}">
 
                                     <Label Style="{StaticResource GridTextStyle}" TextColor="{DynamicResource TextAndBackgroundColor_i1}">
-                                        
+
                                         <Label.FormattedText>
-                                            
+
                                             <FormattedString>
                                                 <Span Text="{xct:Translate GiftCard}" />
                                                 <Span Text="&#10;    " />
                                                 <Span Text="{xct:Translate Total}" />
                                             </FormattedString>
-                                            
+
                                         </Label.FormattedText>
-                                        
+
                                     </Label>
 
                                     <Label

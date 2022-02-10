@@ -55,6 +55,9 @@ namespace Next2.ViewModels
         private ICommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync);
 
+        private ICommand _addCustomerCommand;
+        public ICommand AddCustomerCommand => _addCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(AddCustomerAsync);
+
         #endregion
 
         #region --Overrides--
@@ -132,8 +135,27 @@ namespace Next2.ViewModels
                 var param = new DialogParameters();
                 param.Add(Constants.DialogParameterKeys.MODEL, selectedCustomer);
 
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                if (Device.Idiom == TargetIdiom.Phone)
+                {
+                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
                     .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                }
+                else
+                {
+                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                    .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                }
+            }
+        }
+
+        private async Task AddCustomerAsync(CustomerBindableModel customer)
+        {
+            if (customer is CustomerBindableModel selectedCustomer)
+            {
+                var param = new DialogParameters();
+
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                    .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
             }
         }
 
