@@ -150,12 +150,19 @@ namespace Next2.ViewModels
 
         private async Task AddCustomerAsync(CustomerBindableModel customer)
         {
-            if (customer is CustomerBindableModel selectedCustomer)
+            if (true)
             {
                 var param = new DialogParameters();
-
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                if (Device.Idiom == TargetIdiom.Phone)
+                {
+                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
                     .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                }
+                else
+                {
+                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                    .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                }
             }
         }
 

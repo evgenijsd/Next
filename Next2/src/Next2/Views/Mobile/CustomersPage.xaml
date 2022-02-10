@@ -272,6 +272,9 @@
                             Text="{xct:Translate AddNew}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             VerticalOptions="Center" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddCustomerCommand}"/>
+                        </Frame.GestureRecognizers>
 
                     </Frame>
 

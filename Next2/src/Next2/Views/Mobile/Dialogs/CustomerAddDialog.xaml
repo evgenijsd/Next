@@ -8,7 +8,14 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="dialogs:CustomerInfoViewModel">
     <ContentPage.Content>
-        <controls:CalendarGrid />
+        <Frame
+            Padding="0"
+            HeightRequest="330"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="440">
+            <controls:CalendarGrid CellFrameRequest="32"/>
+        </Frame>
     </ContentPage.Content>
 
 </rg:PopupPage>

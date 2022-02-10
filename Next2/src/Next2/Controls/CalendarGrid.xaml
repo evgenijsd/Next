@@ -2,40 +2,561 @@
 <ContentView
     x:Class="Next2.Controls.CalendarGrid"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Name="calendar">
+
+    <ContentView.Resources>
+
+        <ResourceDictionary>
+
+            <Style x:Key="HeadCellLabelStyle" TargetType="Label">
+
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                <Setter Property="FontSize" Value="12" />
+
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
+
+                <Setter Property="VerticalOptions" Value="Center" />
+
+                <Setter Property="HorizontalOptions" Value="Center" />
+
+            </Style>
+
+            <Style x:Key="ViewCellLabelStyle" TargetType="Label">
+
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                <Setter Property="FontSize" Value="12" />
+
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+
+                <Setter Property="VerticalOptions" Value="Center" />
+
+                <Setter Property="HorizontalOptions" Value="Center" />
+
+            </Style>
+
+            <Style x:Key="ViewCellFrameStyle" TargetType="Frame">
+
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                <Setter Property="Padding" Value="0" />
+
+                <Setter Property="HeightRequest" Value="{Binding CellFrameRequest, Source={x:Reference calendar}}" />
+
+                <Setter Property="WidthRequest" Value="{Binding CellFrameRequest, Source={x:Reference calendar}}" />
+
+                <Setter Property="CornerRadius" Value="45" />
+
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+
+            </Style>
+
+        </ResourceDictionary>
+
+    </ContentView.Resources>
+
     <ContentView.Content>
         <Grid
             x:Name="grid"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
             ColumnDefinitions="*"
             RowDefinitions="*">
+
+            <!--  Header  -->
             <Frame
                 Grid.Row="0"
                 Grid.Column="0"
-                Padding="0"
-                BackgroundColor="red">
-                <Label Text="23" />
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="Sn" />
+
             </Frame>
+
             <Frame
                 Grid.Row="0"
                 Grid.Column="1"
-                Padding="0"
-                BackgroundColor="Green">
-                <Label Text="23" />
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="Mn" />
+
             </Frame>
+
+            <Frame
+                Grid.Row="0"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="Tu" />
+
+            </Frame>
+
+            <Frame
+                Grid.Row="0"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="Wn" />
+
+            </Frame>
+
+            <Frame
+                Grid.Row="0"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="Th" />
+
+            </Frame>
+
+            <Frame
+                Grid.Row="0"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="Fr" />
+
+            </Frame>
+
+            <Frame
+                Grid.Row="0"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource HeadCellLabelStyle}" Text="St" />
+
+            </Frame>
+
+            <!--  Table  -->
+            <!--  week1  -->
             <Frame
                 Grid.Row="1"
                 Grid.Column="0"
-                Padding="0"
-                BackgroundColor="red">
-                <Label Text="23" />
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[0], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="0" />
+                </Frame.GestureRecognizers>
+
             </Frame>
             <Frame
                 Grid.Row="1"
                 Grid.Column="1"
-                Padding="0"
-                BackgroundColor="Green">
-                <Label Text="23" />
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[1], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="1" />
+                </Frame.GestureRecognizers>
+
             </Frame>
+            <Frame
+                Grid.Row="1"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[2], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="2" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="1"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[3], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="3" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="1"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[4], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="4" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="1"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[5], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="5" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="1"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[6], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="6" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <!--  week2  -->
+            <Frame
+                Grid.Row="2"
+                Grid.Column="0"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[7], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="7" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Grid.Column="1"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[8], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="8" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[9], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="9" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[10], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="10" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[11], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="11" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[12], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="12" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[13], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="13" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <!--  week3  -->
+            <Frame
+                Grid.Row="3"
+                Grid.Column="0"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[14], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="14" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="1"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[15], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="15" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[16], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="16" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[17], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="17" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[18], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="18" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[19], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="19" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[20], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="20" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <!--  week4  -->
+            <Frame
+                Grid.Row="4"
+                Grid.Column="0"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[21], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="21" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="4"
+                Grid.Column="1"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[22], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="22" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="4"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[23], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="23" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="4"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[24], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="24" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="4"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[25], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="25" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="4"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[26], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="26" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="4"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[27], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="27" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <!--  week5  -->
+            <Frame
+                Grid.Row="5"
+                Grid.Column="0"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[28], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="28" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="5"
+                Grid.Column="1"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[29], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="29" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="5"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[30], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="30" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="5"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[31], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="31" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="5"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[32], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="32" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="5"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[33], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="33" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="5"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[34], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="34" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <!--  week6  -->
+            <Frame
+                Grid.Row="6"
+                Grid.Column="0"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[35], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="35" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="6"
+                Grid.Column="1"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[36], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="36" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="6"
+                Grid.Column="2"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[37], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="37" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="6"
+                Grid.Column="3"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[38], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="38" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="6"
+                Grid.Column="4"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[39], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="39" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="6"
+                Grid.Column="5"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[40], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="40" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+            <Frame
+                Grid.Row="6"
+                Grid.Column="6"
+                Style="{StaticResource ViewCellFrameStyle}">
+                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{Binding DaysArray[41], Source={x:Reference calendar}}" />
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference calendar}}" CommandParameter="41" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
         </Grid>
 
     </ContentView.Content>
