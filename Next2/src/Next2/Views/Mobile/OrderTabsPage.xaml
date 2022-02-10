@@ -48,7 +48,6 @@
                     <controls:CustomButtonOrderTab
                         Text="{xct:Translate Orders}"
                         Grid.Column="0"
-                        CornerRadius="0"
                         VerticalOptions="FillAndExpand"
                         IsSelected="{Binding IsOrderTabsSelected}">
 
@@ -63,9 +62,7 @@
                         Text="{xct:Translate Tabs}"
                         Grid.Column="1"
                         VerticalOptions="FillAndExpand"
-                        CornerRadius="0"
-                        IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
-                        IsRight="True">
+                        IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}">
 
                         <controls:CustomButtonOrderTab.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
