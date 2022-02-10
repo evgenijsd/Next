@@ -9,12 +9,10 @@
     x:DataType="dialogs:CustomerInfoViewModel">
     <ContentPage.Content>
         <Frame
-            Padding="0"
-            HeightRequest="330"
+            Padding="0" WidthRequest="440" HeightRequest="330" Margin="64"
             HorizontalOptions="Center"
-            VerticalOptions="Center"
-            WidthRequest="440">
-            <controls:CalendarGrid CellFrameRequest="32"/>
+            VerticalOptions="Center">
+            <controls:CalendarGrid />
         </Frame>
     </ContentPage.Content>
 

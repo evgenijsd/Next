@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,30 +12,30 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
 {
+    public enum EDayState
+    {
+        Current,
+        DayMonth,
+        NoDayMonth,
+    }
+
+    public class DayModel
+    {
+        public int Day { get; set; }
+        public EDayState State { get; set; }
+    }
+
     public partial class CalendarGrid : ContentView
     {
         public CalendarGrid()
         {
-            DaysArray = CreateArrayOfDays(2022, 3);
+            CreateArrayOfDays(1980, 3);
             InitializeComponent();
         }
 
         #region -- Public Properties --
 
-        public int[] DaysArray { get; set; }
-
-        public static readonly BindableProperty CellFrameRequestProperty = BindableProperty.Create(
-            propertyName: nameof(CellFrameRequest),
-            returnType: typeof(double),
-            declaringType: typeof(CalendarGrid),
-            defaultValue: 42d,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public double CellFrameRequest
-        {
-            get => (double)GetValue(CellFrameRequestProperty);
-            set => SetValue(CellFrameRequestProperty, value);
-        }
+        public ObservableCollection<DayModel> CategoriesItems { get; set; }
 
         public static readonly BindableProperty YearProperty = BindableProperty.Create(
             propertyName: nameof(Year),
@@ -105,7 +106,7 @@ namespace Next2.Controls
            return Task.CompletedTask;
         }
 
-        private int[] CreateArrayOfDays(int year, int month)
+        private void CreateArrayOfDays(int year, int month)
         {
             DateTime dt = new DateTime(year, month, 1);
             int currentMonthindex = (int)dt.DayOfWeek;
@@ -130,7 +131,24 @@ namespace Next2.Controls
                 }
             }
 
-            return result;
+            CategoriesItems = new ();
+            EDayState state = EDayState.NoDayMonth;
+            bool isNewMonth = false;
+            foreach (var day in result)
+            {
+                if (day == 1 && isNewMonth)
+                {
+                    state = EDayState.NoDayMonth;
+                }
+
+                if (day == 1 && !isNewMonth)
+                {
+                    state = EDayState.DayMonth;
+                    isNewMonth = true;
+                }
+
+                CategoriesItems.Add(new DayModel { Day = day, State = state, });
+            }
         }
 
         #endregion
