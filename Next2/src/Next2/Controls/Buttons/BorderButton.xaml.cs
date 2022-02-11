@@ -40,6 +40,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(FontSize),
             returnType: typeof(double),
             declaringType: typeof(BorderButton),
+            defaultValue: 12d,
             defaultBindingMode: BindingMode.TwoWay);
 
         public double FontSize

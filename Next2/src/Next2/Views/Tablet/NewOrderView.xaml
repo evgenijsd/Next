@@ -819,32 +819,26 @@
 
                 <buttons:BorderButton
                     Grid.Column="0"
-                    HasShadow="False"
                     Text="Order"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource IndicationColor_i6}"
                     HeightRequest="40"
-                    Padding="25, 5"
                     CornerRadius="4"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
-                    HasShadow="False"
                     Text="Tab"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource IndicationColor_i8}"
                     HeightRequest="40"
-                    Padding="25, 5"
                     CornerRadius="4"/>
 
                 <buttons:BorderButton
                     Grid.Column="2"
-                    HasShadow="False"
                     Text="Pay"
                     BackgroundColor="{DynamicResource IndicationColor_i2}"
                     BorderColor="{DynamicResource IndicationColor_i2}"
                     HeightRequest="40"
-                    Padding="25, 5"
                     CornerRadius="4"/>
 
             </Grid>
