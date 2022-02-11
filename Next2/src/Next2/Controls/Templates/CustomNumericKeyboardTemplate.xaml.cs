@@ -100,6 +100,7 @@ namespace Next2.Controls.Templates
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
         }
+
         #endregion
     }
 }

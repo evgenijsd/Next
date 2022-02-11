@@ -16,6 +16,9 @@ namespace Next2.Behaviors
         private InputButton _inputButton;
 
         private string title = LocalizationResourceManager.Current["TypeEmployeeId"];
+
+        #region -- Overrides --
+
         protected override void OnAttachedTo(InputButton inputButton)
         {
             base.OnAttachedTo(inputButton);
@@ -31,6 +34,10 @@ namespace Next2.Behaviors
             _inputButton.PropertyChanged -= InputButtonPropertyChanged;
             _inputButton = null;
         }
+
+        #endregion
+
+        #region -- Private helpers --
 
         private void InputButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -56,5 +63,8 @@ namespace Next2.Behaviors
                 _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i9");
             }
         }
+
+        #endregion
+
     }
 }

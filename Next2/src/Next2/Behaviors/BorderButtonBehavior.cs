@@ -17,6 +17,8 @@ namespace Next2.Behaviors
         private BorderButton _button;
         private string _title = LocalizationResourceManager.Current["TypeEmployeeId"];
 
+        #region -- Public properties --
+
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             propertyName: nameof(TitleProperty),
             returnType: typeof(string),
@@ -24,28 +26,15 @@ namespace Next2.Behaviors
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: (b, o, n) => ((BorderButtonBehavior)b).titlepropertyChanged((object)o, (object)n));
 
-        private void titlepropertyChanged(object oldValue, object newValue)
-        {
-            if (Title != _title)
-            {
-                _button.SetDynamicResource(BorderButton.BorderColorProperty, "IndicationColor_i3");
-                _button.SetDynamicResource(BorderButton.TextColorProperty, "TextAndBackgroundColor_i1");
-                _button.IsEnabled = true;
-            }
-            else if (Title == _title)
-            {
-                _button.SetDynamicResource(BorderButton.BorderColorProperty, "IndicationColor_i4");
-                _button.SetDynamicResource(BorderButton.TextColorProperty, "TextAndBackgroundColor_i7");
-                _button.IsEnabled = false;
-            }
-        }
-
         public string Title
         {
             get => (string)GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
+        #endregion
+
+        #region -- Overrides --
         protected override void OnAttachedTo(BorderButton button)
         {
             base.OnAttachedTo(button);
@@ -67,5 +56,27 @@ namespace Next2.Behaviors
                 Console.WriteLine();
             }
         }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void titlepropertyChanged(object oldValue, object newValue)
+        {
+            if (Title != _title)
+            {
+                _button.SetDynamicResource(BorderButton.BorderColorProperty, "IndicationColor_i3");
+                _button.SetDynamicResource(BorderButton.TextColorProperty, "TextAndBackgroundColor_i1");
+                _button.IsEnabled = true;
+            }
+            else if (Title == _title)
+            {
+                _button.SetDynamicResource(BorderButton.BorderColorProperty, "IndicationColor_i4");
+                _button.SetDynamicResource(BorderButton.TextColorProperty, "TextAndBackgroundColor_i7");
+                _button.IsEnabled = false;
+            }
+        }
+
+        #endregion
     }
 }

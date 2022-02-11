@@ -10,11 +10,13 @@ namespace Next2.Controls.Buttons
             InitializeComponent();
         }
 
+        #region -- Public properties --
+
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-           propertyName: nameof(Title),
-           returnType: typeof(string),
-           declaringType: typeof(NumericKeyboardButton),
-           defaultBindingMode: BindingMode.TwoWay);
+         propertyName: nameof(Title),
+         returnType: typeof(string),
+         declaringType: typeof(NumericKeyboardButton),
+         defaultBindingMode: BindingMode.TwoWay);
 
         public string Title
         {
@@ -33,5 +35,8 @@ namespace Next2.Controls.Buttons
             get => (ICommand)GetValue(TapGestureRecognizerCommandProperty);
             set => SetValue(TapGestureRecognizerCommandProperty, value);
         }
+
+        #endregion
+
     }
 }
