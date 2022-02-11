@@ -100,7 +100,14 @@
                     Text="{xct:Translate SearchTableNumber}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
-                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                    <controls:CustomButton.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding ButtonSearchCommand}" />
+                    </controls:CustomButton.GestureRecognizers>
+                    
+                </controls:CustomButton>
 
                 <controls:CustomButton
                     Grid.Row="0"

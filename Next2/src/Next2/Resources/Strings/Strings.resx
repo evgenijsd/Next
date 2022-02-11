@@ -195,4 +195,7 @@
   <data name="Tabs" xml:space="preserve">
     <value>Tabs</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

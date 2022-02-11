@@ -3,14 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.SearchPage"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <Entry
-                ReturnType="Done" />
-        </StackLayout>
+        <Grid
+            RowSpacing="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="65" />
+                <RowDefinition
+                    Height="55" />
+                <RowDefinition
+                    Height="80" />
+                <RowDefinition
+                    Height="*" />
+            </Grid.RowDefinitions>
+
+            <controls:CustomNavigationbar
+                Title="{xct:Translate Search}"
+                LeftButtonImageSource="ic_arrow_left_tail_40x40"
+                LeftButtonCommand="{Binding GoBackCommand}" />
+
+            <StackLayout
+                Grid.Row="1">
+                <Entry
+                    Keyboard="Email"
+                    ReturnType="Done" />
+            </StackLayout>
+
+        </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>

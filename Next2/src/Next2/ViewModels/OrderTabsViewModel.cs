@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services;
 using Next2.Views.Mobile;
@@ -24,6 +25,7 @@ namespace Next2.ViewModels
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
         private double _summRowHight;
+        private string _goBackSearch;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -93,20 +95,23 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parametrs)
         {
-            _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
-
-            var heightCollectionScreen = HeightPage - _summRowHight;
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
-
-            await LoadData();
-
-            var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
-            if (heightCollectionScreen > heightCollection)
+            if (_goBackSearch != "SEND")
             {
-                heightCollectionScreen = heightCollection;
-            }
+                _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
 
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
+                var heightCollectionScreen = HeightPage - _summRowHight;
+                HeightCollectionGrid = new GridLength(heightCollectionScreen);
+
+                await LoadData();
+
+                var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
+                if (heightCollectionScreen > heightCollection)
+                {
+                    heightCollectionScreen = heightCollection;
+                }
+
+                HeightCollectionGrid = new GridLength(heightCollectionScreen);
+            }
         }
 
         public override async void OnAppearing()
@@ -240,7 +245,17 @@ namespace Next2.ViewModels
 
         private async Task OnButtonSearchCommandAsync()
         {
+            MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchCommandAsync(me));
             await _navigationService.NavigateAsync(nameof(SearchPage));
+        }
+
+        private Task SearchCommandAsync(MessageEvent me)
+        {
+            _goBackSearch = me.Search;
+
+            MessagingCenter.Unsubscribe<MessageEvent>(this, MessageEvent.SearchMessage);
+
+            return Task.CompletedTask;
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
