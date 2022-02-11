@@ -1,6 +1,9 @@
 ﻿using Next2.Enums;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -31,25 +34,49 @@ namespace Next2.Controls
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             propertyName: nameof(ItemsSource),
-            returnType: typeof(IEnumerable),
+            returnType: typeof(IList),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public IEnumerable ItemsSource
+        public IList ItemsSource
         {
-            get => (IEnumerable)GetValue(ItemsSourceProperty);
+            get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
+
+        public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedItem),
+            returnType: typeof(object),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public object SelectedItem
+        {
+            get => (object)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
+
+        public IEnumerable<DropDownPickerItem> ItemList { get; set; } = new ObservableCollection<DropDownPickerItem>();
 
         public bool IsExpanded { get; set; }
 
         private ICommand _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new AsyncCommand(OnExpandListCommandAsync);
 
-        private ICommand _wrapListCommand;
-        public ICommand WrapListCommand => _wrapListCommand ??= new AsyncCommand(OnWrapListCommandAsync);
+        private ICommand _selectItemCommand;
+        public ICommand SelectItemCommand => _selectItemCommand ??= new AsyncCommand(OnSelectItemCommandAsync);
 
         #endregion
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName == nameof(ItemsSource) && ItemsSource?.Count > 0)
+            {
+                SelectedItem = ItemsSource[0];
+            }
+        }
 
         #region -- Private helpers --
 
@@ -60,7 +87,7 @@ namespace Next2.Controls
             return Task.CompletedTask;
         }
 
-        private Task OnWrapListCommandAsync()
+        private Task OnSelectItemCommandAsync()
         {
             IsExpanded = false;
 

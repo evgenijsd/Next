@@ -127,8 +127,17 @@
                     
                 </Label>
                 
+                <controls:DropDownList
+                    Background="red"
+                    ItemsSource="{Binding Tables}">
+                    
+
+                    
+                </controls:DropDownList>
+                
+                
                 <!-- TEMPORARILY. LATER REPLACE TO DROPDOWNLIST --> 
-                <Frame
+                <!--<Frame
                     Padding="10, 7"
                     HorizontalOptions="EndAndExpand"
                     WidthRequest="74"
@@ -153,7 +162,7 @@
 
                     </StackLayout>
 
-                </Frame>
+                </Frame>-->
 
             </StackLayout>
 

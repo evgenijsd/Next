@@ -4,44 +4,87 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
     Padding="0"
-    BackgroundColor="Gray"
+    BackgroundColor="Transparent"
     x:Class="Next2.Controls.DropDownList">
 
     <Frame.GestureRecognizers>
-        
-        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandListCommand}"/>
-        
+
+        <TapGestureRecognizer
+            Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandListCommand}" />
+
     </Frame.GestureRecognizers>
+    
+    <StackLayout>
 
-    <Frame.Triggers>
+        <StackLayout
+            Orientation="Horizontal"
+            Padding="10, 0">
 
-        <DataTrigger
-            TargetType="controls:DropDownList"
-            Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}" Value="false">
-            <Setter Property="BackgroundColor" Value="green"/>
+            <Label
+                VerticalOptions="Center"
+                HorizontalOptions="StartAndExpand"
+                Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectedItem.Id, StringFormat='Table {0}'}" />
 
-        </DataTrigger>
+            <ffimageloading:CachedImage
+                VerticalOptions="Center"
+                HorizontalOptions="EndAndExpand"
+                HeightRequest="24"
+                WidthRequest="24"
+                Source="ic_arrow_down_32x32" />
 
-    </Frame.Triggers>
-
-
-    <StackLayout 
-        Orientation="Horizontal"
-        Padding="10, 0">
+        </StackLayout>
         
-        <Label
-            VerticalOptions="Center"
-            HorizontalOptions="StartAndExpand"
-            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"/>
-        
-        <ffimageloading:CachedImage
-            VerticalOptions="Center"
-            HorizontalOptions="EndAndExpand"
-            HeightRequest="24"
-            WidthRequest="24"
-            Source="ic_arrow_down_32x32" />
+            <controls:CustomScrollBarCollectionView
+                Grid.Row="0"
+                VerticalScrollBarVisibility="Always"
+                ThumbWidth="8"
+                ScrollBarCornerRadius="10"
+                ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"
+                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
+                Background="{DynamicResource TextAndBackgroundColor_i5}"
+                ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ItemsSource}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}"
+                SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectedItem}">
+
+            <CollectionView.Effects>
+
+                <effects:NoOverScrollEffect />
+
+            </CollectionView.Effects>
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <StackLayout>
+
+                        <StackLayout
+                            Padding="8"
+                            Orientation="Horizontal"
+                            x:DataType="models:TableBindableModel">
+
+                            <Label
+                                HorizontalOptions="FillAndExpand"
+                                Text="{Binding Id, StringFormat='Table {0}'}" />
+
+                        </StackLayout>
+
+                        <BoxView
+                            Style="{DynamicResource SeparatorLightBoxViewStyle}" />
+
+                    </StackLayout>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </controls:CustomScrollBarCollectionView>
 
     </StackLayout>
-    
+     
 </Frame>
