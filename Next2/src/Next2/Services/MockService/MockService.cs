@@ -146,7 +146,7 @@ namespace Next2.Services
             _base = new Dictionary<Type, object>();
 
             await Task.WhenAll(InitOrdersAsync());
-			await Task.WhenAll(InitMembersAsync());
+            await Task.WhenAll(InitMembersAsync());
 
             _initCompletionSource.TrySetResult(true);
         }

@@ -31,8 +31,8 @@
             
             <StackLayout Grid.Row="1">
                 <Entry
-                    Keyboard="Default"
-                    ReturnType="Search" />
+                    ReturnType="Done"
+                    ReturnCommand="{Binding GoBackCommand}"/>
             </StackLayout>
 
         </Grid>
