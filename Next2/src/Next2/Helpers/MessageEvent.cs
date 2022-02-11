@@ -8,11 +8,11 @@ namespace Next2.Helpers
     {
         public static string SearchMessage => nameof(SearchMessage);
 
-        public string Search { get; }
+        public string SearchLine { get; }
 
-        public MessageEvent(string search)
+        public MessageEvent(string searchLine)
         {
-            Search = search;
+            SearchLine = searchLine;
         }
     }
 }

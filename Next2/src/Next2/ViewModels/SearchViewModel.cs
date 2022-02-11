@@ -19,17 +19,31 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        private string _searchLine = string.Empty;
+
+        public string SearchLine
+        {
+            get => _searchLine;
+            set => SetProperty(ref _searchLine, value);
+        }
+
         private ICommand _GoBackCommand;
-        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync);
 
         #endregion
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync()
+        private async Task OnGoBackCommandAsync(string done)
         {
-            MessagingCenter.Send<MessageEvent>(new MessageEvent("SEND"), MessageEvent.SearchMessage);
-            await _navigationService.GoBackAsync();
+            var parametrs = new NavigationParameters { { Constants.Navigations.SEARCH, done } };
+
+            if (!string.IsNullOrEmpty(done))
+            {
+                MessagingCenter.Send<MessageEvent>(new MessageEvent(done), MessageEvent.SearchMessage);
+            }
+
+            await _navigationService.GoBackAsync(parametrs);
         }
 
         #endregion

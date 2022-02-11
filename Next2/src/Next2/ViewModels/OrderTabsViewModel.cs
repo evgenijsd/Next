@@ -25,7 +25,6 @@ namespace Next2.ViewModels
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
         private double _summRowHight;
-        private string _goBackSearch;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -93,9 +92,9 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parametrs)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_goBackSearch != "SEND")
+            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
             {
                 _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
 
@@ -198,13 +197,15 @@ namespace Next2.ViewModels
             if (IsOrderTabsSelected)
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}")));
+                            .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}"))
+                            .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _ordersBase;
             }
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName)));
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName))
+                            .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }
 
@@ -246,12 +247,13 @@ namespace Next2.ViewModels
         private async Task OnButtonSearchCommandAsync()
         {
             MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchCommandAsync(me));
+
             await _navigationService.NavigateAsync(nameof(SearchPage));
         }
 
         private Task SearchCommandAsync(MessageEvent me)
         {
-            _goBackSearch = me.Search;
+            Orders = new ObservableCollection<OrderBindableModel>(Orders.Where(x => x.OrderNumberText.Contains(me.SearchLine) || x.Name.Contains(me.SearchLine)));
 
             MessagingCenter.Unsubscribe<MessageEvent>(this, MessageEvent.SearchMessage);
 

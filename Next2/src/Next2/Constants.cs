@@ -32,10 +32,9 @@
             public const double ROW_HEIGHT = 48 + 2;
         }
 
-        public static class Navigation
+        public static class Navigations
         {
-            public const string SEARCH_ORDERS = nameof(SEARCH_ORDERS);
-            public const string SEARCH_TABS = nameof(SEARCH_TABS);
+            public const string SEARCH = nameof(SEARCH);
         }
     }
 }

@@ -9,20 +9,10 @@
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <ContentPage.Content>
-        
-        <Grid
-            RowSpacing="0">
 
-            <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="65" />
-                <RowDefinition
-                    Height="55" />
-                <RowDefinition
-                    Height="80" />
-                <RowDefinition
-                    Height="*" />
-            </Grid.RowDefinitions>
+        <Grid
+            RowSpacing="0"
+            RowDefinitions="65,*">
 
             <controls:CustomNavigationbar
                 Title="{xct:Translate Search}"
@@ -30,9 +20,11 @@
                 LeftButtonCommand="{Binding GoBackCommand}" />
             
             <StackLayout Grid.Row="1">
-                <Entry
+                <controls:CustomNoBorderEntry
+                    Text="{Binding SearchLine}"
                     ReturnType="Done"
-                    ReturnCommand="{Binding GoBackCommand}"/>
+                    ReturnCommand="{Binding GoBackCommand}"
+                    ReturnCommandParameter="{Binding SearchLine}"/>
             </StackLayout>
 
         </Grid>
