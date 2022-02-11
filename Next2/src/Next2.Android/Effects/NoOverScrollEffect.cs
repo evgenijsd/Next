@@ -3,14 +3,17 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportEffect(typeof(NoOverScrollEffect), nameof(NoOverScrollEffect))]
-
 namespace Next2.Droid.Effects
 {
     public class NoOverScrollEffect : PlatformEffect
     {
+
+        #region -- Overrides --
+
         protected override void OnAttached()
         {
-            if (Control != null) {
+            if (Control != null)
+            {
                 Control.OverScrollMode = Android.Views.OverScrollMode.Never;
             }
         }
@@ -18,5 +21,7 @@ namespace Next2.Droid.Effects
         protected override void OnDetached()
         {
         }
+
+        #endregion
     }
 }

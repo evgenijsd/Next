@@ -52,7 +52,7 @@
 
                 <VisualState.Setters>
 
-                    <Setter Property="WidthRequest" Value="129" />
+                    <Setter Property="WidthRequest" Value="128" />
 
                 </VisualState.Setters>
 

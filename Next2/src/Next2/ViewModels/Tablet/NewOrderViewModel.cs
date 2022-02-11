@@ -60,6 +60,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnAppearing();
 
+            orderByDesc = false;
             Task.Run(LoadCategoriesAsync);
         }
 

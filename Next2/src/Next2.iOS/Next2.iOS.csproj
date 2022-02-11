@@ -133,6 +133,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
+    <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />

@@ -12,7 +12,7 @@
     x:Class="Next2.Controls.StepperCarousel"
     MinimumHeightRequest="116"
     VerticalOptions="Start"
-    Spacing="16"
+    Spacing="15"
     Orientation="Horizontal"
     x:Name="stepperCarousel">
 

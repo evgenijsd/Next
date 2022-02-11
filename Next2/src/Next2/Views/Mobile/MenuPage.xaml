@@ -165,7 +165,7 @@
                 HeightRequest="1"/>
             
             <CollectionView
-                Margin="10, 8, 10, 8"
+                Margin="10, 6, 10, 6"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 SelectionMode="Single">
@@ -195,7 +195,7 @@
                             Text="{Binding Title}"
                             FontSize="{DynamicResource TSize_i5}"
                             FontFamily="Barlow-Medium"
-                            HeightRequest="63"/>
+                            HeightRequest="62"/>
 
                     </DataTemplate>
 

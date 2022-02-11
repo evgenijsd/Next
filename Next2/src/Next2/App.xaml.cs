@@ -1,6 +1,8 @@
-﻿using Next2.Resources.Strings;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.MockService;
+using Next2.Services;
+using Next2.Services.Membership;
 using Next2.ViewModels;
 using Next2.ViewModels.Tablet;
 using Prism;
@@ -40,6 +42,7 @@ namespace Next2
 
             //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
 
             // Navigation
@@ -81,7 +84,7 @@ namespace Next2
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
-            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
             await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
@@ -99,6 +102,5 @@ namespace Next2
         }
 
         #endregion
-
     }
 }

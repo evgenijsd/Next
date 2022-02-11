@@ -86,7 +86,7 @@
 
         <CollectionView
             Margin="15, 10, 15, 0"
-            VerticalOptions="StartAndExpand"
+            VerticalOptions="FillAndExpand"
             ItemsSource="{Binding SetsItems}"
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single">
