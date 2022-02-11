@@ -138,7 +138,7 @@
                         HasShadow="False"
                         Text="{xct:Translate Clear}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i7}"
-                        FontSize="{DynamicResource TSize_i7}"
+                        TextSize="{DynamicResource TSize_i8}"
                         BorderColor="{DynamicResource IndicationColor_i4}"
                         FontFamily="Barlow-SemiBold"
                         Command="{Binding ButtonClearCommand}">
@@ -157,57 +157,36 @@
                     HorizontalOptions="FillAndExpand"
                     HeightRequest="40"
                     VerticalOptions="Center">
-
-                    <controls:CustomFrame 
+                    
+                    <buttons:BorderButton 
                         Margin="0, 0, 16, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="False"
+                        IsEnabled="{Binding IsEmployeeExists}"
                         BorderWidth="0"
                         HeightRequest="65"
                         HasShadow="False"
+                        Text="{xct:Translate Login}"
+                        TextSize="{DynamicResource TSize_i8}"
                         BorderColor="Transparent"
-                        BackgroundColor="{DynamicResource IndicationColor_i2}">
-
-                        <Label
-                            Text="{xct:Translate Login}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            VerticalTextAlignment="Center"
-                            HorizontalTextAlignment="Center"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                            FontFamily="Barlow-SemiBold"/>
-
-                        <controls:CustomFrame.Triggers>
-
-                            <DataTrigger 
-                                TargetType="controls:CustomFrame"
-                                Binding="{Binding IsLoginButtonEnabled }"                                        
-                                Value="True">
-                                
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        FontFamily="Barlow-SemiBold"
+                        BackgroundColor="{DynamicResource IndicationColor_i2}"
+                        Command="{Binding GoToStartPageCommand}">
+                        
+                        <buttons:BorderButton.Triggers>
+                            
+                            <DataTrigger TargetType="buttons:BorderButton"
+                                         Binding="{Binding IsEmployeeExists}"
+                                         Value="True">
                                 <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
-                               
+
                             </DataTrigger>
                             
-                            <DataTrigger 
-                                TargetType="controls:CustomFrame"
-                                Binding="{Binding IsLoginButtonEnabled}"                                        
-                                Value="True">
+                        </buttons:BorderButton.Triggers>
 
-                                <Setter Property="IsEnabled" Value="True"/>
-
-                            </DataTrigger>
-
-
-                        </controls:CustomFrame.Triggers>
-                        
-                        <controls:CustomFrame.GestureRecognizers>
-
-                            <TapGestureRecognizer Command="{Binding GoToStartPageCommand}"/>
-
-                        </controls:CustomFrame.GestureRecognizers>
-
-                    </controls:CustomFrame>
-
+                    </buttons:BorderButton>
+                   
                 </StackLayout>
 
             </StackLayout>

@@ -23,6 +23,17 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextProperty, value);
         }
 
+        public static readonly BindableProperty TextSizeProperty = BindableProperty.Create(
+            propertyName: nameof(TextSize),
+            returnType: typeof(double),
+            declaringType: typeof(BorderButton));
+
+        public double TextSize
+        {
+            get => (double)GetValue(TextSizeProperty);
+            set => SetValue(TextSizeProperty, value);
+        }
+
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
             propertyName: nameof(TextColor),
             returnType: typeof(Color),

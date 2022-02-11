@@ -16,7 +16,7 @@
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Text}"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=TextColor}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontSize}"
+        FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=TextSize}"
         FontFamily="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontFamily}"
         HorizontalTextAlignment="Center"
         VerticalTextAlignment="Center"/>

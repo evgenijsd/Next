@@ -181,9 +181,10 @@
             </StackLayout>
 
             <Frame 
-                Grid.Row="4" HasShadow="False"
+                Grid.Row="4" 
+                HasShadow="False"
                 CornerRadius="5"
-                Margin="16, 11, 16, 15"
+                Margin="12, 12, 12, 12"
                 Padding="0"
                 IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}">

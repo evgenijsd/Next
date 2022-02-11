@@ -10,8 +10,6 @@
         Orientation="Horizontal"
         HorizontalOptions="Fill"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-        Grid.Column="0"
-        Grid.Row="0"
         Padding="0">
 
         <Label 

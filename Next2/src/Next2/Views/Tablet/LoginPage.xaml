@@ -23,11 +23,12 @@
             VerticalOptions="Fill"
             HorizontalOptions="Fill"
             Padding="80, 20, 80, 0"
+            Margin="0, 0, 0, 0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
             <Image 
                 Source="pic_logo_big"
-                Margin="110"
+                Margin="0, 110, 0, 140"
                 Aspect="AspectFit"/>
                 
         </ContentView>

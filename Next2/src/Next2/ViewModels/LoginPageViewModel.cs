@@ -33,15 +33,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties--
 
-        public bool IsEmployeeIdProvided { get; set; }
-
         public bool IsEmployeeExists { get; set; }
 
         public bool IsErrorNotificationVisible { get; set; }
-
-        public bool IsClearButtonEnabled { get; set; }
-
-        public bool IsLoginButtonEnabled { get; set; }
 
         public DateTime CurrentDate { get; set; } = DateTime.Now;
 
@@ -71,9 +65,9 @@ namespace Next2.ViewModels
 
         private async Task OnStartPageCommandAsync(object? sender)
         {
-            if (sender is string str)
+            if (sender is string str && str is not null)
             {
-                if (str.Length == 6)
+                if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
                 {
                     int.TryParse(str, out _inputtedEmployeeIdToDigist);
 
@@ -101,7 +95,6 @@ namespace Next2.ViewModels
 
         private async Task CheckEmployeeExists()
         {
-            //IsEmployeeExists = IsLoginButtonEnabled = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
             IsEmployeeExists = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
@@ -113,13 +106,13 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
             {
-                if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == 6)
+                if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH)
                 {
                     int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
                     await CheckEmployeeExists();
                     EmployeeId = _inputtedEmployeeId;
                 }
-                else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != 6)
+                else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != Constants.LOGIN_PASSWORD_LENGTH)
                 {
                     IsEmployeeExists = false;
                     EmployeeId = _inputtedEmployeeId;
