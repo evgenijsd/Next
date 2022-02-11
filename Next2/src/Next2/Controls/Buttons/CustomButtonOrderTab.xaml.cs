@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PancakeView;
 using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
@@ -27,6 +28,18 @@ namespace Next2.Controls
         {
             get => (CornerRadius)GetValue(CRadiusProperty);
             set => SetValue(CRadiusProperty, value);
+        }
+
+        public static readonly BindableProperty CBorderProperty = BindableProperty.Create(
+            propertyName: nameof(CBorder),
+            returnType: typeof(Border),
+            declaringType: typeof(CustomButtonOrderTab),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Border CBorder
+        {
+            get => (Border)GetValue(CBorderProperty);
+            set => SetValue(CBorderProperty, value);
         }
 
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(

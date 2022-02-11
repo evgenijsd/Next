@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Models;
 using Next2.Services;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -76,6 +77,9 @@ namespace Next2.ViewModels
 
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+
+        private ICommand _ButtonSearchCommand;
+        public ICommand ButtonSearchCommand => _ButtonSearchCommand ??= new AsyncCommand(OnButtonSearchCommandAsync);
 
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
@@ -232,6 +236,11 @@ namespace Next2.ViewModels
         private async Task OnGoBackCommandAsync()
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private async Task OnButtonSearchCommandAsync()
+        {
+            await _navigationService.NavigateAsync(nameof(SearchPage));
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)

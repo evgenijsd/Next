@@ -53,7 +53,7 @@
                 <Label
                     Text="{xct:Translate NewOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Style="{DynamicResource BaseContent_i2}"
+                    FontFamily="Barlow-Bold"
                     Margin="20, 0, 0, 0"
                     FontSize="{DynamicResource TSize_i5}"
                     HorizontalOptions="StartAndExpand"
@@ -88,7 +88,7 @@
                     Text="{xct:Translate Categories}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i5}"
-                    Style="{DynamicResource BaseContent_i2}"
+                    FontFamily="Barlow-Bold"
                     Padding="0, 15"
                     VerticalTextAlignment="Center"/>
 
@@ -133,7 +133,7 @@
                                         Text="{Binding Title}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                         FontSize="{DynamicResource TSize_i8}"
-                                        Style="{DynamicResource BaseContent_i1}"
+                                        FontFamily="Barlow-SemiBold"
                                         HorizontalTextAlignment="Center"
                                         VerticalTextAlignment="Center"/>
 

@@ -17,6 +17,7 @@
     <yummy:PancakeView
         Grid.Row="0"
         BackgroundColor="{DynamicResource AppColor_i4}"
+        Border="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonOrderTab}}, Path=CBorder}"
         CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButtonOrderTab}}, Path=CRadius}">
 
         <yummy:PancakeView.Triggers>

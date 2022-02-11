@@ -78,6 +78,10 @@
                     BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
                     Margin="17,20,17,20">
 
+                    <controls:CustomButton.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ButtonSearchCommand}" />
+                    </controls:CustomButton.GestureRecognizers>
+
                     <controls:CustomButton.Triggers>
                         
                         <DataTrigger

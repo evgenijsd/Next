@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Next2.Views.Mobile.SearchPage"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Entry
+                ReturnType="Done" />
+        </StackLayout>
+    </ContentPage.Content>
+</views:BaseContentPage>
