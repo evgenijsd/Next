@@ -176,7 +176,6 @@
                     <!-- TABLE -->
 
                     <Grid
-                        Margin="0,0,0,0"
                         VerticalOptions="Start"
                         HeightRequest="35"
                         MinimumHeightRequest="35"
@@ -294,6 +293,7 @@
                         <controls:CustomScrollBarCollectionView
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
+                            SelectedItem="{Binding SelectedOrder}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             VerticalScrollBarVisibility="Always"
                             ThumbWidth="8"
@@ -419,6 +419,13 @@
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, 
+                                                        Path=TapSelectCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
 
                                         </Grid>
 
