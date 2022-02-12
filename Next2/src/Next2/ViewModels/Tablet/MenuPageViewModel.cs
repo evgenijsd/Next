@@ -1,12 +1,18 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -35,6 +41,10 @@ namespace Next2.ViewModels.Tablet
         }
 
         #region -- Public properties --
+
+        private ICommand _logOutCommand;
+        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync);
+
         private MenuItemBindableModel _selectedMenuItem;
         public MenuItemBindableModel SelectedMenuItem
         {
@@ -126,6 +136,35 @@ namespace Next2.ViewModels.Tablet
             SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
+        private async Task OnLogOutCommandAsync()
+        {
+            var param = new DialogParameters();
+
+            string partOfMessage = LocalizationResourceManager.Current["AreYouSure?"];
+
+            string partOfMessage2 = LocalizationResourceManager.Current["DoYouWanToLogOut?"];
+
+            string okButton = LocalizationResourceManager.Current["LogOut(ApperCase)"];
+
+            string cancelButton = LocalizationResourceManager.Current["Cancel"];
+
+            param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage}");
+
+            param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage2}");
+
+            param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, $"{okButton}");
+
+            param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, $"{cancelButton}");
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new LogOutAlertView(param, CloseDialogCallback));
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+        }
         #endregion
     }
 }

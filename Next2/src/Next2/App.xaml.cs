@@ -18,6 +18,7 @@ using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using Next2.ViewModels.Tablet;
 using Prism.Plugin.Popups;
+using Next2.ViewModels.Dialogs;
 
 namespace Next2
 {
@@ -75,6 +76,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
             }
         }
 

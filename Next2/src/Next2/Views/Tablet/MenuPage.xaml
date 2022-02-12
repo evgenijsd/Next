@@ -68,7 +68,13 @@
                 FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold"
                 Margin="10, 0"
-                Padding="0, 15"/>
+                Padding="0, 15">
+
+                <templates:MenuItemTemplate.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogOutCommand}"/>
+                </templates:MenuItemTemplate.GestureRecognizers>
+
+            </templates:MenuItemTemplate>
 
         </Grid>
 

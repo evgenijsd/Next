@@ -25,5 +25,15 @@
 
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
         }
+
+        public static class DialogParameterKeys
+        {
+            public const string MESSAGE = nameof(MESSAGE);
+            public const string MODEL = nameof(MODEL);
+            public const string TITLE = nameof(TITLE);
+            public const string OK_BUTTON_TEXT = nameof(OK_BUTTON_TEXT);
+            public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
+            public const string ACCEPT = nameof(ACCEPT);
+        }
     }
 }

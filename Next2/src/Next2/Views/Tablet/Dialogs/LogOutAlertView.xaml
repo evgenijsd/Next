@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rg:PopupPage 
+    xmlns:rg="http://rotorgames.com" 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    x:Class="Next2.Views.Tablet.Dialogs.LogOutAlertView">
+
+    <controls:CustomFrame 
+        x:Name="frame" 
+        HorizontalOptions="Center" 
+        VerticalOptions="Center"
+        HeightRequest="226"
+        WidthRequest="484"
+        BorderWidth="1"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+        Padding="0">
+        
+        <Grid RowDefinitions="0.56*, *">
+
+            <Label 
+                Grid.Row="0"
+                Text="Are you sure?"
+                Margin="24, 24, 0, 0"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+
+            <Label 
+                Grid.Row="0"
+                Text="Do you want to log out?"
+                Margin="24, 16, 0, 0"
+                VerticalOptions="Center"
+                HorizontalOptions="Start"/>
+                
+            <BoxView 
+                HeightRequest="2"
+                HorizontalOptions="EndAndExpand"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <buttons:BorderButton
+                Grid.Row="1"
+                Grid.Column="0"
+                Padding="0"
+                Text="Cancel" 
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                FontFamily="Barlow-Bold"
+                BorderColor="{DynamicResource IndicationColor_i4}"
+                TextSize="{DynamicResource TSize_i5}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+            <buttons:BorderButton
+                Grid.Row="1"
+                Grid.Column="1"
+                Padding="0"
+                Text="Log Out" 
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                FontFamily="Barlow-Bold" 
+                BackgroundColor="{DynamicResource IndicationColor_i3}"
+                TextSize="{DynamicResource TSize_i5}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+        </Grid>
+       
+    </controls:CustomFrame>
+
+</rg:PopupPage>
