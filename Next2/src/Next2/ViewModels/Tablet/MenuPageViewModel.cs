@@ -142,7 +142,7 @@ namespace Next2.ViewModels.Tablet
 
             string partOfMessage = LocalizationResourceManager.Current["AreYouSure?"];
 
-            string partOfMessage2 = LocalizationResourceManager.Current["DoYouWanToLogOut?"];
+            string partOfMessage2 = LocalizationResourceManager.Current["DoYouWantToLogOut?"];
 
             string okButton = LocalizationResourceManager.Current["LogOut(ApperCase)"];
 
