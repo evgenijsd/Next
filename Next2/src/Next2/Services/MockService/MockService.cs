@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services
+namespace Next2.Services.MockService
 {
     public class MockService : IMockService
     {

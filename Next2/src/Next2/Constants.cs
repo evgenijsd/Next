@@ -34,6 +34,7 @@
             public const string OK_BUTTON_TEXT = nameof(OK_BUTTON_TEXT);
             public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
             public const string ACCEPT = nameof(ACCEPT);
+            public const string CANCEL = nameof(CANCEL);
         }
     }
 }

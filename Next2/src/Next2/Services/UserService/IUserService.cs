@@ -2,7 +2,7 @@
 using Next2.Models;
 using System.Threading.Tasks;
 
-namespace Next2.Services.ProfileService
+namespace Next2.Services.UserService
 {
     public interface IUserService
     {

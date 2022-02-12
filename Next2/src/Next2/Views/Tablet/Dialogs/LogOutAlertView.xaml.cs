@@ -17,7 +17,6 @@ namespace Next2.Views.Tablet.Dialogs
         public LogOutAlertView(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            frame.WidthRequest = Prism.PrismApplicationBase.Current.MainPage.Width - 30;
             BindingContext = new LogOutAlertViewModel(param, requestClose);
         }
     }

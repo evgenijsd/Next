@@ -1,10 +1,11 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Services.Services;
+using Next2.Services.MockService;
+using Next2.Services.Settings;
 using System;
 using System.Threading.Tasks;
 
-namespace Next2.Services.ProfileService
+namespace Next2.Services.UserService
 {
     public class UserService : IUserService
     {

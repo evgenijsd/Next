@@ -1,5 +1,6 @@
 ﻿using Next2.Services;
 using Next2.Services.Authentication;
+using Next2.Services.MockService;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;

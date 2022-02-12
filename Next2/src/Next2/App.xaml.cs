@@ -1,7 +1,5 @@
 ﻿using Next2.Services;
 using Next2.Services.Authentication;
-using Next2.Services.ProfileService;
-using Next2.Services.Services;
 using Next2.ViewModels;
 using Next2.Views.Tablet;
 using Next2.Resources.Strings;
@@ -19,6 +17,9 @@ using Xamarin.Forms;
 using Next2.ViewModels.Tablet;
 using Prism.Plugin.Popups;
 using Next2.ViewModels.Dialogs;
+using Next2.Services.MockService;
+using Next2.Services.Settings;
+using Next2.Services.UserService;
 
 namespace Next2
 {

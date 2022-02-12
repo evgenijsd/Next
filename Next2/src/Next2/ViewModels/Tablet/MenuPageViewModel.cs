@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -18,8 +19,10 @@ namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
+        private IAuthenticationService _authenticationService;
         public MenuPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
             HoldItemsViewModel holdItemsViewModel,
             OrderTabsViewModel orderTabsViewModel,
@@ -36,6 +39,7 @@ namespace Next2.ViewModels.Tablet
             MembershipViewModel = membershipViewModel;
             CustomersViewModel = customersViewModel;
             SettingsViewModel = settingsViewModel;
+            _authenticationService = authenticationService;
 
             InitMenuItems();
         }
@@ -140,16 +144,14 @@ namespace Next2.ViewModels.Tablet
         {
             var param = new DialogParameters();
 
-            string partOfMessage = LocalizationResourceManager.Current["AreYouSure?"];
-
-            string partOfMessage2 = LocalizationResourceManager.Current["DoYouWantToLogOut?"];
+            //string partOfMessage = LocalizationResourceManager.Current["AreYouSure?"];
+            string partOfMessage2 = LocalizationResourceManager.Current["WannaLogOut"];
 
             string okButton = LocalizationResourceManager.Current["LogOut(ApperCase)"];
 
             string cancelButton = LocalizationResourceManager.Current["Cancel"];
 
-            param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage}");
-
+            //param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage}");
             param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage2}");
 
             param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, $"{okButton}");
@@ -163,7 +165,16 @@ namespace Next2.ViewModels.Tablet
         {
             bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            if (result)
+            {
+                _authenticationService.LogOut();
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _navigationService.GoBackToRootAsync();
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
         }
         #endregion
     }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Next2.Services
+namespace Next2.Services.MockService
 {
     public interface IMockService
     {

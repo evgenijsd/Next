@@ -1,7 +1,7 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Services.ProfileService;
-using Next2.Services.Services;
+using Next2.Services.Settings;
+using Next2.Services.UserService;
 using System;
 using System.Threading.Tasks;
 
