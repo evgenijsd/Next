@@ -17,6 +17,7 @@ using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using Next2.ViewModels.Tablet;
+using Prism.Plugin.Popups;
 
 namespace Next2
 {
@@ -37,6 +38,10 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Dialogs
+            containerRegistry.RegisterPopupNavigationService();
+            containerRegistry.RegisterPopupDialogService();
+
             // Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
