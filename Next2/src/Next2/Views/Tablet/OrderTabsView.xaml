@@ -164,9 +164,8 @@
 
             </Grid>
 
-            <Frame
+            <yummy:PancakeView
                 Grid.Row="3"
-                HasShadow="False"
                 Margin="20,0,20,20"
                 CornerRadius="10"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
@@ -445,7 +444,7 @@
 
                 </StackLayout>
 
-            </Frame>
+            </yummy:PancakeView>
 
         </Grid>
 
