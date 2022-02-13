@@ -1,36 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Next2.ENums;
+using Next2.Models;
 
 namespace Next2.Controls
 {
-    public enum EDayState
+    public class CalendarGridCollectionView : CollectionView
     {
-        Current,
-        DayMonth,
-        NoDayMonth,
-    }
-
-    public class DayModel
-    {
-        public int Day { get; set; }
-        public EDayState State { get; set; }
-    }
-
-    public partial class CalendarGrid : ContentView
-    {
-        public CalendarGrid()
+        public CalendarGridCollectionView()
         {
-            CreateArrayOfDays(1980, 3);
-            InitializeComponent();
+            Year = 2022;
+            Month = 3;
+            CategoriesItems = new ();
+            CreateArrayOfDays();
+            this.ItemsSource = CategoriesItems;
+            this.SelectionMode = SelectionMode.Single;
         }
 
         #region -- Public Properties --
@@ -40,7 +33,7 @@ namespace Next2.Controls
         public static readonly BindableProperty YearProperty = BindableProperty.Create(
             propertyName: nameof(Year),
             returnType: typeof(int),
-            declaringType: typeof(CalendarGrid),
+            declaringType: typeof(CalendarGridCollectionView),
             defaultValue: 2022,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -53,7 +46,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MonthProperty = BindableProperty.Create(
             propertyName: nameof(Month),
             returnType: typeof(int),
-            declaringType: typeof(CalendarGrid),
+            declaringType: typeof(CalendarGridCollectionView),
             defaultValue: 3,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -66,7 +59,7 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectedDayProperty = BindableProperty.Create(
             propertyName: nameof(SelectedDay),
             returnType: typeof(int),
-            declaringType: typeof(CalendarGrid),
+            declaringType: typeof(CalendarGridCollectionView),
             defaultValue: 0,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -88,12 +81,23 @@ namespace Next2.Controls
             base.OnPropertyChanged(propertyName);
             if (propertyName == nameof(Year))
             {
-                CreateArrayOfDays(Year, Month);
+                CreateArrayOfDays();
             }
 
             if (propertyName == nameof(Month))
             {
-                CreateArrayOfDays(Year, Month);
+                CreateArrayOfDays();
+            }
+
+            if (propertyName == nameof(SelectedItem))
+            {
+                if (SelectedItem is DayModel selectedDay)
+                {
+                    if (selectedDay.State == ENums.EDayState.NoDayMonth || selectedDay.State == ENums.EDayState.NameOfDay)
+                    {
+                        SelectedItem = null;
+                    }
+                }
             }
         }
 
@@ -103,12 +107,12 @@ namespace Next2.Controls
 
         private Task OnSelectCommandAsync(object parameter)
         {
-           return Task.CompletedTask;
+            return Task.CompletedTask;
         }
 
-        private void CreateArrayOfDays(int year, int month)
+        private void CreateArrayOfDays()
         {
-            DateTime dt = new DateTime(year, month, 1);
+            DateTime dt = new DateTime(Year, Month, 1);
             int currentMonthindex = (int)dt.DayOfWeek;
             var countDays = dt.AddMonths(1).Subtract(dt).Days;
             int previousMonthLastDate = dt.AddDays(-1).Day;
@@ -131,7 +135,13 @@ namespace Next2.Controls
                 }
             }
 
-            CategoriesItems = new ();
+            CategoriesItems.Clear();
+            var namesOfDays = new string[] { "Sn", "Mn", "Tu", "Wn", "Th", "Fr", "St" };
+            foreach (string name in namesOfDays)
+            {
+                CategoriesItems.Add(new DayModel { Day = name, State = EDayState.NameOfDay });
+            }
+
             EDayState state = EDayState.NoDayMonth;
             bool isNewMonth = false;
             foreach (var day in result)
@@ -147,11 +157,10 @@ namespace Next2.Controls
                     isNewMonth = true;
                 }
 
-                CategoriesItems.Add(new DayModel { Day = day, State = state, });
+                CategoriesItems.Add(new DayModel { Day = day.ToString(), State = state, });
             }
         }
 
         #endregion
-
     }
 }

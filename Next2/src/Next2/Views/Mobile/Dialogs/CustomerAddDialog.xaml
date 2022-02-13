@@ -6,14 +6,283 @@
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="http://rotorgames.com"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    x:Name="addInfoDialog"
+    BackgroundColor="Transparent"
     x:DataType="dialogs:CustomerInfoViewModel">
-    <ContentPage.Content>
-        <Frame
-            Padding="0" WidthRequest="440" HeightRequest="330" Margin="64"
-            HorizontalOptions="Center"
-            VerticalOptions="Center">
-            <controls:CalendarGrid />
-        </Frame>
-    </ContentPage.Content>
+    
+        <ContentView Padding="18,66,18,28">
+            <ContentView.Content>
+                <Frame
+                Padding="1.5,3,1.5,3"
+                BackgroundColor="#34374C"
+                BorderColor="#424861"
+                CornerRadius="6">
+                    <Grid BackgroundColor="#34374C" RowDefinitions="0.1*,0.1*,0.7*,0.11*">
+                        <!--  header  -->
+                        <Label
+                        Grid.Row="0"
+                        Margin="24,0,0,3"
+                        FontSize="21"
+                        HorizontalTextAlignment="Start"
+                        Text="New Customer"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
+                        <BoxView
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="Black"
+                        HeightRequest="0.5"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="End" />
+                        <!--  tabs  -->
+                        <Frame
+                        x:Name="frame1"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        BackgroundColor="#34374C"
+                        CornerRadius="0">
+                            <Label
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="Customer Info"
+                            TextColor="White"
+                            VerticalTextAlignment="Center" />
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnButtonTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <BoxView
+                        x:Name="underLine1"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        BackgroundColor="#424861"
+                        HeightRequest="3"
+                        VerticalOptions="End" />
+
+                        <Frame
+                        x:Name="frame2"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="#AB3821"
+                        CornerRadius="0">
+                            <Label
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="Birthday*"
+                            TextColor="White"
+                            VerticalTextAlignment="Center" />
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnButtonTapped" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <BoxView
+                        x:Name="underLine2"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        BackgroundColor="#F45E49"
+                        HeightRequest="3"
+                        VerticalOptions="End" />
+
+
+                        <!--  VisualStateContent  -->
+                        <sc:StateContainer
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="#2E3143"
+                        State="{Binding State, Source={x:Reference addInfoDialog}}">
+
+                            <!--  State1 calendar  -->
+                            <sc:StateCondition State="Birthday">
+
+                                <Grid Padding="21" RowDefinitions="0.12*,0.24*,*">
+                                    <!--  year  -->
+                                    <Frame
+                                    Grid.Row="0"
+                                    BackgroundColor="#2E3143"
+                                    BorderColor="#424861"
+                                    CornerRadius="6"
+                                    HorizontalOptions="EndAndExpand">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                            Margin="10,6,18,6"
+                                            Text="2022"
+                                            TextColor="White"
+                                            VerticalTextAlignment="Center" />
+                                            <ffimageloading:CachedImage
+                                            Margin="0"
+                                            Scale="0.8"
+                                            Source="ic_arrow_down_primary_24x24">
+
+                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="OnYearDropDownTapped" />
+                                                </ffimageloading:CachedImage.GestureRecognizers>
+
+                                            </ffimageloading:CachedImage>
+                                        </StackLayout>
+                                    </Frame>
+
+                                    <!--  month  -->
+                                    <StackLayout Grid.Row="1" Orientation="Horizontal">
+                                        <ffimageloading:CachedImage
+                                        Margin="6,0,0,0"
+                                        HorizontalOptions="StartAndExpand"
+                                        Scale="0.5"
+                                        Source="ic_primary_arrow_left_circle_56x56">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnLeftMonthButtonTapped" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+
+                                        <Label
+                                        x:Name="monthLabel"
+                                        FontSize="26"
+                                        HorizontalOptions="FillAndExpand"
+                                        Text="March"
+                                        TextColor="White"
+                                        VerticalTextAlignment="Center" />
+
+                                        <ffimageloading:CachedImage
+                                        Margin="0,0,6,0"
+                                        Scale="0.5"
+                                        Source="ic_primary_arrow_right_circle_56x56">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnRightMonthButtonTapped" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+                                    </StackLayout>
+
+                                    <!--  grid  -->
+                                    <controls:CalendarGridCollectionView
+                                    Grid.Row="2"
+                                    Margin="16,8,16,1"
+                                    BackgroundColor="#2E3143"
+                                    Month="{Binding ScrollPosition, Source={x:Reference addInfoDialog}}">
+                                        <CollectionView.ItemsLayout>
+                                            <GridItemsLayout
+                                            HorizontalItemSpacing="4"
+                                            Orientation="Vertical"
+                                            Span="7"
+                                            VerticalItemSpacing="1" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.Effects>
+                                            <effects:NoOverScrollEffect />
+                                        </CollectionView.Effects>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:DayModel">
+                                                <Frame
+                                                Margin="0"
+                                                Padding="0"
+                                                BackgroundColor="#2E3143"
+                                                BorderColor="#2E3143"
+                                                CornerRadius="45"
+                                                HasShadow="False"
+                                                HeightRequest="35"
+                                                WidthRequest="33">
+                                                    <Label
+                                                    FontSize="18"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="{Binding Day}"
+                                                    TextColor="White"
+                                                    VerticalTextAlignment="Center">
+                                                        <Label.Triggers>
+                                                            <DataTrigger
+                                                            Binding="{Binding State}"
+                                                            TargetType="Label"
+                                                            Value="NoDayMonth">
+                                                                <Setter Property="TextColor" Value="#71737E" />
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup Name="CommonStates">
+                                                            <VisualState Name="Selected">
+                                                                <VisualState.Setters>
+                                                                    <Setter Property="BackgroundColor" Value="#F45E49" />
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                            <VisualState Name="Normal" />
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </controls:CalendarGridCollectionView>
+
+                                    <!--  Dropdown list  -->
+                                    <Frame x:Name="dropdownFrame"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Margin="0,32,0,0"
+                                    xct:CornerRadiusEffect.CornerRadius="0,0,4,4"
+                                    HeightRequest="166"
+                                    HorizontalOptions="EndAndExpand"
+                                    IsVisible="false"
+                                    VerticalOptions="StartAndExpand"
+                                    WidthRequest="86">
+                                        <CollectionView>
+                                        </CollectionView>
+                                    </Frame>
+                                </Grid>
+
+                            </sc:StateCondition>
+
+                            <!--  State2  entries  -->
+                            <sc:StateCondition State="Info">
+                                <Label Text="Info" />
+                            </sc:StateCondition>
+
+                        </sc:StateContainer>
+
+                        <!--  buttons  -->
+                        <BoxView
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="#424861"
+                        HeightRequest="1"
+                        VerticalOptions="Start" />
+                        <Frame
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="18,12,6,12"
+                        Padding="0"
+                        BackgroundColor="#34374C"
+                        BorderColor="#F45E49"
+                        CornerRadius="5"
+                        HeightRequest="52"
+                        WidthRequest="220">
+                            <Label
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="Cancel"
+                            TextColor="White"
+                            VerticalTextAlignment="Center" />
+                        </Frame>
+                        <Frame
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="6,12,18,12"
+                        Padding="0"
+                        BackgroundColor="#3CD47D"
+                        BorderColor="#3CD47D"
+                        CornerRadius="5"
+                        HeightRequest="52"
+                        Opacity="0.32"
+                        WidthRequest="220">
+                            <Label
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            Text="Done"
+                            TextColor="Black"
+                            VerticalTextAlignment="Center" />
+                        </Frame>
+                    </Grid>
+                </Frame>
+            </ContentView.Content>
+        </ContentView>
 
 </rg:PopupPage>
