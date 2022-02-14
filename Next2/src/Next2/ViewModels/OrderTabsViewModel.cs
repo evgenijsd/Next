@@ -23,7 +23,7 @@ namespace Next2.ViewModels
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
         private double _summRowHight;
-        private double _offcetHeight;
+        private double _offsetHeight;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -41,33 +41,13 @@ namespace Next2.ViewModels
 
         public EOrderTabSorting OrderTabSorting { get; set; }
 
-        private GridLength _heightCollectionGrid;
-        public GridLength HeightCollectionGrid
-        {
-            get => _heightCollectionGrid;
-            set => SetProperty(ref _heightCollectionGrid, value);
-        }
+        public GridLength HeightCollectionGrid { get; set; }
 
-        private bool _isOrderTabsSelected = true;
-        public bool IsOrderTabsSelected
-        {
-            get => _isOrderTabsSelected;
-            set => SetProperty(ref _isOrderTabsSelected, value);
-        }
+        public bool IsOrderTabsSelected { get; set; }
 
-        private OrderBindableModel? _selectedOrder = null;
-        public OrderBindableModel? SelectedOrder
-        {
-            get => _selectedOrder;
-            set => SetProperty(ref _selectedOrder, value);
-        }
+        public OrderBindableModel? SelectedOrder { get; set; }
 
-        private ObservableCollection<OrderBindableModel>? _orders;
-        public ObservableCollection<OrderBindableModel>? Orders
-        {
-            get => _orders;
-            set => SetProperty(ref _orders, value);
-        }
+        public ObservableCollection<OrderBindableModel>? Orders { get; set; }
 
         private ICommand _ButtonOrdersCommand;
         public ICommand ButtonOrdersCommand => _ButtonOrdersCommand ??= new AsyncCommand(OnButtonOrdersCommandAsync);
@@ -91,7 +71,7 @@ namespace Next2.ViewModels
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
-            _offcetHeight = LayoutOrderTabs.OFFCET_MOBILE;
+            _offsetHeight = LayoutOrderTabs.OFFSET_MOBILE;
             HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
 
             await LoadData();
@@ -100,7 +80,7 @@ namespace Next2.ViewModels
         public override async void OnAppearing()
         {
             _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET;
-            _offcetHeight = LayoutOrderTabs.OFFCET_TABLET;
+            _offsetHeight = LayoutOrderTabs.OFFSET_TABLET;
             HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
 
             await LoadData();
@@ -195,7 +175,7 @@ namespace Next2.ViewModels
 
             if (Orders?.Count != 0)
             {
-                var heightCollection = (Orders.Count * LayoutOrderTabs.ROW_HEIGHT) + _offcetHeight;
+                var heightCollection = (Orders.Count * LayoutOrderTabs.ROW_HEIGHT) + _offsetHeight;
                 if (heightCollectionScreen > heightCollection)
                 {
                     heightCollectionScreen = heightCollection;
