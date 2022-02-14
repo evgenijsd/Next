@@ -84,6 +84,8 @@ namespace Next2.Controls
         {
             IsExpanded = !IsExpanded;
 
+            (Parent as Layout).RaiseChild(this);
+
             return Task.CompletedTask;
         }
 

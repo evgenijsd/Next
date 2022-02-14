@@ -7,6 +7,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     IsClippedToBounds="True"
+    Grid.RowSpan="10"
     x:Class="Next2.Controls.DropDownList">
 
     <Frame.GestureRecognizers>
@@ -38,7 +39,8 @@
         </StackLayout>
         
             <controls:CustomScrollBarCollectionView
-                Grid.Row="0"
+                Grid.RowSpan="10"
+                HeightRequest="140"
                 VerticalScrollBarVisibility="Always"
                 ThumbWidth="8"
                 ScrollBarCornerRadius="10"
