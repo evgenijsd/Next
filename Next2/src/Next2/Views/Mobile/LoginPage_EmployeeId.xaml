@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Mobile.LoginPage_EmployeeId"
+    x:DataType="viewModels:LoginPage_EmployeeIdViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+    <StackLayout 
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+            Spacing="0" 
+            Padding="0">
+            
+            <StackLayout 
+                Orientation="Horizontal"
+                HeightRequest="70"
+                Spacing="0" 
+                Padding="0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                <ContentView>
+
+                    <Image 
+                        Source="ic_arrow_left_tail_40x40"
+                        VerticalOptions="Center"
+                        Margin="20, 25, 10, 25">
+
+                    </Image>
+                    
+                    <ContentView.GestureRecognizers>
+                        
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                        
+                    </ContentView.GestureRecognizers>
+                    
+                </ContentView>
+
+                <Label 
+                    Text="{xct:Translate EmployeeId}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i6}"
+                    Margin="4, 0, 0, 0"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-Bold"/>
+
+            </StackLayout>
+
+            <StackLayout 
+                Orientation="Vertical"
+                Spacing="0" 
+                Padding="0"
+                VerticalOptions="StartAndExpand">
+
+                <controls:CustomEntry 
+                    x:Name="customEntry"
+                    ReturnType="Done"
+                    ReturnCommand="{Binding GoBackCommand}"
+                    Placeholder="{xct:Translate TypeEmployeeId}"
+                    VerticalTextAlignment="Center"
+                    Keyboard="Numeric"
+                    MaxLength="6"
+                    Text="{Binding EmployeeId}"
+                    Margin="22, 15, 0, 0"
+                    PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-Regular"/>
+
+            </StackLayout>
+
+        </StackLayout>
+      
+</views:BaseContentPage>

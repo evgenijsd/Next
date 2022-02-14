@@ -15,6 +15,6 @@
          which is used to tint widgets -->
     <!--<item name="colorAccent">#FF4081</item>-->
     <item name="colorAccent">#F45E49</item>
-
+    <item name="android:windowBackground">@drawable/splash_screen_land</item>
   </style>
 </resources>

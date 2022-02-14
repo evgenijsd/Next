@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls" xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
+    
+    <ContentView.Content>
+
+        <Grid 
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            RowDefinitions="0.33*, 60, 0.37*, 0.12*, 60">
+
+            <Label 
+                Text="{xct:Translate EmployeeId}"
+                Grid.Row="0"
+                FontSize="{DynamicResource TSize_i6}"
+                VerticalTextAlignment="End"
+                Margin="30, 0, 0, 10"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-SemiBold"/>
+
+                <controls:CustomFrame 
+                    Grid.Row="1"
+                    Margin="30, 0, 30, 15"
+                    CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                    Padding="4"
+                    BorderWidth="3"
+                    HasShadow="False"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0">
+                        
+                        <Label 
+                            x:Name="employeeId"
+                            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}" 
+                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                            VerticalTextAlignment="Center"
+                            Margin="10, 0, 0, 0"
+                            FontSize="{DynamicResource TSize_i6}"
+                            FontFamily="Barlow-Regular">
+                    
+                            <Label.Triggers>
+                    
+                                <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
+                                    Value="True">
+                    
+                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                    
+                                 <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
+                    
+                            </DataTrigger>
+                    
+                            </Label.Triggers>
+                    
+                        </Label>
+                    
+                        <Image 
+                            Source="ic_danger_circle"
+                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"  
+                            Margin="0, 8, 5, 8"
+                            HorizontalOptions="EndAndExpand"/>
+                    
+                    </StackLayout>
+                    
+                    <controls:CustomFrame.Triggers>
+                    
+                        <DataTrigger 
+                            TargetType="controls:CustomFrame"
+                            Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"                                        
+                            Value="True">
+                    
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+                    
+                        </DataTrigger>
+                    
+                    </controls:CustomFrame.Triggers>
+
+                </controls:CustomFrame>
+
+            <ContentView 
+                Grid.Row="2"
+                Margin="30, 0, 30, 0">
+
+                <Grid 
+                    ColumnSpacing="10"
+                    RowDefinitions="*, *, *, *"
+                    RowSpacing="10"
+                    ColumnDefinitions="*, *, *">
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Title="1"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Title="2"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Title="3"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Title="4"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Title="5"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Title="6"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Title="7"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Title="8"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Title="9"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+
+                    <buttons:NumericKeyboardButton
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Title="0"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+
+                    <buttons:NumericKeyboardButton                       
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Title="Clear"
+                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTapCommand}"/>
+
+                </Grid>
+                
+            </ContentView>
+
+            <StackLayout 
+                Grid.Row="3" 
+                Padding="0">
+                
+                    <BoxView 
+                        Margin="0, 0, 0, 0"
+                        HeightRequest="2"
+                        VerticalOptions="EndAndExpand"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}"/>
+                
+            </StackLayout>
+
+            <Frame 
+                Grid.Row="4" 
+                HasShadow="False"
+                CornerRadius="5"
+                Margin="12, 12, 12, 12"
+                Padding="0"
+                IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"
+                BackgroundColor="{DynamicResource IndicationColor_i1}">
+
+                <Label 
+                    Text="{xct:Translate Login}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Bold"/>
+
+                <Frame.GestureRecognizers>
+
+                    <TapGestureRecognizer 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ApplyCommand}" 
+                        CommandParameter="{Binding Source={x:Reference employeeId}, Path=Text}"/>
+
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+        </Grid>
+        
+    </ContentView.Content>
+    
+</ContentView>

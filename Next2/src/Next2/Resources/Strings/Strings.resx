@@ -132,6 +132,9 @@
   <data name="CustomerInfo" xml:space="preserve">
     <value>Customer Info</value>
   </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="CustomerName" xml:space="preserve">
     <value>Customer Name</value>
   </data>
@@ -155,6 +158,15 @@
   </data>
   <data name="Info" xml:space="preserve">
     <value>Info</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="EmployeeId" xml:space="preserve">
+    <value>Employee ID</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
@@ -194,5 +206,14 @@
   </data>
   <data name="Total" xml:space="preserve">
     <value>Total</value>
+  </data>
+  <data name="TypeEmployeeId" xml:space="preserve">
+    <value>Type Employee ID</value>
+  </data>
+  <data name="Waiter" xml:space="preserve">
+    <value>Waiter</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
   </data>
 </root>

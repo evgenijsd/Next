@@ -135,13 +135,15 @@
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\CustomEntryRenderer.cs" />
+    <Compile Include="Renderers\CustomFrameRenderer.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -851,6 +853,15 @@
     <BundleResource Include="Resources\pic_coupon%403x.png" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_small%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_small%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
     <BundleResource Include="Resources\pic_nothing_found.png" />
   </ItemGroup>
   <ItemGroup>
@@ -888,6 +899,33 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\pic_rewards.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_danger_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_danger_circle%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_danger_circle%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_big.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_big%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_big%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_rectangular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_rectangular%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\pic_logo_rectangular%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_check_box_checked_white.png" />
