@@ -1,6 +1,7 @@
 ﻿using Next2.Services;
 using Next2.Services.Authentication;
 using Next2.Services.MockService;
+using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
@@ -14,11 +15,10 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
+        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
 
-        private readonly IMockService _mockService;
-
-        private bool _isUserLoggetOut;
+        private bool _isUserLoggedOut;
 
         private string _inputtedEmployeeId;
 
@@ -26,12 +26,12 @@ namespace Next2.ViewModels
 
         public LoginPageViewModel(
             INavigationService navigationService,
-            IAuthenticationService authenticationService,
-            IMockService mockService)
+            IUserService userService,
+            IAuthenticationService authenticationService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
-            _mockService = mockService;
+            _userService = userService;
         }
 
         #region -- Public properties--
@@ -41,6 +41,8 @@ namespace Next2.ViewModels
         public bool IsErrorNotificationVisible { get; set; }
 
         public DateTime CurrentDate { get; set; } = DateTime.Now;
+
+        public bool IsUserLoggedOut { get; set; }
 
         public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
 
@@ -108,32 +110,31 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
+            if (_userService.AuthorizedUserId > 0)
             {
-                if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH)
-                {
-                    int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
-                    await CheckEmployeeExists();
-                    EmployeeId = _inputtedEmployeeId;
-                }
-                else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != Constants.LOGIN_PASSWORD_LENGTH)
-                {
-                    IsEmployeeExists = false;
-                    EmployeeId = _inputtedEmployeeId;
-                }
+                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
-            else if (parameters.TryGetValue("IsLastUserLoggedOut", out _isUserLoggetOut))
+            else
             {
-                EmployeeId = "test";
-                EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
-            }
-        }
-
-        public override async Task InitializeAsync(INavigationParameters parameters)
-        {
-            if (_authenticationService.User?.Id > 0)
-            {
-                _ = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet ? await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}") : await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
+                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
+                {
+                    if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                    {
+                        int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
+                        await CheckEmployeeExists();
+                        EmployeeId = _inputtedEmployeeId;
+                    }
+                    else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != Constants.LOGIN_PASSWORD_LENGTH)
+                    {
+                        IsEmployeeExists = false;
+                        EmployeeId = _inputtedEmployeeId;
+                    }
+                }
+                else if (parameters.TryGetValue("IsLastUserLoggedOut", out _isUserLoggedOut))
+                {
+                    IsUserLoggedOut = !IsUserLoggedOut;
+                    EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+                }
             }
         }
 

@@ -3,6 +3,7 @@ using System;
 using Xamarin.Forms;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Next2.Controls.Templates
 {
@@ -11,12 +12,9 @@ namespace Next2.Controls.Templates
         public CustomNumericKeyboardTemplate()
         {
             InitializeComponent();
-            IsKeyBoardTyped = false;
         }
 
         #region -- Public property --
-
-        public bool IsKeyBoardTyped { get; set; }
 
         public static readonly BindableProperty ScreenKeyboardProperty = BindableProperty.Create(
             propertyName: nameof(ScreenKeyboard),
@@ -28,6 +26,30 @@ namespace Next2.Controls.Templates
         {
             get => (string)GetValue(ScreenKeyboardProperty);
             set => SetValue(ScreenKeyboardProperty, value);
+        }
+
+        public static readonly BindableProperty IsKeyBoardTypedProperty = BindableProperty.Create(
+            propertyName: nameof(IsKeyBoardTyped),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsKeyBoardTyped
+        {
+            get => (bool)GetValue(IsKeyBoardTypedProperty);
+            set => SetValue(IsKeyBoardTypedProperty, value);
+        }
+
+        public static readonly BindableProperty IsUserLoggedOutProperty = BindableProperty.Create(
+            propertyName: nameof(IsUserLoggedOut),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsUserLoggedOut
+        {
+            get => (bool)GetValue(IsUserLoggedOutProperty);
+            set => SetValue(IsUserLoggedOutProperty, value);
         }
 
         public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(
@@ -70,6 +92,20 @@ namespace Next2.Controls.Templates
         {
             get => (ICommand)GetValue(ApplyCommandProperty);
             set => SetValue(ApplyCommandProperty, value);
+        }
+
+        #endregion
+
+        #region -- Ovverides --
+
+        protected override void OnPropertyChanging([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanging(propertyName);
+            if (propertyName == nameof(IsUserLoggedOut))
+            {
+                ScreenKeyboard = string.Empty;
+                IsKeyBoardTyped = false;
+            }
         }
 
         #endregion

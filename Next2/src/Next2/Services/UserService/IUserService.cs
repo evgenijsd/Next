@@ -8,5 +8,7 @@ namespace Next2.Services.UserService
     {
         Task<AOResult<UserModel>> CheckUserExists(int userId);
         Task<AOResult<int>> AddUserAsync(UserModel user);
+
+        int AuthorizedUserId { get; }
     }
 }

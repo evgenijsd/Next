@@ -20,6 +20,9 @@ using Next2.ViewModels.Dialogs;
 using Next2.Services.MockService;
 using Next2.Services.Settings;
 using Next2.Services.UserService;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Next2
 {
