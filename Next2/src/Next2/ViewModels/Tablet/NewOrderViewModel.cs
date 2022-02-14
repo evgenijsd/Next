@@ -16,11 +16,11 @@ namespace Next2.ViewModels.Tablet
 {
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
+        private readonly IMenuService _menuService;
+
+        private readonly IPopupNavigation _popupNavigation;
+
         private bool orderByDesc;
-
-        private IMenuService _menuService;
-
-        private IPopupNavigation _popupNavigation;
 
         public NewOrderViewModel(
             INavigationService navigationService,

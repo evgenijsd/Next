@@ -1,5 +1,5 @@
-﻿using Next2.Interfaces;
 using Next2.Models;
+using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,6 +15,7 @@ namespace Next2.Services.MockService
         private IList<CategoryModel> _categories;
         private IList<SubcategoryModel> _subcategories;
         private IList<SetModel> _sets;
+        private IList<UserModel> _users;
         private IList<MemberModel> _members;
 
         private Dictionary<Type, object> _base;
@@ -150,10 +151,11 @@ namespace Next2.Services.MockService
                 _base = new Dictionary<Type, object>();
 
                 await Task.WhenAll(
-                    InitMembers(),
+                    InitMembersAsync(),
                     InitCategoriesAsync(),
                     InitSubategoriesAsync(),
-                    InitSetsAsync());
+                    InitSetsAsync(),
+                    InitUsersAsync());
 
                 _initCompletionSource.TrySetResult(true);
             }
@@ -638,9 +640,27 @@ namespace Next2.Services.MockService
             _base.Add(typeof(SetModel), _sets);
         });
 
-        private Task InitMembers() => Task.Run(() =>
+        private Task InitUsersAsync() => Task.Run(() =>
         {
-            _members = new List<MemberModel>();
+            _users = new List<UserModel>
+            {
+                new UserModel
+                {
+                    Id = 000001,
+                    UserName = "Bob Marley",
+                },
+                new UserModel
+                {
+                    Id = 000002,
+                    UserName = "Tom Black",
+                },
+            };
+
+            _base.Add(typeof(UserModel), _users);
+        });
+
+        private Task InitMembersAsync() => Task.Run(() =>
+        {
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
 
             _members = new List<MemberModel>
@@ -675,31 +695,31 @@ namespace Next2.Services.MockService
                 },
                 new MemberModel
                 {
-                Id = 3,
-                CustomerName = "Carla Dorwart",
-                Phone = "090-540-7412",
-                MembershipStartTime = DateTime.ParseExact(
-                    "Mar 29 2021 / 09:30 AM",
-                    Constants.LONG_DATE_FORMAT,
-                    cultureInfo),
-                MembershipEndTime = DateTime.ParseExact(
-                    "Mar 01 2022 / 07:35 AM",
-                    Constants.LONG_DATE_FORMAT,
-                    cultureInfo),
+                    Id = 3,
+                    CustomerName = "Carla Dorwart",
+                    Phone = "090-540-7412",
+                    MembershipStartTime = DateTime.ParseExact(
+                        "Mar 29 2021 / 09:30 AM",
+                        Constants.LONG_DATE_FORMAT,
+                        cultureInfo),
+                    MembershipEndTime = DateTime.ParseExact(
+                        "Mar 01 2022 / 07:35 AM",
+                        Constants.LONG_DATE_FORMAT,
+                        cultureInfo),
                 },
                 new MemberModel
                 {
-                Id = 4,
-                CustomerName = "Davis Septimus",
-                Phone = "301-472-3355",
-                MembershipStartTime = DateTime.ParseExact(
-                    "Mar 29 2021 / 09:22 AM",
-                    Constants.LONG_DATE_FORMAT,
-                    cultureInfo),
-                MembershipEndTime = DateTime.ParseExact(
-                    "Mar 19 2021 / 09:22 AM",
-                    Constants.LONG_DATE_FORMAT,
-                    cultureInfo),
+                    Id = 4,
+                    CustomerName = "Davis Septimus",
+                    Phone = "301-472-3355",
+                    MembershipStartTime = DateTime.ParseExact(
+                        "Mar 29 2021 / 09:22 AM",
+                        Constants.LONG_DATE_FORMAT,
+                        cultureInfo),
+                    MembershipEndTime = DateTime.ParseExact(
+                        "Mar 19 2021 / 09:22 AM",
+                        Constants.LONG_DATE_FORMAT,
+                        cultureInfo),
                 },
                 new MemberModel
                 {

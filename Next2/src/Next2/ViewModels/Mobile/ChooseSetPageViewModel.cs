@@ -17,15 +17,15 @@ namespace Next2.ViewModels.Mobile
 {
     public class ChooseSetPageViewModel : BaseViewModel
     {
+        private readonly IMenuService _menuService;
+
+        private readonly IPopupNavigation _popupNavigation;
+
         private bool orderByDesc;
 
-        private IMenuService _menuService;
-
-        private IPopupNavigation _popupNavigation;
-
         public ChooseSetPageViewModel(
-            INavigationService navigationService,
             IMenuService menuService,
+            INavigationService navigationService,
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
