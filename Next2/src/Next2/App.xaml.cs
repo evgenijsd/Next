@@ -1,7 +1,11 @@
-using Next2.Resources.Strings;
-using Next2.Services;
-using Next2.Services.Membership;
+﻿using Next2.Services;
+using Next2.Services.Authentication;
+using Next2.Services.ProfileService;
+using Next2.Services.Services;
 using Next2.ViewModels;
+using Next2.Views.Tablet;
+using Next2.Resources.Strings;
+using Next2.Services.Membership;
 using MobileViews = Next2.Views.Mobile;
 using TabletViews = Next2.Views.Tablet;
 using MobileViewModels = Next2.ViewModels.Mobile;
@@ -12,9 +16,6 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Next2.ViewModels.Tablet;
 
 namespace Next2
@@ -38,13 +39,16 @@ namespace Next2
         {
             // Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
-            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+            containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
+            containerRegistry.RegisterSingleton<IUserService, UserService>();
+            containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
+                containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
@@ -52,8 +56,13 @@ namespace Next2
             }
             else
             {
-                containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
+                // Services
+                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
 
+                //Navigation
+                containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+                containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
@@ -80,7 +89,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
         }
 
         protected override void OnStart()
