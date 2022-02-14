@@ -8,7 +8,6 @@ using Next2.Services.ProfileService;
 using Next2.Services.Services;
 using Next2.ViewModels;
 using Next2.Views.Tablet;
-using Next2.Resources.Strings;
 using Next2.Services.Membership;
 using MobileViews = Next2.Views.Mobile;
 using TabletViews = Next2.Views.Tablet;
@@ -18,7 +17,6 @@ using Next2.ViewModels.Dialogs;
 using Next2.Views;
 using Next2.Views.Mobile;
 using Next2.Views.Mobile.Dialogs;
-using Next2.Views.Tablet;
 using Next2.Views.Tablet.Dialogs;
 using Prism;
 using Prism.Ioc;
@@ -110,7 +108,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
 
         protected override void OnStart()

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Next2.Views.Mobile.Dialogs
 {
@@ -21,7 +22,6 @@ namespace Next2.Views.Mobile.Dialogs
         public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            BindingContext = new CustomerInfoViewModel(param, requestClose);
             State = ETabState.Info;
             State = ETabState.Birthday;
             Months = new ()
@@ -39,78 +39,111 @@ namespace Next2.Views.Mobile.Dialogs
                 new MonthModel() { Id = 11, MonthName = "November" },
                 new MonthModel() { Id = 12, MonthName = "December" },
             };
-            ScrollPosition = 3;
+            SelectedMonth = 3;
+
+            Years = new List<YearModel>();
+            for (int i = 1900; i < 2100; i++)
+            {
+                Years.Add(new YearModel() { Id = i - 1900, Year = i });
+            }
         }
+
+        #region -- Public Properties --
 
         public ETabState State { get; set; }
 
-       // public List<YearModel> Years { get; set; }
         public List<MonthModel> Months { get; set; }
 
         public List<YearModel> Years { get; set; }
 
-        public static readonly BindableProperty ScrollPositionProperty = BindableProperty.Create(
-            propertyName: nameof(ScrollPosition),
+        public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedMonth),
             returnType: typeof(int),
             declaringType: typeof(CustomerAddDialog),
             defaultValue: 3,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int ScrollPosition
+        public int SelectedMonth
         {
-            get => (int)GetValue(ScrollPositionProperty);
-            set => SetValue(ScrollPositionProperty, value);
+            get => (int)GetValue(SelectedMonthProperty);
+            set => SetValue(SelectedMonthProperty, value);
         }
 
-        public void OnYearDropDownTapped(object sender, System.EventArgs arg)
+        public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedYear),
+            returnType: typeof(int),
+            declaringType: typeof(CustomerAddDialog),
+            defaultValue: 2022,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int SelectedYear
         {
-            var years2 = new List<YearModel>();
-            for (int i = 1900; i < 2100; i++)
+            get => (int)GetValue(SelectedYearProperty);
+            set => SetValue(SelectedYearProperty, value);
+        }
+
+        #endregion
+
+        #region -- Private Helpers --
+
+        private void OnSelectionChanged(object sender, System.EventArgs arg)
+        {
+            if (sender is CollectionView collection && collection.SelectedItem != null)
             {
-                years2.Add(new YearModel() { Id = i - 1900, Year = i });
+                if (collection.SelectedItem is YearModel year)
+                {
+                    SelectedYear = year.Year;
+                }
             }
+        }
 
-            Years = new (years2);
-
+        private void OnYearDropDownTapped(object sender, System.EventArgs arg)
+        {
             if (dropdownFrame.IsVisible == false)
             {
+                yearsCollectionView.SelectedItem = Years.FirstOrDefault(x => x.Year == SelectedYear);
+                yearsCollectionView.ScrollTo(yearsCollectionView.SelectedItem, -1, ScrollToPosition.Center, false);
                 dropdownFrame.IsVisible = true;
+                yearDropdownFrame.BackgroundColor = Color.FromHex("#252836");
+                yearDropdownIcon.Source = "ic_arrow_up_24x24";
             }
             else
             {
                 dropdownFrame.IsVisible = false;
+                yearDropdownFrame.BackgroundColor = Color.FromHex("#2E3143");
+                yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
             }
         }
 
-        public void OnRightMonthButtonTapped(object sender, System.EventArgs arg)
+        private void OnRightMonthButtonTapped(object sender, System.EventArgs arg)
         {
-            if (ScrollPosition == 12)
+            if (SelectedMonth == 12)
             {
-                ScrollPosition = 1;
+                SelectedMonth = 1;
             }
             else
             {
-                ScrollPosition++;
+                SelectedMonth++;
             }
 
-            monthLabel.Text = Months[ScrollPosition - 1].MonthName;
+            monthLabel.Text = Months[SelectedMonth - 1].MonthName;
         }
 
-        public void OnLeftMonthButtonTapped(object sender, System.EventArgs arg)
+        private void OnLeftMonthButtonTapped(object sender, System.EventArgs arg)
         {
-            if (ScrollPosition == 1)
+            if (SelectedMonth == 1)
             {
-                ScrollPosition = 12;
+                SelectedMonth = 12;
             }
             else
             {
-                ScrollPosition--;
+                SelectedMonth--;
             }
 
-            monthLabel.Text = Months[ScrollPosition - 1].MonthName;
+            monthLabel.Text = Months[SelectedMonth - 1].MonthName;
         }
 
-        public void OnButtonTapped(object sender, System.EventArgs arg)
+        private void OnButtonTapped(object sender, System.EventArgs arg)
         {
             if (sender is Frame frame)
             {
@@ -133,5 +166,8 @@ namespace Next2.Views.Mobile.Dialogs
                 }
             }
         }
+
+        #endregion
+
     }
 }
