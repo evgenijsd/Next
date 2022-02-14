@@ -126,6 +126,9 @@
   <data name="CustomerName" xml:space="preserve">
     <value>Customer Name</value>
   </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
@@ -147,6 +150,9 @@
   <data name="MembershipStartTime" xml:space="preserve">
     <value>Membership Start</value>
   </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
   <data name="NewOrder" xml:space="preserve">
     <value>New Order</value>
   </data>
@@ -159,6 +165,9 @@
   <data name="SearchByNameOrPhone" xml:space="preserve">
     <value>Search by Name or Phone</value>
   </data>
+  <data name="TypeOrder" xml:space="preserve">
+    <value>A-Z</value>
+  </data>
   <data name="TypeEmployeeId" xml:space="preserve">
     <value>Type Employee ID</value>
   </data>
@@ -167,5 +176,11 @@
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>

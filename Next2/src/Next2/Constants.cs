@@ -25,5 +25,11 @@
 
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
         }
+
+        public static class DialogParameterKeys
+        {
+            public const string SET = nameof(SET);
+            public const string CATEGORY = nameof(CATEGORY);
+        }
     }
 }

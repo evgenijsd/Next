@@ -126,9 +126,9 @@ namespace Next2.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Watch the tutorial.
         /// </summary>
-        internal static string WatchTutorial {
+        internal static string TypeOrder {
             get {
-                return ResourceManager.GetString("WatchTutorial", resourceCulture);
+                return ResourceManager.GetString("TypeOrder", resourceCulture);
             }
         }
     }

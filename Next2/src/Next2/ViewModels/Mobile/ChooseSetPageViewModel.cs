@@ -1,20 +1,21 @@
-﻿using Next2.Interfaces;
-using Next2.Models;
+﻿using Next2.Models;
 using Next2.Services.Menu;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
-namespace Next2.ViewModels.Tablet
+namespace Next2.ViewModels.Mobile
 {
-    public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
+    public class ChooseSetPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
 
@@ -22,21 +23,17 @@ namespace Next2.ViewModels.Tablet
 
         private bool _order;
 
-        public NewOrderViewModel(
-            INavigationService navigationService,
+        public ChooseSetPageViewModel(
             IMenuService menuService,
+            INavigationService navigationService,
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
-
-            Task.Run(LoadCategoriesAsync);
         }
 
         #region -- Public properties --
-
-        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
         public CategoryModel SelectedCategoriesItem { get; set; }
 
@@ -56,20 +53,17 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Overrides --
 
-        public override void OnAppearing()
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            base.OnAppearing();
+            if (parameters.ContainsKey(Constants.DialogParameterKeys.CATEGORY))
+            {
+                CategoryModel category;
 
-            _order = false;
-            Task.Run(LoadCategoriesAsync);
-        }
-
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            SelectedCategoriesItem = new ();
-            SelectedSubcategoriesItem = new ();
+                if (parameters.TryGetValue(Constants.DialogParameterKeys.CATEGORY, out category))
+                {
+                    SelectedCategoriesItem = category;
+                }
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -103,20 +97,6 @@ namespace Next2.ViewModels.Tablet
             param.Add(Constants.DialogParameterKeys.SET, set);
 
             await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
-        }
-
-        private async Task LoadCategoriesAsync()
-        {
-            if (IsInternetConnected)
-            {
-                var resultCategories = await _menuService.GetCategoriesAsync();
-
-                if (resultCategories.IsSuccess)
-                {
-                    CategoriesItems = new (resultCategories.Result);
-                    SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
-                }
-            }
         }
 
         private async Task LoadSetsAsync()
