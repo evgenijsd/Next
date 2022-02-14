@@ -11,6 +11,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Views.Mobile.NewOrderPage"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -84,6 +85,24 @@
             <Style x:Key="SeparatorDarkBoxViewStyle" TargetType="BoxView">
                 <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
                 <Setter Property="HeightRequest" Value="0.25"/>
+            </Style>
+            
+            <Style TargetType="controls:DropDownList">
+                
+                <Style.Triggers>
+
+                      <DataTrigger
+                            TargetType="controls:DropDownList"
+                            Binding="{Binding Source={x:Reference dropDownList}}"
+                            Value="true">
+
+                            <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+
+                        </DataTrigger>
+
+                </Style.Triggers>
+                
             </Style>
             
         </ContentView.Resources>
@@ -160,19 +179,52 @@
 
             </StackLayout>
 
-            <controls:DropDownList
+            <controls:DropDownList x:Name="dropDownList"
                 Grid.Row="0"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
+                Margin="17, 6"
                 Padding="0"
-                Margin="18, 6"
                 WidthRequest="120"
-                CornerRadius="4"
+                CornerRadius="6"
                 Background="Transparent"
+                HeaderTextSize="16"
+                HeaderFontFamily="Barlow-Medium"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 SelectedItem="{Binding SelectedTable}"
-                ItemsSource="{Binding Tables}" />
-            
+                ItemsSource="{Binding Tables}">
+
+                <controls:DropDownList.DataTemplate>
+
+                    <DataTemplate>
+
+                        <StackLayout
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                            <StackLayout
+                                HeightRequest="30"
+                                Padding="8"
+                                Orientation="Horizontal"
+                                x:DataType="models:TableBindableModel">
+
+                                <Label
+                                    HorizontalOptions="FillAndExpand"
+                                    FontSize="16"
+                                    Text="{Binding Id, StringFormat='{0}'}" />
+
+                            </StackLayout>
+
+                            <BoxView
+                                Style="{DynamicResource SeparatorLightBoxViewStyle}" />
+
+                        </StackLayout>
+
+                    </DataTemplate>
+
+                </controls:DropDownList.DataTemplate>
+                
+            </controls:DropDownList>
+
             <!-- HEADER, 2 ROW -->
             <StackLayout
                 Grid.Row="1"
@@ -233,7 +285,37 @@
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 Background="Transparent"
                 SelectedItem="{Binding SelectedTable}"
-                ItemsSource="{Binding Tables}" />
+                ItemsSource="{Binding Tables}">
+
+                <controls:DropDownList.DataTemplate>
+
+                    <DataTemplate>
+
+                        <StackLayout
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                            <StackLayout
+                                HeightRequest="30"
+                                Padding="8"
+                                Orientation="Horizontal"
+                                x:DataType="models:TableBindableModel">
+
+                                <Label
+                                    HorizontalOptions="FillAndExpand"
+                                    FontSize="16"
+                                    Text="{Binding Id, StringFormat='Table {0}'}" />
+
+                            </StackLayout>
+
+                            <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}" />
+
+                        </StackLayout>
+
+                    </DataTemplate>
+
+                </controls:DropDownList.DataTemplate>
+
+            </controls:DropDownList>
 
             <!-- PSEUDO-MEALS LIST (REPLACE) -->
             <CollectionView

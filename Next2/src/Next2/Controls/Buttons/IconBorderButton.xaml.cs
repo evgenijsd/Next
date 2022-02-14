@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Buttons
 {

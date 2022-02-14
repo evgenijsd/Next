@@ -20,6 +20,42 @@ namespace Next2.Controls
 
         #region -- Public properties --
 
+        public static readonly BindableProperty HeaderBackgroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderBackgroundColor),
+            returnType: typeof(Color),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color HeaderBackgroundColor
+        {
+            get => (Color)GetValue(HeaderBackgroundColorProperty);
+            set => SetValue(HeaderBackgroundColorProperty, value);
+        }
+
+        public static readonly BindableProperty HeaderFontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderFontFamily),
+            returnType: typeof(string),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string HeaderFontFamily
+        {
+            get => (string)GetValue(HeaderFontFamilyProperty);
+            set => SetValue(HeaderFontFamilyProperty, value);
+        }
+
+        public static readonly BindableProperty HeaderTextSizeProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderTextSize),
+            returnType: typeof(int),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int HeaderTextSize
+        {
+            get => (int)GetValue(HeaderTextSizeProperty);
+            set => SetValue(HeaderTextSizeProperty, value);
+        }
+
         public static readonly BindableProperty IconSourceProperty = BindableProperty.Create(
             propertyName: nameof(IconSource),
             returnType: typeof(string),
@@ -32,11 +68,35 @@ namespace Next2.Controls
             set => SetValue(IconSourceProperty, value);
         }
 
-        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-            propertyName: nameof(ItemsSource),
-            returnType: typeof(IList),
+        public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(
+            propertyName: nameof(DataTemplate),
+            returnType: typeof(DataTemplate),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
+
+        public DataTemplate DataTemplate
+        {
+            get => (DataTemplate)GetValue(DataTemplateProperty);
+            set => SetValue(DataTemplateProperty, value);
+        }
+
+        public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(
+            propertyName: nameof(ItemHeight),
+            returnType: typeof(int),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int ItemHeight
+        {
+            get => (int)GetValue(ItemHeightProperty);
+            set => SetValue(ItemHeightProperty, value);
+        }
+
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
+         propertyName: nameof(ItemsSource),
+         returnType: typeof(IList),
+         declaringType: typeof(DropDownList),
+         defaultBindingMode: BindingMode.TwoWay);
 
         public IList ItemsSource
         {
@@ -56,9 +116,17 @@ namespace Next2.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
-        public IEnumerable<DropDownPickerItem> ItemList { get; set; } = new ObservableCollection<DropDownPickerItem>();
+        public static readonly BindableProperty IsExpandedProperty = BindableProperty.Create(
+            propertyName: nameof(IsExpanded),
+            returnType: typeof(bool),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
 
-        public bool IsExpanded { get; set; }
+        public bool IsExpanded
+        {
+            get => (bool)GetValue(IsExpandedProperty);
+            set => SetValue(IsExpandedProperty, value);
+        }
 
         private ICommand _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new AsyncCommand(OnExpandListCommandAsync);
@@ -75,6 +143,7 @@ namespace Next2.Controls
             if (propertyName == nameof(ItemsSource) && ItemsSource?.Count > 0)
             {
                 SelectedItem = ItemsSource[0];
+                int h = ItemHeight;
             }
         }
 
