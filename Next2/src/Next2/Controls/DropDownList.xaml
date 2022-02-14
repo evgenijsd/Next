@@ -6,8 +6,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
-    Padding="0"
-    BackgroundColor="Transparent"
+    IsClippedToBounds="True"
     x:Class="Next2.Controls.DropDownList">
 
     <Frame.GestureRecognizers>
@@ -20,15 +19,16 @@
     <StackLayout>
 
         <StackLayout
-            Orientation="Horizontal"
-            Padding="10, 0">
+            Orientation="Horizontal">
 
             <Label
+                Padding="10, 7, 0, 7"
                 VerticalOptions="Center"
                 HorizontalOptions="StartAndExpand"
                 Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectedItem.Id, StringFormat='Table {0}'}" />
 
             <ffimageloading:CachedImage
+                Margin="0, 7, 10, 7"
                 VerticalOptions="Center"
                 HorizontalOptions="EndAndExpand"
                 HeightRequest="24"

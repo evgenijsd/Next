@@ -5,13 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:local="clr-namespace:Next2"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Mobile.NewOrderPage"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -126,18 +125,9 @@
                     </Label.GestureRecognizers>
                     
                 </Label>
-                
-                <controls:DropDownList
-                    Background="red"
-                    ItemsSource="{Binding Tables}">
-                    
-
-                    
-                </controls:DropDownList>
-                
-                
+                               
                 <!-- TEMPORARILY. LATER REPLACE TO DROPDOWNLIST --> 
-                <!--<Frame
+                <Frame
                     Padding="10, 7"
                     HorizontalOptions="EndAndExpand"
                     WidthRequest="74"
@@ -162,7 +152,7 @@
 
                     </StackLayout>
 
-                </Frame>-->
+                </Frame>
 
             </StackLayout>
 
@@ -172,50 +162,15 @@
                 Orientation="Horizontal"
                 Spacing="15">
 
-                <!-- TEMPORARILY. LATER REPLACE TO DROPDOWNLIST -->
-                <Frame
-                    Padding="10, 7"
-                    WidthRequest="125"
+                <controls:DropDownList
+                    WidthRequest="150"
+                    Padding="0"
                     CornerRadius="4"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                    BackgroundColor="Transparent">
+                    Background="Transparent"
+                    SelectedItem="{Binding SelectedTable}"
+                    ItemsSource="{Binding Tables}" />
 
-                    <StackLayout
-                        Orientation="Horizontal">
-
-                        <Label
-                            Style="{DynamicResource Medium24pxLabelStyle}"
-                            VerticalOptions="Center"
-                            HorizontalOptions="StartAndExpand"
-                            Text="{Binding SelectedTable.Number, StringFormat='Table {0}'}">
-                            
-                            <Label.FormattedText>
-                                
-                                <FormattedString>
-                                    
-                                    <FormattedString.Spans>
-                                        
-                                        <Span Text="{xct:Translate Table}"/>
-                                        <Span Text="{Binding SelectedTable.Id, StringFormat=' {0}'}"/>
-
-                                    </FormattedString.Spans>
-                                    
-                                </FormattedString>
-                                
-                            </Label.FormattedText>
-                            
-                        </Label>
-
-                        <ffimageloading:CachedImage
-                            VerticalOptions="Center"
-                            HorizontalOptions="EndAndExpand"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            Source="ic_arrow_down_32x32" />
-
-                    </StackLayout>
-
-                </Frame>
 
                 <Label
                     Style="{DynamicResource SemiBold32pxLabelStyle}"
@@ -261,50 +216,13 @@
 
             <!-- PSEUDO-MEALS LIST (REPLACE) -->
             <CollectionView 
-                Background="{DynamicResource TextAndBackgroundColor_i5}"
-                ItemsSource="{Binding Tables}"
-                SelectionMode="Single"
-                SelectionChangedCommand="{Binding SelectTableCommand}"
-                SelectedItem="{Binding SelectedTable}">
+                Background="{DynamicResource TextAndBackgroundColor_i5}">
 
                 <CollectionView.Effects>
 
                     <effects:NoOverScrollEffect />
 
                 </CollectionView.Effects>
-
-                <CollectionView.ItemTemplate>
-                    
-                    <DataTemplate>
-                        
-                        <StackLayout>
-
-                            <StackLayout
-                                Padding="17"
-                                Orientation="Horizontal"
-                                x:DataType="models:TableBindableModel">
-
-                                <Label
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding Id}"/>
-
-                                <Label
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding NumberOfSeats}"/>
-
-                                <Label
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding NumberOfAvailableSeats}"/>
-
-                            </StackLayout>
-
-                            <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}" />
-
-                        </StackLayout>
-
-                    </DataTemplate>
-                    
-                </CollectionView.ItemTemplate>
                 
             </CollectionView>
 
