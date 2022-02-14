@@ -67,6 +67,13 @@ namespace Next2.ViewModels
             set => SetProperty(ref _isSearch, value);
         }
 
+        private bool _isNotFound = false;
+        public bool IsNotFound
+        {
+            get => _isNotFound;
+            set => SetProperty(ref _isNotFound, value);
+        }
+
         private bool _isOrderTabsSelected = true;
         public bool IsOrderTabsSelected
         {
@@ -144,6 +151,19 @@ namespace Next2.ViewModels
             if (args.PropertyName == nameof(SelectedOrder))
             {
                 SetHeightCollection();
+            }
+
+            if (args.PropertyName == nameof(Orders))
+            {
+                if (Orders?.Count == 0)
+                {
+                    HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
+                    IsNotFound = true;
+                }
+                else
+                {
+                    IsNotFound = false;
+                }
             }
         }
 
@@ -224,7 +244,7 @@ namespace Next2.ViewModels
 
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
-            if (Orders is not null)
+            if (Orders?.Count != 0)
             {
                 var heightCollection = (Orders.Count * LayoutOrderTabs.ROW_HEIGHT) + _offcetHeight;
                 if (heightCollectionScreen > heightCollection)
@@ -233,6 +253,10 @@ namespace Next2.ViewModels
                 }
 
                 HeightCollectionGrid = new GridLength(heightCollectionScreen);
+            }
+            else
+            {
+                HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
             }
 
             return Task.CompletedTask;
@@ -273,6 +297,8 @@ namespace Next2.ViewModels
         {
             MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchCommandAsync(me));
 
+            await ClearSearchAsync();
+
             string searchPage = nameof(TabletViews.SearchPage);
             if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
             {
@@ -301,16 +327,21 @@ namespace Next2.ViewModels
         {
             if (IsSearch)
             {
-                OrderTabSorting = EOrderTabSorting.ByCustomerName;
-                SearchLine = _placeholder;
-                SelectedOrder = null;
-                IsSearch = false;
-                await SetVisualCollection();
+                await ClearSearchAsync();
             }
             else
             {
                 await OnButtonSearchCommandAsync();
             }
+        }
+
+        private async Task ClearSearchAsync()
+        {
+            OrderTabSorting = EOrderTabSorting.ByCustomerName;
+            SearchLine = _placeholder;
+            SelectedOrder = null;
+            IsSearch = false;
+            await SetVisualCollection();
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)

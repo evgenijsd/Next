@@ -12,22 +12,27 @@
 
     <StackLayout Grid.Column="0">
 
-        <ffimageloading:CachedImage Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonImageSource}"
-                                    HeightRequest="25"
-                                    VerticalOptions="CenterAndExpand">
+        <ffimageloading:CachedImage
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonImageSource}"
+            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=HeightImage}"
+            VerticalOptions="CenterAndExpand">
+            
             <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}" />
+                <TapGestureRecognizer
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}" />
             </ffimageloading:CachedImage.GestureRecognizers>
+            
         </ffimageloading:CachedImage>
 
     </StackLayout>
 
-    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"
-           Margin="5,0,0,0"
-           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-           FontFamily="Barlow-SemiBold"
-           FontSize="{DynamicResource TSize_i5}"
-           VerticalOptions="CenterAndExpand"
-           Grid.Column="1" />
-    
+    <Label
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"
+        Margin="5,0,0,0"
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+        FontFamily="Barlow-SemiBold"
+        FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=FontSize}"
+        VerticalOptions="CenterAndExpand"
+        Grid.Column="1" />
+
 </Grid>

@@ -37,13 +37,14 @@
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch}"
-        Margin="10,0,0,0"
+        Margin="10,0,50,0"
         FontSize="13"
         FontFamily="Barlow-Regular"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
         Opacity="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=OpacityText}"
         VerticalOptions="Center"
-        HorizontalOptions="Start">
+        HorizontalOptions="FillAndExpand"
+        LineBreakMode="TailTruncation">
         
         <Label.GestureRecognizers>
             <TapGestureRecognizer

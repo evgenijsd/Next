@@ -14,8 +14,10 @@
             <controls:CustomNavigationbar
                 Grid.Row="0"
                 Margin="20,0,0,0"
-                VerticalOptions="StartAndExpand"
+                VerticalOptions="Center"
                 Title="{xct:Translate Search}"
+                HeightImage="20"
+                FontSize="{DynamicResource TSize_i6}"
                 LeftButtonImageSource="ic_arrow_left_tail_40x40"
                 LeftButtonCommand="{Binding GoBackCommand}" />
 

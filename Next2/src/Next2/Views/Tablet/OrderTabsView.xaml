@@ -107,7 +107,7 @@
 
                         <DataTrigger
                             TargetType="controls:CustomButton"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsSearch}"
+                            Binding="{Binding IsSearch}"
                             Value="True">
                             <Setter Property="OpacityText" Value="1" />
                             <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
@@ -174,8 +174,8 @@
 
                     <Grid
                         VerticalOptions="Start"
-                        HeightRequest="35"
-                        MinimumHeightRequest="35"
+                        HeightRequest="50"
+                        MinimumHeightRequest="50"
                         ColumnDefinitions="50,*,*,*,*">
 
                         <StackLayout
@@ -273,19 +273,19 @@
                     </Grid>
 
                     <BoxView
-                        Margin="0,15,0,0"
+                        Margin="2,0,2,0"
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="StartAndExpand"
+                        VerticalOptions="Start"
                         HeightRequest="2"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
 
                     <!-- TABLE CONTENT -->
 
                     <RefreshView
                         VerticalOptions="Start"
                         IsRefreshing="{Binding IsOrdersRefreshing}"
-                        Command="{Binding RefreshOrdersCommand}">
+                        Command="{Binding RefreshOrdersCommand}"
+                        IsVisible="{Binding IsNotFound, Converter={xct:InvertedBoolConverter}}">
 
                         <controls:CustomScrollBarCollectionView
                             ItemsSource="{Binding Orders}"
@@ -439,6 +439,21 @@
 
                     </RefreshView>
 
+                    <yummy:PancakeView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                        CornerRadius="0,0,10,10"
+                        Margin="2,0,2,2"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        IsVisible="{Binding IsNotFound}">
+
+                        <ffimageloading:CachedImage
+                            Source="pic_nothing_found"
+                            HeightRequest="250"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center" />
+
+                    </yummy:PancakeView>
 
                 </StackLayout>
 

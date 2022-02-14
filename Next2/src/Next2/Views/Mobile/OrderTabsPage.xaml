@@ -31,6 +31,8 @@
 
                 <controls:CustomNavigationbar
                     Title="{xct:Translate OrderTabs}"
+                    HeightImage="24"
+                    FontSize="{DynamicResource TSize_i5}"
                     LeftButtonImageSource="ic_arrow_left_tail_40x40"
                     LeftButtonCommand="{Binding GoBackCommand}" />
 
