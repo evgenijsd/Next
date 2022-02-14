@@ -9,9 +9,9 @@ namespace Next2.Controls
 {
     public partial class StepperCarousel : StackLayout
     {
-        private int firstVisibleItemIndex;
+        private int _firstVisibleItemIndex;
 
-        private double viewItemWidth;
+        private double _viewItemWidth;
 
         public StepperCarousel()
         {
@@ -44,43 +44,39 @@ namespace Next2.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
-        public ICommand TapLeftButtonCommand => new AsyncCommand(OnTapLeftButtonCommandAsync);
+        private ICommand _tapLeftButtonCommand;
+        public ICommand TapLeftButtonCommand => _tapLeftButtonCommand ??= new Command(OnTapLeftButtonCommand);
 
-        public ICommand TapRightButtonCommand => new AsyncCommand(OnTapRightButtonCommandAsync);
+        private ICommand _tapRightButtonCommand;
+        public ICommand TapRightButtonCommand => _tapRightButtonCommand ??= new Command(OnTapRightButtonCommand);
 
         #endregion
 
         #region --Private methods--
 
-        private Task OnTapLeftButtonCommandAsync()
+        private void OnTapLeftButtonCommand()
         {
-            if (firstVisibleItemIndex > 1)
+            if (_firstVisibleItemIndex > 1)
             {
-                collectionView.ScrollTo(firstVisibleItemIndex - 2, -1, ScrollToPosition.Start, true);
+                collectionView.ScrollTo(_firstVisibleItemIndex - 2, -1, ScrollToPosition.Start, true);
             }
-
-            return Task.CompletedTask;
         }
 
-        private Task OnTapRightButtonCommandAsync()
+        private void OnTapRightButtonCommand()
         {
-            collectionView.ScrollTo(firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
-            return Task.CompletedTask;
+            collectionView.ScrollTo(_firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
         }
 
         private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            if (viewItemWidth == 0f)
+            if (_viewItemWidth == 0f && sender is CollectionView collectionView)
             {
-                if (sender is CollectionView collectionView)
-                {
-                    var template = collectionView.ItemTemplate;
-                    var view = (View)template.CreateContent();
-                    viewItemWidth = view.WidthRequest;
-                }
+                var template = collectionView.ItemTemplate;
+                var view = (View)template.CreateContent();
+                _viewItemWidth = view.WidthRequest;
             }
 
-            firstVisibleItemIndex = (int)(e.HorizontalOffset / viewItemWidth) * 2;
+            _firstVisibleItemIndex = (int)(e.HorizontalOffset / _viewItemWidth) * 2;
         }
 
         #endregion

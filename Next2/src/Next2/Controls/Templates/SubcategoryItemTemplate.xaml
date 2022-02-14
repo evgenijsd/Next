@@ -12,17 +12,13 @@
     Padding="0">
 
     <VisualStateManager.VisualStateGroups>
-
         <VisualStateGroup Name="CommonStates">
 
             <VisualState Name="Selected">
 
                 <VisualState.Setters>
-
                     <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                    
                     <Setter TargetName="boxView" Property="BoxView.BackgroundColor" Value="{StaticResource AppColor_i1}" />
-
                 </VisualState.Setters>
 
             </VisualState>
@@ -30,17 +26,13 @@
             <VisualState Name="Normal">
 
                 <VisualState.Setters>
-
                     <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                    
                     <Setter TargetName="boxView" Property="BoxView.BackgroundColor" Value="{StaticResource TextAndBackgroundColor_i4}" />
-
                 </VisualState.Setters>
 
             </VisualState>
 
         </VisualStateGroup>
-
     </VisualStateManager.VisualStateGroups>
 
     <BoxView

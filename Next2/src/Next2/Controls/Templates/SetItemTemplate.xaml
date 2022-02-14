@@ -4,13 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SetItemTemplate"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
     BorderColor="{DynamicResource TextAndBackgroundColor_i6}"
     HasShadow="False"
     CornerRadius="0"
-    Padding="1">
+    Padding="1"
+    x:DataType="models:SetModel">
 
     <Frame
         HasShadow="False"
@@ -26,30 +28,24 @@
                 <ffimageloading:CachedImage
                     HeightRequest="120"
                     Aspect="AspectFill"
-                    Source="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.ImagePath}">
+                    Source="{Binding ImagePath}">
 
                     <VisualStateManager.VisualStateGroups>
-
                         <VisualStateGroup Name="OrientationState">
 
                             <VisualState Name="Landscape">
 
                                 <VisualState.StateTriggers>
-
                                     <OrientationStateTrigger Orientation="Landscape"/>
-
                                 </VisualState.StateTriggers>
 
                                 <VisualState.Setters>
-
                                     <Setter Property="HeightRequest" Value="182" />
-
                                 </VisualState.Setters>
 
                             </VisualState>
 
                         </VisualStateGroup>
-                        
                     </VisualStateManager.VisualStateGroups>
                     
                 </ffimageloading:CachedImage>
@@ -57,7 +53,7 @@
             </pkView:PancakeView>
 
             <Label
-                Text="{Binding Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, Path=SourceSet.Title}"
+                Text="{Binding Title}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="{DynamicResource TSize_i6}"
                 FontFamily="Barlow-Medium"
@@ -69,7 +65,7 @@
             <Label
                 VerticalOptions="EndAndExpand"
                 Margin="0, 0, 0, 8"
-                Text="{Binding SourceSet.Price, Source={RelativeSource AncestorType={x:Type templates:SetItemTemplate}}, StringFormat='$ {0:F2}'}"
+                Text="{Binding Price, StringFormat='$ {0:F2}'}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"/>

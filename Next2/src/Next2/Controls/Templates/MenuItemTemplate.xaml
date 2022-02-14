@@ -11,17 +11,13 @@
     Padding="0, 1">
 
     <VisualStateManager.VisualStateGroups>
-
         <VisualStateGroup Name="CommonStates">
 
             <VisualState Name="Selected">
 
                 <VisualState.Setters>
-
                     <Setter TargetName="frame" Property="Frame.BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-
                     <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-
                 </VisualState.Setters>
 
             </VisualState>
@@ -29,11 +25,8 @@
             <VisualState Name="Normal">
 
                 <VisualState.Setters>
-
                     <Setter TargetName="frame" Property="Frame.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-
                     <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-
                 </VisualState.Setters>
 
             </VisualState>
@@ -45,15 +38,11 @@
             <VisualState Name="moreiPadMini">
 
                 <VisualState.StateTriggers>
-
                     <AdaptiveTrigger MinWindowHeight="601" />
-
                 </VisualState.StateTriggers>
 
                 <VisualState.Setters>
-
                     <Setter Property="WidthRequest" Value="74" />
-
                 </VisualState.Setters>
 
             </VisualState>
@@ -61,15 +50,11 @@
             <VisualState Name="moreiPadMini6th">
 
                 <VisualState.StateTriggers>
-
                     <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
-
                 </VisualState.StateTriggers>
 
                 <VisualState.Setters>
-
                     <Setter Property="WidthRequest" Value="82" />
-
                 </VisualState.Setters>
 
             </VisualState>
@@ -77,21 +62,16 @@
             <VisualState Name="moreiPadPro11">
 
                 <VisualState.StateTriggers>
-
                     <AdaptiveTrigger MinWindowWidth="1195" MinWindowHeight="601" />
-
                 </VisualState.StateTriggers>
 
                 <VisualState.Setters>
-
                     <Setter Property="WidthRequest" Value="96" />
-
                 </VisualState.Setters>
 
             </VisualState>
 
         </VisualStateGroup>
-
     </VisualStateManager.VisualStateGroups>
 
     <Frame
@@ -112,27 +92,21 @@
                 Margin="0, 0, 0, 0">
 
                 <VisualStateManager.VisualStateGroups>
-
                     <VisualStateGroup Name="AdaptiveIconMargin">
 
                         <VisualState Name="moreiPadMini">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowHeight="601" />
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="0, 0, 0, 8" />
-
                             </VisualState.Setters>
 
                         </VisualState>
-                        
+
                     </VisualStateGroup>
-                    
                 </VisualStateManager.VisualStateGroups>
                 
             </ffimageloading:CachedImage>

@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:rg="http://rotorgames.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
@@ -19,9 +20,7 @@
         WidthRequest="360">
 
         <Frame.GestureRecognizers>
-            
             <TapGestureRecognizer Command="{Binding CloseCommand}"/>
-            
         </Frame.GestureRecognizers>
 
         <Frame
@@ -35,16 +34,16 @@
 
                 <Label
                     Text="Заглушка"
-                    TextColor="White"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Margin="0, 20"/>
 
                 <Label
                     Text="{Binding Set.Title}"
-                    TextColor="White"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                 <Label
                     Text="{Binding Set.Price}"
-                    TextColor="White"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                 <BoxView
                     HeightRequest="1"
@@ -57,7 +56,8 @@
                     <buttons:BorderButton
                         Grid.Column="0"
                         HasShadow="False"
-                        Text="Cancel"
+                        Text="{xct:Translate Cancel}"
+                        FontSize="{DynamicResource TSize_i8}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                         BorderColor="{DynamicResource IndicationColor_i3}"
                         HeightRequest="40"
@@ -68,7 +68,8 @@
                     <buttons:BorderButton
                         Grid.Column="1"
                         HasShadow="False"
-                        Text="Add"
+                        Text="{xct:Translate Add}"
+                        FontSize="{DynamicResource TSize_i8}"
                         BackgroundColor="{DynamicResource IndicationColor_i2}"
                         BorderColor="{DynamicResource IndicationColor_i2}"
                         HeightRequest="40"

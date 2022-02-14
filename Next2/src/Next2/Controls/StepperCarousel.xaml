@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <StackLayout
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:behaviors="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -26,27 +25,21 @@
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapLeftButtonCommand}">
 
         <VisualStateManager.VisualStateGroups>
-
             <VisualStateGroup Name="AdaptiveStepperCarousel">
 
-                <VisualState Name="miniHeight">
+                <VisualState Name="minHeight">
 
                     <VisualState.StateTriggers>
-
                         <AdaptiveTrigger MinWindowHeight="601" />
-
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-
                         <Setter Property="HeightRequest" Value="116" />
-
                     </VisualState.Setters>
 
                 </VisualState>
 
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
 
         <ffimageloading:CachedImage Source="ic_arrow_left_24x24.png"/>
@@ -63,23 +56,18 @@
         ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
         SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
         Scrolled="collectionView_Scrolled">
-        
-        <VisualStateManager.VisualStateGroups>
 
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="AdaptiveStepperCarousel">
 
-                <VisualState Name="miniHeight">
+                <VisualState Name="minHeight">
 
                     <VisualState.StateTriggers>
-
                         <AdaptiveTrigger MinWindowHeight="601" />
-
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-
                         <Setter Property="HeightRequest" Value="116" />
-
                         <Setter Property="ItemsLayout">
 
                             <GridItemsLayout
@@ -89,19 +77,17 @@
                                 SnapPointsAlignment="Start"
                                 VerticalItemSpacing="8"
                                 HorizontalItemSpacing="8"/>
-                            
-                        </Setter>
 
+                        </Setter>
                     </VisualState.Setters>
 
                 </VisualState>
 
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
 
         <CollectionView.ItemsLayout>
-
+            
             <GridItemsLayout
                 Orientation="Horizontal"
                 Span="2"
@@ -109,17 +95,14 @@
                 SnapPointsAlignment="Start"
                 VerticalItemSpacing="4"
                 HorizontalItemSpacing="4"/>
-
+            
         </CollectionView.ItemsLayout>
 
         <CollectionView.Effects>
-
             <effects:NoOverScrollEffect/>
-
         </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
-
             <DataTemplate x:DataType="models:CategoryModel">
 
                 <templates:CategoryItemTemplate
@@ -128,7 +111,6 @@
                     FontFamily="Barlow-Medium"/>
 
             </DataTemplate>
-
         </CollectionView.ItemTemplate>
 
     </CollectionView>
@@ -141,29 +123,23 @@
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapRightButtonCommand}">
-        
-        <VisualStateManager.VisualStateGroups>
 
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="AdaptiveStepperCarousel">
 
-                <VisualState Name="miniHeight">
+                <VisualState Name="minHeight">
 
                     <VisualState.StateTriggers>
-
                         <AdaptiveTrigger MinWindowHeight="601" />
-
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-
                         <Setter Property="HeightRequest" Value="116" />
-
                     </VisualState.Setters>
 
                 </VisualState>
 
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
         
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>

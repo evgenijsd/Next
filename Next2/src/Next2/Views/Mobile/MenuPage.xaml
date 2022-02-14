@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
@@ -100,9 +99,7 @@
                     ItemsSource="{Binding CategoriesItems}">
 
                     <CollectionView.Effects>
-
                         <effects:NoOverScrollEffect/>
-
                     </CollectionView.Effects>
 
                     <CollectionView.ItemsLayout>
@@ -116,7 +113,6 @@
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.ItemTemplate>
-
                         <DataTemplate x:DataType="models:CategoryModel">
 
                             <Frame
@@ -142,7 +138,6 @@
                             </Frame>
 
                         </DataTemplate>
-
                     </CollectionView.ItemTemplate>
 
                 </CollectionView>
@@ -181,13 +176,10 @@
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.Effects>
-
                     <effects:NoOverScrollEffect/>
-
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-
                     <DataTemplate x:DataType="models:MenuItemBindableModel">
 
                         <templates:MenuItemTemplate
@@ -198,7 +190,6 @@
                             HeightRequest="62"/>
 
                     </DataTemplate>
-
                 </CollectionView.ItemTemplate>
 
             </CollectionView>

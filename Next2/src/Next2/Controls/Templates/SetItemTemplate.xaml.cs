@@ -9,21 +9,5 @@ namespace Next2.Controls.Templates
         {
             InitializeComponent();
         }
-
-        #region -- Public properties --
-
-        public static readonly BindableProperty SourceSetProperty = BindableProperty.Create(
-            propertyName: nameof(SourceSet),
-            returnType: typeof(SetModel),
-            defaultValue: default(SetModel),
-            declaringType: typeof(SetItemTemplate));
-
-        public SetModel SourceSet
-        {
-            get => (SetModel)GetValue(SourceSetProperty);
-            set => SetValue(SourceSetProperty, value);
-        }
-
-        #endregion
     }
 }

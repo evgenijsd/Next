@@ -21,7 +21,7 @@ namespace Next2.ViewModels.Mobile
 
         private readonly IPopupNavigation _popupNavigation;
 
-        private bool orderByDesc;
+        private bool _order;
 
         public ChooseSetPageViewModel(
             IMenuService menuService,
@@ -44,10 +44,10 @@ namespace Next2.ViewModels.Mobile
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand = new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
 
         private ICommand _tapSortCommand;
-        public ICommand TapSortCommand => _tapSortCommand = new AsyncCommand(OnTapSortCommandAsync);
+        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
 
         #endregion
 
@@ -87,7 +87,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapSortCommandAsync()
         {
-            orderByDesc = !orderByDesc;
+            _order = !_order;
             await LoadSetsAsync();
         }
 
@@ -107,7 +107,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultSets.IsSuccess)
                 {
-                    if (orderByDesc)
+                    if (_order)
                     {
                         SetsItems = new (resultSets.Result.OrderByDescending(row => row.Title));
                     }

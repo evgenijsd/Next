@@ -21,21 +21,16 @@
         ColumnDefinitions="100, *">
 
         <VisualStateManager.VisualStateGroups>
-
             <VisualStateGroup Name="AdaptiveSideMenu">
 
                 <VisualState Name="moreiPadMini">
 
                     <VisualState.StateTriggers>
-
                         <AdaptiveTrigger MinWindowWidth="1134" />
-
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-
                         <Setter Property="ColumnDefinitions" Value="110, *" />
-
                     </VisualState.Setters>
 
                 </VisualState>
@@ -43,21 +38,16 @@
                 <VisualState Name="moreiPadPro11">
 
                     <VisualState.StateTriggers>
-
                         <AdaptiveTrigger MinWindowWidth="1195" />
-
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-
                         <Setter Property="ColumnDefinitions" Value="130, *" />
-
                     </VisualState.Setters>
 
                 </VisualState>
 
             </VisualStateGroup>
-
         </VisualStateManager.VisualStateGroups>
 
         <!--SIDE MENU-->
@@ -70,21 +60,16 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <VisualStateManager.VisualStateGroups>
-
                 <VisualStateGroup Name="AdaptiveSideMenu">
 
                     <VisualState Name="allMini">
 
                         <VisualState.StateTriggers>
-
                             <AdaptiveTrigger MinWindowHeight="601" />
-
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-
                             <Setter Property="RowDefinitions" Value="105, *, 100" />
-
                         </VisualState.Setters>
 
                     </VisualState>
@@ -92,15 +77,11 @@
                     <VisualState Name="moreiPadMini">
 
                         <VisualState.StateTriggers>
-
                             <AdaptiveTrigger MinWindowWidth="1134" />
-
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-
                             <Setter Property="RowDefinitions" Value="105, *, 110" />
-
                         </VisualState.Setters>
 
                     </VisualState>
@@ -108,21 +89,16 @@
                     <VisualState Name="moreiPadPro11">
 
                         <VisualState.StateTriggers>
-
                             <AdaptiveTrigger MinWindowWidth="1195" />
-
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-
                             <Setter Property="RowDefinitions" Value="105, *, 130" />
-
                         </VisualState.Setters>
 
                     </VisualState>
 
                 </VisualStateGroup>
-
             </VisualStateManager.VisualStateGroups>
 
             <ffimageloading:CachedImage
@@ -132,21 +108,16 @@
                 Margin="11, 11, 11, 0">
 
                 <VisualStateManager.VisualStateGroups>
-
                     <VisualStateGroup Name="AdaptiveLogoMargin">
 
                         <VisualState Name="allMini">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowHeight="601" />
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="12, 12, 12, 0" />
-
                             </VisualState.Setters>
 
                         </VisualState>
@@ -154,15 +125,11 @@
                         <VisualState Name="moreiPadMini6th">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="13, 13, 13, 0" />
-
                             </VisualState.Setters>
 
                         </VisualState>
@@ -170,21 +137,16 @@
                         <VisualState Name="moreiPadPro11">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowWidth="1195" MinWindowHeight="601"/>
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="16, 16, 16, 0" />
-
                             </VisualState.Setters>
 
                         </VisualState>
 
                     </VisualStateGroup>
-
                 </VisualStateManager.VisualStateGroups>
 
             </ffimageloading:CachedImage>
@@ -198,21 +160,16 @@
                 SelectionMode="Single">
 
                 <VisualStateManager.VisualStateGroups>
-
                     <VisualStateGroup Name="AdaptiveSideMenuPadding">
 
                         <VisualState Name="allMini">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowHeight="601" />
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="12.4, 12.4, 12.4, 0" />
-
                             </VisualState.Setters>
 
                         </VisualState>
@@ -220,15 +177,11 @@
                         <VisualState Name="moreiPadMini6th">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="13.4, 13.4, 13.4, 0" />
-
                             </VisualState.Setters>
 
                         </VisualState>
@@ -236,21 +189,16 @@
                         <VisualState Name="moreiPadPro11">
 
                             <VisualState.StateTriggers>
-
                                 <AdaptiveTrigger MinWindowWidth="1195" MinWindowHeight="601"/>
-
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-
                                 <Setter Property="Margin" Value="16, 16, 16, 0" />
-
                             </VisualState.Setters>
 
                         </VisualState>
 
                     </VisualStateGroup>
-
                 </VisualStateManager.VisualStateGroups>
                 
                 <CollectionView.ItemsLayout>
@@ -264,13 +212,10 @@
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.Effects>
-
                     <effects:NoOverScrollEffect/>
-
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-
                     <DataTemplate x:DataType="models:MenuItemBindableModel">
 
                         <templates:MenuItemTemplate
@@ -280,7 +225,6 @@
                             FontFamily="Barlow-Medium"/>
 
                     </DataTemplate>
-
                 </CollectionView.ItemTemplate>
 
             </CollectionView>

@@ -92,9 +92,7 @@
             SelectionMode="Single">
 
             <CollectionView.Effects>
-
                 <effects:NoOverScrollEffect/>
-
             </CollectionView.Effects>
 
             <CollectionView.ItemsLayout>
@@ -108,16 +106,13 @@
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
-
                 <DataTemplate x:DataType="models:SetModel">
 
                     <templates:SetItemTemplate
-                        SourceSet="{Binding .}"
                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseSetPageViewModel}}}"
                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
-
             </CollectionView.ItemTemplate>
 
         </CollectionView>
@@ -133,9 +128,7 @@
             SelectionMode="Single">
 
             <CollectionView.Effects>
-
                 <effects:NoOverScrollEffect/>
-
             </CollectionView.Effects>
 
             <CollectionView.ItemsLayout>
@@ -149,7 +142,6 @@
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
-
                 <DataTemplate x:DataType="models:SubcategoryModel">
 
                     <templates:SubCategoryItemTemplate
@@ -159,7 +151,6 @@
                         FontFamily="Barlow-Medium"/>
 
                 </DataTemplate>
-
             </CollectionView.ItemTemplate>
 
         </CollectionView>

@@ -20,7 +20,7 @@ namespace Next2.ViewModels.Tablet
 
         private readonly IPopupNavigation _popupNavigation;
 
-        private bool orderByDesc;
+        private bool _order;
 
         public NewOrderViewModel(
             INavigationService navigationService,
@@ -47,10 +47,10 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand = new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
 
         private ICommand _tapSortCommand;
-        public ICommand TapSortCommand => _tapSortCommand = new AsyncCommand(OnTapSortCommandAsync);
+        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnAppearing();
 
-            orderByDesc = false;
+            _order = false;
             Task.Run(LoadCategoriesAsync);
         }
 
@@ -93,7 +93,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSortCommandAsync()
         {
-            orderByDesc = !orderByDesc;
+            _order = !_order;
             await LoadSetsAsync();
         }
 
@@ -127,7 +127,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultSets.IsSuccess)
                 {
-                    if (orderByDesc)
+                    if (_order)
                     {
                         SetsItems = new (resultSets.Result.OrderByDescending(row => row.Title));
                     }

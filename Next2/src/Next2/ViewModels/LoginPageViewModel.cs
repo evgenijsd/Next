@@ -39,8 +39,8 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
 
-        private ICommand _ButtonClearCommand;
-        public ICommand ButtonClearCommand => _ButtonClearCommand ??= new AsyncCommand(OnTabClearAsync);
+        private ICommand _buttonClearCommand;
+        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearAsync);
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);

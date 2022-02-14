@@ -177,4 +177,10 @@
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>
