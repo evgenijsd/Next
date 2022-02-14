@@ -1,4 +1,12 @@
-﻿using Xamarin.Forms;
+﻿using Next2.Resources.Styles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
 {
@@ -9,23 +17,35 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
-        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
-            propertyName: nameof(CornerRadius),
-            returnType: typeof(float),
+        public static readonly BindableProperty CRadiusProperty = BindableProperty.Create(
+            propertyName: nameof(CRadius),
+            returnType: typeof(CornerRadius),
             declaringType: typeof(CustomButton),
-            defaultValue: 0F,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public float CornerRadius
+        public CornerRadius CRadius
         {
-            get => (float)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
+            get => (CornerRadius)GetValue(CRadiusProperty);
+            set => SetValue(CRadiusProperty, value);
+        }
+
+        public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
+            propertyName: nameof(IsSelected),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomButton),
+            defaultValue: false,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
         }
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(CustomButton),
+            declaringType: typeof(SearchButton),
             defaultValue: string.Empty,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -33,55 +53,6 @@ namespace Next2.Controls
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
-        }
-
-        public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
-            propertyName: nameof(BorderColor),
-            returnType: typeof(Color),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color BorderColor
-        {
-            get => (Color)GetValue(BorderColorProperty);
-            set => SetValue(BorderColorProperty, value);
-        }
-
-        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(
-            propertyName: nameof(BackColor),
-            returnType: typeof(Color),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color BackColor
-        {
-            get => (Color)GetValue(BackColorProperty);
-            set => SetValue(BackColorProperty, value);
-        }
-
-        public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
-            propertyName: nameof(TextColor),
-            returnType: typeof(Color),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color TextColor
-        {
-            get => (Color)GetValue(TextColorProperty);
-            set => SetValue(TextColorProperty, value);
-        }
-
-        public static readonly BindableProperty IsVisibleSearchProperty = BindableProperty.Create(
-            propertyName: nameof(IsVisibleSearch),
-            returnType: typeof(bool),
-            declaringType: typeof(CustomButton),
-            defaultValue: false,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public bool IsVisibleSearch
-        {
-            get => (bool)GetValue(IsVisibleSearchProperty);
-            set => SetValue(IsVisibleSearchProperty, value);
         }
     }
 }

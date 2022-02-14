@@ -3,6 +3,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:enums="clr-namespace:Next2.Enums"
@@ -10,6 +11,7 @@
     x:DataType="viewModels:OrderTabsViewModel"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <ContentPage.Content>
@@ -41,60 +43,58 @@
                     ColumnSpacing="0"
                     ColumnDefinitions="*,*">
 
-                    <controls:CustomButtonOrderTab
+                    <controls:CustomButton
                         Text="{xct:Translate Orders}"
                         Grid.Column="0"
                         VerticalOptions="FillAndExpand"
                         IsSelected="{Binding IsOrderTabsSelected}">
 
-                        <controls:CustomButtonOrderTab.GestureRecognizers>
+                        <controls:CustomButton.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
-                        </controls:CustomButtonOrderTab.GestureRecognizers>
+                        </controls:CustomButton.GestureRecognizers>
                         
-                    </controls:CustomButtonOrderTab>
+                    </controls:CustomButton>
 
 
-                    <controls:CustomButtonOrderTab
+                    <controls:CustomButton
                         Text="{xct:Translate Tabs}"
                         Grid.Column="1"
                         VerticalOptions="FillAndExpand"
                         IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}">
 
-                        <controls:CustomButtonOrderTab.GestureRecognizers>
+                        <controls:CustomButton.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
-                        </controls:CustomButtonOrderTab.GestureRecognizers>
+                        </controls:CustomButton.GestureRecognizers>
                         
-                    </controls:CustomButtonOrderTab>
+                    </controls:CustomButton>
 
                 </Grid>
 
-                <controls:CustomButton
+                <controls:SearchButton
                     Grid.Row="2"
                     CornerRadius="5"
-                    IsVisibleSearch="True"
                     Text="{xct:Translate SearchTableNumber}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
                     Margin="17,20,17,20">
 
-                    <controls:CustomButton.Triggers>
+                    <controls:SearchButton.Triggers>
                         
                         <DataTrigger
-                            TargetType="controls:CustomButton"
+                            TargetType="controls:SearchButton"
                             Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
                             Value="False">
                             <Setter Property="Text" Value="{xct:Translate SearchName}" />
                         </DataTrigger>
                         
-                    </controls:CustomButton.Triggers>
+                    </controls:SearchButton.Triggers>
 
-                </controls:CustomButton>
+                </controls:SearchButton>
 
-                <Frame
+                <yummy:PancakeView
                     VerticalOptions="Start"
                     Grid.Row="3"
-                    HasShadow="False"
                     CornerRadius="10"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     Margin="17,0,17,0">
@@ -259,6 +259,7 @@
                                             <BoxView
                                                 Grid.Row="0"
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
                                         </Grid>
 
                                     </DataTemplate>
@@ -271,7 +272,7 @@
 
                     </StackLayout>
 
-                </Frame>
+                </yummy:PancakeView>
 
             </Grid>
 
@@ -289,41 +290,63 @@
                     Margin="20,15,20,15"
                     Spacing="20">
 
-                    <controls:CustomButton
+                    <buttons:BorderButton
                         CornerRadius="5"
+                        HeightRequest="35"
+                        Padding="4"
+                        HasShadow="False"
+                        HorizontalOptions="FillAndExpand"
+                        TextSize="{DynamicResource TSize_i8}"
                         Text="{xct:Translate Print}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource IndicationColor_i1}"
-                        BackColor="{DynamicResource IndicationColor_i1}" />
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        FontFamily="Barlow-SemiBold" />
 
                     <StackLayout
                         Orientation="Horizontal"
                         Spacing="10">
 
-                        <controls:CustomButton
+
+                        <buttons:BorderButton
+                            CornerRadius="5"
                             HorizontalOptions="FillAndExpand"
+                            Padding="4"
+                            HeightRequest="35"
+                            HasShadow="False"
+                            TextSize="{DynamicResource TSize_i8}"
                             Text="{xct:Translate Edit}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             BorderColor="{DynamicResource IndicationColor_i5}"
-                            BackColor="Transparent"
-                            CornerRadius="5" />
+                            BackgroundColor="Transparent"
+                            FontFamily="Barlow-SemiBold" />
 
-                        <controls:CustomButton
+                        <buttons:BorderButton
+                            CornerRadius="5"
                             HorizontalOptions="FillAndExpand"
+                            Padding="4"
+                            HeightRequest="35"
+                            HasShadow="False"
+                            TextSize="{DynamicResource TSize_i8}"
                             Text="{xct:Translate Split}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             BorderColor="{DynamicResource IndicationColor_i7}"
-                            BackColor="Transparent"
-                            IsVisible="{Binding IsOrderTabsSelected}"
-                            CornerRadius="5" />
+                            BackgroundColor="Transparent"
+                            FontFamily="Barlow-SemiBold"
+                            IsVisible="{Binding IsOrderTabsSelected}" />
 
-                        <controls:CustomButton
+                        <buttons:BorderButton
+                            CornerRadius="5"
                             HorizontalOptions="FillAndExpand"
+                            Padding="4"
+                            HeightRequest="35"
+                            HasShadow="False"
                             Text="{xct:Translate Remove}"
+                            TextSize="{DynamicResource TSize_i8}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             BorderColor="{DynamicResource IndicationColor_i3}"
-                            BackColor="Transparent"
-                            CornerRadius="5" />
+                            BackgroundColor="Transparent"
+                            FontFamily="Barlow-SemiBold" />
 
                     </StackLayout>
 

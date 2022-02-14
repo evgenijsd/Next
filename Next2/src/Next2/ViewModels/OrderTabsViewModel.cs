@@ -23,6 +23,7 @@ namespace Next2.ViewModels
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
         private double _summRowHight;
+        private double _offcetHeight;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -87,40 +88,25 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parametrs)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
-
-            var heightCollectionScreen = HeightPage - _summRowHight;
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
-
-            await LoadData();
-
-            var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
-            if (heightCollectionScreen > heightCollection)
+            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
             {
-                heightCollectionScreen = heightCollection;
-            }
+                _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
+                _offcetHeight = LayoutOrderTabs.OFFCET_MOBILE;
+                HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
 
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
+                await LoadData();
+            }
         }
 
         public override async void OnAppearing()
         {
             _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET;
-
-            var heightCollectionScreen = HeightPage - _summRowHight;
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
+            _offcetHeight = LayoutOrderTabs.OFFCET_TABLET;
+            HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
 
             await LoadData();
-
-            var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
-            if (heightCollectionScreen > heightCollection)
-            {
-                heightCollectionScreen = heightCollection;
-            }
-
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -129,20 +115,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(SelectedOrder))
             {
-                var heightCollection = (Orders.Count + 1) * LayoutOrderTabs.ROW_HEIGHT;
-                var heightCollectionScreen = HeightPage - _summRowHight;
-
-                if (SelectedOrder != null)
-                {
-                    heightCollectionScreen = HeightPage - _summRowHight - LayoutOrderTabs.BUTTONS_HEIGHT;
-                }
-
-                if (heightCollectionScreen > heightCollection)
-                {
-                    heightCollectionScreen = heightCollection;
-                }
-
-                HeightCollectionGrid = new GridLength(heightCollectionScreen);
+                SetHeightCollection();
             }
         }
 
@@ -189,13 +162,15 @@ namespace Next2.ViewModels
             if (IsOrderTabsSelected)
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}")));
+                            .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}"))
+                            .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _ordersBase;
             }
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName)));
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName))
+                            .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }
 
@@ -204,6 +179,36 @@ namespace Next2.ViewModels
                 var mapper = new Mapper(config);
 
                 Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
+
+                SetHeightCollection();
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task SetHeightCollection()
+        {
+            var heightCollectionScreen = HeightPage - _summRowHight;
+            if (SelectedOrder != null && Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            {
+                heightCollectionScreen -= LayoutOrderTabs.BUTTONS_HEIGHT;
+            }
+
+            HeightCollectionGrid = new GridLength(heightCollectionScreen);
+
+            if (Orders?.Count != 0)
+            {
+                var heightCollection = (Orders.Count * LayoutOrderTabs.ROW_HEIGHT) + _offcetHeight;
+                if (heightCollectionScreen > heightCollection)
+                {
+                    heightCollectionScreen = heightCollection;
+                }
+
+                HeightCollectionGrid = new GridLength(heightCollectionScreen);
+            }
+            else
+            {
+                HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
             }
 
             return Task.CompletedTask;

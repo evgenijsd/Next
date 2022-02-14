@@ -10,6 +10,7 @@ namespace Next2.Models
         #region -- Public properties --
 
         public int TableNumber { get; set; }
+        public int OrderNumber { get; set; }
 
         private string _name;
         public string Name
@@ -32,11 +33,11 @@ namespace Next2.Models
             set => SetProperty(ref _orderType, value);
         }
 
-        private int _orderNumber;
-        public int OrderNumber
+        private string _orderNumberText;
+        public string OrderNumberText
         {
-            get => _orderNumber;
-            set => SetProperty(ref _orderNumber, value);
+            get => _orderNumberText;
+            set => SetProperty(ref _orderNumberText, value);
         }
 
         private double _total;

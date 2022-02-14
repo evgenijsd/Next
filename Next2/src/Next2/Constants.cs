@@ -4,6 +4,8 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
+        public const int LOGIN_PASSWORD_LENGTH = 6;
+
         public const int SERVER_RESPONCE_DELAY = 1000;
 
         public const string DEFAULT_CULTURE = "en-US";
@@ -27,9 +29,16 @@
         public static class LayoutOrderTabs
         {
             public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
+            public const double OFFCET_MOBILE = 52;
             public const double SUMM_ROW_HEIGHT_TABLET = 75 + 2 + 95;
+            public const double OFFCET_TABLET = 70;
             public const double BUTTONS_HEIGHT = 142;
-            public const double ROW_HEIGHT = 48 + 7;
+            public const double ROW_HEIGHT = 48 + 2;
+        }
+
+        public static class Navigations
+        {
+            public const string SEARCH = nameof(SEARCH);
         }
     }
 }
