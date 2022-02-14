@@ -32,7 +32,7 @@
         Text="_________"
         TextColor="Transparent"
         FontSize="{DynamicResource TSize_i7}"
-        FontFamily="Barlow-Medium" /> 
+        FontFamily="Barlow-Medium" />
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Text}"
@@ -41,15 +41,27 @@
         FontSize="13"
         FontFamily="Barlow-Regular"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=TextColor}"
-        Opacity="0.32"
+        Opacity="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=OpacityText}"
         VerticalOptions="Center"
-        HorizontalOptions="Start" />
+        HorizontalOptions="Start">
+        
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CommandSearch}" />
+        </Label.GestureRecognizers>
+    </Label>
 
     <ffimageloading:CachedImage
-        Source="ic_search_24x24"
+        Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=ImageSource}"
         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsVisibleSearch}"
         HeightRequest="20"
         Margin="0,0,10,0"
         VerticalOptions="CenterAndExpand"
-        HorizontalOptions="EndAndExpand" />
+        HorizontalOptions="EndAndExpand">
+
+        <ffimageloading:CachedImage.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CommandClear}" />
+        </ffimageloading:CachedImage.GestureRecognizers>
+    </ffimageloading:CachedImage>
 </Grid>

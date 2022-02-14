@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:DataType="controls:CustomEntry"
+    xmlns:Behaviors="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Controls.CustomEntry">
+
+    <ContentView.Content>
+
+        <controls:CustomNoBorderEntry
+            x:Name="CustomEntryLocal"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=Text}"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=TextColor}"
+            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=FontFamily}"
+            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=FontSize}"
+            Placeholder="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=Placeholder}"
+            PlaceholderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=PlaceholderColor}"
+            ReturnType="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=ReturnType}"
+            ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=ReturnCommand}"
+            ReturnCommandParameter="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=ReturnCommandParameter}"
+            MaxLength="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=MaxLength}">
+
+            <!--controls:CustomNoBorderEntry.Behaviors>
+
+                <Behaviors:EventToCommandBehavior
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=UnFocusedCommand}"
+                    EventName="Unfocused" />
+
+            </controls:CustomNoBorderEntry.Behaviors-->
+
+        </controls:CustomNoBorderEntry>
+
+    </ContentView.Content>
+
+</ContentView>

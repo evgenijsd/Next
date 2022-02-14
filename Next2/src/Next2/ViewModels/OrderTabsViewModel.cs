@@ -3,7 +3,6 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services;
-using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -15,6 +14,8 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using static Next2.Constants;
+using MobileViews = Next2.Views.Mobile;
+using TabletViews = Next2.Views.Tablet;
 
 namespace Next2.ViewModels
 {
@@ -26,6 +27,7 @@ namespace Next2.ViewModels
         private IEnumerable<OrderModel>? _tabsBase;
         private double _summRowHight;
         private double _offcetHeight;
+        private string _placeholder;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -33,6 +35,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+            _placeholder = _searchLine;
         }
 
         #region -- Public properties --
@@ -48,6 +51,20 @@ namespace Next2.ViewModels
         {
             get => _heightCollectionGrid;
             set => SetProperty(ref _heightCollectionGrid, value);
+        }
+
+        private string _searchLine = Resources.Strings.Strings.SearchTableNumber;
+        public string SearchLine
+        {
+            get => _searchLine;
+            set => SetProperty(ref _searchLine, value);
+        }
+
+        private bool _isSearch = false;
+        public bool IsSearch
+        {
+            get => _isSearch;
+            set => SetProperty(ref _isSearch, value);
         }
 
         private bool _isOrderTabsSelected = true;
@@ -82,6 +99,9 @@ namespace Next2.ViewModels
 
         private ICommand _ButtonSearchCommand;
         public ICommand ButtonSearchCommand => _ButtonSearchCommand ??= new AsyncCommand(OnButtonSearchCommandAsync);
+
+        private ICommand _ClearSearchCommand;
+        public ICommand ClearSearchCommand => _ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync);
 
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
@@ -224,6 +244,9 @@ namespace Next2.ViewModels
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 OrderTabSorting = EOrderTabSorting.ByCustomerName;
+                SearchLine = Resources.Strings.Strings.SearchTableNumber;
+                _placeholder = SearchLine;
+                IsSearch = false;
                 await SetVisualCollection();
             }
         }
@@ -234,6 +257,9 @@ namespace Next2.ViewModels
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 OrderTabSorting = EOrderTabSorting.ByCustomerName;
+                SearchLine = Resources.Strings.Strings.SearchName;
+                _placeholder = SearchLine;
+                IsSearch = false;
                 await SetVisualCollection();
             }
         }
@@ -247,12 +273,21 @@ namespace Next2.ViewModels
         {
             MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchCommandAsync(me));
 
-            await _navigationService.NavigateAsync(nameof(SearchPage));
+            string searchPage = nameof(TabletViews.SearchPage);
+            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            {
+                searchPage = nameof(MobileViews.SearchPage);
+            }
+
+            var parametrs = new NavigationParameters { { Constants.Navigations.SEARCH, IsOrderTabsSelected } };
+            await _navigationService.NavigateAsync(searchPage, parametrs);
         }
 
         private Task SearchCommandAsync(MessageEvent me)
         {
-            Orders = new (Orders.Where(x => x.OrderNumberText.Contains(me.SearchLine) || x.Name.Contains(me.SearchLine)));
+            SearchLine = me.SearchLine;
+            IsSearch = true;
+            Orders = new (Orders.Where(x => x.OrderNumberText.Contains(SearchLine) || x.Name.Contains(SearchLine)));
             SelectedOrder = null;
 
             MessagingCenter.Unsubscribe<MessageEvent>(this, MessageEvent.SearchMessage);
@@ -260,6 +295,22 @@ namespace Next2.ViewModels
             SetHeightCollection();
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnClearSearchCommandAsync()
+        {
+            if (IsSearch)
+            {
+                OrderTabSorting = EOrderTabSorting.ByCustomerName;
+                SearchLine = _placeholder;
+                SelectedOrder = null;
+                IsSearch = false;
+                await SetVisualCollection();
+            }
+            else
+            {
+                await OnButtonSearchCommandAsync();
+            }
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)

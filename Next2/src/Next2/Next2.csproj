@@ -126,6 +126,9 @@
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\CustomEntry.xaml.cs">
+      <DependentUpon>CustomEntry.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -186,6 +189,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\CustomEntry.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Strings\Strings.resx">

@@ -95,25 +95,23 @@
                     Grid.Row="0"
                     CornerRadius="5"
                     IsVisibleSearch="True"
-                    Text="{xct:Translate SearchTableNumber}"
+                    Text="{Binding SearchLine}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    OpacityText="0.32"
                     BackColor="Transparent"
-                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                    <controls:CustomButton.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding ButtonSearchCommand}" />
-                    </controls:CustomButton.GestureRecognizers>
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    CommandSearch="{Binding ButtonSearchCommand}"
+                    CommandClear="{Binding ClearSearchCommand}">
 
                     <controls:CustomButton.Triggers>
 
                         <DataTrigger
                             TargetType="controls:CustomButton"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
-                            Value="False">
-                            <Setter
-                                Property="Text"
-                                Value="{xct:Translate SearchName}" />
+                            Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsSearch}"
+                            Value="True">
+                            <Setter Property="OpacityText" Value="1" />
+                            <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                            <Setter Property="ImageSource" Value="ic_close_square_24x24" />
                         </DataTrigger>
 
                     </controls:CustomButton.Triggers>

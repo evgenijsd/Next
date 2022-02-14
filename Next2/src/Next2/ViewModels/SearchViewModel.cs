@@ -19,8 +19,14 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        private string _searchLine = string.Empty;
+        private bool _isOrderTabsSelected = true;
+        public bool IsOrderTabsSelected
+        {
+            get => _isOrderTabsSelected;
+            set => SetProperty(ref _isOrderTabsSelected, value);
+        }
 
+        private string _searchLine = string.Empty;
         public string SearchLine
         {
             get => _searchLine;
@@ -29,6 +35,18 @@ namespace Next2.ViewModels
 
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out bool isSelected))
+            {
+                IsOrderTabsSelected = isSelected;
+            }
+        }
 
         #endregion
 
