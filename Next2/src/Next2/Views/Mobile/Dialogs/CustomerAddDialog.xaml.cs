@@ -6,6 +6,7 @@ using Next2.Models;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
+using System.Collections.ObjectModel;
 
 namespace Next2.Views.Mobile.Dialogs
 {
@@ -43,13 +44,15 @@ namespace Next2.Views.Mobile.Dialogs
 
         public ETabState State { get; set; }
 
+       // public List<YearModel> Years { get; set; }
         public List<MonthModel> Months { get; set; }
 
-        //private int ScrollPosition { get; set; }
+        public List<YearModel> Years { get; set; }
+
         public static readonly BindableProperty ScrollPositionProperty = BindableProperty.Create(
             propertyName: nameof(ScrollPosition),
             returnType: typeof(int),
-            declaringType: typeof(MenuPage),
+            declaringType: typeof(CustomerAddDialog),
             defaultValue: 3,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -61,6 +64,14 @@ namespace Next2.Views.Mobile.Dialogs
 
         public void OnYearDropDownTapped(object sender, System.EventArgs arg)
         {
+            var years2 = new List<YearModel>();
+            for (int i = 1900; i < 2100; i++)
+            {
+                years2.Add(new YearModel() { Id = i - 1900, Year = i });
+            }
+
+            Years = new (years2);
+
             if (dropdownFrame.IsVisible == false)
             {
                 dropdownFrame.IsVisible = true;

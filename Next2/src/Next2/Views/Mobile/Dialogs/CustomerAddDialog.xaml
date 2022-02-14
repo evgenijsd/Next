@@ -216,16 +216,26 @@
                                     <!--  Dropdown list  -->
                                     <Frame x:Name="dropdownFrame"
                                     Grid.Row="0"
-                                    Grid.RowSpan="3"
+                                    Grid.RowSpan="3" Padding="0"
                                     Margin="0,32,0,0"
                                     xct:CornerRadiusEffect.CornerRadius="0,0,4,4"
                                     HeightRequest="166"
                                     HorizontalOptions="EndAndExpand"
                                     IsVisible="false"
                                     VerticalOptions="StartAndExpand"
-                                    WidthRequest="86">
-                                        <CollectionView>
-                                        </CollectionView>
+                                    WidthRequest="83">
+                                        <CollectionView ItemsSource="{Binding Years, Source={x:Reference addInfoDialog}}" SelectionMode="Single">
+                                        <CollectionView.Effects>
+                                            <effects:NoOverScrollEffect />
+                                        </CollectionView.Effects>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate x:DataType="models:YearModel">
+                                                <Frame Padding="0" CornerRadius="0" BackgroundColor="#34374C">
+                                                    <Label Text="{Binding Year}" TextColor="White" FontSize="12" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
                                     </Frame>
                                 </Grid>
 
