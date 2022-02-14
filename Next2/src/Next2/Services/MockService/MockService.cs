@@ -1,5 +1,5 @@
-﻿using Next2.Interfaces;
 using Next2.Models;
+using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,6 +12,7 @@ namespace Next2.Services
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
 
+        private IList<UserModel> _users;
         private IList<MemberModel> _members;
 
         private Dictionary<Type, object> _base;
@@ -158,8 +159,25 @@ namespace Next2.Services
 
         private Task InitMembers() => Task.Run(() =>
         {
-            _members = new List<MemberModel>();
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
+
+            _users = new List<UserModel>
+            {
+                new UserModel
+                {
+                    Id = 000001,
+                    UserName = "Bob Marley",
+                },
+                new UserModel
+                {
+                    Id = 000002,
+                    UserName = "Tom Black",
+                },
+            };
+
+            _base.Add(typeof(UserModel), _users);
+
+            _members = new List<MemberModel>();
 
             _members = new List<MemberModel>
             {

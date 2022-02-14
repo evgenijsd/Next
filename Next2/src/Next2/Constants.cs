@@ -4,6 +4,8 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
+        public const int LOGIN_PASSWORD_LENGTH = 6;
+
         public const int SERVER_RESPONCE_DELAY = 1000;
 
         public const string DEFAULT_CULTURE = "en-US";

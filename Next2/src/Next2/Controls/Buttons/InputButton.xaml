@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<controls:CustomFrame  
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Controls.Buttons.InputButton"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    Padding="4"
+    BorderWidth="1"
+    HasShadow="False"
+    BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+    <StackLayout Orientation="Horizontal">
+
+        <Label 
+            Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text}"
+            FontSize="{DynamicResource TSize_i8}"
+            VerticalTextAlignment="Center"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TextColor}"       
+            Margin="4, 0, 0, 0"
+            FontFamily="Barlow-Medium">
+
+        </Label>
+
+        <Image 
+            Source="ic_danger_circle"
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=IsErrorNotificationVisible}"  
+            Margin="0, 5, 5, 5"
+            HorizontalOptions="EndAndExpand"/>
+
+    </StackLayout>
+
+    <controls:CustomFrame.GestureRecognizers>
+
+        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TapGestureRecognizerCommand}"/>
+
+    </controls:CustomFrame.GestureRecognizers>
+
+</controls:CustomFrame>
