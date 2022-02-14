@@ -58,7 +58,8 @@
                     
                     <controls:CustomButton.GestureRecognizers>
                         <TapGestureRecognizer
-                            Command="{Binding ButtonOrdersCommand}" />
+                            Command="{Binding ButtonOrderTabsCommand}"
+                            CommandParameter="Order"/>
                     </controls:CustomButton.GestureRecognizers>
                     
                 </controls:CustomButton>
@@ -76,7 +77,8 @@
                     
                     <controls:CustomButton.GestureRecognizers>
                         <TapGestureRecognizer
-                            Command="{Binding ButtonTabsCommand}" />
+                            Command="{Binding ButtonOrderTabsCommand}"
+                            CommandParameter="Tab" />
                     </controls:CustomButton.GestureRecognizers>
                     
                 </controls:CustomButton>

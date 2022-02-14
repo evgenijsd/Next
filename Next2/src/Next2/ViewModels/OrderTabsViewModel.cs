@@ -31,6 +31,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+            IsOrderTabsSelected = true;
         }
 
         #region -- Public properties --
@@ -39,7 +40,7 @@ namespace Next2.ViewModels
 
         public bool IsOrdersRefreshing { get; set; }
 
-        public EOrderTabSorting OrderTabSorting { get; set; }
+        public EOrderTabSorting CurrentOrderTabSorting { get; set; }
 
         public GridLength HeightCollectionGrid { get; set; }
 
@@ -49,11 +50,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OrderBindableModel>? Orders { get; set; }
 
-        private ICommand _ButtonOrdersCommand;
-        public ICommand ButtonOrdersCommand => _ButtonOrdersCommand ??= new AsyncCommand(OnButtonOrdersCommandAsync);
-
-        private ICommand _ButtonTabsCommand;
-        public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
+        private ICommand _ButtonOrderTabsCommand;
+        public ICommand ButtonOrderTabsCommand => _ButtonOrderTabsCommand ??= new AsyncCommand<string>(OnButtonOrderTabsCommandAsync);
 
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
@@ -108,7 +106,7 @@ namespace Next2.ViewModels
         private async Task LoadData()
         {
             IsOrdersRefreshing = true;
-            OrderTabSorting = EOrderTabSorting.ByCustomerName;
+            CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
             var resultOrders = await _orderService.GetOrdersAsync();
             if (resultOrders.IsSuccess)
@@ -163,7 +161,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task SetHeightCollection()
+        private void SetHeightCollection()
         {
             var heightCollectionScreen = HeightPage - _summRowHight;
             if (SelectedOrder != null && Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
@@ -187,26 +185,21 @@ namespace Next2.ViewModels
             {
                 HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
             }
-
-            return Task.CompletedTask;
         }
 
-        private async Task OnButtonOrdersCommandAsync()
+        private async Task OnButtonOrderTabsCommandAsync(string orderTabsSelected)
         {
-            if (!IsOrderTabsSelected)
+            if (orderTabsSelected == "Tab" && IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
-                OrderTabSorting = EOrderTabSorting.ByCustomerName;
+                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
                 await SetVisualCollection();
             }
-        }
 
-        private async Task OnButtonTabsCommandAsync()
-        {
-            if (IsOrderTabsSelected)
+            if (orderTabsSelected == "Order" && !IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
-                OrderTabSorting = EOrderTabSorting.ByCustomerName;
+                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
                 await SetVisualCollection();
             }
         }
@@ -218,7 +211,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
         {
-            EOrderTabSorting orderTabSorting = OrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : OrderTabSorting;
+            EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : CurrentOrderTabSorting;
 
             Func<OrderBindableModel, object> comparer = orderTabSorting switch
             {
@@ -230,15 +223,15 @@ namespace Next2.ViewModels
             return orders.OrderBy(comparer);
         }
 
-        private Task OnOrderTabSortingChangeCommandAsync(EOrderTabSorting orderTabSorting)
+        private Task OnOrderTabSortingChangeCommandAsync(EOrderTabSorting newOrderTabSorting)
         {
-            if (OrderTabSorting == orderTabSorting)
+            if (CurrentOrderTabSorting == newOrderTabSorting)
             {
                 Orders = new (Orders.Reverse());
             }
             else
             {
-                OrderTabSorting = orderTabSorting;
+                CurrentOrderTabSorting = newOrderTabSorting;
 
                 var sortedOrders = GetSortedMembers(Orders);
 

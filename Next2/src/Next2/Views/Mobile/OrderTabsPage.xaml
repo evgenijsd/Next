@@ -50,7 +50,9 @@
                         IsSelected="{Binding IsOrderTabsSelected}">
 
                         <controls:CustomButton.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
+                            <TapGestureRecognizer 
+                                Command="{Binding ButtonOrderTabsCommand}"
+                                CommandParameter="Order" />
                         </controls:CustomButton.GestureRecognizers>
                         
                     </controls:CustomButton>
@@ -63,7 +65,9 @@
                         IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}">
 
                         <controls:CustomButton.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
+                            <TapGestureRecognizer 
+                                Command="{Binding ButtonOrderTabsCommand}"
+                                CommandParameter="Tab"/>
                         </controls:CustomButton.GestureRecognizers>
                         
                     </controls:CustomButton>
