@@ -90,14 +90,11 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
-            {
-                _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
-                _offcetHeight = LayoutOrderTabs.OFFCET_MOBILE;
-                HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
+            _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
+            _offcetHeight = LayoutOrderTabs.OFFCET_MOBILE;
+            HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
 
-                await LoadData();
-            }
+            await LoadData();
         }
 
         public override async void OnAppearing()
