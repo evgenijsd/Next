@@ -39,6 +39,7 @@ namespace Next2.Services.Authentication
 
                 if (user.IsSuccess)
                 {
+                    _user = user.Result;
                     _settingsManager.UserId = user.Result.Id;
                     _settingsManager.UserName = user.Result.UserName;
 
@@ -61,6 +62,7 @@ namespace Next2.Services.Authentication
         {
             _settingsManager.UserId = default;
             _settingsManager.UserName = default;
+            _user = null;
         }
 
         #endregion

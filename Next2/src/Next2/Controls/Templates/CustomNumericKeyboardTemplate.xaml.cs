@@ -11,6 +11,7 @@ namespace Next2.Controls.Templates
         public CustomNumericKeyboardTemplate()
         {
             InitializeComponent();
+            IsKeyBoardTyped = false;
         }
 
         #region -- Public property --

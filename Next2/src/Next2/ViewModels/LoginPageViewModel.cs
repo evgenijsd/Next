@@ -18,6 +18,8 @@ namespace Next2.ViewModels
 
         private readonly IMockService _mockService;
 
+        private bool _isUserLoggetOut;
+
         private string _inputtedEmployeeId;
 
         private int _inputtedEmployeeIdToDigist;
@@ -54,6 +56,7 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
         private async Task OnTabClearAsync()
         {
             EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
@@ -118,6 +121,19 @@ namespace Next2.ViewModels
                     IsEmployeeExists = false;
                     EmployeeId = _inputtedEmployeeId;
                 }
+            }
+            else if (parameters.TryGetValue("IsLastUserLoggedOut", out _isUserLoggetOut))
+            {
+                EmployeeId = "test";
+                EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+            }
+        }
+
+        public override async Task InitializeAsync(INavigationParameters parameters)
+        {
+            if (_authenticationService.User?.Id > 0)
+            {
+                _ = Xamarin.Forms.Device.Idiom == TargetIdiom.Tablet ? await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}") : await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
         }
 

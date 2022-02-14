@@ -144,14 +144,12 @@ namespace Next2.ViewModels.Tablet
         {
             var param = new DialogParameters();
 
-            //string partOfMessage = LocalizationResourceManager.Current["AreYouSure?"];
             string partOfMessage2 = LocalizationResourceManager.Current["WannaLogOut"];
 
             string okButton = LocalizationResourceManager.Current["LogOut(ApperCase)"];
 
             string cancelButton = LocalizationResourceManager.Current["Cancel"];
 
-            //param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage}");
             param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage2}");
 
             param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, $"{okButton}");
@@ -168,8 +166,15 @@ namespace Next2.ViewModels.Tablet
             if (result)
             {
                 _authenticationService.LogOut();
+
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
-                await _navigationService.GoBackToRootAsync();
+
+                var navigationParameters = new NavigationParameters
+                {
+                    { "IsLastUserLoggedOut", result },
+                };
+
+                await _navigationService.GoBackToRootAsync(navigationParameters);
             }
             else
             {
