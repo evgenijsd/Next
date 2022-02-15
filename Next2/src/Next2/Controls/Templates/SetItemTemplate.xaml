@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Frame
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Controls.Templates.SetItemTemplate"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+    BorderColor="{DynamicResource TextAndBackgroundColor_i6}"
+    HasShadow="False"
+    CornerRadius="0"
+    Padding="1"
+    x:DataType="models:SetModel">
+
+    <Frame
+        HasShadow="False"
+        CornerRadius="10"
+        BorderColor="Transparent"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        Padding="15">
+
+        <StackLayout>
+
+            <pkView:PancakeView CornerRadius="10">
+
+                <ffimageloading:CachedImage
+                    HeightRequest="120"
+                    Aspect="AspectFill"
+                    Source="{Binding ImagePath}">
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup Name="OrientationState">
+
+                            <VisualState Name="Landscape">
+
+                                <VisualState.StateTriggers>
+                                    <OrientationStateTrigger Orientation="Landscape"/>
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="HeightRequest" Value="182" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    
+                </ffimageloading:CachedImage>
+
+            </pkView:PancakeView>
+
+            <Label
+                Text="{Binding Title}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i6}"
+                FontFamily="Barlow-Medium"
+                LineBreakMode="TailTruncation"
+                MaxLines="2"
+                LineHeight="1.1"
+                Margin="0, 24, 0 ,0"/>
+
+            <Label
+                VerticalOptions="EndAndExpand"
+                Margin="0, 0, 0, 8"
+                Text="{Binding Price, StringFormat='$ {0:F2}'}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"/>
+
+        </StackLayout>
+
+    </Frame>
+    
+</Frame>

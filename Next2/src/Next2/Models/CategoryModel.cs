@@ -1,14 +1,14 @@
 ﻿using Next2.Interfaces;
-using Prism.Mvvm;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Next2.Models
 {
-    public class CategoryBindableModel : BindableBase, ISelectable
+    public class CategoryModel : IBaseModel
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
-
-        public bool IsSelected { get; set; }
     }
 }

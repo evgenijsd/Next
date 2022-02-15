@@ -1,5 +1,6 @@
 ﻿using Next2.Services;
 using Next2.Services.Authentication;
+using Next2.Services.MockService;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
@@ -15,8 +16,6 @@ namespace Next2.ViewModels
     {
         private readonly IAuthenticationService _authenticationService;
 
-        private readonly IMockService _mockService;
-
         private string _inputtedEmployeeId;
 
         private int _inputtedEmployeeIdToDigist;
@@ -28,7 +27,6 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _authenticationService = authenticationService;
-            _mockService = mockService;
         }
 
         #region -- Public properties--
@@ -41,8 +39,8 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
 
-        private ICommand _ButtonClearCommand;
-        public ICommand ButtonClearCommand => _ButtonClearCommand ??= new AsyncCommand(OnTabClearAsync);
+        private ICommand _buttonClearCommand;
+        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearAsync);
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);

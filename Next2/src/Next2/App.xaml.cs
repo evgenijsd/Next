@@ -1,25 +1,28 @@
-﻿using Next2.Services;
-using Next2.Services.Authentication;
-using Next2.Services.ProfileService;
-using Next2.Services.Services;
-using Next2.ViewModels;
-using Next2.Views.Tablet;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Next2.Resources.Strings;
+using Next2.Services.Authentication;
 using Next2.Services.Membership;
-using MobileViews = Next2.Views.Mobile;
-using TabletViews = Next2.Views.Tablet;
-using MobileViewModels = Next2.ViewModels.Mobile;
-using TabletViewModels = Next2.ViewModels.Tablet;
+using Next2.Services.Menu;
+using Next2.Services.MockService;
+using Next2.Services.ProfileService;
+using Next2.Services.OrderService;
+using Next2.ViewModels;
+using Next2.ViewModels.Tablet;
+using Next2.Views.Tablet;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Next2.ViewModels.Tablet;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using MobileViews = Next2.Views.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
+using TabletViews = Next2.Views.Tablet;
+using Next2.Services.SettingsService;
 
 namespace Next2
 {
@@ -40,10 +43,15 @@ namespace Next2
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Services
+            // Dialogs
+            containerRegistry.RegisterPopupNavigationService();
+            containerRegistry.RegisterPopupDialogService();
+
+            //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+            containerRegistry.RegisterSingleton<IMenuService, MenuService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
@@ -58,6 +66,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
             }
             else
             {

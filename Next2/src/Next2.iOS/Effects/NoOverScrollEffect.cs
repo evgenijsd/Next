@@ -2,7 +2,6 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ResolutionGroupName("Next2.Effects")]
 [assembly: ExportEffect(typeof(NoOverScrollEffect), nameof(NoOverScrollEffect))]
 
 namespace Next2.iOS.Effects

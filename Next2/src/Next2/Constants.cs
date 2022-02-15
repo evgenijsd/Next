@@ -35,5 +35,11 @@
             public const double BUTTONS_HEIGHT = 142;
             public const double ROW_HEIGHT = 48 + 2;
         }
+
+        public static class DialogParameterKeys
+        {
+            public const string SET = nameof(SET);
+            public const string CATEGORY = nameof(CATEGORY);
+        }
     }
 }

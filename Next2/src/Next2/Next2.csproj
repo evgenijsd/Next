@@ -97,8 +97,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -114,13 +116,13 @@
   <ItemGroup>
     <Folder Include="Behaviors\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Converters\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\Mobile\" />
     <Folder Include="Views\Mobile\" />
     <Folder Include="Resources\Images\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -202,6 +204,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
+    <EmbeddedResource Update="Controls\StepperCarousel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\CategoryItemTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\SetItemTemplate.xaml">      
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Buttons\InputButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -236,6 +247,12 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HoldItemsView.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\ChooseSetPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\AddSetToOrderDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\MenuPageMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>

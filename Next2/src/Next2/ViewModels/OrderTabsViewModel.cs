@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models;
-using Next2.Services;
+using Next2.Services.OrderService;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -50,11 +50,11 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OrderBindableModel>? Orders { get; set; }
 
-        private ICommand _ButtonOrderTabsCommand;
-        public ICommand ButtonOrderTabsCommand => _ButtonOrderTabsCommand ??= new AsyncCommand<string>(OnButtonOrderTabsCommandAsync);
+        private ICommand _ButtonOrdersCommand;
+        public ICommand ButtonOrdersCommand => _ButtonOrdersCommand ??= new AsyncCommand(OnButtonOrdersCommandAsync);
 
-        private ICommand _GoBackCommand;
-        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+        private ICommand _ButtonTabsCommand;
+        public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
 
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
@@ -187,16 +187,9 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnButtonOrderTabsCommandAsync(string orderTabsSelected)
+        private async Task OnButtonOrdersCommandAsync()
         {
-            if (orderTabsSelected == "Tab" && IsOrderTabsSelected)
-            {
-                IsOrderTabsSelected = !IsOrderTabsSelected;
-                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
-                await SetVisualCollection();
-            }
-
-            if (orderTabsSelected == "Order" && !IsOrderTabsSelected)
+            if (!IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
@@ -204,9 +197,14 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnGoBackCommandAsync()
+        private async Task OnButtonTabsCommandAsync()
         {
-            await _navigationService.GoBackAsync();
+            if (IsOrderTabsSelected)
+            {
+                IsOrderTabsSelected = !IsOrderTabsSelected;
+                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+                await SetVisualCollection();
+            }
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)

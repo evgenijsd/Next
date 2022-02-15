@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Next2.Services
+namespace Next2.Services.OrderService
 {
     public interface IOrderService
     {
