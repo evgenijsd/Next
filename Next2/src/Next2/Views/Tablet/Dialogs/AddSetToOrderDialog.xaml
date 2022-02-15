@@ -13,29 +13,72 @@
 
     <Frame
         Padding="1.5"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-        CornerRadius="5"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        CornerRadius="10"
         HeightRequest="420"
+        WidthRequest="360"
         HorizontalOptions="Center"
-        VerticalOptions="Center"
-        WidthRequest="360">
+        VerticalOptions="Center">
 
-        <Frame.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding CloseCommand}"/>
-        </Frame.GestureRecognizers>
+        <StackLayout Spacing="0">
 
-        <Frame
-            Padding="20"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-            CornerRadius="5">
+            <StackLayout
+                VerticalOptions="Start"
+                Padding="24"
+                Orientation="Horizontal"
+                Spacing="0">
 
-            <StackLayout>
+                <ffimageloading:CachedImage
+                    HeightRequest="56"
+                    WidthRequest="56"
+                    Aspect="AspectFit"
+                    Source="{Binding Set.ImagePath}"
+                    HorizontalOptions="Start"/>
 
-                <ffimageloading:CachedImage Source="{Binding Set.ImagePath}"/>
+                <StackLayout
+                    Margin="20, 0, 0, 0"
+                    HorizontalOptions="Start">
 
-                <Label
-                    Text="{Binding Set.Title}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                    <Label
+                        Text="{Binding Set.Title}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    <Label
+                        Text="{Binding Set.Price}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                </StackLayout>
+
+            </StackLayout>
+
+            <BoxView
+                VerticalOptions="Start"
+                Margin="24, 0"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <StackLayout
+                VerticalOptions="StartAndExpand"
+                Padding="24">
+
+                <controls:Toggle
+                    IsToggled="True"
+                    ThumbColor="{DynamicResource IndicationColor_i3}"
+                    OnColor="{DynamicResource IndicationColor_i4}">
+
+                    <controls:Toggle.Triggers>
+
+                        <Trigger TargetType="controls:Toggle" Property="IsToggled" Value="True">
+
+                            <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
+                            <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
+
+                        </Trigger>
+
+                    </controls:Toggle.Triggers>
+
+                </controls:Toggle>
 
                 <controls:Toggle
                     ThumbColor="{DynamicResource IndicationColor_i3}"
@@ -47,54 +90,46 @@
 
                             <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
                             <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
-                            
+
                         </Trigger>
-                        
+
                     </controls:Toggle.Triggers>
-                    
+
                 </controls:Toggle>
-
-                <Label
-                    Text="{Binding Set.Price}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                <BoxView
-                    HeightRequest="1"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
-
-                <Grid
-                    Margin="0, 10, 0, 0"
-                    ColumnSpacing="10">
-
-                    <buttons:BorderButton
-                        Grid.Column="0"
-                        HasShadow="False"
-                        Text="{xct:Translate Cancel}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        BorderColor="{DynamicResource IndicationColor_i3}"
-                        HeightRequest="40"
-                        Padding="25, 5"
-                        CornerRadius="4"
-                        Command="{Binding CloseCommand}"/>
-
-                    <buttons:BorderButton
-                        Grid.Column="1"
-                        HasShadow="False"
-                        Text="{xct:Translate Add}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        BackgroundColor="{DynamicResource IndicationColor_i2}"
-                        BorderColor="{DynamicResource IndicationColor_i2}"
-                        HeightRequest="40"
-                        Padding="25, 5"
-                        CornerRadius="4"
-                        Command="{Binding CloseCommand}"/>
-
-                </Grid>
 
             </StackLayout>
 
-        </Frame>
+            <BoxView
+                VerticalOptions="End"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <Grid
+                Margin="24"
+                HeightRequest="50"
+                ColumnSpacing="10">
+
+                <buttons:BorderButton
+                    Grid.Column="0"
+                    Text="{xct:Translate Cancel}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    BorderColor="{DynamicResource IndicationColor_i3}"
+                    CornerRadius="4"
+                    Command="{Binding CloseCommand}"/>
+
+                <buttons:BorderButton
+                    Grid.Column="1"
+                    Text="{xct:Translate Add}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    BackgroundColor="{DynamicResource IndicationColor_i2}"
+                    BorderColor="{DynamicResource IndicationColor_i2}"
+                    CornerRadius="4"
+                    Command="{Binding CloseCommand}"/>
+
+            </Grid>
+
+        </StackLayout>
 
     </Frame>
 
