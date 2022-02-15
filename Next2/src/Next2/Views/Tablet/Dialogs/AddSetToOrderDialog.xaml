@@ -7,7 +7,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs" xmlns:controls="clr-namespace:Next2.Controls"
     x:DataType="dialogs:AddSetToOrderDialogViewModel">
 
     <Frame
@@ -33,13 +33,25 @@
                 <ffimageloading:CachedImage Source="{Binding Set.ImagePath}"/>
 
                 <Label
-                    Text="Заглушка"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Margin="0, 20"/>
-
-                <Label
                     Text="{Binding Set.Title}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                <controls:ToggleSelector
+                    ThumbColor="{DynamicResource IndicationColor_i3}"
+                    OnColor="{DynamicResource IndicationColor_i4}">
+
+                    <controls:ToggleSelector.Triggers>
+
+                        <Trigger TargetType="controls:ToggleSelector" Property="IsToggled" Value="True">
+
+                            <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
+                            <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
+                            
+                        </Trigger>
+                        
+                    </controls:ToggleSelector.Triggers>
+                    
+                </controls:ToggleSelector>
 
                 <Label
                     Text="{Binding Set.Price}"
