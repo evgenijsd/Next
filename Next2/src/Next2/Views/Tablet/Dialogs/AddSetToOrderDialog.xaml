@@ -6,8 +6,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs" xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
     x:DataType="dialogs:AddSetToOrderDialogViewModel">
 
     <Frame
@@ -36,22 +37,22 @@
                     Text="{Binding Set.Title}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
-                <controls:ToggleSelector
+                <controls:Toggle
                     ThumbColor="{DynamicResource IndicationColor_i3}"
                     OnColor="{DynamicResource IndicationColor_i4}">
 
-                    <controls:ToggleSelector.Triggers>
+                    <controls:Toggle.Triggers>
 
-                        <Trigger TargetType="controls:ToggleSelector" Property="IsToggled" Value="True">
+                        <Trigger TargetType="controls:Toggle" Property="IsToggled" Value="True">
 
                             <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
                             <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
                             
                         </Trigger>
                         
-                    </controls:ToggleSelector.Triggers>
+                    </controls:Toggle.Triggers>
                     
-                </controls:ToggleSelector>
+                </controls:Toggle>
 
                 <Label
                     Text="{Binding Set.Price}"

@@ -7,13 +7,13 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class ToggleSelector : StackLayout
+    public partial class Toggle : StackLayout
     {
         private double _valueX;
 
         private bool _init;
 
-        public ToggleSelector()
+        public Toggle()
         {
             InitializeComponent();
         }
@@ -23,7 +23,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IsToggledProperty = BindableProperty.Create(
             propertyName: nameof(IsToggled),
             returnType: typeof(bool),
-            declaringType: typeof(ToggleSelector),
+            declaringType: typeof(Toggle),
             defaultBindingMode: BindingMode.TwoWay);
 
         public bool IsToggled
@@ -35,7 +35,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ThumbColorProperty = BindableProperty.Create(
             propertyName: nameof(ThumbColor),
             returnType: typeof(Color),
-            declaringType: typeof(ToggleSelector),
+            declaringType: typeof(Toggle),
             defaultBindingMode: BindingMode.TwoWay);
 
         public Color ThumbColor
@@ -47,7 +47,7 @@ namespace Next2.Controls
         public static readonly BindableProperty OnColorProperty = BindableProperty.Create(
             propertyName: nameof(OnColor),
             returnType: typeof(Color),
-            declaringType: typeof(ToggleSelector),
+            declaringType: typeof(Toggle),
             defaultBindingMode: BindingMode.TwoWay);
 
         public Color OnColor
@@ -82,11 +82,11 @@ namespace Next2.Controls
         {
             if (IsToggled)
             {
-                await runningFrame.TranslateTo(runningFrame.X + 23, 0, 50, Easing.CubicInOut);
+                await runningFrame.TranslateTo(runningFrame.X + 17, 0, 100, Easing.CubicInOut);
             }
             else
             {
-                await runningFrame.TranslateTo(runningFrame.X, 0, 50, Easing.CubicInOut);
+                await runningFrame.TranslateTo(runningFrame.X, 0, 100, Easing.CubicInOut);
             }
         }
 

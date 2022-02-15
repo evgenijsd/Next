@@ -17,6 +17,7 @@ namespace Next2.Services.MockService
         private IList<SetModel> _sets;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<PortionModel> _portions;
 
         private Dictionary<Type, object> _base;
 
@@ -130,8 +131,6 @@ namespace Next2.Services.MockService
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
-
             return GetBase<T>().Where<T>(expression);
         }
 
@@ -155,7 +154,8 @@ namespace Next2.Services.MockService
                     InitCategoriesAsync(),
                     InitSubategoriesAsync(),
                     InitSetsAsync(),
-                    InitUsersAsync());
+                    InitUsersAsync(),
+                    InitPortionsAsync());
 
                 _initCompletionSource.TrySetResult(true);
             }
@@ -864,6 +864,585 @@ namespace Next2.Services.MockService
             };
 
             _base.Add(typeof(MemberModel), _members);
+        });
+
+        private Task InitPortionsAsync() => Task.Run(() =>
+        {
+            int id = 1;
+            int setId = 1;
+
+            _portions = new List<PortionModel>
+            {
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = 12f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = 18.8f,
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = 23.4f,
+                },
+            };
+
+            _base.Add(typeof(PortionModel), _portions);
         });
 
         #endregion
