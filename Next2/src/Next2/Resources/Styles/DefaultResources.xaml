@@ -63,5 +63,15 @@
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="TextWidth" Value="22"/>
     </Style>
+    
+    <Style TargetType="controls:DropDownList">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="IconSource" Value="ic_arrow_down_32x32"/>
+        <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
+        <Setter Property="HeaderTextSize" Value="14"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+    </Style>
 
 </ResourceDictionary>

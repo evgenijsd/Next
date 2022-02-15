@@ -56,6 +56,18 @@ namespace Next2.Controls
             set => SetValue(HeaderTextSizeProperty, value);
         }
 
+        public static readonly BindableProperty HeaderTextProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderText),
+            returnType: typeof(string),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string HeaderText
+        {
+            get => (string)GetValue(HeaderTextProperty);
+            set => SetValue(HeaderTextProperty, value);
+        }
+
         public static readonly BindableProperty IconSourceProperty = BindableProperty.Create(
             propertyName: nameof(IconSource),
             returnType: typeof(string),

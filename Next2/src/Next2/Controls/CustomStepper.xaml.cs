@@ -117,6 +117,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(
             propertyName: nameof(Value),
             returnType: typeof(int),
+            defaultValue: 1,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -165,6 +166,10 @@ namespace Next2.Controls
             set => SetValue(MaxValueProperty, value);
         }
 
+        public bool CanDecrement { get; set; }
+
+        public bool CanIncrement { get; set; }
+
         public string DisplayingValue { get; private set; }
 
         private ICommand _decrementCommand;
@@ -180,6 +185,17 @@ namespace Next2.Controls
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(MinValue):
+                case nameof(MaxValue):
+                case nameof(IncrementValue):
+                case nameof(Value):
+                    CanDecrement = (Value - IncrementValue) >= MinValue;
+                    CanIncrement = (Value + IncrementValue) <= MaxValue;
+                    break;
+            }
 
             if (propertyName == nameof(Value))
             {
@@ -201,20 +217,14 @@ namespace Next2.Controls
 
         private Task OnDecrementCommandAsync()
         {
-            if (Value - IncrementValue >= MinValue)
-            {
-                Value -= IncrementValue;
-            }
+            Value -= IncrementValue;
 
             return Task.CompletedTask;
         }
 
         private Task OnIncrementCommandAsync()
         {
-            if (Value + IncrementValue <= MaxValue)
-            {
-                Value += IncrementValue;
-            }
+            Value += IncrementValue;
 
             return Task.CompletedTask;
         }

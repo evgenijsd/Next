@@ -25,7 +25,7 @@
                 HorizontalOptions="StartAndExpand"
                 FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderTextSize}"
                 FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderFontFamily}"
-                Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectedItem.Id, StringFormat='Table {0}'}" />
+                Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderText}" />
 
             <ffimageloading:CachedImage
                 Margin="0, 7, 10, 7"
@@ -33,11 +33,12 @@
                 HorizontalOptions="EndAndExpand"
                 HeightRequest="24"
                 WidthRequest="24"
-                Source="ic_arrow_down_32x32" />
+                Source="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSource}" />
 
         </StackLayout>
 
         <controls:CustomScrollBarCollectionView
+            Margin="1"
             HeightRequest="140"
             VerticalScrollBarVisibility="Always"
             ThumbWidth="8"

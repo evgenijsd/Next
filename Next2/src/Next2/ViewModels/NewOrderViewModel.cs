@@ -28,7 +28,9 @@ namespace Next2.ViewModels
 
         public int NewOrderId { get; set; }
 
-        public EOrderType OrderType { get; set; } = EOrderType.DineIn;
+        public ObservableCollection<EOrderType> OrderTypes { get; set; } = new () { EOrderType.DineIn, EOrderType.Delivery, EOrderType.ToGo };
+
+        public EOrderType SelectedOrderType { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
 
