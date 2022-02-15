@@ -47,6 +47,10 @@
                     <ffimageloading:CachedImage
                         Source="pic_logo_small.png"
                         Aspect="AspectFit"/>
+                    
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToSettingsCommand}"/>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 

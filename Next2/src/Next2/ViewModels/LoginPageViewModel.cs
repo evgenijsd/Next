@@ -133,7 +133,7 @@ namespace Next2.ViewModels
                 else if (parameters.TryGetValue("IsLastUserLoggedOut", out _isUserLoggedOut))
                 {
                     IsUserLoggedOut = !IsUserLoggedOut;
-                    EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+                    //EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
                 }
             }
         }

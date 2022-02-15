@@ -8,6 +8,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -172,6 +175,9 @@ namespace Next2.ViewModels.Mobile
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
+        private ICommand _goToSettingsCommand;
+        public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -206,6 +212,15 @@ namespace Next2.ViewModels.Mobile
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private async Task GoToSettingsCommandAsync()
+        {
+            await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
         }
 
         #endregion

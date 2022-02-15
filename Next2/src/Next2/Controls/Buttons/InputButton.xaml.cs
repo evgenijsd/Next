@@ -20,6 +20,18 @@ namespace Next2.Controls.Buttons
 
         #region -- Public properties --
 
+        public static readonly BindableProperty LeftErrorImagePathProperty = BindableProperty.Create(
+         propertyName: nameof(LeftErrorImagePath),
+         returnType: typeof(string),
+         declaringType: typeof(InputButton),
+         defaultBindingMode: BindingMode.TwoWay);
+
+        public string LeftErrorImagePath
+        {
+            get => (string)GetValue(LeftErrorImagePathProperty);
+            set => SetValue(LeftErrorImagePathProperty, value);
+        }
+
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
          propertyName: nameof(TextColor),
          returnType: typeof(Color),

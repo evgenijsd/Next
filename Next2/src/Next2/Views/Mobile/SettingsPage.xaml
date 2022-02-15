@@ -1,0 +1,164 @@
+﻿<views:BaseContentPage
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels" 
+    xmlns:prism="http://prismlibrary.com"
+    x:Class="Next2.Views.Mobile.SettingsPage"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:buttons="clr-namespace:Next2.Controls.Buttons" xmlns:controls="clr-namespace:Next2.Controls"
+    x:DataType="viewModels:SettingsViewModel" 
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+    <StackLayout
+        Spacing="0" 
+        Padding="0">
+
+        <StackLayout 
+            Orientation="Horizontal"
+            HeightRequest="70"
+            Spacing="0" 
+            Padding="0"
+            xct:TouchEffect.Command="{prism:GoBack}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <ContentView>
+
+                <Image 
+                    Source="ic_arrow_left_tail_40x40"
+                    VerticalOptions="Center"
+                    Margin="20, 25, 10, 25"/>
+
+            </ContentView>
+
+            <Label 
+                Text="Settings"
+                VerticalTextAlignment="Center"
+                FontSize="{DynamicResource TSize_i6}"
+                Margin="5, 0, 0, 0"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Bold"/>
+
+        </StackLayout>
+
+        <BoxView 
+                VerticalOptions="Start"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+        <controls:CustomFrame
+            Padding="0"
+            BorderWidth="1"
+            VerticalOptions="Start"
+            CornerRadius="{OnPlatform Android='5', iOS='8'}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            HeightRequest="57"
+            HasShadow="False"
+            Margin="20, 25, 20, 0">
+
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="0" 
+                VerticalOptions="Center">
+
+                <Label   
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontFamily="Barlow-Regular"
+                    Margin="15, 0, 0, 0"
+                    Text="Re-assign Table"/>
+
+                <ContentView  
+                    HorizontalOptions="EndAndExpand" 
+                    HeightRequest="50">
+
+                    <Image 
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center"
+                        Margin="0, 0, 18, 0"
+                        Source="ic_arrow_right_40x40"
+                        HeightRequest="24"/>
+
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer/>
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+
+            </StackLayout>
+
+        </controls:CustomFrame>
+
+        <controls:CustomFrame
+            Padding="0"
+            BorderWidth="1"
+            VerticalOptions="Start"
+            CornerRadius="{OnPlatform Android='5', iOS='8'}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            HeightRequest="57"
+            HasShadow="False"
+            Margin="20, 15, 20, 0">
+
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="0" 
+                VerticalOptions="Center">
+
+                <Label   
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontFamily="Barlow-Regular"
+                    Margin="15, 0, 0, 0"
+                    Text="Print Receipt"/>
+
+                <ContentView  
+                    HorizontalOptions="EndAndExpand" 
+                    HeightRequest="50">
+
+                    <Image 
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center"
+                        Margin="0, 0, 18, 0"
+                        Source="ic_arrow_right_40x40"
+                        HeightRequest="24"/>
+
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer/>
+                    </ContentView.GestureRecognizers>
+                </ContentView>
+
+            </StackLayout>
+
+        </controls:CustomFrame>
+
+        <StackLayout 
+            VerticalOptions="EndAndExpand"
+            HeightRequest="70"
+            Spacing="0" 
+            Padding="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <BoxView 
+                VerticalOptions="Start"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <buttons:BorderButton
+                Padding="0"
+                BorderWidth="1"
+                BackgroundColor="{DynamicResource IndicationColor_i3}"
+                BorderColor="Transparent"
+                HeightRequest="65"
+                TextSize="{DynamicResource TSize_i6}"
+                Margin="20, 12, 20, 12"
+                FontFamily="Barlow-SemiBold"
+                Text="{xct:Translate LogOut}"
+                Command="{Binding LogOutCommand}">
+
+            </buttons:BorderButton>
+            
+        </StackLayout>
+
+    </StackLayout>
+
+</views:BaseContentPage>

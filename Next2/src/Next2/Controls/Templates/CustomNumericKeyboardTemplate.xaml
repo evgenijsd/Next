@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate"
     xmlns:templates="clr-namespace:Next2.Controls.Templates" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls" 
+    x:DataType="viewModels:LoginPageViewModel"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
     
     <ContentView.Content>
