@@ -15,11 +15,12 @@
         <ffimageloading:CachedImage Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonImageSource}"
                                     HeightRequest="25"
                                     VerticalOptions="CenterAndExpand">
-            <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}" />
-            </ffimageloading:CachedImage.GestureRecognizers>
         </ffimageloading:CachedImage>
 
+        <StackLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}" />
+        </StackLayout.GestureRecognizers>
+        
     </StackLayout>
 
     <Label Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"

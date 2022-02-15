@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,16 +17,16 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
-        public static readonly BindableProperty CRadiusProperty = BindableProperty.Create(
-            propertyName: nameof(CRadius),
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
+            propertyName: nameof(CornerRadius),
             returnType: typeof(CornerRadius),
             declaringType: typeof(CustomButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public CornerRadius CRadius
+        public CornerRadius CornerRadius
         {
-            get => (CornerRadius)GetValue(CRadiusProperty);
-            set => SetValue(CRadiusProperty, value);
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
         public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
@@ -53,6 +53,18 @@ namespace Next2.Controls
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            propertyName: nameof(Command),
+            returnType: typeof(ICommand),
+            declaringType: typeof(SearchBar),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
     }
 }

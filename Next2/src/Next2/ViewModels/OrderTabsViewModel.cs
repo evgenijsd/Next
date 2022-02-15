@@ -12,18 +12,17 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
-using static Next2.Constants;
 
 namespace Next2.ViewModels
 {
     public class OrderTabsViewModel : BaseViewModel
     {
+        private readonly double _summRowHeight = App.IsTablet ? Constants.LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET : Constants.LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
+        private readonly double _offsetHeight = App.IsTablet ? Constants.LayoutOrderTabs.OFFSET_TABLET : Constants.LayoutOrderTabs.OFFSET_MOBILE;
         private readonly IOrderService _orderService;
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
-        private double _summRowHight;
-        private double _offsetHeight;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -31,7 +30,6 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
-            IsOrderTabsSelected = true;
         }
 
         #region -- Public properties --
@@ -44,17 +42,17 @@ namespace Next2.ViewModels
 
         public GridLength HeightCollectionGrid { get; set; }
 
-        public bool IsOrderTabsSelected { get; set; }
+        public bool IsOrderTabsSelected { get; set; } = true;
 
         public OrderBindableModel? SelectedOrder { get; set; }
 
-        public ObservableCollection<OrderBindableModel>? Orders { get; set; }
+        public ObservableCollection<OrderBindableModel> Orders { get; set; } = new ();
 
-        private ICommand _ButtonOrdersCommand;
-        public ICommand ButtonOrdersCommand => _ButtonOrdersCommand ??= new AsyncCommand(OnButtonOrdersCommandAsync);
+        private ICommand _SelectOrdersCommand;
+        public ICommand SelectOrdersCommand => _SelectOrdersCommand ??= new AsyncCommand(OnSelectOrdersCommandAsync);
 
-        private ICommand _ButtonTabsCommand;
-        public ICommand ButtonTabsCommand => _ButtonTabsCommand ??= new AsyncCommand(OnButtonTabsCommandAsync);
+        private ICommand _SelectTabsCommand;
+        public ICommand SelectTabsCommand => _SelectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
 
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
@@ -68,18 +66,14 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
-            _offsetHeight = LayoutOrderTabs.OFFSET_MOBILE;
-            HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
+            HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
 
             await LoadData();
         }
 
         public override async void OnAppearing()
         {
-            _summRowHight = LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET;
-            _offsetHeight = LayoutOrderTabs.OFFSET_TABLET;
-            HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
+            HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
 
             await LoadData();
         }
@@ -98,34 +92,37 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnRefreshOrdersCommandAsync()
+        private Task OnRefreshOrdersCommandAsync()
         {
-            await LoadData();
+            return LoadData();
         }
 
         private async Task LoadData()
         {
             IsOrdersRefreshing = true;
+
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
             var resultOrders = await _orderService.GetOrdersAsync();
+
             if (resultOrders.IsSuccess)
             {
                 _ordersBase = new List<OrderModel>(resultOrders.Result.OrderBy(x => x.TableNumber));
+            }
 
-                var resultTabs = await _orderService.GetOrdersAsync();
-                if (resultTabs.IsSuccess)
-                {
-                    _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
-                }
+            var resultTabs = await _orderService.GetOrdersAsync();
+
+            if (resultTabs.IsSuccess)
+            {
+                _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
             }
 
             IsOrdersRefreshing = false;
 
-            await SetVisualCollection();
+            SetVisualCollection();
         }
 
-        private Task SetVisualCollection()
+        private void SetVisualCollection()
         {
             SelectedOrder = null;
             MapperConfiguration config;
@@ -157,23 +154,23 @@ namespace Next2.ViewModels
 
                 SetHeightCollection();
             }
-
-            return Task.CompletedTask;
         }
 
         private void SetHeightCollection()
         {
-            var heightCollectionScreen = HeightPage - _summRowHight;
-            if (SelectedOrder != null && Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            var heightCollectionScreen = HeightPage - _summRowHeight;
+
+            if (SelectedOrder != null && !App.IsTablet)
             {
-                heightCollectionScreen -= LayoutOrderTabs.BUTTONS_HEIGHT;
+                heightCollectionScreen -= Constants.LayoutOrderTabs.BUTTONS_HEIGHT;
             }
 
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
-            if (Orders?.Count != 0)
+            if (Orders.Count != 0)
             {
-                var heightCollection = (Orders.Count * LayoutOrderTabs.ROW_HEIGHT) + _offsetHeight;
+                var heightCollection = (Orders.Count * Constants.LayoutOrderTabs.ROW_HEIGHT) + _offsetHeight;
+
                 if (heightCollectionScreen > heightCollection)
                 {
                     heightCollectionScreen = heightCollection;
@@ -183,28 +180,32 @@ namespace Next2.ViewModels
             }
             else
             {
-                HeightCollectionGrid = new GridLength(HeightPage - _summRowHight);
+                HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
             }
         }
 
-        private async Task OnButtonOrdersCommandAsync()
+        private Task OnSelectOrdersCommandAsync()
         {
             if (!IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
-                await SetVisualCollection();
+                SetVisualCollection();
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnButtonTabsCommandAsync()
+        private Task OnSelectTabsCommandAsync()
         {
             if (IsOrderTabsSelected)
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
-                await SetVisualCollection();
+                SetVisualCollection();
             }
+
+            return Task.CompletedTask;
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
@@ -215,7 +216,8 @@ namespace Next2.ViewModels
             {
                 EOrderTabSorting.ByOrderNumber => x => x.OrderNumber,
                 EOrderTabSorting.ByTableNumber => x => x.TableNumber,
-                _ => x => x.Name,
+                EOrderTabSorting.ByCustomerName => x => x.Name,
+                _ => throw new NotImplementedException(),
             };
 
             return orders.OrderBy(comparer);

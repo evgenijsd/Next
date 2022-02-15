@@ -58,17 +58,7 @@ namespace Next2
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
-            {
-                containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
-            }
-            else
+            if (IsTablet)
             {
                 // Services
                 containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
@@ -84,6 +74,16 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
+            }
+            else
+            {
+                containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
             }
         }
 

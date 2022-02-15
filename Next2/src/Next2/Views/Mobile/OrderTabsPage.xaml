@@ -48,25 +48,15 @@
                         Text="{xct:Translate Orders}"
                         Grid.Column="0"
                         VerticalOptions="FillAndExpand"
-                        IsSelected="{Binding IsOrderTabsSelected}">
-
-                        <controls:CustomButton.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ButtonOrdersCommand}" />
-                        </controls:CustomButton.GestureRecognizers>
-                        
-                    </controls:CustomButton>
+                        IsSelected="{Binding IsOrderTabsSelected}"
+                        Command="{Binding SelectOrdersCommand}" />
 
                     <controls:CustomButton
                         Text="{xct:Translate Tabs}"
                         Grid.Column="1"
                         VerticalOptions="FillAndExpand"
-                        IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}">
-
-                        <controls:CustomButton.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ButtonTabsCommand}" />
-                        </controls:CustomButton.GestureRecognizers>
-                        
-                    </controls:CustomButton>
+                        IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
+                        Command="{Binding SelectTabsCommand}" />
 
                 </Grid>
 

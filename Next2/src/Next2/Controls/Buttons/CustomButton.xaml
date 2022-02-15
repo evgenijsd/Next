@@ -12,12 +12,16 @@
     RowDefinitions="*,3"
     x:Class="Next2.Controls.CustomButton">
 
+    <Grid.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=Command}"/>
+    </Grid.GestureRecognizers>
+
     <!--BACKGROUND-->
 
     <yummy:PancakeView
         Grid.Row="0"
         BackgroundColor="{DynamicResource AppColor_i4}"
-        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CRadius}">
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CornerRadius}">
 
         <yummy:PancakeView.Triggers>
 
