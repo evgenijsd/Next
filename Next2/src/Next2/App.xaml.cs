@@ -11,7 +11,6 @@ using Next2.Services.OrderService;
 using Next2.ViewModels;
 using Next2.ViewModels.Tablet;
 using Next2.Views.Tablet;
-using Next2.Services.Membership;
 using MobileViews = Next2.Views.Mobile;
 using TabletViews = Next2.Views.Tablet;
 using MobileViewModels = Next2.ViewModels.Mobile;
@@ -28,11 +27,8 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using MobileViewModels = Next2.ViewModels.Mobile;
-using MobileViews = Next2.Views.Mobile;
-using TabletViewModels = Next2.ViewModels.Tablet;
-using TabletViews = Next2.Views.Tablet;
 using Next2.Services.SettingsService;
+using Next2.Services.CustomersService;
 
 namespace Next2
 {
@@ -87,7 +83,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
             else
             {
@@ -98,6 +94,8 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
             }
         }
 

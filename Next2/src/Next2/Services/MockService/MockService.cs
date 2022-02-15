@@ -149,13 +149,14 @@ namespace Next2.Services.MockService
         private async Task InitMocksAsync()
         {
             _base = new Dictionary<Type, object>();
-                await Task.WhenAll(
-                    InitOrdersAsync(),
-                    InitMembersAsync(),
-                    InitCategoriesAsync(),
-                    InitSubategoriesAsync(),
-                    InitSetsAsync(),
-                    InitUsersAsync());
+            await Task.WhenAll(
+                InitOrdersAsync(),
+                InitMembersAsync(),
+                InitCategoriesAsync(),
+                InitSubategoriesAsync(),
+                InitSetsAsync(),
+                InitUsersAsync(),
+                InitCustomersAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
@@ -1026,7 +1027,7 @@ namespace Next2.Services.MockService
             _base.Add(typeof(MemberModel), _members);
         });
 
-        private Task InitCustomers() => Task.Run(() =>
+        private Task InitCustomersAsync() => Task.Run(() =>
         {
             _customers = CustomersMock.Create();
             _base.Add(typeof(CustomerModel), _customers);

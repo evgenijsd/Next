@@ -1,121 +1,120 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
-    x:Class="Next2.Views.Mobile.MenuPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="viewModels:MenuPageViewModel"
+    x:Class="Next2.Views.Mobile.MenuPage"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-    <Grid
-        ColumnSpacing="0"
-        RowDefinitions="*, 80"
-        RowSpacing="0">
+    <Grid ColumnSpacing="0"
+          RowSpacing="0"
+          RowDefinitions="*, 80">
 
-        <!--  CATEGORIES  -->
+        <!--CATEGORIES-->
 
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="90, *"
-            RowSpacing="0">
+            RowSpacing="0"
+            RowDefinitions="90, *">
 
-            <!--  HEAD PANEL  -->
+            <!--HEAD PANEL-->
 
             <StackLayout
                 Grid.Row="0"
                 Grid.Column="0"
-                Padding="18"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Orientation="Horizontal"
-                Spacing="0">
+                Spacing="0"
+                Padding="18">
 
                 <Frame
                     Padding="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    HasShadow="False"
                     BorderColor="{DynamicResource AppColor_i3}"
                     CornerRadius="9"
-                    HasShadow="False"
                     HorizontalOptions="Start">
 
-                    <ffimageloading:CachedImage Aspect="AspectFit" Source="pic_logo_small.png" />
+                    <ffimageloading:CachedImage
+                        Source="pic_logo_small.png"
+                        Aspect="AspectFit"/>
 
                 </Frame>
 
                 <Label
-                    Margin="20,0,0,0"
-                    FontAttributes="Bold"
-                    FontSize="{DynamicResource TSize_i5}"
-                    HorizontalOptions="StartAndExpand"
-                    Style="{DynamicResource BaseContent_i2}"
                     Text="{xct:Translate NewOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalOptions="Center" />
+                    Style="{DynamicResource BaseContent_i2}"
+                    Margin="20, 0, 0, 0"
+                    FontSize="{DynamicResource TSize_i5}"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold"/>
 
                 <Frame
+                    IsClippedToBounds="True"
                     Padding="10"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    HasShadow="False"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                     CornerRadius="5"
-                    HasShadow="False"
-                    HorizontalOptions="End"
-                    IsClippedToBounds="True">
+                    HorizontalOptions="End">
 
-                    <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png" />
+                    <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png"/>
 
                 </Frame>
 
             </StackLayout>
 
-            <!--  Categories  -->
+            <!--Categories-->
 
             <StackLayout
                 Grid.Row="1"
                 Grid.Column="0"
-                Padding="20,0,0,0"
+                Padding="20, 0, 0, 0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 Spacing="0">
 
                 <Label
-                    Padding="0,15"
-                    FontSize="{DynamicResource TSize_i5}"
-                    Style="{DynamicResource BaseContent_i2}"
                     Text="{xct:Translate Categories}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center" />
+                    FontSize="{DynamicResource TSize_i5}"
+                    Style="{DynamicResource BaseContent_i2}"
+                    Padding="0, 15"
+                    VerticalTextAlignment="Center"/>
 
+                <CollectionView
                     Margin="0, 0, 20, 0"
-                    Margin="0, 0, 20, 5"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                    VerticalScrollBarVisibility="Never"
+                    HorizontalScrollBarVisibility="Never"
                     ItemsSource="{Binding CategoriesItems}">
-                    ItemsSource="{Binding Categories}">
 
+                    <CollectionView.Effects>
                         <effects:NoOverScrollEffect/>
-
                     </CollectionView.Effects>
 
                     <CollectionView.ItemsLayout>
+
                         <GridItemsLayout
                             Orientation="Vertical"
                             Span="2"
                             VerticalItemSpacing="2"
                             HorizontalItemSpacing="2"/>
-                            Span="2" />
 
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:CategoryModel">
+
                             <Frame
                                 WidthRequest="162"
                                 HeightRequest="55"
@@ -125,7 +124,7 @@
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 xct:TouchEffect.Command="{Binding TapCategoryCommand, Source={RelativeSource AncestorType={x:Type viewModels:MenuPageViewModel}}}"
                                 xct:TouchEffect.CommandParameter="{Binding .}">
-                                    CornerRadius="5"
+
                                 <Label
                                     Text="{Binding Title}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -135,9 +134,6 @@
                                     VerticalTextAlignment="Center"
                                     LineBreakMode="TailTruncation"
                                     MaxLines="1"/>
-                                        Style="{DynamicResource BaseContent_i1}"
-                                        HorizontalTextAlignment="Center"
-                                        VerticalTextAlignment="Center"/>
 
                             </Frame>
 
@@ -150,22 +146,25 @@
 
         </Grid>
 
-        <!--  SIDE MENU  -->
+        <!--SIDE MENU-->
         <StackLayout
             Grid.Row="1"
             Grid.Column="0"
-            Padding="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            Orientation="Vertical"
+            Padding="0"
+            Spacing="0">
+
             <BoxView
                 Color="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="1"/>
-            
+
             <CollectionView
                 Margin="10, 6, 10, 6"
-            
+                ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 SelectionMode="Single">
-                
+
                 <CollectionView.ItemsLayout>
 
                     <GridItemsLayout
@@ -179,9 +178,9 @@
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>
                 </CollectionView.Effects>
-                ItemsSource="{Binding MenuItems}"
-                SelectedItem="{Binding SelectedMenuItem}"
-                Direction="Row">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MenuItemBindableModel">
 
                         <templates:MenuItemTemplate
                             ImagePath="{Binding ImagePath}"
@@ -189,9 +188,6 @@
                             FontSize="{DynamicResource TSize_i5}"
                             FontFamily="Barlow-Medium"
                             HeightRequest="62"/>
-                        FontFamily="Barlow-Medium"
-                        WidthRequest="140"
-                        Padding="0, 8"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

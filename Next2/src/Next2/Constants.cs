@@ -40,10 +40,6 @@
         {
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
-        }
-
-        public static class DialogParameterKeys
-        {
             public const string MESSAGE = nameof(MESSAGE);
             public const string MODEL = nameof(MODEL);
             public const string TITLE = nameof(TITLE);
