@@ -10,7 +10,7 @@ namespace Next2.Models
         #region -- Public properties --
 
         public int TableNumber { get; set; }
-        
+
         public int OrderNumber { get; set; }
 
         public string Name { get; set; }

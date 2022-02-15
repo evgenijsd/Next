@@ -22,7 +22,7 @@
                 LeftButtonCommand="{Binding GoBackCommand}" />
             
             <StackLayout Grid.Row="1">
-                <controls:CustomNoBorderEntry
+                <controls:CustomEntry
                     Text="{Binding SearchLine}"
                     ReturnType="Done"
                     ReturnCommand="{Binding GoBackCommand}"

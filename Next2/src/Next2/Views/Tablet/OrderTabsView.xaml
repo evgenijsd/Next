@@ -87,7 +87,7 @@
                     OpacityText="0.32"
                     BackColor="Transparent"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    CommandSearch="{Binding ButtonSearchCommand}"
+                    CommandSearch="{Binding SearchCommand}"
                     CommandClear="{Binding ClearSearchCommand}">
 
                     <controls:SearchButton.Triggers>

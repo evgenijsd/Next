@@ -1,4 +1,4 @@
-﻿using Next2.Controls;
+﻿/*using Next2.Controls;
 using Next2.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
@@ -25,4 +25,4 @@ namespace Next2.iOS.Renderers
         #endregion
 
     }
-}
+}*/

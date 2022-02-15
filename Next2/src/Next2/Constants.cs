@@ -40,7 +40,7 @@
         {
             public const string SEARCH = nameof(SEARCH);
         }
-        
+
         public static class DialogParameterKeys
         {
             public const string SET = nameof(SET);

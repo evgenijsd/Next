@@ -69,21 +69,19 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Margin="17,20,17,20">
-
-                                        <controls:CustomButton.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ButtonSearchCommand}" />
-                    </controls:CustomButton.GestureRecognizers>
-
+                    Margin="17,20,17,20"
+                    CommandSearch="{Binding SearchCommand}"
+                    CommandClear="{Binding ClearSearchCommand}">
+                    
                     <controls:SearchButton.Triggers>
-                        
                         <DataTrigger
                             TargetType="controls:SearchButton"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
-                            Value="False">
-                            <Setter Property="Text" Value="{xct:Translate SearchName}" />
+                            Binding="{Binding IsSearch}"
+                            Value="True">
+                            <Setter Property="OpacityText" Value="1" />
+                            <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                            <Setter Property="ImageSource" Value="ic_close_square_24x24" />
                         </DataTrigger>
-                        
                     </controls:SearchButton.Triggers>
 
                 </controls:SearchButton>

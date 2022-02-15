@@ -1,4 +1,4 @@
-﻿using Android.Content;
+﻿/*using Android.Content;
 using Next2.Controls;
 using Next2.Droid.Renderers;
 using Xamarin.Forms;
@@ -26,4 +26,4 @@ namespace Next2.Droid.Renderers
             }
         }
     }
-}
+}*/
