@@ -20,7 +20,7 @@
 
             <StackLayout 
                 Grid.Row="0"
-                Padding="40, 13, 40, 15"
+                Padding="40, 20, 40, 15"
                 Orientation="Horizontal">
 
                 <!-- TITLE -->
