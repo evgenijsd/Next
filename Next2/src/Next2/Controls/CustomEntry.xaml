@@ -9,7 +9,7 @@
 
     <ContentView.Content>
 
-        <controls:CustomNoBorderEntry
+        <controls:CustomEntry
             x:Name="CustomEntryLocal"
             Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=Text}"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomEntry}}, Path=TextColor}"
@@ -30,7 +30,7 @@
 
             </controls:CustomNoBorderEntry.Behaviors-->
 
-        </controls:CustomNoBorderEntry>
+        </controls:CustomEntry>
 
     </ContentView.Content>
 

@@ -45,33 +45,10 @@ namespace Next2.ViewModels
 
         public GridLength HeightCollectionGrid { get; set; }
 
-        /*private string _searchLine = Resources.Strings.Strings.SearchTableNumber;
-        public string SearchLine
-        {
-            get => _searchLine;
-            set => SetProperty(ref _searchLine, value);
-        }
+        public string SearchLine { get; set; } = Resources.Strings.Strings.SearchTableNumber;
+        public bool IsSearch { get; set; } = false;
 
-        private bool _isSearch = false;
-        public bool IsSearch
-        {
-            get => _isSearch;
-            set => SetProperty(ref _isSearch, value);
-        }
-
-        private bool _isNotFound = false;
-        public bool IsNotFound
-        {
-            get => _isNotFound;
-            set => SetProperty(ref _isNotFound, value);
-        }
-
-        private bool _isOrderTabsSelected = true;
-        public bool IsOrderTabsSelected
-        {
-            get => _isOrderTabsSelected;
-            set => SetProperty(ref _isOrderTabsSelected, value);
-        }*/
+        public bool IsNotFound { get; set; } = false;
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
