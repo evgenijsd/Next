@@ -35,6 +35,7 @@ namespace Next2.ViewModels.Tablet
         }
 
         #region -- Public properties --
+
         private MenuItemBindableModel _selectedMenuItem;
         public MenuItemBindableModel SelectedMenuItem
         {
@@ -70,7 +71,7 @@ namespace Next2.ViewModels.Tablet
 
         private void InitMenuItems()
         {
-            MenuItems = new ObservableCollection<MenuItemBindableModel>()
+            MenuItems = new ()
             {
                 new MenuItemBindableModel()
                 {

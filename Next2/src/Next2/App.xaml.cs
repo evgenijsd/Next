@@ -2,11 +2,14 @@
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Next2.Resources.Strings;
-using Next2.Services;
 using Next2.Services.Authentication;
+using Next2.Services.Membership;
+using Next2.Services.Menu;
+using Next2.Services.MockService;
 using Next2.Services.ProfileService;
-using Next2.Services.Services;
+using Next2.Services.OrderService;
 using Next2.ViewModels;
+using Next2.ViewModels.Tablet;
 using Next2.Views.Tablet;
 using Next2.Services.Membership;
 using MobileViews = Next2.Views.Mobile;
@@ -25,14 +28,17 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Next2.ViewModels.Tablet;
-using Next2.Services.CustomersService;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using MobileViews = Next2.Views.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
+using TabletViews = Next2.Views.Tablet;
+using Next2.Services.SettingsService;
 
 namespace Next2
 {
     public partial class App : PrismApplication
     {
-        public App(IPlatformInitializer initializer = null)
+        public App(IPlatformInitializer? initializer = null)
             : base(initializer)
         {
         }
@@ -50,8 +56,12 @@ namespace Next2
             // Dialogs
             containerRegistry.RegisterPopupNavigationService();
             containerRegistry.RegisterPopupDialogService();
+
             //Services
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IOrderService, OrderService>();
+            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+            containerRegistry.RegisterSingleton<IMenuService, MenuService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
@@ -60,18 +70,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
-            {
-                containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
-            }
-            else
+            if (IsTablet)
             {
                 // Services
                 containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
@@ -90,10 +89,22 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
+            else
+            {
+                containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
+            }
         }
 
         protected override async void OnInitialized()
         {
+            InitializeComponent();
+            App.Current.UserAppTheme = OSAppTheme.Dark;
 #if !DEBUG
             AppCenter.Start(
                 $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
@@ -102,9 +113,9 @@ namespace Next2
 
             await Analytics.SetEnabledAsync(true);
 #endif
-            InitializeComponent();
+            InitializeComponent();
 
-            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
+            LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 

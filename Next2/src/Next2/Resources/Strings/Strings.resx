@@ -123,6 +123,12 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="NotFoundOrders" xml:space="preserve">
+    <value>Not found orders</value>
+  </data>
+  <data name="SomeIssues" xml:space="preserve">
+    <value>Some issues</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
@@ -159,6 +165,9 @@
   <data name="Info" xml:space="preserve">
     <value>Info</value>
   </data>
+  <data name="Expand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
@@ -179,6 +188,9 @@
   </data>
   <data name="MembershipStartTime" xml:space="preserve">
     <value>Membership Start</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
   </data>
   <data name="NewOrder" xml:space="preserve">
     <value>New Order</value>
@@ -207,6 +219,51 @@
   <data name="Total" xml:space="preserve">
     <value>Total</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>Order Number</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>Order Status</value>
+  </data>
+  <data name="OrderTabs" xml:space="preserve">
+    <value>Order &amp; Tabs</value>
+  </data>
+  <data name="OrderType" xml:space="preserve">
+    <value>Order Type</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="SearchName" xml:space="preserve">
+    <value>Search by Name or Order</value>
+  </data>
+  <data name="SearchTableNumber" xml:space="preserve">
+    <value>Search by Table Number or Order</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>Split</value>
+  </data>
+  <data name="TableNumber" xml:space="preserve">
+    <value>Table Number</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Tabs" xml:space="preserve">
+    <value>Tabs</value>
+  </data>
+  <data name="TypeOrder" xml:space="preserve">
+    <value>A-Z</value>
+  </data>
   <data name="TypeEmployeeId" xml:space="preserve">
     <value>Type Employee ID</value>
   </data>
@@ -215,5 +272,11 @@
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
 </root>
