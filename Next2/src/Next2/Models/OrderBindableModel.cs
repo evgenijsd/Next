@@ -10,42 +10,18 @@ namespace Next2.Models
         #region -- Public properties --
 
         public int TableNumber { get; set; }
+        
         public int OrderNumber { get; set; }
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+        public string Name { get; set; }
 
-        private string? _orderStatus;
-        public string? OrderStatus
-        {
-            get => _orderStatus;
-            set => SetProperty(ref _orderStatus, value);
-        }
+        public string? OrderStatus { get; set; }
 
-        private string? _orderType;
-        public string? OrderType
-        {
-            get => _orderType;
-            set => SetProperty(ref _orderType, value);
-        }
+        public string? OrderType { get; set; }
 
-        private string _orderNumberText;
-        public string OrderNumberText
-        {
-            get => _orderNumberText;
-            set => SetProperty(ref _orderNumberText, value);
-        }
+        public string OrderNumberText { get; set; }
 
-        private double _total;
-        public double Total
-        {
-            get => _total;
-            set => SetProperty(ref _total, value);
-        }
+        public double Total { get; set; }
 
         #endregion
     }

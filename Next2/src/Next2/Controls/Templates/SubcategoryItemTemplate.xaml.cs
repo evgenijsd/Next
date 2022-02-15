@@ -11,17 +11,6 @@ namespace Next2.Controls.Templates
 
         #region -- Public properties --
 
-        public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
-            propertyName: nameof(IsSelected),
-            returnType: typeof(bool),
-            declaringType: typeof(SubCategoryItemTemplate));
-
-        public bool IsSelected
-        {
-            get => (bool)GetValue(IsSelectedProperty);
-            set => SetValue(IsSelectedProperty, value);
-        }
-
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),

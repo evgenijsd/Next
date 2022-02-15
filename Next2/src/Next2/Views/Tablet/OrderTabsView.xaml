@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -45,40 +47,27 @@
                     FontFamily="Barlow-Bold"
                     FontSize="{DynamicResource TSize_i4}" />
 
-                <controls:CustomButtonOrderTab
+                <controls:CustomButton
                     Text="{xct:Translate Orders}"
                     Grid.Column="0"
-                    CRadius="10,0,0,0"
+                    CornerRadius="10,0,0,0"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="End"
                     VerticalOptions="End"
-                    IsSelected="{Binding IsOrderTabsSelected}">
-                    
-                    <controls:CustomButtonOrderTab.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding ButtonOrdersCommand}" />
-                    </controls:CustomButtonOrderTab.GestureRecognizers>
-                    
-                </controls:CustomButtonOrderTab>
+                    IsSelected="{Binding IsOrderTabsSelected}"
+                    Command="{Binding SelectOrdersCommand}" />
 
-
-                <controls:CustomButtonOrderTab
+                <controls:CustomButton
                     Text="{xct:Translate Tabs}"
                     Grid.Column="1"
-                    CRadius="0,10,0,0"
+                    CornerRadius="0,10,0,0"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="Start"
                     VerticalOptions="End"
-                    IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}">
-                    
-                    <controls:CustomButtonOrderTab.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding ButtonTabsCommand}" />
-                    </controls:CustomButtonOrderTab.GestureRecognizers>
-                    
-                </controls:CustomButtonOrderTab>
+                    IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
+                    Command="{Binding SelectTabsCommand}" />
 
             </Grid>
 
@@ -91,10 +80,10 @@
                 Margin="20,30,0,20"
                 ColumnDefinitions="325,*">
 
-                <controls:CustomButton
+                <controls:SearchButton
                     Grid.Row="0"
                     CornerRadius="5"
-                    IsVisibleSearch="True"
+                    IsVisible="{Binding IsOrderTabsSelected}"
                     Text="{Binding SearchLine}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     OpacityText="0.32"
@@ -103,7 +92,16 @@
                     CommandSearch="{Binding ButtonSearchCommand}"
                     CommandClear="{Binding ClearSearchCommand}">
 
-                    <controls:CustomButton.Triggers>
+                <controls:SearchButton
+                    Grid.Row="0"
+                    CornerRadius="5"
+                    IsVisible="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
+                    Text="{xct:Translate SearchName}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    BackColor="Transparent"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}" 
+
+                                        <controls:CustomButton.Triggers>
 
                         <DataTrigger
                             TargetType="controls:CustomButton"
@@ -114,9 +112,7 @@
                             <Setter Property="ImageSource" Value="ic_close_square_24x24" />
                         </DataTrigger>
 
-                    </controls:CustomButton.Triggers>
-
-                </controls:CustomButton>
+                    </controls:CustomButton.Triggers>/>
 
                 <StackLayout
                     Grid.Column="1"
@@ -124,38 +120,42 @@
                     Spacing="15"
                     Margin="0,0,20,0">
 
-                    <controls:CustomButton
-                        CornerRadius="5"
+                    <buttons:BorderButton
                         HorizontalOptions="EndAndExpand"
                         Text="{xct:Translate Remove}"
+                        FontSize="{DynamicResource TSize_i7}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         BorderColor="{DynamicResource IndicationColor_i3}"
-                        BackColor="Transparent"
+                        BackgroundColor="Transparent"
+                        Style="{DynamicResource BorderButtonStyle_i1}"
                         WidthRequest="100"/>
 
-                    <controls:CustomButton
-                        CornerRadius="5"
+                    <buttons:BorderButton
                         Text="{xct:Translate Edit}"
+                        FontSize="{DynamicResource TSize_i7}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         BorderColor="{DynamicResource IndicationColor_i5}"
-                        BackColor="Transparent"
+                        BackgroundColor="Transparent"
+                        Style="{DynamicResource BorderButtonStyle_i1}"
                         WidthRequest="100" />
 
-                    <controls:CustomButton
-                        CornerRadius="5"
+                    <buttons:BorderButton
                         Text="{xct:Translate Split}"
+                        FontSize="{DynamicResource TSize_i7}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         BorderColor="{DynamicResource IndicationColor_i7}"
-                        BackColor="Transparent"
-                        WidthRequest="100"
-                        IsVisible="{Binding IsOrderTabsSelected}" />
+                        BackgroundColor="Transparent"
+                        Style="{DynamicResource BorderButtonStyle_i1}"
+                        IsVisible="{Binding IsOrderTabsSelected}"
+                        WidthRequest="100" />
 
-                    <controls:CustomButton
-                        CornerRadius="5"
+                    <buttons:BorderButton
                         Text="{xct:Translate Print}"
+                        FontSize="{DynamicResource TSize_i7}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource IndicationColor_i1}"
-                        BackColor="{DynamicResource IndicationColor_i1}"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        Style="{DynamicResource BorderButtonStyle_i1}"
                         WidthRequest="100" />
 
                 </StackLayout>
@@ -171,7 +171,6 @@
                 <StackLayout>
 
                     <!-- TABLE -->
-
                     <Grid
                         VerticalOptions="Start"
                         HeightRequest="50"
@@ -206,7 +205,7 @@
                             <ffimageloading:CachedImage
                                 Source="ic_sort_primary_24x24"
                                 HeightRequest="25"
-                                Margin="10,15,0,0"
+                                Margin="5,13,0,0"
                                 VerticalOptions="StartAndExpand" />
 
                             <StackLayout.GestureRecognizers>
@@ -223,7 +222,7 @@
 
                             <Label
                                 HorizontalOptions="Start"
-                                Margin="11,15,0,0"
+                                Margin="15,15,0,0"
                                 Text="{xct:Translate OrderNumber}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i8}"
@@ -232,7 +231,7 @@
                             <ffimageloading:CachedImage
                                 Source="ic_sort_primary_24x24"
                                 HeightRequest="25"
-                                Margin="5,15,0,0"
+                                Margin="5,13,0,0"
                                 VerticalOptions="Start" />
 
                             <StackLayout.GestureRecognizers>
@@ -246,7 +245,7 @@
                         <Label
                             Grid.Column="3"
                             HorizontalOptions="StartAndExpand"
-                            Margin="3,15,0,0"
+                            Margin="10,15,0,0"
                             Text="{xct:Translate Total}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -255,7 +254,7 @@
                         <Label
                             Grid.Column="4"
                             HorizontalOptions="StartAndExpand"
-                            Margin="5,15,0,0"
+                            Margin="15,15,0,0"
                             Text="{xct:Translate OrderStatus}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -264,7 +263,7 @@
                         <Label
                             Grid.Column="5"
                             HorizontalOptions="StartAndExpand"
-                            Margin="1,15,0,0"
+                            Margin="15,15,0,0"
                             Text="{xct:Translate OrderType}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -277,10 +276,9 @@
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="Start"
                         HeightRequest="2"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                     <!-- TABLE CONTENT -->
-
                     <RefreshView
                         VerticalOptions="Start"
                         IsRefreshing="{Binding IsOrdersRefreshing}"
@@ -304,8 +302,7 @@
 
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate
-                                    x:DataType="models:OrderBindableModel">
+                                <DataTemplate x:DataType="models:OrderBindableModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"
@@ -313,36 +310,38 @@
                                         RowSpacing="0"
                                         RowDefinitions="48,2">
 
-
                                         <VisualStateManager.VisualStateGroups>
 
-                                            <VisualStateGroup
-                                                Name="CommonStates">
-
+                                            <VisualStateGroup Name="CommonStates">
+                                                
                                                 <VisualState
                                                     Name="Normal">
                                                     <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                        <Setter
+                                                            Property="BackgroundColor"
+                                                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
-                                                <VisualState
-                                                    Name="Selected">
+                                                <VisualState Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
                                                         <Setter
-                                                            TargetName="_label"
+                                                            Property="BackgroundColor"
+                                                            Value="{DynamicResource AppColor_i4}" />
+                                                        <Setter
+                                                            TargetName="orderStatusLabel"
                                                             Property="Label.TextColor"
                                                             Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                                        <Setter TargetName="_image" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
+                                                        <Setter
+                                                            TargetName="checkBoxImage"
+                                                            Property="ffimageloading:CachedImage.Source"
+                                                            Value="ic_check_box_checked_white" />
                                                     </VisualState.Setters>
                                                 </VisualState>
 
                                             </VisualStateGroup>
 
                                         </VisualStateManager.VisualStateGroups>
-                                        
-                                        
 
                                         <Grid
                                             Grid.Row="0"
@@ -355,7 +354,7 @@
                                                 HorizontalOptions="CenterAndExpand"
                                                 Margin="20,0,0,0"
                                                 VerticalOptions="CenterAndExpand"
-                                                x:Name="_image">
+                                                x:Name="checkBoxImage">
                                             </ffimageloading:CachedImage>
 
                                             <Label
@@ -395,7 +394,7 @@
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 TextColor="{DynamicResource IndicationColor_i5}"
-                                                x:Name="_label">
+                                                x:Name="orderStatusLabel">
 
                                                 <Label.Triggers>
                                                     <Trigger
@@ -429,6 +428,7 @@
                                         <BoxView
                                             Grid.Row="1"
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
                                     </Grid>
 
                                 </DataTemplate>

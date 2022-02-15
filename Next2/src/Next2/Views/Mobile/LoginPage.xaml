@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
+    x:Class="Next2.Views.Mobile.LoginPage"
+    x:DataType="viewModels:LoginPageViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
+
+    <StackLayout 
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" 
+        Spacing="0" 
+        Padding="0"> 
+
+        <Label 
+            Text="{xct:Translate Login}"
+            FontSize="{DynamicResource TSize_i6}"
+            HeightRequest="50"
+            Margin="16, 0, 0, 0"
+            VerticalTextAlignment="Center"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontFamily="Barlow-Bold"/>
+
+        <Grid 
+            ColumnDefinitions="0.5*,0.5*"
+            RowDefinitions="45"
+            ColumnSpacing="1"
+            Margin="0, 0, 0, 0">
+            
+            <StackLayout 
+                Grid.Column="0"
+                Spacing="0"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                
+                <Label 
+                    Text="{xct:Translate Employee}"
+                    HeightRequest="45"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i8}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-SemiBold"/>
+
+                <BoxView 
+                    HeightRequest="3"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
+                </BoxView>
+
+            </StackLayout>
+
+            <StackLayout 
+                Grid.Column="1"
+                Spacing="0"
+                HorizontalOptions="FillAndExpand"
+                BackgroundColor="{DynamicResource AppColor_i4}">
+                
+                <Label 
+                    Text="{xct:Translate Waiter}"
+                    HeightRequest="45"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i8}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-SemiBold"/>
+
+                <BoxView 
+                    HeightRequest="3"
+                    BackgroundColor="{DynamicResource AppColor_i1}"/>
+
+            </StackLayout>
+            
+        </Grid>
+
+        <StackLayout 
+            Orientation="Vertical"
+            VerticalOptions="FillAndExpand"
+            Padding="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+            
+            <Image 
+                Source="pic_logo_rectangular"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                HeightRequest="157"
+                WidthRequest="150"
+                Margin="0, 20, 0, 0"/>
+
+            <Label 
+                Text="{xct:Translate EmployeeId}"
+                FontSize="{DynamicResource TSize_i8}"
+                Margin="18, 0, 0, 8"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Regular"/>
+
+            <buttons:InputButton
+                x:Name="employeeId"
+                HeightRequest="30"
+                Margin="16, 0, 16, 0"
+                TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                Text="{Binding EmployeeId, Mode=TwoWay}"
+                IsEmployeeExists="{Binding IsEmployeeExists, Mode=TwoWay}"
+                TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
+
+                <buttons:InputButton.Behaviors>
+
+                    <behaviors:InputButtonBehavior/>
+
+                </buttons:InputButton.Behaviors>
+                
+            </buttons:InputButton>
+
+            <StackLayout 
+                Orientation="Horizontal"
+                VerticalOptions="EndAndExpand"
+                Spacing="11"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                HeightRequest="65">
+
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="40">
+
+                    <buttons:BorderButton 
+                        Margin="16, 0, 0, 0"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="False"
+                        BorderWidth="1"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        Text="{xct:Translate Clear}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i7}"
+                        FontSize="{DynamicResource TSize_i8}"
+                        BorderColor="{DynamicResource IndicationColor_i4}"
+                        FontFamily="Barlow-SemiBold"
+                        Command="{Binding ButtonClearCommand}">
+
+                        <buttons:BorderButton.Behaviors>
+
+                            <behaviors:BorderButtonBehavior Title="{Binding Text, Source={x:Reference employeeId}}"/>
+
+                        </buttons:BorderButton.Behaviors>
+
+                    </buttons:BorderButton>
+                    
+                </StackLayout>
+
+                <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"
+                    VerticalOptions="Center">
+                    
+                    <buttons:BorderButton 
+                        Margin="0, 0, 16, 0"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="{Binding IsEmployeeExists}"
+                        BorderWidth="0"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        Text="{xct:Translate Login}"
+                        FontSize="{DynamicResource TSize_i8}"
+                        BorderColor="Transparent"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        FontFamily="Barlow-SemiBold"
+                        BackgroundColor="{DynamicResource IndicationColor_i2}"
+                        Command="{Binding GoToStartPageCommand}">
+                        
+                        <buttons:BorderButton.Triggers>
+                            
+                            <DataTrigger TargetType="buttons:BorderButton"
+                                         Binding="{Binding IsEmployeeExists}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+
+                            </DataTrigger>
+                            
+                        </buttons:BorderButton.Triggers>
+
+                    </buttons:BorderButton>
+                   
+                </StackLayout>
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </StackLayout>
+
+</views:BaseContentPage>

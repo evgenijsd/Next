@@ -1,4 +1,4 @@
-﻿namespace Next2.Interfaces
+namespace Next2.Interfaces
 {
     public interface IPageActionsHandler
     {

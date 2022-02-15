@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
@@ -93,56 +92,52 @@
                     VerticalTextAlignment="Center"/>
 
                 <CollectionView
-                    Margin="0, 0, 20, 5"
+                    Margin="0, 0, 20, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never"
-                    ItemsSource="{Binding Categories}">
+                    ItemsSource="{Binding CategoriesItems}">
 
                     <CollectionView.Effects>
-
                         <effects:NoOverScrollEffect/>
-
                     </CollectionView.Effects>
 
                     <CollectionView.ItemsLayout>
 
                         <GridItemsLayout
                             Orientation="Vertical"
-                            Span="2" />
+                            Span="2"
+                            VerticalItemSpacing="2"
+                            HorizontalItemSpacing="2"/>
 
                     </CollectionView.ItemsLayout>
 
                     <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CategoryModel">
 
-                        <DataTemplate x:DataType="models:CategoryBindableModel">
+                            <Frame
+                                WidthRequest="162"
+                                HeightRequest="55"
+                                HasShadow="False"
+                                CornerRadius="5"
+                                Padding="4"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                xct:TouchEffect.Command="{Binding TapCategoryCommand, Source={RelativeSource AncestorType={x:Type viewModels:MenuPageViewModel}}}"
+                                xct:TouchEffect.CommandParameter="{Binding .}">
 
-                            <ContentView
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                                Padding="2">
+                                <Label
+                                    Text="{Binding Title}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    Style="{DynamicResource BaseContent_i1}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"/>
 
-                                <Frame
-                                    WidthRequest="162"
-                                    HeightRequest="55"
-                                    HasShadow="False"
-                                    CornerRadius="5"
-                                    Padding="4"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                                    <Label
-                                        Text="{Binding Title}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        FontFamily="Barlow-SemiBold"
-                                        HorizontalTextAlignment="Center"
-                                        VerticalTextAlignment="Center"/>
-
-                                </Frame>
-
-                            </ContentView>
+                            </Frame>
 
                         </DataTemplate>
-
                     </CollectionView.ItemTemplate>
 
                 </CollectionView>
@@ -164,26 +159,40 @@
                 Color="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="1"/>
             
-            <controls:TabsControl
-                Margin="10, 8, 10, 8"
+            <CollectionView
+                Margin="10, 6, 10, 6"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
-                Direction="Row">
+                SelectionMode="Single">
+                
+                <CollectionView.ItemsLayout>
 
-                <DataTemplate x:DataType="models:MenuItemBindableModel">
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="4"
+                        VerticalItemSpacing="0"
+                        HorizontalItemSpacing="0"/>
 
-                    <templates:MenuItemTemplate
-                        IsSelected="{Binding IsSelected}"
-                        ImagePath="{Binding ImagePath}"
-                        Text="{Binding Title}"
-                        FontSize="{DynamicResource TSize_i5}"
-                        FontFamily="Barlow-Medium"
-                        WidthRequest="140"
-                        Padding="0, 8"/>
+                </CollectionView.ItemsLayout>
 
-                </DataTemplate>
+                <CollectionView.Effects>
+                    <effects:NoOverScrollEffect/>
+                </CollectionView.Effects>
 
-            </controls:TabsControl>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MenuItemBindableModel">
+
+                        <templates:MenuItemTemplate
+                            ImagePath="{Binding ImagePath}"
+                            Text="{Binding Title}"
+                            FontSize="{DynamicResource TSize_i5}"
+                            FontFamily="Barlow-Medium"
+                            HeightRequest="62"/>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
         </StackLayout>
 

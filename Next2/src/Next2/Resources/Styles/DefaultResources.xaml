@@ -2,6 +2,7 @@
 <ResourceDictionary
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:converters="clr-namespace:Next2.Converters"
     x:Class="Next2.Resources.Styles.DefaultResources">
 
@@ -10,6 +11,8 @@
     <x:Double x:Key="TSize_i3">28</x:Double>
     <!-- 24px -->
     <x:Double x:Key="TSize_i4">26</x:Double>
+    <!-- 20px -->
+    <x:Double x:Key="TSize_i4_5">24</x:Double>
     <!-- 18px -->
     <x:Double x:Key="TSize_i5">20</x:Double>
     <!-- 16px -->
@@ -49,6 +52,13 @@
         <Setter Property="Padding" Value="20, 10, 5, 11"/>
     </Style>
 
+    <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
+        <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+    
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
 
