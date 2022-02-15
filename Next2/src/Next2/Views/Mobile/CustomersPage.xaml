@@ -18,31 +18,19 @@
         <ResourceDictionary>
 
             <Style x:Key="ViewCellLabelStyle" TargetType="Label">
-
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
                 <Setter Property="Margin" Value="12,0,0,0" />
-
                 <Setter Property="FontFamily" Value="Barlow-Regular" />
-
                 <Setter Property="FontSize" Value="14" />
-
                 <Setter Property="VerticalOptions" Value="Center" />
-
             </Style>
 
             <Style x:Key="HeaderLabelStyle" TargetType="Label">
-
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
                 <Setter Property="Margin" Value="12,0,0,0" />
-
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-
                 <Setter Property="FontSize" Value="14" />
-
                 <Setter Property="VerticalOptions" Value="Center" />
-
             </Style>
 
         </ResourceDictionary>
@@ -201,31 +189,21 @@
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                             <VisualStateManager.VisualStateGroups>
-
                                                 <VisualStateGroup Name="CommonStates">
 
                                                     <VisualState Name="Selected">
-
                                                         <VisualState.Setters>
-
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-
                                                         </VisualState.Setters>
-
                                                     </VisualState>
 
                                                     <VisualState Name="Normal">
-
                                                         <VisualState.Setters>
-
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}" />
-
                                                         </VisualState.Setters>
-
                                                     </VisualState>
 
                                                 </VisualStateGroup>
-
                                             </VisualStateManager.VisualStateGroups>
                                         </Grid>
 

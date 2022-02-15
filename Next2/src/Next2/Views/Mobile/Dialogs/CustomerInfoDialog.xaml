@@ -9,71 +9,45 @@
     x:DataType="dialogs:CustomerInfoViewModel">
 
     <ContentPage.Resources>
-
         <ResourceDictionary>
 
             <Style x:Key="HeadLayoutStyle" TargetType="StackLayout">
-
                 <Setter Property="Margin" Value="8,18,0,0" />
-
             </Style>
 
             <Style x:Key="HeadTextStyle" TargetType="Label">
-
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
-
                 <Setter Property="FontSize" Value="12" />
-
             </Style>
 
             <Style x:Key="GridTextStyle" TargetType="Label">
-
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
-
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
                 <Setter Property="FontSize" Value="14" />
-
             </Style>
 
             <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
-
                 <Setter Property="VerticalOptions" Value="Start" />
-
                 <Setter Property="HorizontalOptions" Value="Center" />
-
                 <Setter Property="Margin" Value="0,40,0,0" />
-
             </Style>
 
             <Style x:Key="ButtonFrameStyle" TargetType="Frame">
-
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-
                 <Setter Property="HasShadow" Value="False" />
-
                 <Setter Property="CornerRadius" Value="5" />
-
                 <Setter Property="WidthRequest" Value="100" />
-
                 <Setter Property="Padding" Value="0" />
-
             </Style>
 
             <Style x:Key="ButtonTextStyle" TargetType="Label">
-
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-
                 <Setter Property="FontSize" Value="14" />
-
                 <Setter Property="VerticalOptions" Value="Center" />
-
                 <Setter Property="HorizontalOptions" Value="Center" />
-
             </Style>
 
         </ResourceDictionary>
-
     </ContentPage.Resources>
 
 
@@ -204,13 +178,9 @@
                                         TextColor="{DynamicResource AppColor_i1}">
 
                                         <Label.FormattedText>
-
                                             <FormattedString>
-
                                                 <Span Text="{Binding Customer.Points, StringFormat='{0:D} pt'}" />
-
                                             </FormattedString>
-
                                         </Label.FormattedText>
 
                                     </Label>
@@ -309,13 +279,9 @@
                                         TextColor="{DynamicResource IndicationColor_i1}">
 
                                         <Label.FormattedText>
-
                                             <FormattedString>
-
                                                 <Span Text="{Binding Customer.GiftCardTotal, StringFormat='$ {0:F2}'}" />
-
                                             </FormattedString>
-
                                         </Label.FormattedText>
 
                                     </Label>
@@ -360,9 +326,7 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             <Frame.GestureRecognizers>
-
                                 <TapGestureRecognizer Command="{Binding DeclineCommand}" />
-
                             </Frame.GestureRecognizers>
 
                         </Frame>
@@ -378,9 +342,7 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                             <Frame.GestureRecognizers>
-
                                 <TapGestureRecognizer Command="{Binding AcceptCommand}" />
-
                             </Frame.GestureRecognizers>
 
                         </Frame>
