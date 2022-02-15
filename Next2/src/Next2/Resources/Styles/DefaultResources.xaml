@@ -66,12 +66,13 @@
     
     <Style TargetType="controls:DropDownList">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="IconSource" Value="ic_arrow_down_32x32"/>
-        <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
-        <Setter Property="HeaderTextSize" Value="14"/>
-        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="IconSource" Value="ic_arrow_down_32x32"/>
+        <!--<Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/> WHEN EXPANDED --> 
+        <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
+        <Setter Property="HeaderTextSize" Value="14"/>
     </Style>
 
 </ResourceDictionary>

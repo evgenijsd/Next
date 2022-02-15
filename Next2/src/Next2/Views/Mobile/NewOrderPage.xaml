@@ -9,9 +9,9 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Views.Mobile.NewOrderPage"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -44,6 +44,27 @@
                 <Setter Property="IconHeight" Value="28"/>
                 <Setter Property="CornerRadius" Value="3"/>
                 <Setter Property="Padding" Value="10"/>
+            </Style>
+            
+            <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
+                
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    
+                    <VisualStateGroupList>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState  Name="Normal" />
+                                <VisualState  Name="Selected">
+                                    
+                                    <VisualState.Setters>              
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                    </VisualState.Setters>
+                                    
+                                </VisualState>
+                            </VisualStateGroup>
+                    </VisualStateGroupList>
+                    
+                </Setter>
+                
             </Style>
             
             <!-- Bold (700) 32px -->
@@ -132,14 +153,16 @@
                 </Label>
 
             </StackLayout>
-
+            
+            <!--<CollectionView ItemsSource="{Binding OrderTypes}"/>-->
+            
             <controls:DropDownList x:Name="dropDownList"
                 Grid.Row="0"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
                 Margin="17, 6"
                 WidthRequest="120"
-                HeaderText="{Binding SelectedOrderType}"
+                HeaderText="{Binding SelectedOrderType.Value}"
                 SelectedItem="{Binding SelectedOrderType}"
                 ItemsSource="{Binding OrderTypes}">
 
@@ -147,12 +170,9 @@
 
                     <DataTemplate>
 
-                        <StackLayout
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
 
-
-                            <BoxView
-                                Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
+                            <BoxView Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
 
                             <StackLayout
                                 HeightRequest="30"
@@ -162,7 +182,7 @@
                                 <Label
                                     HorizontalOptions="FillAndExpand"
                                     FontSize="16"
-                                    Text="{Binding .}" />
+                                    Text="{Binding SelectedOrderType, Value}" />
 
                             </StackLayout>
 
@@ -229,7 +249,7 @@
                 VerticalOptions="Start"
                 Margin="18, 12"
                 WidthRequest="120"
-                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+
                 HeaderText="{Binding SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
@@ -239,8 +259,10 @@
                     <DataTemplate>
 
                         <StackLayout
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
+                            Style="{DynamicResource DropDownDataTemplateStyle}"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            
+                            >
                             <StackLayout
                                 HeightRequest="30"
                                 Padding="8"

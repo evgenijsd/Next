@@ -4,10 +4,12 @@ using Next2.Models;
 using Next2.Services.Order;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -22,15 +24,22 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+
+            OrderTypes = new ()
+            {
+                new KeyValuePair<EOrderType, string>(EOrderType.DineIn, LocalizationResourceManager.Current[nameof(EOrderType.DineIn)]),
+                new KeyValuePair<EOrderType, string>(EOrderType.ToGo, LocalizationResourceManager.Current[nameof(EOrderType.ToGo)]),
+                new KeyValuePair<EOrderType, string>(EOrderType.Delivery, LocalizationResourceManager.Current[nameof(EOrderType.Delivery)]),
+            };
         }
 
         #region -- Public properties --
 
         public int NewOrderId { get; set; }
 
-        public ObservableCollection<EOrderType> OrderTypes { get; set; } = new () { EOrderType.DineIn, EOrderType.Delivery, EOrderType.ToGo };
+        public ObservableCollection<KeyValuePair<EOrderType, string>> OrderTypes { get; set; } = new ();
 
-        public EOrderType SelectedOrderType { get; set; }
+        public KeyValuePair<EOrderType, string> SelectedOrderType { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
 
