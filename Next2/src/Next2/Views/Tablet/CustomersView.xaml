@@ -248,7 +248,7 @@
                                 VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.Effects>
-                                    <effects:ScrollBarColorEffect ScrollBarColor="#F45E49" />
+                                    <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}" />
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>

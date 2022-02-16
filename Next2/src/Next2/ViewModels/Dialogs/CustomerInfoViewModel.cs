@@ -39,25 +39,19 @@ namespace Next2.ViewModels.Dialogs
 
         private void SetupParameters(IDialogParameters param)
         {
-            if (param.ContainsKey(Constants.DialogParameterKeys.MODEL))
+            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out CustomerBindableModel customer))
             {
-                CustomerBindableModel customer;
-                param.TryGetValue(Constants.DialogParameterKeys.MODEL, out customer);
                 Customer = customer;
             }
 
-            if (param.ContainsKey(Constants.DialogParameterKeys.OK_BUTTON_TEXT))
+            if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string text))
             {
-                string s;
-                param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out s);
-                SelectButtonText = s;
+                SelectButtonText = text;
             }
 
-            if (param.ContainsKey(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string text2))
             {
-                string s;
-                param.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out s);
-                CancelButtonText = s;
+                CancelButtonText = text2;
             }
         }
 
