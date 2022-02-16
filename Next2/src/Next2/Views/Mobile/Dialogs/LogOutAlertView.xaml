@@ -36,7 +36,7 @@
             <Label 
                 Grid.Row="1"
                 Text="{xct:Translate WannaLogOut}"
-                Padding="24, 8, 0, 0"
+                Padding="24, 30, 0, 0"
                 Margin="1, 0, 1, 0"
                 FontSize="{DynamicResource TSize_i6}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
@@ -69,7 +69,8 @@
                         FontFamily="Barlow-SemiBold"
                         BorderColor="{DynamicResource AppColor_i1}"
                         TextSize="{DynamicResource TSize_i6}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Command="{Binding DeclineCommand}"/>
 
                     <buttons:BorderButton
                         Grid.Column="1"
@@ -82,7 +83,7 @@
                         BackgroundColor="{DynamicResource IndicationColor_i3}"
                         TextSize="{DynamicResource TSize_i6}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        />
+                        Command="{Binding AcceptCommand}"/>
                 </Grid>
 
             </StackLayout>

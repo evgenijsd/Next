@@ -64,7 +64,7 @@
                         Text="{Binding CancelButtonText}" 
                         VerticalOptions="Center"
                         FontFamily="Barlow-SemiBold"
-                        BorderColor="{DynamicResource IndicationColor_i4}"
+                        BorderColor="{DynamicResource AppColor_i1}"
                         TextSize="{DynamicResource TSize_i6}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         Command="{Binding DeclineCommand}"/>

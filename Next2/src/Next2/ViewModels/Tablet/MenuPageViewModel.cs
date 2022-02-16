@@ -144,13 +144,9 @@ namespace Next2.ViewModels.Tablet
         {
             var param = new DialogParameters();
 
-            string partOfMessage2 = LocalizationResourceManager.Current["WannaLogOut"];
-
             string okButton = LocalizationResourceManager.Current["LogOut(ApperCase)"];
 
             string cancelButton = LocalizationResourceManager.Current["Cancel"];
-
-            param.Add(Constants.DialogParameterKeys.TITLE, $"{partOfMessage2}");
 
             param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, $"{okButton}");
 

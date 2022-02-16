@@ -82,6 +82,7 @@ namespace Next2.ViewModels
                     if (IsEmployeeExists)
                     {
                         await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
+                        IsUserLoggedOut = true;
                     }
                     else
                     {
@@ -96,6 +97,8 @@ namespace Next2.ViewModels
             else if (IsEmployeeExists)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
+                EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+                IsEmployeeExists = false;
             }
         }
 
@@ -133,7 +136,6 @@ namespace Next2.ViewModels
                 else if (parameters.TryGetValue("IsLastUserLoggedOut", out _isUserLoggedOut))
                 {
                     IsUserLoggedOut = !IsUserLoggedOut;
-                    //EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
                 }
             }
         }
