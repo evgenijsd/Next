@@ -17,13 +17,13 @@
 
             <Style x:Key="HeadTextStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
-                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
             </Style>
 
             <Style x:Key="GridTextStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             </Style>
 
             <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
@@ -76,7 +76,7 @@
                     Grid.Row="0"
                     Margin="18,0,0,0"
                     FontFamily="Barlow-SemiBold"
-                    FontSize="18"
+                    FontSize="{DynamicResource TSize_i6}"
                     Text="{xct:Translate CustomerInfo}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalOptions="Center" />
@@ -95,7 +95,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            FontSize="14"
+                            FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Name}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -110,7 +110,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            FontSize="14"
+                            FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Phone}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -125,7 +125,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            FontSize="14"
+                            FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Email}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -167,7 +167,7 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="21"
+                                    FontSize="{DynamicResource TSize_i5}"
                                     HorizontalOptions="Center"
                                     TextColor="{DynamicResource AppColor_i1}">
 
@@ -200,7 +200,7 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="29"
+                                    FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
                                     Text="{Binding Customer.Rewards}"
                                     TextColor="{DynamicResource IndicationColor_i7}" />
@@ -229,7 +229,7 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="29"
+                                    FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
                                     Text="{Binding Customer.GiftCardCount}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
@@ -259,7 +259,7 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="21"
+                                    FontSize="{DynamicResource TSize_i5}"
                                     HorizontalOptions="Center"
                                     TextColor="{DynamicResource IndicationColor_i1}">
 
