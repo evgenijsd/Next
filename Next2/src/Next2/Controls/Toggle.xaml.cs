@@ -11,7 +11,7 @@ namespace Next2.Controls
     {
         private double _valueX;
 
-        private bool _init;
+        private bool _tap;
 
         public Toggle()
         {
@@ -32,11 +32,22 @@ namespace Next2.Controls
             set => SetValue(IsToggledProperty, value);
         }
 
+        public static readonly BindableProperty CanTurnedOffProperty = BindableProperty.Create(
+            propertyName: nameof(CanTurnedOff),
+            returnType: typeof(bool),
+            defaultValue: true,
+            declaringType: typeof(Toggle));
+
+        public bool CanTurnedOff
+        {
+            get => (bool)GetValue(CanTurnedOffProperty);
+            set => SetValue(CanTurnedOffProperty, value);
+        }
+
         public static readonly BindableProperty ThumbColorProperty = BindableProperty.Create(
             propertyName: nameof(ThumbColor),
             returnType: typeof(Color),
-            declaringType: typeof(Toggle),
-            defaultBindingMode: BindingMode.TwoWay);
+            declaringType: typeof(Toggle));
 
         public Color ThumbColor
         {
@@ -47,8 +58,7 @@ namespace Next2.Controls
         public static readonly BindableProperty OnColorProperty = BindableProperty.Create(
             propertyName: nameof(OnColor),
             returnType: typeof(Color),
-            declaringType: typeof(Toggle),
-            defaultBindingMode: BindingMode.TwoWay);
+            declaringType: typeof(Toggle));
 
         public Color OnColor
         {
@@ -67,10 +77,9 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (!_init && propertyName == nameof(IsToggled))
+            if (!_tap && propertyName == nameof(IsToggled))
             {
                 ToggleChangingAsync();
-                _init = true;
             }
         }
 
@@ -94,9 +103,27 @@ namespace Next2.Controls
         {
             if (IsEnabled)
             {
-                IsToggled = !IsToggled;
+                if (IsToggled)
+                {
+                    if (CanTurnedOff)
+                    {
+                        _tap = true;
+                        IsToggled = !IsToggled;
 
-                await ToggleChangingAsync();
+                        await ToggleChangingAsync();
+
+                        _tap = false;
+                    }
+                }
+                else
+                {
+                    _tap = true;
+                    IsToggled = !IsToggled;
+
+                    await ToggleChangingAsync();
+
+                    _tap = false;
+                }
             }
         }
 
@@ -111,7 +138,10 @@ namespace Next2.Controls
                     case GestureStatus.Running:
                         if (x < _valueX)
                         {
-                            IsToggled = false;
+                            if (CanTurnedOff)
+                            {
+                                IsToggled = false;
+                            }
                         }
                         else if (x > _valueX)
                         {

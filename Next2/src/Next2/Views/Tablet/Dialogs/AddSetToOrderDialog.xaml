@@ -10,15 +10,15 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
+    xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:DataType="dialogs:AddSetToOrderDialogViewModel">
 
     <Frame
-        Padding="1.5"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         CornerRadius="10"
-        HeightRequest="420"
-        WidthRequest="360"
+        HeightRequest="474"
+        WidthRequest="484"
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
@@ -30,12 +30,17 @@
                 Orientation="Horizontal"
                 Spacing="0">
 
-                <ffimageloading:CachedImage
+                <pkView:PancakeView
                     HeightRequest="56"
                     WidthRequest="56"
-                    Aspect="AspectFit"
-                    Source="{Binding Set.ImagePath}"
-                    HorizontalOptions="Start"/>
+                    CornerRadius="8"
+                    HorizontalOptions="Start">
+                    
+                    <ffimageloading:CachedImage
+                        Aspect="AspectFill"
+                        Source="{Binding Set.ImagePath}"/>
+                    
+                </pkView:PancakeView>
 
                 <StackLayout
                     Margin="20, 0, 0, 0"
@@ -43,11 +48,15 @@
 
                     <Label
                         Text="{Binding Set.Title}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"/>
 
                     <Label
                         Text="{Binding Set.Price, StringFormat='$ {0:F2}'}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"/>
 
                 </StackLayout>
 
@@ -60,7 +69,6 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
             <StackLayout
-                x:Name="stackLayout"
                 VerticalOptions="StartAndExpand"
                 Padding="24, 0"
                 BindableLayout.ItemsSource="{Binding Portions}">
@@ -71,7 +79,7 @@
 
                         <templates:PortionItemTemplate
                             State="{Binding .}"
-                            BindableLayout="{Binding SelectedPortion, Source={x:Reference stackLayout}}"/>
+                            BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type dialogs:AddSetToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>
                     
@@ -86,24 +94,28 @@
 
             <Grid
                 Margin="24"
-                HeightRequest="40"
+                HeightRequest="50"
                 ColumnSpacing="10">
 
                 <buttons:BorderButton
                     Grid.Column="0"
                     Text="{xct:Translate Cancel}"
-                    FontSize="{DynamicResource TSize_i8}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i5}"
+                    FontFamily="Barlow-SemiBold"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    BorderColor="{DynamicResource IndicationColor_i3}"
+                    BorderColor="{DynamicResource AppColor_i1}"
                     CornerRadius="4"
                     Command="{Binding CloseCommand}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
                     Text="{xct:Translate Add}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    BackgroundColor="{DynamicResource IndicationColor_i2}"
-                    BorderColor="{DynamicResource IndicationColor_i2}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    FontSize="{DynamicResource TSize_i5}"
+                    FontFamily="Barlow-SemiBold"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="4"
                     Command="{Binding TapAddCommand}"/>
 

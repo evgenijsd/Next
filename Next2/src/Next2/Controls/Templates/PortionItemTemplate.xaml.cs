@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using System;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
@@ -30,7 +31,7 @@ namespace Next2.Controls.Templates
             returnType: typeof(PortionModel),
             declaringType: typeof(PortionItemTemplate));
 
-        public PortionModel State
+        public PortionModel? State
         {
             get => (PortionModel)GetValue(StateProperty);
             set => SetValue(StateProperty, value);
@@ -66,7 +67,10 @@ namespace Next2.Controls.Templates
 
                     break;
                 case nameof(IsToggle):
-                    BindableLayout = IsToggle ? State : null;
+                    if (IsToggle)
+                    {
+                        BindableLayout = State;
+                    }
 
                     break;
             }

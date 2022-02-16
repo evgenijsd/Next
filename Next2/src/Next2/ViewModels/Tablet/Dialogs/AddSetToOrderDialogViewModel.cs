@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet.Dialogs
 {
-    public class AddSetToOrderDialogViewModel
+    public class AddSetToOrderDialogViewModel : BindableBase
     {
         public AddSetToOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
