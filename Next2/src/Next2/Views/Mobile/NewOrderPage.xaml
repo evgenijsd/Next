@@ -48,6 +48,7 @@
             
             <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
                 
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
                 <Setter Property="VisualStateManager.VisualStateGroups">
                     
                     <VisualStateGroupList>
@@ -153,16 +154,14 @@
                 </Label>
 
             </StackLayout>
-            
-            <!--<CollectionView ItemsSource="{Binding OrderTypes}"/>-->
-            
+                        
             <controls:DropDownList x:Name="dropDownList"
                 Grid.Row="0"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
                 Margin="17, 6"
                 WidthRequest="120"
-                HeaderText="{Binding SelectedOrderType.Value}"
+                HeaderText="{Binding SelectedOrderType.OrderTypeValue}"
                 SelectedItem="{Binding SelectedOrderType}"
                 ItemsSource="{Binding OrderTypes}">
 
@@ -172,20 +171,21 @@
 
                         <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
 
-                            <BoxView Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
-
                             <StackLayout
                                 HeightRequest="30"
                                 Padding="14, 8"
                                 Orientation="Horizontal">
 
                                 <Label
+                                    x:DataType="models:OrderTypeBindableModel"
                                     HorizontalOptions="FillAndExpand"
                                     FontSize="16"
-                                    Text="{Binding SelectedOrderType, Value}" />
+                                    Text="{Binding OrderTypeValue}" />
 
                             </StackLayout>
 
+                            <BoxView Style="{DynamicResource SeparatorDarkBoxViewStyle}"/>
+                            
                         </StackLayout>
 
                     </DataTemplate>
@@ -258,11 +258,8 @@
 
                     <DataTemplate>
 
-                        <StackLayout
-                            Style="{DynamicResource DropDownDataTemplateStyle}"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
                             
-                            >
                             <StackLayout
                                 HeightRequest="30"
                                 Padding="8"
@@ -276,7 +273,7 @@
 
                             </StackLayout>
 
-                            <BoxView Style="{DynamicResource SeparatorLightBoxViewStyle}" />
+                            <BoxView Style="{DynamicResource SeparatorDarkBoxViewStyle}"/>
 
                         </StackLayout>
 

@@ -68,16 +68,28 @@ namespace Next2.Controls
             set => SetValue(HeaderTextProperty, value);
         }
 
-        public static readonly BindableProperty IconSourceProperty = BindableProperty.Create(
-            propertyName: nameof(IconSource),
+        public static readonly BindableProperty WrappedListIconSourceProperty = BindableProperty.Create(
+            propertyName: nameof(WrappedListIconSource),
             returnType: typeof(string),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public string IconSource
+        public string WrappedListIconSource
         {
-            get => (string)GetValue(IconSourceProperty);
-            set => SetValue(IconSourceProperty, value);
+            get => (string)GetValue(WrappedListIconSourceProperty);
+            set => SetValue(WrappedListIconSourceProperty, value);
+        }
+
+        public static readonly BindableProperty ExpandedListIconSourceProperty = BindableProperty.Create(
+            propertyName: nameof(ExpandedListIconSource),
+            returnType: typeof(string),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string ExpandedListIconSource
+        {
+            get => (string)GetValue(ExpandedListIconSourceProperty);
+            set => SetValue(ExpandedListIconSourceProperty, value);
         }
 
         public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(

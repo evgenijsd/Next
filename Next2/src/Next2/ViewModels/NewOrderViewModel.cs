@@ -25,21 +25,31 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
 
-            OrderTypes = new ()
+            var r = Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>().ToList();
+
+            OrderTypes = new (r.Select(x => new OrderTypeBindableModel
             {
-                new KeyValuePair<EOrderType, string>(EOrderType.DineIn, LocalizationResourceManager.Current[nameof(EOrderType.DineIn)]),
-                new KeyValuePair<EOrderType, string>(EOrderType.ToGo, LocalizationResourceManager.Current[nameof(EOrderType.ToGo)]),
-                new KeyValuePair<EOrderType, string>(EOrderType.Delivery, LocalizationResourceManager.Current[nameof(EOrderType.Delivery)]),
-            };
+                OrderType = x,
+                OrderTypeValue = LocalizationResourceManager.Current[x.ToString()],
+            }));
+
+            //OrderTypes = new ()
+            //{
+            //    new KeyValuePair<EOrderType, string>(EOrderType.DineIn, LocalizationResourceManager.Current[nameof(EOrderType.DineIn)]),
+            //    new KeyValuePair<EOrderType, string>(EOrderType.ToGo, LocalizationResourceManager.Current[nameof(EOrderType.ToGo)]),
+            //    new KeyValuePair<EOrderType, string>(EOrderType.Delivery, LocalizationResourceManager.Current[nameof(EOrderType.Delivery)]),
+            //};
         }
 
         #region -- Public properties --
 
         public int NewOrderId { get; set; }
 
-        public ObservableCollection<KeyValuePair<EOrderType, string>> OrderTypes { get; set; } = new ();
+        //public ObservableCollection<KeyValuePair<EOrderType, string>> OrderTypes { get; set; } = new ();
+        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
-        public KeyValuePair<EOrderType, string> SelectedOrderType { get; set; }
+        //public KeyValuePair<EOrderType, string> SelectedOrderType { get; set; }
+        public OrderTypeBindableModel SelectedOrderType { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
 

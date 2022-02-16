@@ -69,7 +69,8 @@
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="IconSource" Value="ic_arrow_down_32x32"/>
+        <Setter Property="WrappedListIconSource" Value="ic_arrow_down_32x32"/>
+        <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
         <!--<Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/> WHEN EXPANDED --> 
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
