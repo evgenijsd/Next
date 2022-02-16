@@ -3,6 +3,7 @@ using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -139,6 +140,10 @@ namespace Next2.ViewModels.Mobile
             await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
         }
 
+        private async Task GoToSettingsCommandAsync()
+        {
+            await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
+        }
         #endregion
     }
 }

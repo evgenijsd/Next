@@ -65,7 +65,7 @@
                         VerticalOptions="Center"
                         FontFamily="Barlow-SemiBold"
                         BorderColor="{DynamicResource AppColor_i1}"
-                        TextSize="{DynamicResource TSize_i6}"
+                        FontSize="{DynamicResource TSize_i6}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         Command="{Binding DeclineCommand}"/>
 
@@ -78,7 +78,7 @@
                         VerticalOptions="Center"
                         FontFamily="Barlow-SemiBold" 
                         BackgroundColor="{DynamicResource IndicationColor_i3}"
-                        TextSize="{DynamicResource TSize_i6}"
+                        FontSize="{DynamicResource TSize_i6}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         Command="{Binding AcceptCommand}"/>
                 </Grid>

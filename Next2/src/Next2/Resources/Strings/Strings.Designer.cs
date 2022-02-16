@@ -70,6 +70,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        internal static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
@@ -156,6 +165,15 @@ namespace Next2.Resources.Strings {
         internal static string LogOut {
             get {
                 return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log Out.
+        /// </summary>
+        internal static string LogOut_ApperCase_ {
+            get {
+                return ResourceManager.GetString("LogOut(ApperCase)", resourceCulture);
             }
         }
         
@@ -390,6 +408,15 @@ namespace Next2.Resources.Strings {
         internal static string Waiter {
             get {
                 return ResourceManager.GetString("Waiter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to log out?.
+        /// </summary>
+        internal static string WannaLogOut {
+            get {
+                return ResourceManager.GetString("WannaLogOut", resourceCulture);
             }
         }
         

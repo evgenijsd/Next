@@ -149,7 +149,7 @@
                 BackgroundColor="{DynamicResource IndicationColor_i3}"
                 BorderColor="Transparent"
                 HeightRequest="65"
-                TextSize="{DynamicResource TSize_i6}"
+                FontSize="{DynamicResource TSize_i6}"
                 Margin="20, 12, 20, 12"
                 FontFamily="Barlow-SemiBold"
                 Text="{xct:Translate LogOut}"

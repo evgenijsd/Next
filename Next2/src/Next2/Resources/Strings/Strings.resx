@@ -117,19 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-<<<<<<< HEAD
   <data name="AreYouSure" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
-=======
+  </data>
   <data name="NotFoundOrders" xml:space="preserve">
     <value>Not found orders</value>
   </data>
   <data name="SomeIssues" xml:space="preserve">
     <value>Some issues</value>
->>>>>>> 8a9bf871075e851123cc8cc827983bb70e265bac
   </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
