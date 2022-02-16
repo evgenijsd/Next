@@ -23,19 +23,20 @@
         FontSize="13"
         FontFamily="Barlow-Regular"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
-        Opacity="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=OpacityText}"
+        Opacity="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=OpacityText}"
         VerticalOptions="Center"
-        HorizontalOptions="Start">
+        HorizontalOptions="FillAndExpand"
+        LineBreakMode="TailTruncation" >
 
         <Label.GestureRecognizers>
             <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CommandSearch}" />
+                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}" />
         </Label.GestureRecognizers>
         
     </Label>
 
     <ffimageloading:CachedImage
-        Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=ImageSource}"
+        Source="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=ImageSource}"
         HeightRequest="20"
         Margin="0,0,10,0"
         VerticalOptions="CenterAndExpand"
@@ -43,7 +44,7 @@
 
         <ffimageloading:CachedImage.GestureRecognizers>
             <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=CommandClear}" />
+                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandClear}" />
         </ffimageloading:CachedImage.GestureRecognizers>
         
     </ffimageloading:CachedImage>

@@ -39,7 +39,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(
             propertyName: nameof(ImageSource),
             returnType: typeof(string),
-            declaringType: typeof(CustomButton),
+            declaringType: typeof(SearchButton),
             defaultValue: "ic_search_24x24",
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -88,7 +88,7 @@ namespace Next2.Controls
         public static readonly BindableProperty OpacityTextProperty = BindableProperty.Create(
             propertyName: nameof(OpacityText),
             returnType: typeof(double),
-            declaringType: typeof(CustomButton),
+            declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public double OpacityText
@@ -100,7 +100,7 @@ namespace Next2.Controls
         public static readonly BindableProperty CommandSearchProperty = BindableProperty.Create(
             propertyName: nameof(CommandSearch),
             returnType: typeof(ICommand),
-            declaringType: typeof(CustomButton),
+            declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand CommandSearch
@@ -112,7 +112,7 @@ namespace Next2.Controls
         public static readonly BindableProperty CommandClearProperty = BindableProperty.Create(
             propertyName: nameof(CommandClear),
             returnType: typeof(ICommand),
-            declaringType: typeof(CustomButton),
+            declaringType: typeof(SearchButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand CommandClear
