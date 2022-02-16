@@ -1,5 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <ContentView
+    x:Class="Next2.Views.Tablet.OrderTabsView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -11,7 +12,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:models="clr-namespace:Next2.Models"
-    x:Class="Next2.Views.Tablet.OrderTabsView"
     x:DataType="viewModels:OrderTabsViewModel">
 
     <StackLayout

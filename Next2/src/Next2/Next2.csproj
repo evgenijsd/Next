@@ -121,6 +121,9 @@
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\Mobile\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Extensions\" />
     <Folder Include="Views\Mobile\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
@@ -150,6 +153,9 @@
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
+      <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +167,9 @@
     </Compile>
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
+      <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
@@ -180,6 +189,7 @@
     <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
+    <Folder Include="ViewModels\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -231,6 +241,12 @@
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\CustomerAddDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -271,6 +287,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
+      </EmbeddedResource>
   </ItemGroup>
 </Project>
