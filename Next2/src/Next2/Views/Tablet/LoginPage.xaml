@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:controls="clr-namespace:Next2.Controls.Templates" 
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="Next2.Views.Tablet.LoginPage"
     x:DataType="viewModels:LoginPageViewModel">
 
@@ -26,7 +27,7 @@
             Margin="0, 0, 0, 0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-            <Image 
+            <ffimageloading:CachedImage 
                 Source="pic_logo_big"
                 Margin="0, 110, 0, 140"
                 Aspect="AspectFit"/>

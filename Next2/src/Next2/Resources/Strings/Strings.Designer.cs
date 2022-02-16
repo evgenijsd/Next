@@ -304,6 +304,24 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print Receipt.
+        /// </summary>
+        internal static string PrintReceipt {
+            get {
+                return ResourceManager.GetString("PrintReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Re-assign Table.
+        /// </summary>
+        internal static string ReAssignTable {
+            get {
+                return ResourceManager.GetString("ReAssignTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         internal static string Remove {
@@ -336,6 +354,15 @@ namespace Next2.Resources.Strings {
         internal static string SearchTableNumber {
             get {
                 return ResourceManager.GetString("SearchTableNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
             }
         }
         

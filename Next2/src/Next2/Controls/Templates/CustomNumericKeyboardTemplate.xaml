@@ -8,7 +8,8 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls" 
     x:DataType="viewModels:LoginPageViewModel"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
     
     <ContentView.Content>
 
@@ -76,8 +77,8 @@
                 
                     
                         </Label>
-                    
-                        <Image 
+
+                        <ffimageloading:CachedImage 
                             Source="ic_danger_circle"
                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"  
                             Margin="0, 8, 5, 8"

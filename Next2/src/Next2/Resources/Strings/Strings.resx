@@ -240,7 +240,13 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ReAssignTable" xml:space="preserve">
+    <value>Re-assign Table</value>
+  </data>
+  <data name="PrintReceipt" xml:space="preserve">
+    <value>Print Receipt</value>
   </data>
 </root>

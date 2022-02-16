@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
     xmlns:controls="clr-namespace:Next2.Controls" 
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="Next2.Views.Mobile.LoginPage_EmployeeId"
     x:DataType="viewModels:LoginPage_EmployeeIdViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
@@ -14,40 +14,16 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
             Spacing="0" 
             Padding="0">
+
+        <controls:CustomNavigationbar
+            HeightRequest="70"
+            LeftButtonImageSource="ic_arrow_left_tail_40x40"
+            LeftButtonCommand="{Binding GoBackCommand}"
+            Title="{xct:Translate EmployeeId}">
             
-            <StackLayout 
-                Orientation="Horizontal"
-                HeightRequest="70"
-                Spacing="0" 
-                Padding="0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                <ContentView>
-
-                    <Image 
-                        Source="ic_arrow_left_tail_40x40"
-                        VerticalOptions="Center"
-                        Margin="20, 25, 10, 25">
-
-                    </Image>
-                    
-                    <ContentView.GestureRecognizers>
-                        
-                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
-                        
-                    </ContentView.GestureRecognizers>
-                    
-                </ContentView>
-
-                <Label 
-                    Text="{xct:Translate EmployeeId}"
-                    VerticalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i6}"
-                    Margin="4, 0, 0, 0"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontFamily="Barlow-Bold"/>
-
-            </StackLayout>
+        </controls:CustomNavigationbar>
+            
+            
 
             <StackLayout 
                 Orientation="Vertical"

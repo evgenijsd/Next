@@ -33,11 +33,18 @@
 
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
+            <BoxView 
+                Grid.Row="1"
+                HeightRequest="1"
+                Margin="1, 0, 1, 0"
+                VerticalOptions="StartAndExpand"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
+
             <Label 
                 Grid.Row="1"
                 Text="{xct:Translate WannaLogOut}"
                 Padding="24, 30, 0, 0"
-                Margin="1, 0, 1, 0"
+                Margin="1, 1, 1, 0"
                 FontSize="{DynamicResource TSize_i6}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                 VerticalTextAlignment="Start"
@@ -46,7 +53,7 @@
 
             <BoxView 
                 Grid.Row="1"
-                HeightRequest="2"
+                HeightRequest="1"
                 VerticalOptions="EndAndExpand"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 

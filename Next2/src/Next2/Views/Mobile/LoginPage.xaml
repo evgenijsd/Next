@@ -7,7 +7,8 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
-    xmlns:behaviors="clr-namespace:Next2.Behaviors"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="Next2.Views.Mobile.LoginPage"
     x:DataType="viewModels:LoginPageViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
@@ -83,8 +84,8 @@
             VerticalOptions="FillAndExpand"
             Padding="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
-            
-            <Image 
+
+            <ffimageloading:CachedImage
                 Source="pic_logo_rectangular"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
@@ -104,6 +105,14 @@
                 HeightRequest="30"
                 Margin="16, 0, 16, 0"
                 TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                FontFamily="Barlow-Medium"
+                FontSize="{DynamicResource TSize_i8}"
+                HorizontalTextAlignment="Start"
+                VerticalTextAlignment="Center"
+                LeftImagePath="ic_danger_circle"
+                MarginLeftImage="0, 5, 5, 5"
+                MarginText="4, 0, 0, 0"
+                HeightRequestLeftImage="24"
                 Text="{Binding EmployeeId, Mode=TwoWay}"
                 IsEmployeeExists="{Binding IsEmployeeExists, Mode=TwoWay}"
                 TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
