@@ -1,5 +1,4 @@
-﻿using Next2.Models;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Next2.Controls.Templates
 {

@@ -6,8 +6,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
     x:DataType="dialogs:AddSetToOrderDialogViewModel">
 
@@ -45,7 +46,7 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                     <Label
-                        Text="{Binding Set.Price}"
+                        Text="{Binding Set.Price, StringFormat='$ {0:F2}'}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                 </StackLayout>
@@ -59,43 +60,22 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
             <StackLayout
+                x:Name="stackLayout"
                 VerticalOptions="StartAndExpand"
-                Padding="24">
+                Padding="24, 0"
+                BindableLayout.ItemsSource="{Binding Portions}">
 
-                <controls:Toggle
-                    IsToggled="True"
-                    ThumbColor="{DynamicResource IndicationColor_i3}"
-                    OnColor="{DynamicResource IndicationColor_i4}">
+                <BindableLayout.ItemTemplate>
 
-                    <controls:Toggle.Triggers>
+                    <DataTemplate x:DataType="models:PortionModel">
 
-                        <Trigger TargetType="controls:Toggle" Property="IsToggled" Value="True">
+                        <templates:PortionItemTemplate
+                            State="{Binding .}"
+                            BindableLayout="{Binding SelectedPortion, Source={x:Reference stackLayout}}"/>
 
-                            <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
-                            <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
-
-                        </Trigger>
-
-                    </controls:Toggle.Triggers>
-
-                </controls:Toggle>
-
-                <controls:Toggle
-                    ThumbColor="{DynamicResource IndicationColor_i3}"
-                    OnColor="{DynamicResource IndicationColor_i4}">
-
-                    <controls:Toggle.Triggers>
-
-                        <Trigger TargetType="controls:Toggle" Property="IsToggled" Value="True">
-
-                            <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
-                            <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
-
-                        </Trigger>
-
-                    </controls:Toggle.Triggers>
-
-                </controls:Toggle>
+                    </DataTemplate>
+                    
+                </BindableLayout.ItemTemplate>
 
             </StackLayout>
 
@@ -106,7 +86,7 @@
 
             <Grid
                 Margin="24"
-                HeightRequest="50"
+                HeightRequest="40"
                 ColumnSpacing="10">
 
                 <buttons:BorderButton
@@ -125,7 +105,7 @@
                     BackgroundColor="{DynamicResource IndicationColor_i2}"
                     BorderColor="{DynamicResource IndicationColor_i2}"
                     CornerRadius="4"
-                    Command="{Binding CloseCommand}"/>
+                    Command="{Binding TapAddCommand}"/>
 
             </Grid>
 

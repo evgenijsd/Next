@@ -99,10 +99,16 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSetCommandAsync(SetModel set)
         {
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.SET, set);
+            var portions = await _menuService.GetPortionsSetAsync(set.Id);
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            if (portions.IsSuccess)
+            {
+                var param = new DialogParameters();
+                param.Add(Constants.DialogParameterKeys.SET, set);
+                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            }
         }
 
         private async Task LoadCategoriesAsync()

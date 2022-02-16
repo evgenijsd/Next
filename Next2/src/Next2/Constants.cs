@@ -30,6 +30,8 @@
         {
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
+            public const string PORTIONS = nameof(PORTIONS);
+            public const string PORTION = nameof(PORTION);
         }
     }
 }
