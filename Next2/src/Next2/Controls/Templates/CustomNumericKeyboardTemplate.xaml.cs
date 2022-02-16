@@ -76,11 +76,11 @@ namespace Next2.Controls.Templates
             set => SetValue(IsErrorNotificationVisibleProperty, value);
         }
 
-        private ICommand _ButtonTapCommand;
-        public ICommand ButtonTapCommand => _ButtonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
+        private ICommand _buttonTapCommand;
+        public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
 
-        private ICommand _ButtonClearTapCommand;
-        public ICommand ButtonClearTapCommand => _ButtonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
+        private ICommand _buttonClearTapCommand;
+        public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
 
         public static readonly BindableProperty ApplyCommandProperty = BindableProperty.Create(
          propertyName: nameof(ApplyCommand),

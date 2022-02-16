@@ -35,6 +35,20 @@
             public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
             public const string ACCEPT = nameof(ACCEPT);
             public const string CANCEL = nameof(CANCEL);
+        public static class LayoutOrderTabs
+        {
+            public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
+            public const double OFFSET_MOBILE = 52;
+            public const double SUMM_ROW_HEIGHT_TABLET = 75 + 2 + 95;
+            public const double OFFSET_TABLET = 70;
+            public const double BUTTONS_HEIGHT = 142;
+            public const double ROW_HEIGHT = 48 + 2;
+        }
+
+        public static class DialogParameterKeys
+        {
+            public const string SET = nameof(SET);
+            public const string CATEGORY = nameof(CATEGORY);
         }
     }
 }

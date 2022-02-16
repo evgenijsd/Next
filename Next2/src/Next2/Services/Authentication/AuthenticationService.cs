@@ -1,7 +1,7 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Services.Settings;
 using Next2.Services.UserService;
+using Next2.Services.SettingsService;
 using System;
 using System.Threading.Tasks;
 

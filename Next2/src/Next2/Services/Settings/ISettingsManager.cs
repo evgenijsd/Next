@@ -1,4 +1,4 @@
-﻿namespace Next2.Services.Settings
+namespace Next2.Services.SettingsService
 {
     public interface ISettingsManager
     {
