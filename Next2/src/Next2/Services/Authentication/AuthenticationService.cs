@@ -62,7 +62,6 @@ namespace Next2.Services.Authentication
         {
             _settingsManager.UserId = default;
             _settingsManager.UserName = default;
-            _user = null;
         }
 
         #endregion
