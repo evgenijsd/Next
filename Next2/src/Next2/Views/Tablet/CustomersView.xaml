@@ -199,18 +199,7 @@
                                 <Image
                                     x:Name="sortPointsImage"
                                     IsVisible="true"
-                                    Source="ic_sort_primary_24x24">
-
-                                    <Image.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
-                                            TargetType="Image"
-                                            Value="null">
-                                            <Setter Property="IsVisible" Value="false" />
-                                        </DataTrigger>
-                                    </Image.Triggers>
-
-                                </Image>
+                                    Source="ic_sort_primary_24x24" />
 
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ECustomersSorting.ByPoints}" />

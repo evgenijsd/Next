@@ -115,12 +115,12 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
-                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
+                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
                         .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
                 }
                 else
                 {
-                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
                         .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
                 }
             }
@@ -139,26 +139,23 @@ namespace Next2.ViewModels
 
         private Task SortAsync(ECustomersSorting criterion)
         {
-            if (SelectedCustomer is not null || criterion != ECustomersSorting.ByPoints)
+            if (_sortCriterion == criterion)
             {
-                if (_sortCriterion == criterion)
-                {
-                    Customers = new (Customers.Reverse());
-                }
-                else
-                {
-                    _sortCriterion = criterion;
+                Customers = new (Customers.Reverse());
+            }
+            else
+            {
+                _sortCriterion = criterion;
 
-                    Func<CustomerBindableModel, object> comparer = criterion switch
-                    {
-                        ECustomersSorting.ByName => x => x.Name,
-                        ECustomersSorting.ByPoints => x => x.Points,
-                        ECustomersSorting.ByPhoneNumber => x => x.Phone,
-                        _ => throw new NotImplementedException(),
-                    };
+                Func<CustomerBindableModel, object> comparer = criterion switch
+                {
+                    ECustomersSorting.ByName => x => x.Name,
+                    ECustomersSorting.ByPoints => x => x.Points,
+                    ECustomersSorting.ByPhoneNumber => x => x.Phone,
+                    _ => throw new NotImplementedException(),
+                };
 
-                    Customers = new (Customers.OrderBy(comparer));
-                }
+                Customers = new (Customers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;
