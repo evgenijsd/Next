@@ -26,16 +26,16 @@ namespace Next2.Views.Mobile
         private void BaseContentPage_Disappearing(object sender, EventArgs e)
         {
             _isEntryFocusOn = false;
+
+            Task.Delay(100);
         }
 
         private void EntryLocal_Unfocused(object sender, FocusEventArgs e)
         {
-            /*Task.Delay(200);
-
             if (_isEntryFocusOn)
             {
                 EntryLocal.Focus();
-            }*/
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -23,9 +24,16 @@ namespace Next2.Droid.Renderers
             Control.SetPadding(0, 0, 0, 0);
             Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
 
-            //IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
-            //IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
-            //JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.my_cursor); // replace 0 with a Resource.Drawable.my_cursor
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+            {
+                Control.SetTextCursorDrawable(Resource.Drawable.my_cursor); //This API Intrduced in android 10
+            }
+            else
+            {
+                IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
+                IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
+                JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.my_cursor);
+            }
 
             if (Control != null)
             {

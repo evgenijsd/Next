@@ -84,7 +84,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
+            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
             {
                 HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
 
@@ -254,8 +254,6 @@ namespace Next2.ViewModels
         {
             MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchMessageCommandAsync(me));
 
-            ClearSearchAsync();
-
             string searchPage = nameof(MobileViews.SearchPage);
 
             if (App.IsTablet)
@@ -265,6 +263,7 @@ namespace Next2.ViewModels
 
             var outParameter = new SearchParameters { IsSelected = IsOrderTabsSelected, SearchLine = SearchText };
             var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, outParameter } };
+            ClearSearchAsync();
             await _navigationService.NavigateAsync(searchPage, parameters);
         }
 
