@@ -11,9 +11,31 @@ namespace Next2.Views.Mobile
 {
     public partial class SearchPage : BaseContentPage
     {
+        private bool _isEntryFocusOn = true;
+
         public SearchPage()
         {
             InitializeComponent();
+        }
+
+        private void BaseContentPage_Appearing(object sender, EventArgs e)
+        {
+            EntryLocal.Focus();
+        }
+
+        private void BaseContentPage_Disappearing(object sender, EventArgs e)
+        {
+            _isEntryFocusOn = false;
+        }
+
+        private void EntryLocal_Unfocused(object sender, FocusEventArgs e)
+        {
+            /*Task.Delay(200);
+
+            if (_isEntryFocusOn)
+            {
+                EntryLocal.Focus();
+            }*/
         }
     }
 }

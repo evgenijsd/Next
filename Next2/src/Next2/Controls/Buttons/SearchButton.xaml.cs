@@ -36,11 +36,24 @@ namespace Next2.Controls
             set => SetValue(TextProperty, value);
         }
 
+        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
+            propertyName: nameof(Placeholder),
+            returnType: typeof(string),
+            declaringType: typeof(SearchButton),
+            defaultValue: string.Empty,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string Placeholder
+        {
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
+        }
+
         public static readonly BindableProperty ImageSourceProperty = BindableProperty.Create(
             propertyName: nameof(ImageSource),
             returnType: typeof(string),
             declaringType: typeof(SearchButton),
-            defaultValue: "ic_search_24x24",
+            defaultValue: "ic_close_square_24x24",
             defaultBindingMode: BindingMode.TwoWay);
 
         public string ImageSource
@@ -85,15 +98,16 @@ namespace Next2.Controls
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty OpacityTextProperty = BindableProperty.Create(
-            propertyName: nameof(OpacityText),
-            returnType: typeof(double),
+        public static readonly BindableProperty IsPlaceholderProperty = BindableProperty.Create(
+            propertyName: nameof(IsPlaceholder),
+            returnType: typeof(bool),
             declaringType: typeof(SearchButton),
+            defaultValue: false,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public double OpacityText
+        public bool IsPlaceholder
         {
-            get => (double)GetValue(OpacityTextProperty);
+            get => (bool)GetValue(IsPlaceholderProperty);
             set => SetValue(OpacityProperty, value);
         }
 

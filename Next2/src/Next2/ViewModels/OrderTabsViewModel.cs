@@ -26,7 +26,6 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
-        private string _placeholder = Resources.Strings.Strings.SearchTableNumber;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -34,7 +33,6 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
-            SearchLine = _placeholder;
         }
 
         #region -- Public properties --
@@ -47,8 +45,9 @@ namespace Next2.ViewModels
 
         public GridLength HeightCollectionGrid { get; set; }
 
-        public string SearchLine { get; set; }
-        public bool IsSearch { get; set; } = false;
+        public string SearchText { get; set; } = string.Empty;
+
+        public string SearchPlaceholder { get; set; } = Resources.Strings.Strings.SearchTableNumber;
 
         public bool IsNotFound { get; set; } = false;
 
@@ -85,7 +84,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
             {
                 HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
 
@@ -226,9 +225,8 @@ namespace Next2.ViewModels
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-                SearchLine = Resources.Strings.Strings.SearchTableNumber;
-                _placeholder = SearchLine;
-                IsSearch = false;
+                SearchPlaceholder = Resources.Strings.Strings.SearchTableNumber;
+                SearchText = string.Empty;
 
                 SetVisualCollection();
             }
@@ -243,9 +241,8 @@ namespace Next2.ViewModels
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-                SearchLine = Resources.Strings.Strings.SearchName;
-                _placeholder = SearchLine;
-                IsSearch = false;
+                SearchPlaceholder = Resources.Strings.Strings.SearchName;
+                SearchText = string.Empty;
 
                 SetVisualCollection();
             }
@@ -259,21 +256,22 @@ namespace Next2.ViewModels
 
             ClearSearchAsync();
 
-            string searchPage = nameof(TabletViews.SearchPage);
-            if (Xamarin.Forms.Device.Idiom == TargetIdiom.Phone)
+            string searchPage = nameof(MobileViews.SearchPage);
+
+            if (App.IsTablet)
             {
-                searchPage = nameof(MobileViews.SearchPage);
+                searchPage = nameof(TabletViews.SearchPage);
             }
 
-            var parametrs = new NavigationParameters { { Constants.Navigations.SEARCH, IsOrderTabsSelected } };
-            await _navigationService.NavigateAsync(searchPage, parametrs);
+            var outParameter = new SearchParameters { IsSelected = IsOrderTabsSelected, SearchLine = SearchText };
+            var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, outParameter } };
+            await _navigationService.NavigateAsync(searchPage, parameters);
         }
 
         private Task SearchMessageCommandAsync(MessageEvent me)
         {
-            SearchLine = me.SearchLine;
-            IsSearch = true;
-            Orders = new (Orders.Where(x => x.OrderNumberText.Contains(SearchLine) || x.Name.Contains(SearchLine)));
+            SearchText = me.SearchLine;
+            Orders = new (Orders.Where(x => x.OrderNumberText.Contains(SearchText) || x.Name.Contains(SearchText)));
             SelectedOrder = null;
 
             MessagingCenter.Unsubscribe<MessageEvent>(this, MessageEvent.SearchMessage);
@@ -285,7 +283,7 @@ namespace Next2.ViewModels
 
         private async Task OnClearSearchCommandAsync()
         {
-            if (IsSearch)
+            if (SearchText != string.Empty)
             {
                 ClearSearchAsync();
             }
@@ -299,9 +297,8 @@ namespace Next2.ViewModels
         {
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-            SearchLine = _placeholder;
             SelectedOrder = null;
-            IsSearch = false;
+            SearchText = string.Empty;
 
             SetVisualCollection();
         }

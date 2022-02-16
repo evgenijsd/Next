@@ -22,9 +22,10 @@ namespace Next2.Droid.Renderers
             Control.Background = null;
             Control.SetPadding(0, 0, 0, 0);
             Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
-            IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
-            IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
-            JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.my_cursor); // replace 0 with a Resource.Drawable.my_cursor
+
+            //IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
+            //IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
+            //JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.my_cursor); // replace 0 with a Resource.Drawable.my_cursor
 
             if (Control != null)
             {

@@ -23,16 +23,35 @@
         FontSize="13"
         FontFamily="Barlow-Regular"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
-        Opacity="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=OpacityText}"
         VerticalOptions="Center"
         HorizontalOptions="FillAndExpand"
-        LineBreakMode="TailTruncation" >
+        LineBreakMode="TailTruncation"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder, Converter={xct:InvertedBoolConverter}}">
 
         <Label.GestureRecognizers>
             <TapGestureRecognizer
                 Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}" />
         </Label.GestureRecognizers>
         
+    </Label>
+
+    <Label
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Placeholder}"
+        Margin="10,0,0,0"
+        FontSize="13"
+        FontFamily="Barlow-Regular"
+        TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
+        Opacity="0.32"
+        VerticalOptions="Center"
+        HorizontalOptions="FillAndExpand"
+        LineBreakMode="TailTruncation"
+        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder}">
+
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}" />
+        </Label.GestureRecognizers>
+
     </Label>
 
     <ffimageloading:CachedImage

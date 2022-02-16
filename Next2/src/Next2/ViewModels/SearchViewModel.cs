@@ -1,4 +1,5 @@
 ﻿using Next2.Helpers;
+using Next2.Models;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -19,19 +20,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        private bool _isOrderTabsSelected = true;
-        public bool IsOrderTabsSelected
-        {
-            get => _isOrderTabsSelected;
-            set => SetProperty(ref _isOrderTabsSelected, value);
-        }
+        public bool IsOrderTabsSelected { get; set; } = true;
 
-        private string _searchLine = string.Empty;
-        public string SearchLine
-        {
-            get => _searchLine;
-            set => SetProperty(ref _searchLine, value);
-        }
+        public string? SearchLine { get; set; } = string.Empty;
 
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync);
@@ -40,11 +31,12 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out bool isSelected))
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH, out SearchParameters inParameter))
             {
-                IsOrderTabsSelected = isSelected;
+                IsOrderTabsSelected = inParameter.IsSelected;
+                SearchLine = inParameter.SearchLine;
             }
         }
 
@@ -52,16 +44,16 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync(string done)
+        private async Task OnGoBackCommandAsync(string? done)
         {
-            var parametrs = new NavigationParameters { { Constants.Navigations.SEARCH, done } };
+            var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, done } };
 
             if (!string.IsNullOrEmpty(done))
             {
                 MessagingCenter.Send<MessageEvent>(new MessageEvent(done), MessageEvent.SearchMessage);
             }
 
-            await _navigationService.GoBackAsync(parametrs);
+            await _navigationService.GoBackAsync(parameters);
         }
 
         #endregion

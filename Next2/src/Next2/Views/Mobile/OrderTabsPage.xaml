@@ -78,10 +78,10 @@
                             TargetType="controls:SearchButton"
                             Binding="{Binding IsSearch}"
                             Value="True">
-                            <Setter Property="OpacityText" Value="1" />
                             <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
                             <Setter Property="ImageSource" Value="ic_close_square_24x24" />
                         </DataTrigger>
+                        
                     </controls:SearchButton.Triggers>
 
                 </controls:SearchButton>
