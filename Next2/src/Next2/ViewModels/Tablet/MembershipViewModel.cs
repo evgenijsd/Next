@@ -15,7 +15,7 @@ namespace Next2.ViewModels.Tablet
 {
     public class MembershipViewModel : BaseViewModel
     {
-        private IMembershipService _membershipService;
+        private readonly IMembershipService _membershipService;
 
         public MembershipViewModel(
             INavigationService navigationService,

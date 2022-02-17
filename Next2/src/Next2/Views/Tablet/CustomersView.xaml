@@ -17,41 +17,25 @@
         <ResourceDictionary>
 
             <Style x:Key="ViewCellLabelStyle" TargetType="Label">
-
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                <Setter Property="FontSize" Value="14" />
-
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
-
                 <Setter Property="VerticalOptions" Value="Center" />
-
             </Style>
 
             <Style x:Key="ButtonTextStyle" TargetType="Label">
-
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                <Setter Property="FontSize" Value="14" />
-
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-
                 <Setter Property="HorizontalOptions" Value="Center" />
-
                 <Setter Property="VerticalOptions" Value="Center" />
-
             </Style>
 
             <Style x:Key="ButtonFrameStyle" TargetType="Frame">
-
                 <Setter Property="CornerRadius" Value="5" />
-
                 <Setter Property="HasShadow" Value="False" />
-
                 <Setter Property="HorizontalOptions" Value="End" />
-
                 <Setter Property="WidthRequest" Value="100" />
-
             </Style>
 
         </ResourceDictionary>
@@ -73,7 +57,7 @@
                 Grid.Row="0"
                 Margin="30,0,0,0"
                 FontFamily="Barlow-Bold"
-                FontSize="24"
+                FontSize="{DynamicResource TSize_i4_5}"
                 HorizontalOptions="Start"
                 Text="{xct:Translate Customers}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -118,7 +102,7 @@
                                     <Label
                                         Margin="12,0,160,0"
                                         FontFamily="Barlow-Medium"
-                                        FontSize="14"
+                                        FontSize="{DynamicResource TSize_i8}"
                                         Text="{xct:Translate SearchByNameOrPhone}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i2}"
                                         VerticalOptions="Center" />
@@ -151,20 +135,16 @@
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
 
                             <Frame.GestureRecognizers>
-
                                 <TapGestureRecognizer Command="{Binding ShowInfoCommand}" CommandParameter="{Binding SelectedItem, Source={x:Reference collectiomView}}" />
-
                             </Frame.GestureRecognizers>
 
                             <Frame.Triggers>
-
                                 <DataTrigger
                                     Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
                                     TargetType="Frame"
                                     Value="null">
                                     <Setter Property="Opacity" Value="0.32" />
                                 </DataTrigger>
-
                             </Frame.Triggers>
 
                         </Frame>
@@ -211,9 +191,7 @@
                                 <Image Source="ic_sort_primary_24x24" />
 
                                 <StackLayout.GestureRecognizers>
-
-                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ESorting.ByName}" />
-
+                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ECustomersSorting.ByName}" />
                                 </StackLayout.GestureRecognizers>
 
                             </StackLayout>
@@ -224,27 +202,10 @@
                                 <Image
                                     x:Name="sortPointsImage"
                                     IsVisible="true"
-                                    Source="ic_sort_primary_24x24">
-
-                                    <Image.Triggers>
-
-                                        <DataTrigger
-                                            Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
-                                            TargetType="Image"
-                                            Value="null">
-
-                                            <Setter Property="IsVisible" Value="false" />
-
-                                        </DataTrigger>
-
-                                    </Image.Triggers>
-
-                                </Image>
+                                    Source="ic_sort_primary_24x24" />
 
                                 <StackLayout.GestureRecognizers>
-
-                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ESorting.ByPoints}" />
-
+                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ECustomersSorting.ByPoints}" />
                                 </StackLayout.GestureRecognizers>
 
                             </StackLayout>
@@ -290,9 +251,7 @@
                                 VerticalScrollBarVisibility="Always">
 
                                 <CollectionView.Effects>
-
-                                    <effects:ScrollBarColorEffect ScrollBarColor="#F45E49" />
-
+                                    <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}" />
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
@@ -301,17 +260,12 @@
 
                                         <Grid ColumnDefinitions="0.325*,*" HeightRequest="45">
                                             <Grid.RowDefinitions>
-
                                                 <RowDefinition Height="*" />
-
                                                 <RowDefinition Height="{OnPlatform Android=1.5, iOS=2}" />
-
                                             </Grid.RowDefinitions>
 
                                             <Grid.GestureRecognizers>
-
                                                 <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
-
                                             </Grid.GestureRecognizers>
 
                                             <Image
@@ -365,17 +319,13 @@
                                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                             <VisualStateManager.VisualStateGroups>
-
                                                 <VisualStateGroup Name="CommonStates">
 
                                                     <VisualState Name="Selected">
 
                                                         <VisualState.Setters>
-
                                                             <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_checked_white" />
-
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-
                                                         </VisualState.Setters>
 
                                                     </VisualState>
@@ -383,11 +333,8 @@
                                                     <VisualState Name="Normal">
 
                                                         <VisualState.Setters>
-
                                                             <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_unhecked_24x24" />
-
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-
                                                         </VisualState.Setters>
 
                                                     </VisualState>
@@ -427,7 +374,7 @@
                     Opacity="1">
 
                     <Label
-                        FontSize="14"
+                        FontSize="{DynamicResource TSize_i8}"
                         HorizontalOptions="Center"
                         Text="Select"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"

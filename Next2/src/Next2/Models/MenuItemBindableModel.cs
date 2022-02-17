@@ -5,7 +5,7 @@ using Prism.Mvvm;
 
 namespace Next2.Models
 {
-    public class MenuItemBindableModel : BindableBase, ISelectable
+    public class MenuItemBindableModel : BindableBase
     {
         public EMenuItems State { get; set; }
 

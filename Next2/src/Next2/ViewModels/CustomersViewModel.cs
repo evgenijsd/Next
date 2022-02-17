@@ -1,19 +1,14 @@
-﻿using Next2;
+﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Extensions;
 using Next2.Models;
 using Next2.Services.CustomersService;
-using Next2.ViewModels;
-using Next2.Views.Mobile.Dialogs;
-using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -25,8 +20,7 @@ namespace Next2.ViewModels
     {
         private readonly ICustomersService _customersService;
         private readonly IPopupNavigation _popupNavigation;
-        private CustomerBindableModel? _oldSelectedItem;
-        private ESorting _sortCriterion;
+        private ECustomersSorting _sortCriterion;
 
         public CustomersViewModel(
             INavigationService navigationService,
@@ -50,7 +44,7 @@ namespace Next2.ViewModels
         public ICommand ShowInfoCommand => _showInfoCommand ??= new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
 
         private ICommand _sortCommand;
-        public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ESorting>(SortAsync);
+        public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync);
 
         private ICommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync);
@@ -60,7 +54,7 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region --Overrides--
+        #region -- Overrides --
 
         public override async void OnAppearing()
         {
@@ -71,31 +65,34 @@ namespace Next2.ViewModels
         {
             Customers = new ();
             SelectedCustomer = null;
-            //await Task.Delay(64);
         }
 
         #endregion
 
-        #region --Private Helpers--
+        #region -- Private Helpers --
 
         private async Task RefreshAsync()
         {
             IsRefreshing = true;
 
-            var castomersAoresult = await _customersService.GetAllCustomersAsync();
-            if (castomersAoresult.IsSuccess)
+            var customersAoresult = await _customersService.GetAllCustomersAsync();
+
+            if (customersAoresult.IsSuccess)
             {
-                var list = castomersAoresult.Result;
-                var listvm = list.Select(x => x.ToCustomerBindableModel()).OrderBy(x => x.Name);
-                var customers = new ObservableCollection<CustomerBindableModel>();
-                foreach (var item in listvm)
+                MapperConfiguration config;
+                config = new MapperConfiguration(cfg => cfg.CreateMap<CustomerModel, CustomerBindableModel>());
+                var mapper = new Mapper(config);
+
+                var result = customersAoresult.Result.OrderBy(x => x.Name);
+                var customers = mapper.Map<IEnumerable<CustomerModel>, ObservableCollection<CustomerBindableModel>>(result);
+
+                foreach (var item in customers)
                 {
-                        item.ShowInfoCommand = new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
-                        item.SelectItemCommand = new AsyncCommand<CustomerBindableModel>(SelectDeselectItemAsync);
-                        customers.Add(item);
+                    item.ShowInfoCommand = new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
+                    item.SelectItemCommand = new Command<CustomerBindableModel>(SelectDeselectItem);
                 }
 
-                if (customers.Count > 0)
+                if (customers.Any())
                 {
                     Customers = customers;
                 }
@@ -104,28 +101,9 @@ namespace Next2.ViewModels
             IsRefreshing = false;
         }
 
-        private Task SelectDeselectItemAsync(CustomerBindableModel customer)
+        private void SelectDeselectItem(CustomerBindableModel customer)
         {
-            SelectedCustomer = customer;
-
-            if (_oldSelectedItem == null)
-            {
-                _oldSelectedItem = SelectedCustomer;
-            }
-            else
-            {
-                if (SelectedCustomer == _oldSelectedItem)
-                {
-                    SelectedCustomer = null;
-                    _oldSelectedItem = null;
-                }
-                else
-                {
-                    _oldSelectedItem = SelectedCustomer;
-                }
-            }
-
-            return Task.CompletedTask;
+            SelectedCustomer = SelectedCustomer == customer ? null : customer;
         }
 
         private async Task ShowCustomerInfoAsync(CustomerBindableModel customer)
@@ -135,15 +113,15 @@ namespace Next2.ViewModels
                 var param = new DialogParameters();
                 param.Add(Constants.DialogParameterKeys.MODEL, selectedCustomer);
 
-                if (Device.Idiom == TargetIdiom.Phone)
+                if (App.IsTablet)
                 {
-                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
-                    .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                        .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
                 }
                 else
                 {
-                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                    .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
+                        .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
                 }
             }
         }
@@ -166,32 +144,28 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task SortAsync(ESorting criterion)
+        private Task SortAsync(ECustomersSorting criterion)
         {
-            if (SelectedCustomer == null && criterion == ESorting.ByPoints)
+            if (_sortCriterion == criterion)
             {
-                return Task.CompletedTask;
+                Customers = new (Customers.Reverse());
             }
             else
             {
-                if (_sortCriterion == criterion)
-                {
-                    Customers = new (Customers.Reverse());
-                }
-                else
-                {
-                    _sortCriterion = criterion;
-                    Func<CustomerBindableModel, object> comparer = criterion switch
-                    {
-                        ESorting.ByName => x => x.Name,
-                        ESorting.ByPoints => x => x.Points,
-                        ESorting.ByPhoneNumber => x => x.Phone,
-                    };
-                    Customers = new (Customers.OrderBy(comparer));
-                }
+                _sortCriterion = criterion;
 
-                return Task.CompletedTask;
+                Func<CustomerBindableModel, object> comparer = criterion switch
+                {
+                    ECustomersSorting.ByName => x => x.Name,
+                    ECustomersSorting.ByPoints => x => x.Points,
+                    ECustomersSorting.ByPhoneNumber => x => x.Phone,
+                    _ => throw new NotImplementedException(),
+                };
+
+                Customers = new (Customers.OrderBy(comparer));
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

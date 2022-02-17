@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Essentials;
 
-namespace Next2.Services.Services
+namespace Next2.Services.SettingsService
 {
     public class SettingsManager : ISettingsManager
     {

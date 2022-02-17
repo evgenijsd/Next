@@ -9,71 +9,45 @@
     x:DataType="dialogs:CustomerInfoViewModel">
 
     <ContentPage.Resources>
-
         <ResourceDictionary>
 
             <Style x:Key="HeadLayoutStyle" TargetType="StackLayout">
-
                 <Setter Property="Margin" Value="8,18,0,0" />
-
             </Style>
 
             <Style x:Key="HeadTextStyle" TargetType="Label">
-
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
-
-                <Setter Property="FontSize" Value="12" />
-
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
             </Style>
 
             <Style x:Key="GridTextStyle" TargetType="Label">
-
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
-
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                <Setter Property="FontSize" Value="14" />
-
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             </Style>
 
             <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
-
                 <Setter Property="VerticalOptions" Value="Start" />
-
                 <Setter Property="HorizontalOptions" Value="Center" />
-
                 <Setter Property="Margin" Value="0,40,0,0" />
-
             </Style>
 
             <Style x:Key="ButtonFrameStyle" TargetType="Frame">
-
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-
                 <Setter Property="HasShadow" Value="False" />
-
                 <Setter Property="CornerRadius" Value="5" />
-
                 <Setter Property="WidthRequest" Value="100" />
-
                 <Setter Property="Padding" Value="0" />
-
             </Style>
 
             <Style x:Key="ButtonTextStyle" TargetType="Label">
-
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
-
                 <Setter Property="FontSize" Value="14" />
-
                 <Setter Property="VerticalOptions" Value="Center" />
-
                 <Setter Property="HorizontalOptions" Value="Center" />
-
             </Style>
 
         </ResourceDictionary>
-
     </ContentPage.Resources>
 
     <Frame
@@ -102,7 +76,7 @@
                     Grid.Row="0"
                     Margin="18,0,0,0"
                     FontFamily="Barlow-SemiBold"
-                    FontSize="18"
+                    FontSize="{DynamicResource TSize_i6}"
                     Text="{xct:Translate CustomerInfo}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalOptions="Center" />
@@ -121,7 +95,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            FontSize="14"
+                            FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Name}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -136,7 +110,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            FontSize="14"
+                            FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Phone}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -151,7 +125,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Label
-                            FontSize="14"
+                            FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
                             Text="{Binding Customer.Email}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -193,18 +167,14 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="21"
+                                    FontSize="{DynamicResource TSize_i5}"
                                     HorizontalOptions="Center"
                                     TextColor="{DynamicResource AppColor_i1}">
 
                                     <Label.FormattedText>
-
                                         <FormattedString>
-
                                             <Span Text="{Binding Customer.Points, StringFormat='{0:D} pt'}" />
-
                                         </FormattedString>
-
                                     </Label.FormattedText>
 
                                 </Label>
@@ -230,7 +200,7 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="29"
+                                    FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
                                     Text="{Binding Customer.Rewards}"
                                     TextColor="{DynamicResource IndicationColor_i7}" />
@@ -259,7 +229,7 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="29"
+                                    FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
                                     Text="{Binding Customer.GiftCardCount}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
@@ -289,18 +259,14 @@
                                 <Label
                                     Margin="0,12,0,0"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="21"
+                                    FontSize="{DynamicResource TSize_i5}"
                                     HorizontalOptions="Center"
                                     TextColor="{DynamicResource IndicationColor_i1}">
 
                                     <Label.FormattedText>
-
                                         <FormattedString>
-
                                             <Span Text="{Binding Customer.GiftCardTotal, StringFormat='$ {0:F2}'}" />
-
                                         </FormattedString>
-
                                     </Label.FormattedText>
 
                                 </Label>
@@ -333,9 +299,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                         <Frame.GestureRecognizers>
-
                             <TapGestureRecognizer Command="{Binding DeclineCommand}" />
-
                         </Frame.GestureRecognizers>
 
                     </Frame>
@@ -351,9 +315,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                         <Frame.GestureRecognizers>
-
                             <TapGestureRecognizer Command="{Binding AcceptCommand}" />
-
                         </Frame.GestureRecognizers>
 
                     </Frame>

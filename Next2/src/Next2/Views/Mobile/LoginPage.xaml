@@ -138,7 +138,7 @@
                         HasShadow="False"
                         Text="{xct:Translate Clear}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i7}"
-                        TextSize="{DynamicResource TSize_i8}"
+                        FontSize="{DynamicResource TSize_i8}"
                         BorderColor="{DynamicResource IndicationColor_i4}"
                         FontFamily="Barlow-SemiBold"
                         Command="{Binding ButtonClearCommand}">
@@ -167,7 +167,7 @@
                         HeightRequest="65"
                         HasShadow="False"
                         Text="{xct:Translate Login}"
-                        TextSize="{DynamicResource TSize_i8}"
+                        FontSize="{DynamicResource TSize_i8}"
                         BorderColor="Transparent"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         FontFamily="Barlow-SemiBold"

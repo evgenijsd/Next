@@ -29,7 +29,7 @@ namespace Next2.iOS.Effects
         {
             try
             {
-                //_view = (UIScrollView)(Control ?? Container);
+                _view = (UIScrollView)(Control ?? Container);
                 _view.Scrolled += Container_Scrolled;
 
                 var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
@@ -38,7 +38,7 @@ namespace Next2.iOS.Effects
                     _scrollBarColor = effect.ScrollBarColor.ToUIColor();
                 }
             }
-            catch (Exception)
+            catch
             {
             }
         }
@@ -49,24 +49,26 @@ namespace Next2.iOS.Effects
             {
                 _view.Scrolled -= Container_Scrolled;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
             }
         }
 
         private void Container_Scrolled(object sender, System.EventArgs e)
         {
-            var subViews = _view.Subviews.ToList();
-            var verticalIndicator = subViews.LastOrDefault();
-
-            if (verticalIndicator != null)
+            try
             {
-                var margin = verticalIndicator.LayoutMargins;
-                margin.Left -= 5;
+                var subViews = _view.Subviews.ToList();
+                var verticalIndicator = subViews.LastOrDefault();
 
-                verticalIndicator.LayoutMargins = margin;
-                verticalIndicator.Layer.CornerRadius = 3;
-                verticalIndicator.BackgroundColor = _scrollBarColor;
+                if (verticalIndicator != null)
+                {
+                    verticalIndicator.Layer.CornerRadius = 3;
+                    verticalIndicator.BackgroundColor = _scrollBarColor;
+                }
+            }
+            catch
+            {
             }
         }
     }
