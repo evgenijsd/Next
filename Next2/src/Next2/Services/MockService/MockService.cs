@@ -12,6 +12,7 @@ namespace Next2.Services.MockService
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
 
+        private IList<OrderModel> _orders;
         private IList<CategoryModel> _categories;
         private IList<SubcategoryModel> _subcategories;
         private IList<SetModel> _sets;
@@ -20,6 +21,7 @@ namespace Next2.Services.MockService
         private IList<PortionModel> _portions;
 
         private Dictionary<Type, object> _base;
+        private List<CustomerModel> _customers;
 
         public MockService()
         {
@@ -145,24 +147,178 @@ namespace Next2.Services.MockService
 
         private async Task InitMocksAsync()
         {
-            try
-            {
-                _base = new Dictionary<Type, object>();
+            _base = new Dictionary<Type, object>();
+            await Task.WhenAll(
+                InitOrdersAsync(),
+                InitMembersAsync(),
+                InitCategoriesAsync(),
+                InitSubategoriesAsync(),
+                InitSetsAsync(),
+                InitUsersAsync(),
+                InitCustomersAsync(),
+                InitPortionsAsync());
 
-                await Task.WhenAll(
-                    InitMembersAsync(),
-                    InitCategoriesAsync(),
-                    InitSubategoriesAsync(),
-                    InitSetsAsync(),
-                    InitUsersAsync(),
-                    InitPortionsAsync());
-
-                _initCompletionSource.TrySetResult(true);
-            }
-            catch (Exception e)
-            {
-            }
+            _initCompletionSource.TrySetResult(true);
         }
+
+        private Task InitOrdersAsync() => Task.Run(() =>
+        {
+            _orders = new List<OrderModel>
+            {
+                new OrderModel()
+                {
+                    Id = 1,
+                    CustomerName = "Bill Gates",
+                    TableNumber = 10,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 1,
+                    Total = 50.2,
+                },
+                new OrderModel()
+                {
+                    Id = 2,
+                    CustomerName = "Kate White",
+                    TableNumber = 7,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 2,
+                    Total = 30.3,
+                },
+                new OrderModel()
+                {
+                    Id = 3,
+                    CustomerName = "Sam Smith",
+                    TableNumber = 6,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 3,
+                    Total = 40.45,
+                },
+                new OrderModel()
+                {
+                    Id = 4,
+                    CustomerName = "Steve Jobs",
+                    TableNumber = 4,
+                    OrderStatus = "Annuled",
+                    OrderType = "Dine In",
+                    OrderNumber = 4,
+                    Total = 3.67,
+                },
+                new OrderModel()
+                {
+                    Id = 5,
+                    CustomerName = "Elon musk",
+                    TableNumber = 3,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 5,
+                    Total = 70.44,
+                },
+                new OrderModel()
+                {
+                    Id = 6,
+                    CustomerName = "Keano Reaves",
+                    TableNumber = 1,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 6,
+                    Total = 6.77,
+                },
+                new OrderModel()
+                {
+                    Id = 7,
+                    CustomerName = "Roderick Marvin",
+                    TableNumber = 2,
+                    OrderStatus = "Annuled",
+                    OrderType = "Dine In",
+                    OrderNumber = 7,
+                    Total = 45.11,
+                },
+                new OrderModel()
+                {
+                    Id = 8,
+                    CustomerName = "Clinton Gleichner",
+                    TableNumber = 8,
+                    OrderStatus = "Annuled",
+                    OrderType = "Dine In",
+                    OrderNumber = 8,
+                    Total = 33.67,
+                },
+                new OrderModel()
+                {
+                    Id = 9,
+                    CustomerName = "Victor Dickinson",
+                    TableNumber = 9,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 9,
+                    Total = 55.16,
+                },
+                new OrderModel()
+                {
+                    Id = 10,
+                    CustomerName = "Dave Glover",
+                    TableNumber = 10,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 10,
+                    Total = 97.66,
+                },
+                new OrderModel()
+                {
+                    Id = 11,
+                    CustomerName = "Dave Glover",
+                    TableNumber = 1,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 11,
+                    Total = 96.00,
+                },
+                new OrderModel()
+                {
+                    Id = 12,
+                    CustomerName = "Dave Glover",
+                    TableNumber = 2,
+                    OrderStatus = "Annuled",
+                    OrderType = "Dine In",
+                    OrderNumber = 12,
+                    Total = 9.50,
+                },
+                new OrderModel()
+                {
+                    Id = 13,
+                    CustomerName = "Dave Glover",
+                    TableNumber = 10,
+                    OrderStatus = "Annuled",
+                    OrderType = "Dine In",
+                    OrderNumber = 13,
+                    Total = 9.40,
+                },
+                new OrderModel()
+                {
+                    Id = 14,
+                    CustomerName = "Dave Glover",
+                    TableNumber = 3,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 14,
+                    Total = 9.30,
+                },
+                new OrderModel()
+                {
+                    Id = 15,
+                    CustomerName = "Dave Glover",
+                    TableNumber = 10,
+                    OrderStatus = "Pending",
+                    OrderType = "Dine In",
+                    OrderNumber = 15,
+                    Total = 9.20,
+                },
+            };
+
+            _base.Add(typeof(OrderModel), _orders);
+        });
 
         private Task InitCategoriesAsync() => Task.Run(() =>
         {
@@ -653,6 +809,11 @@ namespace Next2.Services.MockService
                 {
                     Id = 000002,
                     UserName = "Tom Black",
+                },
+                new UserModel
+                {
+                    Id = 000,
+                    UserName = "Tom",
                 },
             };
 
@@ -1444,6 +1605,12 @@ namespace Next2.Services.MockService
             };
 
             _base.Add(typeof(PortionModel), _portions);
+        });
+
+        private Task InitCustomersAsync() => Task.Run(() =>
+        {
+            _customers = CustomersMock.Create();
+            _base.Add(typeof(CustomerModel), _customers);
         });
 
         #endregion

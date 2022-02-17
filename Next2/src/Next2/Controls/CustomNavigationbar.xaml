@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:DataType="controls:CustomNavigationbar"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+    ColumnDefinitions="50,*"
+    ColumnSpacing="0"
+    x:Class="Next2.Controls.CustomNavigationbar">
+
+    <StackLayout Grid.Column="0">
+
+        <ffimageloading:CachedImage Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonImageSource}"
+                                    HeightRequest="25"
+                                    VerticalOptions="CenterAndExpand">
+        </ffimageloading:CachedImage>
+
+        <StackLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}" />
+        </StackLayout.GestureRecognizers>
+        
+    </StackLayout>
+
+    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"
+           Margin="5,0,0,0"
+           TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+           FontFamily="Barlow-SemiBold"
+           FontSize="{DynamicResource TSize_i5}"
+           VerticalOptions="CenterAndExpand"
+           Grid.Column="1" />
+    
+</Grid>
