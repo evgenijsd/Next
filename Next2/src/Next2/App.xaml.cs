@@ -10,6 +10,15 @@ using Next2.Services.OrderService;
 using Next2.ViewModels;
 using Next2.ViewModels.Tablet;
 using Next2.Views.Tablet;
+using MobileViews = Next2.Views.Mobile;
+using TabletViews = Next2.Views.Tablet;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
+using Next2.ViewModels.Dialogs;
+using Next2.Views;
+using Next2.Views.Mobile;
+using Next2.Views.Mobile.Dialogs;
+using Next2.Views.Tablet.Dialogs;
 using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
@@ -17,13 +26,10 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using MobileViewModels = Next2.ViewModels.Mobile;
-using MobileViews = Next2.Views.Mobile;
-using TabletViewModels = Next2.ViewModels.Tablet;
-using TabletViews = Next2.Views.Tablet;
 using Next2.Services.SettingsService;
 using Next2.Services.UserService;
 using Next2.ViewModels.Dialogs;
+using Next2.Services.CustomersService;
 
 namespace Next2
 {
@@ -57,6 +63,8 @@ namespace Next2
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
 
+            containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
+            containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
             if (IsTablet)
@@ -76,6 +84,8 @@ namespace Next2
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
             else
             {
@@ -87,6 +97,8 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
             }
         }
 
@@ -108,7 +120,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(LoginPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.LoginPage)}");
         }
 
         protected override void OnStart()
