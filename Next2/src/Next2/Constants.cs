@@ -45,6 +45,12 @@
         {
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
+            public const string MESSAGE = nameof(MESSAGE);
+            public const string MODEL = nameof(MODEL);
+            public const string TITLE = nameof(TITLE);
+            public const string OK_BUTTON_TEXT = nameof(OK_BUTTON_TEXT);
+            public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
+            public const string ACCEPT = nameof(ACCEPT);
         }
     }
 }

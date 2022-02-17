@@ -15,8 +15,6 @@ namespace Next2.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Rg.Plugins.Popup.Popup.Init(this);
-
             Window.AddFlags(WindowManagerFlags.Fullscreen);
             Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
 
@@ -25,13 +23,11 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            Rg.Plugins.Popup.Popup.Init(this);
 
             RequestedOrientation = Device.Idiom == TargetIdiom.Tablet ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 
             LoadApplication(new App());
-
-            Window.AddFlags(WindowManagerFlags.Fullscreen);
-            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

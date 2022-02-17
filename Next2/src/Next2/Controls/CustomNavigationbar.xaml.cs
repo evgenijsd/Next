@@ -23,6 +23,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public string LeftButtonImageSource
         {
             get => (string)GetValue(LeftButtonImageSourceProperty);
@@ -34,6 +35,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public double HeightImage
         {
             get => (double)GetValue(HeightImageProperty);
@@ -45,6 +47,7 @@ namespace Next2.Controls
             returnType: typeof(ICommand),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public ICommand LeftButtonCommand
         {
             get => (ICommand)GetValue(LeftButtonCommandProperty);
@@ -56,6 +59,7 @@ namespace Next2.Controls
             returnType: typeof(string),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public string Title
         {
             get => (string)GetValue(TitleProperty);
@@ -67,6 +71,7 @@ namespace Next2.Controls
             returnType: typeof(Color),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public Color TitleColor
         {
             get => (Color)GetValue(TitleColorProperty);
@@ -78,6 +83,7 @@ namespace Next2.Controls
             returnType: typeof(double),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
+
         public double FontSize
         {
             get => (double)GetValue(FontSizeProperty);
