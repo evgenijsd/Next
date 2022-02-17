@@ -27,14 +27,15 @@ namespace Next2.Views.Mobile
         {
             _isEntryFocusOn = false;
 
-            Task.Delay(100);
+            EntryLocal.Unfocus();
+            EntryLocal.IsEnabled = false;
         }
 
         private void EntryLocal_Unfocused(object sender, FocusEventArgs e)
         {
             if (_isEntryFocusOn)
             {
-                EntryLocal.Focus();
+                //EntryLocal.Focus();
             }
         }
     }

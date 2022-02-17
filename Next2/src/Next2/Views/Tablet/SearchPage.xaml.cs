@@ -25,17 +25,18 @@ namespace Next2.Views.Tablet
 
         private void EntryLocal_Unfocused(object sender, FocusEventArgs e)
         {
-            Task.Delay(100);
-
             if (_isEntryFocusOn)
             {
-                EntryLocal.Focus();
+                //EntryLocal.Focus();
             }
         }
 
         private void BaseContentPage_Disappearing(object sender, EventArgs e)
         {
             _isEntryFocusOn = false;
+
+            EntryLocal.Unfocus();
+            EntryLocal.IsEnabled = false;
         }
     }
 }

@@ -36,7 +36,8 @@
                     FontSize="{DynamicResource TSize_i5}"
                     FontFamily="Barlow-Regular"
                     ReturnType="Done"
-                    ReturnCommand="{Binding GoBackCommand}"
+                    ReturnCommand="{Binding GoBackCommand}" 
+                    MaxLength="100"
                     ReturnCommandParameter="{Binding SearchLine}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}">

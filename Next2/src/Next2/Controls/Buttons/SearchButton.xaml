@@ -19,7 +19,7 @@
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text}"
-        Margin="10,0,0,0"
+        Margin="10,0,40,0"
         FontSize="13"
         FontFamily="Barlow-Regular"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
@@ -37,7 +37,7 @@
 
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Placeholder}"
-        Margin="10,0,0,0"
+        Margin="10,0,40,0"
         FontSize="13"
         FontFamily="Barlow-Regular"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"

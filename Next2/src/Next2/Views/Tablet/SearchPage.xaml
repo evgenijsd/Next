@@ -17,11 +17,11 @@
 
             <controls:CustomNavigationbar
                 Grid.Row="0"
-                Margin="20,0,0,0"
+                Margin="15,0,0,0"
                 VerticalOptions="Center"
                 Title="{xct:Translate Search}"
-                HeightImage="10"
-                FontSize="{DynamicResource TSize_i6}"
+                HeightImage="18"
+                FontSize="{DynamicResource TSize_i7}"
                 LeftButtonImageSource="ic_arrow_left_tail_40x40"
                 LeftButtonCommand="{Binding GoBackCommand}" />
 
@@ -41,6 +41,7 @@
                     ReturnCommandParameter="{Binding SearchLine}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     ReturnType="Done"
+                    MaxLength="100"
                     PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}">
 
                     <controls:CustomEntry.Triggers>

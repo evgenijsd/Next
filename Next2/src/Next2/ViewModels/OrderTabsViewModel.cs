@@ -270,7 +270,7 @@ namespace Next2.ViewModels
         private Task SearchMessageCommandAsync(MessageEvent me)
         {
             SearchText = me.SearchLine;
-            Orders = new (Orders.Where(x => x.OrderNumberText.Contains(SearchText) || x.Name.Contains(SearchText)));
+            Orders = new (Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
             SelectedOrder = null;
 
             MessagingCenter.Unsubscribe<MessageEvent>(this, MessageEvent.SearchMessage);
