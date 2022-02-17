@@ -61,11 +61,12 @@ namespace Next2
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
-
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
+
             if (IsTablet)
             {
                 // Services

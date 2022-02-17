@@ -1,6 +1,7 @@
 ﻿using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
+using Next2.Services.OrderService;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -20,16 +21,20 @@ namespace Next2.ViewModels.Tablet
 
         private readonly IPopupNavigation _popupNavigation;
 
+        private readonly IOrderService _orderService;
+
         private bool _order;
 
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
 
             Task.Run(LoadCategoriesAsync);
         }
@@ -107,8 +112,23 @@ namespace Next2.ViewModels.Tablet
                 param.Add(Constants.DialogParameterKeys.SET, set);
                 param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
 
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
             }
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            {
+                SetBindableModel set;
+
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
+                {
+                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                }
+            }
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private async Task LoadCategoriesAsync()

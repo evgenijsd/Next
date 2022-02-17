@@ -10,6 +10,10 @@ namespace Next2.Services.OrderService
 {
     public interface IOrderService
     {
+        OrderBindableModel CurrentOrder { get; set; }
+
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
+
+        Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
     }
 }

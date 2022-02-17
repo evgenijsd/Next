@@ -41,7 +41,6 @@
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
             public const string PORTIONS = nameof(PORTIONS);
-            public const string PORTION = nameof(PORTION);
             public const string MESSAGE = nameof(MESSAGE);
             public const string MODEL = nameof(MODEL);
             public const string TITLE = nameof(TITLE);

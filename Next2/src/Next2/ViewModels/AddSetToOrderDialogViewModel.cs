@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using AutoMapper;
+using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -17,6 +18,12 @@ namespace Next2.ViewModels
         {
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(null));
+            TapAddCommand = new Command(() =>
+            {
+                Set.Portion = SelectedPortion;
+
+                RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.SET, Set } });
+            });
 
             if (param.ContainsKey(Constants.DialogParameterKeys.SET) && param.ContainsKey(Constants.DialogParameterKeys.PORTIONS))
             {
@@ -25,7 +32,10 @@ namespace Next2.ViewModels
 
                 if (param.TryGetValue(Constants.DialogParameterKeys.SET, out set) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out portions))
                 {
-                    Set = set;
+                    MapperConfiguration config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
+                    var mapper = new Mapper(config);
+
+                    Set = mapper.Map<SetModel, SetBindableModel>(set);
                     Portions = portions;
                     SelectedPortion = Portions.FirstOrDefault();
                 }
@@ -34,7 +44,7 @@ namespace Next2.ViewModels
 
         #region --Public Properties--
 
-        public SetModel Set { get; }
+        public SetBindableModel Set { get; }
 
         public IEnumerable<PortionModel> Portions { get; }
 
@@ -44,16 +54,7 @@ namespace Next2.ViewModels
 
         public ICommand CloseCommand { get; }
 
-        private ICommand _tapAddCommand;
-        public ICommand TapAddCommand => _tapAddCommand ??= new AsyncCommand(OnTapCommandAsync);
-
-        #endregion
-
-        #region --Private methods--
-
-        private async Task OnTapCommandAsync()
-        {
-        }
+        public ICommand TapAddCommand { get; }
 
         #endregion
     }

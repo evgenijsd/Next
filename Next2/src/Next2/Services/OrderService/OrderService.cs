@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Next2.Services.OrderService
 {
@@ -17,6 +18,12 @@ namespace Next2.Services.OrderService
         {
             _mockService = mockService;
         }
+
+        #region -- Public properties --
+
+        public OrderBindableModel? CurrentOrder { get; set; }
+
+        #endregion
 
         #region -- Interface implementation --
 
@@ -40,6 +47,30 @@ namespace Next2.Services.OrderService
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetOrdersAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                if (CurrentOrder is null)
+                {
+                    CurrentOrder = new OrderBindableModel();
+                    CurrentOrder.Sets = new ObservableCollection<SetBindableModel>();
+                }
+
+                CurrentOrder.Sets.Add(set);
+
+                result.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

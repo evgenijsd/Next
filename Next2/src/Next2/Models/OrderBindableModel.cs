@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Next2.Models
@@ -22,6 +23,8 @@ namespace Next2.Models
         public string OrderNumberText { get; set; }
 
         public double Total { get; set; }
+
+        public ObservableCollection<SetBindableModel> Sets { get; set; }
 
         #endregion
     }
