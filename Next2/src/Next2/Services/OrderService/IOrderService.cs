@@ -11,5 +11,7 @@ namespace Next2.Services.OrderService
     public interface IOrderService
     {
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
+
+        string SearchValidator(ref string text);
     }
 }

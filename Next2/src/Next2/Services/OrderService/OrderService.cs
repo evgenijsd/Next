@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Next2.Services.OrderService
 {
@@ -43,6 +44,20 @@ namespace Next2.Services.OrderService
             }
 
             return result;
+        }
+
+        public string SearchValidator(ref string text)
+        {
+            if (Regex.IsMatch(text, Constants.Validators.VALID_TEXT))
+            {
+                text = text;
+            }
+            else
+            {
+                text = text;
+            }
+
+            return text;
         }
 
         #endregion

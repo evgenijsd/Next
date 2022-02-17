@@ -41,6 +41,12 @@
             public const string SEARCH = nameof(SEARCH);
         }
 
+        public static class Validators
+        {
+            public const string VALID_TEXT = "[0-9a-zA-z]";
+            public const string VALID_NAME = @"^[a-zA-Z\s]+$";
+        }
+
         public static class DialogParameterKeys
         {
             public const string SET = nameof(SET);
