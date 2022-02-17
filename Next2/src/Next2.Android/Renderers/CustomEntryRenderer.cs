@@ -32,13 +32,13 @@ namespace Next2.Droid.Renderers
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
             {
-                Control.SetTextCursorDrawable(Resource.Drawable.my_cursor); //This API Intrduced in android 10
+                Control.SetTextCursorDrawable(Resource.Drawable.custom_cursor); //This API Intrduced in android 10
             }
             else
             {
                 IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
                 IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
-                JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.my_cursor);
+                JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.custom_cursor);
             }
 
             if (Control != null)

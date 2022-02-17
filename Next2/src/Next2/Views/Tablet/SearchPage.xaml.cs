@@ -18,7 +18,7 @@ namespace Next2.Views.Tablet
 
         private void BaseContentPage_Appearing(object sender, EventArgs e)
         {
-            EntryLocal.Focus();
+            searchEntry.Focus();
         }
     }
 }

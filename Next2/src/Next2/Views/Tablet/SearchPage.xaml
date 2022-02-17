@@ -30,7 +30,7 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
                 <controls:CustomEntry
-                    x:Name="EntryLocal"
+                    x:Name="searchEntry"
                     Text="{Binding SearchLine}"
                     Placeholder="{xct:Translate TableNumberOrOrder}"
                     FontSize="{DynamicResource TSize_i4}"
