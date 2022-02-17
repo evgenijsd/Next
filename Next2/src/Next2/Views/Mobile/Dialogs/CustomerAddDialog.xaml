@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
-    xmlns:rg="http://rotorgames.com"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="dialogs:CustomerInfoViewModel">
     <ContentPage.Content>
