@@ -1,13 +1,11 @@
-﻿using Next2.ViewModels.Dialogs;
+﻿using Next2.Controls;
+using Next2.Models;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;
-using Next2.Models;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Xamarin.Forms;
-using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace Next2.Views.Mobile.Dialogs
 {
@@ -39,12 +37,13 @@ namespace Next2.Views.Mobile.Dialogs
                 new MonthModel() { Id = 11, MonthName = "November" },
                 new MonthModel() { Id = 12, MonthName = "December" },
             };
-            SelectedMonth = 3;
+            SelectedMonth = DateTime.Now.Month;
+            Month = Months[SelectedMonth - 1];
 
             Years = new List<YearModel>();
             for (int i = 1900; i < 2100; i++)
             {
-                Years.Add(new YearModel() { Id = i - 1900, Year = i });
+                Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
         }
 
@@ -55,6 +54,8 @@ namespace Next2.Views.Mobile.Dialogs
         public List<MonthModel> Months { get; set; }
 
         public List<YearModel> Years { get; set; }
+
+        public MonthModel Month { get; set; }
 
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
             propertyName: nameof(SelectedMonth),
@@ -86,6 +87,54 @@ namespace Next2.Views.Mobile.Dialogs
 
         #region -- Private Helpers --
 
+        private void OnCalendarGridPropertyChanged(object sender, System.EventArgs arg)
+        {
+            if (Month is not null)
+            {
+                if (sender is CalendarGridCollectionView collectionView && collectionView.Month != Month?.Id)
+                {
+                    if (collectionView.Month > Month?.Id)
+                    {
+                        Month = Months[SelectedMonth - 1];
+                        if (SelectedMonth == 1)
+                        {
+                            SelectedMonth = 12;
+                        }
+
+                        Month = Months[SelectedMonth - 1];
+                    }
+                    else
+                    {
+                        if (SelectedMonth == 12)
+                        {
+                            SelectedMonth = 1;
+                        }
+
+                        Month = Months[SelectedMonth - 1];
+                    }
+                }
+            }
+        }
+
+        private void OnPhoneEntryUnfocused(object sender, System.EventArgs arg)
+        {
+            if (sender is Entry entry && entry?.Text != null)
+            {
+                var isValid = entry.Text?.Length == 10;
+                phoneFrame.BorderColor = isValid || entry?.Text == string.Empty ? Color.FromHex("#424861") : Color.FromHex("#F73E5C");
+                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? Color.FromHex("#2E3143") : Color.FromHex("#F73E5C");
+            }
+        }
+
+        private void OnMailEntryUnfocused(object sender, System.EventArgs arg)
+        {
+            if (sender is CustomEntry entry && entry != null && entry.Text != null)
+            {
+                mailFrame.BorderColor = entry.IsValid || entry.Text == string.Empty ? Color.FromHex("#424861") : Color.FromHex("#F73E5C");
+                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? Color.FromHex("#2E3143") : Color.FromHex("#F73E5C");
+            }
+        }
+
         private void OnSelectionChanged(object sender, System.EventArgs arg)
         {
             if (sender is CollectionView collection && collection.SelectedItem != null)
@@ -115,24 +164,26 @@ namespace Next2.Views.Mobile.Dialogs
             }
         }
 
-        private void OnRightMonthButtonTapped(object sender, System.EventArgs arg)
+        private void OnRightMonthButtonTapped(object? sender, System.EventArgs? arg)
         {
             if (SelectedMonth == 12)
             {
                 SelectedMonth = 1;
+                SelectedYear++;
             }
             else
             {
                 SelectedMonth++;
             }
 
-            monthLabel.Text = Months[SelectedMonth - 1].MonthName;
+            Month = Months[SelectedMonth - 1];
         }
 
-        private void OnLeftMonthButtonTapped(object sender, System.EventArgs arg)
+        private void OnLeftMonthButtonTapped(object? sender, System.EventArgs? arg)
         {
             if (SelectedMonth == 1)
             {
+                SelectedYear--;
                 SelectedMonth = 12;
             }
             else
@@ -140,26 +191,32 @@ namespace Next2.Views.Mobile.Dialogs
                 SelectedMonth--;
             }
 
-            monthLabel.Text = Months[SelectedMonth - 1].MonthName;
+            Month = Months[SelectedMonth - 1];
         }
 
         private void OnButtonTapped(object sender, System.EventArgs arg)
         {
             if (sender is Frame frame)
             {
-                if (frame == frame1)
+                if (frame == infoButtonFrame)
                 {
-                    frame1.BackgroundColor = Color.FromHex("#AB3821");
-                    frame2.BackgroundColor = Color.FromHex("#34374C");
+                    infoButtonFrame.BackgroundColor = Color.FromHex("#AB3821");
+                    birthdayButtonFrame.BackgroundColor = Color.FromHex("#34374C");
                     underLine1.BackgroundColor = Color.FromHex("#F45E49");
                     underLine2.BackgroundColor = Color.FromHex("#424861");
                     State = ETabState.Info;
+                    nameEntry.IsEnabled = true;
+                    phoneEntry.IsEnabled = true;
+                    mailEntry.IsEnabled = true;
                 }
 
-                if (frame == frame2)
+                if (frame == birthdayButtonFrame)
                 {
-                    frame2.BackgroundColor = Color.FromHex("#AB3821");
-                    frame1.BackgroundColor = Color.FromHex("#34374C");
+                    phoneEntry.IsEnabled = false;
+                    mailEntry.IsEnabled = false;
+                    nameEntry.IsEnabled = false;
+                    birthdayButtonFrame.BackgroundColor = Color.FromHex("#AB3821");
+                    infoButtonFrame.BackgroundColor = Color.FromHex("#34374C");
                     underLine2.BackgroundColor = Color.FromHex("#F45E49");
                     underLine1.BackgroundColor = Color.FromHex("#424861");
                     State = ETabState.Birthday;

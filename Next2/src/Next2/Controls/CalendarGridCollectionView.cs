@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using Next2.ENums;
+using Next2.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms.Xaml;
-using Next2.ENums;
-using Next2.Models;
+using Xamarin.Forms;
 
 namespace Next2.Controls
 {
@@ -18,8 +14,6 @@ namespace Next2.Controls
     {
         public CalendarGridCollectionView()
         {
-            Year = 2022;
-            Month = 3;
             CategoriesItems = new ();
             CreateArrayOfDays();
             this.ItemsSource = CategoriesItems;
@@ -34,7 +28,7 @@ namespace Next2.Controls
             propertyName: nameof(Year),
             returnType: typeof(int),
             declaringType: typeof(CalendarGridCollectionView),
-            defaultValue: 2022,
+            defaultValue: DateTime.Now.Year,
             defaultBindingMode: BindingMode.TwoWay);
 
         public int Year
@@ -47,7 +41,7 @@ namespace Next2.Controls
             propertyName: nameof(Month),
             returnType: typeof(int),
             declaringType: typeof(CalendarGridCollectionView),
-            defaultValue: 3,
+            defaultValue: DateTime.Now.Month,
             defaultBindingMode: BindingMode.TwoWay);
 
         public int Month
@@ -93,9 +87,41 @@ namespace Next2.Controls
             {
                 if (SelectedItem is DayModel selectedDay)
                 {
-                    if (selectedDay.State == ENums.EDayState.NoDayMonth || selectedDay.State == ENums.EDayState.NameOfDay)
+                    if (selectedDay.State == ENums.EDayState.NoDayMonth || selectedDay.State == ENums.EDayState.NameOfDay || Year > DateTime.Now.Year)
                     {
-                        SelectedItem = null;
+                        if (selectedDay.State == ENums.EDayState.NoDayMonth)
+                        {
+                            if (int.TryParse(selectedDay.Day, out int day) && day > 21)
+                            {
+                                if (Month == 1)
+                                {
+                                    Month = 12;
+                                    Year--;
+                                }
+                                else
+                                {
+                                    Month--;
+                                }
+                            }
+                            else
+                            {
+                                if (Month == 12)
+                                {
+                                    Month = 1;
+                                    Year++;
+                                }
+                                else
+                                {
+                                    Month++;
+                                }
+                            }
+
+                            SelectedItem = CategoriesItems.Where(x => x.Day == selectedDay.Day).FirstOrDefault();
+                        }
+                        else
+                        {
+                            SelectedItem = null;
+                        }
                     }
                 }
             }

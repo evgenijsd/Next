@@ -7,5 +7,7 @@ namespace Next2.Models
         public int Id { get; set; }
 
         public int Year { get; set; }
+
+        public double Opacity { get; set; }
     }
 }

@@ -139,11 +139,13 @@
 
                         <!--  Info Button  -->
                         <Frame
-                            Margin="0,12,12,0" HeightRequest="38" VerticalOptions="Center"
+                            Margin="0,12,12,0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource IndicationColor_i7}"
+                            HeightRequest="38"
                             Opacity="1"
                             Style="{StaticResource ButtonFrameStyle}"
+                            VerticalOptions="Center"
                             WidthRequest="100">
 
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
@@ -169,14 +171,16 @@
 
                         <!--  add buttom  -->
                         <Frame
-                            Margin="0,12,24,0" VerticalOptions="Center" HeightRequest="38"
+                            Margin="0,12,24,0"
                             Padding="0"
                             BackgroundColor="{DynamicResource AppColor_i1}"
+                            HeightRequest="38"
                             Style="{StaticResource ButtonFrameStyle}"
+                            VerticalOptions="Center"
                             WidthRequest="110">
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate AddNew}" />
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding AddCustomerCommand}"/>
+                                <TapGestureRecognizer Command="{Binding AddCustomerCommand}" />
                             </Frame.GestureRecognizers>
 
                         </Frame>
@@ -185,7 +189,7 @@
 
                     <!--  Table header  -->
                     <yummy:PancakeView
-                        Margin="24,0,24,0" 
+                        Margin="24,0,24,0"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="4,4,0,0"
@@ -197,13 +201,11 @@
                             VerticalOptions="Center">
 
                             <Label
-                                Grid.Column="0" 
+                                Grid.Column="0"
                                 IsVisible="false"
                                 Style="{StaticResource ViewCellLabelStyle}" />
 
-                            <StackLayout
-                                Grid.Column="1"
-                                Orientation="Horizontal">
+                            <StackLayout Grid.Column="1" Orientation="Horizontal">
                                 <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate CustomerName}" />
 
                                 <Image Source="ic_sort_primary_24x24" />
@@ -216,9 +218,7 @@
 
                             </StackLayout>
 
-                            <StackLayout
-                                Grid.Column="2"
-                                Orientation="Horizontal">
+                            <StackLayout Grid.Column="2" Orientation="Horizontal">
                                 <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate Points}" />
 
                                 <Image

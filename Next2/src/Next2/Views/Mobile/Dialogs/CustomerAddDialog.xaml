@@ -2,6 +2,7 @@
     x:Class="Next2.Views.Mobile.Dialogs.CustomerAddDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -14,14 +15,44 @@
     x:DataType="dialogs:CustomerInfoViewModel"
     BackgroundColor="Transparent">
 
-    <ContentView Padding="18,66,18,28">
+    <ContentView
+        Padding="18,48,18,24"
+        HeightRequest="790"
+        WidthRequest="490">
+
+        <ContentView.Resources>
+            <ResourceDictionary>
+                <Style x:Key="EntryFrameStyle" TargetType="Frame">
+                    <Setter Property="CornerRadius" Value="3" />
+                    <Setter Property="HasShadow" Value="False" />
+                    <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                    <Setter Property="WidthRequest" Value="592" />
+                    <Setter Property="HeightRequest" Value="42" />
+                    <Setter Property="BackgroundColor" Value="#34374C" />
+                    <Setter Property="BorderColor" Value="#424861" />
+
+                </Style>
+                <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
+                    <Setter Property="PlaceholderColor" Value="#757785" />
+                    <Setter Property="TextColor" Value="White" />
+                    <Setter Property="FontSize" Value="14" />
+                </Style>
+                <Style x:Key="LabelStyle" TargetType="Label">
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontFamily" Value="Barlow-Regular" />
+                    <Setter Property="TextColor" Value="White" />
+                    <Setter Property="Margin" Value="0,8,0,8" />
+                </Style>
+            </ResourceDictionary>
+        </ContentView.Resources>
+
         <ContentView.Content>
             <Frame
                 Padding="1.5,3,1.5,3"
                 BackgroundColor="#34374C"
                 BorderColor="#424861"
                 CornerRadius="6">
-                <Grid BackgroundColor="#34374C" RowDefinitions="0.1*,0.1*,0.7*,0.11*">
+                <Grid BackgroundColor="#34374C" RowDefinitions="0.12*,0.117*,*,0.15*">
                     <!--  header  -->
                     <Label
                         Grid.Row="0"
@@ -35,12 +66,12 @@
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
                         BackgroundColor="Black"
-                        HeightRequest="0.5"
+                        HeightRequest="0.3"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="End" />
                     <!--  tabs  -->
                     <Frame
-                        x:Name="frame1"
+                        x:Name="infoButtonFrame"
                         Grid.Row="1"
                         Grid.Column="0"
                         BackgroundColor="#34374C"
@@ -64,7 +95,7 @@
                         VerticalOptions="End" />
 
                     <Frame
-                        x:Name="frame2"
+                        x:Name="birthdayButtonFrame"
                         Grid.Row="1"
                         Grid.Column="1"
                         BackgroundColor="#AB3821"
@@ -97,7 +128,6 @@
 
                         <!--  State1 calendar  -->
                         <sc:StateCondition State="Birthday">
-
                             <Grid Padding="21" RowDefinitions="0.12*,0.24*,*">
                                 <!--  year  -->
                                 <Frame
@@ -105,9 +135,9 @@
                                     Grid.Row="0"
                                     BackgroundColor="#2E3143"
                                     BorderColor="#424861"
-                                    CornerRadius="6"
+                                    CornerRadius="4"
                                     HorizontalOptions="EndAndExpand"
-                                    WidthRequest="98">
+                                    WidthRequest="90">
                                     <StackLayout Orientation="Horizontal">
                                         <Label
                                             Margin="10,6,0,6"
@@ -115,9 +145,10 @@
                                             TextColor="White"
                                             VerticalTextAlignment="Center" />
                                         <ffimageloading:CachedImage
-                                            x:Name="yearDropdownIcon" HorizontalOptions="EndAndExpand"
-                                            Margin="0,0,8,0"
-                                            Scale="0.8"
+                                            x:Name="yearDropdownIcon"
+                                            Margin="0,0,6,0"
+                                            HorizontalOptions="EndAndExpand"
+                                            Scale="0.7"
                                             Source="ic_arrow_down_primary_24x24" />
                                     </StackLayout>
                                     <Frame.GestureRecognizers>
@@ -141,9 +172,22 @@
                                         x:Name="monthLabel"
                                         FontSize="26"
                                         HorizontalOptions="FillAndExpand"
-                                        Text="March"
+                                        Text="{Binding Month.MonthName, Source={x:Reference addInfoDialog}}"
                                         TextColor="White"
-                                        VerticalTextAlignment="Center" />
+                                        VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <SwipeGestureRecognizer
+                                                Direction="Left"
+                                                Swiped="OnRightMonthButtonTapped"
+                                                Threshold="12" />
+                                            <SwipeGestureRecognizer
+                                                Direction="Right"
+                                                Swiped="OnLeftMonthButtonTapped"
+                                                Threshold="12" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+
                                     <ffimageloading:CachedImage
                                         Margin="0,0,6,0"
                                         Scale="0.5"
@@ -156,10 +200,12 @@
 
                                 <!--  grid  -->
                                 <controls:CalendarGridCollectionView
+                                    x:Name="calendarGrid"
                                     Grid.Row="2"
-                                    Margin="16,8,16,1"
+                                    Margin="16,0,16,1"
                                     BackgroundColor="#2E3143"
                                     Month="{Binding SelectedMonth, Source={x:Reference addInfoDialog}}"
+                                    PropertyChanged="OnCalendarGridPropertyChanged"
                                     Year="{Binding SelectedYear, Source={x:Reference addInfoDialog}}">
                                     <CollectionView.ItemsLayout>
                                         <GridItemsLayout
@@ -173,10 +219,7 @@
                                     </CollectionView.Effects>
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate x:DataType="models:DayModel">
-                                            <StackLayout
-                                                Padding="2.5,2,2.5,2"
-                                                BackgroundColor="#2E3143"
-                                                >
+                                            <StackLayout Padding="3,2.4,3,2.4" BackgroundColor="#2E3143">
                                                 <Frame
                                                     x:Name="itemFrame"
                                                     Margin="0"
@@ -185,8 +228,10 @@
                                                     BorderColor="#2E3143"
                                                     CornerRadius="16"
                                                     HasShadow="False"
-                                                    HeightRequest="31"
-                                                    WidthRequest="31">
+                                                    HeightRequest="34"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    WidthRequest="34">
                                                     <Label
                                                         FontSize="18"
                                                         HorizontalTextAlignment="Center"
@@ -218,6 +263,7 @@
 
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
+                                    <controls:CalendarGridCollectionView.GestureRecognizers />
                                 </controls:CalendarGridCollectionView>
 
                                 <!--  Dropdown list  -->
@@ -232,7 +278,7 @@
                                     HorizontalOptions="EndAndExpand"
                                     IsVisible="false"
                                     VerticalOptions="StartAndExpand"
-                                    WidthRequest="98">
+                                    WidthRequest="90">
                                     <CollectionView
                                         x:Name="yearsCollectionView"
                                         ItemsSource="{Binding Years, Source={x:Reference addInfoDialog}}"
@@ -253,6 +299,7 @@
                                                     <Label
                                                         FontSize="12"
                                                         HorizontalTextAlignment="Center"
+                                                        Opacity="{Binding Opacity}"
                                                         Text="{Binding Year}"
                                                         TextColor="White"
                                                         VerticalTextAlignment="Center" />
@@ -272,12 +319,108 @@
                                     </CollectionView>
                                 </Frame>
                             </Grid>
-
                         </sc:StateCondition>
 
                         <!--  State2  entries  -->
                         <sc:StateCondition State="Info">
-                            <Label Text="Info" />
+                            <StackLayout
+                                Margin="0,18,0,0"
+                                Padding="18,0,18,0"
+                                Spacing="1">
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label
+                                        HorizontalOptions="StartAndExpand"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="Customer Name" />
+                                    <Label
+                                        HorizontalOptions="End"
+                                        Opacity="0.32"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="Required" />
+                                </StackLayout>
+                                <Frame Style="{StaticResource EntryFrameStyle}">
+                                    <controls:CustomEntry
+                                        x:Name="nameEntry"
+                                        Margin="12,0,0,0"
+                                        Placeholder="Type User Name"
+                                        Style="{StaticResource EntryPlaceholderStyle}">
+                                        <controls:CustomEntry.Behaviors>
+                                            <behaviors:EmailValidatorBehavior />
+                                        </controls:CustomEntry.Behaviors>
+                                    </controls:CustomEntry>
+                                </Frame>
+                                <Label
+                                    x:Name="nameWarningLabel"
+                                    Margin="12,0,0,0"
+                                    FontSize="12"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="incorrect name"
+                                    TextColor="#2E3143"
+                                    VerticalOptions="Start" />
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label
+                                        HorizontalOptions="StartAndExpand"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="Phone" />
+                                    <Label
+                                        HorizontalOptions="End"
+                                        Opacity="0.32"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="Required" />
+                                </StackLayout>
+                                <Frame x:Name="phoneFrame" Style="{StaticResource EntryFrameStyle}">
+                                    <controls:CustomEntry
+                                        x:Name="phoneEntry"
+                                        Margin="12,0,0,0"
+                                        Keyboard="Numeric"
+                                        MaxLength="10"
+                                        Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
+                                        Style="{StaticResource EntryPlaceholderStyle}"
+                                        Unfocused="OnPhoneEntryUnfocused" />
+                                </Frame>
+                                <Label
+                                    x:Name="phoneWarningLabel"
+                                    Margin="12,0,0,0"
+                                    FontSize="12"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="incorrect number"
+                                    TextColor="#2E3143"
+                                    VerticalOptions="Start" />
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label
+                                        HorizontalOptions="StartAndExpand"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="Email" />
+                                    <Label
+                                        HorizontalOptions="End"
+                                        Opacity="0.32"
+                                        Style="{StaticResource LabelStyle}"
+                                        Text="Required" />
+                                </StackLayout>
+                                <Frame x:Name="mailFrame" Style="{StaticResource EntryFrameStyle}">
+                                    <controls:CustomEntry
+                                        x:Name="mailEntry"
+                                        Margin="12,0,0,0"
+                                        Placeholder="Type Email"
+                                        Style="{StaticResource EntryPlaceholderStyle}"
+                                        Unfocused="OnMailEntryUnfocused">
+                                        <controls:CustomEntry.Behaviors>
+                                            <behaviors:EmailValidatorBehavior />
+                                        </controls:CustomEntry.Behaviors>
+                                    </controls:CustomEntry>
+                                </Frame>
+                                <Label
+                                    x:Name="mailWarningLabel"
+                                    Margin="12,0,0,0"
+                                    FontSize="12"
+                                    HorizontalOptions="StartAndExpand"
+                                    Text="incorrect email"
+                                    TextColor="#2E3143"
+                                    VerticalOptions="StartAndExpand" />
+                            </StackLayout>
                         </sc:StateCondition>
 
                     </sc:StateContainer>
