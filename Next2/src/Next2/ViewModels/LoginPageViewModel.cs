@@ -18,8 +18,6 @@ namespace Next2.ViewModels
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
 
-        private bool _isUserLoggedOut;
-
         private string _inputtedEmployeeId;
 
         private int _inputtedEmployeeIdToDigist;
@@ -133,7 +131,7 @@ namespace Next2.ViewModels
                         EmployeeId = _inputtedEmployeeId;
                     }
                 }
-                else if (parameters.TryGetValue("IsLastUserLoggedOut", out _isUserLoggedOut))
+                else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
                 {
                     IsUserLoggedOut = !IsUserLoggedOut;
                 }

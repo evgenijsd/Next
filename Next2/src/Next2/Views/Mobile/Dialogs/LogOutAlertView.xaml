@@ -42,7 +42,7 @@
 
             <Label 
                 Grid.Row="1"
-                Text="{xct:Translate WannaLogOut}"
+                Text="{xct:Translate WantToLogOut}"
                 Padding="24, 30, 0, 0"
                 Margin="1, 1, 1, 0"
                 FontSize="{DynamicResource TSize_i6}"

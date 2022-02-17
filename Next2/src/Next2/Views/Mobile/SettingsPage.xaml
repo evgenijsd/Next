@@ -81,7 +81,7 @@
                 FontSize="{DynamicResource TSize_i6}"
                 Margin="20, 12, 20, 12"
                 FontFamily="Barlow-SemiBold"
-                Text="{xct:Translate LogOut(ApperCase)}"
+                Text="{xct:Translate LogOut_UpperCase}"
                 Command="{Binding LogOutCommand}">
 
             </buttons:BorderButton>

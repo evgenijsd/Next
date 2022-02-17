@@ -37,13 +37,13 @@ namespace Next2.ViewModels
         {
             var param = new DialogParameters();
 
-            string okButton = LocalizationResourceManager.Current["LogOut(ApperCase)"];
+            string okButton = LocalizationResourceManager.Current["LogOut_UpperCase"];
 
             string cancelButton = LocalizationResourceManager.Current["Cancel"];
 
-            param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, $"{okButton}");
+            param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, okButton);
 
-            param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, $"{cancelButton}");
+            param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, cancelButton);
             if (App.IsTablet)
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new Next2.Views.Tablet.Dialogs.LogOutAlertView(param, CloseDialogCallback));
@@ -66,7 +66,7 @@ namespace Next2.ViewModels
 
                 var navigationParameters = new NavigationParameters
                 {
-                    { "IsLastUserLoggedOut", result },
+                    { nameof(result), result },
                 };
 
                 await _navigationService.GoBackToRootAsync(navigationParameters);

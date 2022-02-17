@@ -183,7 +183,7 @@
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
   </data>
-  <data name="LogOut(ApperCase)" xml:space="preserve">
+  <data name="LogOut_UpperCase" xml:space="preserve">
     <value>Log Out</value>
   </data>
   <data name="Membership" xml:space="preserve">
@@ -258,9 +258,6 @@
   <data name="TableNumber" xml:space="preserve">
     <value>Table Number</value>
   </data>
-  <data name="Total" xml:space="preserve">
-    <value>Total</value>
-  </data>
   <data name="Orders" xml:space="preserve">
     <value>Orders</value>
   </data>
@@ -276,7 +273,7 @@
   <data name="Waiter" xml:space="preserve">
     <value>Waiter</value>
   </data>
-  <data name="WannaLogOut" xml:space="preserve">
+  <data name="WantToLogOut" xml:space="preserve">
     <value>Do you want to log out?</value>
   </data>
   <data name="Welcome" xml:space="preserve">
