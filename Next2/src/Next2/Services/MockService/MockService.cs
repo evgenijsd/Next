@@ -870,6 +870,7 @@ namespace Next2.Services.MockService
         {
             int id = 1;
             int setId = 1;
+            var rand = new Random();
 
             _portions = new List<PortionModel>
             {
@@ -878,567 +879,567 @@ namespace Next2.Services.MockService
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 12f,
+                    Price = rand.Next(10, 20),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 18.8f,
+                    Price = rand.Next(20, 30),
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 23.4f,
+                    Price = rand.Next(30, 40),
                 },
             };
 
