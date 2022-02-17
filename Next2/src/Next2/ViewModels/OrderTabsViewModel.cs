@@ -264,7 +264,7 @@ namespace Next2.ViewModels
             var outParameter = new SearchParameters { IsSelected = IsOrderTabsSelected, SearchLine = SearchText };
             var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, outParameter } };
             ClearSearchAsync();
-            await _navigationService.NavigateAsync(searchPage, parameters);
+            await _navigationService.NavigateAsync(searchPage, parameters, useModalNavigation: true);
         }
 
         private Task SearchMessageCommandAsync(MessageEvent me)

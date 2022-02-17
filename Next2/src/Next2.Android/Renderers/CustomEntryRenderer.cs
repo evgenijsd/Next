@@ -20,9 +20,15 @@ namespace Next2.Droid.Renderers
         {
             base.OnElementChanged(e);
 
-            Control.Background = null;
-            Control.SetPadding(0, 0, 0, 0);
-            Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            if (Control != null)
+            {
+                Control.CustomSelectionActionModeCallback = new Callback();
+                Control.LongClickable = false;
+                Control.Background = null;
+                Control.SetPadding(0, 0, 0, 0);
+                Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            }
+
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
             {

@@ -6,7 +6,6 @@
     x:Class="Next2.Views.Tablet.SearchPage"
     xmlns:controls="clr-namespace:Next2.Controls"
     Appearing="BaseContentPage_Appearing"
-    Disappearing="BaseContentPage_Disappearing"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
@@ -32,7 +31,6 @@
 
                 <controls:CustomEntry
                     x:Name="EntryLocal"
-                    Unfocused="EntryLocal_Unfocused"
                     Text="{Binding SearchLine}"
                     Placeholder="{xct:Translate TableNumberOrOrder}"
                     FontSize="{DynamicResource TSize_i4}"

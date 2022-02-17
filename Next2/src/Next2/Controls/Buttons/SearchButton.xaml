@@ -17,54 +17,59 @@
         VerticalOptions="FillAndExpand">
     </Frame>
 
-    <Label
-        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text}"
-        Margin="10,0,40,0"
-        FontSize="13"
-        FontFamily="Barlow-Regular"
-        TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
-        VerticalOptions="Center"
-        HorizontalOptions="FillAndExpand"
-        LineBreakMode="TailTruncation"
-        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder, Converter={xct:InvertedBoolConverter}}">
+    <StackLayout
+        BackgroundColor="Transparent"
+        Margin="0,0,40,0"
+        xct:TouchEffect.AnimationDuration="0"
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}">
 
-        <Label.GestureRecognizers>
-            <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}" />
-        </Label.GestureRecognizers>
-        
-    </Label>
+        <Label
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text}"
+            Margin="10,0,0,0"
+            FontSize="13"
+            FontFamily="Barlow-Regular"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="FillAndExpand"
+            LineBreakMode="TailTruncation"
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder, Converter={xct:InvertedBoolConverter}}" />
 
-    <Label
-        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Placeholder}"
-        Margin="10,0,40,0"
-        FontSize="13"
-        FontFamily="Barlow-Regular"
-        TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
-        Opacity="0.32"
-        VerticalOptions="Center"
-        HorizontalOptions="FillAndExpand"
-        LineBreakMode="TailTruncation"
-        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder}">
+        <Label
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Placeholder}"
+            Margin="10,0,40,0"
+            FontSize="13"
+            FontFamily="Barlow-Regular"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
+            Opacity="0.32"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="FillAndExpand"
+            LineBreakMode="TailTruncation"
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder}">
 
-        <Label.GestureRecognizers>
-            <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}" />
-        </Label.GestureRecognizers>
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}" />
+            </Label.GestureRecognizers>
 
-    </Label>
+        </Label>
 
-    <ffimageloading:CachedImage
-        Source="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=ImageSource}"
-        HeightRequest="20"
-        Margin="0,0,10,0"
-        VerticalOptions="CenterAndExpand"
-        HorizontalOptions="EndAndExpand">
+    </StackLayout>
 
-        <ffimageloading:CachedImage.GestureRecognizers>
-            <TapGestureRecognizer
-                Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandClear}" />
-        </ffimageloading:CachedImage.GestureRecognizers>
-        
-    </ffimageloading:CachedImage>
+    <StackLayout 
+        BackgroundColor="Transparent"
+        HorizontalOptions="EndAndExpand"
+        WidthRequest="40"
+        xct:TouchEffect.AnimationDuration="0"
+        xct:TouchEffect.NativeAnimation="False"
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandClear}">
+
+        <ffimageloading:CachedImage
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=ImageSource}"
+            HeightRequest="20"
+            Margin="0,0,10,0"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="EndAndExpand" />
+
+    </StackLayout>
+
 </Grid>

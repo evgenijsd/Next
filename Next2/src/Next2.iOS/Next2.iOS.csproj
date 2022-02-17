@@ -134,7 +134,6 @@
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Renderers\CustomNoBorderEntry.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Renderers\CustomFrameRenderer.cs" />
     <None Include="Entitlements.plist" />

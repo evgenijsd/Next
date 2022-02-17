@@ -29,9 +29,7 @@
                 TargetType="yummy:PancakeView"
                 Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsSelected}"
                 Value="False">
-                <Setter
-                    Property="BackgroundColor"
-                    Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
             </DataTrigger>
 
         </yummy:PancakeView.Triggers>

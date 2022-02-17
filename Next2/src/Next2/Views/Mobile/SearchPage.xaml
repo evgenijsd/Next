@@ -7,7 +7,6 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Appearing="BaseContentPage_Appearing"
-    Disappearing="BaseContentPage_Disappearing" 
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <ContentPage.Content>
@@ -29,7 +28,6 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
                 <controls:CustomEntry
-                    Unfocused="EntryLocal_Unfocused"
                     x:Name="EntryLocal"
                     Text="{Binding SearchLine}"
                     Placeholder="{xct:Translate TableNumberOrOrder}"
