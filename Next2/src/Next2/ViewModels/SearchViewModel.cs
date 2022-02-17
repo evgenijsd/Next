@@ -1,9 +1,8 @@
 ﻿using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.OrderService;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -13,9 +12,14 @@ namespace Next2.ViewModels
 {
     public class SearchViewModel : BaseViewModel
     {
-        public SearchViewModel(INavigationService navigationService)
+        private readonly IOrderService _orderService;
+
+        public SearchViewModel(
+            INavigationService navigationService,
+            IOrderService orderService)
             : base(navigationService)
         {
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -37,6 +41,16 @@ namespace Next2.ViewModels
             {
                 IsOrderTabsSelected = inParameter.IsSelected;
                 SearchLine = inParameter.SearchLine;
+            }
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SearchLine))
+            {
+                SearchLine = _orderService.SearchValidator(IsOrderTabsSelected, SearchLine);
             }
         }
 
