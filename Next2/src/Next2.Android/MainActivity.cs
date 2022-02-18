@@ -48,7 +48,7 @@ namespace Next2.Droid
 
         public override bool DispatchTouchEvent(MotionEvent ev)
         {
-            if (_lastMotionEventActions == MotionEventActions.Down && ev.Action == MotionEventActions.Up)
+            if (_lastMotionEventActions != MotionEventActions.Move && ev.Action == MotionEventActions.Up)
             {
                 GlobalTouchHandler?.Invoke(null, null);
             }

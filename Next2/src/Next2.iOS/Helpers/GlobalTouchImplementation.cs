@@ -12,9 +12,14 @@ namespace Next2.iOS.Helpers
     {
         EventHandler globalTouchHandler;
 
+        public void DetachTapScreen(EventHandler handler)
+        {
+            globalTouchHandler -= handler;
+        }
+
         public void TapScreen(EventHandler handler)
         {
-            globalTouchHandler = handler;
+            globalTouchHandler += handler;
         }
 
         public void TapScreen()

@@ -6,6 +6,8 @@ namespace Next2.Helpers
     {
         void TapScreen(EventHandler handler);
 
+        void DetachTapScreen(EventHandler handler);
+
         void TapScreen();
     }
 }

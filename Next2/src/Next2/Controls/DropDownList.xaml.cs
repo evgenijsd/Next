@@ -17,11 +17,6 @@ namespace Next2.Controls
             InitializeComponent();
 
             _globalTouch = DependencyService.Get<IGlobalTouch>();
-
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                _globalTouch.TapScreen(OnTapScreen);
-            });
         }
 
         #region -- Public properties --
@@ -193,14 +188,18 @@ namespace Next2.Controls
 
         private void OnTapScreen(object sender, EventArgs e)
         {
+            _globalTouch.DetachTapScreen(OnTapScreen);
+
             IsExpanded = false;
         }
 
         private void OnExpandListCommandAsync(object obj)
         {
-            IsExpanded = !IsExpanded;
+            _globalTouch.TapScreen(OnTapScreen);
 
-            (Parent as Layout).RaiseChild(this);
+            IsExpanded = true;
+
+            (Parent as Layout)?.RaiseChild(this);
         }
 
         #endregion
