@@ -195,12 +195,14 @@
                     HorizontalOptions="EndAndExpand"/>
 
                 <Label
-                    Text="{Binding CurrentDateTime, StringFormat='{}{0:h:hh:ss tt}'}"
+                    Text="{Binding CurrentDateTime, StringFormat='{}{0:h:mm:ss tt}'}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalTextAlignment="Center"
                     Style="{StaticResource labeltSize_i6}"
                     FontFamily="Barlow-Medium"
-                    Margin="5, 0, 0, 0"/>
+                    Margin="5, 0, 0, 0"
+                    HorizontalTextAlignment="Center"
+                    WidthRequest="90"/>
 
                 <ffimageloading:CachedImage
                     Source="ic_calendar_24x24"
@@ -535,7 +537,6 @@
                     <DataTemplate>
                         <templates:SetItemTemplate
                             x:DataType="models:SetModel"
-                            HeightRequest="327"
                             xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
                             xct:TouchEffect.CommandParameter="{Binding .}"/>
 

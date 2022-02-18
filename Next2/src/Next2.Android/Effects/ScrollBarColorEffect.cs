@@ -1,5 +1,6 @@
 ﻿using Android.Graphics.Drawables;
 using Android.Graphics.Drawables.Shapes;
+using Android.OS;
 using Google.Android.Material.Shape;
 using Java.Lang;
 using Next2.Droid.Effects;
@@ -36,8 +37,13 @@ namespace Next2.Droid.Effects
                 scrollBarField.Accessible = true;
 
                 var scrollBar = scrollBarField.Get(mScrollCache);
-                var method = scrollBar.Class.GetDeclaredMethod("setVerticalThumbDrawable", Class.FromType(typeof(Drawable)));
-                method.Accessible = true;
+
+                if (Build.VERSION.SdkInt > Android.OS.BuildVersionCodes.Lollipop)
+                {
+                }
+                else
+                {
+                }
 
                 var layers = new Drawable[1];
                 var shapeDrawable = new ShapeDrawable(new RectShape());
@@ -61,9 +67,13 @@ namespace Next2.Droid.Effects
                 shapeDrawable2.SetStroke(4f, Color.Red.ToAndroid());
 
                 layers[0] = shapeDrawable2;
+
+                //var method = scrollBar.Class.GetDeclaredMethod("setVerticalThumbDrawable", Class.FromType(typeof(Drawable)));
+                var method = scrollBar.Class.GetDeclaredMethod("draw", Class.FromType(typeof(Drawable)));
+                method.Accessible = true;
                 method.Invoke(scrollBar, layers);
             }
-            catch
+            catch(Exception e)
             {
             }
         }

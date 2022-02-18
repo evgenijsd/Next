@@ -27,6 +27,8 @@ namespace Next2.ViewModels.Tablet
 
         private bool _order;
 
+        private Timer _timerUpdateTime;
+
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
@@ -38,11 +40,8 @@ namespace Next2.ViewModels.Tablet
             _popupNavigation = popupNavigation;
             _orderService = orderService;
 
-            Task.Run(LoadCategoriesAsync);
-
-            var timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
-            timerUpdateTime.Elapsed += Timer_Elapsed;
-            timerUpdateTime.Start();
+            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
+            _timerUpdateTime.Elapsed += Timer_Elapsed;
         }
 
         #region -- Public properties --
@@ -75,6 +74,8 @@ namespace Next2.ViewModels.Tablet
 
             _order = false;
             Task.Run(LoadCategoriesAsync);
+
+            _timerUpdateTime.Start();
         }
 
         public override void OnDisappearing()
@@ -83,6 +84,8 @@ namespace Next2.ViewModels.Tablet
 
             SelectedCategoriesItem = new ();
             SelectedSubcategoriesItem = new ();
+
+            _timerUpdateTime.Stop();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -106,7 +109,7 @@ namespace Next2.ViewModels.Tablet
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            CurrentDateTime = DateTime.Now;
+            Task.Run(() => { CurrentDateTime = DateTime.Now; });
         }
 
         private async Task OnTapSortCommandAsync()
