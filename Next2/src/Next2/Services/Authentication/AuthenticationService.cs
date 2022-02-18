@@ -9,8 +9,8 @@ namespace Next2.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private ISettingsManager _settingsManager;
-        private IUserService _userService;
+        private readonly ISettingsManager _settingsManager;
+        private readonly IUserService _userService;
 
         public AuthenticationService(
             IUserService userService,
@@ -22,8 +22,7 @@ namespace Next2.Services.Authentication
 
         #region -- Public properties --
 
-        private UserModel _user;
-        public UserModel User => _user;
+        public UserModel User { get; private set; } // named user
 
         #endregion
 
@@ -39,7 +38,7 @@ namespace Next2.Services.Authentication
 
                 if (user.IsSuccess)
                 {
-                    _user = user.Result;
+                    User = user.Result;
                     _settingsManager.UserId = user.Result.Id;
                     _settingsManager.UserName = user.Result.UserName;
 
