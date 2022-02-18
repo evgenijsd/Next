@@ -74,8 +74,10 @@ namespace Next2
 
                 //Navigation
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
-                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
+
+                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
