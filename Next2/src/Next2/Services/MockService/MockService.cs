@@ -329,6 +329,76 @@ namespace Next2.Services.MockService
                 new CategoryModel()
                 {
                     Id = id++,
+                    Title = "Baskets & Meals",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Sauces",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Steaks & Chops",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Sides & Snack",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Starters",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Dessert",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Salads",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Beverages",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Burgers & Sandwiches",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Breakfast",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Soups",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Baskets & Meals",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Sauces",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
+                    Title = "Steaks & Chops",
+                },
+                new CategoryModel()
+                {
+                    Id = id++,
                     Title = "Sides & Snack",
                 },
                 new CategoryModel()
