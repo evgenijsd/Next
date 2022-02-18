@@ -120,7 +120,6 @@
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Views\Mobile\" />
   </ItemGroup>
 

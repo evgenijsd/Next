@@ -1,6 +1,7 @@
 ﻿using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.OrderService;
+using Prism.Events;
 using Prism.Navigation;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -13,13 +14,16 @@ namespace Next2.ViewModels
     public class SearchPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IEventAggregator _eventAggregator;
 
         public SearchPageViewModel(
             INavigationService navigationService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
+            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties --
@@ -61,7 +65,7 @@ namespace Next2.ViewModels
         private async Task OnGoBackCommandAsync(string? done)
         {
             var result = done ?? string.Empty;
-            MessagingCenter.Send(new MessageEvent(result), MessageEvent.SearchMessage);
+            _eventAggregator.GetEvent<GetSearchString>().Publish(result);
 
             await _navigationService.GoBackAsync();
         }
