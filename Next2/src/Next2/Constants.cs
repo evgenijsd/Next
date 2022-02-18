@@ -39,6 +39,7 @@
         public static class Navigations
         {
             public const string SEARCH = nameof(SEARCH);
+            public const string FUNC = nameof(FUNC);
         }
 
         public static class Validators

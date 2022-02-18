@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Helpers
 {
-    public class GetSearchString : PubSubEvent<string>
+    public class EventSearch : PubSubEvent<string>
     {
     }
 }

@@ -46,13 +46,20 @@ namespace Next2.Services.OrderService
             return result;
         }
 
-        public string SearchValidator(bool isOrderTabSelected, string text)
+        public string ValidatorNumber(string text)
         {
-            Regex regexText = new (Constants.Validators.TEXT);
-            Regex regexName = new (Constants.Validators.NAME);
             Regex regexNumber = new (Constants.Validators.NUMBER);
 
-            var result = isOrderTabSelected ? regexNumber.Replace(text, string.Empty) : regexText.Replace(text, string.Empty);
+            return regexNumber.Replace(text, string.Empty);
+        }
+
+        public string ValidatorName(string text)
+        {
+            Regex regexName = new (Constants.Validators.NAME);
+            Regex regexNumber = new (Constants.Validators.NUMBER);
+            Regex regexText = new (Constants.Validators.TEXT);
+
+            var result = regexText.Replace(text, string.Empty);
             result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ? regexNumber.Replace(result, string.Empty) : regexName.Replace(result, string.Empty);
 
             return result;

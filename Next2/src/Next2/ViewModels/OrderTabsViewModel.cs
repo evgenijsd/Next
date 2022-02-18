@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -250,26 +251,30 @@ namespace Next2.ViewModels
 
         private async Task OnSearchCommandAsync()
         {
-            if (Orders.Any())
+            if (Orders.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                _eventAggregator.GetEvent<GetSearchString>().Subscribe(SearchMessageCommand);
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
+                Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ValidatorNumber : _orderService.ValidatorName;
 
-                var outParameter = new SearchParameters { IsSelected = IsOrderTabsSelected, SearchLine = SearchText };
-                var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, outParameter } };
+                var parameters = new NavigationParameters()
+                {
+                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.FUNC, searchValidator },
+                };
                 ClearSearchAsync();
                 IsSearching = true;
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
 
-        private void SearchMessageCommand(string searchLine)
+        private void SearchEventCommand(string searchLine)
         {
             SearchText = searchLine;
 
             Orders = new (Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
             SelectedOrder = null;
 
-            _eventAggregator.GetEvent<GetSearchString>().Unsubscribe(SearchMessageCommand);
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
 
             SetHeightCollection();
         }

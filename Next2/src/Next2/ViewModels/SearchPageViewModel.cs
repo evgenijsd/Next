@@ -3,6 +3,7 @@ using Next2.Models;
 using Next2.Services.OrderService;
 using Prism.Events;
 using Prism.Navigation;
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,22 +14,21 @@ namespace Next2.ViewModels
 {
     public class SearchPageViewModel : BaseViewModel
     {
-        private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
 
         public SearchPageViewModel(
             INavigationService navigationService,
-            IOrderService orderService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
-            _orderService = orderService;
             _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties --
 
         public bool IsOrderTabsSelected { get; set; } = true;
+
+        public Func<string, string> SearchValidator;
 
         public string SearchLine { get; set; } = string.Empty;
 
@@ -41,10 +41,14 @@ namespace Next2.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.Navigations.SEARCH, out SearchParameters inParameter))
+            if (parameters.TryGetValue(Constants.Navigations.FUNC, out Func<string, string> searchValidator))
             {
-                IsOrderTabsSelected = inParameter.IsSelected;
-                SearchLine = inParameter.SearchLine ?? string.Empty;
+                SearchValidator = searchValidator;
+            }
+
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
+            {
+                SearchLine = searchLine ?? string.Empty;
             }
         }
 
@@ -54,7 +58,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(SearchLine))
             {
-                SearchLine = _orderService.SearchValidator(IsOrderTabsSelected, SearchLine);
+                SearchLine = SearchValidator(SearchLine);
             }
         }
 
@@ -65,7 +69,7 @@ namespace Next2.ViewModels
         private async Task OnGoBackCommandAsync(string? done)
         {
             var result = done ?? string.Empty;
-            _eventAggregator.GetEvent<GetSearchString>().Publish(result);
+            _eventAggregator.GetEvent<EventSearch>().Publish(result);
 
             await _navigationService.GoBackAsync();
         }
