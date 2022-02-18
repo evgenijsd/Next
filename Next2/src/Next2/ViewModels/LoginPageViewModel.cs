@@ -6,6 +6,7 @@ using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -36,11 +37,11 @@ namespace Next2.ViewModels
 
         public bool IsEmployeeExists { get; set; }
 
+        public bool IsUserLoggedOut { get; set; }
+
         public bool IsErrorNotificationVisible { get; set; }
 
-        public DateTime CurrentDate { get; set; } = DateTime.Now;
-
-        public bool IsUserLoggedOut { get; set; }
+        public DateTime CurrentDateTime { get; set; }
 
         public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
 
@@ -136,6 +137,24 @@ namespace Next2.ViewModels
                     IsUserLoggedOut = !IsUserLoggedOut;
                 }
             }
+        }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            var timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
+            timerUpdateTime.Elapsed += Timer_Elapsed;
+
+            Task.Run(() => timerUpdateTime.Start()).Wait(3);
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CurrentDateTime = DateTime.Now;
         }
 
         #endregion

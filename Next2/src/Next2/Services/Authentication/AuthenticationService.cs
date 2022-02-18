@@ -22,7 +22,7 @@ namespace Next2.Services.Authentication
 
         #region -- Public properties --
 
-        public UserModel User { get; private set; } // named user
+        public UserModel AuthorizedUserId { get; private set; } // named user
 
         #endregion
 
@@ -38,7 +38,7 @@ namespace Next2.Services.Authentication
 
                 if (user.IsSuccess)
                 {
-                    User = user.Result;
+                    AuthorizedUserId = user.Result;
                     _settingsManager.UserId = user.Result.Id;
                     _settingsManager.UserName = user.Result.UserName;
 
@@ -59,7 +59,7 @@ namespace Next2.Services.Authentication
 
         public void LogOut()
         {
-            _settingsManager.UserId = default;
+            _settingsManager.UserId = -1;
             _settingsManager.UserName = default;
         }
 

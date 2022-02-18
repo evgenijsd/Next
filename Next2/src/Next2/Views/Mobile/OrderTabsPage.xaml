@@ -33,7 +33,6 @@
 
                 <controls:CustomNavigationbar
                     Title="{xct:Translate OrderTabs}"
-                    LeftButtonImageSource="ic_arrow_left_tail_40x40"
                     LeftButtonCommand="{prism:GoBack}" />
 
                 <Grid
