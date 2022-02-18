@@ -27,7 +27,6 @@ namespace Next2.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs changedProperty)
         {
             base.OnElementPropertyChanged(sender, changedProperty);
-
             this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
 
             try

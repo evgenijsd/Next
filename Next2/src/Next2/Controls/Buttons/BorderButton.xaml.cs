@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls.Buttons
 {
-    public partial class BorderButton : Frame
+    public partial class BorderButton : CustomFrame
     {
         public BorderButton()
         {
@@ -36,16 +36,17 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty FontSizProperty = BindableProperty.Create(
-            propertyName: nameof(FontSiz),
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(FontSize),
             returnType: typeof(double),
             declaringType: typeof(BorderButton),
+            defaultValue: 12d,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public double FontSiz
+        public double FontSize
         {
-            get => (double)GetValue(FontSizProperty);
-            set => SetValue(FontSizProperty, value);
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
         }
 
         public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(

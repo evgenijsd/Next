@@ -10,10 +10,10 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    x:Class="Next2.Views.Mobile.NewOrderPage"
-    x:DataType="viewModels:NewOrderViewModel">
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
+    x:DataType="mobile:NewOrderViewModel"
+    x:Class="Next2.Views.Mobile.NewOrderPage">
 
     <ContentView>
 
@@ -33,7 +33,7 @@
             <Style x:Key="ButtonStyle_i1" TargetType="buttons:BorderButton">
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
                 <Setter Property="CornerRadius" Value="4"/>
-                <Setter Property="FontSiz" Value="{DynamicResource TSize_i6}"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
                 <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="Padding" Value="8"/>

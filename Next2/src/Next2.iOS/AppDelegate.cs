@@ -1,5 +1,5 @@
-﻿using Foundation;
 using Next2.Helpers;
+using Foundation;
 using UIKit;
 
 namespace Next2.iOS
@@ -23,6 +23,8 @@ namespace Next2.iOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Rg.Plugins.Popup.Popup.Init();
+
             global::Xamarin.Forms.Forms.Init();
 
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();

@@ -1,15 +1,26 @@
-﻿using Next2.Enums;
-using Next2.Interfaces;
+using Next2.Enums;
 using Prism.Mvvm;
 
 namespace Next2.Models
 {
-    public class OrderBindableModel : BindableBase, IBaseModel
+    public class OrderBindableModel : BindableBase
     {
-        public int Id { get; set; }
+        #region -- Public properties --
 
-        public EOrderType Ordertype { get; set; }
+        public int TableNumber { get; set; }
 
-        public float Total { get; set; }
+        public int OrderNumber { get; set; }
+
+        public string Name { get; set; }
+
+        public string? OrderStatus { get; set; }
+
+        public EOrderType OrderType { get; set; }
+
+        public string OrderNumberText { get; set; }
+
+        public double Total { get; set; }
+
+        #endregion
     }
 }

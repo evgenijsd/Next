@@ -10,5 +10,7 @@ namespace Next2.Services.Order
         Task<AOResult<int>> GetNewOrderIdAsync();
 
         Task<AOResult<IEnumerable<TableModel>>> GetAvailableTables();
+
+        Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
     }
 }

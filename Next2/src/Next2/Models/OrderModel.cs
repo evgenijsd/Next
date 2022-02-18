@@ -7,8 +7,16 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public EOrderType Ordertype { get; set; }
+        public string? CustomerName { get; set; }
 
-        public float Total { get; set; }
+        public int TableNumber { get; set; }
+
+        public string OrderStatus { get; set; }
+
+        public EOrderType OrderType { get; set; }
+
+        public int OrderNumber { get; set; }
+
+        public double Total { get; set; }
     }
 }

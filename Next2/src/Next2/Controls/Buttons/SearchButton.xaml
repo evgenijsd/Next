@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:DataType="controls:SearchButton"
+    MinimumWidthRequest="100"
+    HeightRequest="45"
+    x:Class="Next2.Controls.SearchButton">
+
+    <Frame
+        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BorderColor}"
+        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BackColor}"
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CornerRadius}"
+        VerticalOptions="FillAndExpand">
+    </Frame>
+
+    <Label
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text}"
+        Margin="10,0,0,0"
+        FontSize="13"
+        FontFamily="Barlow-Regular"
+        TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
+        Opacity="0.32"
+        VerticalOptions="Center"
+        HorizontalOptions="Start" />
+
+    <ffimageloading:CachedImage
+        Source="ic_search_24x24"
+        HeightRequest="20"
+        Margin="0,0,10,0"
+        VerticalOptions="CenterAndExpand"
+        HorizontalOptions="EndAndExpand" />
+</Grid>

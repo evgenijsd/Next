@@ -179,6 +179,10 @@ namespace Next2.Controls
             if (propertyName == nameof(ItemsSource) && ItemsSource?.Count > 0)
             {
                 SelectedItem = ItemsSource[0];
+
+                collectionList.VerticalScrollBarVisibility = ItemsSource.Count == VisibleRowsNumber
+                    ? ScrollBarVisibility.Never
+                    : ScrollBarVisibility.Always;
             }
 
             ListHeight = VisibleRowsNumber * ListRowHeight;

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage  
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls.Templates" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Tablet.LoginPage"
+    x:DataType="viewModels:LoginPageViewModel">
+
+    <Grid 
+        RowSpacing="0"
+        ColumnSpacing="2"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+        ColumnDefinitions="*, 0.45*"
+        RowDefinitions="0.10*,*">
+
+        <controls:CustomDateTimePanelTemplate BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
+
+        <ContentView 
+            Grid.Row="1"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            Padding="80, 20, 80, 0"
+            Margin="0, 0, 0, 0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+
+            <Image 
+                Source="pic_logo_big"
+                Margin="0, 110, 0, 140"
+                Aspect="AspectFit"/>
+                
+        </ContentView>
+
+        <controls:CustomNumericKeyboardTemplate
+            Grid.Column="1"
+            Grid.RowSpan="2"
+            PlaceHolder="{xct:Translate TypeEmployeeId}"
+            IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
+            ApplyCommand="{Binding GoToStartPageCommand}"/>
+
+    </Grid>
+
+</views:BaseContentPage>
