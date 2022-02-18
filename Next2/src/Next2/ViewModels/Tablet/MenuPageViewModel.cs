@@ -142,17 +142,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnLogOutCommandAsync()
         {
-            var param = new DialogParameters();
-
-            string okButton = LocalizationResourceManager.Current["LogOut_UpperCase"];
-
-            string cancelButton = LocalizationResourceManager.Current["Cancel"];
-
-            param.Add(Constants.DialogParameterKeys.OK_BUTTON_TEXT, okButton);
-
-            param.Add(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, cancelButton);
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new LogOutAlertView(param, CloseDialogCallback));
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)

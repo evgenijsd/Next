@@ -16,7 +16,6 @@
         Padding="0">
 
         <controls:CustomNavigationbar
-            HeightRequest="70"
             Title="{xct:Translate Settings}"
             LeftButtonImageSource="ic_arrow_left_tail_40x40"
             LeftButtonCommand="{prism:GoBack}"/>
