@@ -4,6 +4,8 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Views.Mobile.SearchPage"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    x:DataType="viewModels:SearchPageViewModel"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     Appearing="BaseContentPage_Appearing"
@@ -20,7 +22,6 @@
                 Padding="5,0,0,0"
                 HeightImage="24"
                 FontSize="{DynamicResource TSize_i5}"
-                LeftButtonImageSource="ic_arrow_left_tail_40x40"
                 LeftButtonCommand="{Binding GoBackCommand}" />
             
             <StackLayout Grid.Row="1"

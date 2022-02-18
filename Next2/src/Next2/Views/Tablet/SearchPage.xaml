@@ -3,6 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    x:DataType="viewModels:SearchPageViewModel"
     x:Class="Next2.Views.Tablet.SearchPage"
     xmlns:controls="clr-namespace:Next2.Controls"
     Appearing="BaseContentPage_Appearing"
@@ -21,7 +23,6 @@
                 Title="{xct:Translate Search}"
                 HeightImage="18"
                 FontSize="{DynamicResource TSize_i7}"
-                LeftButtonImageSource="ic_arrow_left_tail_40x40"
                 LeftButtonCommand="{Binding GoBackCommand}" />
 
             <StackLayout

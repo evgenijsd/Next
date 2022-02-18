@@ -98,19 +98,6 @@ namespace Next2.Controls
             set => SetValue(TextColorProperty, value);
         }
 
-        public static readonly BindableProperty IsPlaceholderProperty = BindableProperty.Create(
-            propertyName: nameof(IsPlaceholder),
-            returnType: typeof(bool),
-            declaringType: typeof(SearchButton),
-            defaultValue: false,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public bool IsPlaceholder
-        {
-            get => (bool)GetValue(IsPlaceholderProperty);
-            set => SetValue(OpacityProperty, value);
-        }
-
         public static readonly BindableProperty CommandSearchProperty = BindableProperty.Create(
             propertyName: nameof(CommandSearch),
             returnType: typeof(ICommand),

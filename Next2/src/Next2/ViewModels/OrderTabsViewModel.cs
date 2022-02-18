@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.OrderService;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
-using MobileViews = Next2.Views.Mobile;
-using TabletViews = Next2.Views.Tablet;
 
 namespace Next2.ViewModels
 {
@@ -49,7 +48,9 @@ namespace Next2.ViewModels
 
         public string SearchPlaceholder { get; set; } = Resources.Strings.Strings.SearchTableNumber;
 
-        public bool IsNotFound { get; set; } = false;
+        public bool IsNotingFound { get; set; } = false;
+
+        public bool IsSearching { get; set; } = false;
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
@@ -82,42 +83,35 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnAppearing()
         {
-            if (!parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
+            if (!IsSearching)
             {
                 HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
 
                 await LoadData();
             }
-        }
-
-        public override async void OnAppearing()
-        {
-            HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
-
-            await LoadData();
+            else
+            {
+                IsSearching = false;
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SelectedOrder))
+            if (args.PropertyName is nameof(SelectedOrder))
             {
                 SetHeightCollection();
             }
-
-            if (args.PropertyName == nameof(Orders))
+            else if (args.PropertyName is nameof(Orders))
             {
-                if (Orders.Count == 0)
+                IsNotingFound = !Orders.Any();
+
+                if (IsNotingFound)
                 {
                     HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
-                    IsNotFound = true;
-                }
-                else
-                {
-                    IsNotFound = false;
                 }
             }
         }
@@ -201,7 +195,7 @@ namespace Next2.ViewModels
 
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
-            if (Orders.Count != 0)
+            if (Orders.Any())
             {
                 var heightCollection = (Orders.Count * Constants.LayoutOrderTabs.ROW_HEIGHT) + _offsetHeight;
 
@@ -252,19 +246,16 @@ namespace Next2.ViewModels
 
         private async Task OnSearchCommandAsync()
         {
-            MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchMessageCommandAsync(me));
-
-            string searchPage = nameof(MobileViews.SearchPage);
-
-            if (App.IsTablet)
+            if (Orders.Any())
             {
-                searchPage = nameof(TabletViews.SearchPage);
-            }
+                MessagingCenter.Subscribe<MessageEvent>(this, MessageEvent.SearchMessage, (me) => SearchMessageCommandAsync(me));
 
-            var outParameter = new SearchParameters { IsSelected = IsOrderTabsSelected, SearchLine = SearchText };
-            var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, outParameter } };
-            ClearSearchAsync();
-            await _navigationService.NavigateAsync(searchPage, parameters, useModalNavigation: true);
+                var outParameter = new SearchParameters { IsSelected = IsOrderTabsSelected, SearchLine = SearchText };
+                var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, outParameter } };
+                ClearSearchAsync();
+                IsSearching = true;
+                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            }
         }
 
         private Task SearchMessageCommandAsync(MessageEvent me)
@@ -335,7 +326,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectCommandAsync(object args)
+        private Task OnTapSelectCommandAsync(object? args)
         {
             OrderBindableModel? order = args as OrderBindableModel;
 

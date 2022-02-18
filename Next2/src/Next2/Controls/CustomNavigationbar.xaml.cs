@@ -18,18 +18,6 @@ namespace Next2.Controls
 
         #region -- Public properties --
 
-        public static readonly BindableProperty LeftButtonImageSourceProperty = BindableProperty.Create(
-            propertyName: nameof(LeftButtonImageSource),
-            returnType: typeof(string),
-            declaringType: typeof(CustomNavigationbar),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public string LeftButtonImageSource
-        {
-            get => (string)GetValue(LeftButtonImageSourceProperty);
-            set => SetValue(LeftButtonImageSourceProperty, value);
-        }
-
         public static readonly BindableProperty HeightImageProperty = BindableProperty.Create(
             propertyName: nameof(HeightImage),
             returnType: typeof(double),

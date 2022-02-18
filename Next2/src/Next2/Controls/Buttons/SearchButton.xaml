@@ -32,7 +32,7 @@
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="FillAndExpand"
             LineBreakMode="TailTruncation"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder, Converter={xct:InvertedBoolConverter}}" />
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" />
 
         <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Placeholder}"
@@ -44,7 +44,7 @@
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="FillAndExpand"
             LineBreakMode="TailTruncation"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=IsPlaceholder}" />
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}" />
 
     </StackLayout>
 

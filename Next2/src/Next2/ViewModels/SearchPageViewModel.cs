@@ -10,11 +10,11 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
-    public class SearchViewModel : BaseViewModel
+    public class SearchPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
 
-        public SearchViewModel(
+        public SearchPageViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
@@ -26,7 +26,7 @@ namespace Next2.ViewModels
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
-        public string? SearchLine { get; set; } = string.Empty;
+        public string SearchLine { get; set; } = string.Empty;
 
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync);
@@ -40,7 +40,7 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.SEARCH, out SearchParameters inParameter))
             {
                 IsOrderTabsSelected = inParameter.IsSelected;
-                SearchLine = inParameter.SearchLine;
+                SearchLine = inParameter.SearchLine ?? string.Empty;
             }
         }
 
@@ -60,14 +60,10 @@ namespace Next2.ViewModels
 
         private async Task OnGoBackCommandAsync(string? done)
         {
-            var parameters = new NavigationParameters { { Constants.Navigations.SEARCH, done } };
+            var result = done ?? string.Empty;
+            MessagingCenter.Send(new MessageEvent(result), MessageEvent.SearchMessage);
 
-            if (!string.IsNullOrEmpty(done))
-            {
-                MessagingCenter.Send<MessageEvent>(new MessageEvent(done), MessageEvent.SearchMessage);
-            }
-
-            await _navigationService.GoBackAsync(parameters);
+            await _navigationService.GoBackAsync();
         }
 
         #endregion

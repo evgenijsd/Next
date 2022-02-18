@@ -43,10 +43,10 @@
 
         public static class Validators
         {
-            public const string TEXT = @"[^\da-zA-z\s]";
+            public const string TEXT = @"[^\w\s]";
             public const string NAME = @"[^a-zA-Z\s]";
             public const string NUMBER = @"[\D]";
-            public const string CHECK_NUMBER = @"^[^\D]";
+            public const string CHECK_NUMBER = @"^[\d]";
         }
 
         public static class DialogParameterKeys

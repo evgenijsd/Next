@@ -98,7 +98,6 @@
                             Value="">
                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                             <Setter Property="ImageSource" Value="ic_search_24x24" />
-                            <Setter Property="IsPlaceholder" Value="true" />
                         </DataTrigger>
                         
                     </controls:SearchButton.Triggers>
@@ -274,7 +273,7 @@
                         VerticalOptions="Start"
                         IsRefreshing="{Binding IsOrdersRefreshing}"
                         Command="{Binding RefreshOrdersCommand}"
-                        IsVisible="{Binding IsNotFound, Converter={xct:InvertedBoolConverter}}">
+                        IsVisible="{Binding IsNotingFound, Converter={xct:InvertedBoolConverter}}">
 
                         <controls:CustomScrollBarCollectionView
                             ItemsSource="{Binding Orders}"
@@ -436,7 +435,7 @@
                         Margin="2,0,2,2"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
-                        IsVisible="{Binding IsNotFound}">
+                        IsVisible="{Binding IsNotingFound}">
 
                         <ffimageloading:CachedImage
                             Source="pic_nothing_found"

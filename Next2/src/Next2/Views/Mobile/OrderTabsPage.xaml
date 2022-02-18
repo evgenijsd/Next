@@ -36,7 +36,6 @@
                     Title="{xct:Translate OrderTabs}"
                     HeightImage="24"
                     FontSize="{DynamicResource TSize_i5}"
-                    LeftButtonImageSource="ic_arrow_left_tail_40x40"
                     LeftButtonCommand="{prism:GoBack}" />
 
                 <Grid
@@ -83,7 +82,6 @@
                             Value="">
                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                             <Setter Property="ImageSource" Value="ic_search_24x24" />
-                            <Setter Property="IsPlaceholder" Value="true" />
                         </DataTrigger>
 
                     </controls:SearchButton.Triggers>
@@ -96,7 +94,7 @@
                     CornerRadius="10"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     Margin="17,0,17,0"
-                    IsVisible="{Binding IsNotFound, Converter={xct:InvertedBoolConverter}}">
+                    IsVisible="{Binding IsNotingFound, Converter={xct:InvertedBoolConverter}}">
 
                     <StackLayout>
 
@@ -279,7 +277,7 @@
                     Grid.Row="3"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
-                    IsVisible="{Binding IsNotFound}">
+                    IsVisible="{Binding IsNotingFound}">
 
                     <ffimageloading:CachedImage
                         Source="pic_nothing_found"
