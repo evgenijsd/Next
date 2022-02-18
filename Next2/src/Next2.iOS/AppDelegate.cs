@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using Next2.Helpers;
 using UIKit;
 
 namespace Next2.iOS
@@ -28,7 +29,14 @@ namespace Next2.iOS
 
             LoadApplication(new App());
 
-            return base.FinishedLaunching(app, options);
+            bool ret = base.FinishedLaunching(app, options);
+            if (ret)
+            {
+                UITapGestureRecognizer tap = new UITapGestureRecognizer(Self, new ObjCRuntime.Selector("gestureRecognizer:shouldReceiveTouch:"));
+                tap.Delegate = (IUIGestureRecognizerDelegate)Self;
+                app.KeyWindow.AddGestureRecognizer(tap);
+            }
+            return ret;
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, UIWindow forWindow)
@@ -39,5 +47,12 @@ namespace Next2.iOS
         }
 
         #endregion
+
+        [Export("gestureRecognizer:shouldReceiveTouch:")]
+        public bool ShouldReceiveTouch(UIGestureRecognizer gestureRecognizer, UITouch touch)
+        {
+            Xamarin.Forms.DependencyService.Get<IGlobalTouch>().TapScreen();
+            return false;
+        }
     }
 }

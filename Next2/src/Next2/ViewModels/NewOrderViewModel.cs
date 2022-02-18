@@ -6,6 +6,7 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -121,6 +122,16 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             Tables.Clear();
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedTable))
+            {
+                NumberOfSeats = 1;
+            }
         }
 
         #endregion

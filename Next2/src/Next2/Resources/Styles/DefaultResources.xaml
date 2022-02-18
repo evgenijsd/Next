@@ -24,6 +24,9 @@
     <!-- 8px -->
     <x:Double x:Key="TSize_i10">10</x:Double>
 
+    <x:Double x:Key="OpacityWhenDisabled">0.32</x:Double>
+    <x:Double x:Key="ListRowHeight">30</x:Double>
+    
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False"/>
         <Setter Property="Padding" Value="0"/>
@@ -57,11 +60,12 @@
     <Style TargetType="controls:CustomStepper">
         <Setter Property="DecrementIconSource" Value="ic_minus_primary_32x32"/>
         <Setter Property="IncrementIconSource" Value="ic_plus_primary_32x32"/>
-        <Setter Property="IconSizes" Value="32"/>
+        <Setter Property="IconSizes" Value="30"/>
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         <Setter Property="FontFamily" Value="Barlow-Bold"/>
-        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
         <Setter Property="TextWidth" Value="22"/>
+        <Setter Property="Spacing" Value="8"/>
     </Style>
     
     <Style TargetType="controls:DropDownList">
@@ -74,6 +78,18 @@
         <!--<Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/> WHEN EXPANDED --> 
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
+        <Setter Property="ListRowHeight" Value="30"/>
+        
+        <Style.Triggers>
+
+            <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
+
+                <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+                <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+
+            </Trigger>
+
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

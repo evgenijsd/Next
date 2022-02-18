@@ -133,6 +133,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Effects\NoOverScrollEffect.cs" />
+    <Compile Include="Helpers\GlobalTouchImplementation.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <None Include="Entitlements.plist" />
@@ -1371,4 +1372,5 @@
   <ItemGroup>
     <BundleResource Include="Resources\pic_plate_pax%403x.png" />
   </ItemGroup>
+  <ItemGroup />
 </Project>

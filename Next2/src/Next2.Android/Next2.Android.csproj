@@ -135,7 +135,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\NoOverScrollEffect.cs" />
+    <Compile Include="Helpers\GlobalTouchImplementation.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MainApplication.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -91,13 +91,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
-            returnType: typeof(int),
+            returnType: typeof(double),
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int FontSize
+        public double FontSize
         {
-            get => (int)GetValue(FontSizeProperty);
+            get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 

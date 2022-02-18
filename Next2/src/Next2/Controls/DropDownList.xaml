@@ -31,8 +31,8 @@
                 Margin="0, 7, 10, 7"
                 VerticalOptions="Center"
                 HorizontalOptions="EndAndExpand"
-                HeightRequest="24"
-                WidthRequest="24"
+                HeightRequest="20"
+                WidthRequest="20"
                 Source="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=WrappedListIconSource}">
                 
                 <ffimageloading:CachedImage.Triggers>            
@@ -49,13 +49,14 @@
 
         </StackLayout>
 
-        <BoxView 
+        <BoxView
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
             HeightRequest="0.25"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
         <controls:CustomScrollBarCollectionView
             Margin="1"
-            HeightRequest="140"
+            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ListHeight}"
             VerticalScrollBarVisibility="Always"
             ThumbWidth="8"
             ScrollBarCornerRadius="10"

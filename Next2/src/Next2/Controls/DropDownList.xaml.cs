@@ -1,8 +1,6 @@
-﻿using Next2.Enums;
+﻿using Next2.Helpers;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,9 +11,18 @@ namespace Next2.Controls
 {
     public partial class DropDownList : Frame
     {
+        private readonly IGlobalTouch _globalTouch;
+
         public DropDownList()
         {
             InitializeComponent();
+
+            _globalTouch = DependencyService.Get<IGlobalTouch>();
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                _globalTouch.TapScreen(OnTapScreen);
+            });
         }
 
         #region -- Public properties --
@@ -104,16 +111,16 @@ namespace Next2.Controls
             set => SetValue(DataTemplateProperty, value);
         }
 
-        public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(
-            propertyName: nameof(ItemHeight),
+        public static readonly BindableProperty ListRowHeightProperty = BindableProperty.Create(
+            propertyName: nameof(ListRowHeight),
             returnType: typeof(int),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int ItemHeight
+        public int ListRowHeight
         {
-            get => (int)GetValue(ItemHeightProperty);
-            set => SetValue(ItemHeightProperty, value);
+            get => (int)GetValue(ListRowHeightProperty);
+            set => SetValue(ListRowHeightProperty, value);
         }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
@@ -152,11 +159,10 @@ namespace Next2.Controls
             set => SetValue(IsExpandedProperty, value);
         }
 
-        private ICommand _expandListCommand;
-        public ICommand ExpandListCommand => _expandListCommand ??= new AsyncCommand(OnExpandListCommandAsync);
+        public int ListHeight { get; set; }
 
-        private ICommand _selectItemCommand;
-        public ICommand SelectItemCommand => _selectItemCommand ??= new AsyncCommand(OnSelectItemCommandAsync);
+        private ICommand _expandListCommand;
+        public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommandAsync);
 
         #endregion
 
@@ -167,26 +173,23 @@ namespace Next2.Controls
             if (propertyName == nameof(ItemsSource) && ItemsSource?.Count > 0)
             {
                 SelectedItem = ItemsSource[0];
-                int h = ItemHeight;
+
+                ListHeight = ItemsSource.Count * ListRowHeight;
             }
         }
 
         #region -- Private helpers --
 
-        private Task OnExpandListCommandAsync()
+        private void OnTapScreen(object sender, EventArgs e)
+        {
+            IsExpanded = false;
+        }
+
+        private void OnExpandListCommandAsync(object obj)
         {
             IsExpanded = !IsExpanded;
 
             (Parent as Layout).RaiseChild(this);
-
-            return Task.CompletedTask;
-        }
-
-        private Task OnSelectItemCommandAsync()
-        {
-            IsExpanded = false;
-
-            return Task.CompletedTask;
         }
 
         #endregion

@@ -18,6 +18,7 @@ using Microsoft.AppCenter.Crashes;
 using Next2.ViewModels.Tablet;
 using Next2.Services.Mock;
 using Next2.Services.Order;
+using Next2.Helpers;
 
 namespace Next2
 {

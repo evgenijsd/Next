@@ -40,8 +40,8 @@
             </Style>
 
             <Style TargetType="buttons:IconBorderButton">
-                <Setter Property="IconWidth" Value="28"/>
-                <Setter Property="IconHeight" Value="28"/>
+                <Setter Property="IconWidth" Value="26"/>
+                <Setter Property="IconHeight" Value="26"/>
                 <Setter Property="CornerRadius" Value="3"/>
                 <Setter Property="Padding" Value="10"/>
             </Style>
@@ -118,7 +118,7 @@
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
-                Padding="17, 13"
+                Padding="17, 19, 17, 24"
                 HorizontalOptions="Start"
                 Orientation="Horizontal"
                 Spacing="17">
@@ -130,7 +130,8 @@
                     Source="ic_arrow_left_tail_24x24.png"
                     xct:TouchEffect.Command="{prism:GoBack}"/>
 
-                <Label Style="{DynamicResource Bold32pxLabelStyle}">
+                <Label Style="{DynamicResource Bold32pxLabelStyle}"
+                       Margin="0, 2, 0, 0">
                     
                     <Label.FormattedText>
 
@@ -159,8 +160,8 @@
                 Grid.Row="0"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
-                Margin="17, 6"
-                WidthRequest="120"
+                Margin="17, 19"
+                WidthRequest="96"
                 HeaderText="{Binding SelectedOrderType.OrderTypeValue}"
                 SelectedItem="{Binding SelectedOrderType}"
                 ItemsSource="{Binding OrderTypes}">
@@ -197,38 +198,32 @@
             <!-- HEADER, 2 ROW -->
             <StackLayout
                 Grid.Row="1"
-                VerticalOptions="FillAndExpand"
+                VerticalOptions="Start"
                 HorizontalOptions="End"
-                Padding="17, 15"
+                Padding="17, 13, 17, 18"
                 Orientation="Horizontal"
-                Spacing="15">
+                Spacing="13">
 
                 <Label
                     Style="{DynamicResource SemiBold32pxLabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    Padding="0, 0, 0, 4"
                     Text="{xct:Translate Seats}">
                     
-                    <Label.Triggers>
-
+                    <!--<Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding Tables.Count}" Value="0">
 
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled}" />
 
                         </DataTrigger>
-
-                    </Label.Triggers>
+                    </Label.Triggers>-->
                     
                 </Label>
                 
                 <controls:CustomStepper
-                    Spacing="14"
-                    IconSizes="28"
-                    FontSize="{DynamicResource TSize_i6}"
                     MaxValue="{Binding SelectedTable.NumberOfAvailableSeats}"
                     Value="{Binding NumberOfSeats}">
                     
-                    <controls:CustomStepper.Triggers>
+                    <!--<controls:CustomStepper.Triggers>
                         
                         <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding Tables.Count}" Value="0">
                             
@@ -237,7 +232,7 @@
                             
                         </DataTrigger>
                         
-                    </controls:CustomStepper.Triggers>
+                    </controls:CustomStepper.Triggers>-->
                     
                 </controls:CustomStepper>
 
@@ -247,8 +242,8 @@
                 Grid.Row="1"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
-                Margin="18, 12"
-                WidthRequest="120"
+                Margin="18, 9"
+                WidthRequest="145"
 
                 HeaderText="{Binding SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding SelectedTable}"
@@ -315,12 +310,9 @@
 
                 </StackLayout.Triggers>
 
-                <BoxView
-                    Style="{DynamicResource SeparatorLightBoxViewStyle}" />
-
                 <!-- SUMMARY HEADER -->
                 <StackLayout
-                    Padding="17, 8"
+                    Padding="17, 11"
                     Spacing="13"
                     Orientation="Horizontal">
 
@@ -360,8 +352,8 @@
 
                 </StackLayout>
 
-                <BoxView
-                    Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
+                <!--<BoxView
+                    Style="{DynamicResource SeparatorDarkBoxViewStyle}" />-->
 
                 <!-- SUMMARY BODY -->
                 <StackLayout
@@ -428,8 +420,8 @@
 
                     </StackLayout>
 
-                    <BoxView
-                        Style="{DynamicResource SeparatorLightBoxViewStyle}" />
+                    <!--<BoxView
+                        Style="{DynamicResource SeparatorLightBoxViewStyle}" />-->
 
                     <StackLayout
                         Orientation="Horizontal">
