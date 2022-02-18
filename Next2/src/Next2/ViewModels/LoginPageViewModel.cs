@@ -111,7 +111,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_userService.AuthorizedUserId > 0)
+            if (_userService.AuthorizedUserId >= 0)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
