@@ -5,10 +5,12 @@ using Next2.Services.OrderService;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -37,9 +39,15 @@ namespace Next2.ViewModels.Tablet
             _orderService = orderService;
 
             Task.Run(LoadCategoriesAsync);
+
+            var timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
+            timerUpdateTime.Elapsed += Timer_Elapsed;
+            timerUpdateTime.Start();
         }
 
         #region -- Public properties --
+
+        public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
@@ -52,7 +60,7 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
@@ -96,6 +104,11 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CurrentDateTime = DateTime.Now;
+        }
+
         private async Task OnTapSortCommandAsync()
         {
             _order = !_order;
@@ -118,7 +131,7 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
             {
                 SetBindableModel set;
 

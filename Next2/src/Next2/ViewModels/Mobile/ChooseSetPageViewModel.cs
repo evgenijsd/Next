@@ -49,7 +49,7 @@ namespace Next2.ViewModels.Mobile
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
@@ -112,7 +112,7 @@ namespace Next2.ViewModels.Mobile
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
             {
                 SetBindableModel set;
 

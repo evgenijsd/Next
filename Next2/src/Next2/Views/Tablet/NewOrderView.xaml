@@ -195,7 +195,7 @@
                     HorizontalOptions="EndAndExpand"/>
 
                 <Label
-                    Text="9:32:45 PM"
+                    Text="{Binding CurrentDateTime, StringFormat='{}{0:h:hh:ss tt}'}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalTextAlignment="Center"
                     Style="{StaticResource labeltSize_i6}"
@@ -207,7 +207,7 @@
                     Margin="20, 0, 0, 0"/>
 
                 <Label
-                    Text="Tuesday, 21 March 2021"
+                    Text="{Binding CurrentDateTime, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalTextAlignment="Center"
                     Style="{StaticResource labeltSize_i6}"

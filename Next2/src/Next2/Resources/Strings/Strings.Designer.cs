@@ -70,6 +70,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Item.
+        /// </summary>
+        internal static string AddItem {
+            get {
+                return ResourceManager.GetString("AddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New.
         /// </summary>
         internal static string AddNew {
@@ -241,7 +250,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log out.
+        ///   Looks up a localized string similar to Log Out.
         /// </summary>
         internal static string LogOut {
             get {

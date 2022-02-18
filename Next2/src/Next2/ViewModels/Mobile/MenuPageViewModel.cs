@@ -38,7 +38,7 @@ namespace Next2.ViewModels.Mobile
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
         private ICommand _tapCategoryCommand;
-        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync);
+        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
