@@ -2,14 +2,13 @@
 using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls
 {
-    public partial class DropDownList : Frame
+    public partial class DropDownList : PancakeView
     {
         private readonly IGlobalTouch _globalTouch;
 
@@ -113,14 +112,26 @@ namespace Next2.Controls
 
         public static readonly BindableProperty ListRowHeightProperty = BindableProperty.Create(
             propertyName: nameof(ListRowHeight),
+            returnType: typeof(double),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double ListRowHeight
+        {
+            get => (double)GetValue(ListRowHeightProperty);
+            set => SetValue(ListRowHeightProperty, value);
+        }
+
+        public static readonly BindableProperty VisibleRowsNumberProperty = BindableProperty.Create(
+            propertyName: nameof(VisibleRowsNumber),
             returnType: typeof(int),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int ListRowHeight
+        public int VisibleRowsNumber
         {
-            get => (int)GetValue(ListRowHeightProperty);
-            set => SetValue(ListRowHeightProperty, value);
+            get => (int)GetValue(VisibleRowsNumberProperty);
+            set => SetValue(VisibleRowsNumberProperty, value);
         }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
@@ -159,7 +170,7 @@ namespace Next2.Controls
             set => SetValue(IsExpandedProperty, value);
         }
 
-        public int ListHeight { get; set; }
+        public double ListHeight { get; set; }
 
         private ICommand _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommandAsync);
@@ -173,9 +184,9 @@ namespace Next2.Controls
             if (propertyName == nameof(ItemsSource) && ItemsSource?.Count > 0)
             {
                 SelectedItem = ItemsSource[0];
-
-                ListHeight = ItemsSource.Count * ListRowHeight;
             }
+
+            ListHeight = VisibleRowsNumber * ListRowHeight;
         }
 
         #region -- Private helpers --

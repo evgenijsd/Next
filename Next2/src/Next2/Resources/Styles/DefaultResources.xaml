@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:Next2.Converters"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!-- TEXT SIZE -->
@@ -71,21 +72,32 @@
     <Style TargetType="controls:DropDownList">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="CornerRadius" Value="4"/>
-        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
-        <Setter Property="Background" Value="Transparent"/>
+
+        <Setter Property="Border">
+            <Setter.Value>
+                <!--<pancake:Border Color="{StaticResource TextAndBackgroundColor_i2}" Thickness="1"/>-->
+                <pancake:Border Color="#424861" Thickness="2"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="WrappedListIconSource" Value="ic_arrow_down_32x32"/>
         <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
-        <!--<Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/> WHEN EXPANDED --> 
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
-        <Setter Property="ListRowHeight" Value="30"/>
+        <Setter Property="VisibleRowsNumber" Value="3"/>
+        <!--<Setter Property="ListRowHeight" Value="30"/>-->
         
         <Style.Triggers>
-
+            
             <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
-
-                <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
                 <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                <Setter Property="Border">
+                    <Setter.Value>
+                        <!--<pancake:Border Color="{x:StaticResource AppColor_i1}" Thickness="1"/>-->
+                        <pancake:Border Color="#212430" Thickness="1"/>
+                    </Setter.Value>
+                </Setter>
 
             </Trigger>
 

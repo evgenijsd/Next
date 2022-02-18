@@ -13,6 +13,7 @@
     </StackLayout.Resources>
     
     <Grid
+        RowDefinitions="auto"
         ColumnDefinitions="auto, auto, auto"
         ColumnSpacing="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=Spacing}">
 
@@ -44,7 +45,6 @@
             Grid.Column="1"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center"
-            Padding="0, 0, 0, 0"
             WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextWidth}"
             FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontFamily}"
             FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontSize}"

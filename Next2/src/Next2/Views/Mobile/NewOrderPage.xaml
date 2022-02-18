@@ -134,22 +134,16 @@
                        Margin="0, 2, 0, 0">
                     
                     <Label.FormattedText>
-
                         <FormattedString>
-                            
                             <Span Text="{xct:Translate Order}"/>
                             <Span Text=" "/>
                             <Span Text="{xct:Translate NumberSign}"/>
                             <Span Text="{Binding NewOrderId}"/>
-                            
                         </FormattedString>
-
                     </Label.FormattedText>
                     
                     <Label.GestureRecognizers>
-                        
                         <TapGestureRecognizer Command="{Binding PayCommand}" />
-                        
                     </Label.GestureRecognizers>
                     
                 </Label>
@@ -162,6 +156,7 @@
                 VerticalOptions="Start"
                 Margin="17, 19"
                 WidthRequest="96"
+                ListRowHeight="46.25"
                 HeaderText="{Binding SelectedOrderType.OrderTypeValue}"
                 SelectedItem="{Binding SelectedOrderType}"
                 ItemsSource="{Binding OrderTypes}">
@@ -170,7 +165,8 @@
 
                     <DataTemplate>
 
-                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                        <StackLayout
+                            Style="{DynamicResource DropDownDataTemplateStyle}">
 
                             <StackLayout
                                 HeightRequest="30"
@@ -198,7 +194,7 @@
             <!-- HEADER, 2 ROW -->
             <StackLayout
                 Grid.Row="1"
-                VerticalOptions="Start"
+                VerticalOptions="FillAndExpand"
                 HorizontalOptions="End"
                 Padding="17, 13, 17, 18"
                 Orientation="Horizontal"
@@ -209,13 +205,13 @@
                     HorizontalOptions="EndAndExpand"
                     Text="{xct:Translate Seats}">
                     
-                    <!--<Label.Triggers>
+                    <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding Tables.Count}" Value="0">
 
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled}" />
 
                         </DataTrigger>
-                    </Label.Triggers>-->
+                    </Label.Triggers>
                     
                 </Label>
                 
@@ -223,7 +219,7 @@
                     MaxValue="{Binding SelectedTable.NumberOfAvailableSeats}"
                     Value="{Binding NumberOfSeats}">
                     
-                    <!--<controls:CustomStepper.Triggers>
+                    <controls:CustomStepper.Triggers>
                         
                         <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding Tables.Count}" Value="0">
                             
@@ -232,7 +228,7 @@
                             
                         </DataTrigger>
                         
-                    </controls:CustomStepper.Triggers>-->
+                    </controls:CustomStepper.Triggers>
                     
                 </controls:CustomStepper>
 
@@ -244,7 +240,7 @@
                 VerticalOptions="Start"
                 Margin="18, 9"
                 WidthRequest="145"
-
+                ListRowHeight="46.5"
                 HeaderText="{Binding SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding SelectedTable}"
                 ItemsSource="{Binding Tables}">
@@ -352,8 +348,8 @@
 
                 </StackLayout>
 
-                <!--<BoxView
-                    Style="{DynamicResource SeparatorDarkBoxViewStyle}" />-->
+                <BoxView
+                    Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
 
                 <!-- SUMMARY BODY -->
                 <StackLayout
@@ -420,8 +416,8 @@
 
                     </StackLayout>
 
-                    <!--<BoxView
-                        Style="{DynamicResource SeparatorLightBoxViewStyle}" />-->
+                    <BoxView
+                        Style="{DynamicResource SeparatorLightBoxViewStyle}" />
 
                     <StackLayout
                         Orientation="Horizontal">
