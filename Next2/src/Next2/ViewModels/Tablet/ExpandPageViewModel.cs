@@ -4,6 +4,7 @@ using Next2.Services.Menu;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -35,6 +36,8 @@ namespace Next2.ViewModels.Tablet
         }
 
         #region -- Public properties --
+
+        public int HeightCollectionView { get; set; }
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
@@ -115,6 +118,8 @@ namespace Next2.ViewModels.Tablet
                 {
                     CategoriesItems = new(resultCategories.Result);
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
+
+                    HeightCollectionView = (int)((Math.Ceiling((double)CategoriesItems.Count / 7) * (54 + 10)) - 8);
                 }
             }
         }
