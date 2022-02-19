@@ -28,6 +28,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
+        public double _heightPage;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -92,7 +93,8 @@ namespace Next2.ViewModels
         {
             if (!IsSearching)
             {
-                HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
+                _heightPage = HeightPage;
+                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
                 await LoadData();
             }
@@ -116,7 +118,7 @@ namespace Next2.ViewModels
 
                 if (IsNotingFound)
                 {
-                    HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
+                    HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
                 }
             }
         }
@@ -191,7 +193,7 @@ namespace Next2.ViewModels
 
         private void SetHeightCollection()
         {
-            var heightCollectionScreen = HeightPage - _summRowHeight;
+            var heightCollectionScreen = _heightPage - _summRowHeight;
 
             if (SelectedOrder != null && !App.IsTablet)
             {
@@ -213,7 +215,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
+                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
             }
         }
 
