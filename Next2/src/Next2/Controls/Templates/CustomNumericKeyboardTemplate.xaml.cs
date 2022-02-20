@@ -40,16 +40,16 @@ namespace Next2.Controls.Templates
             set => SetValue(IsKeyBoardTypedProperty, value);
         }
 
-        public static readonly BindableProperty IsUserLoggedOutProperty = BindableProperty.Create(
-            propertyName: nameof(IsUserLoggedOut),
+        public static readonly BindableProperty IsUserLogInProperty = BindableProperty.Create(
+            propertyName: nameof(IsUserLogIn),
             returnType: typeof(bool),
             declaringType: typeof(CustomNumericKeyboardTemplate),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool IsUserLoggedOut
+        public bool IsUserLogIn
         {
-            get => (bool)GetValue(IsUserLoggedOutProperty);
-            set => SetValue(IsUserLoggedOutProperty, value);
+            get => (bool)GetValue(IsUserLogInProperty);
+            set => SetValue(IsUserLogInProperty, value);
         }
 
         public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(
@@ -101,7 +101,7 @@ namespace Next2.Controls.Templates
         protected override void OnPropertyChanging([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanging(propertyName);
-            if (propertyName == nameof(IsUserLoggedOut))
+            if (propertyName == nameof(IsUserLogIn))
             {
                 ScreenKeyboard = string.Empty;
                 IsKeyBoardTyped = false;

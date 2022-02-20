@@ -64,7 +64,7 @@
 
                             <DataTrigger 
                                     TargetType="Label"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLoggedOut}"                           
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLogIn}"                           
                                     Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i9}"/>

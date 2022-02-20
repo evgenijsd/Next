@@ -40,7 +40,7 @@
             Grid.Column="1"
             Grid.RowSpan="2"
             PlaceHolder="{xct:Translate TypeEmployeeId}"
-            IsUserLoggedOut="{Binding IsUserLoggedOut}"
+            IsUserLogIn="{Binding IsUserLogIn}"
             IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
             ApplyCommand="{Binding GoToStartPageCommand}"/>
 

@@ -37,7 +37,7 @@ namespace Next2.ViewModels
 
         public bool IsEmployeeExists { get; set; }
 
-        public bool IsUserLoggedOut { get; set; }
+        public bool IsUserLogIn { get; set; }
 
         public bool IsErrorNotificationVisible { get; set; }
 
@@ -81,7 +81,7 @@ namespace Next2.ViewModels
                     if (IsEmployeeExists)
                     {
                         await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
-                        IsUserLoggedOut = true;
+                        IsUserLogIn = true;
                     }
                     else
                     {
@@ -134,7 +134,7 @@ namespace Next2.ViewModels
                 }
                 else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
                 {
-                    IsUserLoggedOut = !IsUserLoggedOut;
+                    IsUserLogIn = !IsUserLogIn;
                 }
             }
         }
