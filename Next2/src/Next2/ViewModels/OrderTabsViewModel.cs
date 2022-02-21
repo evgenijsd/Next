@@ -83,7 +83,7 @@ namespace Next2.ViewModels
         public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
 
         private ICommand _tapSelectCommand;
-        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<object>(OnTapSelectCommandAsync);
+        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel>(OnTapSelectCommandAsync);
 
         #endregion
 
@@ -334,11 +334,9 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectCommandAsync(object? args)
+        private Task OnTapSelectCommandAsync(OrderBindableModel order)
         {
-            OrderBindableModel? order = args as OrderBindableModel;
-
-            SelectedOrder = order == SelectedOrder ? SelectedOrder = null : SelectedOrder = order;
+            SelectedOrder = order == SelectedOrder ? null : order;
 
             return Task.CompletedTask;
         }
