@@ -4,10 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Controls.Buttons.BorderButton"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    CornerRadius="{OnPlatform Android='5', iOS='8'}"
-    HasShadow="False"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
 
     <controls:CustomFrame.GestureRecognizers>
         <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Command}"/>
@@ -16,7 +13,7 @@
     <Label
         Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Text}"
         TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=TextColor}"
-        FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontSiz}"
+        FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontSize}"
         FontFamily="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=FontFamily}"
         HorizontalTextAlignment="Center"
         VerticalTextAlignment="Center" 

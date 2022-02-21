@@ -1,9 +1,10 @@
 ﻿using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Forms.PancakeView;
 
 namespace Next2.Controls.Buttons
 {
-    public partial class IconBorderButton : Frame
+    public partial class IconBorderButton : PancakeView
     {
         public IconBorderButton()
         {

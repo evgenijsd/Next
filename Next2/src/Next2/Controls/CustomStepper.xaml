@@ -7,10 +7,6 @@
     VerticalOptions="Center"
     x:Name="customStepper"
     x:Class="Next2.Controls.CustomStepper">
-
-    <StackLayout.Resources>
-        <x:Double x:Key="OpacityWhenDisabled">0.32</x:Double>
-    </StackLayout.Resources>
     
     <Grid
         RowDefinitions="auto"
@@ -29,7 +25,7 @@
                              Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanDecrement}"
                              Value="false">
                     
-                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled}"/>
+                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                     <Setter Property="IsEnabled" Value="False"/>
                     
                 </DataTrigger>                
@@ -64,7 +60,7 @@
                     Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanIncrement}"
                     Value="false">
                     
-                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled}" />
+                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                     <Setter Property="IsEnabled" Value="False" />
 
                 </DataTrigger>

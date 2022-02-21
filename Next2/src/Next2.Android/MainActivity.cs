@@ -1,24 +1,16 @@
-﻿ using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.App;
 using Xamarin.Forms;
-using Android.Views;
-using Next2.Droid.Helpers;
-using System;
-using System.Runtime.Remoting.Contexts;
 
 namespace Next2.Droid
 {
     [Activity(Label = "Next2", Icon = "@mipmap/next_icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    {
-        public EventHandler GlobalTouchHandler;
-        private MotionEventActions _lastMotionEventActions;
-        internal static Context CurrentContext { get; private set; }
-
+    { 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -36,8 +28,6 @@ namespace Next2.Droid
 
             RequestedOrientation = Device.Idiom == TargetIdiom.Tablet ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 
-            Xamarin.Forms.DependencyService.Register<GlobalTouchImplementation>();
-
             LoadApplication(new App());
         }
 
@@ -46,19 +36,6 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-
-        public override bool DispatchTouchEvent(MotionEvent ev)
-        {
-            if (_lastMotionEventActions != MotionEventActions.Move && ev.Action == MotionEventActions.Up)
-            {
-                GlobalTouchHandler?.Invoke(null, null);
-            }
-
-            _lastMotionEventActions = ev.Action;
-
-            return base.DispatchTouchEvent(ev);
         }
     }
 }

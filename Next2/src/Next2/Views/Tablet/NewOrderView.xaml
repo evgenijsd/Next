@@ -11,6 +11,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -631,41 +632,60 @@
         <Grid
             Grid.Row="0"
             Grid.Column="1"
-            RowDefinitions="auto, auto, auto, auto, 65"
+            RowDefinitions="auto, auto, auto, auto, 93"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             x:DataType="viewModels:NewOrderViewModel">
 
-            <Grid.Resources>
-                
-                <x:Double x:Key="OpacityWhenDisabled">0.32</x:Double>
-            
-                <Style TargetType="Label">
-                    <Setter Property="VerticalOptions" Value="Center"/>
-                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-                </Style>
-
-                 <Style TargetType="ffimageloading:CachedImage">
-                    <Setter Property="VerticalOptions" Value="Center"/>
-                </Style>
-            
-                <Style x:Key="ButtonStyle_i1" TargetType="buttons:BorderButton">
-                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
-                    <Setter Property="CornerRadius" Value="4"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+            <Grid.Resources>    
+ 
+                <!-- SemiBold (600) 24px -->
+                <Style x:Key="SemiBold24pxLabelStyle" TargetType="Label">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="VerticalOptions" Value="Center"/>
-                    <Setter Property="Padding" Value="8"/>
-                </Style>
-
-                <Style TargetType="buttons:IconBorderButton">
-                    <Setter Property="IconWidth" Value="26"/>
-                    <Setter Property="IconHeight" Value="26"/>
-                    <Setter Property="CornerRadius" Value="3"/>
-                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="FontSize" Value="24"/>
                 </Style>
             
-                <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
+                <!-- SemiBold (600) 18px -->
+                <Style x:Key="SemiBold18pxLabelStyle" TargetType="Label">
+                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                    <Setter Property="FontSize" Value="18"/>
+                </Style>
+            
+                <!-- Medium (500) 16px -->
+                <Style x:Key="Medium16pxLabelStyle" TargetType="Label">
+                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+            
+                 <!-- Regular (400) 24px -->
+                <Style x:Key="Regular24pxLabelStyle" TargetType="Label">
+                    <Setter Property="FontFamily" Value="Barlow-Regular"/>
+                    <Setter Property="FontSize" Value="24"/>
+                </Style>
                 
+                <Style TargetType="ffimageloading:CachedImage">
+                    <Setter Property="VerticalOptions" Value="Center"/>
+                </Style>
+          
+                <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HeightRequest" Value="40"/>
+                    <Setter Property="FontFamily" Value="Barlow-Semibold"/>
+                    <Setter Property="FontSize" Value="18"/>
+                    <Setter Property="CornerRadius" Value="6"/>
+                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                </Style>
+                
+                <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
+                    <Setter Property="Padding" Value="16, 8"/>
+                    <Setter Property="CornerRadius" Value="8"/>
+                    <Setter Property="Border">
+                        <Setter.Value>
+                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="4"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                
+                <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
                     <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
                     <Setter Property="VisualStateManager.VisualStateGroups">
                     
@@ -683,80 +703,37 @@
                         </VisualStateGroupList>
                     
                     </Setter>
-                
-                </Style>
-            
-                <!-- Bold (700) 32px -->
-                <Style x:Key="Bold32pxLabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Bold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
-                </Style>
-                        
-                <!-- SemiBold (600) 24px -->
-                <Style x:Key="SemiBold32pxLabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
-                </Style>
-            
-                <!-- SemiBold (600) 24px -->
-                <Style x:Key="SemiBold24pxLabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                </Style>
-            
-                <!-- Medium (500) 24px -->
-                <Style x:Key="Medium24pxLabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                </Style>
-            
-                 <!-- Regular (400) 32px -->
-                <Style x:Key="Regular32pxLabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Regular"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
-                </Style>
-
-                <!-- SEPARATORS -->
-                <Style x:Key="SeparatorLightBoxViewStyle" TargetType="BoxView">
-                    <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
-                    <Setter Property="HeightRequest" Value="0.25"/>
-                </Style>
-            
-                <Style x:Key="SeparatorDarkBoxViewStyle" TargetType="BoxView">
-                    <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
-                    <Setter Property="HeightRequest" Value="0.25"/>
                 </Style>
                 
+                <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
+                    <Setter Property="CornerRadius" Value="7"/>
+                    <Setter Property="ListRowHeight" Value="46.25"/>
+                </Style>
             </Grid.Resources>
 
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
-                Padding="17, 19, 17, 24"
                 HorizontalOptions="Start"
+                Padding="24, 24, 24, 10"
                 Orientation="Horizontal"
                 Spacing="17">
 
                 <Label
-                    Style="{DynamicResource Bold32pxLabelStyle}"
+                    Style="{DynamicResource SemiBold24pxLabelStyle}"
                     Margin="0, 2, 0, 0">
 
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span
-                                Text="{xct:Translate Order}" />
-                            <Span
-                                Text=" " />
-                            <Span
-                                Text="{xct:Translate NumberSign}" />
-                            <Span
-                                Text="{Binding OrderRegistrationViewModel.NewOrderId}" />
+                            <Span Text="{xct:Translate Order}" />
+                            <Span Text=" " />
+                            <Span Text="{xct:Translate NumberSign}" />
+                            <Span Text="{Binding OrderRegistrationViewModel.NewOrderId}" />
                         </FormattedString>
                     </Label.FormattedText>
 
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding OrderRegistrationViewModel.PayCommand}" />
+                        <TapGestureRecognizer Command="{Binding OrderRegistrationViewModel.PayCommand}" />
                     </Label.GestureRecognizers>
 
                 </Label>
@@ -764,23 +741,19 @@
             </StackLayout>
 
             <controls:DropDownList
-                x:Name="dropDownList"
                 Grid.Row="0"
+                Style="{DynamicResource DropDownListStyle_i2}"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
-                Margin="17, 19"
-                WidthRequest="135"
-                ListRowHeight="46.25"
+                Margin="24, 24, 24, 10"
+                WidthRequest="130"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.OrderTypeValue}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
 
                 <controls:DropDownList.DataTemplate>
-
                     <DataTemplate>
-
-                        <StackLayout
-                            Style="{DynamicResource DropDownDataTemplateStyle}">
+                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
 
                             <StackLayout
                                 HeightRequest="30"
@@ -795,13 +768,10 @@
 
                             </StackLayout>
 
-                            <BoxView
-                                Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                         </StackLayout>
-
                     </DataTemplate>
-
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -809,53 +779,39 @@
             <!-- HEADER, 2 ROW -->
             <StackLayout
                 Grid.Row="1"
-                VerticalOptions="FillAndExpand"
                 HorizontalOptions="End"
-                Padding="17, 13, 17, 18"
+                VerticalOptions="FillAndExpand"
+                Padding="24"
                 Orientation="Horizontal"
-                Spacing="13">
+                Spacing="20">
 
                 <Label
-                    Style="{DynamicResource SemiBold32pxLabelStyle}"
+                    Style="{DynamicResource SemiBold18pxLabelStyle}"
                     HorizontalOptions="EndAndExpand"
+                    Padding="0, 0, 0, 4"
                     Text="{xct:Translate Seats}">
 
                     <Label.Triggers>
-                        <DataTrigger
-                            TargetType="Label"
-                            Binding="{Binding OrderRegistrationViewModel.Tables.Count}"
-                            Value="0">
-
-                            <Setter
-                                Property="Opacity"
-                                Value="{DynamicResource OpacityWhenDisabled}" />
-
+                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                         </DataTrigger>
                     </Label.Triggers>
 
                 </Label>
 
                 <controls:CustomStepper
-                    Spacing="20"
+                    Spacing="23"
+                    IconSizes="26"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.NumberOfAvailableSeats}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
 
                     <controls:CustomStepper.Triggers>
-
                         <DataTrigger
-                            TargetType="controls:CustomStepper"
-                            Binding="{Binding OrderRegistrationViewModel.Tables.Count}"
-                            Value="0">
+                            TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
 
-                            <Setter
-                                Property="Opacity"
-                                Value="{DynamicResource OpacityWhenDisabled}" />
-                            <Setter
-                                Property="IsEnabled"
-                                Value="False" />
-
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                            <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
-
                     </controls:CustomStepper.Triggers>
 
                 </controls:CustomStepper>
@@ -864,42 +820,37 @@
 
             <controls:DropDownList
                 Grid.Row="1"
+                Style="{DynamicResource DropDownListStyle_i2}"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
-                Margin="18, 9"
-                WidthRequest="145"
+                Margin="24, 20"
+                WidthRequest="155"
                 ListRowHeight="46.5"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
 
                 <controls:DropDownList.DataTemplate>
-
                     <DataTemplate>
-
-                        <StackLayout
-                            Style="{DynamicResource DropDownDataTemplateStyle}">
+                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
 
                             <StackLayout
-                                HeightRequest="30"
                                 Padding="8"
+                                HeightRequest="30"
                                 Orientation="Horizontal"
                                 x:DataType="models:TableBindableModel">
 
                                 <Label
+                                    Style="{DynamicResource Medium16pxLabelStyle}"
                                     HorizontalOptions="FillAndExpand"
-                                    FontSize="16"
                                     Text="{Binding Id, StringFormat='Table {0}'}" />
 
                             </StackLayout>
 
-                            <BoxView
-                                Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                         </StackLayout>
-
                     </DataTemplate>
-
                 </controls:DropDownList.DataTemplate>
 
             </controls:DropDownList>
@@ -908,22 +859,23 @@
             <controls:CustomScrollBarCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
+                SelectionMode="Single"
                 ThumbWidth="6"
                 ScrollBarCornerRadius="10"
                 ScrollBarThumbColor="{StaticResource AppColor_i1}"
                 ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"
                 Background="{DynamicResource TextAndBackgroundColor_i5}"
-                SelectionMode="Single"
-    
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+                ItemsSource="{Binding OrderRegistrationViewModel.Sets}">
 
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect />
                 </CollectionView.Effects>
                 
                 <CollectionView.EmptyView>
-                    <StackLayout Spacing="0">
+                    <StackLayout 
+                        Spacing="0"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <ffimageloading:CachedImage
                             VerticalOptions="CenterAndExpand"
@@ -931,188 +883,144 @@
                             Source="pic_payment.png" />
 
                         <Label
+                            Style="{DynamicResource Regular24pxLabelStyle}"
                             HorizontalOptions="Center"
                             HorizontalTextAlignment="Center"
                             VerticalOptions="StartAndExpand"
                             WidthRequest="160"
                             Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
 
-
                     </StackLayout>
                 </CollectionView.EmptyView>
                 
                 <controls:CustomScrollBarCollectionView.ItemTemplate>
-                    
                     <DataTemplate>
-                        
                         <StackLayout Padding="30">
                             
-                            <Label Text="A"/>
+                            <Label Text="{Binding .}"/>
+                            <BoxView Style="{StaticResource SeparatorStyle_i3}"/>
                             
                         </StackLayout>
-                        
                     </DataTemplate>
-                    
                 </controls:CustomScrollBarCollectionView.ItemTemplate>
-                
+
             </controls:CustomScrollBarCollectionView>
 
             <!-- SUMMARY -->
-            <StackLayout
-                Grid.Row="3">
+            <StackLayout Grid.Row="3">
 
                 <StackLayout.Triggers>
-
-                    <DataTrigger
-                        TargetType="StackLayout"
-                        Binding="{Binding OrderRegistrationViewModel.Tables.Count}"
-                        Value="0">
-
-                        <Setter
-                            Property="IsVisible"
-                            Value="false" />
-
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <Setter Property="IsVisible" Value="false" />
                     </DataTrigger>
-
                 </StackLayout.Triggers>
 
                 <!-- SUMMARY HEADER -->
                 <StackLayout
-                    Padding="17, 11"
-                    Spacing="13"
+                    Padding="24, 11"
+                    Spacing="14"
                     Orientation="Horizontal">
 
                     <Label
-                        Style="{DynamicResource Bold32pxLabelStyle}"
+                        Style="{DynamicResource SemiBold18pxLabelStyle}"
                         Text="{xct:Translate Summary}" />
 
                     <buttons:IconBorderButton
+                        Style="{DynamicResource IconBorderButtonStyle_i2}"
                         HorizontalOptions="EndAndExpand"
                         IconSource="ic_time_circle_40x40"
-                        Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" />
+                        Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
 
                     <buttons:IconBorderButton
+                        Style="{DynamicResource IconBorderButtonStyle_i2}"
                         IconSource="ic_discount_48x48"
                         Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
 
                     <buttons:IconBorderButton
+                        Style="{DynamicResource IconBorderButtonStyle_i2}"
                         IconSource="ic_tax"
                         Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}">
 
                         <buttons:IconBorderButton.Triggers>
-
-                            <DataTrigger
-                                TargetType="buttons:IconBorderButton"
-                                Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
-                                Value="false">
-
-                                <Setter
-                                    Property="IsVisible"
-                                    Value="false" />
-
+                            <DataTrigger TargetType="buttons:IconBorderButton" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
+                                <Setter Property="IsVisible" Value="false" />
                             </DataTrigger>
-
                         </buttons:IconBorderButton.Triggers>
 
                     </buttons:IconBorderButton>
 
                 </StackLayout>
 
-                <BoxView
-                    Style="{DynamicResource SeparatorDarkBoxViewStyle}" />
+                <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                 <!-- SUMMARY BODY -->
                 <StackLayout
-                    Padding="17, 12, 17, 0"
-                    Spacing="10">
+                    Padding="24, 12, 24, 0"
+                    Spacing="18">
 
-                    <StackLayout
-                        Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            Style="{DynamicResource Medium16pxLabelStyle}"
                             Text="{xct:Translate Subtotal}" />
 
                         <Label
-                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            Style="{DynamicResource Medium16pxLabelStyle}"
                             HorizontalOptions="EndAndExpand">
 
                             <Label.FormattedText>
-
                                 <FormattedString>
-
-                                    <Span
-                                        Text="{xct:Translate CurrencySign}" />
-                                    <Span
-                                        Text=" " />
-                                    <Span
-                                        Text="{Binding OrderRegistrationViewModel.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding OrderRegistrationViewModel.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
-
                             </Label.FormattedText>
 
                         </Label>
 
                     </StackLayout>
 
-                    <StackLayout
-                        Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            Style="{DynamicResource Medium16pxLabelStyle}"
                             Text="{xct:Translate Tax}" />
 
                         <Label
-                            Style="{DynamicResource SemiBold24pxLabelStyle}"
+                            Style="{DynamicResource Medium16pxLabelStyle}"
                             HorizontalOptions="EndAndExpand">
 
                             <Label.FormattedText>
-
                                 <FormattedString>
-
-                                    <Span
-                                        Text="{xct:Translate CurrencySign}" />
-                                    <Span
-                                        Text=" " />
-                                    <Span
-                                        Text="{Binding OrderRegistrationViewModel.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding OrderRegistrationViewModel.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
-
                             </Label.FormattedText>
 
                         </Label>
 
                     </StackLayout>
 
-                    <BoxView
-                        Style="{DynamicResource SeparatorLightBoxViewStyle}" />
+                    <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
 
-                    <StackLayout
-                        Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Style="{DynamicResource Regular32pxLabelStyle}"
+                            Style="{DynamicResource Regular24pxLabelStyle}"
                             Text="{xct:Translate Total}" />
 
                         <Label
-                            Style="{DynamicResource Bold32pxLabelStyle}"
+                            Style="{DynamicResource SemiBold24pxLabelStyle}"
                             HorizontalOptions="EndAndExpand">
 
                             <Label.FormattedText>
-
                                 <FormattedString>
-
-                                    <Span
-                                        Text="{xct:Translate CurrencySign}" />
-                                    <Span
-                                        Text=" " />
-                                    <Span
-                                        Text="{Binding OrderRegistrationViewModel.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding OrderRegistrationViewModel.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
 
                                 </FormattedString>
-
                             </Label.FormattedText>
 
                         </Label>
@@ -1127,45 +1035,33 @@
             <Grid
                 Grid.Row="4"
                 VerticalOptions="End"
-                Padding="18, 12"
-                RowDefinitions="auto"
-                ColumnSpacing="10">
+                Padding="24"
+                ColumnSpacing="14">
 
                 <Grid.Triggers>
-
-                    <DataTrigger
-                        TargetType="Grid"
-                        Binding="{Binding OrderRegistrationViewModel.Tables.Count}"
-                        Value="0">
-
-                        <Setter
-                            Property="Opacity"
-                            Value="{DynamicResource OpacityWhenDisabled}" />
-                        <Setter
-                            Property="IsEnabled"
-                            Value="False" />
-
+                    <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        <Setter Property="IsEnabled" Value="False" />
                     </DataTrigger>
-
                 </Grid.Triggers>
 
                 <buttons:BorderButton
                     Grid.Column="0"
-                    Style="{DynamicResource ButtonStyle_i1}"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     Command="{Binding OrderRegistrationViewModel.OrderCommand}" />
 
                 <buttons:BorderButton
                     Grid.Column="1"
-                    Style="{DynamicResource ButtonStyle_i1}"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     Command="{Binding OrderRegistrationViewModel.TabCommand}" />
 
                 <buttons:BorderButton
                     Grid.Column="2"
-                    Style="{DynamicResource ButtonStyle_i1}"
+                    Style="{DynamicResource BorderButtonStyle_i2}"
                     Background="{DynamicResource IndicationColor_i1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"

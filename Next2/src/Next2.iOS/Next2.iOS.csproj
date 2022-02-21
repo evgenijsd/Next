@@ -132,7 +132,6 @@
   <ItemGroup>
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="Effects\NoOverScrollEffect.cs" />
-    <Compile Include="Helpers\GlobalTouchImplementation.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
@@ -1681,5 +1680,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_check_box_checked_white%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

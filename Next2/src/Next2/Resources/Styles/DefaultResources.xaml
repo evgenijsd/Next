@@ -9,6 +9,7 @@
     xmlns:converters="clr-namespace:Next2.Converters">
 
     <!--  TEXT SIZE  -->
+    
     <!--  32px  -->
     <x:Double x:Key="TSize_i3">28</x:Double>
     <!--  24px  -->
@@ -28,8 +29,12 @@
     <!--  8px  -->
     <x:Double x:Key="TSize_i10">10</x:Double>
 
-    <x:Double x:Key="OpacityWhenDisabled">0.32</x:Double>
-    <x:Double x:Key="ListRowHeight">30</x:Double>
+    <x:Double x:Key="OpacityWhenDisabled_i1">0.32</x:Double>
+        
+    <Style TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+    </Style>
     
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False" />
@@ -45,29 +50,61 @@
         <Setter Property="ColumnSpacing" Value="0" />
     </Style>
 
-    <Style x:Key="SeparatorStyle" TargetType="BoxView">
+    <!-- SEPARATORS -->
+    
+    <Style x:Key="SeparatorStyle_i1" TargetType="BoxView">
         <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}" />
     </Style>
 
+    <Style x:Key="SeparatorStyle_i2" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+        <Setter Property="HeightRequest" Value="0.25"/>
+    </Style>
+            
+    <Style x:Key="SeparatorStyle_i3" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+        <Setter Property="HeightRequest" Value="0.25"/>
+    </Style>
+    
+    <!-- OTHER -->
+    
     <Style x:Key="TableCellStyle_i1" TargetType="Label">
         <Setter Property="FontFamily" Value="Barlow-Medium" />
         <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
         <Setter Property="Padding" Value="20, 10, 5, 11" />
     </Style>
-
+    
+    <!-- CONTROLS -->
+    <Style TargetType="buttons:BorderButton">
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>    
+    
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="HasShadow" Value="False" />
     </Style>
+          
+    <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Padding" Value="8"/>
+    </Style>
+            
+    <Style x:Key="IconBorderButtonStyle_i1" TargetType="buttons:IconBorderButton">
+        <Setter Property="IconWidth" Value="26"/>
+        <Setter Property="IconHeight" Value="26"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
     
-    <!-- CONVERTERS -->
-    <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
-
-    <!-- CONTROLS -->
     <Style TargetType="controls:CustomStepper">
         <Setter Property="DecrementIconSource" Value="ic_minus_primary_32x32"/>
         <Setter Property="IncrementIconSource" Value="ic_plus_primary_32x32"/>
@@ -79,39 +116,33 @@
         <Setter Property="Spacing" Value="8"/>
     </Style>
     
-    <Style TargetType="controls:DropDownList">
+    <Style x:Key="DropDownListStyle_i1" TargetType="controls:DropDownList">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="CornerRadius" Value="4"/>
-
         <Setter Property="Border">
             <Setter.Value>
-                <!--<pancake:Border Color="{StaticResource TextAndBackgroundColor_i2}" Thickness="1"/>-->
                 <pancake:Border Color="#424861" Thickness="2"/>
             </Setter.Value>
         </Setter>
-
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="WrappedListIconSource" Value="ic_arrow_down_32x32"/>
         <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
         <Setter Property="VisibleRowsNumber" Value="3"/>
-        <!--<Setter Property="ListRowHeight" Value="30"/>-->
-        
         <Style.Triggers>
-            
             <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
                 <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                 <Setter Property="Border">
                     <Setter.Value>
-                        <!--<pancake:Border Color="{x:StaticResource AppColor_i1}" Thickness="1"/>-->
                         <pancake:Border Color="#212430" Thickness="1"/>
                     </Setter.Value>
                 </Setter>
-
             </Trigger>
-
         </Style.Triggers>
     </Style>
+    
+    <!-- CONVERTERS -->
+    <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
 
 </ResourceDictionary>

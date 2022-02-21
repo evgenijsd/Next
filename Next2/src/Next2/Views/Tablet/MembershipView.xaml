@@ -31,7 +31,7 @@
 
             </StackLayout>
 
-            <BoxView Grid.Row="1" Style="{DynamicResource SeparatorStyle}" />
+            <BoxView Grid.Row="1" Style="{DynamicResource SeparatorStyle_i1}" />
 
         </StackLayout>
 
@@ -141,7 +141,7 @@
                 <BoxView
                     HeightRequest="{OnPlatform Android=1.5,
                                                iOS=1}"
-                    Style="{DynamicResource SeparatorStyle}"
+                    Style="{DynamicResource SeparatorStyle_i1}"
                     Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
                 <!--  TABLE CONTENT  -->
@@ -194,7 +194,7 @@
 
                                     <BoxView
                                         Grid.Row="1"
-                                        Style="{DynamicResource SeparatorStyle}"
+                                        Style="{DynamicResource SeparatorStyle_i1}"
                                         Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                 </StackLayout>

@@ -10,13 +10,9 @@ namespace Next2.Controls
 {
     public partial class DropDownList : PancakeView
     {
-        private readonly IGlobalTouch _globalTouch;
-
         public DropDownList()
         {
             InitializeComponent();
-
-            _globalTouch = DependencyService.Get<IGlobalTouch>();
         }
 
         #region -- Public properties --
@@ -184,24 +180,19 @@ namespace Next2.Controls
                     ? ScrollBarVisibility.Never
                     : ScrollBarVisibility.Always;
             }
+            else if (propertyName == nameof(SelectedItem))
+            {
+                IsExpanded = false;
+            }
 
             ListHeight = VisibleRowsNumber * ListRowHeight;
         }
 
         #region -- Private helpers --
 
-        private void OnTapScreen(object sender, EventArgs e)
-        {
-            _globalTouch.DetachTapScreen(OnTapScreen);
-
-            IsExpanded = false;
-        }
-
         private void OnExpandListCommandAsync(object obj)
         {
-            _globalTouch.TapScreen(OnTapScreen);
-
-            IsExpanded = true;
+            IsExpanded = !IsExpanded;
 
             (Parent as Layout)?.RaiseChild(this);
         }

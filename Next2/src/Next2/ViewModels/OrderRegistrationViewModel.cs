@@ -35,23 +35,16 @@ namespace Next2.ViewModels
 
             Task.Run(RefreshOrderId);
             Task.Run(RefreshTables);
-
-            //OrderTypes = new ()
-            //{
-            //    new KeyValuePair<EOrderType, string>(EOrderType.DineIn, LocalizationResourceManager.Current[nameof(EOrderType.DineIn)]),
-            //    new KeyValuePair<EOrderType, string>(EOrderType.ToGo, LocalizationResourceManager.Current[nameof(EOrderType.ToGo)]),
-            //    new KeyValuePair<EOrderType, string>(EOrderType.Delivery, LocalizationResourceManager.Current[nameof(EOrderType.Delivery)]),
-            //};
         }
 
         #region -- Public properties --
 
         public int NewOrderId { get; set; }
 
-        //public ObservableCollection<KeyValuePair<EOrderType, string>> OrderTypes { get; set; } = new ();
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
-        //public KeyValuePair<EOrderType, string> SelectedOrderType { get; set; }
+        public ObservableCollection<string> Sets { get; set; } = new ("0123456789abcdef".Select(x => x.ToString()));
+
         public OrderTypeBindableModel SelectedOrderType { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
@@ -93,6 +86,14 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Overrides --
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+            await Task.WhenAll(
+            RefreshTables(),
+            RefreshOrderId());
+        }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -171,13 +172,13 @@ namespace Next2.ViewModels
 
         private async Task OnPayCommandAsync()
         {
-            if (Tables.Count > 0)
+            if (Sets.Count > 0)
             {
-                Tables.Clear();
+                Sets.Clear();
             }
             else
             {
-                await RefreshTables();
+                Sets = new ("0123456789abcdef".Select(x => x.ToString()));
             }
         }
 
