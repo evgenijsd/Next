@@ -6,8 +6,8 @@ namespace Next2.Services.Authentication
 {
     public interface IAuthenticationService
     {
-        UserModel AuthorizedUserId { get; }
-        Task<AOResult<UserModel>> AuthorizeAsync(int userId);
+        int AuthorizedUserId { get; }
+        void Authorization();
         void LogOut();
     }
 }

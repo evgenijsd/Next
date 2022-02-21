@@ -22,39 +22,19 @@ namespace Next2.Services.Authentication
 
         #region -- Public properties --
 
-        public UserModel AuthorizedUserId { get; private set; } // named user
+        public int AuthorizedUserId { get => _settingsManager.UserId; }
 
         #endregion
 
         #region -- AuthenticationService implementation --
 
-        public async Task<AOResult<UserModel>> AuthorizeAsync(int userId)
+        public void Authorization()
         {
-            var result = new AOResult<UserModel>();
-
-            try
+            if (_userService?.AuthorizedUserModel is not null)
             {
-                var user = await _userService.CheckUserExists(userId);
-
-                if (user.IsSuccess)
-                {
-                    AuthorizedUserId = user.Result;
-                    _settingsManager.UserId = user.Result.Id;
-                    _settingsManager.UserName = user.Result.UserName;
-
-                    result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
-                }
+                _settingsManager.UserId = _userService.AuthorizedUserModel.Id;
+                _settingsManager.UserName = _userService.AuthorizedUserModel.UserName;
             }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(AuthorizeAsync)}: exception", "Error from UserService AuthorizationAsync", ex);
-            }
-
-            return result;
         }
 
         public void LogOut()

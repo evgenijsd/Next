@@ -61,6 +61,8 @@ namespace Next2.ViewModels
         private async Task OnTabClearAsync()
         {
             EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+            IsEmployeeExists = false;
+            _userService.AuthorizedUserModel = null;
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
@@ -80,6 +82,7 @@ namespace Next2.ViewModels
 
                     if (IsEmployeeExists)
                     {
+                        _authenticationService.Authorization();
                         await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
                         IsUserLogIn = true;
                     }
@@ -95,15 +98,15 @@ namespace Next2.ViewModels
             }
             else if (IsEmployeeExists)
             {
+                _authenticationService.Authorization();
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
                 EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
-                IsEmployeeExists = false;
             }
         }
 
         private async Task CheckEmployeeExists()
         {
-            IsEmployeeExists = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
+            IsEmployeeExists = (await _userService.CheckUserExists(_inputtedEmployeeIdToDigist)).IsSuccess;
         }
 
         #endregion
@@ -112,7 +115,7 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_userService.AuthorizedUserId >= 0)
+            if (_authenticationService.AuthorizedUserId >= 0)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }

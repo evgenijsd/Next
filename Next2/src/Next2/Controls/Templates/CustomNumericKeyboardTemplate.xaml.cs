@@ -103,7 +103,7 @@ namespace Next2.Controls.Templates
             base.OnPropertyChanging(propertyName);
             if (propertyName == nameof(IsUserLogIn))
             {
-                ScreenKeyboard = string.Empty;
+                ScreenKeyboard = PlaceHolder;
                 IsKeyBoardTyped = false;
             }
         }

@@ -23,10 +23,7 @@ namespace Next2.Services.UserService
 
         #region -- Public Properties --
 
-        public int AuthorizedUserId
-        {
-            get => _settingsManager.UserId;
-        }
+        public UserModel AuthorizedUserModel { get; set; }
 
         #endregion
 
@@ -57,7 +54,7 @@ namespace Next2.Services.UserService
             return result;
         }
 
-        public async Task<AOResult<UserModel>> CheckUserExists(int userId)
+        public async Task<AOResult> CheckUserExists(int userId)
         {
             var result = new AOResult<UserModel>();
 
@@ -67,7 +64,8 @@ namespace Next2.Services.UserService
 
                 if (user != null)
                 {
-                    result.SetSuccess(user);
+                    result.SetSuccess();
+                    AuthorizedUserModel = user;
                 }
                 else
                 {
