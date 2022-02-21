@@ -12,8 +12,8 @@ namespace Next2.Services.OrderService
     {
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
 
-        string ValidatorNumber(string text);
+        string ApplyNumberFilter(string text);
 
-        string ValidatorName(string text);
+        string ApplyNameFilter(string text);
     }
 }

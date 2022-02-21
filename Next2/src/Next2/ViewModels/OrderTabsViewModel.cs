@@ -256,7 +256,7 @@ namespace Next2.ViewModels
             if (Orders.Any() || !string.IsNullOrEmpty(SearchText))
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
-                Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ValidatorNumber : _orderService.ValidatorName;
+                Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
 
                 var parameters = new NavigationParameters()
                 {

@@ -46,14 +46,14 @@ namespace Next2.Services.OrderService
             return result;
         }
 
-        public string ValidatorNumber(string text)
+        public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new (Constants.Validators.NUMBER);
 
             return regexNumber.Replace(text, string.Empty);
         }
 
-        public string ValidatorName(string text)
+        public string ApplyNameFilter(string text)
         {
             Regex regexName = new (Constants.Validators.NAME);
             Regex regexNumber = new (Constants.Validators.NUMBER);

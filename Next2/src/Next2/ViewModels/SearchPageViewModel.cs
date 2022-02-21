@@ -28,7 +28,7 @@ namespace Next2.ViewModels
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
-        public Func<string, string> SearchValidator;
+        public Func<string, string> ApplySearchFilter;
 
         public string SearchLine { get; set; } = string.Empty;
 
@@ -43,7 +43,7 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.FUNC, out Func<string, string> searchValidator))
             {
-                SearchValidator = searchValidator;
+                ApplySearchFilter = searchValidator;
             }
 
             if (parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
@@ -58,7 +58,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(SearchLine))
             {
-                SearchLine = SearchValidator(SearchLine);
+                SearchLine = ApplySearchFilter(SearchLine);
             }
         }
 
