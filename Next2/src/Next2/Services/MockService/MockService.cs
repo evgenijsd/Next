@@ -179,7 +179,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 2,
                     CustomerName = "Kate White",
-                    TableNumber = 7,
+                    TableNumber = 9,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 2,
@@ -189,7 +189,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 3,
                     CustomerName = "Sam Smith",
-                    TableNumber = 6,
+                    TableNumber = 8,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 3,
@@ -199,7 +199,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 4,
                     CustomerName = "Steve Jobs",
-                    TableNumber = 4,
+                    TableNumber = 7,
                     OrderStatus = "Annuled",
                     OrderType = "Dine In",
                     OrderNumber = 4,
@@ -209,7 +209,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 5,
                     CustomerName = "Elon musk",
-                    TableNumber = 3,
+                    TableNumber = 6,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 5,
@@ -219,7 +219,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 6,
                     CustomerName = "Keano Reaves",
-                    TableNumber = 1,
+                    TableNumber = 5,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 6,
@@ -229,7 +229,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 7,
                     CustomerName = "Roderick Marvin",
-                    TableNumber = 2,
+                    TableNumber = 4,
                     OrderStatus = "Annuled",
                     OrderType = "Dine In",
                     OrderNumber = 7,
@@ -239,7 +239,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 8,
                     CustomerName = "Clinton Gleichner",
-                    TableNumber = 8,
+                    TableNumber = 3,
                     OrderStatus = "Annuled",
                     OrderType = "Dine In",
                     OrderNumber = 8,
@@ -249,7 +249,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 9,
                     CustomerName = "Victor Dickinson",
-                    TableNumber = 9,
+                    TableNumber = 2,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 9,
@@ -259,7 +259,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 10,
                     CustomerName = "Dave Glover",
-                    TableNumber = 10,
+                    TableNumber = 1,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 10,
@@ -269,7 +269,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 11,
                     CustomerName = "Dave Glover",
-                    TableNumber = 1,
+                    TableNumber = 11,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 11,
@@ -279,7 +279,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 12,
                     CustomerName = "Dave Glover",
-                    TableNumber = 2,
+                    TableNumber = 12,
                     OrderStatus = "Annuled",
                     OrderType = "Dine In",
                     OrderNumber = 12,
@@ -289,7 +289,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 13,
                     CustomerName = "Dave Glover",
-                    TableNumber = 10,
+                    TableNumber = 13,
                     OrderStatus = "Annuled",
                     OrderType = "Dine In",
                     OrderNumber = 13,
@@ -299,7 +299,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 14,
                     CustomerName = "Dave Glover",
-                    TableNumber = 3,
+                    TableNumber = 14,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 14,
@@ -309,7 +309,7 @@ namespace Next2.Services.MockService
                 {
                     Id = 15,
                     CustomerName = "Dave Glover",
-                    TableNumber = 10,
+                    TableNumber = 15,
                     OrderStatus = "Pending",
                     OrderType = "Dine In",
                     OrderNumber = 15,

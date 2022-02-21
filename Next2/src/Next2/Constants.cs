@@ -36,6 +36,20 @@
             public const double ROW_HEIGHT = 48 + 2;
         }
 
+        public static class Navigations
+        {
+            public const string SEARCH = nameof(SEARCH);
+            public const string FUNC = nameof(FUNC);
+        }
+
+        public static class Validators
+        {
+            public const string TEXT = @"[^\w\s]";
+            public const string NAME = @"[^a-zA-Z\s]";
+            public const string NUMBER = @"[\D]";
+            public const string CHECK_NUMBER = @"^[\d]";
+        }
+
         public static class DialogParameterKeys
         {
             public const string SET = nameof(SET);
