@@ -66,29 +66,5 @@ namespace Next2.Controls
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
-
-        public static readonly BindableProperty CommandSearchProperty = BindableProperty.Create(
-            propertyName: nameof(CommandSearch),
-            returnType: typeof(ICommand),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public ICommand CommandSearch
-        {
-            get => (ICommand)GetValue(CommandSearchProperty);
-            set => SetValue(CommandSearchProperty, value);
-        }
-
-        public static readonly BindableProperty CommandClearProperty = BindableProperty.Create(
-            propertyName: nameof(CommandClear),
-            returnType: typeof(ICommand),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public ICommand CommandClear
-        {
-            get => (ICommand)GetValue(CommandClearProperty);
-            set => SetValue(CommandClearProperty, value);
-        }
     }
 }

@@ -52,7 +52,7 @@ namespace Next2.ViewModels
 
         public string SearchText { get; set; } = string.Empty;
 
-        public string SearchPlaceholder { get; set; } = Resources.Strings.Strings.SearchTableNumber;
+        public string SearchPlaceholder { get; set; }
 
         public bool IsNotingFound { get; set; } = false;
 
@@ -226,7 +226,6 @@ namespace Next2.ViewModels
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-                SearchPlaceholder = Resources.Strings.Strings.SearchTableNumber;
                 SearchText = string.Empty;
 
                 SetVisualCollection();
@@ -242,7 +241,6 @@ namespace Next2.ViewModels
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-                SearchPlaceholder = Resources.Strings.Strings.SearchName;
                 SearchText = string.Empty;
 
                 SetVisualCollection();
