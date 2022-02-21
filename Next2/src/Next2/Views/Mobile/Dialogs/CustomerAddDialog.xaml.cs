@@ -1,4 +1,5 @@
 ﻿using Next2.Controls;
+using Next2.ENums;
 using Next2.Models;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -9,19 +10,15 @@ using Xamarin.Forms;
 
 namespace Next2.Views.Mobile.Dialogs
 {
-    public enum ETabState
-    {
-        Birthday,
-        Info,
-    }
-
     public partial class CustomerAddDialog : PopupPage
     {
         public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
+
             State = ETabState.Info;
             State = ETabState.Birthday;
+
             Months = new ()
             {
                 new MonthModel() { Id = 1, MonthName = "January" },
@@ -37,10 +34,12 @@ namespace Next2.Views.Mobile.Dialogs
                 new MonthModel() { Id = 11, MonthName = "November" },
                 new MonthModel() { Id = 12, MonthName = "December" },
             };
+
             SelectedMonth = DateTime.Now.Month;
             Month = Months[SelectedMonth - 1];
 
             Years = new List<YearModel>();
+
             for (int i = 1900; i < 2100; i++)
             {
                 Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
@@ -116,26 +115,33 @@ namespace Next2.Views.Mobile.Dialogs
             }
         }
 
-        private void OnPhoneEntryUnfocused(object sender, System.EventArgs arg)
+        private void OnMailEntryFocused(object sender, EventArgs arg)
+        {
+            nameEntryBlock.IsVisible = false;
+        }
+
+        private void OnPhoneEntryUnfocused(object sender, EventArgs arg)
         {
             if (sender is Entry entry && entry?.Text != null)
             {
                 var isValid = entry.Text?.Length == 10;
-                phoneFrame.BorderColor = isValid || entry?.Text == string.Empty ? Color.FromHex("#424861") : Color.FromHex("#F73E5C");
-                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? Color.FromHex("#2E3143") : Color.FromHex("#F73E5C");
+                phoneFrame.BorderColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i4"] : (Color)App.Current.Resources["IndicationColor_i3"];
             }
         }
 
-        private void OnMailEntryUnfocused(object sender, System.EventArgs arg)
+        private void OnMailEntryUnfocused(object sender, EventArgs arg)
         {
+            nameEntryBlock.IsVisible = true;
+
             if (sender is CustomEntry entry && entry != null && entry.Text != null)
             {
-                mailFrame.BorderColor = entry.IsValid || entry.Text == string.Empty ? Color.FromHex("#424861") : Color.FromHex("#F73E5C");
-                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? Color.FromHex("#2E3143") : Color.FromHex("#F73E5C");
+                mailFrame.BorderColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i4"] : (Color)App.Current.Resources["IndicationColor_i3"];
             }
         }
 
-        private void OnSelectionChanged(object sender, System.EventArgs arg)
+        private void OnSelectionChanged(object sender, EventArgs arg)
         {
             if (sender is CollectionView collection && collection.SelectedItem != null)
             {
@@ -146,25 +152,25 @@ namespace Next2.Views.Mobile.Dialogs
             }
         }
 
-        private void OnYearDropDownTapped(object sender, System.EventArgs arg)
+        private void OnYearDropDownTapped(object sender, EventArgs arg)
         {
             if (dropdownFrame.IsVisible == false)
             {
                 yearsCollectionView.SelectedItem = Years.FirstOrDefault(x => x.Year == SelectedYear);
                 yearsCollectionView.ScrollTo(yearsCollectionView.SelectedItem, -1, ScrollToPosition.Center, false);
                 dropdownFrame.IsVisible = true;
-                yearDropdownFrame.BackgroundColor = Color.FromHex("#252836");
+                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i5"];
                 yearDropdownIcon.Source = "ic_arrow_up_24x24";
             }
             else
             {
                 dropdownFrame.IsVisible = false;
-                yearDropdownFrame.BackgroundColor = Color.FromHex("#2E3143");
+                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
                 yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
             }
         }
 
-        private void OnRightMonthButtonTapped(object? sender, System.EventArgs? arg)
+        private void OnRightMonthButtonTapped(object? sender, EventArgs? arg)
         {
             if (SelectedMonth == 12)
             {
@@ -179,7 +185,7 @@ namespace Next2.Views.Mobile.Dialogs
             Month = Months[SelectedMonth - 1];
         }
 
-        private void OnLeftMonthButtonTapped(object? sender, System.EventArgs? arg)
+        private void OnLeftMonthButtonTapped(object? sender, EventArgs? arg)
         {
             if (SelectedMonth == 1)
             {
@@ -200,10 +206,10 @@ namespace Next2.Views.Mobile.Dialogs
             {
                 if (frame == infoButtonFrame)
                 {
-                    infoButtonFrame.BackgroundColor = Color.FromHex("#AB3821");
-                    birthdayButtonFrame.BackgroundColor = Color.FromHex("#34374C");
-                    underLine1.BackgroundColor = Color.FromHex("#F45E49");
-                    underLine2.BackgroundColor = Color.FromHex("#424861");
+                    infoButtonFrame.BackgroundColor = (Color)App.Current.Resources["AppColor_i4"];
+                    birthdayButtonFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+                    underLine1.BackgroundColor = (Color)App.Current.Resources["AppColor_i1"];
+                    underLine2.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
                     State = ETabState.Info;
                     nameEntry.IsEnabled = true;
                     phoneEntry.IsEnabled = true;
@@ -215,10 +221,10 @@ namespace Next2.Views.Mobile.Dialogs
                     phoneEntry.IsEnabled = false;
                     mailEntry.IsEnabled = false;
                     nameEntry.IsEnabled = false;
-                    birthdayButtonFrame.BackgroundColor = Color.FromHex("#AB3821");
-                    infoButtonFrame.BackgroundColor = Color.FromHex("#34374C");
-                    underLine2.BackgroundColor = Color.FromHex("#F45E49");
-                    underLine1.BackgroundColor = Color.FromHex("#424861");
+                    birthdayButtonFrame.BackgroundColor = (Color)App.Current.Resources["AppColor_i4"];
+                    infoButtonFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+                    underLine2.BackgroundColor = (Color)App.Current.Resources["AppColor_i1"];
+                    underLine1.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
                     State = ETabState.Birthday;
                 }
             }

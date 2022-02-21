@@ -119,7 +119,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.LoginPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.MenuPage)}");
         }
 
         protected override void OnStart()

@@ -13,84 +13,98 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="addInfoDialog"
     x:DataType="dialogs:CustomerInfoViewModel"
-    BackgroundColor="Transparent">
+    BackgroundColor="Transparent"
+    HasKeyboardOffset="False">
 
     <ContentView
         Padding="18,48,18,24"
-        HeightRequest="790"
+        HeightRequest="620"
+        VerticalOptions="FillAndExpand"
         WidthRequest="490">
 
         <ContentView.Resources>
             <ResourceDictionary>
+
                 <Style x:Key="EntryFrameStyle" TargetType="Frame">
                     <Setter Property="CornerRadius" Value="3" />
                     <Setter Property="HasShadow" Value="False" />
                     <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
                     <Setter Property="WidthRequest" Value="592" />
                     <Setter Property="HeightRequest" Value="42" />
-                    <Setter Property="BackgroundColor" Value="#34374C" />
-                    <Setter Property="BorderColor" Value="#424861" />
+                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                    <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                </Style>
 
-                </Style>
                 <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
-                    <Setter Property="PlaceholderColor" Value="#757785" />
-                    <Setter Property="TextColor" Value="White" />
-                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
+                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                 </Style>
+
                 <Style x:Key="LabelStyle" TargetType="Label">
-                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                     <Setter Property="FontFamily" Value="Barlow-Regular" />
-                    <Setter Property="TextColor" Value="White" />
+                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                     <Setter Property="Margin" Value="0,8,0,8" />
                 </Style>
+
             </ResourceDictionary>
         </ContentView.Resources>
 
         <ContentView.Content>
+
             <Frame
                 Padding="1.5,3,1.5,3"
-                BackgroundColor="#34374C"
-                BorderColor="#424861"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 CornerRadius="6">
-                <Grid BackgroundColor="#34374C" RowDefinitions="0.12*,0.117*,*,0.15*">
+
+                <Grid BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" RowDefinitions="0.12*,0.117*,*,0.15*">
+
                     <!--  header  -->
                     <Label
                         Grid.Row="0"
                         Margin="24,0,0,3"
-                        FontSize="21"
+                        FontSize="{DynamicResource TSize_i5}"
                         HorizontalTextAlignment="Start"
-                        Text="New Customer"
-                        TextColor="White"
+                        Text="{xct:Translate NewCustomer}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         VerticalTextAlignment="Center" />
+
                     <BoxView
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="Black"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                         HeightRequest="0.3"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="End" />
+
                     <!--  tabs  -->
                     <Frame
                         x:Name="infoButtonFrame"
                         Grid.Row="1"
                         Grid.Column="0"
-                        BackgroundColor="#34374C"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="0">
+
                         <Label
-                            FontSize="18"
+                            FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
-                            Text="Customer Info"
-                            TextColor="White"
+                            Text="{xct:Translate CustomerInfo}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             VerticalTextAlignment="Center" />
+
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnButtonTapped" />
                         </Frame.GestureRecognizers>
+
                     </Frame>
+
                     <BoxView
                         x:Name="underLine1"
                         Grid.Row="1"
                         Grid.Column="0"
-                        BackgroundColor="#424861"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                         HeightRequest="3"
                         VerticalOptions="End" />
 
@@ -98,104 +112,123 @@
                         x:Name="birthdayButtonFrame"
                         Grid.Row="1"
                         Grid.Column="1"
-                        BackgroundColor="#AB3821"
+                        BackgroundColor="{DynamicResource AppColor_i4}"
                         CornerRadius="0">
+
                         <Label
-                            FontSize="18"
+                            FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
-                            Text="Birthday*"
-                            TextColor="White"
+                            Text="{xct:Translate Birthday,
+                                                 StringFormat='{0}*'}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             VerticalTextAlignment="Center" />
+
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnButtonTapped" />
                         </Frame.GestureRecognizers>
+
                     </Frame>
+
                     <BoxView
                         x:Name="underLine2"
                         Grid.Row="1"
                         Grid.Column="1"
-                        BackgroundColor="#F45E49"
+                        BackgroundColor="{DynamicResource AppColor_i1}"
                         HeightRequest="3"
                         VerticalOptions="End" />
-
 
                     <!--  VisualStateContent  -->
                     <sc:StateContainer
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="#2E3143"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                         State="{Binding State, Source={x:Reference addInfoDialog}}">
 
                         <!--  State1 calendar  -->
                         <sc:StateCondition State="Birthday">
+
                             <Grid Padding="21" RowDefinitions="0.12*,0.24*,*">
+
                                 <!--  year  -->
                                 <Frame
                                     x:Name="yearDropdownFrame"
                                     Grid.Row="0"
-                                    BackgroundColor="#2E3143"
-                                    BorderColor="#424861"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                                     CornerRadius="4"
                                     HorizontalOptions="EndAndExpand"
                                     WidthRequest="90">
+
                                     <StackLayout Orientation="Horizontal">
+
                                         <Label
                                             Margin="10,6,0,6"
                                             Text="{Binding SelectedYear, Source={x:Reference addInfoDialog}}"
-                                            TextColor="White"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             VerticalTextAlignment="Center" />
+
                                         <ffimageloading:CachedImage
                                             x:Name="yearDropdownIcon"
                                             Margin="0,0,6,0"
                                             HorizontalOptions="EndAndExpand"
                                             Scale="0.7"
                                             Source="ic_arrow_down_primary_24x24" />
+
                                     </StackLayout>
+
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnYearDropDownTapped" />
                                     </Frame.GestureRecognizers>
+
                                 </Frame>
 
                                 <!--  month  -->
                                 <StackLayout Grid.Row="1" Orientation="Horizontal">
+
                                     <ffimageloading:CachedImage
                                         Margin="6,0,0,0"
                                         HorizontalOptions="StartAndExpand"
                                         Scale="0.5"
                                         Source="ic_primary_arrow_left_circle_56x56">
+
                                         <ffimageloading:CachedImage.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnLeftMonthButtonTapped" />
                                         </ffimageloading:CachedImage.GestureRecognizers>
+
                                     </ffimageloading:CachedImage>
 
                                     <Label
                                         x:Name="monthLabel"
-                                        FontSize="26"
+                                        FontSize="{DynamicResource TSize_i4}"
                                         HorizontalOptions="FillAndExpand"
                                         Text="{Binding Month.MonthName, Source={x:Reference addInfoDialog}}"
-                                        TextColor="White"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                         VerticalTextAlignment="Center">
+
                                         <Label.GestureRecognizers>
                                             <SwipeGestureRecognizer
                                                 Direction="Left"
                                                 Swiped="OnRightMonthButtonTapped"
-                                                Threshold="12" />
+                                                Threshold="24" />
                                             <SwipeGestureRecognizer
                                                 Direction="Right"
                                                 Swiped="OnLeftMonthButtonTapped"
-                                                Threshold="12" />
+                                                Threshold="24" />
                                         </Label.GestureRecognizers>
-                                    </Label>
 
+                                    </Label>
 
                                     <ffimageloading:CachedImage
                                         Margin="0,0,6,0"
                                         Scale="0.5"
                                         Source="ic_primary_arrow_right_circle_56x56.png">
+
                                         <ffimageloading:CachedImage.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnRightMonthButtonTapped" />
                                         </ffimageloading:CachedImage.GestureRecognizers>
+
                                     </ffimageloading:CachedImage>
+
                                 </StackLayout>
 
                                 <!--  grid  -->
@@ -203,67 +236,84 @@
                                     x:Name="calendarGrid"
                                     Grid.Row="2"
                                     Margin="16,0,16,1"
-                                    BackgroundColor="#2E3143"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     Month="{Binding SelectedMonth, Source={x:Reference addInfoDialog}}"
                                     PropertyChanged="OnCalendarGridPropertyChanged"
                                     Year="{Binding SelectedYear, Source={x:Reference addInfoDialog}}">
+
                                     <CollectionView.ItemsLayout>
+
                                         <GridItemsLayout
                                             HorizontalItemSpacing="0"
                                             Orientation="Vertical"
                                             Span="7"
                                             VerticalItemSpacing="0" />
+
                                     </CollectionView.ItemsLayout>
+
                                     <CollectionView.Effects>
                                         <effects:NoOverScrollEffect />
                                     </CollectionView.Effects>
+
                                     <CollectionView.ItemTemplate>
+
                                         <DataTemplate x:DataType="models:DayModel">
-                                            <StackLayout Padding="3,2.4,3,2.4" BackgroundColor="#2E3143">
+
+                                            <StackLayout Padding="3,2.4,3,2.4" BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
                                                 <Frame
                                                     x:Name="itemFrame"
                                                     Margin="0"
                                                     Padding="0"
-                                                    BackgroundColor="#2E3143"
-                                                    BorderColor="#2E3143"
+                                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                                    BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
                                                     CornerRadius="16"
                                                     HasShadow="False"
                                                     HeightRequest="34"
                                                     HorizontalOptions="Center"
                                                     VerticalOptions="Center"
                                                     WidthRequest="34">
+
                                                     <Label
-                                                        FontSize="18"
+                                                        FontSize="{DynamicResource TSize_i6}"
                                                         HorizontalTextAlignment="Center"
                                                         Text="{Binding Day}"
-                                                        TextColor="White"
+                                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                         VerticalTextAlignment="Center">
+
                                                         <Label.Triggers>
                                                             <DataTrigger
                                                                 Binding="{Binding State}"
                                                                 TargetType="Label"
                                                                 Value="NoDayMonth">
-                                                                <Setter Property="TextColor" Value="#71737E" />
+                                                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i10}" />
                                                             </DataTrigger>
                                                         </Label.Triggers>
+
                                                     </Label>
+
                                                 </Frame>
+
                                                 <VisualStateManager.VisualStateGroups>
+
                                                     <VisualStateGroup Name="CommonStates">
+
                                                         <VisualState Name="Selected">
                                                             <VisualState.Setters>
-                                                                <Setter TargetName="itemFrame" Property="Frame.BackgroundColor" Value="#F45E49" />
-                                                                <Setter TargetName="itemFrame" Property="Frame.BorderColor" Value="#F45E49" />
+                                                                <Setter TargetName="itemFrame" Property="Frame.BackgroundColor" Value="{DynamicResource AppColor_i1}" />
+                                                                <Setter TargetName="itemFrame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
                                                             </VisualState.Setters>
                                                         </VisualState>
+
                                                         <VisualState Name="Normal" />
                                                     </VisualStateGroup>
+
                                                 </VisualStateManager.VisualStateGroups>
                                             </StackLayout>
 
                                         </DataTemplate>
+
                                     </CollectionView.ItemTemplate>
-                                    <controls:CalendarGridCollectionView.GestureRecognizers />
+
                                 </controls:CalendarGridCollectionView>
 
                                 <!--  Dropdown list  -->
@@ -279,98 +329,130 @@
                                     IsVisible="false"
                                     VerticalOptions="StartAndExpand"
                                     WidthRequest="90">
+
                                     <CollectionView
                                         x:Name="yearsCollectionView"
                                         ItemsSource="{Binding Years, Source={x:Reference addInfoDialog}}"
                                         SelectionChanged="OnSelectionChanged"
                                         SelectionMode="Single"
                                         VerticalScrollBarVisibility="Never">
+
                                         <CollectionView.Effects>
                                             <effects:NoOverScrollEffect />
                                         </CollectionView.Effects>
+
                                         <CollectionView.ItemTemplate>
+
                                             <DataTemplate x:DataType="models:YearModel">
+
                                                 <Frame
                                                     Padding="0"
-                                                    BackgroundColor="#34374C"
+                                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                                     CornerRadius="0"
                                                     HeightRequest="32"
                                                     WidthRequest="120">
                                                     <Label
-                                                        FontSize="12"
+                                                        FontSize="{DynamicResource TSize_i9}"
                                                         HorizontalTextAlignment="Center"
                                                         Opacity="{Binding Opacity}"
                                                         Text="{Binding Year}"
-                                                        TextColor="White"
+                                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                         VerticalTextAlignment="Center" />
+
                                                     <VisualStateManager.VisualStateGroups>
+
                                                         <VisualStateGroup Name="CommonStates">
+
                                                             <VisualState Name="Selected">
                                                                 <VisualState.Setters>
-                                                                    <Setter Property="BackgroundColor" Value="#F45E49" />
+                                                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
+
                                                             <VisualState Name="Normal" />
                                                         </VisualStateGroup>
+
                                                     </VisualStateManager.VisualStateGroups>
                                                 </Frame>
+
                                             </DataTemplate>
+
                                         </CollectionView.ItemTemplate>
+
                                     </CollectionView>
+
                                 </Frame>
+
                             </Grid>
+
                         </sc:StateCondition>
 
                         <!--  State2  entries  -->
                         <sc:StateCondition State="Info">
+
                             <StackLayout
                                 Margin="0,18,0,0"
                                 Padding="18,0,18,0"
                                 Spacing="1">
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Label
-                                        HorizontalOptions="StartAndExpand"
-                                        Style="{StaticResource LabelStyle}"
-                                        Text="Customer Name" />
-                                    <Label
-                                        HorizontalOptions="End"
-                                        Opacity="0.32"
-                                        Style="{StaticResource LabelStyle}"
-                                        Text="Required" />
+                                <StackLayout x:Name="nameEntryBlock">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label
+                                            HorizontalOptions="StartAndExpand"
+                                            Style="{StaticResource LabelStyle}"
+                                            Text="{xct:Translate CustomerName}" />
+
+                                        <Label
+                                            HorizontalOptions="End"
+                                            Opacity="0.32"
+                                            Style="{StaticResource LabelStyle}"
+                                            Text="{xct:Translate Required}" />
+                                    </StackLayout>
+
+                                    <Frame Style="{StaticResource EntryFrameStyle}">
+
+                                        <controls:CustomEntry
+                                            x:Name="nameEntry"
+                                            Margin="12,0,0,0"
+                                            MaxLength="100"
+                                            Placeholder="Type User Name"
+                                            Style="{StaticResource EntryPlaceholderStyle}">
+
+                                            <controls:CustomEntry.Behaviors>
+                                                <behaviors:EmailValidatorBehavior />
+                                            </controls:CustomEntry.Behaviors>
+                                        </controls:CustomEntry>
+                                    </Frame>
+
                                 </StackLayout>
-                                <Frame Style="{StaticResource EntryFrameStyle}">
-                                    <controls:CustomEntry
-                                        x:Name="nameEntry"
-                                        Margin="12,0,0,0"
-                                        Placeholder="Type User Name"
-                                        Style="{StaticResource EntryPlaceholderStyle}">
-                                        <controls:CustomEntry.Behaviors>
-                                            <behaviors:EmailValidatorBehavior />
-                                        </controls:CustomEntry.Behaviors>
-                                    </controls:CustomEntry>
-                                </Frame>
+
                                 <Label
                                     x:Name="nameWarningLabel"
                                     Margin="12,0,0,0"
-                                    FontSize="12"
+                                    FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
-                                    Text="incorrect name"
-                                    TextColor="#2E3143"
+                                    Text="{xct:Translate IncorrectName}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     VerticalOptions="Start" />
 
                                 <StackLayout Orientation="Horizontal">
+
                                     <Label
                                         HorizontalOptions="StartAndExpand"
                                         Style="{StaticResource LabelStyle}"
-                                        Text="Phone" />
+                                        Text="{xct:Translate Phone}" />
+
                                     <Label
                                         HorizontalOptions="End"
                                         Opacity="0.32"
                                         Style="{StaticResource LabelStyle}"
-                                        Text="Required" />
+                                        Text="{xct:Translate Required}" />
+
                                 </StackLayout>
+
                                 <Frame x:Name="phoneFrame" Style="{StaticResource EntryFrameStyle}">
+
                                     <controls:CustomEntry
                                         x:Name="phoneEntry"
                                         Margin="12,0,0,0"
@@ -379,48 +461,62 @@
                                         Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
                                         Style="{StaticResource EntryPlaceholderStyle}"
                                         Unfocused="OnPhoneEntryUnfocused" />
+
                                 </Frame>
+
                                 <Label
                                     x:Name="phoneWarningLabel"
                                     Margin="12,0,0,0"
-                                    FontSize="12"
+                                    FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
-                                    Text="incorrect number"
-                                    TextColor="#2E3143"
+                                    Text="{xct:Translate IncorrectNumber}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     VerticalOptions="Start" />
 
                                 <StackLayout Orientation="Horizontal">
+
                                     <Label
                                         HorizontalOptions="StartAndExpand"
                                         Style="{StaticResource LabelStyle}"
-                                        Text="Email" />
+                                        Text="{xct:Translate Email}" />
+
                                     <Label
                                         HorizontalOptions="End"
                                         Opacity="0.32"
                                         Style="{StaticResource LabelStyle}"
-                                        Text="Required" />
+                                        Text="{xct:Translate Required}" />
+
                                 </StackLayout>
+
                                 <Frame x:Name="mailFrame" Style="{StaticResource EntryFrameStyle}">
+
                                     <controls:CustomEntry
                                         x:Name="mailEntry"
                                         Margin="12,0,0,0"
+                                        Focused="OnMailEntryFocused"
                                         Placeholder="Type Email"
                                         Style="{StaticResource EntryPlaceholderStyle}"
                                         Unfocused="OnMailEntryUnfocused">
+
                                         <controls:CustomEntry.Behaviors>
                                             <behaviors:EmailValidatorBehavior />
                                         </controls:CustomEntry.Behaviors>
+
                                     </controls:CustomEntry>
+
                                 </Frame>
+
                                 <Label
                                     x:Name="mailWarningLabel"
                                     Margin="12,0,0,0"
-                                    FontSize="12"
+                                    FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
-                                    Text="incorrect email"
-                                    TextColor="#2E3143"
+                                    Text="{xct:Translate IncorrectEmail}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     VerticalOptions="StartAndExpand" />
+
                             </StackLayout>
+
                         </sc:StateCondition>
 
                     </sc:StateContainer>
@@ -429,57 +525,65 @@
                     <BoxView
                         Grid.Row="3"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="#424861"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                         HeightRequest="1"
                         VerticalOptions="Start" />
+
                     <Frame
                         Grid.Row="3"
                         Grid.Column="0"
                         Margin="18,12,6,12"
                         Padding="0"
-                        BackgroundColor="#34374C"
-                        BorderColor="#F45E49"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BorderColor="{DynamicResource AppColor_i1}"
                         CornerRadius="5"
                         HeightRequest="52"
                         WidthRequest="220">
+
                         <Label
-                            FontSize="18"
+                            FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
-                            Text="Cancel"
-                            TextColor="White"
+                            Text="{xct:Translate Cancel}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             VerticalTextAlignment="Center" />
+
                         <Frame.GestureRecognizers>
-
                             <TapGestureRecognizer Command="{Binding DeclineCommand}" />
-
                         </Frame.GestureRecognizers>
+
                     </Frame>
+
                     <Frame
                         Grid.Row="3"
                         Grid.Column="1"
                         Margin="6,12,18,12"
                         Padding="0"
-                        BackgroundColor="#3CD47D"
-                        BorderColor="#3CD47D"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        BorderColor="{DynamicResource IndicationColor_i1}"
                         CornerRadius="5"
                         HeightRequest="52"
                         Opacity="0.32"
                         WidthRequest="220">
+
                         <Label
-                            FontSize="18"
+                            FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
-                            Text="Done"
-                            TextColor="Black"
+                            Text="{xct:Translate Done}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i6}"
                             VerticalTextAlignment="Center" />
+
                         <Frame.GestureRecognizers>
-
                             <TapGestureRecognizer Command="{Binding AcceptCommand}" />
-
                         </Frame.GestureRecognizers>
+
                     </Frame>
+
                 </Grid>
+
             </Frame>
+
         </ContentView.Content>
+
     </ContentView>
 
 </rg:PopupPage>
