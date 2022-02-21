@@ -142,10 +142,10 @@ namespace Next2.ViewModels
         public override void OnAppearing()
         {
             base.OnAppearing();
-            var timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
+            var timerUpdateTime = new Timer(1);
             timerUpdateTime.Elapsed += Timer_Elapsed;
 
-            Task.Run(() => timerUpdateTime.Start()).Wait(3);
+            Task.Run(() => timerUpdateTime.Start());
         }
 
         #endregion
