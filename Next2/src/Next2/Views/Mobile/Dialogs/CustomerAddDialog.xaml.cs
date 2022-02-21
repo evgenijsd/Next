@@ -12,6 +12,8 @@ namespace Next2.Views.Mobile.Dialogs
 {
     public partial class CustomerAddDialog : PopupPage
     {
+        private const int MIN_YEAR = 1900;
+        private const int MAX_YEAR = 2100;
         public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
@@ -40,7 +42,7 @@ namespace Next2.Views.Mobile.Dialogs
 
             Years = new List<YearModel>();
 
-            for (int i = 1900; i < 2100; i++)
+            for (int i = MIN_YEAR; i < MAX_YEAR; i++)
             {
                 Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
