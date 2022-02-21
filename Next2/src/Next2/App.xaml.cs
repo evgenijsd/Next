@@ -81,7 +81,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.NewOrderPage, MobileViewModels.NewOrderViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderRegistrationPage, OrderRegistrationViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();

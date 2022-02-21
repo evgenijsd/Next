@@ -11,9 +11,9 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
-    x:DataType="mobile:NewOrderViewModel"
-    x:Class="Next2.Views.Mobile.NewOrderPage">
+    xmlns:viewmodels="clr-namespace:Next2.ViewModels"
+    x:DataType="viewmodels:OrderRegistrationViewModel"
+    x:Class="Next2.Views.Mobile.OrderRegistrationPage">
 
     <ContentView>
 

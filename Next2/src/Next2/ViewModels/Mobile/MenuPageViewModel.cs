@@ -132,7 +132,7 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnOpenNewOrderPageCommandAsync()
         {
-            return _navigationService.NavigateAsync(nameof(NewOrderPage));
+            return _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
         }
 
         private async Task OnTapCategoryCommandAsync(CategoryModel category)

@@ -25,11 +25,13 @@ namespace Next2.ViewModels.Tablet
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            OrderRegistrationViewModel orderRegistrationViewModel)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
+            OrderRegistrationViewModel = orderRegistrationViewModel;
 
             Task.Run(LoadCategoriesAsync);
         }
@@ -43,6 +45,8 @@ namespace Next2.ViewModels.Tablet
         public ObservableCollection<SetModel> SetsItems { get; set; }
 
         public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
+
+        public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 

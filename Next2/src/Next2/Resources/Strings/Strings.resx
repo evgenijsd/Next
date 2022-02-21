@@ -312,4 +312,7 @@
   <data name="ToGo" xml:space="preserve">
     <value>To Go</value>
   </data>
+  <data name="ToCreateNewOrderSelectDishCard" xml:space="preserve">
+    <value>To create a new order, select a dish card.</value>
+  </data>
 </root>

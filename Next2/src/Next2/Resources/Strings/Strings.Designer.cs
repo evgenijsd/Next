@@ -592,6 +592,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To create a new order, select a dish card..
+        /// </summary>
+        internal static string ToCreateNewOrderSelectDishCard {
+            get {
+                return ResourceManager.GetString("ToCreateNewOrderSelectDishCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To Go.
         /// </summary>
         internal static string ToGo {

@@ -12,13 +12,13 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
-namespace Next2.ViewModels.Mobile
+namespace Next2.ViewModels
 {
-    public class NewOrderViewModel : BaseViewModel
+    public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
 
-        public NewOrderViewModel(
+        public OrderRegistrationViewModel(
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
@@ -32,6 +32,9 @@ namespace Next2.ViewModels.Mobile
                 OrderType = x,
                 OrderTypeValue = LocalizationResourceManager.Current[x.ToString()],
             }));
+
+            Task.Run(RefreshOrderId);
+            Task.Run(RefreshTables);
 
             //OrderTypes = new ()
             //{
@@ -91,38 +94,6 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            await Task.WhenAll(
-                RefreshOrderId(),
-                RefreshTables());
-        }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            base.OnNavigatedFrom(parameters);
-
-            Tables.Clear();
-        }
-
-        public override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-            await Task.WhenAll(
-                RefreshOrderId(),
-                RefreshTables());
-        }
-
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            Tables.Clear();
-        }
-
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -136,11 +107,6 @@ namespace Next2.ViewModels.Mobile
         #endregion
 
         #region -- Private helpers --
-
-        private float CalculateTax()
-        {
-            return Total / 100 * Constants.TAX_PERCENTAGE;
-        }
 
         private async Task RefreshOrderId()
         {
@@ -165,7 +131,6 @@ namespace Next2.ViewModels.Mobile
                 Tables = new (tableBindableModels);
 
                 SelectedTable = Tables[0];
-                NumberOfSeats = 1;
             }
         }
 
