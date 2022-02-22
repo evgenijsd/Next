@@ -21,12 +21,6 @@ namespace Next2.Services.UserService
             _settingsManager = settingsManager;
         }
 
-        #region -- Public Properties --
-
-        public UserModel AuthorizedUserModel { get; set; }
-
-        #endregion
-
         #region -- UserService implementation  --
 
         public async Task<AOResult<int>> AddUserAsync(UserModel user)
@@ -54,7 +48,7 @@ namespace Next2.Services.UserService
             return result;
         }
 
-        public async Task<AOResult> CheckUserExists(int userId)
+        public async Task<AOResult<UserModel>> GetUserById(int userId)
         {
             var result = new AOResult<UserModel>();
 
@@ -64,8 +58,7 @@ namespace Next2.Services.UserService
 
                 if (user != null)
                 {
-                    result.SetSuccess();
-                    AuthorizedUserModel = user;
+                    result.SetSuccess(user);
                 }
                 else
                 {
@@ -74,7 +67,7 @@ namespace Next2.Services.UserService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CheckUserExists)}: exception", "Error from UserService CheckUserExists", ex);
+                result.SetError($"{nameof(GetUserById)}: exception", "Error from UserService GetUserById", ex);
             }
 
             return result;

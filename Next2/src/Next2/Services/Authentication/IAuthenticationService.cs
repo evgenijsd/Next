@@ -7,6 +7,7 @@ namespace Next2.Services.Authentication
     public interface IAuthenticationService
     {
         int AuthorizedUserId { get; }
+        Task<AOResult> CheckUserExists(int userId);
         void Authorization();
         void LogOut();
     }

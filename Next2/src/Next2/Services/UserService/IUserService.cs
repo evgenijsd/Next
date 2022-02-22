@@ -6,9 +6,7 @@ namespace Next2.Services.UserService
 {
     public interface IUserService
     {
-        Task<AOResult> CheckUserExists(int userId);
+        Task<AOResult<UserModel>> GetUserById(int userId);
         Task<AOResult<int>> AddUserAsync(UserModel user);
-
-        UserModel AuthorizedUserModel { get; set; }
     }
 }

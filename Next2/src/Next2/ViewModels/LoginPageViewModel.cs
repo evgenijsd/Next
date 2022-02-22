@@ -62,7 +62,6 @@ namespace Next2.ViewModels
         {
             EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
             IsEmployeeExists = false;
-            _userService.AuthorizedUserModel = null;
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
@@ -106,7 +105,7 @@ namespace Next2.ViewModels
 
         private async Task CheckEmployeeExists()
         {
-            IsEmployeeExists = (await _userService.CheckUserExists(_inputtedEmployeeIdToDigit)).IsSuccess;
+            IsEmployeeExists = (await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit)).IsSuccess;
         }
 
         #endregion
