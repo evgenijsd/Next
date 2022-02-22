@@ -264,6 +264,9 @@
   <data name="Tabs" xml:space="preserve">
     <value>Tabs</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="TypeOrder" xml:space="preserve">
     <value>A-Z</value>
   </data>
@@ -290,5 +293,11 @@
   </data>
   <data name="PrintReceipt" xml:space="preserve">
     <value>Print Receipt</value>
+  </data>
+  <data name="NameOrOrder" xml:space="preserve">
+    <value>Name or Order</value>
+  </data>
+  <data name="TableNumberOrOrder" xml:space="preserve">
+    <value>Table Number or Order</value>
   </data>
 </root>

@@ -11,5 +11,9 @@ namespace Next2.Services.OrderService
     public interface IOrderService
     {
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
+
+        string ApplyNumberFilter(string text);
+
+        string ApplyNameFilter(string text);
     }
 }
