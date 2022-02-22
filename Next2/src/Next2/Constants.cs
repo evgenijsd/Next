@@ -26,6 +26,30 @@
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
         }
 
+        public static class LayoutOrderTabs
+        {
+            public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
+            public const double OFFSET_MOBILE = 52;
+            public const double SUMM_ROW_HEIGHT_TABLET = 75 + 2 + 95;
+            public const double OFFSET_TABLET = 70;
+            public const double BUTTONS_HEIGHT = 142;
+            public const double ROW_HEIGHT = 48 + 2;
+        }
+
+        public static class Navigations
+        {
+            public const string SEARCH = nameof(SEARCH);
+            public const string FUNC = nameof(FUNC);
+        }
+
+        public static class Validators
+        {
+            public const string TEXT = @"[^\w\s]";
+            public const string NAME = @"[^a-zA-Z\s]";
+            public const string NUMBER = @"[\D]";
+            public const string CHECK_NUMBER = @"^[\d]";
+        }
+
         public static class DialogParameterKeys
         {
             public const string MESSAGE = nameof(MESSAGE);
@@ -37,16 +61,6 @@
             public const string CANCEL = nameof(CANCEL);
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
-        }
-
-        public static class LayoutOrderTabs
-        {
-            public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
-            public const double OFFSET_MOBILE = 52;
-            public const double SUMM_ROW_HEIGHT_TABLET = 75 + 2 + 95;
-            public const double OFFSET_TABLET = 70;
-            public const double BUTTONS_HEIGHT = 142;
-            public const double ROW_HEIGHT = 48 + 2;
         }
     }
 }

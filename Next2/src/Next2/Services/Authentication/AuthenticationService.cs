@@ -4,64 +4,71 @@ using Next2.Services.UserService;
 using Next2.Services.SettingsService;
 using System;
 using System.Threading.Tasks;
+using Next2.Services.MockService;
 
 namespace Next2.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private ISettingsManager _settingsManager;
-        private IUserService _userService;
+        private readonly IMockService _mockService;
+        private readonly ISettingsManager _settingsManager;
+        private int currentUser;
 
         public AuthenticationService(
-            IUserService userService,
-            ISettingsManager settingsManager)
+            IMockService mockService,
+            ISettingsManager settingsManager,
+            IUserService userService)
         {
+            _mockService = mockService;
             _settingsManager = settingsManager;
-            _userService = userService;
         }
 
         #region -- Public properties --
 
-        private UserModel _user;
-        public UserModel User => _user;
+        public int AuthorizedUserId { get => _settingsManager.UserId; }
 
         #endregion
 
         #region -- AuthenticationService implementation --
 
-        public async Task<AOResult<UserModel>> AuthorizeAsync(int userId)
+        public async Task<AOResult> CheckUserExists(int userId)
         {
             var result = new AOResult<UserModel>();
 
             try
             {
-                var user = await _userService.CheckUserExists(userId);
+                var user = await _mockService.GetByIdAsync<UserModel>(userId);
 
-                if (user.IsSuccess)
+                if (user != null)
                 {
-                    _user = user.Result;
-                    _settingsManager.UserId = user.Result.Id;
-                    _settingsManager.UserName = user.Result.UserName;
-
                     result.SetSuccess();
+                    currentUser = user.Id;
                 }
                 else
                 {
                     result.SetFailure();
+                    currentUser = -1;
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AuthorizeAsync)}: exception", "Error from UserService AuthorizationAsync", ex);
+                result.SetError($"{nameof(CheckUserExists)}: exception", "Error from UserService CheckUserExists", ex);
             }
 
             return result;
         }
 
+        public void Authorization()
+        {
+            if (currentUser >= 0)
+            {
+                _settingsManager.UserId = currentUser;
+            }
+        }
+
         public void LogOut()
         {
-            _settingsManager.UserId = default;
-            _settingsManager.UserName = default;
+            _settingsManager.UserId = -1;
         }
 
         #endregion

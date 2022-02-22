@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView 
+<ContentView  
+    xmlns:views="clr-namespace:Next2.Views"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Controls.Templates.CustomDateTimePanelTemplate"
@@ -28,8 +29,10 @@
             HorizontalOptions="EndAndExpand"/>
             
         <Label 
-            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:h:hh:ss tt}', Path=CurrentDateTime}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:h: mm : ss tt}', Path=CurrentDateTime}"
             VerticalOptions="Center"
+            WidthRequest="80"
+            MinimumWidthRequest="80"
             FontSize="{DynamicResource TSize_i9}"
             Margin="0, 0, 25, 0"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"

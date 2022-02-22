@@ -46,67 +46,6 @@ namespace Next2.Controls.Buttons
             set => SetValue(FontSizeProperty, value);
         }
 
-        public static readonly BindableProperty HeightRequestLeftImageProperty = BindableProperty.Create(
-            propertyName: nameof(HeightRequestLeftImageProperty),
-            returnType: typeof(double),
-            declaringType: typeof(InputButton),
-            defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public double HeightRequestLeftImage
-        {
-            get => (double)GetValue(HeightRequestLeftImageProperty);
-            set => SetValue(HeightRequestLeftImageProperty, value);
-        }
-
-        public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create(
-            propertyName: nameof(VerticalTextAlignment),
-            returnType: typeof(TextAlignment),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public TextAlignment VerticalTextAlignment
-        {
-            get => (TextAlignment)GetValue(VerticalTextAlignmentProperty);
-            set => SetValue(VerticalTextAlignmentProperty, value);
-        }
-
-        public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create(
-            propertyName: nameof(HorizontalTextAlignment),
-            returnType: typeof(TextAlignment),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public TextAlignment HorizontalTextAlignment
-        {
-            get => (TextAlignment)GetValue(HorizontalTextAlignmentProperty);
-            set => SetValue(HorizontalTextAlignmentProperty, value);
-        }
-
-        public static readonly BindableProperty MarginTextProperty = BindableProperty.Create(
-            propertyName: nameof(MarginText),
-            returnType: typeof(Thickness),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Thickness MarginText
-        {
-            get => (Thickness)GetValue(MarginTextProperty);
-            set => SetValue(MarginTextProperty, value);
-        }
-
-        public static readonly BindableProperty MarginLeftImageProperty = BindableProperty.Create(
-            propertyName: nameof(MarginLeftImage),
-            returnType: typeof(Thickness),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Thickness MarginLeftImage
-        {
-            get => (Thickness)GetValue(MarginLeftImageProperty);
-            set => SetValue(MarginLeftImageProperty, value);
-        }
-
         public static readonly BindableProperty LeftImagePathProperty = BindableProperty.Create(
          propertyName: nameof(LeftImagePath),
          returnType: typeof(string),

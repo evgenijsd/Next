@@ -18,11 +18,11 @@
         <Label 
             Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text}"
             FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=FontSize}" 
-            VerticalTextAlignment="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=VerticalTextAlignment}"
-            HorizontalTextAlignment="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=HorizontalTextAlignment}"
+            VerticalTextAlignment="Center"
+            HorizontalTextAlignment="Start"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TextColor}"       
-            Margin="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=MarginText}"
-            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=FontFamily}"
+            Margin="4, 0, 0, 0"
+            FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand">
 
         </Label>
@@ -30,8 +30,8 @@
         <ffimageloading:CachedImage 
             Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=LeftImagePath}"
             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=IsLeftImageVisible}"  
-            Margin="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=MarginLeftImage}" 
-            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=HeightRequestLeftImage}"
+            HeightRequest="24"
+            Margin="0, 5, 5, 5"
             HorizontalOptions="End"/>
 
     </StackLayout>

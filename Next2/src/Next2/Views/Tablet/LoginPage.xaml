@@ -17,7 +17,9 @@
         ColumnDefinitions="*, 0.45*"
         RowDefinitions="0.10*,*">
 
-        <controls:CustomDateTimePanelTemplate BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
+        <controls:CustomDateTimePanelTemplate 
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            CurrentDateTime="{Binding CurrentDateTime}"/>
 
         <ContentView 
             Grid.Row="1"
@@ -38,7 +40,7 @@
             Grid.Column="1"
             Grid.RowSpan="2"
             PlaceHolder="{xct:Translate TypeEmployeeId}"
-            IsUserLoggedOut="{Binding IsUserLoggedOut}"
+            IsUserLogIn="{Binding IsUserLogIn}"
             IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
             ApplyCommand="{Binding GoToStartPageCommand}"/>
 

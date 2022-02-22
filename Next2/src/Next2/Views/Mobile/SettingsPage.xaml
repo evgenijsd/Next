@@ -8,6 +8,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
     xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:DataType="viewModels:SettingsViewModel" 
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
@@ -17,47 +18,90 @@
 
         <controls:CustomNavigationbar
             Title="{xct:Translate Settings}"
-            LeftButtonImageSource="ic_arrow_left_tail_40x40"
-            LeftButtonCommand="{prism:GoBack}"/>
+            LeftButtonCommand="{prism:GoBack}"
+            HeightImage="25"/>
 
         <BoxView 
             VerticalOptions="Start"
             HeightRequest="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
-     
-        <buttons:InputButton
-            Padding="0"
+
+        <controls:CustomFrame
             VerticalOptions="Start"
-            VerticalTextAlignment="Center"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            HeightRequest="57"
-            Text="{xct:Translate ReAssignTable}"
+            Padding="0"
             Margin="20, 25, 20, 0"
-            MarginText="15, 0, 0, 0"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontFamily="Barlow-Medium"
-            MarginLeftImage="0, 0, 18, 0"
-            LeftImagePath="ic_arrow_right_40x40"
-            IsLeftImageVisible="True"
-            FontSize="{DynamicResource TSize_i8}"
-            HeightRequestLeftImage="24"/>
-        
-        <buttons:InputButton
-            Padding="0"
-            VerticalOptions="Start"
-            VerticalTextAlignment="Center"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
             HeightRequest="57"
+            BorderWidth="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+            CornerRadius="{OnPlatform Android='5', iOS='8'}">
+            
+            <StackLayout
+                Orientation="Horizontal">
+
+                <Label
+                    Text="{xct:Translate ReAssignTable}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    Margin="15, 0, 0, 0"
+                    HorizontalOptions="FillAndExpand"/>
+                
+                <ContentView 
+                    HeightRequest="55" 
+                    xct:TouchEffect.Command="{Binding .}">
+
+                    <ffimageloading:CachedImage 
+                        Source="ic_arrow_right_40x40"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        Margin="0, 0, 18, 0"/>
+                    
+                </ContentView>
+          
+            </StackLayout>
+            
+        </controls:CustomFrame>
+
+
+        <controls:CustomFrame
+            VerticalOptions="Start"
+            Padding="0"
             Margin="20, 15, 20, 0"
-            Text="{xct:Translate PrintReceipt}"
-            MarginText="15, 0, 0, 0"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontFamily="Barlow-Medium"
-            MarginLeftImage="0, 0, 18, 0"
-            LeftImagePath="ic_arrow_right_40x40"
-            IsLeftImageVisible="True"
-            FontSize="{DynamicResource TSize_i8}"
-            HeightRequestLeftImage="24"/>
+            HeightRequest="57"
+            BorderWidth="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+            CornerRadius="{OnPlatform Android='5', iOS='8'}">
+
+            <StackLayout
+                Orientation="Horizontal">
+
+                <Label
+                    Text="{xct:Translate PrintReceipt}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    Margin="15, 0, 0, 0"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <ContentView 
+                    HeightRequest="55" 
+                    xct:TouchEffect.Command="{Binding .}">
+
+                    <ffimageloading:CachedImage 
+                        Source="ic_arrow_right_40x40"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        Margin="0, 0, 18, 0"/>
+
+                </ContentView>
+
+            </StackLayout>
+
+        </controls:CustomFrame>
 
         <StackLayout 
             VerticalOptions="EndAndExpand"

@@ -36,28 +36,24 @@
                 Orientation="Horizontal"
                 Spacing="0">
 
-                <ContentView>
-                    
-                    <Frame
-                        Padding="1"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        BorderColor="{DynamicResource AppColor_i3}"
-                        CornerRadius="9"
-                        HasShadow="False"
-                        HorizontalOptions="Start">
 
-                        <ffimageloading:CachedImage
-                            Source="pic_logo_small.png"
-                            Aspect="AspectFit"/>
-                    </Frame>
-                    
-                    <ContentView.GestureRecognizers>
-                        
+                <Frame
+                    Padding="1"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    BorderColor="{DynamicResource AppColor_i3}"
+                    CornerRadius="9"
+                    HasShadow="False"
+                    HorizontalOptions="Start">
+
+                    <ffimageloading:CachedImage
+                        Source="pic_logo_small.png"
+                        Aspect="AspectFit"/>
+
+                    <Frame.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoToSettingsCommand}"/>
-                        
-                    </ContentView.GestureRecognizers>
-                    
-                </ContentView>
+                    </Frame.GestureRecognizers>
+
+                </Frame>
 
                 <Label
                     Margin="20,0,0,0"

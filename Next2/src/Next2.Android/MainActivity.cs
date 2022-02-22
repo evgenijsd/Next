@@ -27,8 +27,8 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            Rg.Plugins.Popup.Popup.Init(this);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            Rg.Plugins.Popup.Popup.Init(this);
 
             RequestedOrientation = Device.Idiom == TargetIdiom.Tablet ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
 

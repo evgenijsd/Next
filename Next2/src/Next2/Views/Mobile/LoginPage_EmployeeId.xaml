@@ -17,9 +17,9 @@
             Padding="0">
 
         <controls:CustomNavigationbar
-            LeftButtonImageSource="ic_arrow_left_tail_40x40"
             LeftButtonCommand="{Binding GoBackCommand}"
-            Title="{xct:Translate EmployeeId}">
+            Title="{xct:Translate EmployeeId}"
+            HeightImage="25">
             
         </controls:CustomNavigationbar>
 

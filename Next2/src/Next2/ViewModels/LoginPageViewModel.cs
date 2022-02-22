@@ -6,6 +6,7 @@ using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -20,7 +21,7 @@ namespace Next2.ViewModels
 
         private string _inputtedEmployeeId;
 
-        private int _inputtedEmployeeIdToDigist;
+        private int _inputtedEmployeeIdToDigit;
 
         public LoginPageViewModel(
             INavigationService navigationService,
@@ -36,11 +37,11 @@ namespace Next2.ViewModels
 
         public bool IsEmployeeExists { get; set; }
 
+        public bool IsUserLogIn { get; set; }
+
         public bool IsErrorNotificationVisible { get; set; }
 
-        public DateTime CurrentDate { get; set; } = DateTime.Now;
-
-        public bool IsUserLoggedOut { get; set; }
+        public DateTime CurrentDateTime { get; set; }
 
         public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
 
@@ -60,6 +61,7 @@ namespace Next2.ViewModels
         private async Task OnTabClearAsync()
         {
             EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+            IsEmployeeExists = false;
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
@@ -73,14 +75,15 @@ namespace Next2.ViewModels
             {
                 if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
                 {
-                    int.TryParse(str, out _inputtedEmployeeIdToDigist);
+                    int.TryParse(str, out _inputtedEmployeeIdToDigit);
 
                     await CheckEmployeeExists();
 
                     if (IsEmployeeExists)
                     {
+                        _authenticationService.Authorization();
                         await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
-                        IsUserLoggedOut = true;
+                        IsUserLogIn = true;
                     }
                     else
                     {
@@ -94,15 +97,15 @@ namespace Next2.ViewModels
             }
             else if (IsEmployeeExists)
             {
+                _authenticationService.Authorization();
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
                 EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
-                IsEmployeeExists = false;
             }
         }
 
         private async Task CheckEmployeeExists()
         {
-            IsEmployeeExists = (await _authenticationService.AuthorizeAsync(_inputtedEmployeeIdToDigist)).IsSuccess;
+            IsEmployeeExists = (await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit)).IsSuccess;
         }
 
         #endregion
@@ -111,21 +114,20 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_userService.AuthorizedUserId >= 0)
+            if (_authenticationService.AuthorizedUserId >= 0)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
             else
             {
-                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
+                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
                 {
-                    if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                    if (_inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
                     {
-                        int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
                         await CheckEmployeeExists();
                         EmployeeId = _inputtedEmployeeId;
                     }
-                    else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != Constants.LOGIN_PASSWORD_LENGTH)
+                    else
                     {
                         IsEmployeeExists = false;
                         EmployeeId = _inputtedEmployeeId;
@@ -133,9 +135,28 @@ namespace Next2.ViewModels
                 }
                 else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
                 {
-                    IsUserLoggedOut = !IsUserLoggedOut;
+                    IsUserLogIn = !IsUserLogIn;
+                    IsEmployeeExists = false;
                 }
             }
+        }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+            var timerUpdateTime = new Timer(1);
+            timerUpdateTime.Elapsed += Timer_Elapsed;
+
+            Task.Run(() => timerUpdateTime.Start());
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            CurrentDateTime = DateTime.Now;
         }
 
         #endregion
