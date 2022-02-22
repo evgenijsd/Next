@@ -835,18 +835,18 @@ namespace Next2.Services.MockService
             {
                 new UserModel
                 {
-                    Id = 000001,
+                    Id = 0,
+                    UserName = "Tom",
+                },
+                new UserModel
+                {
+                    Id = 1,
                     UserName = "Bob Marley",
                 },
                 new UserModel
                 {
-                    Id = 000002,
+                    Id = 2,
                     UserName = "Tom Black",
-                },
-                new UserModel
-                {
-                    Id = 000,
-                    UserName = "Tom",
                 },
             };
 

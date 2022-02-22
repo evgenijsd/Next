@@ -146,6 +146,7 @@
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
+    <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -735,6 +736,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-mdpi\ic_logged_in.png" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\pic_logo_small.png" />
   </ItemGroup>
   <ItemGroup>
@@ -2725,6 +2728,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-mdpi\next_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
     <AndroidResource Include="Resources\drawable\splash_screen_land.xml" />
   </ItemGroup>
   <ItemGroup>

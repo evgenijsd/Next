@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using Foundation;
 using Next2.Controls;
 using Next2.iOS.Renderers;
@@ -22,7 +23,15 @@ namespace Next2.iOS.Renderers
                 this.Control.BorderStyle = UIKit.UITextBorderStyle.None;
                 this.Control.TintColor = UIColor.SystemRedColor;
             }
+
+            if (this.Element == null)
+                return;
+
+            if (this.Element.Keyboard == Keyboard.Numeric)
+                this.AddDoneButton();
         }
+
+        #region -- Overrides --
 
         /// <inheritdoc/>
         public override bool CanPerform(Selector action, NSObject withSender)
@@ -31,5 +40,30 @@ namespace Next2.iOS.Renderers
 
             return base.CanPerform(action, withSender);
         }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void AddDoneButton()
+        {
+            var toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, 50.0f, 44.0f));
+
+            var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, (sender, e) =>
+            {
+                this.Control.ResignFirstResponder();
+                var baseEntry = this.Element.GetType();
+                ((IEntryController)Element).SendCompleted();
+            });
+
+            toolbar.Items = new UIBarButtonItem[] {
+                new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace),
+                doneButton
+            };
+            this.Control.InputAccessoryView = toolbar;
+        }
+
+        #endregion
+
     }
 } 

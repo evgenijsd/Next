@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+<ContentView 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate">
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    x:DataType="viewModels:LoginPageViewModel"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
     
     <ContentView.Content>
 
@@ -45,25 +48,37 @@
                             Margin="10, 0, 0, 0"
                             FontSize="{DynamicResource TSize_i6}"
                             FontFamily="Barlow-Regular">
-                    
-                            <Label.Triggers>
-                    
-                                <DataTrigger 
+
+                        <Label.Triggers>
+
+                            <DataTrigger 
                                     TargetType="Label"
                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
                                     Value="True">
-                    
+
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-                                    
-                                 <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
-                    
+
+                                <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
+
                             </DataTrigger>
-                    
-                            </Label.Triggers>
+
+                            <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLogIn}"                           
+                                    Value="True">
+
+                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+                                <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}"/>
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+                
                     
                         </Label>
-                    
-                        <Image 
+
+                        <ffimageloading:CachedImage 
                             Source="ic_danger_circle"
                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"  
                             Margin="0, 8, 5, 8"

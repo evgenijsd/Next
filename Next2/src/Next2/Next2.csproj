@@ -163,6 +163,9 @@
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\Dialogs\LogOutAlertView.xaml.cs">
+      <DependentUpon>LogOutAlertView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
@@ -236,6 +239,9 @@
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\LogOutAlertView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\SearchPage.xaml">
           <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -249,6 +255,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\LoginPage_EmployeeId.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\LogOutAlertView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\LoginPage.xaml">

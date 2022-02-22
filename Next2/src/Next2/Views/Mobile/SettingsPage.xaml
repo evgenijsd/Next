@@ -1,0 +1,136 @@
+﻿<views:BaseContentPage
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels" 
+    xmlns:prism="http://prismlibrary.com"
+    x:Class="Next2.Views.Mobile.SettingsPage"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:DataType="viewModels:SettingsViewModel" 
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+    <StackLayout
+        Spacing="0" 
+        Padding="0">
+
+        <controls:CustomNavigationbar
+            Title="{xct:Translate Settings}"
+            LeftButtonCommand="{prism:GoBack}"
+            HeightImage="25"/>
+
+        <BoxView 
+            VerticalOptions="Start"
+            HeightRequest="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+        <controls:CustomFrame
+            VerticalOptions="Start"
+            Padding="0"
+            Margin="20, 25, 20, 0"
+            HeightRequest="57"
+            BorderWidth="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+            CornerRadius="{OnPlatform Android='5', iOS='8'}">
+            
+            <StackLayout
+                Orientation="Horizontal">
+
+                <Label
+                    Text="{xct:Translate ReAssignTable}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    Margin="15, 0, 0, 0"
+                    HorizontalOptions="FillAndExpand"/>
+                
+                <ContentView 
+                    HeightRequest="55" 
+                    xct:TouchEffect.Command="{Binding .}">
+
+                    <ffimageloading:CachedImage 
+                        Source="ic_arrow_right_40x40"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        Margin="0, 0, 18, 0"/>
+                    
+                </ContentView>
+          
+            </StackLayout>
+            
+        </controls:CustomFrame>
+
+
+        <controls:CustomFrame
+            VerticalOptions="Start"
+            Padding="0"
+            Margin="20, 15, 20, 0"
+            HeightRequest="57"
+            BorderWidth="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+            CornerRadius="{OnPlatform Android='5', iOS='8'}">
+
+            <StackLayout
+                Orientation="Horizontal">
+
+                <Label
+                    Text="{xct:Translate PrintReceipt}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    Margin="15, 0, 0, 0"
+                    HorizontalOptions="FillAndExpand"/>
+
+                <ContentView 
+                    HeightRequest="55" 
+                    xct:TouchEffect.Command="{Binding .}">
+
+                    <ffimageloading:CachedImage 
+                        Source="ic_arrow_right_40x40"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        Margin="0, 0, 18, 0"/>
+
+                </ContentView>
+
+            </StackLayout>
+
+        </controls:CustomFrame>
+
+        <StackLayout 
+            VerticalOptions="EndAndExpand"
+            HeightRequest="70"
+            Spacing="0" 
+            Padding="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <BoxView 
+                VerticalOptions="Start"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <buttons:BorderButton
+                Padding="0"
+                BorderWidth="1"
+                BackgroundColor="{DynamicResource IndicationColor_i3}"
+                BorderColor="Transparent"
+                HeightRequest="65"
+                FontSize="{DynamicResource TSize_i6}"
+                Margin="20, 12, 20, 12"
+                FontFamily="Barlow-SemiBold"
+                Text="{xct:Translate LogOut_UpperCase}"
+                Command="{Binding LogOutCommand}">
+
+            </buttons:BorderButton>
+            
+        </StackLayout>
+
+    </StackLayout>
+
+</views:BaseContentPage>
