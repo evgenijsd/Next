@@ -21,7 +21,7 @@ namespace Next2.ViewModels
 
         private string _inputtedEmployeeId;
 
-        private int _inputtedEmployeeIdToDigist;
+        private int _inputtedEmployeeIdToDigit;
 
         public LoginPageViewModel(
             INavigationService navigationService,
@@ -76,7 +76,7 @@ namespace Next2.ViewModels
             {
                 if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
                 {
-                    int.TryParse(str, out _inputtedEmployeeIdToDigist);
+                    int.TryParse(str, out _inputtedEmployeeIdToDigit);
 
                     await CheckEmployeeExists();
 
@@ -106,7 +106,7 @@ namespace Next2.ViewModels
 
         private async Task CheckEmployeeExists()
         {
-            IsEmployeeExists = (await _userService.CheckUserExists(_inputtedEmployeeIdToDigist)).IsSuccess;
+            IsEmployeeExists = (await _userService.CheckUserExists(_inputtedEmployeeIdToDigit)).IsSuccess;
         }
 
         #endregion
@@ -121,15 +121,14 @@ namespace Next2.ViewModels
             }
             else
             {
-                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId))
+                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
                 {
-                    if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                    if (_inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
                     {
-                        int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigist);
                         await CheckEmployeeExists();
                         EmployeeId = _inputtedEmployeeId;
                     }
-                    else if (!string.IsNullOrWhiteSpace(_inputtedEmployeeId) && _inputtedEmployeeId.Length != Constants.LOGIN_PASSWORD_LENGTH)
+                    else
                     {
                         IsEmployeeExists = false;
                         EmployeeId = _inputtedEmployeeId;
@@ -138,6 +137,7 @@ namespace Next2.ViewModels
                 else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
                 {
                     IsUserLogIn = !IsUserLogIn;
+                    IsEmployeeExists = false;
                 }
             }
         }
