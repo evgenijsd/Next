@@ -280,13 +280,13 @@
     <value>Done</value>
   </data>
   <data name="IncorrectEmail" xml:space="preserve">
-    <value>incorrect email</value>
+    <value>Incorrect email</value>
   </data>
   <data name="IncorrectName" xml:space="preserve">
-    <value>incorrect name</value>
+    <value>Incorrect name</value>
   </data>
   <data name="IncorrectNumber" xml:space="preserve">
-    <value>incorrect number</value>
+    <value>Incorrect number</value>
   </data>
   <data name="NewCustomer" xml:space="preserve">
     <value>New Customer</value>

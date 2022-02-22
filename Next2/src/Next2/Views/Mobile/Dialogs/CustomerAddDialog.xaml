@@ -11,7 +11,7 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="addInfoDialog"
+    x:Name="customerAddDialog"
     x:DataType="dialogs:CustomerAddViewModel"
     BackgroundColor="Transparent"
     HasKeyboardOffset="False">
@@ -86,7 +86,7 @@
                         x:Name="infoButtonFrame"
                         Grid.Row="1"
                         Grid.Column="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BackgroundColor="{DynamicResource AppColor_i4}"
                         CornerRadius="0">
 
                         <Label
@@ -107,7 +107,7 @@
                         x:Name="underLine1"
                         Grid.Row="1"
                         Grid.Column="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        BackgroundColor="{DynamicResource AppColor_i1}"
                         HeightRequest="3"
                         VerticalOptions="End" />
 
@@ -115,7 +115,7 @@
                         x:Name="birthdayButtonFrame"
                         Grid.Row="1"
                         Grid.Column="1"
-                        BackgroundColor="{DynamicResource AppColor_i4}"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="0">
 
                         <Label
@@ -137,7 +137,7 @@
                         x:Name="underLine2"
                         Grid.Row="1"
                         Grid.Column="1"
-                        BackgroundColor="{DynamicResource AppColor_i1}"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                         HeightRequest="3"
                         VerticalOptions="End" />
 
@@ -146,7 +146,7 @@
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                        State="{Binding State, Source={x:Reference addInfoDialog}}">
+                        State="{Binding State, Source={x:Reference customerAddDialog}}">
 
                         <!--  State1 calendar  -->
                         <sc:StateCondition State="Birthday">
@@ -168,7 +168,7 @@
                                         <Label
                                             Margin="10,6,0,6"
                                             FontFamily="Barlow-Medium"
-                                            Text="{Binding SelectedYear, Source={x:Reference addInfoDialog}}"
+                                            Text="{Binding SelectedYear, Source={x:Reference customerAddDialog}}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             VerticalTextAlignment="Center" />
 
@@ -207,7 +207,7 @@
                                         FontFamily="Barlow-Bold"
                                         FontSize="{DynamicResource TSize_i4}"
                                         HorizontalOptions="FillAndExpand"
-                                        Text="{Binding Month.MonthName, Source={x:Reference addInfoDialog}}"
+                                        Text="{Binding Month.MonthName, Source={x:Reference customerAddDialog}}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                         VerticalTextAlignment="Center">
 
@@ -243,10 +243,11 @@
                                     Grid.Row="2"
                                     Margin="16,0,16,1"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                                    Month="{Binding SelectedMonth, Source={x:Reference addInfoDialog}}"
+                                    Month="{Binding SelectedMonth, Source={x:Reference customerAddDialog}}"
+                                    SelectedItem="{Binding SelectedDay, Source={x:Reference customerAddDialog}}"
                                     PropertyChanged="OnCalendarGridPropertyChanged"
                                     SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
-                                    Year="{Binding SelectedYear, Source={x:Reference addInfoDialog}}">
+                                    Year="{Binding SelectedYear, Source={x:Reference customerAddDialog}}">
 
                                     <CollectionView.ItemsLayout>
 
@@ -340,7 +341,7 @@
 
                                     <CollectionView
                                         x:Name="yearsCollectionView"
-                                        ItemsSource="{Binding Years, Source={x:Reference addInfoDialog}}"
+                                        ItemsSource="{Binding Years, Source={x:Reference customerAddDialog}}"
                                         SelectionChanged="OnSelectionChanged"
                                         SelectionMode="Single"
                                         VerticalScrollBarVisibility="Never">

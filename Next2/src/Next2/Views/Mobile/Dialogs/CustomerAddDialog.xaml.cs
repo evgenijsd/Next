@@ -22,7 +22,6 @@ namespace Next2.Views.Mobile.Dialogs
             BindingContext = new CustomerAddViewModel(param, requestClose, customersService);
 
             State = ETabState.Info;
-            State = ETabState.Birthday;
 
             Months = new ()
             {
@@ -89,6 +88,26 @@ namespace Next2.Views.Mobile.Dialogs
         {
             get => (int)GetValue(SelectedYearProperty);
             set => SetValue(SelectedYearProperty, value);
+        }
+
+        public DayModel SelectedDay { get; set; }
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(string? propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            if (propertyName == nameof(SelectedDay))
+            {
+                if (dropdownFrame.IsVisible)
+                {
+                    dropdownFrame.IsVisible = false;
+                    yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                    yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
+                }
+            }
         }
 
         #endregion
@@ -163,7 +182,7 @@ namespace Next2.Views.Mobile.Dialogs
 
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {
-            if (dropdownFrame.IsVisible == false)
+            if (!dropdownFrame.IsVisible)
             {
                 yearsCollectionView.SelectedItem = Years.FirstOrDefault(x => x.Year == SelectedYear);
                 yearsCollectionView.ScrollTo(yearsCollectionView.SelectedItem, -1, ScrollToPosition.Center, false);
@@ -223,6 +242,13 @@ namespace Next2.Views.Mobile.Dialogs
                     nameEntry.IsEnabled = true;
                     phoneEntry.IsEnabled = true;
                     mailEntry.IsEnabled = true;
+
+                    if (dropdownFrame.IsVisible)
+                    {
+                        dropdownFrame.IsVisible = false;
+                        yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                        yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
+                    }
                 }
 
                 if (frame == birthdayButtonFrame)

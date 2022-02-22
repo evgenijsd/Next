@@ -21,9 +21,6 @@ namespace Next2.Views.Tablet.Dialogs
             InitializeComponent();
             BindingContext = new CustomerAddViewModel(param, requestClose, customersService);
 
-            State = ETabState.Info;
-            State = ETabState.Birthday;
-
             Months = new ()
             {
                 new MonthModel() { Id = 1, MonthName = "January" },
@@ -56,8 +53,6 @@ namespace Next2.Views.Tablet.Dialogs
         }
 
         #region -- Public Properties --
-
-        public ETabState State { get; set; }
 
         public List<MonthModel> Months { get; set; }
 

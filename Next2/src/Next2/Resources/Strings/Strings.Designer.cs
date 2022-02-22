@@ -241,7 +241,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to incorrect email.
+        ///   Looks up a localized string similar to Incorrect email.
         /// </summary>
         public static string IncorrectEmail {
             get {
@@ -250,7 +250,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to incorrect name.
+        ///   Looks up a localized string similar to Incorrect name.
         /// </summary>
         public static string IncorrectName {
             get {
@@ -259,7 +259,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to incorrect number.
+        ///   Looks up a localized string similar to Incorrect number.
         /// </summary>
         public static string IncorrectNumber {
             get {
