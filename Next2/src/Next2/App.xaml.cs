@@ -64,8 +64,10 @@ namespace Next2
 
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
+
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
+
             if (IsTablet)
             {
                 // Services
@@ -85,6 +87,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
             }
             else
             {
@@ -119,7 +122,7 @@ namespace Next2
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 
-            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(MobileViews.LoginPage)}");
+            await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(ModificationsPage)}");
         }
 
         protected override void OnStart()

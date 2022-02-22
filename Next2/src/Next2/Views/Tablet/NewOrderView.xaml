@@ -468,7 +468,6 @@
             <!--Menu-->
 
             <CollectionView
-                x:Name="menuCollectionView"
                 Margin="12, 8, 12, 0"
                 VerticalOptions="StartAndExpand"
                 ItemsSource="{Binding SetsItems}"

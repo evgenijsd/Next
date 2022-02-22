@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:Next2.Models"
+    x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
+    Orientation="Horizontal"
+    x:DataType="models:ItemSpoilerModel">
+
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup Name="CommonStates">
+
+            <VisualState Name="Selected">
+
+                <VisualState.Setters>
+                    <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i9}" />
+                    <Setter TargetName="boxView" Property="BoxView.BackgroundColor" Value="{DynamicResource AppColor_i1}" />
+                    <Setter TargetName="label" Property="Label.TextColor" Value="{DynamicResource AppColor_i1}" />
+                    <Setter TargetName="image" Property="ffimageloading:CachedImage.Source" Value="{Binding SelectedImagePath}" />
+                </VisualState.Setters>
+
+            </VisualState>
+
+            <VisualState Name="Normal">
+
+                <VisualState.Setters>
+                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                    <Setter TargetName="boxView" Property="BoxView.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                    <Setter TargetName="label" Property="Label.TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                    <Setter TargetName="image" Property="ffimageloading:CachedImage.Source" Value="{Binding ImagePath}" />
+                </VisualState.Setters>
+
+            </VisualState>
+
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
+    <ffimageloading:CachedImage
+        x:Name="image"
+        Margin="32, 0"
+        Source="{Binding ImagePath}"
+        HorizontalOptions="Start"
+        VerticalOptions="Center"/>
+
+    <Label
+        x:Name="label"
+        HorizontalOptions="Start"
+        VerticalTextAlignment="Center"
+        Padding="8"
+        Text="{Binding Title}"
+        FontSize="{DynamicResource TSize_i5}"
+        FontFamily="Barlow-SemiBold"/>
+
+    <BoxView
+        x:Name="boxView"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        WidthRequest="4"
+        HorizontalOptions="EndAndExpand"/>
+
+</StackLayout>

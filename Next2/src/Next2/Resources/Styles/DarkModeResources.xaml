@@ -59,5 +59,7 @@
     <Color x:Key="IndicationColor_i7">#7B61FF</Color>
     <!--  Indications/ Info Dark  -->
     <Color x:Key="IndicationColor_i8">#454279</Color>
+    
+    <Color x:Key="IndicationColor_i9">#4e3844</Color>
 
 </ResourceDictionary>
