@@ -18,7 +18,8 @@
 
         <controls:CustomNavigationbar
             Title="{xct:Translate Settings}"
-            LeftButtonCommand="{prism:GoBack}"/>
+            LeftButtonCommand="{prism:GoBack}"
+            HeightImage="25"/>
 
         <BoxView 
             VerticalOptions="Start"

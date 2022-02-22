@@ -18,7 +18,8 @@
 
         <controls:CustomNavigationbar
             LeftButtonCommand="{Binding GoBackCommand}"
-            Title="{xct:Translate EmployeeId}">
+            Title="{xct:Translate EmployeeId}"
+            HeightImage="25">
             
         </controls:CustomNavigationbar>
 
