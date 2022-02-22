@@ -43,7 +43,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
-        public ObservableCollection<string> Sets { get; set; } = new ();
+        public ObservableCollection<string> Sets { get; set; } = new () { string.Empty };
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
 
@@ -115,7 +115,6 @@ namespace Next2.ViewModels
             {
                 MapperConfiguration mapperConfig = new (cfg => cfg.CreateMap<TableModel, TableBindableModel>());
                 Mapper mapper = new (mapperConfig);
-
                 var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new (tableBindableModels);

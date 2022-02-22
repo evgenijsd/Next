@@ -129,7 +129,7 @@
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Border">
             <Setter.Value>
-                <pancake:Border Color="#424861" Thickness="2"/>
+                <pancake:Border Color="#424861" Thickness="1"/>
             </Setter.Value>
         </Setter>
         <Setter Property="BackgroundColor" Value="Transparent"/>
@@ -143,7 +143,7 @@
                 <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                 <Setter Property="Border">
                     <Setter.Value>
-                        <pancake:Border Color="{DynamicResource TextAndBackgroundColor_i6}" Thickness="1"/>
+                        <pancake:Border Color="#212430" Thickness="1"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>

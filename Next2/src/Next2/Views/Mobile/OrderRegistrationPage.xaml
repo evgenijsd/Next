@@ -132,7 +132,7 @@
             VerticalOptions="Start"
             Margin="17, 19"
             WidthRequest="96"
-            ItemHeight="46.25"
+            ItemHeight="46.5"
             HeaderText="{Binding SelectedOrderType.KeyValuePair.Value}"
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
