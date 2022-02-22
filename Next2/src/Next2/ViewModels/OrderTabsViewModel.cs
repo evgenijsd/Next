@@ -83,7 +83,7 @@ namespace Next2.ViewModels
         public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
 
         private ICommand _tapSelectCommand;
-        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel>(OnTapSelectCommandAsync);
+        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel?>(OnTapSelectCommandAsync);
 
         #endregion
 
@@ -301,7 +301,7 @@ namespace Next2.ViewModels
             SetVisualCollection();
         }
 
-        private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
+        private IEnumerable<OrderBindableModel> GetSortedOrders(IEnumerable<OrderBindableModel> orders)
         {
             EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : CurrentOrderTabSorting;
 
@@ -326,7 +326,7 @@ namespace Next2.ViewModels
             {
                 CurrentOrderTabSorting = newOrderTabSorting;
 
-                var sortedOrders = GetSortedMembers(Orders);
+                var sortedOrders = GetSortedOrders(Orders);
 
                 Orders = new (sortedOrders);
             }
@@ -334,7 +334,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectCommandAsync(OrderBindableModel order)
+        private Task OnTapSelectCommandAsync(OrderBindableModel? order)
         {
             SelectedOrder = order == SelectedOrder ? null : order;
 
