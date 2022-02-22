@@ -139,8 +139,7 @@
                 </Grid>
 
                 <BoxView
-                    HeightRequest="{OnPlatform Android=1.5,
-                                               iOS=1}"
+                    HeightRequest="{OnPlatform Android=1.5, iOS=1}"
                     Style="{DynamicResource SeparatorStyle_i1}"
                     Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
@@ -148,13 +147,8 @@
                 <RefreshView Command="{Binding RefreshMembersCommand}" IsRefreshing="{Binding IsMembersRefreshing}">
 
                     <controls:CustomScrollBarCollectionView
-                        ItemsSource="{Binding Members}"
-                        ScrollBarCornerRadius="10"
-                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"
-                        SelectionMode="Single"
-                        ThumbWidth="8"
-                        VerticalScrollBarVisibility="Always">
+                        Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                        ItemsSource="{Binding Members}">
 
                         <CollectionView.Effects>
 

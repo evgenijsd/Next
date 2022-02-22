@@ -56,16 +56,11 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
         <controls:CustomScrollBarCollectionView
+            Style="{DynamicResource CustomScrollBarCollectionView_i1}"
             HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ListHeight}"
-            VerticalScrollBarVisibility="Always"
-            ThumbWidth="8"
-            ScrollBarCornerRadius="10"
-            ScrollBarThumbColor="{StaticResource AppColor_i1}"
-            ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
             Background="{DynamicResource TextAndBackgroundColor_i5}"
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
             ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ItemsSource}"
-            SelectionMode="Single"
             SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectedItem}"
             ItemTemplate="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=DataTemplate}"
             x:Name="collectionList">

@@ -20,14 +20,14 @@ namespace Next2.iOS.Renderers
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            SetLineSpacing();
+            ConfigureLineSpacing();
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        protected void SetLineSpacing()
+        protected void ConfigureLineSpacing()
         {
             var lineSpacingLabel = Element as LineSpacingLabel;
 

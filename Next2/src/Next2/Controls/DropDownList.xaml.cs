@@ -1,6 +1,4 @@
-﻿using Next2.Helpers;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -101,28 +99,28 @@ namespace Next2.Controls
             set => SetValue(DataTemplateProperty, value);
         }
 
-        public static readonly BindableProperty ListRowHeightProperty = BindableProperty.Create(
-            propertyName: nameof(ListRowHeight),
+        public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(
+            propertyName: nameof(ItemHeight),
             returnType: typeof(double),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public double ListRowHeight
+        public double ItemHeight
         {
-            get => (double)GetValue(ListRowHeightProperty);
-            set => SetValue(ListRowHeightProperty, value);
+            get => (double)GetValue(ItemHeightProperty);
+            set => SetValue(ItemHeightProperty, value);
         }
 
-        public static readonly BindableProperty VisibleRowsNumberProperty = BindableProperty.Create(
-            propertyName: nameof(VisibleRowsNumber),
+        public static readonly BindableProperty MaxNumberOfVisibleItemsProperty = BindableProperty.Create(
+            propertyName: nameof(MaxNumberOfVisibleItems),
             returnType: typeof(int),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int VisibleRowsNumber
+        public int MaxNumberOfVisibleItems
         {
-            get => (int)GetValue(VisibleRowsNumberProperty);
-            set => SetValue(VisibleRowsNumberProperty, value);
+            get => (int)GetValue(MaxNumberOfVisibleItemsProperty);
+            set => SetValue(MaxNumberOfVisibleItemsProperty, value);
         }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
@@ -161,10 +159,10 @@ namespace Next2.Controls
             set => SetValue(IsExpandedProperty, value);
         }
 
-        public double ListHeight { get; set; }
+        public double ListHeight { get; private set; }
 
         private ICommand _expandListCommand;
-        public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommandAsync);
+        public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommand);
 
         #endregion
 
@@ -172,11 +170,13 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(ItemsSource) && ItemsSource?.Count > 0)
+            if (ItemsSource?.Count > 0 && propertyName
+                is nameof(ItemsSource)
+                or nameof(MaxNumberOfVisibleItems))
             {
                 SelectedItem = ItemsSource[0];
 
-                collectionList.VerticalScrollBarVisibility = ItemsSource.Count == VisibleRowsNumber
+                collectionList.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
                     ? ScrollBarVisibility.Never
                     : ScrollBarVisibility.Always;
             }
@@ -184,13 +184,25 @@ namespace Next2.Controls
             {
                 IsExpanded = false;
             }
-
-            ListHeight = VisibleRowsNumber * ListRowHeight;
+            else if (propertyName
+                is nameof(MaxNumberOfVisibleItems)
+                or nameof(ItemHeight)
+                or nameof(ItemsSource))
+            {
+                if (ItemsSource?.Count < MaxNumberOfVisibleItems && ItemsSource.Count > 0)
+                {
+                    ListHeight = ItemsSource.Count * ItemHeight;
+                }
+                else
+                {
+                    ListHeight = MaxNumberOfVisibleItems * ItemHeight;
+                }
+            }
         }
 
         #region -- Private helpers --
 
-        private void OnExpandListCommandAsync(object obj)
+        private void OnExpandListCommand(object obj)
         {
             IsExpanded = !IsExpanded;
 

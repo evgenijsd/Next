@@ -5,7 +5,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     VerticalOptions="Center"
-    x:Name="customStepper"
     x:Class="Next2.Controls.CustomStepper">
     
     <Grid
@@ -21,9 +20,10 @@
             Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementIconSource}">
 
             <ffimageloading:CachedImage.Triggers>            
-                <DataTrigger TargetType="ffimageloading:CachedImage" 
-                             Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanDecrement}"
-                             Value="false">
+                <DataTrigger 
+                    TargetType="ffimageloading:CachedImage" 
+                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanDecrement}"
+                    Value="false">
                     
                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                     <Setter Property="IsEnabled" Value="False"/>
@@ -64,7 +64,6 @@
                     <Setter Property="IsEnabled" Value="False" />
 
                 </DataTrigger>
-                
             </ffimageloading:CachedImage.Triggers>
                 
             <ffimageloading:CachedImage.GestureRecognizers>

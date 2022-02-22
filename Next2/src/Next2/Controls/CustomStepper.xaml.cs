@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -173,10 +171,10 @@ namespace Next2.Controls
         public string DisplayingValue { get; private set; }
 
         private ICommand _decrementCommand;
-        public ICommand DecrementCommand => _decrementCommand ??= new AsyncCommand(OnDecrementCommandAsync);
+        public ICommand DecrementCommand => _decrementCommand ??= new Command(OnDecrementCommand);
 
         private ICommand _incrementCommand;
-        public ICommand IncrementCommand => _incrementCommand ??= new AsyncCommand(OnIncrementCommandAsync);
+        public ICommand IncrementCommand => _incrementCommand ??= new Command(OnIncrementCommand);
 
         #endregion
 
@@ -186,18 +184,19 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            switch (propertyName)
+            if (propertyName
+                is nameof(Value)
+                or nameof(IncrementValue)
+                or nameof(MinValue)
+                or nameof(MaxValue))
             {
-                case nameof(MinValue):
-                case nameof(MaxValue):
-                case nameof(IncrementValue):
-                case nameof(Value):
-                    CanDecrement = (Value - IncrementValue) >= MinValue;
-                    CanIncrement = (Value + IncrementValue) <= MaxValue;
-                    break;
+                CanDecrement = (Value - IncrementValue) >= MinValue;
+                CanIncrement = (Value + IncrementValue) <= MaxValue;
             }
 
-            if (propertyName == nameof(Value))
+            if (propertyName
+                is nameof(Value)
+                or nameof(ValueFormat))
             {
                 try
                 {
@@ -215,18 +214,14 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private Task OnDecrementCommandAsync()
+        private void OnDecrementCommand(object obj)
         {
             Value -= IncrementValue;
-
-            return Task.CompletedTask;
         }
 
-        private Task OnIncrementCommandAsync()
+        private void OnIncrementCommand(object obj)
         {
             Value += IncrementValue;
-
-            return Task.CompletedTask;
         }
 
         #endregion

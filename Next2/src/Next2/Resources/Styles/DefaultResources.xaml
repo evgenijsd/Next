@@ -59,16 +59,15 @@
 
     <Style x:Key="SeparatorStyle_i2" TargetType="BoxView">
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
-        <Setter Property="HeightRequest" Value="0.25"/>
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
     </Style>
             
     <Style x:Key="SeparatorStyle_i3" TargetType="BoxView">
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
-        <Setter Property="HeightRequest" Value="0.25"/>
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
     </Style>
     
     <!-- OTHER -->
-    
     <Style x:Key="TableCellStyle_i1" TargetType="Label">
         <Setter Property="FontFamily" Value="Barlow-Medium" />
         <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
@@ -96,7 +95,7 @@
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="Padding" Value="8"/>
     </Style>
-            
+
     <Style x:Key="IconBorderButtonStyle_i1" TargetType="buttons:IconBorderButton">
         <Setter Property="IconWidth" Value="26"/>
         <Setter Property="IconHeight" Value="26"/>
@@ -116,6 +115,15 @@
         <Setter Property="Spacing" Value="8"/>
     </Style>
     
+    <Style x:Key="CustomScrollBarCollectionView_i1" TargetType="controls:CustomScrollBarCollectionView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Always"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="ThumbWidth" Value="6"/>
+        <Setter Property="ScrollBarCornerRadius" Value="10"/>
+        <Setter Property="ScrollBarThumbColor" Value="{DynamicResource AppColor_i1}"/>
+        <Setter Property="ScrollBarTrackColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+    </Style>
+    
     <Style x:Key="DropDownListStyle_i1" TargetType="controls:DropDownList">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="CornerRadius" Value="4"/>
@@ -129,13 +137,13 @@
         <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
-        <Setter Property="VisibleRowsNumber" Value="3"/>
+        <Setter Property="MaxNumberOfVisibleItems" Value="3"/>
         <Style.Triggers>
             <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
                 <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                 <Setter Property="Border">
                     <Setter.Value>
-                        <pancake:Border Color="#212430" Thickness="1"/>
+                        <pancake:Border Color="{DynamicResource TextAndBackgroundColor_i6}" Thickness="1"/>
                     </Setter.Value>
                 </Setter>
             </Trigger>

@@ -268,14 +268,9 @@
                         Command="{Binding RefreshOrdersCommand}">
 
                         <controls:CustomScrollBarCollectionView
+                            Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Orders}"
-                            SelectionMode="Single"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            VerticalScrollBarVisibility="Always"
-                            ThumbWidth="8"
-                            ScrollBarCornerRadius="10"
-                            ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                            ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect />

@@ -1,13 +1,11 @@
 ﻿using Next2.Enums;
-using Next2.Interfaces;
 using Prism.Mvvm;
+using System.Collections.Generic;
 
 namespace Next2.Models
 {
     public class OrderTypeBindableModel : BindableBase
     {
-        public EOrderType OrderType { get; set; }
-
-        public string OrderTypeValue { get; set; }
+        public KeyValuePair<EOrderType, string> KeyValuePair { get; set; }
     }
 }

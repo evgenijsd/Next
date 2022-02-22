@@ -23,14 +23,14 @@ namespace Next2.Droid.Renderers
         {
             base.OnElementChanged(e);
 
-            SetLineSpacing();
+            ConfigureLineSpacing();
         }
 
         #endregion
 
         #region -- Private hepers
 
-        protected void SetLineSpacing()
+        protected void ConfigureLineSpacing()
         {
             if (LineSpacingLabel != null)
             {

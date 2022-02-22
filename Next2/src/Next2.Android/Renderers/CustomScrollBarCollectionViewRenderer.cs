@@ -27,6 +27,16 @@ namespace Next2.Droid.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs changedProperty)
         {
             base.OnElementPropertyChanged(sender, changedProperty);
+
+            ConfigureScrollBar();
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        protected void ConfigureScrollBar()
+        {
             this.ScrollBarSize = this.CustomScrollBarCollectionViewElement.ThumbWidth;
 
             try
@@ -42,10 +52,6 @@ namespace Next2.Droid.Renderers
             {
             }
         }
-
-        #endregion
-
-        #region -- Private helpers --
 
         protected GradientDrawable GetGradientDrawable(Color color, float cornerRadius)
         {

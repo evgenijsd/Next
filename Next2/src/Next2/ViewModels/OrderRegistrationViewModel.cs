@@ -1,9 +1,10 @@
-﻿using Next2.Enums;
-using Next2.Extensions;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Order;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -25,16 +26,15 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
 
-            var r = Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>().ToList();
+            Task.Run(RefreshOrderIdAsync);
+            Task.Run(RefreshTablesAsync);
 
-            OrderTypes = new (r.Select(x => new OrderTypeBindableModel
+            List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
+
+            OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
             {
-                OrderType = x,
-                OrderTypeValue = LocalizationResourceManager.Current[x.ToString()],
+                KeyValuePair = new (x, LocalizationResourceManager.Current[x.ToString()]),
             }));
-
-            Task.Run(RefreshOrderId);
-            Task.Run(RefreshTables);
         }
 
         #region -- Public properties --
@@ -43,7 +43,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
-        public ObservableCollection<string> Sets { get; set; } = new ("0123456789abcdef".Select(x => x.ToString()));
+        public ObservableCollection<string> Sets { get; set; } = new ();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
 
@@ -76,24 +76,12 @@ namespace Next2.ViewModels
         private ICommand _tabCommand;
         public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync);
 
-        //for testing
-        private ICommand _selectTableCommand;
-        public ICommand SelectTableCommand => _selectTableCommand ??= new AsyncCommand<TableBindableModel>(OnSelectTableCommandAsync);
-
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync);
 
         #endregion
 
         #region -- Overrides --
-
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-            await Task.WhenAll(
-            RefreshTables(),
-            RefreshOrderId());
-        }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -109,7 +97,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task RefreshOrderId()
+        private async Task RefreshOrderIdAsync()
         {
             var orderResult = await _orderService.GetNewOrderIdAsync();
 
@@ -119,28 +107,21 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task RefreshTables()
+        private async Task RefreshTablesAsync()
         {
             var availableTablesResult = await _orderService.GetAvailableTables();
 
             if (availableTablesResult.IsSuccess)
             {
-                var availableTables = availableTablesResult.Result;
+                MapperConfiguration mapperConfig = new (cfg => cfg.CreateMap<TableModel, TableBindableModel>());
+                Mapper mapper = new (mapperConfig);
 
-                var tableBindableModels = new ObservableCollection<TableBindableModel>(availableTables.Select(x => x.ToBindableModel()));
+                var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new (tableBindableModels);
 
                 SelectedTable = Tables[0];
             }
-        }
-
-        //for testing
-        private Task OnSelectTableCommandAsync(TableBindableModel? table)
-        {
-            NumberOfSeats = 1;
-
-            return Task.CompletedTask;
         }
 
         private Task OnOpenHoldSelectionCommandAsync()
@@ -172,14 +153,6 @@ namespace Next2.ViewModels
 
         private async Task OnPayCommandAsync()
         {
-            if (Sets.Count > 0)
-            {
-                Sets.Clear();
-            }
-            else
-            {
-                Sets = new ("0123456789abcdef".Select(x => x.ToString()));
-            }
         }
 
         #endregion

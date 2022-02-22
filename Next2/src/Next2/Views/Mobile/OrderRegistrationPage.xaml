@@ -82,14 +82,14 @@
                 <Setter Property="Padding" Value="10" />
                 <Setter Property="Border">
                     <Setter.Value>
-                        <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="2" />
+                        <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
                     </Setter.Value>
                 </Setter>
             </Style>
 
             <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
                 <Setter Property="CornerRadius" Value="7" />
-                <Setter Property="ListRowHeight" Value="46.25" />
+                <Setter Property="ItemHeight" Value="46.25" />
             </Style>
         </Grid.Resources>
 
@@ -121,10 +121,6 @@
                     </FormattedString>
                 </Label.FormattedText>
 
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding PayCommand}" />
-                </Label.GestureRecognizers>
-
             </Label>
 
         </StackLayout>
@@ -136,8 +132,8 @@
             VerticalOptions="Start"
             Margin="17, 19"
             WidthRequest="96"
-            ListRowHeight="46.25"
-            HeaderText="{Binding SelectedOrderType.OrderTypeValue}"
+            ItemHeight="46.25"
+            HeaderText="{Binding SelectedOrderType.KeyValuePair.Value}"
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
 
@@ -154,7 +150,7 @@
                                 x:DataType="models:OrderTypeBindableModel"
                                 HorizontalOptions="FillAndExpand"
                                 FontSize="{DynamicResource TSize_i7}"
-                                Text="{Binding OrderTypeValue}" />
+                                Text="{Binding KeyValuePair.Value}" />
 
                         </StackLayout>
 
@@ -187,7 +183,9 @@
 
             </Label>
 
-            <controls:CustomStepper MaxValue="{Binding SelectedTable.NumberOfAvailableSeats}" Value="{Binding NumberOfSeats}">
+            <controls:CustomStepper
+                MaxValue="{Binding SelectedTable.NumberOfAvailableSeats}"
+                Value="{Binding NumberOfSeats}">
 
                 <controls:CustomStepper.Triggers>
                     <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding Sets.Count}" Value="0">
@@ -209,7 +207,7 @@
             VerticalOptions="Start"
             Margin="18, 9"
             WidthRequest="145"
-            ListRowHeight="46.5"
+            ItemHeight="46.5"
             HeaderText="{Binding SelectedTable.Id, StringFormat='Table {0}'}"
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
