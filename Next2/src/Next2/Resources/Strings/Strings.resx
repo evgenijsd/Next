@@ -294,4 +294,13 @@
   <data name="Required" xml:space="preserve">
     <value>Required</value>
   </data>
+  <data name="s" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TypeEmail" xml:space="preserve">
+    <value>Type Email</value>
+  </data>
+  <data name="TypeUserName" xml:space="preserve">
+    <value>Type User Name</value>
+  </data>
 </root>

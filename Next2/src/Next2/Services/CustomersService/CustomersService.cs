@@ -20,6 +20,30 @@ namespace Next2.Services.CustomersService
 
         #region -- ICustomersSerice implementation --
 
+        public async Task<AOResult> AddNewCustomer(CustomerModel customer)
+        {
+            var result = new AOResult<int>();
+            try
+            {
+                var response = await _mockService.AddAsync(customer);
+
+                if (response != -1)
+                {
+                    result.SetSuccess(response);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetAllCustomersAsync)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<CustomerModel>>();

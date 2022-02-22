@@ -1,6 +1,7 @@
 ﻿using Next2.Controls;
 using Next2.ENums;
 using Next2.Models;
+using Next2.Services.CustomersService;
 using Next2.ViewModels.Dialogs;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -15,10 +16,10 @@ namespace Next2.Views.Tablet.Dialogs
     {
         private const int MIN_YEAR = 1900;
         private const int MAX_YEAR = 2100;
-        public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose)
+        public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
         {
             InitializeComponent();
-            BindingContext = new CustomerInfoViewModel(param, requestClose);
+            BindingContext = new CustomerAddViewModel(param, requestClose, customersService);
 
             State = ETabState.Info;
             State = ETabState.Birthday;
@@ -48,6 +49,10 @@ namespace Next2.Views.Tablet.Dialogs
             {
                 Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
+
+            mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+            nameWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+            phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
         }
 
         #region -- Public Properties --

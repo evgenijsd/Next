@@ -475,6 +475,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string s {
+            get {
+                return ResourceManager.GetString("s", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search by Name or Phone.
         /// </summary>
         public static string SearchByNameOrPhone {
@@ -556,6 +565,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type Email.
+        /// </summary>
+        public static string TypeEmail {
+            get {
+                return ResourceManager.GetString("TypeEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type Employee ID.
         /// </summary>
         public static string TypeEmployeeId {
@@ -570,6 +588,15 @@ namespace Next2.Resources.Strings {
         public static string TypeOrder {
             get {
                 return ResourceManager.GetString("TypeOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type User Name.
+        /// </summary>
+        public static string TypeUserName {
+            get {
+                return ResourceManager.GetString("TypeUserName", resourceCulture);
             }
         }
         

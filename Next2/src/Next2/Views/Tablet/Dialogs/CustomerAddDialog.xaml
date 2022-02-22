@@ -11,7 +11,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:rg="http://rotorgames.com"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:DataType="dialogs:CustomerInfoViewModel">
+    x:DataType="dialogs:CustomerAddViewModel">
 
     <ContentView
         HeightRequest="480"
@@ -35,12 +35,12 @@
                 <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
                     <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
                     <Setter Property="FontFamily" Value="Barlow-Medium" />
                 </Style>
 
                 <Style x:Key="LabelStyle" TargetType="Label">
-                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                     <Setter Property="FontFamily" Value="Barlow-Medium" />
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                     <Setter Property="Margin" Value="0,0,0,8" />
@@ -54,7 +54,7 @@
             <Frame
                 Padding="2.6"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                BorderColor="#424861"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 CornerRadius="{OnPlatform Android=6,
                                           iOS=9}">
                 <Frame BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" CornerRadius="{OnPlatform Android=6, iOS=9}">
@@ -70,7 +70,7 @@
                             Grid.ColumnSpan="2"
                             Margin="24,0,0,3"
                             FontFamily="Barlow-SemiBold"
-                            FontSize="18"
+                            FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Start"
                             Text="{xct:Translate NewCustomer}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -88,20 +88,20 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Padding="16"
-                            BackgroundColor="#34374C"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             RowDefinitions="0.134*,0.24*,*">
                             <Label
                                 Margin="0,8,0,0"
                                 FontFamily="Barlow-Medium"
                                 FontSize="14"
-                                Text="Birthday"
-                                TextColor="White" />
+                                Text="{xct:Translate Birthday}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             <!--  year  -->
                             <Frame
                                 x:Name="yearDropdownFrame"
                                 Grid.Row="0"
-                                BackgroundColor="#34374C"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 CornerRadius="4"
                                 HorizontalOptions="EndAndExpand"
@@ -149,7 +149,7 @@
                                 <Label
                                     x:Name="monthLabel"
                                     FontFamily="Barlow-Regular"
-                                    FontSize="18"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     HorizontalOptions="FillAndExpand"
                                     Text="{Binding Month.MonthName, Source={x:Reference addInfoDialog}}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -183,7 +183,7 @@
                                 x:Name="calendarGrid"
                                 Grid.Row="2"
                                 Margin="6,0,6,1"
-                                BackgroundColor="#34374C"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 Month="{Binding SelectedMonth, Source={x:Reference addInfoDialog}}"
                                 PropertyChanged="OnCalendarGridPropertyChanged"
                                 Year="{Binding SelectedYear, Source={x:Reference addInfoDialog}}">
@@ -206,13 +206,13 @@
 
                                     <DataTemplate x:DataType="models:DayModel">
 
-                                        <StackLayout Padding="0" BackgroundColor="#34374C">
+                                        <StackLayout Padding="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
                                             <Frame
                                                 x:Name="itemFrame"
                                                 Margin="0"
                                                 Padding="0"
-                                                BackgroundColor="#34374C"
-                                                BorderColor="#34374C"
+                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                                BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
                                                 CornerRadius="16"
                                                 HasShadow="False"
                                                 HeightRequest="30"
@@ -221,7 +221,7 @@
                                                 WidthRequest="30">
 
                                                 <Label
-                                                    FontSize="12"
+                                                    FontSize="{DynamicResource TSize_i9}"
                                                     HorizontalTextAlignment="Center"
                                                     Text="{Binding Day}"
                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -278,7 +278,7 @@
                                 VerticalOptions="StartAndExpand"
                                 WidthRequest="90">
                                 <StackLayout>
-                                    <BoxView BackgroundColor="Black" HeightRequest="{OnPlatform Android=1, iOS=0.5}" />
+                                    <BoxView BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" HeightRequest="{OnPlatform Android=1, iOS=0.5}" />
                                     <CollectionView
                                         x:Name="yearsCollectionView"
                                         ItemsSource="{Binding Years, Source={x:Reference addInfoDialog}}"
@@ -339,15 +339,15 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             Padding="18,18,18,0"
-                            BackgroundColor="#34374C"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             Spacing="1">
                             <Label
                                 x:Name="headEntryLabel"
                                 Margin="0,0,0,21"
                                 FontFamily="Barlow-Medium"
-                                FontSize="14"
-                                Text="Customer Info"
-                                TextColor="#FEFEFD" />
+                                FontSize="{DynamicResource TSize_i8}"
+                                Text="{xct:Translate CustomerInfo}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
                             <StackLayout x:Name="nameEntryBlock">
 
                                 <StackLayout Orientation="Horizontal">
@@ -358,11 +358,11 @@
 
                                     <Label
                                         FontFamily="Barlow-Medium"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource TSize_i9}"
                                         HorizontalOptions="End"
                                         Opacity="0.32"
                                         Text="{xct:Translate Required}"
-                                        TextColor="White" />
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
                                 </StackLayout>
 
                                 <Frame Style="{StaticResource EntryFrameStyle}">
@@ -371,13 +371,9 @@
                                         x:Name="nameEntry"
                                         Margin="12,0,0,0"
                                         MaxLength="100"
-                                        Placeholder="Type User Name"
-                                        Style="{StaticResource EntryPlaceholderStyle}">
-
-                                        <controls:CustomEntry.Behaviors>
-                                            <behaviors:EmailValidatorBehavior />
-                                        </controls:CustomEntry.Behaviors>
-                                    </controls:CustomEntry>
+                                        Placeholder="{xct:Translate TypeUserName}"
+                                        Style="{StaticResource EntryPlaceholderStyle}"
+                                        Text="{Binding Name}" />
                                 </Frame>
 
 
@@ -388,7 +384,7 @@
                                     FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{xct:Translate IncorrectName}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                     VerticalOptions="Start" />
 
                             </StackLayout>
@@ -403,11 +399,11 @@
 
                                     <Label
                                         FontFamily="Barlow-Medium"
-                                        FontSize="12"
+                                        FontSize="{DynamicResource TSize_i9}"
                                         HorizontalOptions="End"
                                         Opacity="0.32"
                                         Text="{xct:Translate Required}"
-                                        TextColor="White" />
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                 </StackLayout>
 
@@ -420,6 +416,7 @@
                                         MaxLength="10"
                                         Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
                                         Style="{StaticResource EntryPlaceholderStyle}"
+                                        Text="{Binding Phone}"
                                         Unfocused="OnPhoneEntryUnfocused" />
 
                                 </Frame>
@@ -430,7 +427,7 @@
                                     FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{xct:Translate IncorrectNumber}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                     VerticalOptions="Start" />
                             </StackLayout>
 
@@ -443,11 +440,11 @@
 
                                 <Label
                                     FontFamily="Barlow-Medium"
-                                    FontSize="12"
+                                    FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="End"
                                     Opacity="0.32"
                                     Text="{xct:Translate Required}"
-                                    TextColor="White" />
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                             </StackLayout>
 
@@ -457,8 +454,9 @@
                                     x:Name="mailEntry"
                                     Margin="12,0,0,0"
                                     Focused="OnMailEntryFocused"
-                                    Placeholder="Type Email"
+                                    Placeholder="{xct:Translate TypeEmail}"
                                     Style="{StaticResource EntryPlaceholderStyle}"
+                                    Text="{Binding Email}"
                                     Unfocused="OnMailEntryUnfocused">
 
                                     <controls:CustomEntry.Behaviors>
@@ -475,7 +473,7 @@
                                 FontSize="{DynamicResource TSize_i9}"
                                 HorizontalOptions="StartAndExpand"
                                 Text="{xct:Translate IncorrectEmail}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                 VerticalOptions="StartAndExpand" />
 
                         </StackLayout>
@@ -484,7 +482,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             Margin="0,18,0,18"
-                            BackgroundColor="#424861"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                             HorizontalOptions="EndAndExpand"
                             WidthRequest="{OnPlatform Android=2,
                                                       iOS=1}" />
@@ -511,7 +509,7 @@
 
                             <Label
                                 FontFamily="Barlow-SemiBold"
-                                FontSize="14"
+                                FontSize="{DynamicResource TSize_i8}"
                                 HorizontalTextAlignment="Center"
                                 Text="{xct:Translate Cancel}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -532,19 +530,19 @@
                             BorderColor="{DynamicResource IndicationColor_i1}"
                             CornerRadius="5"
                             HeightRequest="52"
-                            Opacity="0.32"
+                            Opacity="{Binding DoneButtonOpacity}"
                             WidthRequest="220">
 
                             <Label
                                 FontFamily="Barlow-SemiBold"
-                                FontSize="14"
+                                FontSize="{DynamicResource TSize_i8}"
                                 HorizontalTextAlignment="Center"
                                 Text="{xct:Translate Done}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i6}"
                                 VerticalTextAlignment="Center" />
 
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding AcceptCommand}" />
+                                <TapGestureRecognizer Command="{Binding DoneCommand}" />
                             </Frame.GestureRecognizers>
 
                         </Frame>

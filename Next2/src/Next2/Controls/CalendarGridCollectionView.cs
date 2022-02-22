@@ -50,21 +50,17 @@ namespace Next2.Controls
             set => SetValue(MonthProperty, value);
         }
 
-        public static readonly BindableProperty SelectedDayProperty = BindableProperty.Create(
-            propertyName: nameof(SelectedDay),
-            returnType: typeof(int),
+        public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedDate),
+            returnType: typeof(DateTime?),
             declaringType: typeof(CalendarGridCollectionView),
-            defaultValue: 0,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int SelectedDay
+        public DateTime? SelectedDate
         {
-            get => (int)GetValue(SelectedDayProperty);
-            set => SetValue(SelectedDayProperty, value);
+            get => (DateTime?)GetValue(SelectedDateProperty);
+            set => SetValue(SelectedDateProperty, value);
         }
-
-        private ICommand _selectCommand;
-        public ICommand SelectCommand => _selectCommand ??= new AsyncCommand<object>(OnSelectCommandAsync);
 
         #endregion
 
@@ -121,7 +117,12 @@ namespace Next2.Controls
                         else
                         {
                             SelectedItem = null;
+                            SelectedDate = null;
                         }
+                    }
+                    else if (int.TryParse(selectedDay.Day, out int daySelected))
+                    {
+                        SelectedDate = new DateTime(Year, Month, daySelected);
                     }
                 }
             }
@@ -130,11 +131,6 @@ namespace Next2.Controls
         #endregion
 
         #region -- Private Helpers --
-
-        private Task OnSelectCommandAsync(object parameter)
-        {
-            return Task.CompletedTask;
-        }
 
         private void CreateArrayOfDays()
         {

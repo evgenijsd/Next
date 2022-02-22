@@ -2,12 +2,12 @@
 <rg:PopupPage
     x:Class="Next2.Views.Tablet.Dialogs.AddSetToOrderDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:rg="http://rotorgames.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Tablet.Dialogs"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:rg="http://rotorgames.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="dialogs:AddSetToOrderDialogViewModel">
 
     <Frame
@@ -20,7 +20,7 @@
         WidthRequest="360">
 
         <Frame.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding CloseCommand}"/>
+            <TapGestureRecognizer Command="{Binding CloseCommand}" />
         </Frame.GestureRecognizers>
 
         <Frame
@@ -30,52 +30,44 @@
 
             <StackLayout>
 
-                <ffimageloading:CachedImage Source="{Binding Set.ImagePath}"/>
+                <ffimageloading:CachedImage Source="{Binding Set.ImagePath}" />
 
                 <Label
+                    Margin="0,20"
                     Text="Заглушка"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Margin="0, 20"/>
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                <Label
-                    Text="{Binding Set.Title}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                <Label Text="{Binding Set.Title}" TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                <Label
-                    Text="{Binding Set.Price}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                <Label Text="{Binding Set.Price}" TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                <BoxView
-                    HeightRequest="1"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+                <BoxView BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" HeightRequest="1" />
 
-                <Grid
-                    Margin="0, 10, 0, 0"
-                    ColumnSpacing="10">
+                <Grid Margin="0,10,0,0" ColumnSpacing="10">
 
                     <buttons:BorderButton
                         Grid.Column="0"
-                        HasShadow="False"
-                        Text="{xct:Translate Cancel}"
-                        FontSize="{DynamicResource TSize_i8}"
+                        Padding="25,5"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                         BorderColor="{DynamicResource IndicationColor_i3}"
-                        HeightRequest="40"
-                        Padding="25, 5"
+                        Command="{Binding CloseCommand}"
                         CornerRadius="4"
-                        Command="{Binding CloseCommand}"/>
+                        FontSize="{DynamicResource TSize_i8}"
+                        HasShadow="False"
+                        HeightRequest="40"
+                        Text="{xct:Translate Cancel}" />
 
                     <buttons:BorderButton
                         Grid.Column="1"
-                        HasShadow="False"
-                        Text="{xct:Translate Add}"
-                        FontSize="{DynamicResource TSize_i8}"
+                        Padding="25,5"
                         BackgroundColor="{DynamicResource IndicationColor_i2}"
                         BorderColor="{DynamicResource IndicationColor_i2}"
-                        HeightRequest="40"
-                        Padding="25, 5"
+                        Command="{Binding CloseCommand}"
                         CornerRadius="4"
-                        Command="{Binding CloseCommand}"/>
+                        FontSize="{DynamicResource TSize_i8}"
+                        HasShadow="False"
+                        HeightRequest="40"
+                        Text="{xct:Translate Add}" />
 
                 </Grid>
 

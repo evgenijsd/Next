@@ -12,7 +12,7 @@
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:Name="addInfoDialog"
-    x:DataType="dialogs:CustomerInfoViewModel"
+    x:DataType="dialogs:CustomerAddViewModel"
     BackgroundColor="Transparent"
     HasKeyboardOffset="False">
 
@@ -39,6 +39,7 @@
                     <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                    <Setter Property="FontFamily" Value="Barlow-Medium" />
                 </Style>
 
                 <Style x:Key="LabelStyle" TargetType="Label">
@@ -65,6 +66,7 @@
                     <Label
                         Grid.Row="0"
                         Margin="24,0,0,3"
+                        FontFamily="Barlow-Bold"
                         FontSize="{DynamicResource TSize_i5}"
                         HorizontalTextAlignment="Start"
                         Text="{xct:Translate NewCustomer}"
@@ -88,6 +90,7 @@
                         CornerRadius="0">
 
                         <Label
+                            FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
                             Text="{xct:Translate CustomerInfo}"
@@ -116,6 +119,7 @@
                         CornerRadius="0">
 
                         <Label
+                            FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
                             Text="{xct:Translate Birthday,
@@ -163,6 +167,7 @@
 
                                         <Label
                                             Margin="10,6,0,6"
+                                            FontFamily="Barlow-Medium"
                                             Text="{Binding SelectedYear, Source={x:Reference addInfoDialog}}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             VerticalTextAlignment="Center" />
@@ -199,6 +204,7 @@
 
                                     <Label
                                         x:Name="monthLabel"
+                                        FontFamily="Barlow-Bold"
                                         FontSize="{DynamicResource TSize_i4}"
                                         HorizontalOptions="FillAndExpand"
                                         Text="{Binding Month.MonthName, Source={x:Reference addInfoDialog}}"
@@ -239,6 +245,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     Month="{Binding SelectedMonth, Source={x:Reference addInfoDialog}}"
                                     PropertyChanged="OnCalendarGridPropertyChanged"
+                                    SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
                                     Year="{Binding SelectedYear, Source={x:Reference addInfoDialog}}">
 
                                     <CollectionView.ItemsLayout>
@@ -274,6 +281,7 @@
                                                     WidthRequest="34">
 
                                                     <Label
+                                                        FontFamily="Barlow-SemiBold"
                                                         FontSize="{DynamicResource TSize_i6}"
                                                         HorizontalTextAlignment="Center"
                                                         Text="{Binding Day}"
@@ -360,7 +368,6 @@
                                                         VerticalTextAlignment="Center" />
 
                                                     <VisualStateManager.VisualStateGroups>
-
                                                         <VisualStateGroup Name="CommonStates">
 
                                                             <VisualState Name="Selected">
@@ -371,7 +378,6 @@
 
                                                             <VisualState Name="Normal" />
                                                         </VisualStateGroup>
-
                                                     </VisualStateManager.VisualStateGroups>
                                                 </Frame>
 
@@ -416,13 +422,9 @@
                                             x:Name="nameEntry"
                                             Margin="12,0,0,0"
                                             MaxLength="100"
-                                            Placeholder="Type User Name"
-                                            Style="{StaticResource EntryPlaceholderStyle}">
-
-                                            <controls:CustomEntry.Behaviors>
-                                                <behaviors:EmailValidatorBehavior />
-                                            </controls:CustomEntry.Behaviors>
-                                        </controls:CustomEntry>
+                                            Placeholder="{xct:Translate TypeUserName}"
+                                            Style="{StaticResource EntryPlaceholderStyle}"
+                                            Text="{Binding Name}" />
                                     </Frame>
 
                                 </StackLayout>
@@ -433,7 +435,7 @@
                                     FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{xct:Translate IncorrectName}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                     VerticalOptions="Start" />
 
                                 <StackLayout Orientation="Horizontal">
@@ -460,6 +462,7 @@
                                         MaxLength="10"
                                         Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
                                         Style="{StaticResource EntryPlaceholderStyle}"
+                                        Text="{Binding Phone}"
                                         Unfocused="OnPhoneEntryUnfocused" />
 
                                 </Frame>
@@ -470,7 +473,7 @@
                                     FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{xct:Translate IncorrectNumber}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                     VerticalOptions="Start" />
 
                                 <StackLayout Orientation="Horizontal">
@@ -494,8 +497,9 @@
                                         x:Name="mailEntry"
                                         Margin="12,0,0,0"
                                         Focused="OnMailEntryFocused"
-                                        Placeholder="Type Email"
+                                        Placeholder="{xct:Translate TypeEmail}"
                                         Style="{StaticResource EntryPlaceholderStyle}"
+                                        Text="{Binding Email}"
                                         Unfocused="OnMailEntryUnfocused">
 
                                         <controls:CustomEntry.Behaviors>
@@ -512,7 +516,7 @@
                                     FontSize="{DynamicResource TSize_i9}"
                                     HorizontalOptions="StartAndExpand"
                                     Text="{xct:Translate IncorrectEmail}"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                     VerticalOptions="StartAndExpand" />
 
                             </StackLayout>
@@ -541,6 +545,7 @@
                         WidthRequest="220">
 
                         <Label
+                            FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
                             Text="{xct:Translate Cancel}"
@@ -562,10 +567,11 @@
                         BorderColor="{DynamicResource IndicationColor_i1}"
                         CornerRadius="5"
                         HeightRequest="52"
-                        Opacity="0.32"
+                        Opacity="{Binding DoneButtonOpacity}"
                         WidthRequest="220">
 
                         <Label
+                            FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
                             Text="{xct:Translate Done}"
@@ -573,8 +579,9 @@
                             VerticalTextAlignment="Center" />
 
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AcceptCommand}" />
+                            <TapGestureRecognizer Command="{Binding DoneCommand}" />
                         </Frame.GestureRecognizers>
+
 
                     </Frame>
 

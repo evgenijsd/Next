@@ -10,5 +10,6 @@ namespace Next2.Services.CustomersService
     public interface ICustomersService
     {
         Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null);
+        Task<AOResult> AddNewCustomer(CustomerModel customer);
     }
 }

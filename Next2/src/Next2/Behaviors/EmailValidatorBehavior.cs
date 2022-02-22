@@ -28,11 +28,14 @@ namespace Next2.Behaviors
         private void HandleTextChanged(object sender, TextChangedEventArgs e)
         {
             bool isValid = false;
-            isValid = Regex.IsMatch(e.NewTextValue, Constants.EMAIL_REGEX, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
-            var entry = sender as CustomEntry;
-            if (entry is not null)
+            if (e.NewTextValue != null)
             {
-                entry.IsValid = isValid;
+                isValid = Regex.IsMatch(e.NewTextValue, Constants.EMAIL_REGEX, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                var entry = sender as CustomEntry;
+                if (entry is not null)
+                {
+                    entry.IsValid = isValid;
+                }
             }
         }
 
