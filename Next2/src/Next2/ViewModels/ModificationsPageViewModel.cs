@@ -1,6 +1,10 @@
 ﻿using Next2.Models;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
 {
@@ -45,18 +49,21 @@ namespace Next2.ViewModels
                     Id = 1,
                     Title = "Cheese Burger",
                     Items = Items,
+                    TapCommand = TapCommand,
                 },
                 new ProductBindableModel
                 {
                     Id = 1,
                     Title = "Fries",
                     Items = Items,
+                    TapCommand = TapCommand,
                 },
                 new ProductBindableModel
                 {
                     Id = 1,
                     Title = "Drink",
                     Items = Items,
+                    TapCommand = TapCommand,
                 },
             };
         }
@@ -67,16 +74,50 @@ namespace Next2.ViewModels
 
         public ObservableCollection<ProductBindableModel> Products { get; set; }
 
-        public ProductBindableModel SelectedMenuItem
+        public ProductBindableModel SelectedMenuItem { get; set; } = new ()
         {
-            get;
-            set;
+            Title = "Proportions",
+        };
+
+        private ICommand _tapCommand;
+        public ICommand TapCommand => _tapCommand ??= new AsyncCommand<ProductBindableModel>(OnTapCommandAsync);
+
+        private ICommand _tapProportionsCommand;
+        public ICommand TapProportionsCommand => _tapProportionsCommand ??= new AsyncCommand(OnTapProportionsCommandAsync);
+
+        #endregion
+
+        #region --Private methods--
+
+        private async Task OnTapCommandAsync(ProductBindableModel item)
+        {
+            if (item.SelectedItem is not null)
+            {
+                SelectedMenuItem = null;
+
+                var idx = Products.IndexOf(item);
+
+                for (int i = 0; i < Products.Count; i++)
+                {
+                    if (i != idx)
+                    {
+                        Products[i].SelectedItem = null;
+                    }
+                }
+            }
         }
 
-        public ItemSpoilerModel SelectedSubmenuItem
+        private async Task OnTapProportionsCommandAsync()
         {
-            get;
-            set;
+            SelectedMenuItem = new ()
+            {
+                Title = "Proportions",
+            };
+
+            for (int i = 0; i < Products.Count; i++)
+            {
+                Products[i].SelectedItem = null;
+            }
         }
 
         #endregion

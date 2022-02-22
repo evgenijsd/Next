@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Next2.Models;
+using Prism.Mvvm;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,24 +33,36 @@ namespace Next2.Controls
 
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
-            returnType: typeof(object),
-            declaringType: typeof(Spoiler));
+            returnType: typeof(ItemSpoilerModel),
+            declaringType: typeof(Spoiler),
+            defaultBindingMode: BindingMode.TwoWay);
 
-        public object SelectedItem
+        public ItemSpoilerModel SelectedItem
         {
-            get => GetValue(SelectedItemProperty);
+            get => (ItemSpoilerModel)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
-        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
-            propertyName: nameof(ItemTemplate),
-            returnType: typeof(DataTemplate),
+        public static readonly BindableProperty SelectionChangedCommandProperty = BindableProperty.Create(
+            propertyName: nameof(SelectionChangedCommand),
+            returnType: typeof(ICommand),
             declaringType: typeof(Spoiler));
 
-        public DataTemplate ItemTemplate
+        public ICommand SelectionChangedCommand
         {
-            get => (DataTemplate)GetValue(ItemTemplateProperty);
-            set => SetValue(ItemTemplateProperty, value);
+            get => (ICommand)GetValue(SelectionChangedCommandProperty);
+            set => SetValue(SelectionChangedCommandProperty, value);
+        }
+
+        public static readonly BindableProperty SelectionChangedCommandParameterProperty = BindableProperty.Create(
+            propertyName: nameof(SelectionChangedCommandParameter),
+            returnType: typeof(object),
+            declaringType: typeof(Spoiler));
+
+        public object SelectionChangedCommandParameter
+        {
+            get => (object)GetValue(SelectionChangedCommandParameterProperty);
+            set => SetValue(SelectionChangedCommandParameterProperty, value);
         }
 
         public static readonly BindableProperty HeaderTemplateProperty = BindableProperty.Create(
@@ -61,6 +74,17 @@ namespace Next2.Controls
         {
             get => (View)GetValue(HeaderTemplateProperty);
             set => SetValue(HeaderTemplateProperty, value);
+        }
+
+        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
+            propertyName: nameof(ItemTemplate),
+            returnType: typeof(DataTemplate),
+            declaringType: typeof(Spoiler));
+
+        public DataTemplate ItemTemplate
+        {
+            get => (DataTemplate)GetValue(ItemTemplateProperty);
+            set => SetValue(ItemTemplateProperty, value);
         }
 
         public static readonly BindableProperty IsRolledProperty = BindableProperty.Create(

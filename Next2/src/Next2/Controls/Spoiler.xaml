@@ -43,6 +43,8 @@
         IsVisible="{Binding IsRolled, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}, Converter={xct:InvertedBoolConverter}}"
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
         SelectedItem="{Binding SelectedItem, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
+        SelectionChangedCommand="{Binding SelectionChangedCommand, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
+        SelectionChangedCommandParameter="{Binding SelectionChangedCommandParameter, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
         SelectionMode="Single"
         ItemTemplate="{Binding ItemTemplate, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
         HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type controls:Spoiler}}}"
