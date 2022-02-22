@@ -14,7 +14,7 @@ namespace Next2.ViewModels
             INavigationService navigationService)
             : base(navigationService)
         {
-            Items = new ()
+            SubmenuItems = new ()
             {
                 new ItemSpoilerModel()
                 {
@@ -42,81 +42,79 @@ namespace Next2.ViewModels
                 },
             };
 
-            Products = new ()
+            SetProducts = new ()
             {
                 new ProductBindableModel
                 {
                     Id = 1,
                     Title = "Cheese Burger",
-                    Items = Items,
-                    TapCommand = TapCommand,
+                    Items = SubmenuItems,
+                    TapCommand = TapSubmenuCommand,
                 },
                 new ProductBindableModel
                 {
-                    Id = 1,
+                    Id = 2,
                     Title = "Fries",
-                    Items = Items,
-                    TapCommand = TapCommand,
+                    Items = SubmenuItems,
+                    TapCommand = TapSubmenuCommand,
                 },
                 new ProductBindableModel
                 {
-                    Id = 1,
+                    Id = 3,
                     Title = "Drink",
-                    Items = Items,
-                    TapCommand = TapCommand,
+                    Items = SubmenuItems,
+                    TapCommand = TapSubmenuCommand,
                 },
             };
         }
 
         #region -- Public properties --
 
-        public ObservableCollection<ItemSpoilerModel> Items { get; set; }
+        public ObservableCollection<ItemSpoilerModel> SubmenuItems { get; set; }
 
-        public ObservableCollection<ProductBindableModel> Products { get; set; }
+        public ObservableCollection<ProductBindableModel> SetProducts { get; set; }
 
-        public ProductBindableModel SelectedMenuItem { get; set; } = new ()
-        {
-            Title = "Proportions",
-        };
+        public ProductBindableModel SelectedProduct { get; set; }
 
-        private ICommand _tapCommand;
-        public ICommand TapCommand => _tapCommand ??= new AsyncCommand<ProductBindableModel>(OnTapCommandAsync);
+        public object SelectedMenuItem { get; set; } = "Proportions";
 
-        private ICommand _tapProportionsCommand;
-        public ICommand TapProportionsCommand => _tapProportionsCommand ??= new AsyncCommand(OnTapProportionsCommandAsync);
+        private ICommand _tapSubmenuCommand;
+        public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<ProductBindableModel>(OnTapSubmenuCommandAsync);
+
+        private ICommand _tapOpenProportionsCommand;
+        public ICommand TapOpenProportionsCommand => _tapOpenProportionsCommand ??= new AsyncCommand(OnTapOpenProportionsCommandAsync);
 
         #endregion
 
         #region --Private methods--
 
-        private async Task OnTapCommandAsync(ProductBindableModel item)
+        private async Task OnTapSubmenuCommandAsync(ProductBindableModel item)
         {
             if (item.SelectedItem is not null)
             {
-                SelectedMenuItem = null;
+                SelectedProduct = item;
+                SelectedMenuItem = item.SelectedItem.Title;
 
-                var idx = Products.IndexOf(item);
+                var idx = SetProducts.IndexOf(item);
 
-                for (int i = 0; i < Products.Count; i++)
+                for (int i = 0; i < SetProducts.Count; i++)
                 {
                     if (i != idx)
                     {
-                        Products[i].SelectedItem = null;
+                        SetProducts[i].SelectedItem = null;
                     }
                 }
             }
         }
 
-        private async Task OnTapProportionsCommandAsync()
+        private async Task OnTapOpenProportionsCommandAsync()
         {
-            SelectedMenuItem = new ()
-            {
-                Title = "Proportions",
-            };
+            SelectedProduct = null;
+            SelectedMenuItem = "Proportions";
 
-            for (int i = 0; i < Products.Count; i++)
+            for (int i = 0; i < SetProducts.Count; i++)
             {
-                Products[i].SelectedItem = null;
+                SetProducts[i].SelectedItem = null;
             }
         }
 

@@ -15,6 +15,8 @@ namespace Next2.Droid.Effects
 {
     public class ScrollBarColorEffect : PlatformEffect
     {
+        #region -- Overrides --
+
         protected override void OnAttached()
         {
             UpdateUI();
@@ -24,7 +26,11 @@ namespace Next2.Droid.Effects
         {
         }
 
-        void UpdateUI()
+        #endregion
+
+        #region -- Private helpers --
+
+        private void UpdateUI()
         {
             var scrollBarThumbWidth = 6;
             var scrollBarCornerRadius = 9;
@@ -75,8 +81,6 @@ namespace Next2.Droid.Effects
                 }
             }
         }
-
-        #region -- Private helpers --
 
         private GradientDrawable GetGradientDrawable(Android.Graphics.Color color, float cornerRadius)
         {

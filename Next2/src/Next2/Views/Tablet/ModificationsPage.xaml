@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
@@ -31,11 +32,11 @@
 
             <StackLayout
                 Orientation="Horizontal"
-                xct:TouchEffect.Command="{Binding TapProportionsCommand}">
+                xct:TouchEffect.Command="{Binding TapOpenProportionsCommand}">
 
                 <StackLayout.Triggers>
 
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedMenuItem.Title}" Value="Proportions">
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedMenuItem}" Value="Proportions">
                         <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i9}"/>
                     </DataTrigger>
 
@@ -55,7 +56,7 @@
 
                     <BoxView.Triggers>
 
-                        <DataTrigger TargetType="BoxView" Binding="{Binding SelectedMenuItem.Title}" Value="Proportions">
+                        <DataTrigger TargetType="BoxView" Binding="{Binding SelectedMenuItem}" Value="Proportions">
                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                         </DataTrigger>
 
@@ -70,14 +71,14 @@
                 HeightRequest="1"/>
 
             <CollectionView
-                ItemsSource="{Binding Products}"
+                ItemsSource="{Binding SetProducts}"
                 SelectionMode="Single"
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never">
 
                 <CollectionView.ItemTemplate>
-
                     <DataTemplate x:DataType="models:ProductBindableModel">
+
                         <StackLayout>
 
                             <VisualStateManager.VisualStateGroups>
@@ -96,7 +97,6 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <controls:Spoiler
-                                VerticalOptions="Start"
                                 ItemsSource="{Binding Items}"
                                 SelectedItem="{Binding SelectedItem}"
                                 SelectionChangedCommand="{Binding TapCommand}"
@@ -119,7 +119,7 @@
                                     <DataTemplate x:DataType="models:ItemSpoilerModel">
                                         <templates:SpoilerItemTemplate HeightRequest="59"/>
                                     </DataTemplate>
-                                    
+
                                 </controls:Spoiler.ItemTemplate>
 
                             </controls:Spoiler>
@@ -127,8 +127,9 @@
                             <BoxView
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                 HeightRequest="1"/>
-                            
+
                         </StackLayout>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -140,19 +141,53 @@
 
         </StackLayout>
 
-        <StackLayout
+        <sc:StateContainer
             Grid.Column="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-            VerticalOptions="Fill">
+            State="{Binding SelectedMenuItem}">
 
-            <Label
-                Text="Content"
-                TextColor="White"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"/>
+            <sc:StateCondition State="Proportions">
 
-        </StackLayout>
-        
+                <Label
+                    Text="Proportions"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Replace">
+
+                <Label
+                    Text="{Binding SelectedProduct.Title, StringFormat='Replace, Product - {0:s}'}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Inventory">
+
+                <Label
+                    Text="{Binding SelectedProduct.Title, StringFormat='Inventory, Product - {0:s}'}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Options">
+
+                <Label
+                    Text="{Binding SelectedProduct.Title, StringFormat='Options, Product - {0:s}'}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"/>
+
+            </sc:StateCondition>
+
+        </sc:StateContainer>
+
     </Grid>
     
 </views:BaseContentPage>

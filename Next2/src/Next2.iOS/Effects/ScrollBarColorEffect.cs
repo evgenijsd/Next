@@ -12,8 +12,10 @@ namespace Next2.iOS.Effects
 {
     public class ScrollBarColorEffect : PlatformEffect
     {
-        UIScrollView _view;
-        UIColor _scrollBarColor;
+        private UIScrollView _view;
+        private UIColor _scrollBarColor;
+
+        #region -- Overrides --
 
         protected override void OnAttached()
         {
@@ -25,7 +27,11 @@ namespace Next2.iOS.Effects
             Uninitialize();
         }
 
-        void Initialize()
+        #endregion
+
+        #region -- Private helpers --
+
+        private void Initialize()
         {
             try
             {
@@ -35,7 +41,7 @@ namespace Next2.iOS.Effects
                 var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
                 if (effect != null)
                 {
-                    _scrollBarColor = effect.ScrollBarColor.ToUIColor();
+                    _scrollBarColor = effect.ScrollBarThumbColor.ToUIColor();
                 }
             }
             catch
@@ -43,7 +49,7 @@ namespace Next2.iOS.Effects
             }
         }
 
-        void Uninitialize()
+        private void Uninitialize()
         {
             try
             {
@@ -71,5 +77,7 @@ namespace Next2.iOS.Effects
             {
             }
         }
+
+        #endregion
     }
 }
