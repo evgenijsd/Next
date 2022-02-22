@@ -18,13 +18,10 @@ namespace Next2.ViewModels
             IAuthenticationService authenticationService)
             : base(navigationService)
         {
-            Text = "Settings";
             _authenticationService = authenticationService;
         }
 
         #region -- Public properties --
-
-        public string? Text { get; set; }
 
         private ICommand _logOutCommand;
         public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync);
