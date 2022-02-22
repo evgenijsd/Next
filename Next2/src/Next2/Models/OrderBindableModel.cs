@@ -23,6 +23,8 @@ namespace Next2.Models
 
         public double Total { get; set; }
 
+        public double Tax { get; set; }
+
         #endregion
     }
 }

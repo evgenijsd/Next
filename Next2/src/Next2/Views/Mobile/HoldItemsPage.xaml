@@ -3,6 +3,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Mobile.HoldItemsPage"
     x:DataType="viewModels:HoldItemsViewModel"
@@ -37,6 +38,15 @@
                 VerticalOptions="CenterAndExpand"
                 VerticalTextAlignment="Center"
                 HorizontalTextAlignment="Center"/>
+
+            <buttons:BorderButton
+                        Text="{xct:Translate Print}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BorderColor="{DynamicResource IndicationColor_i1}"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        Style="{DynamicResource BorderButtonStyle_i1}"
+                        WidthRequest="100" />
 
         </StackLayout>
 

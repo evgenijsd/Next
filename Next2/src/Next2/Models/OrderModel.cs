@@ -17,5 +17,7 @@ namespace Next2.Models
         public int OrderNumber { get; set; }
 
         public double Total { get; set; }
+
+        public double Tax { get; set; }
     }
 }

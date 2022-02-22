@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Next2.Enums;
 
 namespace Next2.Services.MockService
 {
@@ -18,6 +19,7 @@ namespace Next2.Services.MockService
         private IList<SetModel> _sets;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<TaxAndBonusModel> _taxAndBonus;
 
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -156,10 +158,27 @@ namespace Next2.Services.MockService
                 InitSubategoriesAsync(),
                 InitSetsAsync(),
                 InitUsersAsync(),
-                InitCustomersAsync());
+                InitCustomersAsync(),
+                InitTaxAndBonusAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
+
+        private Task InitTaxAndBonusAsync() => Task.Run(() =>
+        {
+            _taxAndBonus = new List<TaxAndBonusModel>
+            {
+                new TaxAndBonusModel
+                {
+                    Id = 1,
+                    Name = "Tax",
+                    Value = 0.1,
+                    Type = ETaxAndBonus.Tax,
+                },
+            };
+
+            _base.Add(typeof(TaxAndBonusModel), _taxAndBonus);
+        });
 
         private Task InitOrdersAsync() => Task.Run(() =>
         {
@@ -174,6 +193,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 1,
                     Total = 50.2,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -184,6 +204,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 2,
                     Total = 30.3,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -194,6 +215,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 3,
                     Total = 40.45,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -204,6 +226,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 4,
                     Total = 3.67,
+                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -214,6 +237,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 5,
                     Total = 70.44,
+                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -224,6 +248,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 6,
                     Total = 6.77,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -234,6 +259,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 7,
                     Total = 45.11,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -244,6 +270,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 8,
                     Total = 33.67,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -254,6 +281,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 9,
                     Total = 55.16,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -264,6 +292,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 10,
                     Total = 97.66,
+                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -274,6 +303,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 11,
                     Total = 96.00,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -294,6 +324,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 13,
                     Total = 9.40,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -304,6 +335,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 14,
                     Total = 9.30,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -314,6 +346,7 @@ namespace Next2.Services.MockService
                     OrderType = "Dine In",
                     OrderNumber = 15,
                     Total = 9.20,
+                    Tax = 0.1,
                 },
             };
 
