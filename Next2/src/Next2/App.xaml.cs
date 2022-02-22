@@ -6,7 +6,6 @@ using Next2.Services.Authentication;
 using Next2.Services.Membership;
 using Next2.Services.Menu;
 using Next2.Services.MockService;
-using Next2.Services.ProfileService;
 using Next2.Services.OrderService;
 using Next2.ViewModels;
 using Next2.ViewModels.Tablet;
@@ -28,6 +27,8 @@ using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using Next2.Services.SettingsService;
+using Next2.Services.UserService;
+using Next2.ViewModels.Dialogs;
 using Next2.Services.CustomersService;
 
 namespace Next2
@@ -83,6 +84,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
@@ -90,6 +92,7 @@ namespace Next2
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.HoldItemsPage, HoldItemsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderTabsPage, OrderTabsViewModel>();
