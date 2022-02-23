@@ -2,7 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
-using Next2.Services.OrderService;
+using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;

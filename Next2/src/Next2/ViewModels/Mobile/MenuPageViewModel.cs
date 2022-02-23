@@ -42,6 +42,9 @@ namespace Next2.ViewModels.Mobile
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync);
 
+        private ICommand _openNewOrderPageCommand;
+        public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync);
+
         private ICommand _goToSettingsCommand;
         public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync);
 
@@ -130,6 +133,11 @@ namespace Next2.ViewModels.Mobile
                     CategoriesItems = new (resultCategories.Result);
                 }
             }
+        }
+
+        private Task OnOpenNewOrderPageCommandAsync()
+        {
+            return _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
         }
 
         private async Task OnTapCategoryCommandAsync(CategoryModel category)

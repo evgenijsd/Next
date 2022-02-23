@@ -4,7 +4,7 @@ using Next2.Services.UserService;
 using Next2.Services.SettingsService;
 using System;
 using System.Threading.Tasks;
-using Next2.Services.MockService;
+using Next2.Services.Mock;
 
 namespace Next2.Services.Authentication
 {

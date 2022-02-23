@@ -76,6 +76,12 @@
 
                     <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png" />
 
+                    <Frame.GestureRecognizers>
+
+                        <TapGestureRecognizer Command="{Binding OpenNewOrderPageCommand}"/>
+
+                    </Frame.GestureRecognizers>
+                    
                 </Frame>
 
             </StackLayout>

@@ -1,3 +1,5 @@
+using Next2.Enums;
+using Next2.Interfaces;
 using Next2.Models;
 using Next2.Interfaces;
 using System;
@@ -6,7 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services.MockService
+namespace Next2.Services.Mock
 {
     public class MockService : IMockService
     {
@@ -16,6 +18,7 @@ namespace Next2.Services.MockService
         private IList<CategoryModel> _categories;
         private IList<SubcategoryModel> _subcategories;
         private IList<SetModel> _sets;
+        private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
 
@@ -155,6 +158,7 @@ namespace Next2.Services.MockService
                 InitCategoriesAsync(),
                 InitSubategoriesAsync(),
                 InitSetsAsync(),
+                InitTables(),
                 InitUsersAsync(),
                 InitCustomersAsync());
 
@@ -171,7 +175,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Bill Gates",
                     TableNumber = 10,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
                 },
@@ -181,7 +185,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Kate White",
                     TableNumber = 9,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
                 },
@@ -191,7 +195,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Sam Smith",
                     TableNumber = 8,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
                 },
@@ -201,7 +205,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Steve Jobs",
                     TableNumber = 7,
                     OrderStatus = "Annuled",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
                 },
@@ -211,7 +215,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Elon musk",
                     TableNumber = 6,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
                 },
@@ -221,7 +225,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Keano Reaves",
                     TableNumber = 5,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
                 },
@@ -231,7 +235,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Roderick Marvin",
                     TableNumber = 4,
                     OrderStatus = "Annuled",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
                 },
@@ -241,7 +245,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Clinton Gleichner",
                     TableNumber = 3,
                     OrderStatus = "Annuled",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
                 },
@@ -251,7 +255,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Victor Dickinson",
                     TableNumber = 2,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
                 },
@@ -261,7 +265,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Dave Glover",
                     TableNumber = 1,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
                 },
@@ -271,7 +275,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Dave Glover",
                     TableNumber = 11,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
                 },
@@ -281,7 +285,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Dave Glover",
                     TableNumber = 12,
                     OrderStatus = "Annuled",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 12,
                     Total = 9.50,
                 },
@@ -291,7 +295,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Dave Glover",
                     TableNumber = 13,
                     OrderStatus = "Annuled",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
                 },
@@ -301,7 +305,7 @@ namespace Next2.Services.MockService
                     CustomerName = "Dave Glover",
                     TableNumber = 14,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
                 },
@@ -311,12 +315,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Dave Glover",
                     TableNumber = 15,
                     OrderStatus = "Pending",
-                    OrderType = "Dine In",
+                    OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
                 },
             };
-
             _base.Add(typeof(OrderModel), _orders);
         });
 
@@ -820,6 +823,75 @@ namespace Next2.Services.MockService
             _base.Add(typeof(UserModel), _users);
         });
 
+        private Task InitTables() => Task.Run(() =>
+        {
+            _tables = new List<TableModel>
+            {
+                 new TableModel
+                 {
+                     Id = 1,
+                     NumberOfSeats = 4,
+                     NumberOfAvailableSeats = 4,
+                 },
+                 new TableModel
+                 {
+                     Id = 2,
+                     NumberOfSeats = 4,
+                     NumberOfAvailableSeats = 2,
+                 },
+                 new TableModel
+                 {
+                     Id = 3,
+                     NumberOfSeats = 6,
+                     NumberOfAvailableSeats = 6,
+                 },
+                 new TableModel
+                 {
+                     Id = 4,
+                     NumberOfSeats = 6,
+                     NumberOfAvailableSeats = 3,
+                 },
+                 new TableModel
+                 {
+                     Id = 5,
+                     NumberOfSeats = 8,
+                     NumberOfAvailableSeats = 8,
+                 },
+                 new TableModel
+                 {
+                     Id = 6,
+                     NumberOfSeats = 8,
+                     NumberOfAvailableSeats = 0,
+                 },
+                 new TableModel
+                 {
+                     Id = 7,
+                     NumberOfSeats = 10,
+                     NumberOfAvailableSeats = 10,
+                 },
+                 new TableModel
+                 {
+                     Id = 8,
+                     NumberOfSeats = 10,
+                     NumberOfAvailableSeats = 4,
+                 },
+                 new TableModel
+                 {
+                     Id = 9,
+                     NumberOfSeats = 2,
+                     NumberOfAvailableSeats = 2,
+                 },
+                 new TableModel
+                 {
+                     Id = 10,
+                     NumberOfSeats = 2,
+                     NumberOfAvailableSeats = 0,
+                 },
+            };
+
+            _base.Add(typeof(TableModel), _tables);
+        });
+
         private Task InitMembersAsync() => Task.Run(() =>
         {
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
@@ -832,11 +904,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Martin Schleifer",
                     Phone = "732-902-8298",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 13 2019 / 04:12 PM",
+                        "Mar 13 2019 / 02:12 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 20 2021 / 08:36 AM",
+                        "Apr 20 2021 / 02:12 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -846,11 +918,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Ashlynn Westervelt",
                     Phone = "599-663-3931",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 21 2020 / 09:11 PM",
+                        "Mar 21 2020 / 05:11 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 30 2022 / 10:00 PM",
+                        "May 30 2022 / 05:11 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -888,11 +960,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Kierra Bergson",
                     Phone = "503-778-7600",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 12:22 AM",
+                        "Sep 29 2021 / 11:00 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 20 2021 / 12:22 AM",
+                        "Dec 20 2021 / 11:00 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -902,11 +974,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Angel Dias",
                     Phone = "672-533-7711",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 28 2021 / 08:54 AM",
+                        "Aug 28 2021 / 01:50 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 28 2021 / 08:54 AM",
+                        "Nov 28 2021 / 01:50 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -916,11 +988,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Kaiya Dorwart",
                     Phone = "688-905-0586",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 03:51 PM",
+                        "Mar 10 2021 / 03:00 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 03:51 PM",
+                        "Mar 29 2021 / 03:00 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -930,11 +1002,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Lincoln Lipshutz",
                     Phone = "174-449-2766",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Jul 01 2021 / 08:48 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Aug 20 2021 / 08:48 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -944,11 +1016,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Ann Schleifer",
                     Phone = "962-399-9765",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Mar 20 2021 / 10:34 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Mar 27 2021 / 10:34 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -958,11 +1030,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Randy Mango",
                     Phone = "500-803-7621",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Apr 29 2021 / 11:48 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Jul 29 2021 / 11:48 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -972,11 +1044,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Cheyenne Calzoni",
                     Phone = "576-273-4018",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Mar 20 2021 / 10:00 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Oct 15 2021 / 10:00 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -986,11 +1058,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Zaire Levin",
                     Phone = "601-611-1754",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Mar 29 2021 / 11:12 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Jul 19 2021 / 11:12 AM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -1000,11 +1072,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Carla Mango",
                     Phone = "142-826-7912",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Apr 29 2021 / 02:40 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Jul 29 2021 / 02:40 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
@@ -1014,11 +1086,11 @@ namespace Next2.Services.MockService
                     CustomerName = "Cheyenne Levin",
                     Phone = "210-626-0640",
                     MembershipStartTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Mar 01 2021 / 06:48 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
-                        "Mar 29 2021 / 02:48 AM",
+                        "Mar 21 2021 / 06:48 PM",
                         Constants.LONG_DATE_FORMAT,
                         cultureInfo),
                 },

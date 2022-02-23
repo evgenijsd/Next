@@ -1,6 +1,6 @@
-﻿using Next2.Services;
+using Next2.Services;
 using Next2.Services.Authentication;
-using Next2.Services.MockService;
+using Next2.Services.Mock;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Navigation;
@@ -10,7 +10,6 @@ using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
