@@ -1,10 +1,10 @@
 ﻿using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
-using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
-    public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
+    public class ExpandPageViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMenuService _menuService;
 
@@ -23,7 +23,7 @@ namespace Next2.ViewModels.Tablet
 
         private bool _order;
 
-        public NewOrderViewModel(
+        public ExpandPageViewModel(
             INavigationService navigationService,
             IMenuService menuService,
             IPopupNavigation popupNavigation)
@@ -36,6 +36,8 @@ namespace Next2.ViewModels.Tablet
         }
 
         #region -- Public properties --
+
+        public int HeightCollectionView { get; set; }
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
@@ -53,9 +55,6 @@ namespace Next2.ViewModels.Tablet
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
 
-        private ICommand _tapExpandCommand;
-        public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync);
-
         #endregion
 
         #region -- Overrides --
@@ -72,8 +71,8 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            SelectedCategoriesItem = new ();
-            SelectedSubcategoriesItem = new ();
+            SelectedCategoriesItem = new();
+            SelectedSubcategoriesItem = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -117,8 +116,10 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new (resultCategories.Result);
+                    CategoriesItems = new(resultCategories.Result);
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
+
+                    HeightCollectionView = (int)((Math.Ceiling((double)CategoriesItems.Count / 7) * (54 + 10)) - 8);
                 }
             }
         }
@@ -133,11 +134,11 @@ namespace Next2.ViewModels.Tablet
                 {
                     if (_order)
                     {
-                        SetsItems = new (resultSets.Result.OrderByDescending(row => row.Title));
+                        SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
                     }
                     else
                     {
-                        SetsItems = new (resultSets.Result.OrderBy(row => row.Title));
+                        SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
                     }
                 }
             }
@@ -151,7 +152,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultSubcategories.IsSuccess)
                 {
-                    SubcategoriesItems = new (resultSubcategories.Result);
+                    SubcategoriesItems = new(resultSubcategories.Result);
                     SubcategoriesItems.Insert(0, new SubcategoryModel()
                     {
                         Id = 0,
@@ -162,11 +163,6 @@ namespace Next2.ViewModels.Tablet
                     SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
                 }
             }
-        }
-
-        private async Task OnTapExpandCommandAsync()
-        {
-            await _navigationService.NavigateAsync(nameof(ExpandPage));
         }
 
         #endregion
