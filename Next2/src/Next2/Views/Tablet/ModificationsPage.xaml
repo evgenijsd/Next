@@ -3,7 +3,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -13,10 +15,13 @@
     x:DataType="viewmodels:ModificationsPageViewModel"
     x:Class="Next2.Views.Tablet.ModificationsPage">
 
-    <Grid ColumnDefinitions="300, *">
+    <Grid
+        ColumnDefinitions="300, *"
+        RowDefinitions="*, 1, 99">
 
         <StackLayout
             Grid.Column="0"
+            Grid.RowSpan="3"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
             <Label
@@ -47,7 +52,17 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i4}"
                     FontFamily="Barlow-SemiBold"
-                    Padding="32, 16"/>
+                    Padding="32, 16">
+                    
+                    <Label.Triggers>
+
+                        <DataTrigger TargetType="Label" Binding="{Binding SelectedMenuItem}" Value="Proportions">
+                            <Setter Property="TextColor" Value="{DynamicResource AppColor_i1}"/>
+                        </DataTrigger>
+
+                    </Label.Triggers>
+                    
+                </Label>
 
                 <BoxView
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
@@ -147,13 +162,58 @@
             State="{Binding SelectedMenuItem}">
 
             <sc:StateCondition State="Proportions">
+                <StackLayout>
 
-                <Label
-                    Text="Proportions"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"/>
+                    <controls:SortingPanel
+                        Margin="40, 26"
+                        Text="{xct:Translate AvailableOptions}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortCommand}"/>
 
+                    <CollectionView
+                        Margin="40, 16"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalScrollBarVisibility="Never"
+                        ItemsSource="{Binding SetPortions}">
+
+                        <CollectionView.ItemsLayout>
+
+                            <GridItemsLayout
+                                Orientation="Vertical"
+                                Span="3"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="15"/>
+
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.Effects>
+                            <effects:NoOverScrollEffect/>
+                        </CollectionView.Effects>
+
+                        <CollectionView.ItemTemplate>
+                        
+                            <DataTemplate x:DataType="models:PortionModel">
+
+                                <Frame
+                                    Padding="16, 4"
+                                    CornerRadius="8"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                                    <templates:PortionItemTemplate
+                                        State="{Binding .}"
+                                        BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
+                                    
+                                </Frame>
+
+                            </DataTemplate>
+                        
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+                    
+                </StackLayout>
             </sc:StateCondition>
 
             <sc:StateCondition State="Replace">
@@ -187,6 +247,42 @@
             </sc:StateCondition>
 
         </sc:StateContainer>
+
+        <BoxView
+            Grid.Row="1"
+            Grid.Column="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+            HeightRequest="1"/>
+        
+        <Grid
+            Grid.Row="2"
+            ColumnSpacing="10"
+            Grid.Column="1"
+            Padding="24">
+
+            <buttons:BorderButton
+                Grid.Column="0"
+                Text="Cancel"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                BorderColor="{DynamicResource AppColor_i1}"
+                HeightRequest="40"
+                CornerRadius="4"/>
+
+            <buttons:BorderButton
+                Grid.Column="1"
+                Text="Save"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                HeightRequest="40"
+                CornerRadius="4"/>
+
+        </Grid>
 
     </Grid>
     

@@ -288,4 +288,7 @@
   <data name="Proportions" xml:space="preserve">
     <value>Proportions</value>
   </data>
+  <data name="AvailableOptions" xml:space="preserve">
+    <value>Available Options</value>
+  </data>
 </root>

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Controls.Toggle">
+
+    <StackLayout.GestureRecognizers>
+        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
+        <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"/>
+    </StackLayout.GestureRecognizers>
+
+    <Grid
+        HorizontalOptions="EndAndExpand"
+        RowDefinitions="*"
+        ColumnDefinitions="42">
+
+        <Frame
+            Grid.Row="0"
+            BackgroundColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+            BorderColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+            HeightRequest="24"
+            WidthRequest="42"
+            CornerRadius="16"/>
+
+        <Frame
+            x:Name="runningFrame"
+            HeightRequest="21"
+            WidthRequest="21"
+            Margin="1, 2"
+            BackgroundColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+            BorderColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
+            HorizontalOptions="Start"
+            CornerRadius="16"/>
+
+    </Grid>
+
+</StackLayout>
