@@ -17,6 +17,9 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
@@ -101,7 +104,8 @@ namespace Next2
         {
             InitializeComponent();
             App.Current.UserAppTheme = OSAppTheme.Dark;
-#if !DEBUG
+
+#if !DEBUG
             AppCenter.Start(
                 $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
                 typeof(Analytics),
