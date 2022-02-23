@@ -312,6 +312,12 @@
 
                         </StackLayout>
 
+                        <Frame.GestureRecognizers>
+                            
+                            <TapGestureRecognizer Command="{Binding TapExpandCommand}"/>
+                            
+                        </Frame.GestureRecognizers>
+
                     </Frame>
 
                 </StackLayout>

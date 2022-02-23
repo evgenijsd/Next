@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Next2.Services.Order
 {
@@ -84,7 +85,7 @@ namespace Next2.Services.Order
 
             try
             {
-                var orders = await _mockService.GetAllAsync<OrderModel>(); // GetAsync<OrderModel>(x => x.Id != 0);
+                var orders = await _mockService.GetAsync<OrderModel>(x => x.Id != 0);
 
                 if (orders != null)
                 {
@@ -99,6 +100,25 @@ namespace Next2.Services.Order
             {
                 result.SetError($"{nameof(GetOrdersAsync)}: exception", Strings.SomeIssues, ex);
             }
+
+            return result;
+        }
+
+        public string ApplyNumberFilter(string text)
+        {
+            Regex regexNumber = new(Constants.Validators.NUMBER);
+
+            return regexNumber.Replace(text, string.Empty);
+        }
+
+        public string ApplyNameFilter(string text)
+        {
+            Regex regexName = new(Constants.Validators.NAME);
+            Regex regexNumber = new(Constants.Validators.NUMBER);
+            Regex regexText = new(Constants.Validators.TEXT);
+
+            var result = regexText.Replace(text, string.Empty);
+            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ? regexNumber.Replace(result, string.Empty) : regexName.Replace(result, string.Empty);
 
             return result;
         }

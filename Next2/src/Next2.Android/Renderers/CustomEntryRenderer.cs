@@ -1,7 +1,11 @@
 ﻿using Android.Content;
+using Android.OS;
+using Android.Runtime;
 using Android.Views;
+using Android.Widget;
 using Next2.Controls;
 using Next2.Droid.Renderers;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -16,9 +20,26 @@ namespace Next2.Droid.Renderers
         {
             base.OnElementChanged(e);
 
-            Control.Background = null;
-            Control.SetPadding(0, 0, 0, 0);
-            Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            if (Control != null)
+            {
+                Control.CustomSelectionActionModeCallback = new Callback();
+                Control.LongClickable = false;
+                Control.Background = null;
+                Control.SetPadding(0, 0, 0, 0);
+                Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
+            }
+
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
+            {
+                Control.SetTextCursorDrawable(Resource.Drawable.custom_cursor); //This API Intrduced in android 10
+            }
+            else
+            {
+                IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
+                IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
+                JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.custom_cursor);
+            }
 
             if (Control != null)
             {

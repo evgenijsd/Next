@@ -3,9 +3,11 @@ using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -42,6 +44,9 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync);
+
+        private ICommand _goToSettingsCommand;
+        public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync);
 
         #endregion
 
@@ -143,6 +148,10 @@ namespace Next2.ViewModels.Mobile
             await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
         }
 
+        private async Task GoToSettingsCommandAsync()
+        {
+            await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
+        }
         #endregion
     }
 }

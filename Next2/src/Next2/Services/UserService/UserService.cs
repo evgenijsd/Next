@@ -5,7 +5,7 @@ using Next2.Services.SettingsService;
 using System;
 using System.Threading.Tasks;
 
-namespace Next2.Services.ProfileService
+namespace Next2.Services.UserService
 {
     public class UserService : IUserService
     {
@@ -20,15 +20,6 @@ namespace Next2.Services.ProfileService
             _mockService = mockService;
             _settingsManager = settingsManager;
         }
-
-        #region -- Public Properties --
-
-        public int AuthorizedUserId
-        {
-            get => _settingsManager.UserId;
-        }
-
-        #endregion
 
         #region -- UserService implementation  --
 
@@ -57,7 +48,7 @@ namespace Next2.Services.ProfileService
             return result;
         }
 
-        public async Task<AOResult<UserModel>> CheckUserExists(int userId)
+        public async Task<AOResult<UserModel>> GetUserById(int userId)
         {
             var result = new AOResult<UserModel>();
 
@@ -76,7 +67,7 @@ namespace Next2.Services.ProfileService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CheckUserExists)}: exception", "Error from UserService CheckUserExists", ex);
+                result.SetError($"{nameof(GetUserById)}: exception", "Error from UserService GetUserById", ex);
             }
 
             return result;

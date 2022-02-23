@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:enums="clr-namespace:Next2.Enums" 
@@ -33,7 +34,8 @@
 
                 <controls:CustomNavigationbar
                     Title="{xct:Translate OrderTabs}"
-                    LeftButtonImageSource="ic_arrow_left_tail_40x40"
+                    HeightImage="24"
+                    FontSize="{DynamicResource TSize_i5}"
                     LeftButtonCommand="{prism:GoBack}" />
 
                 <Grid
@@ -63,21 +65,32 @@
                 <controls:SearchButton
                     Grid.Row="2"
                     CornerRadius="5"
-                    Text="{xct:Translate SearchTableNumber}"
+                    Text="{Binding SearchText}"
+                    Placeholder="{xct:Translate SearchName}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
-                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Margin="17,20,17,20">
+                    BorderColor="{DynamicResource AppColor_i1}"
+                    Margin="17,20,17,20"
+                    CommandSearch="{Binding SearchCommand}"
+                    CommandClear="{Binding ClearSearchCommand}">
 
                     <controls:SearchButton.Triggers>
-                        
+
                         <DataTrigger
                             TargetType="controls:SearchButton"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
-                            Value="False">
-                            <Setter Property="Text" Value="{xct:Translate SearchName}" />
+                            Binding="{Binding SearchText}"
+                            Value="">
+                            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                            <Setter Property="ImageSource" Value="ic_search_24x24" />
                         </DataTrigger>
-                        
+
+                        <DataTrigger
+                            TargetType="controls:SearchButton"
+                            Binding="{Binding IsOrderTabsSelected}"
+                            Value="True">
+                            <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
+                        </DataTrigger>
+
                     </controls:SearchButton.Triggers>
 
                 </controls:SearchButton>
@@ -87,10 +100,12 @@
                     Grid.Row="3"
                     CornerRadius="10"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Margin="17,0,17,0">
+                    Margin="17,0,17,0"
+                    IsVisible="{Binding IsNotingFound, Converter={xct:InvertedBoolConverter}}">
 
                     <StackLayout>
-                        
+
+                        <!-- TABLE -->
                         <Grid
                             Margin="20,15,0,0"
                             VerticalOptions="Start"
@@ -157,11 +172,12 @@
                         </Grid>
 
                         <BoxView
-                            HorizontalOptions="FillAndExpand" 
+                            HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"
-                            HeightRequest="2"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+                            HeightRequest="1"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
+                        <!-- TABLE CONTENT -->
                         <RefreshView
                             VerticalOptions="Start"
                             IsRefreshing="{Binding IsOrdersRefreshing}"
@@ -190,15 +206,13 @@
                                                 <VisualStateGroup
                                                     Name="CommonStates">
 
-                                                    <VisualState
-                                                        Name="Normal">
+                                                    <VisualState Name="Normal">
                                                         <VisualState.Setters>
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
 
-                                                    <VisualState
-                                                        Name="Selected">
+                                                    <VisualState Name="Selected">
                                                         <VisualState.Setters>
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
                                                         </VisualState.Setters>
@@ -210,7 +224,6 @@
 
                                             <Grid
                                                 Grid.Row="1"
-                                                Margin="0,0,0,0"
                                                 ColumnDefinitions="*,*,*">
 
                                                 <Label
@@ -242,12 +255,16 @@
                                                     FontSize="{DynamicResource TSize_i8}"
                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, 
+                                                        Path=TapSelectCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Grid.GestureRecognizers>
+
                                             </Grid>
 
-
-                                            <BoxView
-                                                Grid.Row="0"
-                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                            <BoxView Grid.Row="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                         </Grid>
 
@@ -262,6 +279,21 @@
                     </StackLayout>
 
                 </yummy:PancakeView>
+
+                <StackLayout
+                    Grid.Row="3"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding IsNotingFound}">
+
+                    <ffimageloading:CachedImage
+                        Source="pic_nothing_found"
+                        HeightRequest="230"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="CenterAndExpand"
+                        Margin="0,0,0,100"/>
+
+                </StackLayout>
 
             </Grid>
 

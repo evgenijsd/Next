@@ -235,7 +235,15 @@
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
                 FontSize="{DynamicResource TSize_i8}"
-                FontFamily="Barlow-SemiBold"/>
+                FontFamily="Barlow-SemiBold"
+                Margin="10, 0"
+                Padding="0, 15">
+
+                <templates:MenuItemTemplate.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogOutCommand}"/>
+                </templates:MenuItemTemplate.GestureRecognizers>
+
+            </templates:MenuItemTemplate>
 
         </Grid>
 
