@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Controls.Buttons.BorderButton"
     HasShadow="False"
+    BackgroundColor="Transparent"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
 
     <controls:CustomFrame.GestureRecognizers>

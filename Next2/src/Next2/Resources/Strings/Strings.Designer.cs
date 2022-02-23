@@ -349,15 +349,6 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #.
-        /// </summary>
-        internal static string NumberSign {
-            get {
-                return ResourceManager.GetString("NumberSign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Order.
         /// </summary>
         internal static string Order {

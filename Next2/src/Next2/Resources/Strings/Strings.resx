@@ -282,9 +282,6 @@
   <data name="DineIn" xml:space="preserve">
     <value>Dine In</value>
   </data>
-  <data name="NumberSign" xml:space="preserve">
-    <value>#</value>
-  </data>
   <data name="Order" xml:space="preserve">
     <value>Order</value>
   </data>

@@ -184,25 +184,28 @@ namespace Next2.Controls
             {
                 IsExpanded = false;
             }
-            else if (propertyName
+
+            if (propertyName
                 is nameof(MaxNumberOfVisibleItems)
                 or nameof(ItemHeight)
                 or nameof(ItemsSource))
             {
-                if (ItemsSource?.Count < MaxNumberOfVisibleItems && ItemsSource.Count > 0)
+                if (ItemsSource is not null)
                 {
-                    ListHeight = ItemsSource.Count * ItemHeight;
+                    ListHeight = ItemHeight * (ItemsSource.Count < MaxNumberOfVisibleItems
+                        ? ItemsSource.Count
+                        : MaxNumberOfVisibleItems);
                 }
                 else
                 {
-                    ListHeight = MaxNumberOfVisibleItems * ItemHeight;
+                    ListHeight = 0;
                 }
             }
         }
 
         #region -- Private helpers --
 
-        private void OnExpandListCommand(object obj)
+        private void OnExpandListCommand()
         {
             IsExpanded = !IsExpanded;
 

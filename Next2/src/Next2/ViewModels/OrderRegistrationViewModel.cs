@@ -33,7 +33,8 @@ namespace Next2.ViewModels
 
             OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
             {
-                KeyValuePair = new (x, LocalizationResourceManager.Current[x.ToString()]),
+                OrderType = x,
+                Text = LocalizationResourceManager.Current[x.ToString()],
             }));
         }
 
@@ -43,6 +44,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
+        // value for testing, replace it later
         public ObservableCollection<string> Sets { get; set; } = new () { string.Empty };
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
@@ -55,10 +57,13 @@ namespace Next2.ViewModels
 
         public bool IsOrderWithTax { get; set; } = true;
 
+        // value for testing, delete it later
         public float Tax { get; set; } = 3;
 
+        // value for testing, delete it later
         public float SubTotal { get; set; } = 24;
 
+        // value for testing, delete it later
         public float Total { get; set; } = 27;
 
         private ICommand _openHoldSelectionCommand;
@@ -119,7 +124,7 @@ namespace Next2.ViewModels
 
                 Tables = new (tableBindableModels);
 
-                SelectedTable = Tables[0];
+                SelectedTable = Tables.First();
             }
         }
 

@@ -28,7 +28,15 @@ namespace Next2.Droid.Renderers
         {
             base.OnElementPropertyChanged(sender, changedProperty);
 
-            ConfigureScrollBar();
+            switch (changedProperty.PropertyName)
+            {
+                case "Renderer":
+                case nameof(_customScrollBarCollectionViewElement.ScrollBarTrackColor):
+                case nameof(_customScrollBarCollectionViewElement.ScrollBarThumbColor):
+                case nameof(_customScrollBarCollectionViewElement.ThumbWidth):
+                    ConfigureScrollBar();
+                    break;
+            }
         }
 
         #endregion

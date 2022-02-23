@@ -637,6 +637,11 @@
             x:DataType="viewModels:NewOrderViewModel">
 
             <Grid.Resources>    
+                <Style TargetType="Label">
+                    <Setter Property="VerticalOptions" Value="Center"/>
+                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                </Style>
+                
                 <!-- SemiBold (600) 24px -->
                 <Style x:Key="SemiBold24pxLabelStyle" TargetType="Label">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
@@ -688,7 +693,7 @@
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState  Name="Normal" />
                                     <VisualState  Name="Selected">
-                                    
+
                                         <VisualState.Setters>              
                                             <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
                                         </VisualState.Setters>
@@ -702,7 +707,7 @@
                 
                 <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
                     <Setter Property="CornerRadius" Value="7"/>
-                    <Setter Property="ItemHeight" Value="46.25"/>
+                    <Setter Property="ItemHeight" Value="46.5"/>
                 </Style>
             </Grid.Resources>
 
@@ -721,9 +726,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Order}" />
-                            <Span Text=" " />
-                            <Span Text="{xct:Translate NumberSign}" />
-                            <Span Text="{Binding OrderRegistrationViewModel.NewOrderId}" />
+                            <Span Text="{Binding OrderRegistrationViewModel.NewOrderId, StringFormat='{} #{0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -738,7 +741,7 @@
                 VerticalOptions="Start"
                 Margin="24, 24, 24, 10"
                 WidthRequest="130"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.KeyValuePair.Value}"
+                HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
 
@@ -755,7 +758,7 @@
                                     x:DataType="models:OrderTypeBindableModel"
                                     HorizontalOptions="FillAndExpand"
                                     FontSize="{DynamicResource TSize_i7}"
-                                    Text="{Binding KeyValuePair.Value}" />
+                                    Text="{Binding Text}" />
 
                             </StackLayout>
 
@@ -818,7 +821,6 @@
                 VerticalOptions="Start"
                 Margin="24, 20"
                 WidthRequest="155"
-                ItemHeight="46.5"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
@@ -860,9 +862,7 @@
                 </CollectionView.Effects>
                 
                 <CollectionView.EmptyView>
-                    <StackLayout 
-                        Spacing="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                        <StackLayout VerticalOptions="CenterAndExpand">
 
@@ -890,12 +890,14 @@
                 
                 <controls:CustomScrollBarCollectionView.ItemTemplate>
                     <DataTemplate>
+                        
+                        <!-- for testing --> 
                         <StackLayout Padding="30">
                             
                             <Label Text="{Binding .}"/>
-                            <BoxView Style="{StaticResource SeparatorStyle_i3}"/>
                             
                         </StackLayout>
+                        
                     </DataTemplate>
                 </controls:CustomScrollBarCollectionView.ItemTemplate>
 

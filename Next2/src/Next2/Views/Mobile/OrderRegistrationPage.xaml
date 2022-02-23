@@ -16,38 +16,17 @@
     x:DataType="viewmodels:OrderRegistrationViewModel"
     x:Class="Next2.Views.Mobile.OrderRegistrationPage">
 
-
     <Grid
         RowDefinitions="auto, auto, auto, auto, 65"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
         <Grid.Resources>
-            <Style TargetType="ffimageloading:CachedImage">
-                <Setter Property="VerticalOptions" Value="Center" />
+            
+            <Style TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
-
-            <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
-
-                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                <Setter Property="VisualStateManager.VisualStateGroups">
-
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="CommonStates">
-                            <VisualState Name="Normal" />
-                            <VisualState Name="Selected">
-
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                </VisualState.Setters>
-
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-
-                </Setter>
-
-            </Style>
-
+   
             <!-- Bold (700) 32px -->
             <Style x:Key="Bold32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Bold" />
@@ -87,9 +66,30 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                <Setter Property="VisualStateManager.VisualStateGroups">
+
+                    <VisualStateGroupList>
+                        <VisualStateGroup Name="CommonStates">
+                            <VisualState Name="Normal" />
+                            <VisualState Name="Selected">
+
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+
+                </Setter>
+
+            </Style>
+            
             <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
                 <Setter Property="CornerRadius" Value="7" />
-                <Setter Property="ItemHeight" Value="46.25" />
+                <Setter Property="ItemHeight" Value="46.5" />
             </Style>
         </Grid.Resources>
 
@@ -115,9 +115,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="{xct:Translate Order}" />
-                        <Span Text=" " />
-                        <Span Text="{xct:Translate NumberSign}" />
-                        <Span Text="{Binding NewOrderId}" />
+                        <Span Text="{Binding NewOrderId, StringFormat='{} #{0}'}" />
                     </FormattedString>
                 </Label.FormattedText>
 
@@ -132,8 +130,7 @@
             VerticalOptions="Start"
             Margin="17, 19"
             WidthRequest="96"
-            ItemHeight="46.5"
-            HeaderText="{Binding SelectedOrderType.KeyValuePair.Value}"
+            HeaderText="{Binding SelectedOrderType.Text}"
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
 
@@ -150,7 +147,7 @@
                                 x:DataType="models:OrderTypeBindableModel"
                                 HorizontalOptions="FillAndExpand"
                                 FontSize="{DynamicResource TSize_i7}"
-                                Text="{Binding KeyValuePair.Value}" />
+                                Text="{Binding Text}" />
 
                         </StackLayout>
 
@@ -207,7 +204,6 @@
             VerticalOptions="Start"
             Margin="18, 9"
             WidthRequest="145"
-            ItemHeight="46.5"
             HeaderText="{Binding SelectedTable.Id, StringFormat='Table {0}'}"
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
@@ -250,12 +246,14 @@
             
             <CollectionView.ItemTemplate>
                 <DataTemplate>
+                    
+                    <!-- for testing --> 
                     <StackLayout Padding="30">
                             
                         <Label Text="{Binding .}"/>
-                        <BoxView Style="{StaticResource SeparatorStyle_i3}"/>
                             
                     </StackLayout>
+                        
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

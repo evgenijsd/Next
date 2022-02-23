@@ -17,6 +17,7 @@ namespace Next2.Controls
         public static readonly BindableProperty DecrementIconSourceProperty = BindableProperty.Create(
           propertyName: nameof(DecrementIconSource),
           returnType: typeof(string),
+          defaultValue: "ic_minus_primary_32x32",
           declaringType: typeof(CustomStepper),
           defaultBindingMode: BindingMode.TwoWay);
 
@@ -29,6 +30,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IncrementIconSourceProperty = BindableProperty.Create(
             propertyName: nameof(IncrementIconSource),
             returnType: typeof(string),
+            defaultValue: "ic_plus_primary_32x32",
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -41,6 +43,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IconSizesProperty = BindableProperty.Create(
             propertyName: nameof(IconSizes),
             returnType: typeof(int),
+            defaultValue: 30,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -53,7 +56,7 @@ namespace Next2.Controls
         public static readonly BindableProperty TextWidthProperty = BindableProperty.Create(
             propertyName: nameof(TextWidth),
             returnType: typeof(int),
-            defaultValue: 25,
+            defaultValue: 22,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -66,6 +69,7 @@ namespace Next2.Controls
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
             propertyName: nameof(TextColor),
             returnType: typeof(Color),
+            defaultValue: (Color)Application.Current.Resources["TextAndBackgroundColor_i1"],
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -78,6 +82,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
+            defaultValue: "Barlow-Bold",
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -90,6 +95,7 @@ namespace Next2.Controls
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
             returnType: typeof(double),
+            defaultValue: (double)Application.Current.Resources["TSize_i6"],
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -214,12 +220,12 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private void OnDecrementCommand(object obj)
+        private void OnDecrementCommand()
         {
             Value -= IncrementValue;
         }
 
-        private void OnIncrementCommand(object obj)
+        private void OnIncrementCommand()
         {
             Value += IncrementValue;
         }

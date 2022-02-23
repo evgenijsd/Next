@@ -5,6 +5,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     VerticalOptions="Center"
+    Spacing="8"
     x:Class="Next2.Controls.CustomStepper">
     
     <Grid

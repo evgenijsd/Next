@@ -31,7 +31,7 @@ namespace Next2.iOS.Renderers
         {
             var lineSpacingLabel = Element as LineSpacingLabel;
 
-            if (Control != null && lineSpacingLabel != null && lineSpacingLabel.Text != null)
+            if (Control != null && lineSpacingLabel?.Text != null)
             {
                 var paragraphStyle = new NSMutableParagraphStyle()
                 {
