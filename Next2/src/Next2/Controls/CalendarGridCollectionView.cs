@@ -4,8 +4,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -71,9 +69,13 @@ namespace Next2.Controls
         protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
+
             if (propertyName == nameof(Year))
             {
-                CreateArrayOfDays();
+                if (Year <= DateTime.Now.Year)
+                {
+                    CreateArrayOfDays();
+                }
             }
 
             if (propertyName == nameof(Month))
@@ -85,7 +87,7 @@ namespace Next2.Controls
             {
                 if (SelectedItem is DayModel selectedDay)
                 {
-                    if (selectedDay.State == ENums.EDayState.NoDayMonth || selectedDay.State == ENums.EDayState.NameOfDay || Year > DateTime.Now.Year)
+                    if (selectedDay.State == ENums.EDayState.NoDayMonth || selectedDay.State == ENums.EDayState.NameOfDay)
                     {
                         if (selectedDay.State == ENums.EDayState.NoDayMonth)
                         {
@@ -124,7 +126,15 @@ namespace Next2.Controls
                     }
                     else if (int.TryParse(selectedDay.Day, out int daySelected))
                     {
-                        SelectedDate = new DateTime(Year, Month, daySelected);
+                        if (Year <= DateTime.Now.Year)
+                        {
+                            SelectedDate = new DateTime(Year, Month, daySelected);
+                        }
+                        else
+                        {
+                            SelectedItem = null;
+                            SelectedDate = null;
+                        }
                     }
                 }
             }
@@ -134,7 +144,7 @@ namespace Next2.Controls
 
         #region -- Private Helpers --
 
-        private void CreateArrayOfDays()
+        private Task CreateArrayOfDays()
         {
             DateTime dt = new DateTime(Year, Month, 1);
             int currentMonthindex = (int)dt.DayOfWeek;
@@ -183,6 +193,8 @@ namespace Next2.Controls
 
                 CategoriesItems.Add(new DayModel { Day = day.ToString(), State = state, });
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

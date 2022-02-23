@@ -116,7 +116,8 @@ namespace Next2.Views.Mobile.Dialogs
                 if (SelectedYear.Year > DateTime.Now.Year && !_isFutureYearSelected)
                 {
                     _isFutureYearSelected = true;
-                    SelectedYear = new YearModel() { Year = DateTime.Now.Year, Opacity = 1 };
+                    SelectedYear = Years.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+                    yearsCollectionView.SelectedItem = null;
                 }
 
                 _isFutureYearSelected = false;
