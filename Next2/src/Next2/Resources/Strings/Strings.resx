@@ -285,17 +285,56 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+  <data name="CurrencySign" xml:space="preserve">
+    <value>$</value>
   </data>
-  <data name="ReAssignTable" xml:space="preserve">
-    <value>Re-assign Table</value>
+  <data name="Delivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="DineIn" xml:space="preserve">
+    <value>Dine In</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Pay" xml:space="preserve">
+    <value>Pay</value>
+  </data>
+  <data name="Seats" xml:space="preserve">
+    <value>Seats</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Tab" xml:space="preserve">
+    <value>Tab</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="ToGo" xml:space="preserve">
+    <value>To Go</value>
+  </data>
+  <data name="ToCreateNewOrderSelectDishCard" xml:space="preserve">
+    <value>To create a new order, select a dish card.</value>
+  </data>
+  <data name="NameOrOrder" xml:space="preserve">
+    <value>Name or Order</value>
   </data>
   <data name="PrintReceipt" xml:space="preserve">
     <value>Print Receipt</value>
   </data>
-  <data name="NameOrOrder" xml:space="preserve">
-    <value>Name or Order</value>
+  <data name="ReAssignTable" xml:space="preserve">
+    <value>Re-assign Table</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="TableNumberOrOrder" xml:space="preserve">
     <value>Table Number or Order</value>

@@ -19,16 +19,6 @@ namespace Next2.ViewModels
 
         public string? Text { get; set; }
 
-        private ICommand _goToEmployeeIdPage;
-        public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
-
-        private async Task OnGoToEmployeeIdPageAsync()
-        {
-            string page = App.IsTablet ? nameof(HoldItemsView) : nameof(HoldItemsPage);
-            var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
-            await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
-        }
-
         #endregion
     }
 }

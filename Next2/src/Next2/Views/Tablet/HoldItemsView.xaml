@@ -16,15 +16,6 @@
             VerticalTextAlignment="Center"
             HorizontalTextAlignment="Center"/>
 
-        <buttons:BorderButton
-                        Text="{xct:Translate Print}"
-                        FontSize="{DynamicResource TSize_i7}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        BorderColor="{DynamicResource IndicationColor_i1}"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        Style="{DynamicResource BorderButtonStyle_i1}"
-                        WidthRequest="100" />
-
     </StackLayout>
 
 </ContentView>

@@ -283,15 +283,12 @@
                         IsVisible="{Binding IsNotingFound, Converter={xct:InvertedBoolConverter}}">
 
                         <controls:CustomScrollBarCollectionView
+                            Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Orders}"
-                            SelectionMode="Single"
                             SelectedItem="{Binding SelectedOrder}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            VerticalScrollBarVisibility="Always"
                             ThumbWidth="8"
-                            ScrollBarCornerRadius="10"
-                            ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                            ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}">
+                            ScrollBarCornerRadius="10">
 
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect />

@@ -280,7 +280,7 @@
 
             <sc:StateCondition State="Membership">
 
-                <viewsTablet:MembershipPage BindingContext="{Binding MembershipViewModel}"/>
+                <viewsTablet:MembershipView BindingContext="{Binding MembershipViewModel}"/>
 
             </sc:StateCondition>
 
