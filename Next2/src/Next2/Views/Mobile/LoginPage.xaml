@@ -16,7 +16,7 @@
     <StackLayout 
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" 
         Spacing="0" 
-        Padding="0"> 
+        Padding="0">
 
         <Label 
             Text="{xct:Translate Login}"
@@ -26,7 +26,20 @@
             VerticalTextAlignment="Center"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontFamily="Barlow-Bold"/>
+            FontFamily="Barlow-Bold">
+
+            <Label.Triggers>
+
+                <DataTrigger TargetType="Label"
+                                         Binding="{Binding IsCheckAdminID}"
+                                         Value="True">
+                    <Setter Property="Text" Value="{xct:Translate EmployeeId}"/>
+
+                </DataTrigger>
+
+            </Label.Triggers>
+            
+        </Label>
 
         <Grid 
             ColumnDefinitions="0.5*,0.5*"
@@ -76,7 +89,18 @@
                     BackgroundColor="{DynamicResource AppColor_i1}"/>
 
             </StackLayout>
-            
+
+            <Grid.Triggers>
+
+                <DataTrigger TargetType="Grid"
+                                         Binding="{Binding IsCheckAdminID}"
+                                         Value="True">
+                    <Setter Property="IsVisible" Value="false"/>
+
+                </DataTrigger>
+
+            </Grid.Triggers>
+
         </Grid>
 
         <StackLayout 
@@ -116,7 +140,18 @@
                     <behaviors:InputButtonBehavior/>
 
                 </buttons:InputButton.Behaviors>
-                
+
+                <buttons:InputButton.Triggers>
+
+                    <DataTrigger TargetType="buttons:InputButton"
+                                         Binding="{Binding EmployeeId}"
+                                         Value="">
+                        <Setter Property="IsLeftImageVisible" Value="false"/>
+
+                    </DataTrigger>
+
+                </buttons:InputButton.Triggers>
+
             </buttons:InputButton>
 
             <StackLayout 
@@ -141,7 +176,7 @@
                         HasShadow="False"
                         Text="{xct:Translate Clear}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i7}"
-                        FontSize="{DynamicResource TSize_i8}"
+                        FontSize="{DynamicResource TSize_i7}"
                         BorderColor="{DynamicResource IndicationColor_i4}"
                         FontFamily="Barlow-SemiBold"
                         Command="{Binding ButtonClearCommand}">
@@ -151,6 +186,19 @@
                             <behaviors:BorderButtonBehavior Title="{Binding Text, Source={x:Reference employeeId}}"/>
 
                         </buttons:BorderButton.Behaviors>
+
+                        <buttons:BorderButton.Triggers>
+
+                            <DataTrigger TargetType="buttons:BorderButton"
+                                         Binding="{Binding IsCheckAdminID}"
+                                         Value="True">
+                                <Setter Property="Text" Value="{xct:Translate Cancel}"/>
+                                <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                            </DataTrigger>
+
+                        </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>
                     
@@ -170,7 +218,7 @@
                         HeightRequest="65"
                         HasShadow="False"
                         Text="{xct:Translate Login}"
-                        FontSize="{DynamicResource TSize_i8}"
+                        FontSize="{DynamicResource TSize_i7}"
                         BorderColor="Transparent"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         FontFamily="Barlow-SemiBold"
@@ -185,7 +233,23 @@
                                 <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
 
                             </DataTrigger>
-                            
+
+                            <DataTrigger TargetType="buttons:BorderButton"
+                                         Binding="{Binding IsCheckAdminID}"
+                                         Value="True">
+                                <Setter Property="Text" Value="{xct:Translate Confirm}"/>
+
+                            </DataTrigger>
+
+                            <MultiTrigger TargetType="buttons:BorderButton">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=IsCheckAdminID}" Value="true" />
+                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+                                <Setter Property="IsEnabled" Value="true"/>
+                            </MultiTrigger>
+
                         </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>

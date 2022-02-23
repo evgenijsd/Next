@@ -37,19 +37,21 @@ namespace Next2.ViewModels
 
         public bool IsEmployeeExists { get; set; }
 
+        public bool IsCheckAdminID { get; set; } = false;
+
         public bool IsUserLogIn { get; set; }
 
         public bool IsErrorNotificationVisible { get; set; }
 
         public DateTime CurrentDateTime { get; set; }
 
-        public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
+        public string EmployeeId { get; set; } = string.Empty;
 
         private ICommand _buttonClearCommand;
-        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearAsync);
+        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearOrCancelAsync);
 
         private ICommand _goToStartPageCommand;
-        public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);
+        public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageOrConfirmCommandAsync);
 
         private ICommand _goToEmployeeIdPage;
         public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
@@ -58,10 +60,17 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnTabClearAsync()
+        private async Task OnTabClearOrCancelAsync()
         {
-            EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
-            IsEmployeeExists = false;
+            if (IsCheckAdminID)
+            {
+                await _navigationService.GoBackAsync();
+            }
+            else
+            {
+                EmployeeId = string.Empty;
+                IsEmployeeExists = false;
+            }
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
@@ -69,7 +78,7 @@ namespace Next2.ViewModels
             await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
 
-        private async Task OnStartPageCommandAsync(object? sender)
+        private async Task OnStartPageOrConfirmCommandAsync(object? sender)
         {
             if (sender is string str && str is not null)
             {
@@ -82,7 +91,16 @@ namespace Next2.ViewModels
                     if (IsEmployeeExists)
                     {
                         _authenticationService.Authorization();
-                        await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
+
+                        if (IsCheckAdminID)
+                        {
+                            await _navigationService.GoBackAsync();
+                        }
+                        else
+                        {
+                            await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
+                        }
+
                         IsUserLogIn = true;
                     }
                     else
@@ -97,9 +115,15 @@ namespace Next2.ViewModels
             }
             else if (IsEmployeeExists)
             {
-                _authenticationService.Authorization();
-                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
-                EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+                if (IsCheckAdminID)
+                {
+                    await _navigationService.GoBackAsync();
+                }
+                else
+                {
+                    _authenticationService.Authorization();
+                    await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
+                }
             }
         }
 
@@ -114,7 +138,12 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_authenticationService.AuthorizedUserId >= 0)
+            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
+            {
+                IsCheckAdminID = true;
+            }
+
+            if (_authenticationService.AuthorizedUserId >= 0 && !IsCheckAdminID)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }

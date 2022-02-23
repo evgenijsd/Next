@@ -1,4 +1,5 @@
 ﻿using Next2.Views.Mobile;
+using Next2.Views.Tablet;
 using Prism.Navigation;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -23,7 +24,9 @@ namespace Next2.ViewModels
 
         private async Task OnGoToEmployeeIdPageAsync()
         {
-            await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
+            string page = App.IsTablet ? nameof(HoldItemsView) : nameof(HoldItemsPage);
+            var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
+            await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
         }
 
         #endregion

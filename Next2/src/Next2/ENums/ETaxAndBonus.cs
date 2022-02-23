@@ -8,6 +8,6 @@ namespace Next2.Enums
     {
         Tax,
         Coupone,
-        Discount
+        Discount,
     }
 }

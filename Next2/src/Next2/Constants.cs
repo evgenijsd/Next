@@ -40,6 +40,7 @@
         {
             public const string SEARCH = nameof(SEARCH);
             public const string FUNC = nameof(FUNC);
+            public const string ADMIN = nameof(ADMIN);
         }
 
         public static class Validators
