@@ -134,13 +134,25 @@ namespace Next2.ViewModels
                 if (Device.Idiom == TargetIdiom.Phone)
                 {
                     await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
-                    .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync(), _customersService));
+                    .CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService));
                 }
                 else
                 {
                     await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                    .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync(), _customersService));
+                    .CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService));
                 }
+            }
+        }
+
+        private async void AddCustomerDialogCallBack(IDialogParameters param)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (param.TryGetValue("Id", out int id))
+            {
+                await RefreshAsync();
+                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == id));
+                Customers.Move(index, 0);
             }
         }
 

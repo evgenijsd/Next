@@ -16,6 +16,7 @@ namespace Next2.Views.Tablet.Dialogs
     {
         private const int MIN_YEAR = 1900;
         private const int MAX_YEAR = 2100;
+        private bool _isFutureYearSelected;
         public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
         {
             InitializeComponent();
@@ -47,9 +48,11 @@ namespace Next2.Views.Tablet.Dialogs
                 Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
 
-            mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-            nameWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-            phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+            SelectedYear = Years.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+
+            mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+            nameWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+            phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
         }
 
         #region -- Public Properties --
@@ -59,6 +62,8 @@ namespace Next2.Views.Tablet.Dialogs
         public List<YearModel> Years { get; set; }
 
         public MonthModel Month { get; set; }
+
+        public DayModel SelectedDay { get; set; }
 
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
             propertyName: nameof(SelectedMonth),
@@ -75,15 +80,44 @@ namespace Next2.Views.Tablet.Dialogs
 
         public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(
             propertyName: nameof(SelectedYear),
-            returnType: typeof(int),
+            returnType: typeof(YearModel),
             declaringType: typeof(CustomerAddDialog),
-            defaultValue: 2022,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int SelectedYear
+        public YearModel SelectedYear
         {
-            get => (int)GetValue(SelectedYearProperty);
+            get => (YearModel)GetValue(SelectedYearProperty);
             set => SetValue(SelectedYearProperty, value);
+        }
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(string? propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            if (propertyName == nameof(SelectedDay))
+            {
+                if (dropdownFrame.IsVisible)
+                {
+                    dropdownFrame.IsVisible = false;
+                    yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+                    yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
+                    yearDropdownFrame.BorderColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
+                }
+            }
+
+            if (propertyName == nameof(SelectedYear))
+            {
+                if (SelectedYear.Year > DateTime.Now.Year && !_isFutureYearSelected)
+                {
+                    _isFutureYearSelected = true;
+                    SelectedYear = new YearModel() { Year = DateTime.Now.Year, Opacity = 1 };
+                }
+
+                _isFutureYearSelected = false;
+            }
         }
 
         #endregion
@@ -121,9 +155,10 @@ namespace Next2.Views.Tablet.Dialogs
 
         private void OnMailEntryFocused(object sender, EventArgs arg)
         {
-            nameEntryBlock.IsVisible = false;
-            headEntryLabel.IsVisible = false;
-            phoneEntryBlock.IsVisible = false;
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                nameEntryBlock.IsVisible = false;
+            }
         }
 
         private void OnPhoneEntryUnfocused(object sender, EventArgs arg)
@@ -132,40 +167,29 @@ namespace Next2.Views.Tablet.Dialogs
             {
                 var isValid = entry.Text?.Length == 10;
                 phoneFrame.BorderColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
-                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i4"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i3"] : (Color)App.Current.Resources["IndicationColor_i3"];
             }
         }
 
         private void OnMailEntryUnfocused(object sender, EventArgs arg)
         {
-            nameEntryBlock.IsVisible = true;
-            headEntryLabel.IsVisible = true;
-            phoneEntryBlock.IsVisible = true;
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                nameEntryBlock.IsVisible = true;
+            }
 
             if (sender is CustomEntry entry && entry != null && entry.Text != null)
             {
                 mailFrame.BorderColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
-                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i4"] : (Color)App.Current.Resources["IndicationColor_i3"];
-            }
-        }
-
-        private void OnSelectionChanged(object sender, EventArgs arg)
-        {
-            if (sender is CollectionView collection && collection.SelectedItem != null)
-            {
-                if (collection.SelectedItem is YearModel year)
-                {
-                    SelectedYear = year.Year;
-                }
+                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i3"] : (Color)App.Current.Resources["IndicationColor_i3"];
             }
         }
 
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {
-            if (dropdownFrame.IsVisible == false)
+            if (!dropdownFrame.IsVisible)
             {
-                yearsCollectionView.SelectedItem = Years.FirstOrDefault(x => x.Year == SelectedYear);
-                yearsCollectionView.ScrollTo(yearsCollectionView.SelectedItem, -1, ScrollToPosition.Center, false);
+                yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
                 dropdownFrame.IsVisible = true;
                 yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
                 yearDropdownIcon.Source = "ic_arrow_up_24x24";
@@ -185,7 +209,7 @@ namespace Next2.Views.Tablet.Dialogs
             if (SelectedMonth == 12)
             {
                 SelectedMonth = 1;
-                SelectedYear++;
+                SelectedYear.Year++;
             }
             else
             {
@@ -199,7 +223,7 @@ namespace Next2.Views.Tablet.Dialogs
         {
             if (SelectedMonth == 1)
             {
-                SelectedYear--;
+                SelectedYear.Year--;
                 SelectedMonth = 12;
             }
             else

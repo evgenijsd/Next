@@ -16,6 +16,7 @@ namespace Next2.Views.Mobile.Dialogs
     {
         private const int MIN_YEAR = 1900;
         private const int MAX_YEAR = 2100;
+        private bool _isFutureYearSelected = false;
         public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
         {
             InitializeComponent();
@@ -49,6 +50,8 @@ namespace Next2.Views.Mobile.Dialogs
                 Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
 
+            SelectedYear = Years.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+
             mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
             nameWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
             phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
@@ -63,6 +66,8 @@ namespace Next2.Views.Mobile.Dialogs
         public List<YearModel> Years { get; set; }
 
         public MonthModel Month { get; set; }
+
+        public DayModel SelectedDay { get; set; }
 
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
             propertyName: nameof(SelectedMonth),
@@ -79,18 +84,15 @@ namespace Next2.Views.Mobile.Dialogs
 
         public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(
             propertyName: nameof(SelectedYear),
-            returnType: typeof(int),
+            returnType: typeof(YearModel),
             declaringType: typeof(CustomerAddDialog),
-            defaultValue: 2022,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public int SelectedYear
+        public YearModel SelectedYear
         {
-            get => (int)GetValue(SelectedYearProperty);
+            get => (YearModel)GetValue(SelectedYearProperty);
             set => SetValue(SelectedYearProperty, value);
         }
-
-        public DayModel SelectedDay { get; set; }
 
         #endregion
 
@@ -107,6 +109,17 @@ namespace Next2.Views.Mobile.Dialogs
                     yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
                     yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
                 }
+            }
+
+            if (propertyName == nameof(SelectedYear))
+            {
+                if (SelectedYear.Year > DateTime.Now.Year && !_isFutureYearSelected)
+                {
+                    _isFutureYearSelected = true;
+                    SelectedYear = new YearModel() { Year = DateTime.Now.Year, Opacity = 1 };
+                }
+
+                _isFutureYearSelected = false;
             }
         }
 
@@ -145,7 +158,10 @@ namespace Next2.Views.Mobile.Dialogs
 
         private void OnMailEntryFocused(object sender, EventArgs arg)
         {
-            nameEntryBlock.IsVisible = false;
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                nameEntryBlock.IsVisible = false;
+            }
         }
 
         private void OnPhoneEntryUnfocused(object sender, EventArgs arg)
@@ -169,23 +185,11 @@ namespace Next2.Views.Mobile.Dialogs
             }
         }
 
-        private void OnSelectionChanged(object sender, EventArgs arg)
-        {
-            if (sender is CollectionView collection && collection.SelectedItem != null)
-            {
-                if (collection.SelectedItem is YearModel year)
-                {
-                    SelectedYear = year.Year;
-                }
-            }
-        }
-
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {
             if (!dropdownFrame.IsVisible)
             {
-                yearsCollectionView.SelectedItem = Years.FirstOrDefault(x => x.Year == SelectedYear);
-                yearsCollectionView.ScrollTo(yearsCollectionView.SelectedItem, -1, ScrollToPosition.Center, false);
+                yearsCollectionView.ScrollTo(SelectedYear, -1, ScrollToPosition.Center, false);
                 dropdownFrame.IsVisible = true;
                 yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i5"];
                 yearDropdownIcon.Source = "ic_arrow_up_24x24";
@@ -203,7 +207,7 @@ namespace Next2.Views.Mobile.Dialogs
             if (SelectedMonth == 12)
             {
                 SelectedMonth = 1;
-                SelectedYear++;
+                SelectedYear.Year++;
             }
             else
             {
@@ -217,7 +221,7 @@ namespace Next2.Views.Mobile.Dialogs
         {
             if (SelectedMonth == 1)
             {
-                SelectedYear--;
+                SelectedYear.Year--;
                 SelectedMonth = 12;
             }
             else

@@ -168,7 +168,7 @@
                                         <Label
                                             Margin="10,6,0,6"
                                             FontFamily="Barlow-Medium"
-                                            Text="{Binding SelectedYear, Source={x:Reference customerAddDialog}}"
+                                            Text="{Binding SelectedYear.Year, Source={x:Reference customerAddDialog}}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             VerticalTextAlignment="Center" />
 
@@ -244,10 +244,10 @@
                                     Margin="16,0,16,1"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     Month="{Binding SelectedMonth, Source={x:Reference customerAddDialog}}"
-                                    SelectedItem="{Binding SelectedDay, Source={x:Reference customerAddDialog}}"
                                     PropertyChanged="OnCalendarGridPropertyChanged"
                                     SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
-                                    Year="{Binding SelectedYear, Source={x:Reference customerAddDialog}}">
+                                    SelectedItem="{Binding SelectedDay, Source={x:Reference customerAddDialog}}"
+                                    Year="{Binding SelectedYear.Year, Source={x:Reference customerAddDialog}}">
 
                                     <CollectionView.ItemsLayout>
 
@@ -342,7 +342,7 @@
                                     <CollectionView
                                         x:Name="yearsCollectionView"
                                         ItemsSource="{Binding Years, Source={x:Reference customerAddDialog}}"
-                                        SelectionChanged="OnSelectionChanged"
+                                        SelectedItem="{Binding SelectedYear, Source={x:Reference customerAddDialog}}"
                                         SelectionMode="Single"
                                         VerticalScrollBarVisibility="Never">
 
@@ -397,130 +397,133 @@
                         <!--  State2  entries  -->
                         <sc:StateCondition State="Info">
 
-                            <StackLayout
-                                Margin="0,18,0,0"
-                                Padding="18,0,18,0"
-                                Spacing="1">
+                            <ScrollView Margin="0,18,0,0" Padding="18,0,18,0">
+                                <ScrollView.Content>
 
-                                <StackLayout x:Name="nameEntryBlock">
+                                    <StackLayout Spacing="1">
 
-                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout x:Name="nameEntryBlock">
+
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label
+                                                    HorizontalOptions="StartAndExpand"
+                                                    Style="{StaticResource LabelStyle}"
+                                                    Text="{xct:Translate CustomerName}" />
+
+                                                <Label
+                                                    HorizontalOptions="End"
+                                                    Opacity="0.32"
+                                                    Style="{StaticResource LabelStyle}"
+                                                    Text="{xct:Translate Required}" />
+                                            </StackLayout>
+
+                                            <Frame Style="{StaticResource EntryFrameStyle}">
+
+                                                <controls:CustomEntry
+                                                    x:Name="nameEntry"
+                                                    Margin="12,0,0,0"
+                                                    MaxLength="100"
+                                                    Placeholder="{xct:Translate TypeUserName}"
+                                                    Style="{StaticResource EntryPlaceholderStyle}"
+                                                    Text="{Binding Name}" />
+                                            </Frame>
+
+                                        </StackLayout>
+
                                         <Label
+                                            x:Name="nameWarningLabel"
+                                            Margin="12,0,0,0"
+                                            FontSize="{DynamicResource TSize_i9}"
                                             HorizontalOptions="StartAndExpand"
-                                            Style="{StaticResource LabelStyle}"
-                                            Text="{xct:Translate CustomerName}" />
+                                            Text="{xct:Translate IncorrectName}"
+                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
+                                            VerticalOptions="Start" />
+
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <Label
+                                                HorizontalOptions="StartAndExpand"
+                                                Style="{StaticResource LabelStyle}"
+                                                Text="{xct:Translate Phone}" />
+
+                                            <Label
+                                                HorizontalOptions="End"
+                                                Opacity="0.32"
+                                                Style="{StaticResource LabelStyle}"
+                                                Text="{xct:Translate Required}" />
+
+                                        </StackLayout>
+
+                                        <Frame x:Name="phoneFrame" Style="{StaticResource EntryFrameStyle}">
+
+                                            <controls:CustomEntry
+                                                x:Name="phoneEntry"
+                                                Margin="12,0,0,0"
+                                                Keyboard="Numeric"
+                                                MaxLength="10"
+                                                Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
+                                                Style="{StaticResource EntryPlaceholderStyle}"
+                                                Text="{Binding Phone}"
+                                                Unfocused="OnPhoneEntryUnfocused" />
+
+                                        </Frame>
 
                                         <Label
-                                            HorizontalOptions="End"
-                                            Opacity="0.32"
-                                            Style="{StaticResource LabelStyle}"
-                                            Text="{xct:Translate Required}" />
+                                            x:Name="phoneWarningLabel"
+                                            Margin="12,0,0,0"
+                                            FontSize="{DynamicResource TSize_i9}"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{xct:Translate IncorrectNumber}"
+                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
+                                            VerticalOptions="Start" />
+
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <Label
+                                                HorizontalOptions="StartAndExpand"
+                                                Style="{StaticResource LabelStyle}"
+                                                Text="{xct:Translate Email}" />
+
+                                            <Label
+                                                HorizontalOptions="End"
+                                                Opacity="0.32"
+                                                Style="{StaticResource LabelStyle}"
+                                                Text="{xct:Translate Required}" />
+
+                                        </StackLayout>
+
+                                        <Frame x:Name="mailFrame" Style="{StaticResource EntryFrameStyle}">
+
+                                            <controls:CustomEntry
+                                                x:Name="mailEntry"
+                                                Margin="12,0,0,0"
+                                                Focused="OnMailEntryFocused"
+                                                Placeholder="{xct:Translate TypeEmail}"
+                                                Style="{StaticResource EntryPlaceholderStyle}"
+                                                Text="{Binding Email}"
+                                                Unfocused="OnMailEntryUnfocused">
+
+                                                <controls:CustomEntry.Behaviors>
+                                                    <behaviors:EmailValidatorBehavior />
+                                                </controls:CustomEntry.Behaviors>
+
+                                            </controls:CustomEntry>
+
+                                        </Frame>
+
+                                        <Label
+                                            x:Name="mailWarningLabel"
+                                            Margin="12,0,0,0"
+                                            FontSize="{DynamicResource TSize_i9}"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{xct:Translate IncorrectEmail}"
+                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
+                                            VerticalOptions="StartAndExpand" />
+
                                     </StackLayout>
 
-                                    <Frame Style="{StaticResource EntryFrameStyle}">
-
-                                        <controls:CustomEntry
-                                            x:Name="nameEntry"
-                                            Margin="12,0,0,0"
-                                            MaxLength="100"
-                                            Placeholder="{xct:Translate TypeUserName}"
-                                            Style="{StaticResource EntryPlaceholderStyle}"
-                                            Text="{Binding Name}" />
-                                    </Frame>
-
-                                </StackLayout>
-
-                                <Label
-                                    x:Name="nameWarningLabel"
-                                    Margin="12,0,0,0"
-                                    FontSize="{DynamicResource TSize_i9}"
-                                    HorizontalOptions="StartAndExpand"
-                                    Text="{xct:Translate IncorrectName}"
-                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
-                                    VerticalOptions="Start" />
-
-                                <StackLayout Orientation="Horizontal">
-
-                                    <Label
-                                        HorizontalOptions="StartAndExpand"
-                                        Style="{StaticResource LabelStyle}"
-                                        Text="{xct:Translate Phone}" />
-
-                                    <Label
-                                        HorizontalOptions="End"
-                                        Opacity="0.32"
-                                        Style="{StaticResource LabelStyle}"
-                                        Text="{xct:Translate Required}" />
-
-                                </StackLayout>
-
-                                <Frame x:Name="phoneFrame" Style="{StaticResource EntryFrameStyle}">
-
-                                    <controls:CustomEntry
-                                        x:Name="phoneEntry"
-                                        Margin="12,0,0,0"
-                                        Keyboard="Numeric"
-                                        MaxLength="10"
-                                        Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
-                                        Style="{StaticResource EntryPlaceholderStyle}"
-                                        Text="{Binding Phone}"
-                                        Unfocused="OnPhoneEntryUnfocused" />
-
-                                </Frame>
-
-                                <Label
-                                    x:Name="phoneWarningLabel"
-                                    Margin="12,0,0,0"
-                                    FontSize="{DynamicResource TSize_i9}"
-                                    HorizontalOptions="StartAndExpand"
-                                    Text="{xct:Translate IncorrectNumber}"
-                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
-                                    VerticalOptions="Start" />
-
-                                <StackLayout Orientation="Horizontal">
-
-                                    <Label
-                                        HorizontalOptions="StartAndExpand"
-                                        Style="{StaticResource LabelStyle}"
-                                        Text="{xct:Translate Email}" />
-
-                                    <Label
-                                        HorizontalOptions="End"
-                                        Opacity="0.32"
-                                        Style="{StaticResource LabelStyle}"
-                                        Text="{xct:Translate Required}" />
-
-                                </StackLayout>
-
-                                <Frame x:Name="mailFrame" Style="{StaticResource EntryFrameStyle}">
-
-                                    <controls:CustomEntry
-                                        x:Name="mailEntry"
-                                        Margin="12,0,0,0"
-                                        Focused="OnMailEntryFocused"
-                                        Placeholder="{xct:Translate TypeEmail}"
-                                        Style="{StaticResource EntryPlaceholderStyle}"
-                                        Text="{Binding Email}"
-                                        Unfocused="OnMailEntryUnfocused">
-
-                                        <controls:CustomEntry.Behaviors>
-                                            <behaviors:EmailValidatorBehavior />
-                                        </controls:CustomEntry.Behaviors>
-
-                                    </controls:CustomEntry>
-
-                                </Frame>
-
-                                <Label
-                                    x:Name="mailWarningLabel"
-                                    Margin="12,0,0,0"
-                                    FontSize="{DynamicResource TSize_i9}"
-                                    HorizontalOptions="StartAndExpand"
-                                    Text="{xct:Translate IncorrectEmail}"
-                                    TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
-                                    VerticalOptions="StartAndExpand" />
-
-                            </StackLayout>
+                                </ScrollView.Content>
+                            </ScrollView>
 
                         </sc:StateCondition>
 

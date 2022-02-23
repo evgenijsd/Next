@@ -1,23 +1,22 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Next2.Models;
-using Prism.Commands;
-using Prism.Services.Dialogs;
-using System.Windows.Input;
-using Xamarin.Forms;
-using Xamarin.CommunityToolkit.ObjectModel;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using Next2.Models;
 using Next2.Services.CustomersService;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Services.Dialogs;
+using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
     public class CustomerAddViewModel : BindableBase
     {
         private readonly ICustomersService _customersService;
-        private Color _acceptColor;
+        private Color _acceptColorMob;
+        private Color _acceptColorTab;
         public CustomerAddViewModel(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
         {
             _customersService = customersService;
@@ -29,14 +28,15 @@ namespace Next2.ViewModels.Dialogs
 
             SelectedDate = null;
 
-            _acceptColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+            _acceptColorTab = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+            _acceptColorMob = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
 
             DoneButtonOpacity = 0.32;
         }
 
         #region --Public Properties--
 
-        private bool _accept => WarningTextColor == _acceptColor && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone != string.Empty && SelectedDate != null;
+        private bool _accept => (WarningTextColor == _acceptColorTab || WarningTextColor == _acceptColorMob) && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone != string.Empty && SelectedDate != null;
 
         public string Name { get; set; }
 
@@ -55,7 +55,7 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand CloseCommand { get; }
 
-        public DelegateCommand AcceptCommand { get; }
+        public DelegateCommand AcceptCommand { get; set; }
 
         public DelegateCommand DeclineCommand { get; }
 
@@ -87,6 +87,7 @@ namespace Next2.ViewModels.Dialogs
 
                 if (result.IsSuccess)
                 {
+                    AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true }, { "Id", result.Result } }));
                 }
 
                 AcceptCommand.Execute();

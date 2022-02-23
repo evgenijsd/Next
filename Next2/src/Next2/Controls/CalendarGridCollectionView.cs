@@ -18,6 +18,8 @@ namespace Next2.Controls
             CreateArrayOfDays();
             this.ItemsSource = CategoriesItems;
             this.SelectionMode = SelectionMode.Single;
+            VerticalScrollBarVisibility = ScrollBarVisibility.Never;
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Never;
         }
 
         #region -- Public Properties --

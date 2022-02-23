@@ -20,7 +20,7 @@ namespace Next2.Services.CustomersService
 
         #region -- ICustomersSerice implementation --
 
-        public async Task<AOResult> AddNewCustomer(CustomerModel customer)
+        public async Task<AOResult<int>> AddNewCustomer(CustomerModel customer)
         {
             var result = new AOResult<int>();
             try
