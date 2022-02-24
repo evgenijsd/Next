@@ -1,3 +1,4 @@
+using Next2.Enums;
 using Next2.Services;
 using Next2.Services.Authentication;
 using Next2.Services.Mock;
@@ -5,6 +6,7 @@ using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
@@ -37,6 +39,8 @@ namespace Next2.ViewModels
         public bool IsEmployeeExists { get; set; }
 
         public bool IsCheckAdminID { get; set; } = false;
+
+        public bool IsNoAdmin { get; set; } = false;
 
         public bool IsUserLogIn { get; set; }
 
@@ -74,6 +78,7 @@ namespace Next2.ViewModels
 
         private async Task OnGoToEmployeeIdPageAsync()
         {
+            IsNoAdmin = false;
             await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
 
@@ -112,23 +117,33 @@ namespace Next2.ViewModels
                     IsErrorNotificationVisible = true;
                 }
             }
-            else if (IsEmployeeExists)
+            else if (IsCheckAdminID)
             {
-                if (IsCheckAdminID)
+                IsNoAdmin = await CheckEmployeeExists() != ETypeUser.Admin;
+                if (!IsNoAdmin)
                 {
                     await _navigationService.GoBackAsync();
                 }
-                else
-                {
-                    _authenticationService.Authorization();
-                    await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
-                }
+            }
+            else if (IsEmployeeExists)
+            {
+                _authenticationService.Authorization();
+                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
         }
 
-        private async Task CheckEmployeeExists()
+        private async Task<ETypeUser> CheckEmployeeExists()
         {
-            IsEmployeeExists = (await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit)).IsSuccess;
+            var user = await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit);
+            IsEmployeeExists = user.IsSuccess;
+            if (IsEmployeeExists)
+            {
+                return user.Result.TypeUser;
+            }
+            else
+            {
+                return ETypeUser.NoUser;
+            }
         }
 
         #endregion

@@ -6,6 +6,7 @@ namespace Next2.Enums
 {
     public enum ETypeUser
     {
+        NoUser,
         Admin,
         User,
     }

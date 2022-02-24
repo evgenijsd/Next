@@ -840,16 +840,25 @@ namespace Next2.Services.Mock
                 {
                     Id = 0,
                     UserName = "Tom",
+                    TypeUser = ETypeUser.User,
                 },
                 new UserModel
                 {
                     Id = 1,
                     UserName = "Bob Marley",
+                    TypeUser = ETypeUser.User,
                 },
                 new UserModel
                 {
                     Id = 2,
                     UserName = "Tom Black",
+                    TypeUser = ETypeUser.User,
+                },
+                new UserModel
+                {
+                    Id = 101,
+                    UserName = "Admin",
+                    TypeUser = ETypeUser.Admin,
                 },
             };
 

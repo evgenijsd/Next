@@ -3,7 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:controls="clr-namespace:Next2.Controls" 
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
@@ -133,6 +133,8 @@
                 LeftImagePath="ic_danger_circle"
                 Text="{Binding EmployeeId, Mode=TwoWay}"
                 IsEmployeeExists="{Binding IsEmployeeExists, Mode=TwoWay}"
+                IsCheckAdminID="{Binding IsCheckAdminID, Mode=TwoWay}"
+                IsNoAdmin="{Binding IsNoAdmin, Mode=TwoWay}"
                 TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
 
                 <buttons:InputButton.Behaviors>
@@ -141,7 +143,7 @@
 
                 </buttons:InputButton.Behaviors>
 
-                <buttons:InputButton.Triggers>
+                <!--buttons:InputButton.Triggers>
 
                     <DataTrigger TargetType="buttons:InputButton"
                                          Binding="{Binding EmployeeId}"
@@ -150,9 +152,39 @@
 
                     </DataTrigger>
 
-                </buttons:InputButton.Triggers>
+                    <DataTrigger TargetType="buttons:InputButton"
+                                         Binding="{Binding IsUserAdmin}"
+                                         Value="true">
+                        <Setter Property="IsEmployeeExists" Value="true"/>
+
+                    </DataTrigger>
+
+                </buttons:InputButton.Triggers-->
 
             </buttons:InputButton>
+
+            <yummy:PancakeView
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" 
+                HeightRequest="40" 
+                Margin="16, 5, 16, 0" 
+                IsVisible="{Binding IsNoAdmin}"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}">
+                
+                <yummy:PancakeView.Shadow>
+                    <yummy:DropShadow Color="Black" Offset="1,2" 
+                                      BlurRadius="{OnPlatform Android=3, iOS=4}"
+                                      Opacity="{OnPlatform Android=1, iOS=0.2}"/>
+                </yummy:PancakeView.Shadow>
+
+                <Label 
+                Text="{xct:Translate InvalidCode}"
+                FontSize="{DynamicResource TSize_i8}"
+                    Margin="10,0,0,0"
+                 VerticalOptions="Center"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Regular"/>
+
+            </yummy:PancakeView>
 
             <StackLayout 
                 Orientation="Horizontal"
@@ -193,7 +225,6 @@
                                          Binding="{Binding IsCheckAdminID}"
                                          Value="True">
                                 <Setter Property="Text" Value="{xct:Translate Cancel}"/>
-                                <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                             </DataTrigger>
@@ -243,8 +274,8 @@
 
                             <MultiTrigger TargetType="buttons:BorderButton">
                                 <MultiTrigger.Conditions>
-                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=IsCheckAdminID}" Value="true" />
-                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
+                                    <BindingCondition Binding="{Binding IsCheckAdminID}" Value="true" />
+                                    <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
                                 </MultiTrigger.Conditions>
                                 <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
                                 <Setter Property="IsEnabled" Value="true"/>
