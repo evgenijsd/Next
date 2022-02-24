@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls.Templates" 
+    xmlns:views="clr-namespace:Next2.Views"
+    x:DataType="viewModels:LoginPageViewModel"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    x:Class="Next2.Views.Tablet.NumericPage" 
+    BackgroundColor="Transparent">
+    
+    <ContentPage.Content >
+        
+        <Frame 
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            HeightRequest="550" 
+            WidthRequest="400" 
+            CornerRadius="10">
+            
+            <controls:CustomNumericKeyboardTemplate
+                Grid.Column="1"
+                Grid.RowSpan="2"
+                PlaceHolder="{xct:Translate TypeEmployeeId}"
+                IsUserLogIn="{Binding IsUserLogIn}"
+                IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
+                ApplyCommand="{Binding GoToStartPageCommand}"/>
+            
+        </Frame>
+        
+    </ContentPage.Content>
+    
+</views:BaseContentPage>

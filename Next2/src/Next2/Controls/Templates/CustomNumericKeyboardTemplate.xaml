@@ -15,19 +15,10 @@
 
         <Grid 
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="0.33*, 60, 0.37*, 0.12*, 60">
+            RowDefinitions="60, 0.37*, 0.12*, 60">
 
-            <Label 
-                Text="{xct:Translate EmployeeId}"
-                Grid.Row="0"
-                FontSize="{DynamicResource TSize_i6}"
-                VerticalTextAlignment="End"
-                Margin="30, 0, 0, 10"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontFamily="Barlow-SemiBold"/>
-
-                <controls:CustomFrame 
-                    Grid.Row="1"
+            <controls:CustomFrame 
+                    Grid.Row="0"
                     Margin="30, 0, 30, 15"
                     CornerRadius="{OnPlatform Android='5', iOS='8'}"
                     Padding="4"
@@ -102,7 +93,7 @@
                 </controls:CustomFrame>
 
             <ContentView 
-                Grid.Row="2"
+                Grid.Row="1"
                 Margin="30, 0, 30, 0">
 
                 <Grid 
@@ -185,7 +176,7 @@
             </ContentView>
 
             <StackLayout 
-                Grid.Row="3" 
+                Grid.Row="2" 
                 Padding="0">
                 
                     <BoxView 
@@ -197,7 +188,7 @@
             </StackLayout>
 
             <Frame 
-                Grid.Row="4" 
+                Grid.Row="3" 
                 HasShadow="False"
                 CornerRadius="5"
                 Margin="12, 12, 12, 12"
