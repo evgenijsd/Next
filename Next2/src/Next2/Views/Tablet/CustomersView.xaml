@@ -240,15 +240,10 @@
 
                             <controls:CustomScrollBarCollectionView
                                 x:Name="collectiomView"
+                                Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 ItemsSource="{Binding Customers}"
-                                ScrollBarCornerRadius="9"
-                                ScrollBarThumbColor="{DynamicResource AppColor_i1}"
-                                ScrollBarTrackColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                                SelectionMode="Single"
-                                ThumbWidth="6"
-                                VerticalScrollBarVisibility="Always">
+                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                                 <CollectionView.Effects>
                                     <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}" />

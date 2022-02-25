@@ -18,16 +18,16 @@ namespace Next2.Controls
 
         #region -- Public properties --
 
-        public static readonly BindableProperty LeftButtonImageSourceProperty = BindableProperty.Create(
-            propertyName: nameof(LeftButtonImageSource),
-            returnType: typeof(string),
+        public static readonly BindableProperty HeightImageProperty = BindableProperty.Create(
+            propertyName: nameof(HeightImage),
+            returnType: typeof(double),
             declaringType: typeof(CustomNavigationbar),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public string LeftButtonImageSource
+        public double HeightImage
         {
-            get => (string)GetValue(LeftButtonImageSourceProperty);
-            set => SetValue(LeftButtonImageSourceProperty, value);
+            get => (double)GetValue(HeightImageProperty);
+            set => SetValue(HeightImageProperty, value);
         }
 
         public static readonly BindableProperty LeftButtonCommandProperty = BindableProperty.Create(
@@ -64,6 +64,18 @@ namespace Next2.Controls
         {
             get => (Color)GetValue(TitleColorProperty);
             set => SetValue(TitleColorProperty, value);
+        }
+
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(FontSize),
+            returnType: typeof(double),
+            declaringType: typeof(CustomNavigationbar),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double FontSize
+        {
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
         }
 
         #endregion

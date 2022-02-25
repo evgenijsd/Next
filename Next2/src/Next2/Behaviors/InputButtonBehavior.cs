@@ -46,20 +46,20 @@ namespace Next2.Behaviors
                 if (_inputButton.IsEmployeeExists == true)
                 {
                     _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
-                    _inputButton.IsErrorNotificationVisible = false;
+                    _inputButton.IsLeftImageVisible = false;
                     _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
                 }
                 else
                 {
                     _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "IndicationColor_i3");
-                    _inputButton.IsErrorNotificationVisible = true;
+                    _inputButton.IsLeftImageVisible = true;
                     _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
                 }
             }
             else if (_inputButton.Text == title)
             {
                 _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
-                _inputButton.IsErrorNotificationVisible = false;
+                _inputButton.IsLeftImageVisible = false;
                 _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i9");
             }
         }

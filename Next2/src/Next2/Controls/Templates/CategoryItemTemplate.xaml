@@ -88,6 +88,7 @@
 
     <Frame
         x:Name="frame"
+        Padding="0"
         HasShadow="False"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
