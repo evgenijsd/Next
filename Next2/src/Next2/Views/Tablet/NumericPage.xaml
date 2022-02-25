@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentPage 
+<rg:PopupPage
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls.Templates" 
@@ -7,28 +8,74 @@
     x:DataType="viewModels:LoginPageViewModel"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-    x:Class="Next2.Views.Tablet.NumericPage" 
-    BackgroundColor="Transparent">
-    
-    <ContentPage.Content >
-        
-        <Frame 
+    x:Class="Next2.Views.Tablet.NumericPage">
+
+
+    <Frame 
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
             HeightRequest="550" 
             WidthRequest="400" 
-            CornerRadius="10">
-            
+            CornerRadius="10"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+
+        <StackLayout>
+
+            <Label 
+                Text="{xct:Translate EmployeeId}"
+                Grid.Row="0"
+                FontSize="{DynamicResource TSize_i6}"
+                VerticalTextAlignment="End"
+                Margin="30, 0, 0, 10"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-SemiBold"/>
+
+            <BoxView 
+                        Margin="0, 0, 0, 0"
+                        HeightRequest="2"
+                        VerticalOptions="EndAndExpand"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}"/>
+
             <controls:CustomNumericKeyboardTemplate
-                Grid.Column="1"
-                Grid.RowSpan="2"
                 PlaceHolder="{xct:Translate TypeEmployeeId}"
                 IsUserLogIn="{Binding IsUserLogIn}"
                 IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
                 ApplyCommand="{Binding GoToStartPageCommand}"/>
-            
-        </Frame>
-        
-    </ContentPage.Content>
-    
-</views:BaseContentPage>
+
+            <BoxView 
+                        Margin="0, 0, 0, 0"
+                        HeightRequest="2"
+                        VerticalOptions="EndAndExpand"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <Frame 
+                Grid.Row="3" 
+                HasShadow="False"
+                CornerRadius="5"
+                HeightRequest="40"
+                Margin="12, 12, 12, 12"
+                Padding="0"
+                BackgroundColor="{DynamicResource IndicationColor_i1}">
+
+                <Label 
+                    Text="{xct:Translate Login}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Bold"/>
+
+                <Frame.GestureRecognizers>
+
+                    <TapGestureRecognizer Command="{Binding GoToStartPageCommand}" />
+
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+        </StackLayout>
+
+    </Frame>
+
+</rg:PopupPage>

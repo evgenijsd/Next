@@ -61,6 +61,17 @@ namespace Next2.ViewModels
 
         #endregion
 
+        #region -- Overrides --
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            EmployeeId = string.Empty;
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
         private async Task OnTabClearOrCancelAsync()

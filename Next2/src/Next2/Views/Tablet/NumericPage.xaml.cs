@@ -1,6 +1,8 @@
-﻿namespace Next2.Views.Tablet
+﻿using Rg.Plugins.Popup.Pages;
+
+namespace Next2.Views.Tablet
 {
-    public partial class NumericPage : BaseContentPage
+    public partial class NumericPage : PopupPage
     {
         public NumericPage()
         {

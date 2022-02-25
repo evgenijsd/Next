@@ -40,7 +40,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Grid.Column="1"
             Grid.RowSpan="2"
-            RowDefinitions="0.4*,*">
+            RowDefinitions="0.33*,0.44*, 0.23*, 60">
             <Label 
                 Text="{xct:Translate EmployeeId}"
                 Grid.Row="0"
@@ -52,10 +52,50 @@
             
             <controls:CustomNumericKeyboardTemplate
                 Grid.Row="1"
+                ScreenKeyboard="{Binding EmployeeId}"
                 PlaceHolder="{xct:Translate TypeEmployeeId}"
                 IsUserLogIn="{Binding IsUserLogIn}"
                 IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
-                ApplyCommand="{Binding GoToStartPageCommand}"/>       
+                ApplyCommand="{Binding GoToStartPageCommand}"/>
+            
+            <StackLayout 
+                Grid.Row="2" 
+                Padding="0">
+
+                <BoxView 
+                        Margin="0, 0, 0, 0"
+                        HeightRequest="2"
+                        VerticalOptions="EndAndExpand"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            </StackLayout>
+
+            <Frame 
+                Grid.Row="3" 
+                HasShadow="False"
+                CornerRadius="5"
+                Margin="12, 12, 12, 12"
+                Padding="0"
+                BackgroundColor="{DynamicResource IndicationColor_i1}">
+
+                <Label 
+                    Text="{xct:Translate Login}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Bold"/>
+
+                <Frame.GestureRecognizers>
+
+                    <TapGestureRecognizer 
+                        Command="{Binding GoToStartPageCommand}"
+                        CommandParameter="{Binding EmployeeId}"/>
+
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
         </Grid>
 
 

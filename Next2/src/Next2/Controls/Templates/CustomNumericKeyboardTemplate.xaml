@@ -15,7 +15,7 @@
 
         <Grid 
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="60, 0.37*, 0.12*, 60">
+            RowDefinitions="60, 0.37*"><!--, 0.12*, 60"-->
 
             <controls:CustomFrame 
                     Grid.Row="0"
@@ -175,7 +175,7 @@
                 
             </ContentView>
 
-            <StackLayout 
+            <!--StackLayout 
                 Grid.Row="2" 
                 Padding="0">
                 
@@ -212,7 +212,7 @@
 
                 </Frame.GestureRecognizers>
 
-            </Frame>
+            </Frame-->
 
         </Grid>
         
