@@ -32,8 +32,8 @@
                 Margin="0, 7, 10, 7"
                 VerticalOptions="Center"
                 HorizontalOptions="EndAndExpand"
-                HeightRequest="20"
-                WidthRequest="20"
+                HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSizes}"
+                WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSizes}"
                 Source="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=WrappedListIconSource}">
                 
                 <ffimageloading:CachedImage.Triggers>            

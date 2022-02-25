@@ -17,13 +17,16 @@ namespace Next2.ViewModels
 {
     public class OrderRegistrationViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
 
         public OrderRegistrationViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
         {
+            _mapper = mapper;
             _orderService = orderService;
 
             Task.Run(RefreshOrderIdAsync);
@@ -118,9 +121,7 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                MapperConfiguration mapperConfig = new (cfg => cfg.CreateMap<TableModel, TableBindableModel>());
-                Mapper mapper = new (mapperConfig);
-                var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new (tableBindableModels);
 

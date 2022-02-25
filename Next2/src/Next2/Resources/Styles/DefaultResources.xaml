@@ -115,6 +115,7 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="WrappedListIconSource" Value="ic_arrow_down_32x32"/>
         <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
+        <Setter Property="IconSizes" Value="20"/>
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
         <Setter Property="MaxNumberOfVisibleItems" Value="3"/>

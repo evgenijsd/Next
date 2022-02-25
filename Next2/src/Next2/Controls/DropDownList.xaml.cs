@@ -87,6 +87,18 @@ namespace Next2.Controls
             set => SetValue(ExpandedListIconSourceProperty, value);
         }
 
+        public static readonly BindableProperty IconSizesProperty = BindableProperty.Create(
+            propertyName: nameof(IconSizes),
+            returnType: typeof(int),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int IconSizes
+        {
+            get => (int)GetValue(IconSizesProperty);
+            set => SetValue(IconSizesProperty, value);
+        }
+
         public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(
             propertyName: nameof(DataTemplate),
             returnType: typeof(DataTemplate),
