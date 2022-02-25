@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.ENums;
+using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Views.Tablet;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
@@ -33,11 +35,16 @@ namespace Next2.ViewModels.Tablet
             _menuService = menuService;
             _popupNavigation = popupNavigation;
             OrderRegistrationViewModel = orderRegistrationViewModel;
+            CurrentState = LayoutState.Loading;
 
             Task.Run(LoadCategoriesAsync);
         }
 
         #region -- Public properties --
+
+        public LayoutState CurrentState { get; set; }
+
+        public bool IsSideMenuVisible { get; set; } = true;
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
@@ -50,6 +57,12 @@ namespace Next2.ViewModels.Tablet
         public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
+
+        private ICommand _editTapCommand;
+        public ICommand EditTapCommand => _editTapCommand ??= new Command(OnTapEditCommand);
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
 
         private ICommand _tapSetCommand;
         public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
@@ -98,6 +111,18 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Private methods --
+
+        private void OnGoBackCommand()
+        {
+            IsSideMenuVisible = true;
+            CurrentState = LayoutState.Loading;
+        }
+
+        private void OnTapEditCommand()
+        {
+            IsSideMenuVisible = false;
+            CurrentState = LayoutState.Success;
+        }
 
         private async Task OnTapSortCommandAsync()
         {
