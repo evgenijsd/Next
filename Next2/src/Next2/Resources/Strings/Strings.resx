@@ -312,8 +312,9 @@
   <data name="TypeEmail" xml:space="preserve">
     <value>Type Email</value>
   </data>
-  <data name="TypeUserName" xml:space="preserve">
+	<data name="TypeUserName" xml:space="preserve">
     <value>Type User Name</value>
+	  </data>
   <data name="CurrencySign" xml:space="preserve">
     <value>$</value>
   </data>

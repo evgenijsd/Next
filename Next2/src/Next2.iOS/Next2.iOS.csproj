@@ -448,9 +448,6 @@
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_arrow _down_primary_24x24.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\ic_arrow_down_primary_24x24%402x.png" />
   </ItemGroup>
   <ItemGroup>
