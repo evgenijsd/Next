@@ -650,18 +650,34 @@
 
                 <xct:StateView StateKey="Success">
 
-                    <StackLayout BackgroundColor="Green">
+                    <Grid 
+                        BackgroundColor="{Binding TextAndBackgroundColor_i5}"
+                        RowDefinitions="0.087*,*, 0.12*"
+                        RowSpacing="0">
 
                         <controls:CustomNavigationbar 
+                            Grid.Row="0"
                             HeightRequest="70" 
                             HeightImage="25" 
+                            Padding="15, 0, 0, 0"
                             Title="{xct:Translate Cancel}" 
                             LeftButtonCommand="{Binding GoBackCommand}"/>
+                        
+                        <StackLayout  Grid.Row="1" BackgroundColor="Red">
+
+                            <BoxView 
+                                
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                HeightRequest="20"
+                                VerticalOptions="EndAndExpand"/>
+
+                        </StackLayout>
 
                         <Grid
-                            Grid.Row="4"
-                            VerticalOptions="End"
-                            Padding="24"
+                            Grid.Row="2"
+                            VerticalOptions="Center"
+                            ColumnDefinitions="0.25*"
+                            Padding="24, 12, 24, 12"
                             ColumnSpacing="14">
 
                             <Grid.Triggers>
@@ -674,31 +690,36 @@
                             </Grid.Triggers>
 
                             <buttons:BorderButton
-                                Grid.Column="0"
+                                Grid.Column="1"
+                                HeightRequest="45"
+                                Padding="0"
                                 Style="{DynamicResource BorderButtonStyle_i2}"
-                                BorderColor="{DynamicResource IndicationColor_i5}"
-                                Text="{xct:Translate Order}"
+                                Background="{DynamicResource IndicationColor_i1}"
+                                Text="{xct:Translate Modify}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 Command="{Binding OrderRegistrationViewModel.OrderCommand}" />
 
                             <buttons:BorderButton
-                                Grid.Column="1"
+                                Grid.Column="2"
+                                HeightRequest="45"
+                                Padding="0"
                                 Style="{DynamicResource BorderButtonStyle_i2}"
-                                BorderColor="{DynamicResource IndicationColor_i7}"
-                                Text="{xct:Translate Tab}"
+                                Background="{DynamicResource IndicationColor_i5}"
+                                Text="{xct:Translate HoldItem}"
                                 Command="{Binding OrderRegistrationViewModel.TabCommand}" />
 
                             <buttons:BorderButton
-                                Grid.Column="2"
+                                Grid.Column="3"
+                                HeightRequest="45"
+                                Padding="0"
                                 Style="{DynamicResource BorderButtonStyle_i2}"
-                                Background="{DynamicResource IndicationColor_i1}"
-                                BorderColor="{DynamicResource IndicationColor_i1}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                Text="{xct:Translate Pay}"
+                                Background="{DynamicResource IndicationColor_i3}"
+                                Text="{xct:Translate Remove}"
                                 Command="{Binding EditTapCommand}" />
 
                         </Grid>
 
-                    </StackLayout>
+                    </Grid>
 
                 </xct:StateView>
 

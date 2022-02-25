@@ -339,4 +339,13 @@
   <data name="TableNumberOrOrder" xml:space="preserve">
     <value>Table Number or Order</value>
   </data>
+  <data name="HoldItem" xml:space="preserve">
+    <value>Hold Item</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="Seat" xml:space="preserve">
+    <value>Seat</value>
+  </data>
 </root>
