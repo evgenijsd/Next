@@ -638,7 +638,7 @@
         <Grid
             Grid.Row="0"
             Grid.Column="1"
-            RowDefinitions="auto, auto, auto, auto, 93"
+            RowDefinitions="auto, auto, auto, auto, 85"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             x:DataType="viewModels:NewOrderViewModel">
 
@@ -659,7 +659,7 @@
                                     </VisualState.StateTriggers>
                                     
                                     <VisualState.Setters>
-                                        <Setter Property="TextColor" Value="ForestGreen"/>
+                                        <Setter Property="TextColor" Value="LightBlue"/>
                                     </VisualState.Setters>
                                     
                                 </VisualState>
@@ -821,8 +821,9 @@
                                     </VisualState.StateTriggers>
                                     
                                     <VisualState.Setters>
+                                        <Setter Property="CornerRadius" Value="4"/>
                                         <Setter Property="FontSize" Value="14"/>
-                                        <Setter Property="HeightRequest" Value="34"/>
+                                        <Setter Property="HeightRequest" Value="36"/>
                                     </VisualState.Setters>
                                     
                                 </VisualState>
@@ -958,6 +959,12 @@
                         </FormattedString>
                     </Label.FormattedText>
 
+                    <Label.GestureRecognizers >
+                        
+                        <TapGestureRecognizer Command="{Binding OrderRegistrationViewModel.OrderCommand}"/>
+                        
+                    </Label.GestureRecognizers>
+                    
                 </Label>
 
             </StackLayout>
@@ -969,6 +976,7 @@
                 VerticalOptions="Start"
                 Margin="24, 24, 24, 10"
                 WidthRequest="130"
+                Test="True"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
@@ -1220,10 +1228,33 @@
                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                 <!-- SUMMARY BODY -->
-                <StackLayout
-                    Padding="24, 12, 24, 0"
-                    Spacing="18">
+                <StackLayout Spacing="18">
 
+                    <VisualStateManager.VisualStateGroups>
+                        
+                        <VisualStateGroupList>
+                            
+                            <VisualStateGroup Name="AdaptiveSummaryBody">
+                                
+                                <VisualState Name="mini">
+                                    
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="601"/>
+                                    </VisualState.StateTriggers>
+                                    
+                                    <VisualState.Setters>
+                                        <Setter Property="Margin" Value="18, 12"/>
+                                        <Setter Property="Spacing" Value="12"/>
+                                    </VisualState.Setters>
+                                    
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                            
+                        </VisualStateGroupList>
+                        
+                    </VisualStateManager.VisualStateGroups>
+                    
                     <StackLayout Orientation="Horizontal">
 
                         <Label
@@ -1299,9 +1330,33 @@
             <!-- BUTTONS -->
             <Grid
                 Grid.Row="4"
-                VerticalOptions="End"
-                Padding="24"
-                ColumnSpacing="14">
+                ColumnSpacing="14"
+                Margin="24">
+                
+                <VisualStateManager.VisualStateGroups>
+                        
+                    <VisualStateGroupList>
+                            
+                        <VisualStateGroup Name="AdaptiveSummaryBody">
+                                
+                            <VisualState Name="mini">
+                                    
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="601"/>
+                                </VisualState.StateTriggers>
+                                    
+                                <VisualState.Setters>
+                                    <Setter Property="Margin" Value="18"/>
+                                    <Setter Property="ColumnSpacing" Value="12"/>
+                                </VisualState.Setters>
+                                    
+                            </VisualState>
+                                
+                        </VisualStateGroup>
+                            
+                    </VisualStateGroupList>
+                        
+                </VisualStateManager.VisualStateGroups>
 
                 <Grid.Triggers>
                     <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">

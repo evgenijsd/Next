@@ -99,6 +99,18 @@ namespace Next2.Controls
             set => SetValue(IconSizesProperty, value);
         }
 
+        public static readonly BindableProperty TestProperty = BindableProperty.Create(
+            propertyName: nameof(Test),
+            returnType: typeof(bool),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool Test
+        {
+            get => (bool)GetValue(TestProperty);
+            set => SetValue(TestProperty, value);
+        }
+
         public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(
             propertyName: nameof(DataTemplate),
             returnType: typeof(DataTemplate),
@@ -213,6 +225,19 @@ namespace Next2.Controls
                     ListHeight = 0;
                 }
             }
+            else if (propertyName == nameof(Test) && Test)
+            {
+                container?.RaiseChild(myHeader);
+            }
+
+            if (propertyName is nameof(IsExpanded) && Test)
+            {
+                mainContainer.TranslationY = IsExpanded
+                    ? -ListHeight
+                    : 0;
+            }
+
+            base.OnPropertyChanging(propertyName);
         }
 
         #region -- Private helpers --
