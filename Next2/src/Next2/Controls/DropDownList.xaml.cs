@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Next2.Enums;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -99,16 +100,16 @@ namespace Next2.Controls
             set => SetValue(IconSizesProperty, value);
         }
 
-        public static readonly BindableProperty TestProperty = BindableProperty.Create(
-            propertyName: nameof(Test),
-            returnType: typeof(bool),
+        public static readonly BindableProperty DirectionProperty = BindableProperty.Create(
+            propertyName: nameof(Direction),
+            returnType: typeof(EDropDownListDirection),
             declaringType: typeof(DropDownList),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool Test
+        public EDropDownListDirection Direction
         {
-            get => (bool)GetValue(TestProperty);
-            set => SetValue(TestProperty, value);
+            get => (EDropDownListDirection)GetValue(DirectionProperty);
+            set => SetValue(DirectionProperty, value);
         }
 
         public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(
@@ -195,24 +196,34 @@ namespace Next2.Controls
             base.OnPropertyChanged(propertyName);
 
             if (ItemsSource?.Count > 0 && propertyName
-                is nameof(ItemsSource)
-                or nameof(MaxNumberOfVisibleItems))
+                is nameof(MaxNumberOfVisibleItems)
+                or nameof(ItemsSource))
             {
                 SelectedItem = ItemsSource[0];
 
-                collectionList.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
+                itemsCollection.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
                     ? ScrollBarVisibility.Never
                     : ScrollBarVisibility.Always;
             }
-            else if (propertyName == nameof(SelectedItem))
+            else if (propertyName is nameof(SelectedItem))
             {
                 IsExpanded = false;
             }
 
-            if (propertyName
+            if (propertyName is nameof(Direction) && Direction is EDropDownListDirection.Up)
+            {
+                container.RaiseChild(listHeader);
+            }
+            else if (propertyName is nameof(IsExpanded) && Direction is EDropDownListDirection.Up)
+            {
+                dropDownList.TranslationY = IsExpanded
+                    ? -ListHeight
+                    : 0;
+            }
+            else if (propertyName
                 is nameof(MaxNumberOfVisibleItems)
-                or nameof(ItemHeight)
-                or nameof(ItemsSource))
+                or nameof(ItemsSource)
+                or nameof(ItemHeight))
             {
                 if (ItemsSource is not null)
                 {
@@ -224,17 +235,6 @@ namespace Next2.Controls
                 {
                     ListHeight = 0;
                 }
-            }
-            else if (propertyName == nameof(Test) && Test)
-            {
-                container?.RaiseChild(myHeader);
-            }
-
-            if (propertyName is nameof(IsExpanded) && Test)
-            {
-                mainContainer.TranslationY = IsExpanded
-                    ? -ListHeight
-                    : 0;
             }
 
             base.OnPropertyChanging(propertyName);

@@ -889,7 +889,7 @@
                 
                 <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
                     <Setter Property="CornerRadius" Value="7"/>
-                    <Setter Property="ItemHeight" Value="46.5"/>
+                    <Setter Property="ItemHeight" Value="37"/>
                     <Setter Property="VisualStateManager.VisualStateGroups">
                         
                         <VisualStateGroupList>
@@ -976,7 +976,6 @@
                 VerticalOptions="Start"
                 Margin="24, 24, 24, 10"
                 WidthRequest="130"
-                Test="True"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
@@ -1003,9 +1002,11 @@
                     <DataTemplate>
                         <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
 
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
                             <StackLayout
                                 Padding="14, 8"
-                                HeightRequest="30"
+                                HeightRequest="20"
                                 Orientation="Horizontal">
 
                                 <Label
@@ -1015,8 +1016,6 @@
                                     Text="{Binding Text}" />
 
                             </StackLayout>
-
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                         </StackLayout>
                     </DataTemplate>
@@ -1101,10 +1100,12 @@
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
                         <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                            
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
                                 Padding="8"
-                                HeightRequest="30"
+                                HeightRequest="20"
                                 Orientation="Horizontal"
                                 x:DataType="models:TableBindableModel">
 
@@ -1114,8 +1115,6 @@
                                     Text="{Binding Id, StringFormat='Table {0}'}" />
 
                             </StackLayout>
-
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                         </StackLayout>
                     </DataTemplate>
