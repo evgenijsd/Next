@@ -58,6 +58,9 @@ namespace Next2.ViewModels
 
         public int NumberOfSeats { get; set; } = 0;
 
+        // value for testing, delete it later
+        public string CustomerName { get; set; } = "Martin Levin";
+
         public bool IsOrderWithTax { get; set; } = true;
 
         // value for testing, delete it later
@@ -148,6 +151,7 @@ namespace Next2.ViewModels
 
         private Task OnOrderCommandAsync()
         {
+            // code for testing, delete it later
             if (Sets.Count > 0)
             {
                 Sets.Clear();
@@ -167,6 +171,10 @@ namespace Next2.ViewModels
 
         private async Task OnPayCommandAsync()
         {
+            // code for testing, delete it later
+            CustomerName = CustomerName.Length == 0
+                ? "Martin Levin"
+                : string.Empty;
         }
 
         #endregion

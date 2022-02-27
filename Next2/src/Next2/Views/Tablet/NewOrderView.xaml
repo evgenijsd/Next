@@ -638,60 +638,14 @@
         <Grid
             Grid.Row="0"
             Grid.Column="1"
-            RowDefinitions="auto, auto, auto, auto, 85"
+            RowDefinitions="auto, auto, auto, auto, 66"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             x:DataType="viewModels:NewOrderViewModel">
 
             <Grid.Resources>    
-                
                 <Style TargetType="Label">
                     <Setter Property="VerticalOptions" Value="Center"/>
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-                    <Setter Property="VisualStateManager.VisualStateGroups">
-                        
-                        <VisualStateGroupList>
-                            <VisualStateGroup Name="SizeIndication_i1">
-                                
-                                <VisualState Name="Mini">
-                                    
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="601"/>
-                                    </VisualState.StateTriggers>
-                                    
-                                    <VisualState.Setters>
-                                        <Setter Property="TextColor" Value="LightBlue"/>
-                                    </VisualState.Setters>
-                                    
-                                </VisualState>
-                                
-                                <VisualState Name="Medium">
-                                    
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="1195"/>
-                                    </VisualState.StateTriggers>
-                                    
-                                    <VisualState.Setters>
-                                        <Setter Property="TextColor" Value="DarkViolet"/>
-                                    </VisualState.Setters>
-                                    
-                                </VisualState>
-                                
-                                <VisualState Name="Large">
-                                    
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="1280"/>
-                                    </VisualState.StateTriggers>
-                                    
-                                    <VisualState.Setters>
-                                        <Setter Property="TextColor" Value="Orange"/>
-                                    </VisualState.Setters>
-                                    
-                                </VisualState>
-                                
-                            </VisualStateGroup>
-                        </VisualStateGroupList>
-                        
-                    </Setter>
                 </Style>
                 
                 <!-- SemiBold (600) 24px -->
@@ -710,7 +664,7 @@
                                     </VisualState.StateTriggers>
                                     
                                     <VisualState.Setters>
-                                        <Setter Property="FontSize" Value="18"/>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
                                     </VisualState.Setters>
                                     
                                 </VisualState>
@@ -737,7 +691,7 @@
                                     </VisualState.StateTriggers>
                                     
                                     <VisualState.Setters>
-                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                                     </VisualState.Setters>
                                     
                                 </VisualState>
@@ -764,7 +718,7 @@
                                     </VisualState.StateTriggers>
                                     
                                     <VisualState.Setters>
-                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                                     </VisualState.Setters>
                                     
                                 </VisualState>
@@ -791,7 +745,7 @@
                                     </VisualState.StateTriggers>
                                     
                                     <VisualState.Setters>
-                                        <Setter Property="FontSize" Value="18"/>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
                                     </VisualState.Setters>
                                     
                                 </VisualState>
@@ -822,7 +776,7 @@
                                     
                                     <VisualState.Setters>
                                         <Setter Property="CornerRadius" Value="4"/>
-                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                                         <Setter Property="HeightRequest" Value="36"/>
                                     </VisualState.Setters>
                                     
@@ -835,8 +789,7 @@
                 </Style>
                 
                 <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
-                    <Setter Property="Padding" Value="16, 8"/>
-                    <Setter Property="CornerRadius" Value="8"/>
+                    <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
                     <Setter Property="Border">
                         <Setter.Value>
                             <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
@@ -1187,15 +1140,52 @@
                 </StackLayout.Triggers>
 
                 <!-- SUMMARY HEADER -->
-                <StackLayout
-                    Padding="24, 11"
-                    Spacing="14"
-                    Orientation="Horizontal">
+                <StackLayout 
+                    Orientation="Horizontal"
+                    Margin="18, 8"
+                    Spacing="12">
 
-                    <Label
-                        Style="{DynamicResource SemiBold18pxLabelStyle}"
-                        Text="{xct:Translate Summary}" />
-
+                    <VisualStateManager.VisualStateGroups>
+                        
+                        <VisualStateGroupList>
+                            
+                            <VisualStateGroup Name="AdaptiveSummaryHeader">
+                                
+                                <VisualState Name="mini">
+                                    
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="601"/>
+                                    </VisualState.StateTriggers>
+                                    
+                                    <VisualState.Setters>
+                                        <Setter Property="Margin" Value="18, 8"/>
+                                        <Setter Property="Spacing" Value="12"/>
+                                    </VisualState.Setters>
+                                    
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                            
+                        </VisualStateGroupList>
+                        
+                    </VisualStateManager.VisualStateGroups>
+                   
+                    <StackLayout HeightRequest="50">
+                        
+                         <Label
+                            VerticalOptions="CenterAndExpand"
+                            Style="{DynamicResource SemiBold18pxLabelStyle}"
+                            Text="{xct:Translate Summary}" />
+                        
+                         <Label
+                            VerticalOptions="FillAndExpand"
+                            Style="{DynamicResource Medium16pxLabelStyle}"
+                            TextColor="{DynamicResource AppColor_i1}"
+                            IsVisible="{Binding OrderRegistrationViewModel.CustomerName.Length}"
+                            Text="{Binding OrderRegistrationViewModel.CustomerName}" />
+                        
+                    </StackLayout>
+                   
                     <buttons:IconBorderButton
                         Style="{DynamicResource IconBorderButtonStyle_i2}"
                         HorizontalOptions="EndAndExpand"
@@ -1227,7 +1217,9 @@
                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                 <!-- SUMMARY BODY -->
-                <StackLayout Spacing="18">
+                <StackLayout 
+                    Margin="18, 12"
+                    Spacing="12">
 
                     <VisualStateManager.VisualStateGroups>
                         
@@ -1327,15 +1319,12 @@
             </StackLayout>
 
             <!-- BUTTONS -->
-            <Grid
-                Grid.Row="4"
-                ColumnSpacing="14"
-                Margin="24">
+            <Grid Grid.Row="4"
+                  Margin="18, 8, 18, 22"
+                  ColumnSpacing="12">
                 
                 <VisualStateManager.VisualStateGroups>
-                        
                     <VisualStateGroupList>
-                            
                         <VisualStateGroup Name="AdaptiveSummaryBody">
                                 
                             <VisualState Name="mini">
@@ -1345,16 +1334,14 @@
                                 </VisualState.StateTriggers>
                                     
                                 <VisualState.Setters>
-                                    <Setter Property="Margin" Value="18"/>
+                                    <Setter Property="Margin" Value="18, 8, 18, 22"/>
                                     <Setter Property="ColumnSpacing" Value="12"/>
                                 </VisualState.Setters>
                                     
                             </VisualState>
-                                
-                        </VisualStateGroup>
                             
+                        </VisualStateGroup>
                     </VisualStateGroupList>
-                        
                 </VisualStateManager.VisualStateGroups>
 
                 <Grid.Triggers>
