@@ -15,11 +15,11 @@
 
         <Grid 
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="60, 0.37*"><!--, 0.12*, 60"-->
+            RowDefinitions="60, 250"><!--, 0.12*, 60"-->
 
             <controls:CustomFrame 
                     Grid.Row="0"
-                    Margin="30, 0, 30, 15"
+                    Margin="0, 0, 0, 15"
                     CornerRadius="{OnPlatform Android='5', iOS='8'}"
                     Padding="4"
                     BorderWidth="3"
@@ -94,7 +94,7 @@
 
             <ContentView 
                 Grid.Row="1"
-                Margin="30, 0, 30, 0">
+                Margin="0, 0, 0, 0">
 
                 <Grid 
                     ColumnSpacing="10"
