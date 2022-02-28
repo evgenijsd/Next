@@ -5,23 +5,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls.Templates" 
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
     x:DataType="viewModels:LoginPageViewModel"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     x:Class="Next2.Views.Tablet.NumericPage">
 
-
-    <Frame 
+    <rg:PopupPage.Content>
+        <Frame 
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
             HeightRequest="500" 
             WidthRequest="370" 
             CornerRadius="10"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-        <StackLayout>
+            <StackLayout>
 
-            <Label 
+                <Label 
                 Text="{xct:Translate EmployeeId}"
                 Grid.Row="0"
                 FontSize="{DynamicResource TSize_i6}"
@@ -30,13 +31,13 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontFamily="Barlow-SemiBold"/>
 
-            <BoxView 
+                <BoxView 
                         Margin="0, 0, 0, 0"
                         HeightRequest="2"
                         VerticalOptions="EndAndExpand"
                         Color="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-            <controls:CustomNumericKeyboardTemplate
+                <controls:CustomNumericKeyboardTemplate
                 Margin="20, 10, 20, 0"
                 VerticalOptions="EndAndExpand"
                 PlaceHolder="{xct:Translate TypeEmployeeId}"
@@ -44,14 +45,15 @@
                 IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
                 ApplyCommand="{Binding GoToStartPageCommand}"/>
 
-            <BoxView 
+                <BoxView 
                         Margin="0, 12, 0, 0"
                         HeightRequest="2"
                         VerticalOptions="EndAndExpand"
                         Color="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-            <StackLayout Orientation="Horizontal">
-            <Frame 
+                <StackLayout Orientation="Horizontal">
+
+                    <!--Frame 
                 HasShadow="False"
                 CornerRadius="5"
                 HeightRequest="40"
@@ -74,8 +76,76 @@
 
                 </Frame.GestureRecognizers>
 
-            </Frame>
-                <Frame 
+            </Frame-->
+
+                    <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="75">
+
+                        <buttons:BorderButton 
+                        Margin="20, 15, 5, 15"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="False"
+                        BorderWidth="1"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        Text="{xct:Translate Cancel}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        BorderColor="{DynamicResource IndicationColor_i4}"
+                        FontFamily="Barlow-SemiBold"
+                        Command="{Binding ButtonClearCommand}"/>
+
+                    </StackLayout>
+
+                    <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="75"
+                    VerticalOptions="Center">
+
+                        <buttons:BorderButton 
+                        Margin="5, 15, 20, 15"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="{Binding IsEmployeeExists}"
+                        BorderWidth="0"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        Text="{xct:Translate Confirm}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        BorderColor="Transparent"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        FontFamily="Barlow-SemiBold"
+                        BackgroundColor="{DynamicResource IndicationColor_i2}"
+                        Command="{Binding GoToStartPageCommand}">
+
+                            <buttons:BorderButton.Triggers>
+
+                                <!--DataTrigger TargetType="buttons:BorderButton"
+                                         Binding="{Binding IsEmployeeExists}"
+                                         Value="True">
+                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+
+                            </DataTrigger-->
+
+                                <MultiTrigger TargetType="buttons:BorderButton">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding IsCheckAdminID}" Value="true" />
+                                        <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+                                    <Setter Property="IsEnabled" Value="true"/>
+                                </MultiTrigger>
+
+                            </buttons:BorderButton.Triggers>
+
+                        </buttons:BorderButton>
+
+                    </StackLayout>
+
+                    <!--Frame 
                 HasShadow="False"
                 CornerRadius="5"
                     HorizontalOptions="FillAndExpand"
@@ -98,11 +168,12 @@
 
                     </Frame.GestureRecognizers>
 
-                </Frame>
+                </Frame-->
+                </StackLayout>
+
             </StackLayout>
 
-        </StackLayout>
-
-    </Frame>
+        </Frame>
+    </rg:PopupPage.Content>
 
 </rg:PopupPage>

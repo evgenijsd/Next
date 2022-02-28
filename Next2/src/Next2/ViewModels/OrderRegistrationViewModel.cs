@@ -98,6 +98,11 @@ namespace Next2.ViewModels
             {
                 NumberOfSeats = 1;
             }
+
+            if (args.PropertyName == nameof(IsOrderWithTax))
+            {
+                Total = SubTotal;
+            }
         }
 
         #endregion
