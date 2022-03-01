@@ -12,9 +12,9 @@ namespace Next2.Controls
     {
         public CalendarGridCollectionView()
         {
-            CategoriesItems = new ();
+            Days = new ();
             CreateArrayOfDays();
-            this.ItemsSource = CategoriesItems;
+            this.ItemsSource = Days;
             this.SelectionMode = SelectionMode.Single;
             VerticalScrollBarVisibility = ScrollBarVisibility.Never;
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never;
@@ -22,7 +22,7 @@ namespace Next2.Controls
 
         #region -- Public Properties --
 
-        public ObservableCollection<DayModel> CategoriesItems { get; set; }
+        public ObservableCollection<DayModel> Days { get; set; }
 
         public static readonly BindableProperty YearProperty = BindableProperty.Create(
             propertyName: nameof(Year),
@@ -70,26 +70,62 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(Year))
+            switch (propertyName)
             {
-                if (Year <= DateTime.Now.Year)
-                {
-                    CreateArrayOfDays();
-                }
-            }
-
-            if (propertyName == nameof(Month))
-            {
-                CreateArrayOfDays();
-            }
-
-            if (propertyName == nameof(SelectedItem))
-            {
-                if (SelectedItem is DayModel selectedDay)
-                {
-                    if (selectedDay.State == ENums.EDayState.NoDayMonth || selectedDay.State == ENums.EDayState.NameOfDay)
+                case nameof(Year):
                     {
-                        if (selectedDay.State == ENums.EDayState.NoDayMonth)
+                        if (Year <= DateTime.Now.Year)
+                        {
+                            CreateArrayOfDays();
+                        }
+                    }
+
+                    break;
+                case nameof(Month):
+                    {
+                        CreateArrayOfDays();
+                    }
+
+                    break;
+                case nameof(SelectedItem):
+                    {
+                        DaySelection();
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region -- Private Helpers --
+
+        private void DaySelection()
+        {
+            if (SelectedItem is DayModel selectedDay)
+            {
+                switch (selectedDay.State)
+                {
+                    case EDayState.DayMonth:
+                        {
+                            if (int.TryParse(selectedDay.Day, out int daySelected))
+                            {
+                                if (Year <= DateTime.Now.Year)
+                                {
+                                    SelectedDate = new DateTime(Year, Month, daySelected);
+                                }
+                                else
+                                {
+                                    SelectedItem = null;
+                                    SelectedDate = null;
+                                }
+                            }
+                        }
+
+                        break;
+                    case EDayState.NoDayMonth:
                         {
                             if (int.TryParse(selectedDay.Day, out int day) && day > 21)
                             {
@@ -116,52 +152,41 @@ namespace Next2.Controls
                                 }
                             }
 
-                            SelectedItem = CategoriesItems.Where(x => x.Day == selectedDay.Day).FirstOrDefault();
+                            SelectedItem = Days.Where(x => x.Day == selectedDay.Day).FirstOrDefault();
                         }
-                        else
+
+                        break;
+                    case EDayState.NameOfDay:
                         {
                             SelectedItem = null;
                             SelectedDate = null;
                         }
-                    }
-                    else if (int.TryParse(selectedDay.Day, out int daySelected))
-                    {
-                        if (Year <= DateTime.Now.Year)
-                        {
-                            SelectedDate = new DateTime(Year, Month, daySelected);
-                        }
-                        else
-                        {
-                            SelectedItem = null;
-                            SelectedDate = null;
-                        }
-                    }
+
+                        break;
+                    default:
+                        break;
                 }
             }
         }
 
-        #endregion
-
-        #region -- Private Helpers --
-
-        private Task CreateArrayOfDays()
+        private void CreateArrayOfDays()
         {
             DateTime dt = new DateTime(Year, Month, 1);
             int currentMonthindex = (int)dt.DayOfWeek;
             var countDays = dt.AddMonths(1).Subtract(dt).Days;
             int previousMonthLastDate = dt.AddDays(-1).Day;
 
-            int[] result = new int[42];
-            result[currentMonthindex] = 1;
+            int[] arrayOfDays = new int[42];
+            arrayOfDays[currentMonthindex] = 1;
             for (int i = currentMonthindex - 1; i >= 0; i--)
             {
-                result[i] = previousMonthLastDate--;
+                arrayOfDays[i] = previousMonthLastDate--;
             }
 
             int enumer = 1;
-            for (int i = currentMonthindex; i < result.Length; i++)
+            for (int i = currentMonthindex; i < arrayOfDays.Length; i++)
             {
-                result[i] = enumer++;
+                arrayOfDays[i] = enumer++;
 
                 if (enumer == countDays + 1)
                 {
@@ -169,32 +194,43 @@ namespace Next2.Controls
                 }
             }
 
-            CategoriesItems.Clear();
+            AddDayNames();
+
+            AddDays(arrayOfDays);
+        }
+
+        private void AddDayNames()
+        {
+            Days.Clear();
             var namesOfDays = new string[] { "Sn", "Mn", "Tu", "Wn", "Th", "Fr", "St" };
             foreach (string name in namesOfDays)
             {
-                CategoriesItems.Add(new DayModel { Day = name, State = EDayState.NameOfDay });
+                Days.Add(new DayModel { Day = name, State = EDayState.NameOfDay });
             }
+        }
 
+        private void AddDays(int[] arrayOfDays)
+        {
             EDayState state = EDayState.NoDayMonth;
             bool isNewMonth = false;
-            foreach (var day in result)
+            foreach (var day in arrayOfDays)
             {
-                if (day == 1 && isNewMonth)
+                if (day == 1)
                 {
-                    state = EDayState.NoDayMonth;
+                    if (isNewMonth)
+                    {
+                        state = EDayState.NoDayMonth;
+                    }
+
+                    if (!isNewMonth)
+                    {
+                        state = EDayState.DayMonth;
+                        isNewMonth = true;
+                    }
                 }
 
-                if (day == 1 && !isNewMonth)
-                {
-                    state = EDayState.DayMonth;
-                    isNewMonth = true;
-                }
-
-                CategoriesItems.Add(new DayModel { Day = day.ToString(), State = state, });
+                Days.Add(new DayModel { Day = day.ToString(), State = state, });
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion
