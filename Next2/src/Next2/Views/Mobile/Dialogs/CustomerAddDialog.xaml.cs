@@ -43,11 +43,11 @@ namespace Next2.Views.Mobile.Dialogs
             SelectedMonth = DateTime.Now.Month;
             Month = Months[SelectedMonth - 1];
 
-            Years = new List<YearModel>();
+            Years = new List<Years>();
 
             for (int i = MIN_YEAR; i < MAX_YEAR; i++)
             {
-                Years.Add(new YearModel() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
+                Years.Add(new Years() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
 
             SelectedYear = Years.FirstOrDefault(x => x.Year == DateTime.Now.Year);
@@ -63,11 +63,11 @@ namespace Next2.Views.Mobile.Dialogs
 
         public List<MonthModel> Months { get; set; }
 
-        public List<YearModel> Years { get; set; }
+        public List<Years> Years { get; set; }
 
         public MonthModel Month { get; set; }
 
-        public DayModel SelectedDay { get; set; }
+        public Day SelectedDay { get; set; }
 
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
             propertyName: nameof(SelectedMonth),
@@ -84,13 +84,13 @@ namespace Next2.Views.Mobile.Dialogs
 
         public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(
             propertyName: nameof(SelectedYear),
-            returnType: typeof(YearModel),
+            returnType: typeof(Years),
             declaringType: typeof(CustomerAddDialog),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public YearModel SelectedYear
+        public Years SelectedYear
         {
-            get => (YearModel)GetValue(SelectedYearProperty);
+            get => (Years)GetValue(SelectedYearProperty);
             set => SetValue(SelectedYearProperty, value);
         }
 

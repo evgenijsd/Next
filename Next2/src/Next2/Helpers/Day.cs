@@ -3,12 +3,10 @@ using Next2.Interfaces;
 
 namespace Next2.Models
 {
-    public class DayModel : IBaseModel
+    public struct Day
     {
-        public string Day { get; set; }
+        public string DayOfMonth { get; set; }
 
         public EDayState State { get; set; }
-
-        public int Id { get; set; }
     }
 }

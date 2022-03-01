@@ -208,7 +208,7 @@
 
                                 <CollectionView.ItemTemplate>
 
-                                    <DataTemplate x:DataType="models:DayModel">
+                                    <DataTemplate x:DataType="models:Day">
 
                                         <StackLayout Padding="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
                                             <Frame
@@ -227,7 +227,7 @@
                                                 <Label
                                                     FontSize="{DynamicResource TSize_i9}"
                                                     HorizontalTextAlignment="Center"
-                                                    Text="{Binding Day}"
+                                                    Text="{Binding DayOfMonth}"
                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                     VerticalTextAlignment="Center">
 
@@ -296,7 +296,7 @@
 
                                         <CollectionView.ItemTemplate>
 
-                                            <DataTemplate x:DataType="models:YearModel">
+                                            <DataTemplate x:DataType="models:Years">
 
                                                 <Frame
                                                     Padding="0"

@@ -2,7 +2,7 @@
 
 namespace Next2.Models
 {
-    public class YearModel : IBaseModel
+    public class Years
     {
         public int Id { get; set; }
 

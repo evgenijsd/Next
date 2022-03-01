@@ -120,7 +120,6 @@
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="Converters\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="ViewModels\Mobile\" />
     <Folder Include="Views\Mobile\" />
@@ -226,7 +225,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Strings\Strings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
     <EmbeddedResource Update="Controls\StepperCarousel.xaml">

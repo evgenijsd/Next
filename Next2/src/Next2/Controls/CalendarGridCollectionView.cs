@@ -22,7 +22,7 @@ namespace Next2.Controls
 
         #region -- Public Properties --
 
-        public ObservableCollection<DayModel> Days { get; set; }
+        public ObservableCollection<Day> Days { get; set; }
 
         public static readonly BindableProperty YearProperty = BindableProperty.Create(
             propertyName: nameof(Year),
@@ -104,13 +104,13 @@ namespace Next2.Controls
 
         private void DaySelection()
         {
-            if (SelectedItem is DayModel selectedDay)
+            if (SelectedItem is Day selectedDay)
             {
                 switch (selectedDay.State)
                 {
                     case EDayState.DayMonth:
                         {
-                            if (int.TryParse(selectedDay.Day, out int daySelected))
+                            if (int.TryParse(selectedDay.DayOfMonth, out int daySelected))
                             {
                                 if (Year <= DateTime.Now.Year)
                                 {
@@ -127,7 +127,7 @@ namespace Next2.Controls
                         break;
                     case EDayState.NoDayMonth:
                         {
-                            if (int.TryParse(selectedDay.Day, out int day) && day > 21)
+                            if (int.TryParse(selectedDay.DayOfMonth, out int day) && day > 21)
                             {
                                 if (Month == 1)
                                 {
@@ -152,7 +152,7 @@ namespace Next2.Controls
                                 }
                             }
 
-                            SelectedItem = Days.Where(x => x.Day == selectedDay.Day).FirstOrDefault();
+                            SelectedItem = Days.Where(x => x.DayOfMonth == selectedDay.DayOfMonth).FirstOrDefault();
                         }
 
                         break;
@@ -205,31 +205,29 @@ namespace Next2.Controls
             var namesOfDays = new string[] { "Sn", "Mn", "Tu", "Wn", "Th", "Fr", "St" };
             foreach (string name in namesOfDays)
             {
-                Days.Add(new DayModel { Day = name, State = EDayState.NameOfDay });
+                Days.Add(new Day { DayOfMonth = name, State = EDayState.NameOfDay });
             }
         }
 
         private void AddDays(int[] arrayOfDays)
         {
             EDayState state = EDayState.NoDayMonth;
-            bool isNewMonth = false;
+
             foreach (var day in arrayOfDays)
             {
                 if (day == 1)
                 {
-                    if (isNewMonth)
+                    if (state == EDayState.DayMonth)
                     {
                         state = EDayState.NoDayMonth;
                     }
-
-                    if (!isNewMonth)
+                    else
                     {
                         state = EDayState.DayMonth;
-                        isNewMonth = true;
                     }
                 }
 
-                Days.Add(new DayModel { Day = day.ToString(), State = state, });
+                Days.Add(new Day { DayOfMonth = day.ToString(), State = state, });
             }
         }
 
