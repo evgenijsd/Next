@@ -4,9 +4,13 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
+        public const float TAX_PERCENTAGE = 20;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
-        public const int SERVER_RESPONCE_DELAY = 1000;
+        public const int SERVER_RESPONCE_DELAY = 600;
+
+        public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";
 
@@ -36,17 +40,32 @@
             public const double ROW_HEIGHT = 48 + 2;
         }
 
+        public static class Navigations
+        {
+            public const string SEARCH = nameof(SEARCH);
+            public const string FUNC = nameof(FUNC);
+        }
+
+        public static class Validators
+        {
+            public const string TEXT = @"[^\w\s]";
+            public const string NAME = @"[^a-zA-Z\s]";
+            public const string NUMBER = @"[\D]";
+            public const string CHECK_NUMBER = @"^[\d]";
+        }
+
         public static class DialogParameterKeys
         {
-            public const string SET = nameof(SET);
-            public const string CATEGORY = nameof(CATEGORY);
-            public const string PORTIONS = nameof(PORTIONS);
             public const string MESSAGE = nameof(MESSAGE);
             public const string MODEL = nameof(MODEL);
             public const string TITLE = nameof(TITLE);
             public const string OK_BUTTON_TEXT = nameof(OK_BUTTON_TEXT);
             public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
             public const string ACCEPT = nameof(ACCEPT);
+            public const string CANCEL = nameof(CANCEL);
+            public const string SET = nameof(SET);
+            public const string CATEGORY = nameof(CATEGORY);
+            public const string PORTIONS = nameof(PORTIONS);
         }
     }
 }

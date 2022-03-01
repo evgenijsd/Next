@@ -36,6 +36,7 @@
                 Orientation="Horizontal"
                 Spacing="0">
 
+
                 <Frame
                     Padding="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -44,7 +45,13 @@
                     HasShadow="False"
                     HorizontalOptions="Start">
 
-                    <ffimageloading:CachedImage Aspect="AspectFit" Source="pic_logo_small.png" />
+                    <ffimageloading:CachedImage
+                        Source="pic_logo_small.png"
+                        Aspect="AspectFit"/>
+
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToSettingsCommand}"/>
+                    </Frame.GestureRecognizers>
 
                 </Frame>
 
@@ -69,6 +76,12 @@
 
                     <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png" />
 
+                    <Frame.GestureRecognizers>
+
+                        <TapGestureRecognizer Command="{Binding OpenNewOrderPageCommand}"/>
+
+                    </Frame.GestureRecognizers>
+                    
                 </Frame>
 
             </StackLayout>

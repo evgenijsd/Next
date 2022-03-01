@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
-using Next2.Services.OrderService;
+using Next2.Services.Order;
+using Next2.Views.Mobile;
+using Prism.Events;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -20,16 +24,20 @@ namespace Next2.ViewModels
         private readonly double _summRowHeight = App.IsTablet ? Constants.LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET : Constants.LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
         private readonly double _offsetHeight = App.IsTablet ? Constants.LayoutOrderTabs.OFFSET_TABLET : Constants.LayoutOrderTabs.OFFSET_MOBILE;
         private readonly IOrderService _orderService;
+        private readonly IEventAggregator _eventAggregator;
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
+        public double _heightPage;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
+            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties --
@@ -41,6 +49,14 @@ namespace Next2.ViewModels
         public EOrderTabSorting CurrentOrderTabSorting { get; set; }
 
         public GridLength HeightCollectionGrid { get; set; }
+
+        public string SearchText { get; set; } = string.Empty;
+
+        public string SearchPlaceholder { get; set; }
+
+        public bool IsNotingFound { get; set; } = false;
+
+        public bool IsSearching { get; set; } = false;
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
@@ -54,37 +70,56 @@ namespace Next2.ViewModels
         private ICommand _SelectTabsCommand;
         public ICommand SelectTabsCommand => _SelectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
 
+        private ICommand _SearchCommand;
+        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync);
+
+        private ICommand _ClearSearchCommand;
+        public ICommand ClearSearchCommand => _ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync);
+
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
         private ICommand _orderTabSortingChangeCommand;
         public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
 
+        private ICommand _tapSelectCommand;
+        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel>(OnTapSelectCommandAsync);
+
         #endregion
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
-
-            await LoadData();
-        }
-
         public override async void OnAppearing()
         {
-            HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
+            if (!IsSearching)
+            {
+                _heightPage = HeightPage;
+                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-            await LoadData();
+                await LoadData();
+            }
+            else
+            {
+                IsSearching = false;
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SelectedOrder))
+            if (args.PropertyName is nameof(SelectedOrder))
             {
                 SetHeightCollection();
+            }
+            else if (args.PropertyName is nameof(Orders))
+            {
+                IsNotingFound = !Orders.Any();
+
+                if (IsNotingFound)
+                {
+                    HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
+                }
             }
         }
 
@@ -158,7 +193,7 @@ namespace Next2.ViewModels
 
         private void SetHeightCollection()
         {
-            var heightCollectionScreen = HeightPage - _summRowHeight;
+            var heightCollectionScreen = _heightPage - _summRowHeight;
 
             if (SelectedOrder != null && !App.IsTablet)
             {
@@ -167,7 +202,7 @@ namespace Next2.ViewModels
 
             HeightCollectionGrid = new GridLength(heightCollectionScreen);
 
-            if (Orders.Count != 0)
+            if (Orders.Any())
             {
                 var heightCollection = (Orders.Count * Constants.LayoutOrderTabs.ROW_HEIGHT) + _offsetHeight;
 
@@ -180,7 +215,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                HeightCollectionGrid = new GridLength(HeightPage - _summRowHeight);
+                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
             }
         }
 
@@ -190,6 +225,9 @@ namespace Next2.ViewModels
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+
+                SearchText = string.Empty;
+
                 SetVisualCollection();
             }
 
@@ -202,10 +240,65 @@ namespace Next2.ViewModels
             {
                 IsOrderTabsSelected = !IsOrderTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+
+                SearchText = string.Empty;
+
                 SetVisualCollection();
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnSearchCommandAsync()
+        {
+            if (Orders.Any() || !string.IsNullOrEmpty(SearchText))
+            {
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
+                Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
+
+                var parameters = new NavigationParameters()
+                {
+                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.FUNC, searchValidator },
+                };
+                ClearSearchAsync();
+                IsSearching = true;
+                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            }
+        }
+
+        private void SearchEventCommand(string searchLine)
+        {
+            SearchText = searchLine;
+
+            Orders = new (Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
+            SelectedOrder = null;
+
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
+
+            SetHeightCollection();
+        }
+
+        private async Task OnClearSearchCommandAsync()
+        {
+            if (SearchText != string.Empty)
+            {
+                ClearSearchAsync();
+            }
+            else
+            {
+                await OnSearchCommandAsync();
+            }
+        }
+
+        private void ClearSearchAsync()
+        {
+            CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+
+            SelectedOrder = null;
+            SearchText = string.Empty;
+
+            SetVisualCollection();
         }
 
         private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
@@ -237,6 +330,13 @@ namespace Next2.ViewModels
 
                 Orders = new (sortedOrders);
             }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnTapSelectCommandAsync(OrderBindableModel order)
+        {
+            SelectedOrder = order == SelectedOrder ? null : order;
 
             return Task.CompletedTask;
         }

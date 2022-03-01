@@ -1,8 +1,9 @@
 ﻿using Next2.Interfaces;
+using Prism.Mvvm;
 
 namespace Next2.Models
 {
-    public class SetBindableModel : IBaseModel
+    public class SetBindableModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
 

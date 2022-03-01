@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView
-    x:Class="Next2.Views.Tablet.MembershipPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls"
@@ -9,7 +8,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:DataType="tablet:MembershipViewModel">
+    x:DataType="tablet:MembershipViewModel"
+    x:Class="Next2.Views.Tablet.MembershipView">
 
     <Grid BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" RowDefinitions="auto, auto, *">
 
@@ -31,7 +31,7 @@
 
             </StackLayout>
 
-            <BoxView Grid.Row="1" Style="{DynamicResource SeparatorStyle}" />
+            <BoxView Grid.Row="1" Style="{DynamicResource SeparatorStyle_i1}" />
 
         </StackLayout>
 
@@ -139,22 +139,16 @@
                 </Grid>
 
                 <BoxView
-                    HeightRequest="{OnPlatform Android=1.5,
-                                               iOS=1}"
-                    Style="{DynamicResource SeparatorStyle}"
+                    HeightRequest="{OnPlatform Android=1.5, iOS=1}"
+                    Style="{DynamicResource SeparatorStyle_i1}"
                     Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
                 <!--  TABLE CONTENT  -->
                 <RefreshView Command="{Binding RefreshMembersCommand}" IsRefreshing="{Binding IsMembersRefreshing}">
 
                     <controls:CustomScrollBarCollectionView
-                        ItemsSource="{Binding Members}"
-                        ScrollBarCornerRadius="10"
-                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"
-                        SelectionMode="Single"
-                        ThumbWidth="8"
-                        VerticalScrollBarVisibility="Always">
+                        Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                        ItemsSource="{Binding Members}">
 
                         <CollectionView.Effects>
 
@@ -194,7 +188,7 @@
 
                                     <BoxView
                                         Grid.Row="1"
-                                        Style="{DynamicResource SeparatorStyle}"
+                                        Style="{DynamicResource SeparatorStyle_i1}"
                                         Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                 </StackLayout>

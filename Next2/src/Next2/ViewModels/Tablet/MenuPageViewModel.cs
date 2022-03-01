@@ -1,19 +1,28 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Services.Authentication;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
+        private IAuthenticationService _authenticationService;
         public MenuPageViewModel(
             INavigationService navigationService,
+            IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
             HoldItemsViewModel holdItemsViewModel,
             OrderTabsViewModel orderTabsViewModel,
@@ -30,11 +39,15 @@ namespace Next2.ViewModels.Tablet
             MembershipViewModel = membershipViewModel;
             CustomersViewModel = customersViewModel;
             SettingsViewModel = settingsViewModel;
+            _authenticationService = authenticationService;
 
             InitMenuItems();
         }
 
         #region -- Public properties --
+
+        private ICommand _logOutCommand;
+        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync);
 
         private MenuItemBindableModel _selectedMenuItem;
         public MenuItemBindableModel SelectedMenuItem
@@ -127,6 +140,33 @@ namespace Next2.ViewModels.Tablet
             SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
+        private async Task OnLogOutCommandAsync()
+        {
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
+
+            if (result)
+            {
+                _authenticationService.LogOut();
+
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+
+                var navigationParameters = new NavigationParameters
+                {
+                    { "IsLastUserLoggedOut", result },
+                };
+
+                await _navigationService.GoBackToRootAsync(navigationParameters);
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
+        }
         #endregion
     }
 }

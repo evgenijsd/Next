@@ -42,7 +42,7 @@ namespace Next2.Controls
             set => SetValue(ThumbWidthProperty, value);
         }
 
-        public static readonly BindableProperty ScrollbarCornerRadiusProperty = BindableProperty.Create(
+        public static readonly BindableProperty ScrollBarCornerRadiusProperty = BindableProperty.Create(
             propertyName: nameof(ScrollBarCornerRadius),
             returnType: typeof(int),
             declaringType: typeof(CustomScrollBarCollectionView),
@@ -50,8 +50,8 @@ namespace Next2.Controls
 
         public int ScrollBarCornerRadius
         {
-            get => (int)GetValue(ScrollbarCornerRadiusProperty);
-            set => SetValue(ScrollbarCornerRadiusProperty, value);
+            get => (int)GetValue(ScrollBarCornerRadiusProperty);
+            set => SetValue(ScrollBarCornerRadiusProperty, value);
         }
 
         #endregion

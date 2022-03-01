@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView 
+<ContentView  
+    xmlns:views="clr-namespace:Next2.Views"
     xmlns="http://xamarin.com/schemas/2014/forms" 
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Next2.Controls.Templates.CustomDateTimePanelTemplate"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates">
+    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
     
     <StackLayout 
         Orientation="Horizontal"
@@ -20,21 +22,23 @@
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="Barlow-Bold"/>
 
-        <Image 
+        <ffimageloading:CachedImage 
             Margin="0, 0, 5, 0"
             Source="ic_time_circle_24x24"
             VerticalOptions="Center"
             HorizontalOptions="EndAndExpand"/>
             
-        <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:h:hh:ss tt}', Path=CurrentDateTime}"
+        <Label 
+            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:h: mm : ss tt}', Path=CurrentDateTime}"
             VerticalOptions="Center"
+            WidthRequest="80"
+            MinimumWidthRequest="80"
             FontSize="{DynamicResource TSize_i9}"
             Margin="0, 0, 25, 0"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="Barlow-Medium"/>
 
-        <Image 
+        <ffimageloading:CachedImage 
             Source="ic_calendar_24x24"
             Margin="0, 0, 5, 0"/>
 

@@ -1,6 +1,7 @@
 ﻿using Next2.Models;
 using Next2.Services.Menu;
-using Next2.Services.OrderService;
+using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -119,10 +120,12 @@ namespace Next2.ViewModels.Mobile
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+
+                    await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
                 }
             }
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private async Task LoadSetsAsync()
@@ -135,11 +138,11 @@ namespace Next2.ViewModels.Mobile
                 {
                     if (_order)
                     {
-                        SetsItems = new (resultSets.Result.OrderByDescending(row => row.Title));
+                        SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
                     }
                     else
                     {
-                        SetsItems = new (resultSets.Result.OrderBy(row => row.Title));
+                        SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
                     }
                 }
             }
@@ -153,7 +156,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultSubcategories.IsSuccess)
                 {
-                    SubcategoriesItems = new (resultSubcategories.Result);
+                    SubcategoriesItems = new(resultSubcategories.Result);
                     SubcategoriesItems.Insert(0, new SubcategoryModel()
                     {
                         Id = 0,

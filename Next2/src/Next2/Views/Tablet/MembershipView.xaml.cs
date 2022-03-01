@@ -2,9 +2,9 @@
 
 namespace Next2.Views.Tablet
 {
-    public partial class MembershipPage : ContentView
+    public partial class MembershipView : ContentView
     {
-        public MembershipPage()
+        public MembershipView()
         {
             InitializeComponent();
         }

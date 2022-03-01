@@ -1,5 +1,5 @@
-﻿using Next2.Interfaces;
-using System.Collections.Generic;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 
 namespace Next2.Models
 {
@@ -13,7 +13,7 @@ namespace Next2.Models
 
         public string OrderStatus { get; set; }
 
-        public string OrderType { get; set; }
+        public EOrderType OrderType { get; set; }
 
         public int OrderNumber { get; set; }
 

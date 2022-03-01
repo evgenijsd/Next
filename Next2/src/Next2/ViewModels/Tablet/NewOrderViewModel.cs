@@ -1,7 +1,8 @@
 ﻿using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
-using Next2.Services.OrderService;
+using Next2.Services.Order;
+using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -33,15 +34,20 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IMenuService menuService,
             IPopupNavigation popupNavigation,
+            OrderRegistrationViewModel orderRegistrationViewModel,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
+            OrderRegistrationViewModel = orderRegistrationViewModel;
+
             _orderService = orderService;
 
             _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
             _timerUpdateTime.Elapsed += Timer_Elapsed;
+
+            Task.Run(LoadCategoriesAsync);
         }
 
         #region -- Public properties --
@@ -56,13 +62,18 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
 
+        public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
+
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
+
+        private ICommand _tapExpandCommand;
+        public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync);
 
         #endregion
 
@@ -200,6 +211,11 @@ namespace Next2.ViewModels.Tablet
                     SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
                 }
             }
+        }
+
+        private async Task OnTapExpandCommandAsync()
+        {
+            await _navigationService.NavigateAsync(nameof(ExpandPage));
         }
 
         #endregion

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Next2.Services.MockService
+namespace Next2.Services.Mock
 {
     public interface IMockService
     {

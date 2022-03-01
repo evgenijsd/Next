@@ -44,7 +44,7 @@
                             Source="{Binding Set.ImagePath}"/>
 
                     </pkView:PancakeView>
-                    
+
                 </StackLayout>
 
                 <StackLayout
@@ -87,7 +87,7 @@
                             BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:AddSetToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>
-                    
+
                 </BindableLayout.ItemTemplate>
 
             </StackLayout>
@@ -111,7 +111,8 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource AppColor_i1}"
                     CornerRadius="4"
-                    Command="{Binding CloseCommand}"/>
+                    Command="{Binding CloseCommand}"
+                    Padding="0"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -122,7 +123,8 @@
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="4"
-                    Command="{Binding TapAddCommand}"/>
+                    Command="{Binding TapAddCommand}"
+                    Padding="0"/>
 
             </Grid>
 

@@ -1,5 +1,4 @@
 ﻿using Next2.Enums;
-using Next2.Interfaces;
 using Next2.ViewModels;
 using Prism.Mvvm;
 
