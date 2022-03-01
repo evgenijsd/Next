@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Order;
+using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Next2.Views.Tablet;
 using Prism.Navigation;
@@ -20,13 +22,19 @@ namespace Next2.ViewModels
     public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IUserService userService,
+            IAuthenticationService authenticationService)
             : base(navigationService)
         {
             _orderService = orderService;
+            _authenticationService = authenticationService;
+            _userService = userService;
 
             Task.Run(RefreshOrderIdAsync);
             Task.Run(RefreshTablesAsync);
@@ -90,6 +98,14 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out bool isOrderWithTax))
+            {
+                IsOrderWithTax = isOrderWithTax;
+            }
+        }
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -147,19 +163,26 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
         {
-            string page = App.IsTablet ? nameof(NewOrderView) : nameof(OrderRegistrationPage);
-            var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
+            var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            if (App.IsTablet)
+            if (user.IsSuccess && (user.Result.TypeUser != ETypeUser.Admin))
             {
-                await _navigationService.NavigateAsync(nameof(NumericPage), parameters);
+                string page = App.IsTablet ? nameof(NewOrderView) : nameof(OrderRegistrationPage);
+                var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
+
+                if (App.IsTablet)
+                {
+                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters);
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                }
             }
             else
             {
-                await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                IsOrderWithTax = false;
             }
-
-            IsOrderWithTax = false;
         }
 
         private Task OnOrderCommandAsync()

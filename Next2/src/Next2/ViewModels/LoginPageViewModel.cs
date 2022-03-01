@@ -133,7 +133,8 @@ namespace Next2.ViewModels
                 IsNoAdmin = await CheckEmployeeExists() != ETypeUser.Admin;
                 if (!IsNoAdmin)
                 {
-                    await _navigationService.GoBackAsync();
+                    var parameters = new NavigationParameters() { { Constants.Navigations.ADMIN, IsNoAdmin } };
+                    await _navigationService.GoBackAsync(parameters);
                 }
             }
             else if (IsEmployeeExists)
