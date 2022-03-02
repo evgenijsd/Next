@@ -143,7 +143,6 @@ namespace Next2.ViewModels
 
                 if (!IsNoAdmin)
                 {
-                    //var parameters = new NavigationParameters() { { Constants.Navigations.ADMIN, IsNoAdmin } };
                     _eventAggregator.GetEvent<EventTax>().Publish(IsNoAdmin);
                     await _navigationService.GoBackAsync();
                 }

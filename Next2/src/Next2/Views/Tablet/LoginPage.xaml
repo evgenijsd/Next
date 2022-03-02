@@ -41,6 +41,7 @@
             Grid.Column="1"
             Grid.RowSpan="2"
             RowDefinitions="0.33*,0.44*, 0.23*, 60">
+            
             <Label 
                 Text="{xct:Translate EmployeeId}"
                 Grid.Row="0"
@@ -58,11 +59,11 @@
                 IsUserLogIn="{Binding IsUserLogIn}"
                 IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
                 ApplyCommand="{Binding GoToStartPageCommand}"/>
-            
+
             <StackLayout 
                 Grid.Row="2" 
                 Padding="0">
-
+                
                 <BoxView 
                         Margin="0, 0, 0, 0"
                         HeightRequest="2"

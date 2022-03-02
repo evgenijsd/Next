@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
-    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Next2.Controls.Templates" 
@@ -13,175 +12,125 @@
     BackgroundColor="Transparent">
 
     <ContentPage.Content>
+
         <Grid>
-            <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" Opacity="0.6" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+            <StackLayout 
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" 
+                Opacity="0.6" 
+                VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand">
             </StackLayout>
-        <Frame 
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            HeightRequest="500" 
-            WidthRequest="370" 
-            CornerRadius="10"
-            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-            <StackLayout>
+            <Frame 
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                HeightRequest="500" 
+                WidthRequest="370" 
+                CornerRadius="10"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                <Label 
-                Text="{xct:Translate EmployeeId}"
-                Grid.Row="0"
-                FontSize="{DynamicResource TSize_i6}"
-                VerticalOptions="EndAndExpand"
-                Margin="20, 10, 0, 10"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontFamily="Barlow-SemiBold"/>
+                <StackLayout>
 
-                <BoxView 
+                    <Label 
+                        Text="{xct:Translate EmployeeId}"
+                        Grid.Row="0"
+                        FontSize="{DynamicResource TSize_i6}"
+                        VerticalOptions="EndAndExpand"
+                        Margin="20, 10, 0, 10"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontFamily="Barlow-SemiBold"/>
+
+                    <BoxView 
                         Margin="0, 0, 0, 0"
                         HeightRequest="2"
                         VerticalOptions="EndAndExpand"
                         Color="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-                <controls:CustomNumericKeyboardTemplate
-                Margin="20, 10, 20, 0"
-                VerticalOptions="EndAndExpand"
-                    ScreenKeyboard="{Binding EmployeeId}"
-                PlaceHolder="{xct:Translate TypeEmployeeId}"
-                IsUserLogIn="{Binding IsUserLogIn}"
-                IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
-                ApplyCommand="{Binding GoToStartPageCommand}"/>
+                    <controls:CustomNumericKeyboardTemplate
+                        Margin="20, 10, 20, 0"
+                        VerticalOptions="EndAndExpand"
+                        ScreenKeyboard="{Binding EmployeeId}"
+                        PlaceHolder="{xct:Translate TypeEmployeeId}"
+                        IsUserLogIn="{Binding IsUserLogIn}"
+                        IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
+                        ApplyCommand="{Binding GoToStartPageCommand}"/>
 
-                <BoxView 
+                    <BoxView 
                         Margin="0, 12, 0, 0"
                         HeightRequest="2"
                         VerticalOptions="EndAndExpand"
                         Color="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-                <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
 
-                    <!--Frame 
-                HasShadow="False"
-                CornerRadius="5"
-                HeightRequest="40"
-                HorizontalOptions="FillAndExpand"
-                Margin="20, 15, 5, 15"
-                Padding="0"
-                BackgroundColor="{DynamicResource IndicationColor_i1}">
+                        <StackLayout 
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center"
+                            HeightRequest="75">
 
-                <Label 
-                    Text="{xct:Translate Cancel}"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Bold"/>
+                            <buttons:BorderButton 
+                                Margin="20, 15, 5, 15"
+                                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                                Padding="4"
+                                BorderWidth="1"
+                                HeightRequest="65"
+                                HasShadow="False"
+                                Text="{xct:Translate Cancel}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i7}"
+                                BorderColor="{DynamicResource IndicationColor_i4}"
+                                FontFamily="Barlow-SemiBold"
+                                Command="{Binding ButtonClearCommand}"/>
 
-                <Frame.GestureRecognizers>
+                        </StackLayout>
 
-                    <TapGestureRecognizer Command="{Binding GoToStartPageCommand}" />
+                        <StackLayout 
+                            HorizontalOptions="FillAndExpand"
+                            HeightRequest="75"
+                            VerticalOptions="Center">
 
-                </Frame.GestureRecognizers>
+                            <buttons:BorderButton 
+                                Margin="5, 15, 20, 15"
+                                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                                Padding="4"
+                                BorderWidth="0"
+                                HeightRequest="65"
+                                HasShadow="False"
+                                Text="{xct:Translate Confirm}"
+                                FontSize="{DynamicResource TSize_i7}"
+                                BorderColor="Transparent"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                FontFamily="Barlow-SemiBold"
+                                BackgroundColor="{DynamicResource IndicationColor_i2}"
+                                Command="{Binding GoToStartPageCommand}">
 
-            </Frame-->
+                                <buttons:BorderButton.Triggers>
 
-                    <StackLayout 
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Center"
-                    HeightRequest="75">
+                                    <MultiTrigger TargetType="buttons:BorderButton">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding IsCheckAdminID}" Value="true" />
+                                            <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+                                        <Setter Property="IsEnabled" Value="true"/>
+                                    </MultiTrigger>
 
-                        <buttons:BorderButton 
-                        Margin="20, 15, 5, 15"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        BorderWidth="1"
-                        HeightRequest="65"
-                        HasShadow="False"
-                        Text="{xct:Translate Cancel}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i7}"
-                        BorderColor="{DynamicResource IndicationColor_i4}"
-                        FontFamily="Barlow-SemiBold"
-                        Command="{Binding ButtonClearCommand}"/>
+                                </buttons:BorderButton.Triggers>
 
-                    </StackLayout>
+                            </buttons:BorderButton>
 
-                    <!--IsEnabled="{Binding IsEmployeeExists}"-->
-                    <StackLayout 
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="75"
-                    VerticalOptions="Center">
-
-                        <buttons:BorderButton 
-                        Margin="5, 15, 20, 15"
-                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                        Padding="4"
-                        
-                        BorderWidth="0"
-                        HeightRequest="65"
-                        HasShadow="False"
-                        Text="{xct:Translate Confirm}"
-                        FontSize="{DynamicResource TSize_i7}"
-                        BorderColor="Transparent"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        FontFamily="Barlow-SemiBold"
-                        BackgroundColor="{DynamicResource IndicationColor_i2}"
-                        Command="{Binding GoToStartPageCommand}">
-
-                            <buttons:BorderButton.Triggers>
-
-                                <!--DataTrigger TargetType="buttons:BorderButton"
-                                         Binding="{Binding IsEmployeeExists}"
-                                         Value="True">
-                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
-
-                            </DataTrigger-->
-
-                                <MultiTrigger TargetType="buttons:BorderButton">
-                                    <MultiTrigger.Conditions>
-                                        <BindingCondition Binding="{Binding IsCheckAdminID}" Value="true" />
-                                        <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
-                                    </MultiTrigger.Conditions>
-                                    <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
-                                    <Setter Property="IsEnabled" Value="true"/>
-                                </MultiTrigger>
-
-                            </buttons:BorderButton.Triggers>
-
-                        </buttons:BorderButton>
+                        </StackLayout>
 
                     </StackLayout>
 
-                    <!--Frame 
-                HasShadow="False"
-                CornerRadius="5"
-                    HorizontalOptions="FillAndExpand"
-                HeightRequest="40"
-                Margin="5, 15, 20, 15"
-                Padding="0"
-                BackgroundColor="{DynamicResource IndicationColor_i1}">
-
-                    <Label 
-                    Text="{xct:Translate Confirm}"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Bold"/>
-
-                    <Frame.GestureRecognizers>
-
-                        <TapGestureRecognizer Command="{Binding GoToStartPageCommand}" />
-
-                    </Frame.GestureRecognizers>
-
-                </Frame-->
                 </StackLayout>
 
-            </StackLayout>
+            </Frame>
 
-        </Frame>
-        
         </Grid>
+        
     </ContentPage.Content>
 
 </views:BaseContentPage>

@@ -103,23 +103,6 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        /*public override async void OnAppearing()
-        {
-            base.OnAppearing();
-            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out bool isOrderWithTax))
-            {
-                IsOrderWithTax = isOrderWithTax;
-            }
-        }
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out bool isOrderWithTax))
-            {
-                IsOrderWithTax = isOrderWithTax;
-            }
-        }*/
-
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
