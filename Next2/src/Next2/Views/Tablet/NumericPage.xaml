@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<rg:PopupPage
+<views:BaseContentPage
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -9,15 +9,20 @@
     x:DataType="viewModels:LoginPageViewModel"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-    x:Class="Next2.Views.Tablet.NumericPage">
+    x:Class="Next2.Views.Tablet.NumericPage"
+    BackgroundColor="Transparent">
 
-    <rg:PopupPage.Content>
+    <ContentPage.Content>
+        <Grid>
+            <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" Opacity="0.6" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            </StackLayout>
         <Frame 
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
             HeightRequest="500" 
             WidthRequest="370" 
             CornerRadius="10"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <StackLayout>
@@ -40,6 +45,7 @@
                 <controls:CustomNumericKeyboardTemplate
                 Margin="20, 10, 20, 0"
                 VerticalOptions="EndAndExpand"
+                    ScreenKeyboard="{Binding EmployeeId}"
                 PlaceHolder="{xct:Translate TypeEmployeeId}"
                 IsUserLogIn="{Binding IsUserLogIn}"
                 IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
@@ -87,7 +93,6 @@
                         Margin="20, 15, 5, 15"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="False"
                         BorderWidth="1"
                         HeightRequest="65"
                         HasShadow="False"
@@ -100,6 +105,7 @@
 
                     </StackLayout>
 
+                    <!--IsEnabled="{Binding IsEmployeeExists}"-->
                     <StackLayout 
                     HorizontalOptions="FillAndExpand"
                     HeightRequest="75"
@@ -109,7 +115,7 @@
                         Margin="5, 15, 20, 15"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="{Binding IsEmployeeExists}"
+                        
                         BorderWidth="0"
                         HeightRequest="65"
                         HasShadow="False"
@@ -174,6 +180,8 @@
             </StackLayout>
 
         </Frame>
-    </rg:PopupPage.Content>
+        
+        </Grid>
+    </ContentPage.Content>
 
-</rg:PopupPage>
+</views:BaseContentPage>

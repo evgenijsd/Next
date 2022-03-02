@@ -115,7 +115,6 @@
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="Converters\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="ViewModels\Mobile\" />

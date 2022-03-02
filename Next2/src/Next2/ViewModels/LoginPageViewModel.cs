@@ -1,9 +1,11 @@
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Services;
 using Next2.Services.Authentication;
 using Next2.Services.Mock;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
+using Prism.Events;
 using Prism.Navigation;
 using System;
 using System.ComponentModel;
@@ -19,6 +21,7 @@ namespace Next2.ViewModels
     {
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEventAggregator _eventAggregator;
 
         private string _inputtedEmployeeId;
 
@@ -27,11 +30,13 @@ namespace Next2.ViewModels
         public LoginPageViewModel(
             INavigationService navigationService,
             IUserService userService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _userService = userService;
+            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties--
@@ -130,12 +135,20 @@ namespace Next2.ViewModels
             }
             else if (IsCheckAdminID)
             {
+                if (App.IsTablet && int.TryParse(EmployeeId, out _inputtedEmployeeIdToDigit))
+                {
+                }
+
                 IsNoAdmin = await CheckEmployeeExists() != ETypeUser.Admin;
+
                 if (!IsNoAdmin)
                 {
-                    var parameters = new NavigationParameters() { { Constants.Navigations.ADMIN, IsNoAdmin } };
-                    await _navigationService.GoBackAsync(parameters);
+                    //var parameters = new NavigationParameters() { { Constants.Navigations.ADMIN, IsNoAdmin } };
+                    _eventAggregator.GetEvent<EventTax>().Publish(IsNoAdmin);
+                    await _navigationService.GoBackAsync();
                 }
+
+                IsErrorNotificationVisible = true;
             }
             else if (IsEmployeeExists)
             {
@@ -148,6 +161,7 @@ namespace Next2.ViewModels
         {
             var user = await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit);
             IsEmployeeExists = user.IsSuccess;
+
             if (IsEmployeeExists)
             {
                 return user.Result.TypeUser;

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Next2.Views.Tablet;
+using Prism.Events;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -24,17 +26,20 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEventAggregator _eventAggregator;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IOrderService orderService,
             IUserService userService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
             _authenticationService = authenticationService;
             _userService = userService;
+            _eventAggregator = eventAggregator;
 
             Task.Run(RefreshOrderIdAsync);
             Task.Run(RefreshTablesAsync);
@@ -98,13 +103,22 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        /*public override async void OnAppearing()
+        {
+            base.OnAppearing();
+            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out bool isOrderWithTax))
+            {
+                IsOrderWithTax = isOrderWithTax;
+            }
+        }
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(Constants.Navigations.ADMIN, out bool isOrderWithTax))
             {
                 IsOrderWithTax = isOrderWithTax;
             }
-        }
+        }*/
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -168,11 +182,12 @@ namespace Next2.ViewModels
             if (user.IsSuccess && (user.Result.TypeUser != ETypeUser.Admin))
             {
                 string page = App.IsTablet ? nameof(NewOrderView) : nameof(OrderRegistrationPage);
+                _eventAggregator.GetEvent<EventTax>().Subscribe(TaxEventCommand);
                 var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
 
                 if (App.IsTablet)
                 {
-                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters);
+                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
                 }
                 else
                 {
@@ -183,6 +198,13 @@ namespace Next2.ViewModels
             {
                 IsOrderWithTax = false;
             }
+        }
+
+        private void TaxEventCommand(bool isOrderWithTax)
+        {
+            _eventAggregator.GetEvent<EventTax>().Unsubscribe(TaxEventCommand);
+
+            IsOrderWithTax = isOrderWithTax;
         }
 
         private Task OnOrderCommandAsync()
