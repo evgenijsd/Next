@@ -152,14 +152,9 @@ namespace Next2.ViewModels
         private Task OnOrderCommandAsync()
         {
             // code for testing, delete it later
-            if (Sets.Count > 0)
-            {
-                Sets.Clear();
-            }
-            else
-            {
-                Sets = new () { string.Empty };
-            }
+            Sets = Sets.Count > 0
+                ? new()
+                : new() { string.Empty };
 
             return Task.CompletedTask;
         }

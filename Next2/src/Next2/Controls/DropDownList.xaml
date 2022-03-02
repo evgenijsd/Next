@@ -54,6 +54,7 @@
         
         <controls:CustomScrollBarCollectionView
             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+            VerticalScrollBarVisibility="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ScrollBarVisibility}"
             HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ListHeight}"
             Background="{DynamicResource TextAndBackgroundColor_i5}"
             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"

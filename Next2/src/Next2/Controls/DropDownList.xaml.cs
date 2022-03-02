@@ -112,6 +112,18 @@ namespace Next2.Controls
             set => SetValue(DirectionProperty, value);
         }
 
+        public static readonly BindableProperty ScrollBarVisibilityProperty = BindableProperty.Create(
+            propertyName: nameof(ScrollBarVisibility),
+            returnType: typeof(ScrollBarVisibility),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ScrollBarVisibility ScrollBarVisibility
+        {
+            get => (ScrollBarVisibility)GetValue(ScrollBarVisibilityProperty);
+            set => SetValue(ScrollBarVisibilityProperty, value);
+        }
+
         public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(
             propertyName: nameof(DataTemplate),
             returnType: typeof(DataTemplate),
@@ -195,22 +207,11 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (ItemsSource?.Count > 0 && propertyName
-                is nameof(MaxNumberOfVisibleItems)
-                or nameof(ItemsSource))
-            {
-                SelectedItem = ItemsSource[0];
-
-                itemsCollection.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
-                    ? ScrollBarVisibility.Never
-                    : ScrollBarVisibility.Always;
-            }
-            else if (propertyName is nameof(SelectedItem))
+            if (propertyName is nameof(SelectedItem))
             {
                 IsExpanded = false;
             }
-
-            if (propertyName is nameof(Direction) && Direction is EDropDownListDirection.Up)
+            else if (propertyName is nameof(Direction) && Direction is EDropDownListDirection.Up)
             {
                 container.RaiseChild(listHeader);
             }
@@ -221,9 +222,23 @@ namespace Next2.Controls
                     : 0;
             }
             else if (propertyName
-                is nameof(MaxNumberOfVisibleItems)
+                is nameof(ItemsSource)
+                or nameof(MaxNumberOfVisibleItems) && ItemsSource?.Count > 0)
+            {
+                SelectedItem = ItemsSource[0];
+
+                if (ScrollBarVisibility is not ScrollBarVisibility.Never)
+                {
+                    itemsCollection.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
+                        ? ScrollBarVisibility.Never
+                        : ScrollBarVisibility;
+                }
+            }
+
+            if (propertyName
+                is nameof(ItemHeight)
                 or nameof(ItemsSource)
-                or nameof(ItemHeight))
+                or nameof(MaxNumberOfVisibleItems))
             {
                 if (ItemsSource is not null)
                 {

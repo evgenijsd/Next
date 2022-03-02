@@ -715,10 +715,7 @@
                 </Style>
                 
                 <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
-                    <Setter Property="CornerRadius" Value="7"/>
-                    <Setter Property="ItemHeight" Value="37"/>
-                    <Setter Property="HeaderTextSize" Value="{DynamicResource TSize_i9}"/>
-                    <Setter Property="IconSizes" Value="18"/>
+                    <Setter Property="ItemHeight" Value="40"/>
                 </Style>
                 
                 <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
@@ -855,13 +852,14 @@
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
-                                Padding="14, 8"
+                                Padding="14, 7, 14, 12"
                                 HeightRequest="20"
                                 Orientation="Horizontal">
 
                                 <Label
                                     x:DataType="models:OrderTypeBindableModel"
                                     HorizontalOptions="FillAndExpand"
+                                    FontFamily="Barlow-Medium"
                                     FontSize="{DynamicResource TSize_i7}"
                                     Text="{Binding Text}" />
 
@@ -953,13 +951,14 @@
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
-                                Padding="8"
+                                Padding="14, 7, 14, 12"
                                 HeightRequest="20"
                                 Orientation="Horizontal"
                                 x:DataType="models:TableBindableModel">
 
                                 <Label
-                                    Style="{DynamicResource Medium16pxLabelStyle}"
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i7}"
                                     HorizontalOptions="FillAndExpand"
                                     Text="{Binding Id, StringFormat='Table {0}'}" />
 
@@ -998,7 +997,7 @@
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
                                 WidthRequest="230"
-                                LineSpacing="{OnPlatform Android=1.1, iOS=6.45}"
+                                LineSpacing="{OnPlatform Android=1.1, iOS=6.15}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 Text="{xct:Translate ToCreateNewOrderSelectDishCard}">
                                 
