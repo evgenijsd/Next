@@ -118,7 +118,12 @@
                         <Span Text="{Binding NewOrderId, StringFormat='{} #{0}'}" />
                     </FormattedString>
                 </Label.FormattedText>
-
+                
+                <!-- code for testing -->  
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OrderCommand}" />
+                </Label.GestureRecognizers>
+                
             </Label>
 
         </StackLayout>
@@ -276,11 +281,22 @@
                 Spacing="13"
                 Orientation="Horizontal">
 
-                <Label
-                    Style="{DynamicResource Bold32pxLabelStyle}"
-                    Text="{xct:Translate Summary}" />
+               <StackLayout>
 
-                <buttons:IconBorderButton
+                    <Label
+                        Style="{DynamicResource Bold32pxLabelStyle}"
+                        VerticalOptions="CenterAndExpand"
+                        Text="{xct:Translate Summary}" />
+
+                    <Label
+                        VerticalOptions="FillAndExpand"
+                        TextColor="{DynamicResource AppColor_i1}"
+                        IsVisible="{Binding CustomerName.Length}"
+                        Text="{Binding CustomerName}" />
+                   
+                </StackLayout>
+
+                    <buttons:IconBorderButton
                     Style="{DynamicResource IconBorderButtonStyle_i2}"
                     HorizontalOptions="EndAndExpand"
                     IconSource="ic_time_circle_40x40"
