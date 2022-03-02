@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace Next2.Models
 {
-    public class FullOrderModel : BindableBase, IBaseModel
+    public class FullOrderBindableModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
 

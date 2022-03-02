@@ -27,12 +27,6 @@ namespace Next2.ViewModels
             _orderService = orderService;
 
             Task.Run(RefreshTablesAsync);
-            Task.Run(() =>
-            {
-                _orderService.CreateNewOrderAsync();
-                CurrentOrder = _orderService.CurrentOrder;
-                SelectedTable = CurrentOrder.Table;
-            });
 
             List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
 
@@ -45,7 +39,7 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public FullOrderModel CurrentOrder { get; set; } = new();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
@@ -83,6 +77,14 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        public override async Task InitializeAsync(INavigationParameters parameters)
+        {
+            if (parameters.ContainsKey(Constants.DialogParameterKeys.REFRESH_ORDER))
+            {
+                await RefreshCurrentOrderAsync();
+            }
+        }
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -96,6 +98,18 @@ namespace Next2.ViewModels
 
                     break;
             }
+        }
+
+        #endregion
+
+        #region -- Public helpers --
+
+        public Task RefreshCurrentOrderAsync()
+        {
+            CurrentOrder = _orderService.CurrentOrder;
+            SelectedTable = CurrentOrder.Table;
+
+            return Task.CompletedTask;
         }
 
         #endregion

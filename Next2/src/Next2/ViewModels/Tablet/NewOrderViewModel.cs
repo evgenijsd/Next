@@ -48,6 +48,8 @@ namespace Next2.ViewModels.Tablet
             _timerUpdateTime.Elapsed += Timer_Elapsed;
 
             Task.Run(LoadCategoriesAsync);
+
+            orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
@@ -152,6 +154,7 @@ namespace Next2.ViewModels.Tablet
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                    await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                 }
             }
 

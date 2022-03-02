@@ -798,7 +798,7 @@
                     Text="{xct:Translate Seats}">
 
                     <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                          
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                        
@@ -814,7 +814,7 @@
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
 
                     <controls:CustomStepper.Triggers>
-                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                             <Setter Property="IsEnabled" Value="False" />
@@ -870,11 +870,18 @@
                 ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedSeat}">
 
+
                 <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
-                    
+                    <effects:NoOverScrollEffect/>
+
+                    <effects:ScrollBarColorEffect
+                        ScrollBarThumbWidth="6"
+                        ScrollBarCornerRadius="9"
+                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+
                 </CollectionView.Effects>
-                
+
                 <CollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
@@ -901,19 +908,107 @@
 
                     </StackLayout>
                 </CollectionView.EmptyView>
-                
-                <controls:CustomScrollBarCollectionView.ItemTemplate>
+
+                <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:SeatBindableModel">
-                        
-                        <!-- for testing --> 
-                        <StackLayout Padding="30">
-                            
-                            <Label Text="{Binding SeatNumber}"/>
-                            
+
+                        <StackLayout
+                            Padding="24"
+                            Spacing="0">
+
+                            <StackLayout
+                                Spacing="0"
+                                Orientation="Horizontal"
+                                Margin="0, 0, 0, 16">
+
+                                <ffimageloading:CachedImage
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center"
+                                    Source="ic_check_box_unhecked_24x24.png"/>
+
+                                <Label
+                                    Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
+                                    Margin="14, 0, 0, 0"/>
+
+                                <ffimageloading:CachedImage
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="Center"
+                                    Source="ic_outline_minus_24x24.png" />
+
+                            </StackLayout>
+
+                            <CollectionView ItemsSource="{Binding Sets}">
+
+                                <CollectionView.ItemsLayout>
+
+                                    <GridItemsLayout
+                                        Orientation="Vertical"
+                                        VerticalItemSpacing="7"/>
+
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.Effects>
+                                    <effects:NoOverScrollEffect/>
+                                </CollectionView.Effects>
+
+                                <CollectionView.ItemTemplate>
+
+                                    <DataTemplate x:DataType="models:SetBindableModel">
+                                        <Frame
+                                            HeightRequest="88"
+                                            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                            CornerRadius="8">
+
+                                            <StackLayout
+                                                Spacing="0"
+                                                Orientation="Horizontal">
+
+                                                <pancakeview:PancakeView
+                                                    HeightRequest="56"
+                                                    MinimumWidthRequest="56"
+                                                    WidthRequest="56"
+                                                    CornerRadius="8"
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Center"
+                                                    Margin="16">
+
+                                                    <ffimageloading:CachedImage
+                                                        Aspect="AspectFill"
+                                                        Source="{Binding ImagePath}"/>
+
+                                                </pancakeview:PancakeView>
+
+                                                <StackLayout
+                                                    Spacing="0"
+                                                    Margin="0, 16, 16, 16">
+
+                                                    <Label
+                                                        Text="{Binding Title}"
+                                                        FontSize="{DynamicResource TSize_i6}"
+                                                        FontFamily="Barlow-Medium"
+                                                        LineBreakMode="TailTruncation"
+                                                        MaxLines="1"/>
+
+                                                    <Label
+                                                        Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
+                                                        FontSize="{DynamicResource TSize_i5}"
+                                                        FontFamily="Barlow-SemiBold"/>
+
+                                                </StackLayout>
+
+                                            </StackLayout>
+
+                                        </Frame>
+                                    </DataTemplate>
+
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
                         </StackLayout>
-                        
+
                     </DataTemplate>
-                </controls:CustomScrollBarCollectionView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
             </controls:CustomScrollBarCollectionView>
 

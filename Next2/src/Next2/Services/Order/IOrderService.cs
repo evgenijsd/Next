@@ -7,7 +7,7 @@ namespace Next2.Services.Order
 {
     public interface IOrderService
     {
-        FullOrderModel CurrentOrder { get; set; }
+        FullOrderBindableModel CurrentOrder { get; set; }
 
         Task<AOResult<int>> GetNewOrderIdAsync();
 

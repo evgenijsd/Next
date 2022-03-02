@@ -123,7 +123,11 @@ namespace Next2.ViewModels.Mobile
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
 
-                    await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+                    var param = new NavigationParameters();
+                    param.Add(Constants.DialogParameterKeys.SET, set);
+                    param.Add(Constants.DialogParameterKeys.REFRESH_ORDER, string.Empty);
+
+                    await _navigationService.NavigateAsync(nameof(OrderRegistrationPage), param);
                 }
             }
         }

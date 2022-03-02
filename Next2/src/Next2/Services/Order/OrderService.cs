@@ -21,11 +21,13 @@ namespace Next2.Services.Order
         public OrderService(IMockService mockService)
         {
             _mockService = mockService;
+
+            Task.Run(CreateNewOrderAsync);
         }
 
         #region -- Public properties --
 
-        public FullOrderModel CurrentOrder { get; set; }
+        public FullOrderBindableModel CurrentOrder { get; set; }
 
         #endregion
 
@@ -157,6 +159,8 @@ namespace Next2.Services.Order
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
+                    _indexCurrentSeat = -1;
+
                     result.SetSuccess();
                 }
                 else
@@ -178,9 +182,21 @@ namespace Next2.Services.Order
 
             try
             {
+                if (_indexCurrentSeat == -1)
+                {
+                    var seat = new SeatBindableModel();
+                    seat.Id = 1;
+                    seat.SeatNumber = 1;
+                    seat.Sets = new();
+
+                    CurrentOrder.Seats.Add(seat);
+
+                    _indexCurrentSeat = 0;
+                }
+
                 CurrentOrder.Seats[_indexCurrentSeat].Sets.Add(set);
-                CurrentOrder.SubTotal += set.Price;
-                CurrentOrder.Total += set.Price;
+                CurrentOrder.SubTotal += set.Portion.Price;
+                CurrentOrder.Total += set.Portion.Price;
 
                 result.SetSuccess();
             }
