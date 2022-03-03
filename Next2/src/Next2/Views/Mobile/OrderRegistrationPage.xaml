@@ -89,6 +89,7 @@
             
             <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
                 <Setter Property="CornerRadius" Value="7" />
+                <Setter Property="ScrollBarVisibility" Value="Never" />
                 <Setter Property="ItemHeight" Value="46.5" />
             </Style>
         </Grid.Resources>
@@ -118,7 +119,12 @@
                         <Span Text="{Binding NewOrderId, StringFormat='{} #{0}'}" />
                     </FormattedString>
                 </Label.FormattedText>
-
+                
+                <!-- code for testing -->  
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OrderCommand}" />
+                </Label.GestureRecognizers>
+                
             </Label>
 
         </StackLayout>
@@ -128,7 +134,7 @@
             Style="{DynamicResource DropDownListStyle_i2}"
             HorizontalOptions="End"
             VerticalOptions="Start"
-            Margin="17, 19"
+            Margin="17"
             WidthRequest="96"
             HeaderText="{Binding SelectedOrderType.Text}"
             SelectedItem="{Binding SelectedOrderType}"
@@ -146,6 +152,7 @@
                             <Label
                                 x:DataType="models:OrderTypeBindableModel"
                                 HorizontalOptions="FillAndExpand"
+                                FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i7}"
                                 Text="{Binding Text}" />
 
@@ -164,7 +171,7 @@
             Grid.Row="1"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="End"
-            Padding="17, 13, 17, 18"
+            Padding="17, 10, 17, 18"
             Orientation="Horizontal"
             Spacing="13">
 
@@ -214,13 +221,14 @@
 
                         <StackLayout
                             HeightRequest="30"
-                            Padding="8"
+                            Padding="14, 8"
                             Orientation="Horizontal"
                             x:DataType="models:TableBindableModel">
 
                             <Label
                                 HorizontalOptions="FillAndExpand"
-                                FontSize="16"
+                                FontFamily="Barlow-Medium"
+                                FontSize="{DynamicResource TSize_i7}"
                                 Text="{Binding Id, StringFormat='Table {0}'}" />
 
                         </StackLayout>
@@ -276,9 +284,20 @@
                 Spacing="13"
                 Orientation="Horizontal">
 
-                <Label
-                    Style="{DynamicResource Bold32pxLabelStyle}"
-                    Text="{xct:Translate Summary}" />
+               <StackLayout>
+
+                    <Label
+                        Style="{DynamicResource Bold32pxLabelStyle}"
+                        VerticalOptions="CenterAndExpand"
+                        Text="{xct:Translate Summary}" />
+
+                    <Label
+                        VerticalOptions="FillAndExpand"
+                        TextColor="{DynamicResource AppColor_i1}"
+                        IsVisible="{Binding CustomerName.Length}"
+                        Text="{Binding CustomerName}" />
+                   
+                </StackLayout>
 
                 <buttons:IconBorderButton
                     Style="{DynamicResource IconBorderButtonStyle_i2}"

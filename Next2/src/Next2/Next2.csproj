@@ -110,11 +110,11 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Converters\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="Converters\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="ViewModels\Mobile\" />

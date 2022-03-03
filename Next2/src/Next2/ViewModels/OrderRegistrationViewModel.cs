@@ -23,12 +23,14 @@ namespace Next2.ViewModels
 {
     public class OrderRegistrationViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IEventAggregator _eventAggregator;
 
         public OrderRegistrationViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             IOrderService orderService,
             IUserService userService,
@@ -36,6 +38,7 @@ namespace Next2.ViewModels
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
+            _mapper = mapper;
             _orderService = orderService;
             _authenticationService = authenticationService;
             _userService = userService;
@@ -69,6 +72,9 @@ namespace Next2.ViewModels
         public TableBindableModel SelectedTable { get; set; } = new ();
 
         public int NumberOfSeats { get; set; } = 0;
+
+        // value for testing, delete it later
+        public string CustomerName { get; set; } = "Martin Levin";
 
         public bool IsOrderWithTax { get; set; } = true;
 
@@ -138,9 +144,7 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                MapperConfiguration mapperConfig = new (cfg => cfg.CreateMap<TableModel, TableBindableModel>());
-                Mapper mapper = new (mapperConfig);
-                var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new (tableBindableModels);
 
@@ -192,6 +196,11 @@ namespace Next2.ViewModels
 
         private Task OnOrderCommandAsync()
         {
+            // code for testing, delete it later
+            Sets = Sets.Count > 0
+                ? new()
+                : new() { string.Empty };
+
             return Task.CompletedTask;
         }
 
@@ -202,6 +211,10 @@ namespace Next2.ViewModels
 
         private async Task OnPayCommandAsync()
         {
+            // code for testing, delete it later
+            CustomerName = CustomerName.Length == 0
+                ? "Martin Levin"
+                : string.Empty;
         }
 
         #endregion

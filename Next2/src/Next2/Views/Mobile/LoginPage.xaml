@@ -143,24 +143,6 @@
 
                 </buttons:InputButton.Behaviors>
 
-                <!--buttons:InputButton.Triggers>
-
-                    <DataTrigger TargetType="buttons:InputButton"
-                                         Binding="{Binding EmployeeId}"
-                                         Value="">
-                        <Setter Property="IsLeftImageVisible" Value="false"/>
-
-                    </DataTrigger>
-
-                    <DataTrigger TargetType="buttons:InputButton"
-                                         Binding="{Binding IsUserAdmin}"
-                                         Value="true">
-                        <Setter Property="IsEmployeeExists" Value="true"/>
-
-                    </DataTrigger>
-
-                </buttons:InputButton.Triggers-->
-
             </buttons:InputButton>
 
             <yummy:PancakeView
