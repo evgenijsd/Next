@@ -170,7 +170,7 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
-                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
+                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters); //, useModalNavigation: true);
                 }
                 else
                 {

@@ -19,6 +19,8 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
+        private static System.Timers.Timer timerUpdateTime = new Timer(1);
+
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IEventAggregator _eventAggregator;
@@ -66,13 +68,6 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Overrides --
-
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            EmployeeId = string.Empty;
-        }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -221,7 +216,6 @@ namespace Next2.ViewModels
         public override void OnAppearing()
         {
             base.OnAppearing();
-            var timerUpdateTime = new Timer(1);
             timerUpdateTime.Elapsed += Timer_Elapsed;
 
             Task.Run(() => timerUpdateTime.Start());
@@ -234,6 +228,15 @@ namespace Next2.ViewModels
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             CurrentDateTime = DateTime.Now;
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            EmployeeId = string.Empty;
+            timerUpdateTime.Stop();
+            timerUpdateTime.Dispose();
         }
 
         #endregion
