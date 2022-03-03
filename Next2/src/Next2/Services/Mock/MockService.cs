@@ -21,6 +21,7 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<PortionModel> _portions;
 
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -160,7 +161,8 @@ namespace Next2.Services.Mock
                 InitSetsAsync(),
                 InitTables(),
                 InitUsersAsync(),
-                InitCustomersAsync());
+                InitCustomersAsync(),
+                InitPortionsAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
@@ -1103,6 +1105,586 @@ namespace Next2.Services.Mock
         {
             _customers = CustomersMock.Create();
             _base.Add(typeof(CustomerModel), _customers);
+        });
+
+        private Task InitPortionsAsync() => Task.Run(() =>
+        {
+            int id = 1;
+            int setId = 1;
+            var rand = new Random();
+
+            _portions = new List<PortionModel>
+            {
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Small",
+                    Price = rand.Next(10, 20),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId,
+                    Title = "Medium",
+                    Price = rand.Next(20, 30),
+                },
+                new PortionModel()
+                {
+                    Id = id++,
+                    SetId = setId++,
+                    Title = "Large",
+                    Price = rand.Next(30, 40),
+                },
+            };
+
+            _base.Add(typeof(PortionModel), _portions);
         });
 
         #endregion

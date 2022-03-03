@@ -547,7 +547,12 @@
 
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect/>
-                                <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}"/>
+                                
+                                <effects:ScrollBarColorEffect
+                                    ScrollBarThumbWidth="6"
+                                    ScrollBarCornerRadius="9"
+                                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
@@ -704,7 +709,8 @@
                                     VerticalOptions="End"/>
                         </StackLayout>
 
-                        <Grid  
+                        <Grid 
+                            x:DataType="models:SeatBindableModel"
                             Grid.Row="2"
                             Margin="30, 0, 30, 0"
                             RowDefinitions="auto, auto, auto, auto, *">
@@ -723,7 +729,7 @@
                                         Margin="0, 15, 0, 15"
                                         Orientation="Vertical">
 
-                                        <ffimageloading:CachedImage Source="pic_logo_small"/>
+                                        <ffimageloading:CachedImage Source="{Binding SelectedItem.ImagePath}"/>
 
                                     </StackLayout>
 
@@ -733,13 +739,13 @@
                                         Orientation="Vertical">
 
                                         <Label 
-                                            Text="Cheese Burger Meal"
+                                            Text="{Binding SelectedItem.Title}"
                                             Margin="0, 0, 0, 0"
                                             FontFamily="Barlow-Medium"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/> 
 
                                         <Label 
-                                            Text="$ 12.50"
+                                            Text="{Binding SelectedItem.Price, StringFormat='$ {0}'}"
                                             Margin="0, 5, 0, 0"
                                             FontFamily="Barlow-SemiBold"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -776,7 +782,7 @@
                                     Orientation="Vertical">
 
                                     <Label 
-                                        Text="Small"
+                                        Text="{Binding SelectedItem.Portion.Title}"
                                         Margin="0, 5, 0, 10"
                                         FontFamily="Barlow-SemiBold"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -790,7 +796,7 @@
                                     Orientation="Vertical">
 
                                     <Label 
-                                        Text="$ 12.50"
+                                        Text="{Binding SelectedItem.Price, StringFormat='$ {0}'}"
                                         FontFamily="Barlow-Medium"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
@@ -984,7 +990,7 @@
                             ColumnSpacing="14">
 
                             <Grid.Triggers>
-                                <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                                <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
 
                                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                                     <Setter Property="IsEnabled" Value="False" />
@@ -1191,7 +1197,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Order}" />
-                            <Span Text="{Binding OrderRegistrationViewModel.NewOrderId, StringFormat='{} #{0}'}" />
+                            <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Id, StringFormat='{} #{0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -1251,7 +1257,7 @@
                     Text="{xct:Translate Seats}">
 
                     <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
 
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
 
@@ -1267,7 +1273,7 @@
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
 
                     <controls:CustomStepper.Triggers>
-                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
 
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                             <Setter Property="IsEnabled" Value="False" />
@@ -1316,14 +1322,21 @@
             </controls:DropDownList>
 
             <!-- MEALS LIST -->
-            <controls:CustomScrollBarCollectionView
+            <CollectionView
                 Grid.Row="2"
-                Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                ItemsSource="{Binding OrderRegistrationViewModel.Sets}">
+                ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
 
                 <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
+                    <effects:NoOverScrollEffect/>
+
+                    <effects:ScrollBarColorEffect
+                        ScrollBarThumbWidth="6"
+                        ScrollBarCornerRadius="9"
+                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+
                 </CollectionView.Effects>
 
                 <CollectionView.EmptyView>
@@ -1353,26 +1366,22 @@
                     </StackLayout>
                 </CollectionView.EmptyView>
 
-                <controls:CustomScrollBarCollectionView.ItemTemplate>
-                    <DataTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SeatBindableModel">
 
-                        <!-- for testing -->
-                        <StackLayout Padding="30">
-
-                            <Label Text="{Binding .}"/>
-
-                        </StackLayout>
+                        <templates:SeatItemTemplate
+                            Padding="24, 24, 24, 0"/>
 
                     </DataTemplate>
-                </controls:CustomScrollBarCollectionView.ItemTemplate>
+                </CollectionView.ItemTemplate>
 
-            </controls:CustomScrollBarCollectionView>
+            </CollectionView>
 
             <!-- SUMMARY -->
             <StackLayout Grid.Row="3">
 
                 <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
 
                         <Setter Property="IsVisible" Value="false" />
 
@@ -1438,7 +1447,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1460,7 +1469,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1484,7 +1493,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1504,7 +1513,7 @@
                 ColumnSpacing="14">
 
                 <Grid.Triggers>
-                    <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                    <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
 
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                         <Setter Property="IsEnabled" Value="False" />

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Next2.ViewModels.Dialogs
+namespace Next2.ViewModels
 {
     public class AddSetToOrderDialogViewModel : BindableBase
     {

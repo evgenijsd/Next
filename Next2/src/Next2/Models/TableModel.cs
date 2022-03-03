@@ -6,6 +6,8 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
+        public int TableNumber { get; set; }
+
         public int NumberOfSeats { get; set; }
 
         public int NumberOfAvailableSeats { get; set; }
