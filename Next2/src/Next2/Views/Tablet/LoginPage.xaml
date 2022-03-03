@@ -40,7 +40,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Grid.Column="1"
             Grid.RowSpan="2"
-            RowDefinitions="0.33*,0.44*, 0.23*, 60">
+            RowDefinitions="0.3*,0.7*, 2, 60">
             
             <Label 
                 Text="{xct:Translate EmployeeId}"
@@ -61,16 +61,8 @@
                 ApplyCommand="{Binding GoToStartPageCommand}"/>
 
             <StackLayout 
-                Grid.Row="2" 
-                Padding="0">
-                
-                <BoxView 
-                        Margin="0, 0, 0, 0"
-                        HeightRequest="2"
-                        VerticalOptions="EndAndExpand"
-                        Color="{DynamicResource TextAndBackgroundColor_i2}"/>
-
-            </StackLayout>
+                Grid.Row="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
             <Frame 
                 Grid.Row="3" 
