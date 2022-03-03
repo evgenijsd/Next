@@ -9,9 +9,11 @@ namespace Next2.Services.Order
     {
         FullOrderBindableModel CurrentOrder { get; set; }
 
+        SeatBindableModel? CurrentSeat { get; set; }
+
         Task<AOResult<int>> GetNewOrderIdAsync();
 
-        Task<AOResult<IEnumerable<TableModel>>> GetAvailableTables();
+        Task<AOResult<IEnumerable<TableModel>>> GetAvailableTablesAsync();
 
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
 
@@ -22,5 +24,7 @@ namespace Next2.Services.Order
         Task<AOResult> CreateNewOrderAsync();
 
         Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
+
+        Task<AOResult> AddSeatInCurrentOrderAsync();
     }
 }

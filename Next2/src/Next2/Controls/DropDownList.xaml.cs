@@ -174,8 +174,6 @@ namespace Next2.Controls
                 is nameof(ItemsSource)
                 or nameof(MaxNumberOfVisibleItems))
             {
-                SelectedItem = ItemsSource[0];
-
                 collectionList.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
                     ? ScrollBarVisibility.Never
                     : ScrollBarVisibility.Always;

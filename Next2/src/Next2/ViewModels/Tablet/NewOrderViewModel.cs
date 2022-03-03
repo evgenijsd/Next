@@ -88,6 +88,8 @@ namespace Next2.ViewModels.Tablet
             _order = false;
             Task.Run(LoadCategoriesAsync);
 
+            OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+
             _timerUpdateTime.Start();
         }
 
@@ -153,7 +155,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
                 {
-                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                    await _orderService.AddSetInCurrentOrderAsync(set);
                     await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                 }
             }

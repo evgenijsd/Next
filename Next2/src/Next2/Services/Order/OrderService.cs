@@ -16,8 +16,6 @@ namespace Next2.Services.Order
     {
         private readonly IMockService _mockService;
 
-        private int _indexCurrentSeat;
-
         public OrderService(IMockService mockService)
         {
             _mockService = mockService;
@@ -28,6 +26,8 @@ namespace Next2.Services.Order
         #region -- Public properties --
 
         public FullOrderBindableModel CurrentOrder { get; set; }
+
+        public SeatBindableModel? CurrentSeat { get; set; }
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetAvailableTables()
+        public async Task<AOResult<IEnumerable<TableModel>>> GetAvailableTablesAsync()
         {
             var result = new AOResult<IEnumerable<TableModel>>();
 
@@ -68,7 +68,7 @@ namespace Next2.Services.Order
             {
                 var allTables = await _mockService.GetAllAsync<TableModel>();
 
-                if (allTables != null)
+                if (allTables is not null)
                 {
                     var availableTables = allTables.Where(x => x.NumberOfAvailableSeats > 0);
 
@@ -85,7 +85,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAvailableTables)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetAvailableTablesAsync)}: exception", "Some issues", ex);
             }
 
             return result;
@@ -99,7 +99,7 @@ namespace Next2.Services.Order
             {
                 var orders = await _mockService.GetAsync<OrderModel>(x => x.Id != 0);
 
-                if (orders != null)
+                if (orders is not null)
                 {
                     result.SetSuccess(orders);
                 }
@@ -142,7 +142,7 @@ namespace Next2.Services.Order
             try
             {
                 var orderId = await GetNewOrderIdAsync();
-                var availableTables = await GetAvailableTables();
+                var availableTables = await GetAvailableTablesAsync();
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
@@ -159,7 +159,7 @@ namespace Next2.Services.Order
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
-                    _indexCurrentSeat = -1;
+                    CurrentSeat = null;
 
                     result.SetSuccess();
                 }
@@ -182,21 +182,53 @@ namespace Next2.Services.Order
 
             try
             {
-                if (_indexCurrentSeat == -1)
+                if (CurrentSeat is null)
                 {
                     var seat = new SeatBindableModel();
                     seat.Id = 1;
                     seat.SeatNumber = 1;
                     seat.Sets = new();
+                    seat.Checked = true;
 
                     CurrentOrder.Seats.Add(seat);
 
-                    _indexCurrentSeat = 0;
+                    CurrentSeat = seat;
                 }
 
-                CurrentOrder.Seats[_indexCurrentSeat].Sets.Add(set);
+                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
                 CurrentOrder.Total += set.Portion.Price;
+
+                result.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> AddSeatInCurrentOrderAsync()
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var seat = new SeatBindableModel();
+                seat.Id = CurrentOrder.Seats.Count + 1;
+                seat.SeatNumber = CurrentOrder.Seats.Count + 1;
+                seat.Sets = new();
+                seat.Checked = true;
+
+                foreach(var item in CurrentOrder.Seats)
+                {
+                    item.Checked = false;
+                }
+
+                CurrentOrder.Seats.Add(seat);
+
+                CurrentSeat = CurrentOrder.Seats.LastOrDefault();
 
                 result.SetSuccess();
             }

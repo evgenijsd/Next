@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Controls.Templates.SeatItemTemplate"
+    Spacing="0"
+    x:DataType="models:SeatBindableModel">
+
+    <StackLayout
+        Spacing="0"
+        Orientation="Horizontal"
+        Margin="0, 0, 0, 16">
+
+        <ffimageloading:CachedImage
+            HorizontalOptions="Start"
+            VerticalOptions="Center"
+            Source="ic_check_box_unhecked_24x24.png"
+            xct:TouchEffect.Command="{Binding TapCheckBoxCommand}"
+            xct:TouchEffect.CommandParameter="{Binding .}">
+
+            <ffimageloading:CachedImage.Triggers>
+
+                <DataTrigger
+                    TargetType="ffimageloading:CachedImage"
+                    Binding="{Binding Checked}"
+                    Value="True">
+
+                    <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
+
+                </DataTrigger>
+                
+            </ffimageloading:CachedImage.Triggers>
+
+        </ffimageloading:CachedImage>
+
+        <Label
+            Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
+            Margin="14, 0, 0, 0"/>
+
+        <ffimageloading:CachedImage
+            HorizontalOptions="EndAndExpand"
+            VerticalOptions="Center"
+            Source="ic_outline_minus_24x24.png"
+            xct:TouchEffect.Command="{Binding TapDeleteCommand}"
+            xct:TouchEffect.CommandParameter="{Binding .}"/>
+
+    </StackLayout>
+
+    <CollectionView
+        ItemsSource="{Binding Sets}"
+        SelectionMode="Single"
+        HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
+        MinimumHeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
+        SelectedItem="{Binding SelectedItem}"
+        SelectionChangedCommand="{Binding TapItemCommand}"
+        SelectionChangedCommandParameter="{Binding .}">
+
+        <CollectionView.Effects>
+            <effects:NoOverScrollEffect/>
+        </CollectionView.Effects>
+
+        <CollectionView.ItemTemplate>
+
+            <DataTemplate x:DataType="models:SetBindableModel">
+
+                <StackLayout
+                    Spacing="0"
+                    Margin="0, 0, 0, 7"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup Name="CommonStates">
+
+                            <VisualState Name="Selected">
+
+                                <VisualState.Setters>
+                                    <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                            <VisualState Name="Normal">
+
+                                <VisualState.Setters>
+                                    <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                </VisualState.Setters>
+
+                            </VisualState>
+
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <Frame
+                        x:Name="frame"
+                        HeightRequest="88"
+                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        CornerRadius="8">
+
+                        <StackLayout
+                            Spacing="0"
+                            Orientation="Horizontal">
+
+                            <pancakeview:PancakeView
+                                HeightRequest="56"
+                                MinimumWidthRequest="56"
+                                WidthRequest="56"
+                                CornerRadius="8"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                Margin="16">
+
+                                <ffimageloading:CachedImage
+                                    Aspect="AspectFill"
+                                    Source="{Binding ImagePath}"/>
+
+                            </pancakeview:PancakeView>
+
+                            <StackLayout
+                                Spacing="0"
+                                Margin="0, 16, 16, 16">
+
+                                <Label
+                                    Text="{Binding Title}"
+                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontFamily="Barlow-Medium"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"/>
+
+                                <Label
+                                    Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
+                                    FontSize="{DynamicResource TSize_i5}"
+                                    FontFamily="Barlow-SemiBold"/>
+
+                            </StackLayout>
+
+                        </StackLayout>
+
+                    </Frame>
+                    
+                </StackLayout>
+
+            </DataTemplate>
+
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</StackLayout>

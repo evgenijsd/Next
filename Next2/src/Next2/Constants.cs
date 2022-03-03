@@ -66,7 +66,6 @@
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
             public const string PORTIONS = nameof(PORTIONS);
-            public const string REFRESH_ORDER = nameof(REFRESH_ORDER);
         }
     }
 }

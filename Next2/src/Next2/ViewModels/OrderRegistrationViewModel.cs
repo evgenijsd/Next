@@ -19,6 +19,12 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
 
+        private bool _isInited;
+
+        private ICommand _tapCheckedCommand;
+        private ICommand _tapDeleteCommand;
+        private ICommand _tapItemCommand;
+
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IOrderService orderService)
@@ -26,7 +32,11 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
 
-            Task.Run(RefreshTablesAsync);
+            _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
+            _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
+            _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: false);
+
+            RefreshTablesAsync();
 
             List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
 
@@ -35,6 +45,8 @@ namespace Next2.ViewModels
                 OrderType = x,
                 Text = LocalizationResourceManager.Current[x.ToString()],
             }));
+
+            _isInited = true;
         }
 
         #region -- Public properties --
@@ -47,9 +59,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
 
-        public TableBindableModel SelectedTable { get; set; } = new ();
-
-        public SeatBindableModel SelectedSeat { get; set; } = new ();
+        public TableBindableModel SelectedTable { get; set; }
 
         public int NumberOfSeats { get; set; } = 0;
 
@@ -71,18 +81,18 @@ namespace Next2.ViewModels
         public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync);
 
         private ICommand _payCommand;
+
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync);
 
         #endregion
 
         #region -- Overrides --
 
-        public override async Task InitializeAsync(INavigationParameters parameters)
+        public override void Initialize(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(Constants.DialogParameterKeys.REFRESH_ORDER))
-            {
-                await RefreshCurrentOrderAsync();
-            }
+            base.Initialize(parameters);
+
+            RefreshCurrentOrderAsync();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -92,9 +102,28 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    NumberOfSeats = 1;
+                    if (_isInited)
+                    {
+                        _orderService.CurrentOrder.Table = SelectedTable;
+                    }
+
                     break;
                 case nameof(SelectedOrderType):
+                    if (_isInited)
+                    {
+                        _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
+                    }
+
+                    break;
+                case nameof(NumberOfSeats):
+                    if (_isInited)
+                    {
+                        if (NumberOfSeats > CurrentOrder.Seats.Count)
+                        {
+                            _orderService.AddSeatInCurrentOrderAsync();
+                            AddSeatsCommandsAsync();
+                        }
+                    }
 
                     break;
             }
@@ -104,21 +133,64 @@ namespace Next2.ViewModels
 
         #region -- Public helpers --
 
-        public Task RefreshCurrentOrderAsync()
+        public async Task RefreshCurrentOrderAsync()
         {
             CurrentOrder = _orderService.CurrentOrder;
-            SelectedTable = CurrentOrder.Table;
 
-            return Task.CompletedTask;
+            await AddSeatsCommandsAsync();
+
+            SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
+            SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
+            NumberOfSeats = CurrentOrder.Seats.Count;
         }
 
         #endregion
 
         #region -- Private helpers --
 
+        private async Task AddSeatsCommandsAsync()
+        {
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                seat.TapCheckBoxCommand = _tapCheckedCommand;
+                seat.TapDeleteCommand = _tapDeleteCommand;
+                seat.TapItemCommand = _tapItemCommand;
+            }
+        }
+
+        private async Task OnTapCheckedCommandAsync(SeatBindableModel seat)
+        {
+            seat.Checked = true;
+
+            foreach (var item in CurrentOrder.Seats)
+            {
+                if (item.Id != seat.Id)
+                {
+                    item.Checked = false;
+                }
+            }
+
+            _orderService.CurrentSeat = seat;
+        }
+
+        private async Task OnTapDeleteCommandAsync(SeatBindableModel seat)
+        {
+        }
+
+        private async Task OnTapItemCommandAsync(SeatBindableModel seat)
+        {
+            foreach (var item in CurrentOrder.Seats)
+            {
+                if (item.Id != seat.Id)
+                {
+                    item.SelectedItem = null;
+                }
+            }
+        }
+
         private async Task RefreshTablesAsync()
         {
-            var availableTablesResult = await _orderService.GetAvailableTables();
+            var availableTablesResult = await _orderService.GetAvailableTablesAsync();
 
             if (availableTablesResult.IsSuccess)
             {
@@ -128,7 +200,7 @@ namespace Next2.ViewModels
 
                 Tables = new (tableBindableModels);
 
-                SelectedTable = Tables.First();
+                SelectedTable = Tables[0];
             }
         }
 
