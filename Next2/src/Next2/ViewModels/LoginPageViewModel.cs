@@ -24,7 +24,6 @@ namespace Next2.ViewModels
         private readonly IEventAggregator _eventAggregator;
 
         private string _inputtedEmployeeId;
-
         private int _inputtedEmployeeIdToDigit;
 
         public LoginPageViewModel(
@@ -73,6 +72,16 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             EmployeeId = string.Empty;
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(EmployeeId))
+            {
+                IsErrorNotificationVisible = false;
+            }
         }
 
         #endregion
