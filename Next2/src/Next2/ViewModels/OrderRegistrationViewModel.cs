@@ -19,8 +19,6 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
 
-        private bool _isInited;
-
         private ICommand _tapCheckedCommand;
         private ICommand _tapDeleteCommand;
         private ICommand _tapItemCommand;
@@ -36,8 +34,6 @@ namespace Next2.ViewModels
             _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
             _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: false);
 
-            RefreshTablesAsync();
-
             List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
 
             OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
@@ -45,8 +41,6 @@ namespace Next2.ViewModels
                 OrderType = x,
                 Text = LocalizationResourceManager.Current[x.ToString()],
             }));
-
-            _isInited = true;
         }
 
         #region -- Public properties --
@@ -88,11 +82,12 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override void Initialize(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            base.Initialize(parameters);
+            base.InitializeAsync(parameters);
 
-            RefreshCurrentOrderAsync();
+            await RefreshTablesAsync();
+            await RefreshCurrentOrderAsync();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -102,27 +97,16 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    if (_isInited)
-                    {
-                        _orderService.CurrentOrder.Table = SelectedTable;
-                    }
-
+                    _orderService.CurrentOrder.Table = SelectedTable;
                     break;
                 case nameof(SelectedOrderType):
-                    if (_isInited)
-                    {
-                        _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
-                    }
-
+                    _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
                     break;
                 case nameof(NumberOfSeats):
-                    if (_isInited)
+                    if (NumberOfSeats > CurrentOrder.Seats.Count)
                     {
-                        if (NumberOfSeats > CurrentOrder.Seats.Count)
-                        {
-                            _orderService.AddSeatInCurrentOrderAsync();
-                            AddSeatsCommandsAsync();
-                        }
+                        _orderService.AddSeatInCurrentOrderAsync();
+                        AddSeatsCommandsAsync();
                     }
 
                     break;
@@ -135,6 +119,7 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
+            CurrentOrder = null;
             CurrentOrder = _orderService.CurrentOrder;
 
             await AddSeatsCommandsAsync();

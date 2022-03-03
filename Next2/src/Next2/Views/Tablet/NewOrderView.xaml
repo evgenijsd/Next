@@ -645,8 +645,7 @@
             Grid.Row="0"
             Grid.Column="1"
             RowDefinitions="auto, auto, auto, auto, 93"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            x:DataType="viewModels:NewOrderViewModel">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <Grid.Resources>    
                 <Style TargetType="Label">
@@ -866,7 +865,7 @@
             <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                 ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
 
                 <CollectionView.Effects>

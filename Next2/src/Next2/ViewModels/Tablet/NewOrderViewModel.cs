@@ -88,7 +88,7 @@ namespace Next2.ViewModels.Tablet
             _order = false;
             Task.Run(LoadCategoriesAsync);
 
-            OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            OrderRegistrationViewModel.InitializeAsync(null);
 
             _timerUpdateTime.Start();
         }
@@ -159,12 +159,15 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
+                        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                     }
                 }
             }
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
         }
 
         private async Task LoadCategoriesAsync()
