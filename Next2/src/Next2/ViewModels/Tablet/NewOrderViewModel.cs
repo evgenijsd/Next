@@ -155,8 +155,12 @@ namespace Next2.ViewModels.Tablet
 
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
                 {
-                    await _orderService.AddSetInCurrentOrderAsync(set);
-                    await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    if (result.IsSuccess)
+                    {
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    }
                 }
             }
 

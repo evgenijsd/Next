@@ -123,7 +123,10 @@ namespace Next2.ViewModels.Mobile
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
 
-                    await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+                    if (result.IsSuccess)
+                    {
+                        await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+                    }
                 }
             }
             else

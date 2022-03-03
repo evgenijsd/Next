@@ -199,8 +199,6 @@ namespace Next2.ViewModels
                 var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new (tableBindableModels);
-
-                SelectedTable = Tables[0];
             }
         }
 

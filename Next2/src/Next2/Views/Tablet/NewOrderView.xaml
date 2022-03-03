@@ -866,7 +866,7 @@
             <CollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
 
                 <CollectionView.Effects>
@@ -911,7 +911,7 @@
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <templates:SeatItemTemplate
-                            Padding="24, 24, 24, 0"/>
+                            Padding="24, 9, 24, 0"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

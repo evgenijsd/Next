@@ -189,6 +189,7 @@ namespace Next2.Services.Order
                     seat.SeatNumber = 1;
                     seat.Sets = new();
                     seat.Checked = true;
+                    seat.IsFirstSeat = true;
 
                     CurrentOrder.Seats.Add(seat);
 

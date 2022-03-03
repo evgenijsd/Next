@@ -502,6 +502,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Remove Order.
+        /// </summary>
+        internal static string RemoveOrder {
+            get {
+                return ResourceManager.GetString("RemoveOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Rewards.
         /// </summary>
         internal static string Rewards {
