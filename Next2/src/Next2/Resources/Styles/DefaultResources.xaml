@@ -106,7 +106,7 @@
     
     <Style x:Key="DropDownListStyle_i1" TargetType="controls:DropDownList">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="Border">
             <Setter.Value>
                 <pancake:Border Color="#424861" Thickness="1"/>
@@ -115,8 +115,10 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="WrappedListIconSource" Value="ic_arrow_down_32x32"/>
         <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
+        <Setter Property="IconSizes" Value="18"/>
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
         <Setter Property="HeaderTextSize" Value="14"/>
+        <Setter Property="ScrollBarVisibility" Value="Always"/>
         <Setter Property="MaxNumberOfVisibleItems" Value="3"/>
         <Style.Triggers>
             <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">

@@ -24,6 +24,8 @@ using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
+using AutoMapper;
+using Next2.Models;
 
 namespace Next2
 {
@@ -49,6 +51,8 @@ namespace Next2
             containerRegistry.RegisterPopupDialogService();
 
             //Services
+            var mapper = CreateMapper();
+            containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
@@ -71,7 +75,6 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
 
-                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
@@ -132,6 +135,20 @@ namespace Next2
 
         protected override void OnResume()
         {
+        }
+
+        #endregion
+
+        #region --- Private helpers --
+
+        private IMapper CreateMapper()
+        {
+            return new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TableModel, TableBindableModel>();
+                cfg.CreateMap<CustomerModel, CustomerBindableModel>();
+                cfg.CreateMap<MemberModel, MemberBindableModel>();
+            }).CreateMapper();
         }
 
         #endregion

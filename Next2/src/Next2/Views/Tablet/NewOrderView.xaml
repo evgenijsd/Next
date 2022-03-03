@@ -638,7 +638,7 @@
         <Grid
             Grid.Row="0"
             Grid.Column="1"
-            RowDefinitions="auto, auto, auto, auto, 93"
+            RowDefinitions="auto, auto, auto, auto, 66"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             x:DataType="viewModels:NewOrderViewModel">
 
@@ -648,42 +648,45 @@
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
                 </Style>
                 
-                <!-- SemiBold (600) 24px -->
-                <Style x:Key="SemiBold24pxLabelStyle" TargetType="Label">
+                <Style x:Key="SemiBold24LabelStyle" TargetType="Label">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
                 </Style>
-            
-                <!-- SemiBold (600) 18px -->
-                <Style x:Key="SemiBold18pxLabelStyle" TargetType="Label">
+                
+                <Style x:Key="SemiBold18LabelStyle" TargetType="Label">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
                 </Style>
-            
-                <!-- Medium (500) 16px -->
-                <Style x:Key="Medium16pxLabelStyle" TargetType="Label">
+                
+                <Style x:Key="Medium18LabelStyle" TargetType="Label">
                     <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
                 </Style>
-            
-                 <!-- Regular (400) 24px -->
-                <Style x:Key="Regular24pxLabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Regular"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}"/>
+                
+                <Style x:Key="Medium16LabelStyle" TargetType="Label">
+                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+                </Style>
+                
+                <Style x:Key="Medium14LabelStyle" TargetType="Label">
+                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                 </Style>
             
                 <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
                     <Setter Property="Padding" Value="0"/>
-                    <Setter Property="HeightRequest" Value="40"/>
+                    <Setter Property="HeightRequest" Value="36"/>
                     <Setter Property="FontFamily" Value="Barlow-Semibold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
-                    <Setter Property="CornerRadius" Value="6"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+                    <Setter Property="CornerRadius" Value="4"/>
                     <Setter Property="BackgroundColor" Value="Transparent"/>
                 </Style>
                 
                 <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
-                    <Setter Property="Padding" Value="16, 8"/>
-                    <Setter Property="CornerRadius" Value="8"/>
+                    <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                    <Setter Property="CornerRadius" Value="6"/>
+                    <Setter Property="Padding" Value="8, 6"/>
+                    <Setter Property="IconHeight" Value="18"/>
                     <Setter Property="Border">
                         <Setter.Value>
                             <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
@@ -712,21 +715,57 @@
                 </Style>
                 
                 <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
-                    <Setter Property="CornerRadius" Value="7"/>
-                    <Setter Property="ItemHeight" Value="46.5"/>
+                    <Setter Property="ItemHeight" Value="40"/>
+                </Style>
+                
+                <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
+                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+                    <Setter Property="TextWidth" Value="30"/>
+                    <Setter Property="IconSizes" Value="24"/>
                 </Style>
             </Grid.Resources>
 
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
-                HorizontalOptions="Start"
-                Padding="24, 24, 24, 10"
-                Orientation="Horizontal"
-                Spacing="17">
+                Padding="18, 24, 18, 14"
+                Orientation="Horizontal">
 
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup Name="AdaptiveHeader">
+                            
+                            <VisualState Name="Medium">
+
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1194" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                    <Setter Property="Padding" Value="18, 20, 18, 14"/>
+                                </VisualState.Setters>
+
+                            </VisualState>
+                                                    
+                            <VisualState Name="Large">
+                                
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="1280"/>
+                                </VisualState.StateTriggers>
+                                
+                                <VisualState.Setters>
+                                    <Setter Property="Padding" Value="18, 37, 18, 22"/>
+                                </VisualState.Setters>
+                                
+                            </VisualState>
+                            
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                
                 <Label
-                    Style="{DynamicResource SemiBold24pxLabelStyle}"
+                    Style="{DynamicResource Medium18LabelStyle}"
                     Margin="0, 2, 0, 0">
 
                     <Label.FormattedText>
@@ -736,6 +775,31 @@
                         </FormattedString>
                     </Label.FormattedText>
 
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup Name="AdaptiveLabel">
+                                
+                                <VisualState Name="Large">
+                                    
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1280"/>
+                                    </VisualState.StateTriggers>
+                                    
+                                    <VisualState.Setters>
+                                        <Setter Property="Style" Value="{DynamicResource SemiBold24LabelStyle}"/>
+                                    </VisualState.Setters>
+                                    
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                            
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                    
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OrderRegistrationViewModel.OrderCommand}"/>
+                    </Label.GestureRecognizers>
+                    
                 </Label>
 
             </StackLayout>
@@ -745,30 +809,61 @@
                 Style="{DynamicResource DropDownListStyle_i2}"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
-                Margin="24, 24, 24, 10"
-                WidthRequest="130"
+                Margin="18, 26"
+                WidthRequest="110"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="AdaptiveDropDownList">
+
+                        <VisualState Name="Medium">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="1194"/>
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="18"/>
+                            </VisualState.Setters>
+
+                        </VisualState>
+                        
+                        <VisualState Name="Large">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="1280"/>
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="18, 38"/>
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
                         <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
 
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
                             <StackLayout
-                                Padding="14, 8"
-                                HeightRequest="30"
+                                Padding="14, 7, 14, 12"
+                                HeightRequest="20"
                                 Orientation="Horizontal">
 
                                 <Label
                                     x:DataType="models:OrderTypeBindableModel"
                                     HorizontalOptions="FillAndExpand"
+                                    FontFamily="Barlow-Medium"
                                     FontSize="{DynamicResource TSize_i7}"
                                     Text="{Binding Text}" />
 
                             </StackLayout>
-
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                         </StackLayout>
                     </DataTemplate>
@@ -779,18 +874,37 @@
             <!-- HEADER, 2 ROW -->
             <StackLayout
                 Grid.Row="1"
-                HorizontalOptions="End"
-                VerticalOptions="FillAndExpand"
-                Padding="24"
+                Padding="22, 24"
                 Orientation="Horizontal"
                 Spacing="20">
-
+                
                 <Label
-                    Style="{DynamicResource SemiBold18pxLabelStyle}"
+                    Style="{DynamicResource Medium14LabelStyle}"
                     HorizontalOptions="EndAndExpand"
-                    Padding="0, 0, 0, 4"
+                    Padding="0, 0, 0, 2"
                     Text="{xct:Translate Seats}">
 
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup Name="Label_i2">
+                                
+                                <VisualState Name="Large">
+                                    
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="1280"/>
+                                    </VisualState.StateTriggers>
+                                    
+                                    <VisualState.Setters>
+                                        <Setter Property="Style" Value="{DynamicResource SemiBold18LabelStyle}"/>
+                                    </VisualState.Setters>
+                                    
+                                </VisualState>
+                                
+                            </VisualStateGroup>
+                            
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                    
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
                          
@@ -802,11 +916,10 @@
                 </Label>
 
                 <controls:CustomStepper
-                    Spacing="23"
-                    IconSizes="26"
+                    Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.NumberOfAvailableSeats}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
-
+                    
                     <controls:CustomStepper.Triggers>
                         <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
                             
@@ -825,30 +938,31 @@
                 Style="{DynamicResource DropDownListStyle_i2}"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
-                Margin="24, 20"
-                WidthRequest="155"
+                Margin="18"
+                WidthRequest="125"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
-
+                
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
                         <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                            
+                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
-                                Padding="8"
-                                HeightRequest="30"
+                                Padding="14, 7, 14, 12"
+                                HeightRequest="20"
                                 Orientation="Horizontal"
                                 x:DataType="models:TableBindableModel">
 
                                 <Label
-                                    Style="{DynamicResource Medium16pxLabelStyle}"
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i7}"
                                     HorizontalOptions="FillAndExpand"
                                     Text="{Binding Id, StringFormat='Table {0}'}" />
 
                             </StackLayout>
-
-                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                         </StackLayout>
                     </DataTemplate>
@@ -879,15 +993,36 @@
                                 Source="pic_payment.png" />
 
                             <controls:LineSpacingLabel
-                                Style="{DynamicResource Regular24pxLabelStyle}"
+                                Style="{DynamicResource Medium18LabelStyle}"
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
-                                WidthRequest="250"
-                                LineSpacing="{OnPlatform Android=1.15, iOS=6.45}"
+                                WidthRequest="230"
+                                LineSpacing="{OnPlatform Android=1.1, iOS=6.15}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i4_5}"
-                                FontFamily="Barlow-Regular"
-                                Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
+                                Text="{xct:Translate ToCreateNewOrderSelectDishCard}">
+                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="AdaptiveLabel">
+                                
+                                            <VisualState Name="Large">
+                                    
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1280"/>
+                                                </VisualState.StateTriggers>
+                                    
+                                                <VisualState.Setters>
+                                                    <Setter Property="Style" Value="{DynamicResource SemiBold24LabelStyle}"/>
+                                                </VisualState.Setters>
+                                    
+                                            </VisualState>
+                                
+                                        </VisualStateGroup>
+                            
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                                
+                            </controls:LineSpacingLabel>
 
                         </StackLayout>
 
@@ -921,15 +1056,74 @@
                 </StackLayout.Triggers>
 
                 <!-- SUMMARY HEADER -->
-                <StackLayout
-                    Padding="24, 11"
-                    Spacing="14"
-                    Orientation="Horizontal">
+                <StackLayout 
+                    Orientation="Horizontal"
+                    Margin="18, 8"
+                    Spacing="12">
+                   
+                    <StackLayout HeightRequest="50">
+                        
+                         <Label
+                            VerticalOptions="CenterAndExpand"
+                            Style="{DynamicResource Medium14LabelStyle}"
+                            Text="{xct:Translate Summary}">
+                             
+                             <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource SemiBold18LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                         </Label>
+                        
+                         <Label
+                            VerticalOptions="FillAndExpand"
+                            Style="{DynamicResource Medium16LabelStyle}"
+                            TextColor="{DynamicResource AppColor_i1}"
+                            IsVisible="{Binding OrderRegistrationViewModel.CustomerName.Length}"
+                            Text="{Binding OrderRegistrationViewModel.CustomerName}">
 
-                    <Label
-                        Style="{DynamicResource SemiBold18pxLabelStyle}"
-                        Text="{xct:Translate Summary}" />
-
+                             <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource SemiBold18LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                             
+                         </Label>
+                        
+                    </StackLayout>
+                   
                     <buttons:IconBorderButton
                         Style="{DynamicResource IconBorderButtonStyle_i2}"
                         HorizontalOptions="EndAndExpand"
@@ -961,18 +1155,42 @@
                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                 <!-- SUMMARY BODY -->
-                <StackLayout
-                    Padding="24, 12, 24, 0"
-                    Spacing="18">
-
+                <StackLayout 
+                    Margin="18, 10, 18, 0"
+                    Spacing="14">
+                    
                     <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Style="{DynamicResource Medium16pxLabelStyle}"
-                            Text="{xct:Translate Subtotal}" />
+                            Style="{DynamicResource Medium14LabelStyle}"
+                            Text="{xct:Translate Subtotal}">
+                            
+                             <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                            
+                        </Label>
 
                         <Label
-                            Style="{DynamicResource Medium16pxLabelStyle}"
+                            Style="{DynamicResource Medium14LabelStyle}"
                             HorizontalOptions="EndAndExpand">
 
                             <Label.FormattedText>
@@ -983,6 +1201,28 @@
                                 </FormattedString>
                             </Label.FormattedText>
 
+                            <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                            
                         </Label>
 
                     </StackLayout>
@@ -990,11 +1230,35 @@
                     <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Style="{DynamicResource Medium16pxLabelStyle}"
-                            Text="{xct:Translate Tax}" />
+                            Style="{DynamicResource Medium14LabelStyle}"
+                            Text="{xct:Translate Tax}" >
+                            
+                            <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                            
+                        </Label>
 
                         <Label
-                            Style="{DynamicResource Medium16pxLabelStyle}"
+                            Style="{DynamicResource Medium14LabelStyle}"
                             HorizontalOptions="EndAndExpand">
 
                             <Label.FormattedText>
@@ -1003,23 +1267,72 @@
                                     <Span Text=" " />
                                     <Span Text="{Binding OrderRegistrationViewModel.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
-                            </Label.FormattedText>
-
+                            </Label.FormattedText>   
+                                                        
+                            <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                            
                         </Label>
 
                     </StackLayout>
 
                     <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
 
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal"
+                                 Padding="0, 0, 0, 4">
 
                         <Label
-                            Style="{DynamicResource Regular24pxLabelStyle}"
-                            Text="{xct:Translate Total}" />
+                            Style="{DynamicResource Medium18LabelStyle}"
+                            Text="{xct:Translate Total}">
+                                                                     
+                            <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="FontFamily" Value="Barlow-Regular"/>
+                                                 <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                            
+                        </Label>
 
                         <Label
-                            Style="{DynamicResource SemiBold24pxLabelStyle}"
-                            HorizontalOptions="EndAndExpand">
+                            HorizontalOptions="EndAndExpand"
+                            FontFamily="Barlow-SemiBold"
+                            FontSize="{DynamicResource TSize_i6}">
 
                             <Label.FormattedText>
                                 <FormattedString>
@@ -1029,6 +1342,28 @@
                                 </FormattedString>
                             </Label.FormattedText>
 
+                            <VisualStateManager.VisualStateGroups>
+                                 <VisualStateGroupList>
+                                     
+                                     <VisualStateGroup Name="AdaptiveLabel">
+                                         
+                                         <VisualState Name="Large">
+                                             
+                                             <VisualState.StateTriggers>
+                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
+                                             </VisualState.StateTriggers>
+                                             
+                                             <VisualState.Setters>
+                                                 <Setter Property="Style" Value="{DynamicResource SemiBold24LabelStyle}"/>
+                                             </VisualState.Setters>
+                                             
+                                         </VisualState>
+                                         
+                                     </VisualStateGroup>
+                                     
+                                 </VisualStateGroupList>
+                             </VisualStateManager.VisualStateGroups>
+                            
                         </Label>
 
                     </StackLayout>
@@ -1038,11 +1373,9 @@
             </StackLayout>
 
             <!-- BUTTONS -->
-            <Grid
-                Grid.Row="4"
-                VerticalOptions="End"
-                Padding="24"
-                ColumnSpacing="14">
+            <Grid Grid.Row="4"
+                  Margin="18, 12, 18, 20"
+                  ColumnSpacing="12">
 
                 <Grid.Triggers>
                     <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
