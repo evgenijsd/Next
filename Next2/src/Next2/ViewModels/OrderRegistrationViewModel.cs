@@ -18,17 +18,20 @@ namespace Next2.ViewModels
     public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
         private ICommand _tapCheckedCommand;
         private ICommand _tapDeleteCommand;
         private ICommand _tapItemCommand;
 
         public OrderRegistrationViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
+            _mapper = mapper;
 
             _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
             _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
@@ -55,6 +58,8 @@ namespace Next2.ViewModels
 
         public TableBindableModel SelectedTable { get; set; }
 
+        public int NumberOfAvailableSeats { get; } = Constants.NUMBER_OF_AVAILABLE_SEATS;
+
         public int NumberOfSeats { get; set; } = 0;
 
         public bool IsOrderWithTax { get; set; } = true;
@@ -75,7 +80,6 @@ namespace Next2.ViewModels
         public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync);
 
         private ICommand _payCommand;
-
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync);
 
         #endregion
@@ -179,9 +183,7 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                MapperConfiguration mapperConfig = new (cfg => cfg.CreateMap<TableModel, TableBindableModel>());
-                Mapper mapper = new (mapperConfig);
-                var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new (tableBindableModels);
             }
@@ -216,6 +218,10 @@ namespace Next2.ViewModels
 
         private async Task OnPayCommandAsync()
         {
+            // code for testing, delete it later
+            CurrentOrder.CustomerName = CurrentOrder.CustomerName.Length == 0
+                ? "Martin Levin"
+                : string.Empty;
         }
 
         #endregion

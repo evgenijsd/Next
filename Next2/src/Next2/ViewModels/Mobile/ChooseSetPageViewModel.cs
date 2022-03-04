@@ -61,11 +61,11 @@ namespace Next2.ViewModels.Mobile
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(Constants.DialogParameterKeys.CATEGORY))
+            if (parameters.ContainsKey(Constants.Navigations.CATEGORY))
             {
                 CategoryModel category;
 
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.CATEGORY, out category))
+                if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out category))
                 {
                     SelectedCategoriesItem = category;
                 }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -15,10 +15,14 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IMapper _mapper;
 
-        public OrderService(IMockService mockService)
+        public OrderService(
+            IMockService mockService,
+            IMapper mapper)
         {
             _mockService = mockService;
+            _mapper = mapper;
 
             Task.Run(CreateNewOrderAsync);
         }
@@ -70,12 +74,7 @@ namespace Next2.Services.Order
 
                 if (allTables is not null)
                 {
-                    var availableTables = allTables.Where(x => x.NumberOfAvailableSeats > 0);
-
-                    if (availableTables.Count() > 0)
-                    {
-                        result.SetSuccess(availableTables);
-                    }
+                    result.SetSuccess(allTables);
                 }
 
                 if (!result.IsSuccess)
@@ -146,9 +145,7 @@ namespace Next2.Services.Order
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
-                    MapperConfiguration mapperConfig = new(cfg => cfg.CreateMap<TableModel, TableBindableModel>());
-                    Mapper mapper = new(mapperConfig);
-                    var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTables.Result);
+                    var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTables.Result);
 
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();

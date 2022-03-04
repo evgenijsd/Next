@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using Next2.Enums;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -87,6 +88,42 @@ namespace Next2.Controls
             set => SetValue(ExpandedListIconSourceProperty, value);
         }
 
+        public static readonly BindableProperty IconSizesProperty = BindableProperty.Create(
+            propertyName: nameof(IconSizes),
+            returnType: typeof(int),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int IconSizes
+        {
+            get => (int)GetValue(IconSizesProperty);
+            set => SetValue(IconSizesProperty, value);
+        }
+
+        public static readonly BindableProperty DirectionProperty = BindableProperty.Create(
+            propertyName: nameof(Direction),
+            returnType: typeof(EDropDownListDirection),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public EDropDownListDirection Direction
+        {
+            get => (EDropDownListDirection)GetValue(DirectionProperty);
+            set => SetValue(DirectionProperty, value);
+        }
+
+        public static readonly BindableProperty ScrollBarVisibilityProperty = BindableProperty.Create(
+            propertyName: nameof(ScrollBarVisibility),
+            returnType: typeof(ScrollBarVisibility),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ScrollBarVisibility ScrollBarVisibility
+        {
+            get => (ScrollBarVisibility)GetValue(ScrollBarVisibilityProperty);
+            set => SetValue(ScrollBarVisibilityProperty, value);
+        }
+
         public static readonly BindableProperty DataTemplateProperty = BindableProperty.Create(
             propertyName: nameof(DataTemplate),
             returnType: typeof(DataTemplate),
@@ -170,23 +207,36 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (ItemsSource?.Count > 0 && propertyName
-                is nameof(ItemsSource)
-                or nameof(MaxNumberOfVisibleItems))
-            {
-                collectionList.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
-                    ? ScrollBarVisibility.Never
-                    : ScrollBarVisibility.Always;
-            }
-            else if (propertyName == nameof(SelectedItem))
+            if (propertyName is nameof(SelectedItem))
             {
                 IsExpanded = false;
             }
+            else if (propertyName is nameof(Direction) && Direction is EDropDownListDirection.Up)
+            {
+                container.RaiseChild(listHeader);
+            }
+            else if (propertyName is nameof(IsExpanded) && Direction is EDropDownListDirection.Up)
+            {
+                dropDownList.TranslationY = IsExpanded
+                    ? -ListHeight
+                    : 0;
+            }
+            else if (propertyName
+                is nameof(ItemsSource)
+                or nameof(MaxNumberOfVisibleItems) && ItemsSource?.Count > 0)
+            {
+                if (ScrollBarVisibility is not ScrollBarVisibility.Never)
+                {
+                    itemsCollection.VerticalScrollBarVisibility = ItemsSource.Count == MaxNumberOfVisibleItems
+                        ? ScrollBarVisibility.Never
+                        : ScrollBarVisibility;
+                }
+            }
 
             if (propertyName
-                is nameof(MaxNumberOfVisibleItems)
-                or nameof(ItemHeight)
-                or nameof(ItemsSource))
+                is nameof(ItemHeight)
+                or nameof(ItemsSource)
+                or nameof(MaxNumberOfVisibleItems))
             {
                 if (ItemsSource is not null)
                 {
@@ -199,6 +249,8 @@ namespace Next2.Controls
                     ListHeight = 0;
                 }
             }
+
+            base.OnPropertyChanging(propertyName);
         }
 
         #region -- Private helpers --

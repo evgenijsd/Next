@@ -47,8 +47,6 @@ namespace Next2.ViewModels.Tablet
             _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
             _timerUpdateTime.Elapsed += Timer_Elapsed;
 
-            Task.Run(LoadCategoriesAsync);
-
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
 

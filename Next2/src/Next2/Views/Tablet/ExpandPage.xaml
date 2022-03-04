@@ -342,7 +342,7 @@
                     <templates:SetItemTemplate
                             x:DataType="models:SetModel"
                             HeightRequest="327"
-                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
                             xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>

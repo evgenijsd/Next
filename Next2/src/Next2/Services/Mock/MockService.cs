@@ -833,71 +833,51 @@ namespace Next2.Services.Mock
                  {
                      Id = 1,
                      TableNumber = 1,
-                     NumberOfSeats = 4,
-                     NumberOfAvailableSeats = 4,
                  },
                  new TableModel
                  {
                      Id = 2,
                      TableNumber = 2,
-                     NumberOfSeats = 4,
-                     NumberOfAvailableSeats = 2,
                  },
                  new TableModel
                  {
                      Id = 3,
                      TableNumber = 3,
-                     NumberOfSeats = 6,
-                     NumberOfAvailableSeats = 6,
                  },
                  new TableModel
                  {
                      Id = 4,
                      TableNumber = 4,
-                     NumberOfSeats = 6,
-                     NumberOfAvailableSeats = 3,
                  },
                  new TableModel
                  {
                      Id = 5,
                      TableNumber = 5,
-                     NumberOfSeats = 8,
-                     NumberOfAvailableSeats = 8,
                  },
                  new TableModel
                  {
                      Id = 6,
                      TableNumber = 6,
-                     NumberOfSeats = 8,
-                     NumberOfAvailableSeats = 0,
                  },
                  new TableModel
                  {
                      Id = 7,
                      TableNumber = 7,
-                     NumberOfSeats = 10,
-                     NumberOfAvailableSeats = 10,
                  },
                  new TableModel
                  {
                      Id = 8,
                      TableNumber = 8,
-                     NumberOfSeats = 10,
-                     NumberOfAvailableSeats = 4,
                  },
                  new TableModel
                  {
                      Id = 9,
                      TableNumber = 9,
-                     NumberOfSeats = 2,
-                     NumberOfAvailableSeats = 2,
                  },
                  new TableModel
                  {
                      Id = 10,
                      TableNumber = 10,
-                     NumberOfSeats = 2,
-                     NumberOfAvailableSeats = 0,
                  },
             };
 
