@@ -105,6 +105,31 @@ namespace Next2.Services.Menu
             return result;
         }
 
+        public async Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId)
+        {
+            var result = new AOResult<IEnumerable<PortionModel>>();
+
+            try
+            {
+                var portions = await _mockService.GetAsync<PortionModel>(row => row.SetId == setId);
+
+                if (portions is not null)
+                {
+                    result.SetSuccess(portions);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetPortionsSetAsync)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

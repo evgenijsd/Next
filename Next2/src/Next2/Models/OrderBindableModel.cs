@@ -5,8 +5,6 @@ namespace Next2.Models
 {
     public class OrderBindableModel : BindableBase
     {
-        #region -- Public properties --
-
         public int TableNumber { get; set; }
 
         public int OrderNumber { get; set; }
@@ -20,7 +18,5 @@ namespace Next2.Models
         public string OrderNumberText { get; set; }
 
         public double Total { get; set; }
-
-        #endregion
     }
 }

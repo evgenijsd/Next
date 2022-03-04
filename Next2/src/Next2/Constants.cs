@@ -65,6 +65,7 @@
             public const string CANCEL = nameof(CANCEL);
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
+            public const string PORTIONS = nameof(PORTIONS);
         }
     }
 }

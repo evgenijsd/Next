@@ -243,7 +243,13 @@
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                                 <CollectionView.Effects>
-                                    <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}" />
+                                    
+                                    <effects:ScrollBarColorEffect
+                                        ScrollBarThumbWidth="6"
+                                        ScrollBarCornerRadius="9"
+                                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>

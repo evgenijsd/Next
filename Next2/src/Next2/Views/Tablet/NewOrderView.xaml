@@ -536,7 +536,12 @@
 
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>
-                    <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}"/>
+                    
+                    <effects:ScrollBarColorEffect
+                        ScrollBarThumbWidth="6"
+                        ScrollBarCornerRadius="9"
+                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
@@ -771,7 +776,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Order}" />
-                            <Span Text="{Binding OrderRegistrationViewModel.NewOrderId, StringFormat='{} #{0}'}" />
+                            <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Id, StringFormat='{} #{0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -906,7 +911,7 @@
                     </VisualStateManager.VisualStateGroups>
                     
                     <Label.Triggers>
-                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                          
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                        
@@ -921,7 +926,7 @@
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
                     
                     <controls:CustomStepper.Triggers>
-                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             
                             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                             <Setter Property="IsEnabled" Value="False" />
@@ -970,17 +975,24 @@
 
             </controls:DropDownList>
 
-            <!-- MEALS LIST -->
-            <controls:CustomScrollBarCollectionView
+          <!-- MEALS LIST -->
+            <CollectionView
                 Grid.Row="2"
-                Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                ItemsSource="{Binding OrderRegistrationViewModel.Sets}">
+                ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
 
                 <CollectionView.Effects>
-                    <effects:NoOverScrollEffect />
+                    <effects:NoOverScrollEffect/>
+
+                    <effects:ScrollBarColorEffect
+                        ScrollBarThumbWidth="6"
+                        ScrollBarCornerRadius="9"
+                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+
                 </CollectionView.Effects>
-                
+
                 <CollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
@@ -993,62 +1005,36 @@
                                 Source="pic_payment.png" />
 
                             <controls:LineSpacingLabel
-                                Style="{DynamicResource Medium18LabelStyle}"
+                                Style="{DynamicResource Regular24pxLabelStyle}"
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
-                                WidthRequest="230"
-                                LineSpacing="{OnPlatform Android=1.1, iOS=6.15}"
+                                WidthRequest="250"
+                                LineSpacing="{OnPlatform Android=1.15, iOS=6.45}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                Text="{xct:Translate ToCreateNewOrderSelectDishCard}">
-                                
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroupList>
-                                        <VisualStateGroup Name="AdaptiveLabel">
-                                
-                                            <VisualState Name="Large">
-                                    
-                                                <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger MinWindowWidth="1280"/>
-                                                </VisualState.StateTriggers>
-                                    
-                                                <VisualState.Setters>
-                                                    <Setter Property="Style" Value="{DynamicResource SemiBold24LabelStyle}"/>
-                                                </VisualState.Setters>
-                                    
-                                            </VisualState>
-                                
-                                        </VisualStateGroup>
-                            
-                                    </VisualStateGroupList>
-                                </VisualStateManager.VisualStateGroups>
-                                
-                            </controls:LineSpacingLabel>
+                                FontSize="{DynamicResource TSize_i4_5}"
+                                FontFamily="Barlow-Regular"
+                                Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
 
                         </StackLayout>
 
                     </StackLayout>
                 </CollectionView.EmptyView>
-                
-                <controls:CustomScrollBarCollectionView.ItemTemplate>
-                    <DataTemplate>
-                        
-                        <!-- for testing --> 
-                        <StackLayout Padding="30">
-                            
-                            <Label Text="{Binding .}"/>
-                            
-                        </StackLayout>
-                        
-                    </DataTemplate>
-                </controls:CustomScrollBarCollectionView.ItemTemplate>
 
-            </controls:CustomScrollBarCollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SeatBindableModel">
+
+                        <templates:SeatItemTemplate Padding="24, 9, 24, 0"/>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
 
             <!-- SUMMARY -->
             <StackLayout Grid.Row="3">
 
                 <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                      
                         <Setter Property="IsVisible" Value="false" />
                    
@@ -1197,7 +1183,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1265,7 +1251,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>   
                                                         
@@ -1338,7 +1324,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1378,7 +1364,7 @@
                   ColumnSpacing="12">
 
                 <Grid.Triggers>
-                    <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.Sets.Count}" Value="0">
+                    <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                      
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                         <Setter Property="IsEnabled" Value="False" />
