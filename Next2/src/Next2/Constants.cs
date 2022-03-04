@@ -6,6 +6,8 @@
 
         public const float TAX_PERCENTAGE = 20;
 
+        public const int TABLE_SEATS_NUMBER = 10;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
         public const int SERVER_RESPONCE_DELAY = 600;

@@ -913,7 +913,7 @@
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                          
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                        
                         </DataTrigger>
                     </Label.Triggers>
@@ -922,13 +922,13 @@
 
                 <controls:CustomStepper
                     Style="{DynamicResource CustomStepperStyle_i1}"
-                    MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.NumberOfAvailableSeats}"
+                    MaxValue="{x:Static local:Constants.TABLE_SEATS_NUMBER}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
                     
                     <controls:CustomStepper.Triggers>
                         <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                             <Setter Property="IsEnabled" Value="False" />
                             
                         </DataTrigger>
@@ -1366,7 +1366,7 @@
                 <Grid.Triggers>
                     <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                      
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                         <Setter Property="IsEnabled" Value="False" />
                    
                     </DataTrigger>

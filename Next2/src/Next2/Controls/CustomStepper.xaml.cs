@@ -121,7 +121,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(
             propertyName: nameof(Value),
             returnType: typeof(int),
-            defaultValue: 1,
+            defaultValue: 0,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -147,7 +147,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MinValueProperty = BindableProperty.Create(
             propertyName: nameof(MinValue),
             returnType: typeof(int),
-            defaultValue: 1,
+            defaultValue: 0,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -160,7 +160,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MaxValueProperty = BindableProperty.Create(
             propertyName: nameof(MaxValue),
             returnType: typeof(int),
-            defaultValue: 10,
+            defaultValue: 0,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -201,7 +201,10 @@ namespace Next2.Controls
             }
 
             if (propertyName
-                is nameof(Value)
+                is nameof(MinValue)
+                or nameof(MaxValue)
+                or nameof(IncrementValue)
+                or nameof(Value)
                 or nameof(ValueFormat))
             {
                 try

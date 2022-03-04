@@ -122,7 +122,7 @@
         <Setter Property="MaxNumberOfVisibleItems" Value="3"/>
         <Style.Triggers>
             <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
-                <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                <Setter Property="HeaderBackgroundColor" Value="#2E3143" />
                 <Setter Property="Border">
                     <Setter.Value>
                         <pancake:Border Color="#212430" Thickness="1"/>

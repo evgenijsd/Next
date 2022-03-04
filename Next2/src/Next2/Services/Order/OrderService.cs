@@ -68,14 +68,9 @@ namespace Next2.Services.Order
             {
                 var allTables = await _mockService.GetAllAsync<TableModel>();
 
-                if (allTables is not null)
+                if (allTables?.Count() > 0)
                 {
-                    var availableTables = allTables.Where(x => x.NumberOfAvailableSeats > 0);
-
-                    if (availableTables.Count() > 0)
-                    {
-                        result.SetSuccess(availableTables);
-                    }
+                    result.SetSuccess(allTables);
                 }
 
                 if (!result.IsSuccess)

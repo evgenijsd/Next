@@ -184,7 +184,7 @@
             </Label>
 
             <controls:CustomStepper
-                MaxValue="{Binding SelectedTable.NumberOfAvailableSeats}"
+                MaxValue="{x:Static local:Constants.TABLE_SEATS_NUMBER}"
                 Value="{Binding NumberOfSeats}">
 
                 <controls:CustomStepper.Triggers>
@@ -441,7 +441,7 @@
             ColumnSpacing="10">
 
             <Grid.Triggers>
-                <DataTrigger TargetType="Grid" Binding="{Binding Sets.Count}" Value="0">
+                <DataTrigger TargetType="Grid" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
                     <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                     <Setter Property="IsEnabled" Value="False" />

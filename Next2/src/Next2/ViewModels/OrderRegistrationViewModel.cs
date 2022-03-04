@@ -36,14 +36,6 @@ namespace Next2.ViewModels
             _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
             _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
             _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: false);
-
-            List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
-
-            OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
-            {
-                OrderType = x,
-                Text = LocalizationResourceManager.Current[x.ToString()],
-            }));
         }
 
         #region -- Public properties --
@@ -91,6 +83,7 @@ namespace Next2.ViewModels
         {
             base.InitializeAsync(parameters);
 
+            InitOrderTypes();
             await RefreshTablesAsync();
             await RefreshCurrentOrderAsync();
         }
@@ -121,6 +114,17 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Public helpers --
+
+        public void InitOrderTypes()
+        {
+            List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
+
+            OrderTypes = new(enums.Select(x => new OrderTypeBindableModel
+            {
+                OrderType = x,
+                Text = LocalizationResourceManager.Current[x.ToString()],
+            }));
+        }
 
         public async Task RefreshCurrentOrderAsync()
         {
