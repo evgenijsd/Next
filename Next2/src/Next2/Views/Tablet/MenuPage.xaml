@@ -21,7 +21,7 @@
         ColumnDefinitions="100, *">
 
         <Grid.Triggers>
-            <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.IsSideMenuVisible}" Value="false">
+            <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="false">
 
                 <Setter Property="ColumnDefinitions" Value="0, *"/>
             </DataTrigger>

@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -32,9 +34,11 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
 
+            CurrentState = LayoutState.Loading;
+
             _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
             _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
-            _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: false);
+            _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: true);
 
             RefreshTablesAsync();
 
@@ -49,6 +53,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public LayoutState CurrentState { get; set; }
+
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
@@ -61,7 +67,12 @@ namespace Next2.ViewModels
 
         public int NumberOfSeats { get; set; } = 0;
 
+        public bool IsSideMenuVisible { get; set; } = true;
+
         public bool IsOrderWithTax { get; set; } = true;
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
@@ -156,6 +167,12 @@ namespace Next2.ViewModels
             }
         }
 
+        private void OnGoBackCommand()
+        {
+            IsSideMenuVisible = true;
+            CurrentState = LayoutState.Loading;
+        }
+
         private async Task OnTapCheckedCommandAsync(SeatBindableModel seat)
         {
             seat.Checked = true;
@@ -184,6 +201,9 @@ namespace Next2.ViewModels
                     item.SelectedItem = null;
                 }
             }
+
+            IsSideMenuVisible = false;
+            CurrentState = LayoutState.Success;
         }
 
         private async Task RefreshTablesAsync()

@@ -125,7 +125,7 @@
 
 
         <StackLayout 
-            xct:StateLayout.CurrentState="{Binding CurrentState}"
+            xct:StateLayout.CurrentState="{Binding OrderRegistrationViewModel.CurrentState}"
             xct:StateLayout.AnimateStateChanges="True"
             Grid.Row="0"
             Grid.Column="0"
@@ -666,7 +666,7 @@
                             HeightImage="25" 
                             Padding="15, 0, 0, 0"
                             Title="{xct:Translate Cancel}" 
-                            LeftButtonCommand="{Binding GoBackCommand}"/>
+                            LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}"/>
                         
                         <StackLayout 
                             Grid.Row="1"  
@@ -710,7 +710,7 @@
                         </StackLayout>
 
                         <Grid 
-                            x:DataType="models:SeatBindableModel"
+                            x:DataType="viewModels:Orde"
                             Grid.Row="2"
                             Margin="30, 0, 30, 0"
                             RowDefinitions="auto, auto, auto, auto, *">
