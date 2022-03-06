@@ -6,11 +6,10 @@ using System.Text;
 
 namespace Next2.Models
 {
-    public class TaxAndBonusModel : IBaseModel
+    public class TaxModel : IBaseModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public double Value { get; set; }
-        public ETaxAndBonus Type { get; set; }
     }
 }

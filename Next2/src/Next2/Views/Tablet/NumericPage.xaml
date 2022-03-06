@@ -15,12 +15,12 @@
 
         <Grid>
 
-            <StackLayout 
+            <BoxView 
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" 
                 Opacity="0.6" 
                 VerticalOptions="FillAndExpand" 
                 HorizontalOptions="FillAndExpand">
-            </StackLayout>
+            </BoxView>
 
             <Frame 
                 VerticalOptions="Center" 

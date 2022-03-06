@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Next2.Enums
 {
-    public enum ETaxAndBonus
+    public enum EUserType
     {
-        Tax,
-        Coupone,
-        Discount,
+        NoUser,
+        Admin,
+        User,
     }
 }

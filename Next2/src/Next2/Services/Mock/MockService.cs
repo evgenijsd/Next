@@ -22,7 +22,7 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
-        private IList<TaxAndBonusModel> _taxAndBonus;
+        private IList<TaxModel> _taxBonus;
 
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -170,18 +170,17 @@ namespace Next2.Services.Mock
 
         private Task InitTaxAndBonusAsync() => Task.Run(() =>
         {
-            _taxAndBonus = new List<TaxAndBonusModel>
+            _taxBonus = new List<TaxModel>
             {
-                new TaxAndBonusModel
+                new TaxModel
                 {
                     Id = 1,
                     Name = "Tax",
                     Value = 0.1,
-                    Type = ETaxAndBonus.Tax,
                 },
             };
 
-            _base.Add(typeof(TaxAndBonusModel), _taxAndBonus);
+            _base.Add(typeof(TaxModel), _taxBonus);
         });
 
         private Task InitOrdersAsync() => Task.Run(() =>
@@ -840,25 +839,25 @@ namespace Next2.Services.Mock
                 {
                     Id = 0,
                     UserName = "Tom",
-                    TypeUser = ETypeUser.User,
+                    UserType = EUserType.User,
                 },
                 new UserModel
                 {
                     Id = 1,
                     UserName = "Bob Marley",
-                    TypeUser = ETypeUser.User,
+                    UserType = EUserType.User,
                 },
                 new UserModel
                 {
                     Id = 2,
                     UserName = "Tom Black",
-                    TypeUser = ETypeUser.User,
+                    UserType = EUserType.User,
                 },
                 new UserModel
                 {
                     Id = 101,
                     UserName = "Admin",
-                    TypeUser = ETypeUser.Admin,
+                    UserType = EUserType.Admin,
                 },
             };
 

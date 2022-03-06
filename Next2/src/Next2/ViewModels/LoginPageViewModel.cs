@@ -139,15 +139,16 @@ namespace Next2.ViewModels
             }
             else if (IsCheckAdminID)
             {
-                if (App.IsTablet && int.TryParse(EmployeeId, out _inputtedEmployeeIdToDigit))
+                if (App.IsTablet)
                 {
+                    int.TryParse(EmployeeId, out _inputtedEmployeeIdToDigit);
                 }
 
-                IsNoAdmin = await CheckEmployeeExists() != ETypeUser.Admin;
+                IsNoAdmin = await CheckEmployeeExists() != EUserType.Admin;
 
                 if (!IsNoAdmin)
                 {
-                    _eventAggregator.GetEvent<EventTax>().Publish(IsNoAdmin);
+                    _eventAggregator.GetEvent<TaxRemovedEvent>().Publish(IsNoAdmin);
                     await _navigationService.GoBackAsync();
                 }
 
@@ -160,19 +161,14 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task<ETypeUser> CheckEmployeeExists()
+        private async Task<EUserType> CheckEmployeeExists()
         {
             var user = await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit);
             IsEmployeeExists = user.IsSuccess;
 
-            if (IsEmployeeExists)
-            {
-                return user.Result.TypeUser;
-            }
-            else
-            {
-                return ETypeUser.NoUser;
-            }
+            var result = IsEmployeeExists ? user.Result.UserType : EUserType.NoUser;
+
+            return result;
         }
 
         #endregion

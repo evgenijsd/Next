@@ -166,15 +166,15 @@ namespace Next2.ViewModels
         {
             var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            if (user.IsSuccess && (user.Result.TypeUser != ETypeUser.Admin))
+            if (user.IsSuccess && (user.Result.UserType != EUserType.Admin))
             {
                 string page = App.IsTablet ? nameof(NewOrderView) : nameof(OrderRegistrationPage);
-                _eventAggregator.GetEvent<EventTax>().Subscribe(TaxEventCommand);
+                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
                 var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
 
                 if (App.IsTablet)
                 {
-                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters); //, useModalNavigation: true);
+                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
                 }
                 else
                 {
@@ -187,9 +187,9 @@ namespace Next2.ViewModels
             }
         }
 
-        private void TaxEventCommand(bool isOrderWithTax)
+        private void OnTaxEvent(bool isOrderWithTax)
         {
-            _eventAggregator.GetEvent<EventTax>().Unsubscribe(TaxEventCommand);
+            _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
 
             IsOrderWithTax = isOrderWithTax;
         }

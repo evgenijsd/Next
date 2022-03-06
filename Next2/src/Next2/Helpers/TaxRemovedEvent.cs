@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Helpers
 {
-    public class EventTax : PubSubEvent<bool>
+    public class TaxRemovedEvent : PubSubEvent<bool>
     {
     }
 }
