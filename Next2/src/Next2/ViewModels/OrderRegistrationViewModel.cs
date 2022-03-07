@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Order;
+using Next2.Services.UserService;
+using Next2.Views.Mobile;
+using Next2.Views.Tablet;
+using Prism.Events;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -19,15 +25,24 @@ namespace Next2.ViewModels
     {
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IEventAggregator _eventAggregator;
 
         public OrderRegistrationViewModel(
             IMapper mapper,
             INavigationService navigationService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IUserService userService,
+            IAuthenticationService authenticationService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _mapper = mapper;
             _orderService = orderService;
+            _authenticationService = authenticationService;
+            _userService = userService;
+            _eventAggregator = eventAggregator;
 
             Task.Run(RefreshOrderIdAsync);
             Task.Run(RefreshTablesAsync);
@@ -102,6 +117,11 @@ namespace Next2.ViewModels
             {
                 NumberOfSeats = 1;
             }
+
+            if (args.PropertyName == nameof(IsOrderWithTax))
+            {
+                Total = SubTotal;
+            }
         }
 
         #endregion
@@ -142,11 +162,36 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnRemoveTaxFromOrderCommandAsync()
+        private async Task OnRemoveTaxFromOrderCommandAsync()
         {
-            IsOrderWithTax = false;
+            var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            return Task.CompletedTask;
+            if (user.IsSuccess && (user.Result.UserType != EUserType.Admin))
+            {
+                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+
+                if (App.IsTablet)
+                {
+                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(NewOrderView) } };
+                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
+                }
+                else
+                {
+                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(OrderRegistrationPage) } };
+                    await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                }
+            }
+            else
+            {
+                IsOrderWithTax = false;
+            }
+        }
+
+        private void OnTaxEvent(bool isOrderWithTax)
+        {
+            _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
+
+            IsOrderWithTax = isOrderWithTax;
         }
 
         private Task OnOrderCommandAsync()

@@ -36,13 +36,62 @@
                 
         </ContentView>
 
-        <controls:CustomNumericKeyboardTemplate
+        <Grid  
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Grid.Column="1"
             Grid.RowSpan="2"
-            PlaceHolder="{xct:Translate TypeEmployeeId}"
-            IsUserLogIn="{Binding IsUserLogIn}"
-            IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
-            ApplyCommand="{Binding GoToStartPageCommand}"/>
+            RowDefinitions="0.3*,0.7*, 2, 60">
+            
+            <Label 
+                Text="{xct:Translate EmployeeId}"
+                Grid.Row="0"
+                FontSize="{DynamicResource TSize_i6}"
+                VerticalTextAlignment="End"
+                Margin="30, 0, 0, 10"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-SemiBold"/>
+            
+            <controls:CustomNumericKeyboardTemplate
+                Grid.Row="1"
+                Margin="30, 0, 30, 0"
+                ScreenKeyboard="{Binding EmployeeId}"
+                PlaceHolder="{xct:Translate TypeEmployeeId}"
+                IsUserLogIn="{Binding IsUserLogIn}"
+                IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
+                ApplyCommand="{Binding GoToStartPageCommand}"/>
+
+            <StackLayout 
+                Grid.Row="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <Frame 
+                Grid.Row="3" 
+                HasShadow="False"
+                CornerRadius="5"
+                Margin="12, 12, 12, 12"
+                Padding="0"
+                BackgroundColor="{DynamicResource IndicationColor_i1}">
+
+                <Label 
+                    Text="{xct:Translate Login}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Bold"/>
+
+                <Frame.GestureRecognizers>
+
+                    <TapGestureRecognizer 
+                        Command="{Binding GoToStartPageCommand}"
+                        CommandParameter="{Binding EmployeeId}"/>
+
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+        </Grid>
+
 
     </Grid>
 

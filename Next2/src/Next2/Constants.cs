@@ -8,7 +8,7 @@
 
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
-        public const int SERVER_RESPONCE_DELAY = 600;
+        public const int SERVER_RESPONCE_DELAY = 100;
 
         public const string PRICE_FORMAT = "{0:0.00}";
 
@@ -44,6 +44,7 @@
         {
             public const string SEARCH = nameof(SEARCH);
             public const string FUNC = nameof(FUNC);
+            public const string ADMIN = nameof(ADMIN);
         }
 
         public static class Validators

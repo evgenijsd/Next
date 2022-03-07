@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Next2.Enums;
 
 namespace Next2.Services.Mock
 {
@@ -21,6 +22,7 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<TaxModel> _taxBonus;
 
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -160,10 +162,26 @@ namespace Next2.Services.Mock
                 InitSetsAsync(),
                 InitTables(),
                 InitUsersAsync(),
-                InitCustomersAsync());
+                InitCustomersAsync(),
+                InitTaxAndBonusAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
+
+        private Task InitTaxAndBonusAsync() => Task.Run(() =>
+        {
+            _taxBonus = new List<TaxModel>
+            {
+                new TaxModel
+                {
+                    Id = 1,
+                    Name = "Tax",
+                    Value = 0.1,
+                },
+            };
+
+            _base.Add(typeof(TaxModel), _taxBonus);
+        });
 
         private Task InitOrdersAsync() => Task.Run(() =>
         {
@@ -178,6 +196,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -188,6 +207,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -198,6 +218,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -208,6 +229,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
+                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -218,6 +240,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
+                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -228,6 +251,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -238,6 +262,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -248,6 +273,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -258,6 +284,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -268,6 +295,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
+                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -278,6 +306,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -298,6 +327,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -308,6 +338,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -318,6 +349,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
+                    Tax = 0.1,
                 },
             };
             _base.Add(typeof(OrderModel), _orders);
@@ -807,16 +839,25 @@ namespace Next2.Services.Mock
                 {
                     Id = 0,
                     UserName = "Tom",
+                    UserType = EUserType.User,
                 },
                 new UserModel
                 {
                     Id = 1,
                     UserName = "Bob Marley",
+                    UserType = EUserType.User,
                 },
                 new UserModel
                 {
                     Id = 2,
                     UserName = "Tom Black",
+                    UserType = EUserType.User,
+                },
+                new UserModel
+                {
+                    Id = 101,
+                    UserName = "Admin",
+                    UserType = EUserType.Admin,
                 },
             };
 

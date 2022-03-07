@@ -113,7 +113,7 @@
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
-    <Folder Include="Helpers\" />
+    <Folder Include="Converters\" />
     <Folder Include="Extensions\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="ViewModels\Mobile\" />
@@ -317,6 +317,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SearchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
