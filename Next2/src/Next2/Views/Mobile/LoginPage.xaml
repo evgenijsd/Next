@@ -208,6 +208,7 @@
                                          Value="True">
                                 <Setter Property="Text" Value="{xct:Translate Cancel}"/>
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                <Setter Property="Command" Value="{Binding GoBackCommand}"/>
 
                             </DataTrigger>
 

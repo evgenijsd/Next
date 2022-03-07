@@ -57,7 +57,10 @@ namespace Next2.ViewModels
         public string EmployeeId { get; set; } = string.Empty;
 
         private ICommand _buttonClearCommand;
-        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearOrCancelAsync);
+        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearAsync);
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);
@@ -86,17 +89,17 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnTabClearOrCancelAsync()
+        private Task OnTabClearAsync()
         {
-            if (IsCheckAdminID)
-            {
-                await _navigationService.GoBackAsync();
-            }
-            else
-            {
-                EmployeeId = string.Empty;
-                IsEmployeeExists = false;
-            }
+            EmployeeId = string.Empty;
+            IsEmployeeExists = false;
+
+            return Task.CompletedTask;
+        }
+
+        private async Task OnGoBackCommandAsync()
+        {
+            await _navigationService.GoBackAsync();
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
@@ -192,7 +195,7 @@ namespace Next2.ViewModels
             var user = await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit);
             IsEmployeeExists = user.IsSuccess;
 
-            var result = IsEmployeeExists ? user.Result.UserType : EUserType.NoUser;
+            var result = IsEmployeeExists ? user.Result.UserType : EUserType.Guest;
 
             return result;
         }

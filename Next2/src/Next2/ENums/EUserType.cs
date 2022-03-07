@@ -6,7 +6,7 @@ namespace Next2.Enums
 {
     public enum EUserType
     {
-        NoUser,
+        Guest,
         Admin,
         User,
     }

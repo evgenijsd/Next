@@ -82,7 +82,7 @@
                                 FontSize="{DynamicResource TSize_i7}"
                                 BorderColor="{DynamicResource IndicationColor_i4}"
                                 FontFamily="Barlow-SemiBold"
-                                Command="{Binding ButtonClearCommand}"/>
+                                Command="{Binding GoBackCommand}"/>
 
                         </StackLayout>
 
