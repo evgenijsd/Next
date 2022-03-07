@@ -168,16 +168,16 @@ namespace Next2.ViewModels
 
             if (user.IsSuccess && (user.Result.UserType != EUserType.Admin))
             {
-                string page = App.IsTablet ? nameof(NewOrderView) : nameof(OrderRegistrationPage);
                 _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
-                var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, page } };
 
                 if (App.IsTablet)
                 {
+                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(NewOrderView) } };
                     await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
                 }
                 else
                 {
+                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(OrderRegistrationPage) } };
                     await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
                 }
             }
