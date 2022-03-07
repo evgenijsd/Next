@@ -55,12 +55,9 @@ namespace Next2.ViewModels
 
         public TableBindableModel SelectedTable { get; set; }
 
-        public int NumberOfSeats { get; set; } = 0;
+        public int NumberOfSeats { get; set; }
 
         public bool IsOrderWithTax { get; set; } = true;
-
-        // value for testing, delete it later
-        public string CustomerName { get; set; } = "Martin Levin";
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
@@ -136,6 +133,9 @@ namespace Next2.ViewModels
             CurrentOrder = null;
             CurrentOrder = _orderService.CurrentOrder;
 
+            // value for testing
+            CurrentOrder.CustomerName = "Martin Levin";
+
             await AddSeatsCommandsAsync();
 
             SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
@@ -175,16 +175,30 @@ namespace Next2.ViewModels
         private async Task OnTapDeleteCommandAsync(SeatBindableModel seat)
         {
             var param = new DialogParameters();
-            param.Add("text", "Some text");
+            param.Add(Constants.DialogParameterKeys.SEAT_NUMBER, seat.SeatNumber);
 
             if (App.IsTablet)
             {
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                    .DeleteSeatDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback));
             }
             else
             {
             }
+        }
+
+        private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION, out EActionWhenDeletingSeat action))
+            {
+                if (action is EActionWhenDeletingSeat.DeleteSets)
+                {
+                }
+                else if (action is EActionWhenDeletingSeat.RedirectSets)
+                {
+                }
+            }
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private async Task OnTapItemCommandAsync(SeatBindableModel seat)

@@ -320,8 +320,8 @@
                     <Label
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
-                        IsVisible="{Binding CustomerName.Length}"
-                        Text="{Binding CustomerName}" />
+                        IsVisible="{Binding CurrentOrder.CustomerName.Length}"
+                        Text="{Binding CurrentOrder.CustomerName}" />
                    
                 </StackLayout>
 

@@ -9,6 +9,8 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:models="clr-namespace:Next2.Models"
+    CloseWhenBackgroundIsClicked="False"
     x:DataType="viewmodels:DeleteSeatViewModel"
     x:Class="Next2.Views.Tablet.Dialogs.DeleteSeatDialog">
         
@@ -90,7 +92,10 @@
                 Margin="25, 0"
                 VerticalOptions="Start"
                 HeaderTextSize="12"
-                HeaderText="{Binding Text}">
+                ItemHeight="40"
+                ItemsSource="{Binding Seats}"
+                SelectedItem="{Binding SelectedSeat}"
+                HeaderText="{Binding SelectedSeat.SeatNumber, StringFormat='Seat {0}'}">
 
                 <controls:DropDownList.Triggers>
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingItemsSelected}" Value="True">
@@ -113,12 +118,21 @@
                                 HeightRequest="20"
                                 Orientation="Horizontal">
 
-                                <!--<Label
-                                    x:DataType="models:OrderTypeBindableModel"
+                                <Label
+                                    x:DataType="models:SeatListItemBindableModel"
                                     HorizontalOptions="FillAndExpand"
                                     FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i7}"
-                                    Text="{Binding Text}" />-->
+                                    FontSize="{DynamicResource TSize_i8}">
+                                    
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate Seat}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding SeatNumber}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    
+                                </Label>
 
                             </StackLayout>
 
@@ -132,14 +146,15 @@
             <StackLayout 
                 Grid.Row="3"
                 Margin="25, 0"
+                HorizontalOptions="Start"
                 Orientation="Horizontal"
-                Spacing="10">
+                Spacing="10"
+                xct:TouchEffect.Command="{Binding SelectDeletingItemsCommand}">
                 
                 <ffimageLoading:CachedImage 
                     HeightRequest="20"
                     WidthRequest="20"
-                    Source="ic_check_box_unhecked_24x24"
-                    xct:TouchEffect.Command="{Binding SelectDeletingItemsCommand}">
+                    Source="ic_check_box_unhecked_24x24">
                     
                     <ffimageLoading:CachedImage.Triggers>
                         <DataTrigger TargetType="ffimageLoading:CachedImage" Binding="{Binding IsDeletingItemsSelected}" Value="True">
@@ -174,14 +189,16 @@
                         Grid.Column="0"
                         Style="{DynamicResource BorderButtonStyle_i3}"
                         BorderColor="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Cancel}"/>
+                        Text="{xct:Translate Cancel}"
+                        xct:TouchEffect.Command="{Binding DeclineCommand}"/>
 
                     <buttons:BorderButton
                         Grid.Column="1"
                         Style="{DynamicResource BorderButtonStyle_i3}"
                         Background="{DynamicResource IndicationColor_i1}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        Text="{xct:Translate Ok}"/>
+                        Text="{xct:Translate Ok}"
+                        xct:TouchEffect.Command="{Binding AcceptCommand}" />
 
                 </Grid>
                 
