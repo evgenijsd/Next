@@ -56,8 +56,8 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = string.Empty;
 
-        private ICommand _buttonClearCommand;
-        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearAsync);
+        private ICommand _ClearCommand;
+        public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
@@ -89,7 +89,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private Task OnTabClearAsync()
+        private Task OnClearCommandAsync()
         {
             EmployeeId = string.Empty;
             IsEmployeeExists = false;
