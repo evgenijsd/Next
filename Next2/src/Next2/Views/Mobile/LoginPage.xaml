@@ -221,7 +221,7 @@
                     HorizontalOptions="FillAndExpand"
                     HeightRequest="40"
                     VerticalOptions="Center">
-                    
+
                     <buttons:BorderButton 
                         Margin="0, 0, 16, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
@@ -237,7 +237,7 @@
                         FontFamily="Barlow-SemiBold"
                         BackgroundColor="{DynamicResource IndicationColor_i2}"
                         Command="{Binding GoToStartPageCommand}">
-                        
+
                         <buttons:BorderButton.Triggers>
                             
                             <DataTrigger TargetType="buttons:BorderButton"
@@ -251,6 +251,7 @@
                                          Binding="{Binding IsCheckAdminID}"
                                          Value="True">
                                 <Setter Property="Text" Value="{xct:Translate Confirm}"/>
+                                <Setter Property="Command" Value="{Binding RemoveTaxCommand}"/>
 
                             </DataTrigger>
 

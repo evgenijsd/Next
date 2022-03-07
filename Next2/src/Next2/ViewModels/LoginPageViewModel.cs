@@ -60,7 +60,10 @@ namespace Next2.ViewModels
         public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearOrCancelAsync);
 
         private ICommand _goToStartPageCommand;
-        public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageOrConfirmCommandAsync);
+        public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);
+
+        private ICommand _RemoveTaxCommand;
+        public ICommand RemoveTaxCommand => _RemoveTaxCommand ??= new AsyncCommand<object>(OnRemoveTaxCommandAsync);
 
         private ICommand _goToEmployeeIdPage;
         public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
@@ -102,7 +105,7 @@ namespace Next2.ViewModels
             await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
 
-        private async Task OnStartPageOrConfirmCommandAsync(object? sender)
+        private async Task OnStartPageCommandAsync(object? sender)
         {
             if (sender is string str && str is not null)
             {
@@ -116,14 +119,7 @@ namespace Next2.ViewModels
                     {
                         _authenticationService.Authorization();
 
-                        if (IsCheckAdminID)
-                        {
-                            await _navigationService.GoBackAsync();
-                        }
-                        else
-                        {
-                            await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
-                        }
+                        await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
 
                         IsUserLogIn = true;
                     }
@@ -137,7 +133,42 @@ namespace Next2.ViewModels
                     IsErrorNotificationVisible = true;
                 }
             }
-            else if (IsCheckAdminID)
+            else if (IsEmployeeExists)
+            {
+                _authenticationService.Authorization();
+                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
+            }
+        }
+
+        private async Task OnRemoveTaxCommandAsync(object? sender)
+        {
+            if (sender is string str && str is not null)
+            {
+                if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                {
+                    int.TryParse(str, out _inputtedEmployeeIdToDigit);
+
+                    await CheckEmployeeExists();
+
+                    if (IsEmployeeExists)
+                    {
+                        _authenticationService.Authorization();
+
+                        await _navigationService.GoBackAsync();
+
+                        IsUserLogIn = true;
+                    }
+                    else
+                    {
+                        IsErrorNotificationVisible = true;
+                    }
+                }
+                else
+                {
+                    IsErrorNotificationVisible = true;
+                }
+            }
+            else
             {
                 if (App.IsTablet)
                 {
@@ -153,11 +184,6 @@ namespace Next2.ViewModels
                 }
 
                 IsErrorNotificationVisible = true;
-            }
-            else if (IsEmployeeExists)
-            {
-                _authenticationService.Authorization();
-                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
         }
 

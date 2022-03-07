@@ -55,7 +55,7 @@
                         PlaceHolder="{xct:Translate TypeEmployeeId}"
                         IsUserLogIn="{Binding IsUserLogIn}"
                         IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
-                        ApplyCommand="{Binding GoToStartPageCommand}"/>
+                        ApplyCommand="{Binding RemoveTaxCommand}"/>
 
                     <BoxView 
                         Margin="0, 12, 0, 0"
@@ -104,7 +104,7 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 FontFamily="Barlow-SemiBold"
                                 BackgroundColor="{DynamicResource IndicationColor_i2}"
-                                Command="{Binding GoToStartPageCommand}">
+                                Command="{Binding RemoveTaxCommand}">
 
                                 <buttons:BorderButton.Triggers>
 
