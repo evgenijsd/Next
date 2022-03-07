@@ -1,5 +1,7 @@
 ﻿using Next2.Models;
 using Next2.Services.Menu;
+using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -21,16 +23,20 @@ namespace Next2.ViewModels.Mobile
 
         private readonly IPopupNavigation _popupNavigation;
 
+        private readonly IOrderService _orderService;
+
         private bool _order;
 
         public ChooseSetPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -44,7 +50,7 @@ namespace Next2.ViewModels.Mobile
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
@@ -55,11 +61,11 @@ namespace Next2.ViewModels.Mobile
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(Constants.DialogParameterKeys.CATEGORY))
+            if (parameters.ContainsKey(Constants.Navigations.CATEGORY))
             {
                 CategoryModel category;
 
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.CATEGORY, out category))
+                if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out category))
                 {
                     SelectedCategoriesItem = category;
                 }
@@ -93,10 +99,40 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapSetCommandAsync(SetModel set)
         {
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.SET, set);
+            var portions = await _menuService.GetPortionsSetAsync(set.Id);
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            if (portions.IsSuccess)
+            {
+                var param = new DialogParameters();
+                param.Add(Constants.DialogParameterKeys.SET, set);
+                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+
+                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            }
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            {
+                SetBindableModel set;
+
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
+                {
+                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+
+                    if (result.IsSuccess)
+                    {
+                        await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+                    }
+                }
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
         }
 
         private async Task LoadSetsAsync()
@@ -109,11 +145,11 @@ namespace Next2.ViewModels.Mobile
                 {
                     if (_order)
                     {
-                        SetsItems = new (resultSets.Result.OrderByDescending(row => row.Title));
+                        SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
                     }
                     else
                     {
-                        SetsItems = new (resultSets.Result.OrderBy(row => row.Title));
+                        SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
                     }
                 }
             }
@@ -127,7 +163,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultSubcategories.IsSuccess)
                 {
-                    SubcategoriesItems = new (resultSubcategories.Result);
+                    SubcategoriesItems = new(resultSubcategories.Result);
                     SubcategoriesItems.Insert(0, new SubcategoryModel()
                     {
                         Id = 0,

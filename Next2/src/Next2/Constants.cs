@@ -14,6 +14,8 @@
 
         public const string DEFAULT_CULTURE = "en-US";
 
+        public const int NUMBER_OF_AVAILABLE_SEATS = 10;
+
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";
 #elif STAGE
@@ -44,6 +46,9 @@
         {
             public const string SEARCH = nameof(SEARCH);
             public const string FUNC = nameof(FUNC);
+            public const string REFRESH_ORDER = nameof(REFRESH_ORDER);
+            public const string IS_LAST_USER_LOGGED_OUT = nameof(IS_LAST_USER_LOGGED_OUT);
+            public const string CATEGORY = nameof(CATEGORY);
         }
 
         public static class Validators

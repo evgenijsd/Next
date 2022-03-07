@@ -20,6 +20,11 @@ namespace Next2.ViewModels
     public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
+
+        private ICommand _tapCheckedCommand;
+        private ICommand _tapDeleteCommand;
+        private ICommand _tapItemCommand;
 
         private bool _isInited;
 
@@ -28,11 +33,13 @@ namespace Next2.ViewModels
         private ICommand _tapItemCommand;
 
         public OrderRegistrationViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
+            _mapper = mapper;
 
             CurrentState = LayoutState.Loading;
 
@@ -57,8 +64,6 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
-        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
-
         public OrderTypeBindableModel SelectedOrderType { get; set; }
         public SetBindableModel SelectedSeat { get; set; }
 
@@ -66,11 +71,13 @@ namespace Next2.ViewModels
 
         public TableBindableModel SelectedTable { get; set; }
 
+        public int NumberOfAvailableSeats { get; } = Constants.NUMBER_OF_AVAILABLE_SEATS;
+
         public int NumberOfSeats { get; set; } = 0;
 
-        public bool IsSideMenuVisible { get; set; } = true;
-
         public bool IsOrderWithTax { get; set; } = true;
+                
+        public bool IsSideMenuVisible { get; set; } = true;
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
@@ -98,11 +105,12 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override void Initialize(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            base.Initialize(parameters);
+            base.InitializeAsync(parameters);
 
-            RefreshCurrentOrderAsync();
+            await RefreshTablesAsync();
+            await RefreshCurrentOrderAsync();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -112,27 +120,16 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    if (_isInited)
-                    {
-                        _orderService.CurrentOrder.Table = SelectedTable;
-                    }
-
+                    _orderService.CurrentOrder.Table = SelectedTable;
                     break;
                 case nameof(SelectedOrderType):
-                    if (_isInited)
-                    {
-                        _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
-                    }
-
+                    _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
                     break;
                 case nameof(NumberOfSeats):
-                    if (_isInited)
+                    if (NumberOfSeats > CurrentOrder.Seats.Count)
                     {
-                        if (NumberOfSeats > CurrentOrder.Seats.Count)
-                        {
-                            _orderService.AddSeatInCurrentOrderAsync();
-                            AddSeatsCommandsAsync();
-                        }
+                        _orderService.AddSeatInCurrentOrderAsync();
+                        AddSeatsCommandsAsync();
                     }
 
                     break;
@@ -145,6 +142,7 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
+            CurrentOrder = null;
             CurrentOrder = _orderService.CurrentOrder;
 
             await AddSeatsCommandsAsync();
@@ -188,12 +186,19 @@ namespace Next2.ViewModels
         private async Task OnTapCheckedCommandAsync(SeatBindableModel seat)
         {
             seat.Checked = true;
+        }
 
+        private async Task OnTapDeleteCommandAsync(SeatBindableModel seat)
+        {
+        }
+
+        private async Task OnTapItemCommandAsync(SeatBindableModel seat)
+        {
             foreach (var item in CurrentOrder.Seats)
             {
                 if (item.Id != seat.Id)
                 {
-                    item.Checked = false;
+                    item.SelectedItem = null;
                 }
             }
 
@@ -226,13 +231,9 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                MapperConfiguration mapperConfig = new(cfg => cfg.CreateMap<TableModel, TableBindableModel>());
-                Mapper mapper = new(mapperConfig);
-                var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
-                Tables = new(tableBindableModels);
-
-                SelectedTable = Tables[0];
+                Tables = new (tableBindableModels);
             }
         }
 
@@ -265,6 +266,10 @@ namespace Next2.ViewModels
 
         private async Task OnPayCommandAsync()
         {
+            // code for testing, delete it later
+            CurrentOrder.CustomerName = CurrentOrder.CustomerName.Length == 0
+                ? "Martin Levin"
+                : string.Empty;
         }
 
         #endregion

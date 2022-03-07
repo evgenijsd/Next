@@ -347,5 +347,10 @@
   </data>
   <data name="Seat" xml:space="preserve">
     <value>Seat</value>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add Item</value>
+  </data>
+  <data name="RemoveOrder" xml:space="preserve">
+    <value>Remove Order</value>
   </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
+using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -18,18 +19,20 @@ namespace Next2.ViewModels.Tablet
     public class ExpandPageViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMenuService _menuService;
-
+        private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
 
         private bool _order;
 
         public ExpandPageViewModel(
             INavigationService navigationService,
+            IOrderService orderService,
             IMenuService menuService,
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _menuService = menuService;
+            _orderService = orderService;
             _popupNavigation = popupNavigation;
 
             Task.Run(LoadCategoriesAsync);
@@ -102,10 +105,42 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSetCommandAsync(SetModel set)
         {
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.SET, set);
+            var portions = await _menuService.GetPortionsSetAsync(set.Id);
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            if (portions.IsSuccess)
+            {
+                var param = new DialogParameters();
+                param.Add(Constants.DialogParameterKeys.SET, set);
+                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            }
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            {
+                SetBindableModel set;
+
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
+                {
+                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    if (result.IsSuccess)
+                    {
+                        var param = new NavigationParameters();
+                        param.Add(Constants.Navigations.REFRESH_ORDER, string.Empty);
+
+                        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                        await _navigationService.GoBackAsync(param);
+                    }
+                }
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
         }
 
         private async Task LoadCategoriesAsync()

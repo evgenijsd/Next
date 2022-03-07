@@ -80,6 +80,20 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
+            {
+                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            }
+        }
+
+        #endregion
+
         #region -- Private methods --
 
         private void InitMenuItems()
@@ -157,7 +171,7 @@ namespace Next2.ViewModels.Tablet
 
                 var navigationParameters = new NavigationParameters
                 {
-                    { "IsLastUserLoggedOut", result },
+                    { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
                 };
 
                 await _navigationService.GoBackToRootAsync(navigationParameters);

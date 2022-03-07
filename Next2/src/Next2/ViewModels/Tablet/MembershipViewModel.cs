@@ -15,13 +15,16 @@ namespace Next2.ViewModels.Tablet
 {
     public class MembershipViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
 
         public MembershipViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             IMembershipService membershipService)
             : base(navigationService)
         {
+            _mapper = mapper;
             _membershipService = membershipService;
         }
 
@@ -83,10 +86,7 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                MapperConfiguration mapperConfig = new (cfg => cfg.CreateMap<MemberModel, MemberBindableModel>());
-                Mapper mapper = new (mapperConfig);
-
-                var memberBindableModels = mapper.Map<IEnumerable<MemberModel>, ObservableCollection<MemberBindableModel>>(membersResult.Result);
+                var memberBindableModels = _mapper.Map<IEnumerable<MemberModel>, ObservableCollection<MemberBindableModel>>(membersResult.Result);
 
                 var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
 

@@ -15,6 +15,8 @@ namespace Next2.Models
 
         public SetBindableModel SelectedItem { get; set; }
 
+        public bool IsFirstSeat { get; set; }
+
         public ICommand TapItemCommand { get; set; }
 
         public ICommand TapCheckBoxCommand { get; set; }

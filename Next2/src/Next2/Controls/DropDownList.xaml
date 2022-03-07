@@ -8,13 +8,15 @@
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     IsClippedToBounds="True"
     Grid.RowSpan="10"
-    x:Class="Next2.Controls.DropDownList">
+    x:Class="Next2.Controls.DropDownList"
+    x:Name="dropDownList">
 
-    <StackLayout>
+    <StackLayout x:Name="container">
 
         <StackLayout
             Orientation="Horizontal"
-            BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderBackgroundColor}">
+            BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderBackgroundColor}"
+            x:Name="listHeader">
             
             <StackLayout.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandListCommand}" />
@@ -32,8 +34,8 @@
                 Margin="0, 7, 10, 7"
                 VerticalOptions="Center"
                 HorizontalOptions="EndAndExpand"
-                HeightRequest="20"
-                WidthRequest="20"
+                HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSizes}"
+                WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSizes}"
                 Source="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=WrappedListIconSource}">
                 
                 <ffimageloading:CachedImage.Triggers>            
@@ -49,21 +51,17 @@
             </ffimageloading:CachedImage>
 
         </StackLayout>
-
-        <BoxView
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
-            HeightRequest="0.25"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
-
+        
         <controls:CustomScrollBarCollectionView
             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+            VerticalScrollBarVisibility="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ScrollBarVisibility}"
             HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ListHeight}"
             Background="{DynamicResource TextAndBackgroundColor_i5}"
             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
             ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ItemsSource}"
             SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectedItem}"
             ItemTemplate="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=DataTemplate}"
-            x:Name="collectionList">
+            x:Name="itemsCollection">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>

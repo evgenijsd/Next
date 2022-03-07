@@ -49,7 +49,10 @@ namespace Next2.ViewModels.Tablet
             _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
             _timerUpdateTime.Elapsed += Timer_Elapsed;
 
-            Task.Run(LoadCategoriesAsync);
+            _orderService = orderService;
+
+            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
+            _timerUpdateTime.Elapsed += Timer_Elapsed;
 
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
@@ -100,7 +103,7 @@ namespace Next2.ViewModels.Tablet
             _order = false;
             Task.Run(LoadCategoriesAsync);
 
-            OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            OrderRegistrationViewModel.InitializeAsync(null);
 
             _timerUpdateTime.Start();
         }
@@ -139,18 +142,6 @@ namespace Next2.ViewModels.Tablet
             Task.Run(() => { CurrentDateTime = DateTime.Now; });
         }
 
-        private void OnGoBackCommand()
-        {
-            IsSideMenuVisible = true;
-            CurrentState = LayoutState.Loading;
-        }
-
-        private void OnTapEditCommand()
-        {
-            IsSideMenuVisible = false;
-            CurrentState = LayoutState.Success;
-        }
-
         private async Task OnTapSortCommandAsync()
         {
             _order = !_order;
@@ -179,12 +170,19 @@ namespace Next2.ViewModels.Tablet
 
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
                 {
-                    await _orderService.AddSetInCurrentOrderAsync(set);
-                    await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    if (result.IsSuccess)
+                    {
+                        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    }
                 }
             }
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
         }
 
         private async Task LoadCategoriesAsync()
