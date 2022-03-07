@@ -32,9 +32,9 @@ namespace Next2.Services.Authentication
 
         #region -- AuthenticationService implementation --
 
-        public async Task<AOResult<UserModel>> CheckUserExists(int userId)
+        public async Task<AOResult<UserModel?>> CheckUserExists(int userId)
         {
-            var result = new AOResult<UserModel>();
+            var result = new AOResult<UserModel?>();
 
             try
             {
