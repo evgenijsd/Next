@@ -86,6 +86,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.DeleteSeatDialog, DeleteSeatViewModel>();
             }
             else
             {
@@ -101,6 +102,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                //containerRegistry.RegisterDialog<MobileViews.Dialogs.DeleteSeatDialog, DeleteSeatDialogViewModel>();
             }
         }
 

@@ -3,6 +3,8 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Order;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +19,7 @@ namespace Next2.ViewModels
 {
     public class OrderRegistrationViewModel : BaseViewModel
     {
+        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
@@ -25,13 +28,15 @@ namespace Next2.ViewModels
         private ICommand _tapItemCommand;
 
         public OrderRegistrationViewModel(
+            IPopupNavigation popupNavigation,
             INavigationService navigationService,
             IMapper mapper,
             IOrderService orderService)
             : base(navigationService)
         {
-            _mapper = mapper;
+            _popupNavigation = popupNavigation;
             _orderService = orderService;
+            _mapper = mapper;
 
             _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
             _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
@@ -169,6 +174,17 @@ namespace Next2.ViewModels
 
         private async Task OnTapDeleteCommandAsync(SeatBindableModel seat)
         {
+            var param = new DialogParameters();
+            param.Add("text", "Some text");
+
+            if (App.IsTablet)
+            {
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
+                    .DeleteSeatDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            }
+            else
+            {
+            }
         }
 
         private async Task OnTapItemCommandAsync(SeatBindableModel seat)

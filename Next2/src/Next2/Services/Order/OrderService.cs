@@ -41,7 +41,7 @@ namespace Next2.Services.Order
             {
                 var orders = await _mockService.GetAllAsync<OrderModel>();
 
-                if (orders != null)
+                if (orders is not null)
                 {
                     int newOrderId = orders.Max(row => row.Id) + 1;
 
@@ -68,14 +68,16 @@ namespace Next2.Services.Order
             {
                 var allTables = await _mockService.GetAllAsync<TableModel>();
 
-                if (allTables?.Count() > 0)
+                if (allTables is not null)
                 {
-                    result.SetSuccess(allTables);
-                }
+                    var allOrders = await _mockService.GetAllAsync<OrderModel>();
 
-                if (!result.IsSuccess)
-                {
-                    result.SetFailure();
+                    var freeTables = allTables?.Where(table => allOrders.All(order => order.TableNumber != table.TableNumber));
+
+                    if (freeTables is not null)
+                    {
+                        result.SetSuccess(freeTables);
+                    }
                 }
             }
             catch (Exception ex)
