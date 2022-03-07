@@ -710,7 +710,6 @@
                         </StackLayout>
 
                         <Grid 
-                            x:DataType="viewModels:Orde"
                             Grid.Row="2"
                             Margin="30, 0, 30, 0"
                             RowDefinitions="auto, auto, auto, auto, *">
@@ -729,7 +728,10 @@
                                         Margin="0, 15, 0, 15"
                                         Orientation="Vertical">
 
-                                        <ffimageloading:CachedImage Source="{Binding SelectedItem.ImagePath}"/>
+                                        <ffimageloading:CachedImage 
+                                            Source="{Binding OrderRegistrationViewModel.SelectedSeat.ImagePath}"
+                                            HeightRequest="100"
+                                            WidthRequest="100"/>
 
                                     </StackLayout>
 
@@ -739,13 +741,13 @@
                                         Orientation="Vertical">
 
                                         <Label 
-                                            Text="{Binding SelectedItem.Title}"
+                                            Text="{Binding OrderRegistrationViewModel.SelectedSeat.Title}"
                                             Margin="0, 0, 0, 0"
                                             FontFamily="Barlow-Medium"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/> 
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                         <Label 
-                                            Text="{Binding SelectedItem.Price, StringFormat='$ {0}'}"
+                                            Text="{Binding OrderRegistrationViewModel.SelectedSeat.Price, StringFormat='$ {0:F2}'}"
                                             Margin="0, 5, 0, 0"
                                             FontFamily="Barlow-SemiBold"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -782,7 +784,7 @@
                                     Orientation="Vertical">
 
                                     <Label 
-                                        Text="{Binding SelectedItem.Portion.Title}"
+                                        Text="{Binding OrderRegistrationViewModel.SelectedSeat.Portion.Title}"
                                         Margin="0, 5, 0, 10"
                                         FontFamily="Barlow-SemiBold"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -794,9 +796,9 @@
                                     Grid.Row="1"
                                     HorizontalOptions="EndAndExpand"
                                     Orientation="Vertical">
-
+                                    
                                     <Label 
-                                        Text="{Binding SelectedItem.Price, StringFormat='$ {0}'}"
+                                        Text="{Binding OrderRegistrationViewModel.SelectedSeat.Portion.Price, StringFormat='$ {0:F2}'}"
                                         FontFamily="Barlow-Medium"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
@@ -1026,7 +1028,7 @@
                                 Style="{DynamicResource DropDownListStyle_i2}"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center"
-                                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.NumberOfSeats}"
+                                HeaderText="{Binding OrderRegistrationViewModel.NumberOfSeats}"
                                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                                 ItemsSource="{Binding OrderRegistrationViewModel.SelectedTable.NumberOfAvailableSeats}">
 

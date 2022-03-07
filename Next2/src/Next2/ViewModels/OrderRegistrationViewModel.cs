@@ -60,6 +60,7 @@ namespace Next2.ViewModels
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
+        public SetBindableModel SelectedSeat { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
@@ -169,6 +170,17 @@ namespace Next2.ViewModels
 
         private void OnGoBackCommand()
         {
+            if (SelectedSeat is not null)
+            {
+                foreach (var item in CurrentOrder.Seats)
+                {
+                    if (item.Id != SelectedSeat?.Id)
+                    {
+                        item.SelectedItem = null;
+                    }
+                }
+            }
+
             IsSideMenuVisible = true;
             CurrentState = LayoutState.Loading;
         }
@@ -196,11 +208,13 @@ namespace Next2.ViewModels
         {
             foreach (var item in CurrentOrder.Seats)
             {
-                if (item.Id != seat.Id)
+           if (item.Id != seat.Id && item.SeatNumber == seat.SeatNumber)
                 {
                     item.SelectedItem = null;
                 }
             }
+
+            SelectedSeat = seat.SelectedItem;
 
             IsSideMenuVisible = false;
             CurrentState = LayoutState.Success;
