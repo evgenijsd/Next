@@ -44,7 +44,6 @@ namespace Next2.ViewModels.Tablet
             _popupNavigation = popupNavigation;
             _orderService = orderService;
             OrderRegistrationViewModel = orderRegistrationViewModel;
-            CurrentState = LayoutState.Loading;
 
             _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
             _timerUpdateTime.Elapsed += Timer_Elapsed;
@@ -61,8 +60,6 @@ namespace Next2.ViewModels.Tablet
 
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
-        public LayoutState CurrentState { get; set; }
-
         public bool IsSideMenuVisible { get; set; } = true;
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
@@ -76,12 +73,6 @@ namespace Next2.ViewModels.Tablet
         public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
-
-        private ICommand _editTapCommand;
-        public ICommand EditTapCommand => _editTapCommand ??= new Command(OnTapEditCommand);
-
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
 
         private ICommand _tapSetCommand;
         public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);

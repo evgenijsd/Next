@@ -26,12 +26,6 @@ namespace Next2.ViewModels
         private ICommand _tapDeleteCommand;
         private ICommand _tapItemCommand;
 
-        private bool _isInited;
-
-        private ICommand _tapCheckedCommand;
-        private ICommand _tapDeleteCommand;
-        private ICommand _tapItemCommand;
-
         public OrderRegistrationViewModel(
             IMapper mapper,
             INavigationService navigationService,
@@ -64,8 +58,12 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
+        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
+
         public OrderTypeBindableModel SelectedOrderType { get; set; }
-        public SetBindableModel SelectedSeat { get; set; }
+        public SetBindableModel SelectedDish { get; set; }
+
+        public SeatBindableModel SelectedSeat { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
@@ -76,7 +74,7 @@ namespace Next2.ViewModels
         public int NumberOfSeats { get; set; } = 0;
 
         public bool IsOrderWithTax { get; set; } = true;
-                
+
         public bool IsSideMenuVisible { get; set; } = true;
 
         private ICommand _goBackCommand;
@@ -168,14 +166,11 @@ namespace Next2.ViewModels
 
         private void OnGoBackCommand()
         {
-            if (SelectedSeat is not null)
+            if (SelectedDish is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
-                    if (item.Id != SelectedSeat?.Id)
-                    {
-                        item.SelectedItem = null;
-                    }
+                   item.SelectedItem = null;
                 }
             }
 
@@ -186,19 +181,14 @@ namespace Next2.ViewModels
         private async Task OnTapCheckedCommandAsync(SeatBindableModel seat)
         {
             seat.Checked = true;
-        }
 
-        private async Task OnTapDeleteCommandAsync(SeatBindableModel seat)
-        {
-        }
+            SelectedSeat = seat;
 
-        private async Task OnTapItemCommandAsync(SeatBindableModel seat)
-        {
             foreach (var item in CurrentOrder.Seats)
             {
                 if (item.Id != seat.Id)
                 {
-                    item.SelectedItem = null;
+                    item.Checked = false;
                 }
             }
 
@@ -213,13 +203,13 @@ namespace Next2.ViewModels
         {
             foreach (var item in CurrentOrder.Seats)
             {
-           if (item.Id != seat.Id && item.SeatNumber == seat.SeatNumber)
+                if (item.Id != seat.Id && item.SeatNumber == seat.SeatNumber)
                 {
                     item.SelectedItem = null;
                 }
             }
 
-            SelectedSeat = seat.SelectedItem;
+            SelectedDish = seat.SelectedItem;
 
             IsSideMenuVisible = false;
             CurrentState = LayoutState.Success;
