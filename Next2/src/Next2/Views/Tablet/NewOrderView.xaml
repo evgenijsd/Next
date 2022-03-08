@@ -976,7 +976,8 @@
                             <!-- Row 6 Option-->
 
                             <Grid
-                                Grid.Row="5"/>
+                                Grid.Row="5">
+                            </Grid>
 
                         </Grid>
 
@@ -986,7 +987,7 @@
                             Grid.Row="3"
                             VerticalOptions="Center"
                             ColumnDefinitions="0.09*, auto, 0.27*, 0.27*, 0.30*"
-                            RowDefinitions="auto, auto"
+                            RowDefinitions="auto, 80"
                             ColumnSpacing="14">
 
                             <BoxView
@@ -1012,8 +1013,7 @@
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Style="{DynamicResource DropDownListStyle_i1}"
-                                ItemHeight="40"
-                                BackgroundColor="Red"
+                                ItemHeight="20"
                                 Direction="Up"
                                 HorizontalOptions="Start"
                                 VerticalOptions="CenterAndExpand"

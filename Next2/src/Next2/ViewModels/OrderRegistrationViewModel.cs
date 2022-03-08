@@ -111,7 +111,7 @@ namespace Next2.ViewModels
             await RefreshCurrentOrderAsync();
         }
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
@@ -119,6 +119,18 @@ namespace Next2.ViewModels
             {
                 case nameof(SelectedTable):
                     _orderService.CurrentOrder.Table = SelectedTable;
+                    break;
+                case nameof(SelectedSeat):
+                    foreach (var item in CurrentOrder.Seats)
+                    {
+                        if (item.Id != SelectedSeat.Id)
+                        {
+                            item.Checked = false;
+                        }
+                    }
+
+                    SelectedSeat.Checked = true;
+                    _orderService.CurrentSeat = SelectedSeat;
                     break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
@@ -201,11 +213,14 @@ namespace Next2.ViewModels
 
         private async Task OnTapItemCommandAsync(SeatBindableModel seat)
         {
-            foreach (var item in CurrentOrder.Seats)
+            if (seat.Sets.Count > 1)
             {
-                if (item.Id != seat.Id && item.SeatNumber == seat.SeatNumber)
+                foreach (var item in CurrentOrder.Seats)
                 {
-                    item.SelectedItem = null;
+                    if (item.Id != seat.Id)
+                    {
+                        item.SelectedItem = null;
+                    }
                 }
             }
 
