@@ -108,6 +108,11 @@ namespace Next2.ViewModels
                         _orderService.AddSeatInCurrentOrderAsync();
                         AddSeatsCommandsAsync();
                     }
+                    else if (NumberOfSeats < CurrentOrder.Seats.Count)
+                    {
+                        var lastSeat = CurrentOrder.Seats.LastOrDefault();
+                        DeleteSeat(lastSeat);
+                    }
 
                     break;
             }
