@@ -11,8 +11,6 @@ namespace Next2.Controls
     {
         private double _valueX;
 
-        private bool _tap;
-
         public Toggle()
         {
             InitializeComponent();
@@ -77,7 +75,7 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (!_tap && propertyName == nameof(IsToggled))
+            if (propertyName == nameof(IsToggled))
             {
                 StartAnimationAsync();
             }
@@ -107,22 +105,12 @@ namespace Next2.Controls
                 {
                     if (CanTurnOff)
                     {
-                        _tap = true;
                         IsToggled = false;
-
-                        await StartAnimationAsync();
-
-                        _tap = false;
                     }
                 }
                 else
                 {
-                    _tap = true;
                     IsToggled = true;
-
-                    await StartAnimationAsync();
-
-                    _tap = false;
                 }
             }
         }
