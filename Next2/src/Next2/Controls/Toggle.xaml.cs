@@ -87,31 +87,16 @@ namespace Next2.Controls
 
         private async Task StartAnimationAsync()
         {
-            if (IsToggled)
-            {
-                await runningFrame.TranslateTo(runningFrame.X + 17, 0, 100, Easing.CubicInOut);
-            }
-            else
-            {
-                await runningFrame.TranslateTo(runningFrame.X, 0, 100, Easing.CubicInOut);
-            }
+            var x = IsToggled ? runningFrame.X + 17 : runningFrame.X;
+
+            await runningFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }
 
         private async Task OnTapCommandAsync()
         {
-            if (IsEnabled)
+            if (IsEnabled && (!IsToggled || CanTurnOff))
             {
-                if (IsToggled)
-                {
-                    if (CanTurnOff)
-                    {
-                        IsToggled = false;
-                    }
-                }
-                else
-                {
-                    IsToggled = true;
-                }
+                IsToggled = !IsToggled;
             }
         }
 
@@ -124,12 +109,9 @@ namespace Next2.Controls
                 switch (e.StatusType)
                 {
                     case GestureStatus.Running:
-                        if (x < _valueX)
+                        if (x < _valueX && CanTurnOff)
                         {
-                            if (CanTurnOff)
-                            {
-                                IsToggled = false;
-                            }
+                            IsToggled = false;
                         }
                         else if (x > _valueX)
                         {

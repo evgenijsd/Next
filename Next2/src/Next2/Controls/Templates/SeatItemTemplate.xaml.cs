@@ -43,20 +43,6 @@ namespace Next2.Controls.Templates
 
         #endregion
 
-        #region --Overrides--
-
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-
-            if (BindingContext is SeatBindableModel context)
-            {
-                HeightList = context.Sets.Count * 95;
-            }
-        }
-
-        #endregion
-
         #region -- Private methods --
 
         private void OnItemsSourcePropertyChanged(ICollection oldItemsSource, ICollection newItemsSource)

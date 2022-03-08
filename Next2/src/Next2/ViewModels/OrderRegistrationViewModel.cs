@@ -141,7 +141,7 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
-            CurrentOrder = null;
+            CurrentOrder = new();
             CurrentOrder = _orderService.CurrentOrder;
 
             await AddSeatsCommandsAsync();
@@ -167,17 +167,20 @@ namespace Next2.ViewModels
 
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
-            seat.Checked = true;
-
-            foreach (var item in CurrentOrder.Seats)
+            if(CurrentOrder.Seats is not null)
             {
-                if (item.Id != seat.Id)
-                {
-                    item.Checked = false;
-                }
-            }
+                seat.Checked = true;
 
-            _orderService.CurrentSeat = seat;
+                foreach (var item in CurrentOrder.Seats)
+                {
+                    if (item.Id != seat.Id)
+                    {
+                        item.Checked = false;
+                    }
+                }
+
+                _orderService.CurrentSeat = seat;
+            }
         }
 
         private async Task OnSeatDeleteCommandAsync(SeatBindableModel seat)
@@ -186,11 +189,14 @@ namespace Next2.ViewModels
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            foreach (var item in CurrentOrder.Seats)
+            if (CurrentOrder.Seats is not null)
             {
-                if (item.Id != seat.Id)
+                foreach (var item in CurrentOrder.Seats)
                 {
-                    item.SelectedItem = null;
+                    if (item.Id != seat.Id)
+                    {
+                        item.SelectedItem = null;
+                    }
                 }
             }
         }
