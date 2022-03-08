@@ -976,8 +976,7 @@
                             <!-- Row 6 Option-->
 
                             <Grid
-                                Grid.Row="5"
-                                RowSpacing="0"/>
+                                Grid.Row="5"/>
 
                         </Grid>
 
@@ -986,7 +985,7 @@
                         <Grid
                             Grid.Row="3"
                             VerticalOptions="Center"
-                            ColumnDefinitions="0.11*, 0.05*, 0.27*, 0.27*, 0.30*"
+                            ColumnDefinitions="0.09*, auto, 0.27*, 0.27*, 0.30*"
                             RowDefinitions="auto, auto"
                             ColumnSpacing="14">
 
@@ -1011,36 +1010,36 @@
 
                             <controls:DropDownList
                                 Grid.Row="1"
-                                Direction="Down"
-                                BackgroundColor="Red"
                                 Grid.Column="1"
-                                Padding="0"
-                                Margin="0, 12, 0, 12"
-                                Style="{DynamicResource DropDownListStyle_i2}"
+                                Style="{DynamicResource DropDownListStyle_i1}"
+                                ItemHeight="40"
+                                BackgroundColor="Red"
+                                Direction="Up"
                                 HorizontalOptions="Start"
-                                VerticalOptions="Center"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="60"
                                 HeaderText="{Binding OrderRegistrationViewModel.SelectedSeat.SeatNumber}"
                                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedSeat}"
                                 ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
 
                                 <controls:DropDownList.DataTemplate>
                                     <DataTemplate>
-                                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                                        <StackLayout>
+
+                                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                             <StackLayout
-                                                Padding="8"
-                                                HeightRequest="30"
-                                                Orientation="Horizontal"
-                                                x:DataType="models:SeatBindableModel">
+                                                Padding="14, 7, 14, 12"
+                                                HeightRequest="20"
+                                                Orientation="Horizontal">
 
                                                 <Label
-                                                    Style="{DynamicResource Medium16pxLabelStyle}"
+                                                    FontFamily="Barlow-Medium"
+                                                    FontSize="{DynamicResource TSize_i7}"
                                                     HorizontalOptions="FillAndExpand"
                                                     Text="{Binding SeatNumber}" />
 
                                             </StackLayout>
-
-                                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                         </StackLayout>
                                     </DataTemplate>
