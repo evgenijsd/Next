@@ -26,5 +26,9 @@ namespace Next2.Services.Order
         Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
+
+        Task<AOResult> DeleteSeatFromCurrentOrder(int seatNumber);
+
+        Task<AOResult> RedirectSetsFromCurrentOrder(int sourceSeatNumber, int destinationSeatNumber);
     }
 }

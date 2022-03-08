@@ -24,7 +24,7 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
 
         private ICommand _tapCheckedCommand;
-        private ICommand _tapDeleteCommand;
+        private ICommand _deleteSeatCommand;
         private ICommand _tapItemCommand;
 
         public OrderRegistrationViewModel(
@@ -39,7 +39,7 @@ namespace Next2.ViewModels
             _mapper = mapper;
 
             _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
-            _tapDeleteCommand = new AsyncCommand<SeatBindableModel>(OnTapDeleteCommandAsync, allowsMultipleExecutions: false);
+            _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: false);
         }
 
@@ -152,7 +152,7 @@ namespace Next2.ViewModels
             foreach (var seat in CurrentOrder.Seats)
             {
                 seat.TapCheckBoxCommand = _tapCheckedCommand;
-                seat.TapDeleteCommand = _tapDeleteCommand;
+                seat.TapDeleteCommand = _deleteSeatCommand;
                 seat.TapItemCommand = _tapItemCommand;
             }
         }
@@ -172,29 +172,51 @@ namespace Next2.ViewModels
             _orderService.CurrentSeat = seat;
         }
 
-        private async Task OnTapDeleteCommandAsync(SeatBindableModel seat)
+        private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat)
         {
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.SEAT_NUMBER, seat.SeatNumber);
+            DeleteSeat(seat);
+        }
 
-            if (App.IsTablet)
+        private async void DeleteSeat(SeatBindableModel seat)
+        {
+            if (seat.Sets.Any())
             {
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback));
+                var param = new DialogParameters { { Constants.DialogParameterKeys.SEAT_NUMBER, seat } };
+
+                await _popupNavigation.PushAsync(App.IsTablet
+                    ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
+                    : new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback));
             }
             else
             {
+                var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(seat.SeatNumber);
+
+                if (deleteSeatResult.IsSuccess)
+                {
+                    NumberOfSeats = CurrentOrder.Seats.Count;
+                }
             }
         }
 
         private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION, out EActionWhenDeletingSeat action))
+            if (dialogResult is not null
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBER, out SeatBindableModel deletingSeat))
             {
-                if (action is EActionWhenDeletingSeat.DeleteSets)
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION, out EActionWhenDeletingSeat action))
                 {
-                }
-                else if (action is EActionWhenDeletingSeat.RedirectSets)
-                {
+                    if (action is EActionWhenDeletingSeat.DeleteSets)
+                    {
+                        var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(deletingSeat.SeatNumber);
+
+                        if (deleteSeatResult.IsSuccess)
+                        {
+                            NumberOfSeats = CurrentOrder.Seats.Count;
+                        }
+                    }
+                    else if (action is EActionWhenDeletingSeat.RedirectSets)
+                    {
+                    }
                 }
             }
 

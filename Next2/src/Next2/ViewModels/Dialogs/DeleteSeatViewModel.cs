@@ -14,19 +14,21 @@ namespace Next2.ViewModels.Dialogs
 {
     public class DeleteSeatViewModel : BindableBase
     {
+        private SeatBindableModel _seat;
+
         public DeleteSeatViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadDataFromParameters(param);
             RequestClose = requestClose;
             AcceptCommand = new Command(() =>
             {
-                var dialogParameters = IsDeletingItemsSelected
-                    ? new DialogParameters { { Constants.DialogParameterKeys.ACTION, EActionWhenDeletingSeat.DeleteSets } }
-                    : new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.ACTION, EActionWhenDeletingSeat.RedirectSets },
-                        { Constants.DialogParameterKeys.SEAT_NUMBER, SelectedSeat.SeatNumber },
-                    };
+                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.SEAT_NUMBER, _seat } };
+
+                var action = IsDeletingItemsSelected
+                    ? EActionWhenDeletingSeat.DeleteSets
+                    : EActionWhenDeletingSeat.RedirectSets;
+
+                dialogParameters.Add(Constants.DialogParameterKeys.ACTION, action);
 
                 RequestClose(dialogParameters);
             });
@@ -57,15 +59,16 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadDataFromParameters(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBER, out int currentSeatNumber))
+            if (param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBER, out SeatBindableModel seat))
             {
                 IEnumerable<int> otherSeatNumbers = Enumerable.Range(1, Constants.TABLE_SEATS_NUMBER)
-                    .Where(x => x != currentSeatNumber);
+                    .Where(x => x != seat.SeatNumber);
 
                 var seats = otherSeatNumbers.Select(x => new SeatListItemBindableModel { SeatNumber = x });
                 Seats = new (seats);
 
                 SelectedSeat = Seats.FirstOrDefault();
+                _seat = seat;
             }
         }
 

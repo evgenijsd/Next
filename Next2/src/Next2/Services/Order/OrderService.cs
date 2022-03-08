@@ -238,6 +238,47 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult> DeleteSeatFromCurrentOrder(int seatNumber)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var seat = CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == seatNumber);
+
+                if (seat is not null)
+                {
+                    bool isDeleted = CurrentOrder.Seats.Remove(seat);
+
+                    if (isDeleted)
+                    {
+                        result.SetSuccess();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DeleteSeatFromCurrentOrder)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> RedirectSetsFromCurrentOrder(int sourceSeatNumber, int destinationSeatNumber)
+        {
+            var result = new AOResult();
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(RedirectSetsFromCurrentOrder)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }
