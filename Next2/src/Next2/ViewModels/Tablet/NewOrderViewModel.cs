@@ -44,7 +44,7 @@ namespace Next2.ViewModels.Tablet
 
             _orderService = orderService;
 
-            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
+            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
             _timerUpdateTime.Elapsed += Timer_Elapsed;
 
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
@@ -67,13 +67,13 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
-        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
+        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapExpandCommand;
-        public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync);
+        public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -122,7 +122,7 @@ namespace Next2.ViewModels.Tablet
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Task.Run(() => { CurrentDateTime = DateTime.Now; });
+            Task.Run(() => { CurrentDateTime = DateTime.Now; }).ConfigureAwait(false);
         }
 
         private async Task OnTapSortCommandAsync()
@@ -149,22 +149,20 @@ namespace Next2.ViewModels.Tablet
         {
             if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
             {
-                SetBindableModel set;
-
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
                     if (result.IsSuccess)
                     {
-                        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                        await _popupNavigation.PopAsync();
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                     }
                 }
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 

@@ -58,7 +58,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -84,7 +84,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAvailableTablesAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetAvailableTablesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -232,7 +232,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AddSeatInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

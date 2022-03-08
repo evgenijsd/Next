@@ -204,7 +204,7 @@
                     FontFamily="Barlow-Medium"
                     Margin="5, 0, 0, 0"
                     HorizontalTextAlignment="Center"
-                    WidthRequest="90"/>
+                    WidthRequest="100"/>
 
                 <ffimageloading:CachedImage
                     Source="ic_calendar_24x24"
@@ -1045,6 +1045,7 @@
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <templates:SeatItemTemplate
+                            ItemsSource="{Binding Sets}"
                             Padding="24, 9, 24, 0"/>
 
                     </DataTemplate>

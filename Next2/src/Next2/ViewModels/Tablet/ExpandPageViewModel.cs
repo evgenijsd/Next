@@ -53,10 +53,10 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
-        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
+        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -121,9 +121,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
             {
-                SetBindableModel set;
-
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
@@ -132,14 +130,14 @@ namespace Next2.ViewModels.Tablet
                         var param = new NavigationParameters();
                         param.Add(Constants.Navigations.REFRESH_ORDER, string.Empty);
 
-                        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                        await _popupNavigation.PopAsync();
                         await _navigationService.GoBackAsync(param);
                     }
                 }
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
