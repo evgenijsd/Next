@@ -923,6 +923,7 @@
                 <controls:CustomStepper
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{x:Static local:Constants.TABLE_SEATS_NUMBER}"
+                    DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
                     
                     <controls:CustomStepper.Triggers>

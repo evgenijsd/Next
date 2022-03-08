@@ -77,6 +77,9 @@ namespace Next2.ViewModels
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync);
 
+        private ICommand _deleteLastSeatCommand;
+        public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -180,6 +183,13 @@ namespace Next2.ViewModels
         private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat)
         {
             DeleteSeat(seat);
+        }
+
+        private async Task OnDeleteLastSeatCommandAsync()
+        {
+            var lastSeat = CurrentOrder.Seats.LastOrDefault();
+
+            DeleteSeat(lastSeat);
         }
 
         private async void DeleteSeat(SeatBindableModel seat)
