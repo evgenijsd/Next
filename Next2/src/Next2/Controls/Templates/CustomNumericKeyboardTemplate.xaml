@@ -15,20 +15,11 @@
 
         <Grid 
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="0.33*, 60, 0.37*, 0.12*, 60">
+            RowDefinitions="60, 250">
 
-            <Label 
-                Text="{xct:Translate EmployeeId}"
-                Grid.Row="0"
-                FontSize="{DynamicResource TSize_i6}"
-                VerticalTextAlignment="End"
-                Margin="30, 0, 0, 10"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontFamily="Barlow-SemiBold"/>
-
-                <controls:CustomFrame 
-                    Grid.Row="1"
-                    Margin="30, 0, 30, 15"
+            <controls:CustomFrame 
+                    Grid.Row="0"
+                    Margin="0, 0, 0, 15"
                     CornerRadius="{OnPlatform Android='5', iOS='8'}"
                     Padding="4"
                     BorderWidth="3"
@@ -74,9 +65,8 @@
                             </DataTrigger>
 
                         </Label.Triggers>
-                
-                    
-                        </Label>
+
+                    </Label>
 
                         <ffimageloading:CachedImage 
                             Source="ic_danger_circle"
@@ -101,9 +91,7 @@
 
                 </controls:CustomFrame>
 
-            <ContentView 
-                Grid.Row="2"
-                Margin="30, 0, 30, 0">
+            <ContentView Grid.Row="1">
 
                 <Grid 
                     ColumnSpacing="10"
@@ -159,13 +147,11 @@
                         Title="8"
                         TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-
                     <buttons:NumericKeyboardButton
                         Grid.Row="2"
                         Grid.Column="2"
                         Title="9"
                         TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
-
 
                     <buttons:NumericKeyboardButton
                         Grid.Row="3"
@@ -181,47 +167,8 @@
                         TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTapCommand}"/>
 
                 </Grid>
-                
+
             </ContentView>
-
-            <StackLayout 
-                Grid.Row="3" 
-                Padding="0">
-                
-                    <BoxView 
-                        Margin="0, 0, 0, 0"
-                        HeightRequest="2"
-                        VerticalOptions="EndAndExpand"
-                        Color="{DynamicResource TextAndBackgroundColor_i2}"/>
-                
-            </StackLayout>
-
-            <Frame 
-                Grid.Row="4" 
-                HasShadow="False"
-                CornerRadius="5"
-                Margin="12, 12, 12, 12"
-                Padding="0"
-                IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"
-                BackgroundColor="{DynamicResource IndicationColor_i1}">
-
-                <Label 
-                    Text="{xct:Translate Login}"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Bold"/>
-
-                <Frame.GestureRecognizers>
-
-                    <TapGestureRecognizer 
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ApplyCommand}" 
-                        CommandParameter="{Binding Source={x:Reference employeeId}, Path=Text}"/>
-
-                </Frame.GestureRecognizers>
-
-            </Frame>
 
         </Grid>
         

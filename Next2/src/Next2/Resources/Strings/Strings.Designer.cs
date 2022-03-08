@@ -124,6 +124,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to $.
         /// </summary>
         internal static string CurrencySign {
@@ -273,6 +282,15 @@ namespace Next2.Resources.Strings {
         internal static string Info {
             get {
                 return ResourceManager.GetString("Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid code.
+        /// </summary>
+        internal static string InvalidCode {
+            get {
+                return ResourceManager.GetString("InvalidCode", resourceCulture);
             }
         }
         

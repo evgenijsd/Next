@@ -8,7 +8,7 @@
 
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
-        public const int SERVER_RESPONCE_DELAY = 600;
+        public const int SERVER_RESPONCE_DELAY = 100;
 
         public const string PRICE_FORMAT = "{0:0.00}";
 
@@ -49,6 +49,7 @@
             public const string REFRESH_ORDER = nameof(REFRESH_ORDER);
             public const string IS_LAST_USER_LOGGED_OUT = nameof(IS_LAST_USER_LOGGED_OUT);
             public const string CATEGORY = nameof(CATEGORY);
+            public const string ADMIN = nameof(ADMIN);
         }
 
         public static class Validators

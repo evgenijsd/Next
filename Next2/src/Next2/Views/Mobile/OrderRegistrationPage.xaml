@@ -408,6 +408,14 @@
 
                     </Label>
 
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding IsOrderWithTax}" Value="false">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
