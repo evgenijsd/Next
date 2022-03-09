@@ -184,7 +184,7 @@
             </Label>
 
             <controls:CustomStepper
-                MaxValue="{x:Static local:Constants.TABLE_SEATS_NUMBER}"
+                MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
                 Value="{Binding NumberOfSeats}">
 
                 <controls:CustomStepper.Triggers>

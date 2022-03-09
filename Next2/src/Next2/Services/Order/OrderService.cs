@@ -213,32 +213,20 @@ namespace Next2.Services.Order
 
             try
             {
-                int newSeatIndex;
-                int newSeatNumber;
-                bool isSeatsOrderBroken;
-
-                GetIndexAndNewSeatNumber(out newSeatIndex, out newSeatNumber, out isSeatsOrderBroken);
-
-                var seat = new SeatBindableModel
-                {
-                    SeatNumber = newSeatNumber,
-                    Sets = new (),
-                    Checked = true,
-                };
-
                 foreach (var item in CurrentOrder.Seats)
                 {
                     item.Checked = false;
                 }
 
-                if (isSeatsOrderBroken)
+                var seat = new SeatBindableModel
                 {
-                    CurrentOrder.Seats.Insert(newSeatIndex, seat);
-                }
-                else
-                {
-                    CurrentOrder.Seats.Add(seat);
-                }
+                    Id = CurrentOrder.Seats.Count + 1,
+                    SeatNumber = CurrentOrder.Seats.Count + 1,
+                    Sets = new (),
+                    Checked = true,
+                };
+
+                CurrentOrder.Seats.Add(seat);
 
                 CurrentSeat = CurrentOrder.Seats.LastOrDefault();
 
@@ -266,6 +254,12 @@ namespace Next2.Services.Order
 
                     if (isDeleted)
                     {
+                        for (int i = seatNumber - 1; i < CurrentOrder.Seats.Count; i++)
+                        {
+                            CurrentOrder.Seats[i].Id = i + 1;
+                            CurrentOrder.Seats[i].SeatNumber = i + 1;
+                        }
+
                         if (seat.Checked)
                         {
                             CurrentSeat = null;
@@ -307,6 +301,10 @@ namespace Next2.Services.Order
 
                     result.SetSuccess();
                 }
+                else
+                {
+                    // get index for insert a new seat
+                }
             }
             catch (Exception ex)
             {
@@ -314,33 +312,6 @@ namespace Next2.Services.Order
             }
 
             return result;
-        }
-
-        #endregion
-
-        #region Private helpers --
-
-        private void GetIndexAndNewSeatNumber(out int newSeatIndex, out int newSeatNumber, out bool isSeatsOrderBroken)
-        {
-            var seats = CurrentOrder.Seats;
-
-            newSeatIndex = 0;
-            newSeatNumber = seats.Count + 1;
-            isSeatsOrderBroken = false;
-
-            if (seats.FirstOrDefault().SeatNumber == 1)
-            {
-                for (int i = 1; !isSeatsOrderBroken && i < seats.Count; i++)
-                {
-                    isSeatsOrderBroken = seats[i].SeatNumber != seats[i - 1].SeatNumber + 1;
-
-                    if (isSeatsOrderBroken)
-                    {
-                        newSeatIndex = i;
-                        newSeatNumber = seats[i - 1].SeatNumber + 1;
-                    }
-                }
-            }
         }
 
         #endregion

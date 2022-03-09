@@ -10,7 +10,6 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:models="clr-namespace:Next2.Models"
-    CloseWhenBackgroundIsClicked="False"
     x:DataType="viewmodels:DeleteSeatViewModel"
     x:Class="Next2.Views.Tablet.Dialogs.DeleteSeatDialog">
         
@@ -25,18 +24,18 @@
         <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
             <Setter Property="VisualStateManager.VisualStateGroups">
-                    
-                <VisualStateGroupList>
-                        <VisualStateGroup Name="CommonStates">
-                            <VisualState  Name="Normal" />
-                            <VisualState  Name="Selected">
 
-                                <VisualState.Setters>              
-                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                </VisualState.Setters>
+                <VisualStateGroupList>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState  Name="Normal" />
+                        <VisualState  Name="Selected">
+
+                            <VisualState.Setters>              
+                                <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                            </VisualState.Setters>
                                     
-                            </VisualState>
-                        </VisualStateGroup>
+                        </VisualState>
+                    </VisualStateGroup>
                 </VisualStateGroupList>
                     
             </Setter>
@@ -93,9 +92,9 @@
                 VerticalOptions="Start"
                 HeaderTextSize="12"
                 ItemHeight="40"
-                ItemsSource="{Binding Seats}"
-                SelectedItem="{Binding SelectedSeat}"
-                HeaderText="{Binding SelectedSeat.SeatNumber, StringFormat='Seat {0}'}">
+                ItemsSource="{Binding SeatsListItems}"
+                SelectedItem="{Binding SelectedSeatListItem}"
+                HeaderText="{Binding SelectedSeatListItem.SeatNumber, StringFormat='Seat {0}'}">
 
                 <controls:DropDownList.Triggers>
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingItemsSelected}" Value="True">
@@ -114,7 +113,7 @@
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
-                                Padding="14, 7, 14, 12"
+                                Padding="14, 9, 14, 10"
                                 HeightRequest="20"
                                 Orientation="Horizontal">
 

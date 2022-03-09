@@ -6,7 +6,7 @@
 
         public const float TAX_PERCENTAGE = 20;
 
-        public const int TABLE_SEATS_NUMBER = 10;
+        public const int MAX_TABLE_SEATS = 10;
 
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
@@ -68,11 +68,12 @@
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
             public const string PORTIONS = nameof(PORTIONS);
-            public const string SOURCE_SEAT = nameof(SOURCE_SEAT);
-            public const string DESTINATION_SEAT_NUMBER = nameof(DESTINATION_SEAT_NUMBER);
+            public const string ACTION = nameof(ACTION);
             public const string DELETE_ITEMS = nameof(DELETE_ITEMS);
             public const string REDIRECT_SET = nameof(REDIRECT_SET);
-            public const string ACTION = nameof(ACTION);
+            public const string SEAT = nameof(SEAT);
+            public const string SEAT_NUMBERS = nameof(SEAT_NUMBERS);
+            public const string SEAT_NUMBER = nameof(SEAT_NUMBER);
         }
     }
 }
