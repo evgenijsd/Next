@@ -100,6 +100,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
             }
         }
 

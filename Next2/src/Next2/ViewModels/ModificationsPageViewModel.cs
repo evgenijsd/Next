@@ -120,6 +120,8 @@ namespace Next2.ViewModels
 
         public object SelectedMenuItem { get; set; } = "Proportions";
 
+        public bool IsShowMenu { get; set; }
+
         private ICommand _tapSubmenuCommand;
         public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<ProductBindableModel>(OnTapSubmenuCommandAsync);
 
@@ -129,9 +131,15 @@ namespace Next2.ViewModels
         private ICommand _changingOrderSortCommand;
         public ICommand ChangingOrderSortCommand => _changingOrderSortCommand ??= new AsyncCommand(OnChangingOrderSortCommandAsync);
 
+        private ICommand _openMenuCommand;
+        public ICommand OpenMenuCommand => _openMenuCommand ??= new AsyncCommand(OnOpenMenuCommandAsync);
+
+        private ICommand _closeMenuCommand;
+        public ICommand CloseMenuCommand => _closeMenuCommand ??= new AsyncCommand(OnCloseMenuCommandAsync);
+
         #endregion
 
-        #region --Private methods--
+        #region --Overrides--
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -175,6 +183,11 @@ namespace Next2.ViewModels
                         SetProducts[i].SelectedItem = null;
                     }
                 }
+
+                if (!App.IsTablet)
+                {
+                    await OnCloseMenuCommandAsync();
+                }
             }
         }
 
@@ -186,6 +199,11 @@ namespace Next2.ViewModels
             for (int i = 0; i < SetProducts.Count; i++)
             {
                 SetProducts[i].SelectedItem = null;
+            }
+
+            if (!App.IsTablet)
+            {
+                await OnCloseMenuCommandAsync();
             }
         }
 
@@ -203,6 +221,16 @@ namespace Next2.ViewModels
             }
 
             SelectedPortion = SetPortions[SetPortions.IndexOf(CurrentSelectedPortion)];
+        }
+
+        private async Task OnOpenMenuCommandAsync()
+        {
+            IsShowMenu = true;
+        }
+
+        private async Task OnCloseMenuCommandAsync()
+        {
+            IsShowMenu = false;
         }
 
         #endregion
