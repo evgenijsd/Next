@@ -655,9 +655,10 @@
 
                     <Grid 
                         BackgroundColor="{Binding TextAndBackgroundColor_i5}"
-                        RowDefinitions="0.087*, 0.12*, *, 0.12*"
+                        RowDefinitions="auto, auto, auto, auto"
                         RowSpacing="0">
 
+                        <!--CANCEL-->
                         <controls:CustomNavigationbar 
                             Grid.Row="0"
                             HeightRequest="70" 
@@ -665,7 +666,7 @@
                             Padding="15, 0, 0, 0"
                             Title="{xct:Translate Cancel}" 
                             LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}"/>
-
+                        <!--Edit Order Label-->
                         <StackLayout 
                             Grid.Row="1"  
                             Margin="30, 5, 30, 5"
@@ -695,7 +696,7 @@
                                 Text="Watch the tutorial"/>
 
                         </StackLayout>
-
+                        <!--BOX VIEW-->
                         <StackLayout 
                             Grid.Row="1"
                             VerticalOptions="EndAndExpand"
@@ -711,9 +712,9 @@
                             x:DataType="viewModels:NewOrderViewModel" 
                             Grid.Row="2"
                             Margin="30, 0, 30, 0"
-                            RowDefinitions="auto, auto, auto, auto, *">
+                            RowDefinitions="auto, auto, auto, auto, auto, *">
 
-                            <!-- Row 1 Title-->
+                            <!-- Row 1 Image & Title-->
 
                             <StackLayout 
                                 Grid.Row="0">
@@ -973,10 +974,11 @@
 
                             </Grid>
 
-                            <!-- Row 6 Option-->
+                            <!-- Row 6 Footer-->
 
                             <Grid
-                                Grid.Row="5">
+                                Grid.Row="5"  RowDefinitions="*" BackgroundColor="Red">
+                                <Label Text="Test"/>
                             </Grid>
 
                         </Grid>
@@ -986,9 +988,9 @@
                         <Grid
                             Grid.Row="3"
                             VerticalOptions="Center"
-                            ColumnDefinitions="0.09*, auto, 0.27*, 0.27*, 0.30*"
-                            RowDefinitions="auto, 80"
-                            ColumnSpacing="14">
+                            ColumnDefinitions="0.09*, 0.07*, 0.26*, 0.26*, 0.30*"
+                            RowDefinitions="auto, auto"
+                            ColumnSpacing="12">
 
                             <BoxView
                                 Grid.Row="0"
@@ -1008,44 +1010,6 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}">
 
                             </Label>
-
-                            <controls:DropDownList
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Style="{DynamicResource DropDownListStyle_i1}"
-                                ItemHeight="20"
-                                Direction="Up"
-                                HorizontalOptions="Start"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="60"
-                                HeaderText="{Binding OrderRegistrationViewModel.SelectedSeat.SeatNumber}"
-                                SelectedItem="{Binding OrderRegistrationViewModel.SelectedSeat}"
-                                ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
-
-                                <controls:DropDownList.DataTemplate>
-                                    <DataTemplate>
-                                        <StackLayout>
-
-                                            <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
-
-                                            <StackLayout
-                                                Padding="14, 7, 14, 12"
-                                                HeightRequest="20"
-                                                Orientation="Horizontal">
-
-                                                <Label
-                                                    FontFamily="Barlow-Medium"
-                                                    FontSize="{DynamicResource TSize_i7}"
-                                                    HorizontalOptions="FillAndExpand"
-                                                    Text="{Binding SeatNumber}" />
-
-                                            </StackLayout>
-
-                                        </StackLayout>
-                                    </DataTemplate>
-                                </controls:DropDownList.DataTemplate>
-
-                            </controls:DropDownList>
 
                             <buttons:BorderButton
                                 Grid.Row="1"
@@ -1082,6 +1046,44 @@
                                 Command="{Binding EditTapCommand}" />
 
                         </Grid>
+
+                        <controls:DropDownList
+                            Grid.Row="3"
+                            Style="{DynamicResource DropDownListStyle_i1}"
+                            ItemHeight="40"
+                            Direction="Up"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Margin="75, 20, 0, 30"
+                            WidthRequest="50"
+                            HeaderText="{Binding OrderRegistrationViewModel.SelectedSeat.SeatNumber}"
+                            SelectedItem="{Binding OrderRegistrationViewModel.SelectedSeat}"
+                            ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
+
+                            <controls:DropDownList.DataTemplate>
+                                <DataTemplate>
+                                    <StackLayout>
+
+                                        <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
+
+                                        <StackLayout
+                                                Padding="14, 7, 14, 12"
+                                                HeightRequest="20"
+                                                Orientation="Horizontal">
+
+                                            <Label
+                                                FontFamily="Barlow-Medium"
+                                                FontSize="{DynamicResource TSize_i7}"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding SeatNumber}" />
+
+                                        </StackLayout>
+
+                                    </StackLayout>
+                                </DataTemplate>
+                            </controls:DropDownList.DataTemplate>
+
+                        </controls:DropDownList>
 
                     </Grid>
 
