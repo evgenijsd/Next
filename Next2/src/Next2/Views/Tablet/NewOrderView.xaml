@@ -660,15 +660,14 @@
 
                         <!--CANCEL-->
                         <controls:CustomNavigationbar 
-                            Grid.Row="0"
                             HeightRequest="70" 
                             HeightImage="25" 
                             Padding="15, 0, 0, 0"
                             Title="{xct:Translate Cancel}" 
                             LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}"/>
+
                         <!--Edit Order Label-->
                         <StackLayout 
-                            Grid.Row="1"  
                             Margin="30, 5, 30, 5"
                             Orientation="Horizontal">
 
@@ -679,21 +678,6 @@
                                 FontFamily="Barlow-Bold"
                                 FontSize="28"
                                 Text="Edit Order"/>
-
-                            <ffimageloading:CachedImage 
-                                HorizontalOptions="EndAndExpand"
-                                Margin="0, 0, 10, 0"
-                                VerticalOptions="Center"
-                                Source="ic_video_24x24"
-                                HeightRequest="15"/>
-
-                            <Label
-                                VerticalOptions="Center"
-                                HorizontalOptions="End"
-                                FontFamily="Barlow-Regular"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="12"
-                                Text="Watch the tutorial"/>
 
                         </StackLayout>
                         <!--BOX VIEW-->
