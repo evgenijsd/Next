@@ -120,18 +120,6 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     _orderService.CurrentOrder.Table = SelectedTable;
                     break;
-                case nameof(SelectedSeat):
-                    foreach (var item in CurrentOrder.Seats)
-                    {
-                        if (item.Id != SelectedSeat.Id)
-                        {
-                            item.Checked = false;
-                        }
-                    }
-
-                    SelectedSeat.Checked = true;
-                    _orderService.CurrentSeat = SelectedSeat;
-                    break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
                     break;
@@ -213,7 +201,7 @@ namespace Next2.ViewModels
 
         private async Task OnTapItemCommandAsync(SeatBindableModel seat)
         {
-            if (seat.Sets.Count > 1)
+            if (seat.SelectedItem is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
@@ -222,12 +210,12 @@ namespace Next2.ViewModels
                         item.SelectedItem = null;
                     }
                 }
+
+                SelectedDish = seat.SelectedItem;
+
+                IsSideMenuVisible = false;
+                CurrentState = LayoutState.Success;
             }
-
-            SelectedDish = seat.SelectedItem;
-
-            IsSideMenuVisible = false;
-            CurrentState = LayoutState.Success;
         }
 
         private async Task RefreshTablesAsync()
