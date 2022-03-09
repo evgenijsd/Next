@@ -1,6 +1,4 @@
 ﻿using Android.Graphics.Drawables;
-using Android.Graphics.Drawables.Shapes;
-using Google.Android.Material.Shape;
 using Java.Lang;
 using Next2.Droid.Effects;
 using System.Linq;

@@ -2,7 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
-using Next2.Services.OrderService;
+using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
@@ -83,7 +83,7 @@ namespace Next2.ViewModels
         public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
 
         private ICommand _tapSelectCommand;
-        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel>(OnTapSelectCommandAsync);
+        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel?>(OnTapSelectCommandAsync);
 
         #endregion
 
@@ -91,6 +91,8 @@ namespace Next2.ViewModels
 
         public override async void OnAppearing()
         {
+            base.OnAppearing();
+
             if (!IsSearching)
             {
                 _heightPage = HeightPage;
@@ -102,6 +104,13 @@ namespace Next2.ViewModels
             {
                 IsSearching = false;
             }
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            SearchText = string.Empty;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -301,7 +310,7 @@ namespace Next2.ViewModels
             SetVisualCollection();
         }
 
-        private IEnumerable<OrderBindableModel> GetSortedMembers(IEnumerable<OrderBindableModel> orders)
+        private IEnumerable<OrderBindableModel> GetSortedOrders(IEnumerable<OrderBindableModel> orders)
         {
             EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : CurrentOrderTabSorting;
 
@@ -326,7 +335,7 @@ namespace Next2.ViewModels
             {
                 CurrentOrderTabSorting = newOrderTabSorting;
 
-                var sortedOrders = GetSortedMembers(Orders);
+                var sortedOrders = GetSortedOrders(Orders);
 
                 Orders = new (sortedOrders);
             }
@@ -334,7 +343,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectCommandAsync(OrderBindableModel order)
+        private Task OnTapSelectCommandAsync(OrderBindableModel? order)
         {
             SelectedOrder = order == SelectedOrder ? null : order;
 

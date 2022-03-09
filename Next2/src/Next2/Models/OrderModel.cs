@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 
 namespace Next2.Models
 {
@@ -12,10 +13,12 @@ namespace Next2.Models
 
         public string OrderStatus { get; set; }
 
-        public string OrderType { get; set; }
+        public EOrderType OrderType { get; set; }
 
         public int OrderNumber { get; set; }
 
         public double Total { get; set; }
+
+        public double Tax { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Next2.Helpers;
 using Next2.Models;
-using Next2.Services.OrderService;
+using Next2.Services.Order;
 using Prism.Events;
 using Prism.Navigation;
 using System;

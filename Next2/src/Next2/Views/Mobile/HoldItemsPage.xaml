@@ -3,6 +3,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Mobile.HoldItemsPage"
     x:DataType="viewModels:HoldItemsViewModel"

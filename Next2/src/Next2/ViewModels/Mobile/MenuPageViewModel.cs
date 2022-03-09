@@ -3,9 +3,11 @@ using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -38,7 +40,13 @@ namespace Next2.ViewModels.Mobile
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
         private ICommand _tapCategoryCommand;
-        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync);
+        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _openNewOrderPageCommand;
+        public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _goToSettingsCommand;
+        public ICommand GoToSettingsCommand => _goToSettingsCommand ??= new AsyncCommand(GoToSettingsCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -127,14 +135,23 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
+        private Task OnOpenNewOrderPageCommandAsync()
+        {
+            return _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+        }
+
         private async Task OnTapCategoryCommandAsync(CategoryModel category)
         {
             var navigationParams = new NavigationParameters();
-            navigationParams.Add(Constants.DialogParameterKeys.CATEGORY, category);
+            navigationParams.Add(Constants.Navigations.CATEGORY, category);
 
             await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
         }
 
+        private async Task GoToSettingsCommandAsync()
+        {
+            await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
+        }
         #endregion
     }
 }

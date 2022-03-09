@@ -1,14 +1,10 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Next2.Enums;
+using Prism.Mvvm;
 
 namespace Next2.Models
 {
     public class OrderBindableModel : BindableBase
     {
-        #region -- Public properties --
-
         public int TableNumber { get; set; }
 
         public int OrderNumber { get; set; }
@@ -17,12 +13,12 @@ namespace Next2.Models
 
         public string? OrderStatus { get; set; }
 
-        public string? OrderType { get; set; }
+        public EOrderType OrderType { get; set; }
 
         public string OrderNumberText { get; set; }
 
         public double Total { get; set; }
 
-        #endregion
+        public double Tax { get; set; }
     }
 }

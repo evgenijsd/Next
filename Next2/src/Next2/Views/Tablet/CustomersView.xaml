@@ -235,13 +235,12 @@
 
                         <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
 
-                            <CollectionView
+                            <controls:CustomScrollBarCollectionView
                                 x:Name="collectiomView"
+                                Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 ItemsSource="{Binding Customers}"
-                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                                SelectionMode="Single"
-                                VerticalScrollBarVisibility="Always">
+                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                                 <CollectionView.Effects>
                                     
@@ -250,7 +249,7 @@
                                         ScrollBarCornerRadius="9"
                                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
-                                    
+
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
@@ -347,7 +346,7 @@
 
                                 </CollectionView.ItemTemplate>
 
-                            </CollectionView>
+                            </controls:CustomScrollBarCollectionView>
 
                         </RefreshView>
 

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    VerticalOptions="Center"
+    Spacing="8"
+    x:Class="Next2.Controls.CustomStepper">
+    
+    <Grid
+        RowDefinitions="auto"
+        ColumnDefinitions="auto, auto, auto"
+        ColumnSpacing="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=Spacing}">
+
+        <ffimageloading:CachedImage 
+            Grid.Column ="0"
+            HorizontalOptions="StartAndExpand"
+            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementIconSource}">
+
+            <ffimageloading:CachedImage.Triggers>            
+                <DataTrigger 
+                    TargetType="ffimageloading:CachedImage" 
+                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanDecrement}"
+                    Value="false">
+                    
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                    <Setter Property="IsEnabled" Value="False"/>
+                    
+                </DataTrigger>                
+            </ffimageloading:CachedImage.Triggers>
+            
+            <ffimageloading:CachedImage.GestureRecognizers>     
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementCommand}" />
+            </ffimageloading:CachedImage.GestureRecognizers>
+
+        </ffimageloading:CachedImage>
+
+        <Label
+            Grid.Column="1"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextWidth}"
+            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontFamily}"
+            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=FontSize}"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=TextColor}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DisplayingValue}"/>
+        
+        <ffimageloading:CachedImage
+            Grid.Column="2"
+            HorizontalOptions="EndAndExpand"
+            WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementIconSource}">
+
+            <ffimageloading:CachedImage.Triggers>
+                <DataTrigger
+                    TargetType="ffimageloading:CachedImage"
+                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=CanIncrement}"
+                    Value="false">
+                    
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
+                    <Setter Property="IsEnabled" Value="False" />
+
+                </DataTrigger>
+            </ffimageloading:CachedImage.Triggers>
+                
+            <ffimageloading:CachedImage.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementCommand}" />
+            </ffimageloading:CachedImage.GestureRecognizers>
+            
+        </ffimageloading:CachedImage>
+
+    </Grid>
+    
+</StackLayout>

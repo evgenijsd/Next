@@ -1,19 +1,33 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Services.Authentication;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
+        private readonly IAuthenticationService _authenticationService;
+
+        private readonly IPopupNavigation _popupNavigation;
+
         public MenuPageViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
+            IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
             HoldItemsViewModel holdItemsViewModel,
             OrderTabsViewModel orderTabsViewModel,
@@ -30,11 +44,16 @@ namespace Next2.ViewModels.Tablet
             MembershipViewModel = membershipViewModel;
             CustomersViewModel = customersViewModel;
             SettingsViewModel = settingsViewModel;
+            _authenticationService = authenticationService;
+            _popupNavigation = popupNavigation;
 
             InitMenuItems();
         }
 
         #region -- Public properties --
+
+        private ICommand _logOutCommand;
+        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
         private MenuItemBindableModel _selectedMenuItem;
         public MenuItemBindableModel SelectedMenuItem
@@ -64,6 +83,20 @@ namespace Next2.ViewModels.Tablet
         public CustomersViewModel CustomersViewModel { get; set; }
 
         public SettingsViewModel SettingsViewModel { get; set; }
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
+            {
+                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            }
+        }
 
         #endregion
 
@@ -127,6 +160,33 @@ namespace Next2.ViewModels.Tablet
             SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
+        private async Task OnLogOutCommandAsync()
+        {
+            await _popupNavigation.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
+
+            if (result)
+            {
+                _authenticationService.LogOut();
+
+                await _popupNavigation.PopAsync();
+
+                var navigationParameters = new NavigationParameters
+                {
+                    { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
+                };
+
+                await _navigationService.GoBackToRootAsync(navigationParameters);
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
+        }
         #endregion
     }
 }

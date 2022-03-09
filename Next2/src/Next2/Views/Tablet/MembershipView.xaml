@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="tablet:MembershipViewModel"
+    x:Class="Next2.Views.Tablet.MembershipView">
+
+    <Grid BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" RowDefinitions="auto, auto, *">
+
+        <!--  TITLE BAR  -->
+        <StackLayout Grid.Row="0">
+
+            <StackLayout
+                Grid.Row="0"
+                Padding="40, 20, 40, 15"
+                Orientation="Horizontal">
+
+                <!--  TITLE  -->
+                <Label
+                    FontFamily="Barlow-Bold"
+                    FontSize="{DynamicResource TSize_i3}"
+                    Text="{xct:Translate Membership}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalOptions="Center" />
+
+            </StackLayout>
+
+            <BoxView Grid.Row="1" Style="{DynamicResource SeparatorStyle_i1}" />
+
+        </StackLayout>
+
+        <!--  SEARCH BUTTON  -->
+        <Grid
+            Grid.Row="1"
+            Margin="40,40,40,25"
+            ColumnDefinitions="0.45*, 0.55*"
+            RowDefinitions="*">
+
+            <Frame
+                Grid.Row="0"
+                Padding="12,10"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                CornerRadius="5"
+                VerticalOptions="Start">
+
+                <StackLayout Orientation="Horizontal">
+
+                    <Label
+                        Padding="0,0,0,2"
+                        FontFamily="Barlow-Medium"
+                        FontSize="{DynamicResource TSize_i7}"
+                        Text="{xct:Translate SearchByNameOrPhone}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i7}"
+                        VerticalOptions="Center" />
+
+                    <Image
+                        HorizontalOptions="EndAndExpand"
+                        Source="ic_search_24x24"
+                        VerticalOptions="Center" />
+
+                </StackLayout>
+
+            </Frame>
+
+        </Grid>
+
+        <!--  TABLE  -->
+        <Frame
+            Grid.Row="2"
+            Margin="40,0,40,50"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+            CornerRadius="{OnPlatform Android=6,
+                                      iOS=8}"
+            IsClippedToBounds="True"
+            VerticalOptions="Start">
+
+            <StackLayout>
+
+                <!--  TABLE HEADER  -->
+                <Grid
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*"
+                    RowDefinitions="auto">
+
+                    <StackLayout Grid.Column="0" Orientation="Horizontal">
+
+                        <StackLayout.GestureRecognizers>
+
+                            <TapGestureRecognizer Command="{Binding MemberSortingChangeCommand}" CommandParameter="{x:Static enums:EMemberSorting.ByCustomerName}" />
+
+                        </StackLayout.GestureRecognizers>
+
+                        <Label Style="{DynamicResource TableCellStyle_i1}" Text="{xct:Translate CustomerName}" />
+
+                        <Image Source="ic_sort_primary_24x24" />
+
+                    </StackLayout>
+
+                    <Label
+                        Grid.Column="1"
+                        Style="{DynamicResource TableCellStyle_i1}"
+                        Text="{xct:Translate Phone}" />
+
+                    <StackLayout Grid.Column="2" Orientation="Horizontal">
+
+                        <StackLayout.GestureRecognizers>
+
+                            <TapGestureRecognizer Command="{Binding MemberSortingChangeCommand}" CommandParameter="{x:Static enums:EMemberSorting.ByMembershipStartTime}" />
+
+                        </StackLayout.GestureRecognizers>
+
+                        <Label Style="{DynamicResource TableCellStyle_i1}" Text="{xct:Translate MembershipStartTime}" />
+
+                        <Image Source="ic_sort_primary_24x24" />
+
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="3" Orientation="Horizontal">
+
+                        <StackLayout.GestureRecognizers>
+
+                            <TapGestureRecognizer Command="{Binding MemberSortingChangeCommand}" CommandParameter="{x:Static enums:EMemberSorting.ByMembershipEndTime}" />
+
+                        </StackLayout.GestureRecognizers>
+
+                        <Label Style="{DynamicResource TableCellStyle_i1}" Text="{xct:Translate MembershipEndTime}" />
+
+                        <Image Source="ic_sort_primary_24x24" />
+
+                    </StackLayout>
+
+                </Grid>
+
+                <BoxView
+                    HeightRequest="{OnPlatform Android=1.5, iOS=1}"
+                    Style="{DynamicResource SeparatorStyle_i1}"
+                    Color="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                <!--  TABLE CONTENT  -->
+                <RefreshView Command="{Binding RefreshMembersCommand}" IsRefreshing="{Binding IsMembersRefreshing}">
+
+                    <controls:CustomScrollBarCollectionView
+                        Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                        ItemsSource="{Binding Members}">
+
+                        <CollectionView.Effects>
+
+                            <effects:NoOverScrollEffect />
+
+                        </CollectionView.Effects>
+
+                        <CollectionView.ItemTemplate>
+
+                            <DataTemplate>
+
+                                <StackLayout x:DataType="models:MemberBindableModel" BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}">
+
+                                    <Grid ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
+
+                                        <Label
+                                            Grid.Column="0"
+                                            Style="{DynamicResource TableCellStyle_i1}"
+                                            Text="{Binding CustomerName}" />
+
+                                        <Label
+                                            Grid.Column="1"
+                                            Style="{DynamicResource TableCellStyle_i1}"
+                                            Text="{Binding Phone}" />
+
+                                        <Label
+                                            Grid.Column="2"
+                                            Style="{DynamicResource TableCellStyle_i1}"
+                                            Text="{Binding MembershipStartTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
+
+                                        <Label
+                                            Grid.Column="3"
+                                            Style="{DynamicResource TableCellStyle_i1}"
+                                            Text="{Binding MembershipEndTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
+
+                                    </Grid>
+
+                                    <BoxView
+                                        Grid.Row="1"
+                                        Style="{DynamicResource SeparatorStyle_i1}"
+                                        Color="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                                </StackLayout>
+
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </controls:CustomScrollBarCollectionView>
+
+                </RefreshView>
+
+            </StackLayout>
+
+        </Frame>
+
+    </Grid>
+
+</ContentView>

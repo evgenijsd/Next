@@ -56,18 +56,6 @@ namespace Next2.Controls.Buttons
             defaultValue: string.Empty,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(
-            propertyName: nameof(BackColor),
-            returnType: typeof(Color),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color BackColor
-        {
-            get => (Color)GetValue(BackColorProperty);
-            set => SetValue(BackColorProperty, value);
-        }
-
         public string FontFamily
         {
             get => (string)GetValue(FontFamilyProperty);

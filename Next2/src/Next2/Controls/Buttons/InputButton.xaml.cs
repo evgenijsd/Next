@@ -20,6 +20,44 @@ namespace Next2.Controls.Buttons
 
         #region -- Public properties --
 
+        public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
+        propertyName: nameof(FontFamily),
+        returnType: typeof(string),
+        declaringType: typeof(InputButton),
+        defaultValue: string.Empty,
+        defaultBindingMode: BindingMode.TwoWay);
+
+        public string FontFamily
+        {
+            get => (string)GetValue(FontFamilyProperty);
+            set => SetValue(FontFamilyProperty, value);
+        }
+
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(FontSize),
+            returnType: typeof(double),
+            declaringType: typeof(InputButton),
+            defaultValue: 12d,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double FontSize
+        {
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty LeftImagePathProperty = BindableProperty.Create(
+         propertyName: nameof(LeftImagePath),
+         returnType: typeof(string),
+         declaringType: typeof(InputButton),
+         defaultBindingMode: BindingMode.TwoWay);
+
+        public string LeftImagePath
+        {
+            get => (string)GetValue(LeftImagePathProperty);
+            set => SetValue(LeftImagePathProperty, value);
+        }
+
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
          propertyName: nameof(TextColor),
          returnType: typeof(Color),
@@ -44,20 +82,20 @@ namespace Next2.Controls.Buttons
             set => SetValue(TextProperty, value);
         }
 
-        public static readonly BindableProperty IsErrorNotificationVisibleProperty = BindableProperty.Create(
-            propertyName: nameof(IsErrorNotificationVisibleProperty),
+        public static readonly BindableProperty IsLeftImageVisibleProperty = BindableProperty.Create(
+            propertyName: nameof(IsLeftImageVisibleProperty),
             returnType: typeof(bool),
             declaringType: typeof(InputButton),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool IsErrorNotificationVisible
+        public bool IsLeftImageVisible
         {
-            get => (bool)GetValue(IsErrorNotificationVisibleProperty);
-            set => SetValue(IsErrorNotificationVisibleProperty, value);
+            get => (bool)GetValue(IsLeftImageVisibleProperty);
+            set => SetValue(IsLeftImageVisibleProperty, value);
         }
 
         public static readonly BindableProperty IsEmployeeExistsProperty = BindableProperty.Create(
-          propertyName: nameof(IsEmployeeExistsProperty),
+          propertyName: nameof(IsEmployeeExists),
           returnType: typeof(bool),
           declaringType: typeof(InputButton),
           defaultBindingMode: BindingMode.TwoWay);
@@ -78,6 +116,30 @@ namespace Next2.Controls.Buttons
         {
             get => (ICommand)GetValue(TapGestureRecognizerCommandProperty);
             set => SetValue(TapGestureRecognizerCommandProperty, value);
+        }
+
+        public static readonly BindableProperty IsCheckAdminIDProperty = BindableProperty.Create(
+          propertyName: nameof(IsCheckAdminID),
+          returnType: typeof(bool),
+          declaringType: typeof(InputButton),
+          defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsCheckAdminID
+        {
+            get => (bool)GetValue(IsCheckAdminIDProperty);
+            set => SetValue(IsCheckAdminIDProperty, value);
+        }
+
+        public static readonly BindableProperty IsNoAdminProperty = BindableProperty.Create(
+            propertyName: nameof(IsNoAdmin),
+            returnType: typeof(bool),
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsNoAdmin
+        {
+            get => (bool)GetValue(IsNoAdminProperty);
+            set => SetValue(IsNoAdminProperty, value);
         }
 
         #endregion

@@ -2,11 +2,14 @@
 <ResourceDictionary
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    x:Class="Next2.Resources.Styles.DefaultResources"
-    xmlns:converters="clr-namespace:Next2.Converters">
+    xmlns:converters="clr-namespace:Next2.Converters"
+    xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!--  TEXT SIZE  -->
+    
     <!--  32px  -->
     <x:Double x:Key="TSize_i3">28</x:Double>
     <!--  24px  -->
@@ -26,6 +29,8 @@
     <!--  8px  -->
     <x:Double x:Key="TSize_i10">10</x:Double>
 
+    <x:Double x:Key="OpacityWhenDisabled_i1">0.32</x:Double>
+        
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="Padding" Value="0" />
@@ -40,23 +45,91 @@
         <Setter Property="ColumnSpacing" Value="0" />
     </Style>
 
-    <Style x:Key="SeparatorStyle" TargetType="BoxView">
+    <!-- SEPARATORS -->
+    
+    <Style x:Key="SeparatorStyle_i1" TargetType="BoxView">
         <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=2}" />
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i3}" />
     </Style>
 
+    <Style x:Key="SeparatorStyle_i2" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
+    </Style>
+            
+    <Style x:Key="SeparatorStyle_i3" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
+    </Style>
+    
+    <!-- OTHER -->
     <Style x:Key="TableCellStyle_i1" TargetType="Label">
         <Setter Property="FontFamily" Value="Barlow-Medium" />
         <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
         <Setter Property="Padding" Value="20, 10, 5, 11" />
     </Style>
-
+    
+    <!-- CONTROLS -->
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="CornerRadius" Value="5" />
         <Setter Property="HasShadow" Value="False" />
+    </Style>
+          
+    <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton">
+        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+        <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="Padding" Value="8"/>
+    </Style>
+
+    <Style x:Key="IconBorderButtonStyle_i1" TargetType="buttons:IconBorderButton">
+        <Setter Property="IconWidth" Value="26"/>
+        <Setter Property="IconHeight" Value="26"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+       
+    <Style x:Key="CustomScrollBarCollectionView_i1" TargetType="controls:CustomScrollBarCollectionView">
+        <Setter Property="VerticalScrollBarVisibility" Value="Always"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="ThumbWidth" Value="6"/>
+        <Setter Property="ScrollBarCornerRadius" Value="10"/>
+        <Setter Property="ScrollBarThumbColor" Value="{DynamicResource AppColor_i1}"/>
+        <Setter Property="ScrollBarTrackColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+    </Style>
+    
+    <Style x:Key="DropDownListStyle_i1" TargetType="controls:DropDownList">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Border">
+            <Setter.Value>
+                <pancake:Border Color="#424861" Thickness="1"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+        <Setter Property="WrappedListIconSource" Value="ic_arrow_down_32x32"/>
+        <Setter Property="ExpandedListIconSource" Value="ic_arrow_up_32x32"/>
+        <Setter Property="IconSizes" Value="18"/>
+        <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
+        <Setter Property="HeaderTextSize" Value="14"/>
+        <Setter Property="ScrollBarVisibility" Value="Always"/>
+        <Setter Property="MaxNumberOfVisibleItems" Value="3"/>
+        <Style.Triggers>
+            <Trigger TargetType="controls:DropDownList" Property="IsExpanded" Value="true">
+                <Setter Property="HeaderBackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                <Setter Property="Border">
+                    <Setter.Value>
+                        <pancake:Border Color="#212430" Thickness="1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <!-- CONVERTERS -->

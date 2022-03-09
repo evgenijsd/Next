@@ -1,5 +1,5 @@
-﻿using Next2.Enums;
-using Next2.Extensions;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Membership;
 using Prism.Navigation;
@@ -15,13 +15,16 @@ namespace Next2.ViewModels.Tablet
 {
     public class MembershipViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
 
         public MembershipViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             IMembershipService membershipService)
             : base(navigationService)
         {
+            _mapper = mapper;
             _membershipService = membershipService;
         }
 
@@ -79,13 +82,11 @@ namespace Next2.ViewModels.Tablet
         {
             IsMembersRefreshing = true;
 
-            var membershipResult = await _membershipService.GetAllMembersAsync();
+            var membersResult = await _membershipService.GetAllMembersAsync();
 
-            if (membershipResult.IsSuccess)
+            if (membersResult.IsSuccess)
             {
-                var allMembers = membershipResult.Result;
-
-                var memberBindableModels = new ObservableCollection<MemberBindableModel>(allMembers.Select(x => x.ToBindableModel()));
+                var memberBindableModels = _mapper.Map<IEnumerable<MemberModel>, ObservableCollection<MemberBindableModel>>(membersResult.Result);
 
                 var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
 

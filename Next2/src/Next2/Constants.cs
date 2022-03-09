@@ -4,11 +4,17 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
+        public const float TAX_PERCENTAGE = 20;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
-        public const int SERVER_RESPONCE_DELAY = 1000;
+        public const int SERVER_RESPONCE_DELAY = 100;
+
+        public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";
+
+        public const int NUMBER_OF_AVAILABLE_SEATS = 10;
 
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";
@@ -40,6 +46,10 @@
         {
             public const string SEARCH = nameof(SEARCH);
             public const string FUNC = nameof(FUNC);
+            public const string REFRESH_ORDER = nameof(REFRESH_ORDER);
+            public const string IS_LAST_USER_LOGGED_OUT = nameof(IS_LAST_USER_LOGGED_OUT);
+            public const string CATEGORY = nameof(CATEGORY);
+            public const string ADMIN = nameof(ADMIN);
         }
 
         public static class Validators
@@ -52,14 +62,15 @@
 
         public static class DialogParameterKeys
         {
-            public const string SET = nameof(SET);
-            public const string CATEGORY = nameof(CATEGORY);
             public const string MESSAGE = nameof(MESSAGE);
             public const string MODEL = nameof(MODEL);
             public const string TITLE = nameof(TITLE);
             public const string OK_BUTTON_TEXT = nameof(OK_BUTTON_TEXT);
             public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
             public const string ACCEPT = nameof(ACCEPT);
+            public const string CANCEL = nameof(CANCEL);
+            public const string SET = nameof(SET);
+            public const string PORTIONS = nameof(PORTIONS);
         }
     }
 }

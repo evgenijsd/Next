@@ -45,7 +45,7 @@
         VerticalOptions="Start"
         HorizontalOptions="EndAndExpand"
         IsToggled="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:PortionItemTemplate}}}"
-        CanTurnedOff="False"
+        CanTurnOff="False"
         ThumbColor="{DynamicResource IndicationColor_i3}"
         OnColor="{DynamicResource IndicationColor_i4}">
 

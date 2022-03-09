@@ -46,14 +46,14 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
-            returnType: typeof(double),
+            returnType: typeof(float),
             declaringType: typeof(MenuItemTemplate),
-            defaultValue: 12d,
+            defaultValue: 12f,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public double FontSize
+        public float FontSize
         {
-            get => (double)GetValue(FontSizeProperty);
+            get => (float)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 

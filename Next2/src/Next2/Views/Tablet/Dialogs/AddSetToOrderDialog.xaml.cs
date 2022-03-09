@@ -1,4 +1,4 @@
-﻿using Next2.ViewModels.Tablet.Dialogs;
+﻿using Next2.ViewModels;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using System;

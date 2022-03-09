@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
   <data name="AddNew" xml:space="preserve">
     <value>Add New</value>
   </data>
@@ -179,6 +182,9 @@
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
+  </data>
+  <data name="LogOut_UpperCase" xml:space="preserve">
+    <value>Log Out</value>
   </data>
   <data name="Membership" xml:space="preserve">
     <value>Membership</value>
@@ -270,25 +276,79 @@
   <data name="Waiter" xml:space="preserve">
     <value>Waiter</value>
   </data>
+  <data name="WantToLogOut" xml:space="preserve">
+    <value>Do you want to log out?</value>
+  </data>
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="CurrencySign" xml:space="preserve">
+    <value>$</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="DineIn" xml:space="preserve">
+    <value>Dine In</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="Pay" xml:space="preserve">
+    <value>Pay</value>
+  </data>
+  <data name="Seats" xml:space="preserve">
+    <value>Seats</value>
+  </data>
+  <data name="Subtotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Tab" xml:space="preserve">
+    <value>Tab</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="ToGo" xml:space="preserve">
+    <value>To Go</value>
+  </data>
+  <data name="ToCreateNewOrderSelectDishCard" xml:space="preserve">
+    <value>To create a new order, select a dish card.</value>
+  </data>
   <data name="NameOrOrder" xml:space="preserve">
     <value>Name or Order</value>
+  </data>
+  <data name="PrintReceipt" xml:space="preserve">
+    <value>Print Receipt</value>
+  </data>
+  <data name="ReAssignTable" xml:space="preserve">
+    <value>Re-assign Table</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="TableNumberOrOrder" xml:space="preserve">
     <value>Table Number or Order</value>
   </data>
-  <data name="Modifications" xml:space="preserve">
-    <value>Modifications</value>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add Item</value>
   </data>
-  <data name="Proportions" xml:space="preserve">
-    <value>Proportions</value>
+  <data name="RemoveOrder" xml:space="preserve">
+    <value>Remove Order</value>
   </data>
-  <data name="AvailableOptions" xml:space="preserve">
-    <value>Available Options</value>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="InvalidCode" xml:space="preserve">
+    <value>Invalid code</value>
   </data>
 </root>

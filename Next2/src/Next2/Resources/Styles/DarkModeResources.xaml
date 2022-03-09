@@ -15,7 +15,6 @@
     <!--  Dark/Pressed_Dark  -->
     <Color x:Key="AppColor_i4">#AB3821</Color>
 
-
     <!--  Text & Background  -->
 
     <!--  System / White  -->
@@ -37,10 +36,6 @@
 
     <Color x:Key="TextAndBackgroundColor_i9">#757785</Color>
 
-
-
-
-
     <!--  Indications  -->
 
     <!--  Indications/ Success Light  -->
@@ -59,7 +54,5 @@
     <Color x:Key="IndicationColor_i7">#7B61FF</Color>
     <!--  Indications/ Info Dark  -->
     <Color x:Key="IndicationColor_i8">#454279</Color>
-    
-    <Color x:Key="IndicationColor_i9">#4e3844</Color>
 
 </ResourceDictionary>

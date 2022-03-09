@@ -71,15 +71,15 @@
     <DefineConstants>TRACE;STAGE;NETSTANDARD;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Extensions\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Extensions\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\Fonts\Barlow-Bold.ttf" />
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
-    <None Remove="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -119,12 +119,17 @@
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
+    <Folder Include="Helpers\" />
     <Folder Include="ViewModels\Mobile\" />
+    <Folder Include="Views\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\CustomStepper.xaml.cs">
+      <DependentUpon>CustomStepper.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Buttons\SearchButton.xaml.cs">
       <DependentUpon>SearchButton.xaml</DependentUpon>
@@ -156,17 +161,26 @@
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\OrderRegistrationPage.xaml.cs">
+      <DependentUpon>NewOrderPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\Dialogs\LogOutAlertView.xaml.cs">
+      <DependentUpon>LogOutAlertView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\HoldItemsView.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\MembershipView.xaml.cs">
+      <DependentUpon>MembershipView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPageMenuPage.xaml</DependentUpon>
@@ -177,13 +191,9 @@
     <Compile Update="Views\Mobile\MenuPageMenuPage.xaml.cs">
       <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\NewOrderView.xaml.cs">
-      <DependentUpon>NewOrderView.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Tablet\OrderTabsView.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
-    <Folder Include="ViewModels\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -198,26 +208,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Controls\Buttons\IconBorderButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\CustomStepper.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DropDownList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Buttons\SearchButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\SortingPanel.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Spoiler.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\SpoilerItemTemplate.xaml">
+    <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Toggle.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Strings\Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -250,11 +263,20 @@
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\ModificationsPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\OrderRegistrationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\OrderView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\Dialogs\LogOutAlertView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\SearchPage.xaml">
-          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -266,6 +288,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\LoginPage_EmployeeId.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\LogOutAlertView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\ExpandPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\LoginPage.xaml">
@@ -303,7 +334,7 @@
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\ModificationsPage.xaml">
+    <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SearchPage.xaml">

@@ -48,15 +48,6 @@ namespace Next2.Behaviors
             _button = null;
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-            if (propertyName == TitleProperty.PropertyName)
-            {
-                Console.WriteLine();
-            }
-        }
-
         #endregion
 
         #region -- Private helpers --
