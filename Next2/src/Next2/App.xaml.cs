@@ -71,6 +71,7 @@ namespace Next2
 
                 //Navigation
                 containerRegistry.RegisterForNavigation<TabletViews.SearchPage, SearchPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
@@ -90,6 +91,7 @@ namespace Next2
             else
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();

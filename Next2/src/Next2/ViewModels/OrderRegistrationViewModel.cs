@@ -157,9 +157,10 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnOpenDiscountSelectionCommandAsync()
+        private async Task OnOpenDiscountSelectionCommandAsync()
         {
-            return Task.CompletedTask;
+            await _navigationService.NavigateAsync(nameof(Views.Mobile.BonusPage));
+            //return Task.CompletedTask;
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()

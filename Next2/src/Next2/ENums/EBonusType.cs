@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Next2.ENums
 {
-    public enum EDiscountType
+    public enum EBonusType
     {
         Value,
         Percent,

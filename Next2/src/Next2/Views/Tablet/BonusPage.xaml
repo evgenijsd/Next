@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:views="clr-namespace:Next2.Views"
+                       xmlns:controls="clr-namespace:Next2.Controls"
+                       xmlns:prism="http://prismlibrary.com"
+                       xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Next2.Views.Tablet.BonusPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <controls:CustomNavigationbar
+                    Title="{xct:Translate OrderTabs}"
+                    HeightImage="24"
+                    FontSize="{DynamicResource TSize_i5}"
+                    LeftButtonCommand="{prism:GoBack}" />
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</views:BaseContentPage>

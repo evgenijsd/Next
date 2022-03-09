@@ -3,12 +3,14 @@ using Next2.Interfaces;
 
 namespace Next2.Models
 {
-    public class DiscountModel : IBaseModel
+    public class BonusModel : IBaseModel
     {
         public int Id { get; set; }
 
+        public string Name { get; set; } = string.Empty;
+
         public double Value { get; set; }
 
-        public EDiscountType Type { get; set; }
+        public EBonusType Type { get; set; }
     }
 }

@@ -1,13 +1,12 @@
 using Next2.Enums;
+using Next2.ENums;
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Next2.Enums;
 
 namespace Next2.Services.Mock
 {
@@ -22,7 +21,10 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
-        private IList<TaxModel> _taxBonus;
+        private IList<TaxModel> _tax;
+        private IList<BonusModel> _bonuses;
+        private IList<BonusSetModel> _bonusSets;
+        private IList<BonusProductModel> _bonusProducts;
 
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -163,14 +165,17 @@ namespace Next2.Services.Mock
                 InitTables(),
                 InitUsersAsync(),
                 InitCustomersAsync(),
-                InitTaxAndBonusAsync());
+                InitTaxAsync(),
+                InitBonusAsync(),
+                InitBonusSetAsync(),
+                InitBonusProductAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
 
-        private Task InitTaxAndBonusAsync() => Task.Run(() =>
+        private Task InitTaxAsync() => Task.Run(() =>
         {
-            _taxBonus = new List<TaxModel>
+            _tax = new List<TaxModel>
             {
                 new TaxModel
                 {
@@ -180,7 +185,88 @@ namespace Next2.Services.Mock
                 },
             };
 
-            _base.Add(typeof(TaxModel), _taxBonus);
+            _base.Add(typeof(TaxModel), _tax);
+        });
+
+        private Task InitBonusSetAsync() => Task.Run(() =>
+        {
+            _bonusSets = new List<BonusSetModel>
+            {
+                new BonusSetModel
+                {
+                    Id = 1,
+                    SetId = 1,
+                    BonusId = 5,
+                },
+                new BonusSetModel
+                {
+                    Id = 2,
+                    SetId = 2,
+                    BonusId = 3,
+                },
+            };
+
+            _base.Add(typeof(BonusSetModel), _bonusSets);
+        });
+
+        private Task InitBonusProductAsync() => Task.Run(() =>
+        {
+            _bonusProducts = new List<BonusProductModel>
+            {
+            };
+
+            _base.Add(typeof(BonusProductModel), _bonusProducts);
+        });
+
+        private Task InitBonusAsync() => Task.Run(() =>
+        {
+            _bonuses = new List<BonusModel>
+            {
+                new BonusModel
+                {
+                    Id = 1,
+                    Name = "10% Off",
+                    Value = 10f,
+                    Type = EBonusType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 2,
+                    Name = "$2.00 Off",
+                    Value = 2.0f,
+                    Type = EBonusType.Value,
+                },
+                new BonusModel
+                {
+                    Id = 3,
+                    Name = "50% Off BigMack",
+                    Value = 50f,
+                    Type = EBonusType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 4,
+                    Name = "$5.00",
+                    Value = 5f,
+                    Type = EBonusType.Value,
+                },
+                new BonusModel
+                {
+                    Id = 5,
+                    Name = "BOGO Buy 1 and get 1 free",
+                    Value = 100f,
+                    Type = EBonusType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 6,
+                    Name = "GoodNeighbor",
+                    Value = 100f,
+                    Type = EBonusType.Percent,
+                },
+            };
+
+            _base.Add(typeof(BonusModel), _bonuses);
         });
 
         private Task InitOrdersAsync() => Task.Run(() =>
