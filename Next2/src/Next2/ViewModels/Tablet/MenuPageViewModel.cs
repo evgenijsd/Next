@@ -4,6 +4,7 @@ using Next2.Services.Authentication;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +20,13 @@ namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
-        private IAuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
+
+        private readonly IPopupNavigation _popupNavigation;
+
         public MenuPageViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
             HoldItemsViewModel holdItemsViewModel,
@@ -40,6 +45,7 @@ namespace Next2.ViewModels.Tablet
             CustomersViewModel = customersViewModel;
             SettingsViewModel = settingsViewModel;
             _authenticationService = authenticationService;
+            _popupNavigation = popupNavigation;
 
             InitMenuItems();
         }
@@ -47,7 +53,7 @@ namespace Next2.ViewModels.Tablet
         #region -- Public properties --
 
         private ICommand _logOutCommand;
-        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync);
+        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
         private MenuItemBindableModel _selectedMenuItem;
         public MenuItemBindableModel SelectedMenuItem
@@ -77,6 +83,20 @@ namespace Next2.ViewModels.Tablet
         public CustomersViewModel CustomersViewModel { get; set; }
 
         public SettingsViewModel SettingsViewModel { get; set; }
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
+            {
+                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            }
+        }
 
         #endregion
 
@@ -142,7 +162,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnLogOutCommandAsync()
         {
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
+            await _popupNavigation.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -153,18 +173,18 @@ namespace Next2.ViewModels.Tablet
             {
                 _authenticationService.LogOut();
 
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
 
                 var navigationParameters = new NavigationParameters
                 {
-                    { "IsLastUserLoggedOut", result },
+                    { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
                 };
 
                 await _navigationService.GoBackToRootAsync(navigationParameters);
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
         #endregion
