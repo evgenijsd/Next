@@ -80,7 +80,7 @@
     <OutputPath>bin\iPhone\DEV</OutputPath>
     <DefineConstants>DEV</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Distribution</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchVerbosity>
     </MtouchVerbosity>
