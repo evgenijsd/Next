@@ -653,57 +653,49 @@
 
                 <xct:StateView StateKey="Success">
 
-                    <Grid 
-                        BackgroundColor="{Binding TextAndBackgroundColor_i5}"
-                        RowDefinitions="auto, auto, auto, auto"
-                        RowSpacing="0">
-
-                        <!--CANCEL-->
-                        <controls:CustomNavigationbar 
-                            HeightRequest="70" 
-                            HeightImage="25" 
-                            Padding="15, 0, 0, 0"
-                            Title="{xct:Translate Cancel}" 
-                            LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}"/>
-
-                        <!--Edit Order Label-->
-                        <StackLayout 
-                            Margin="30, 5, 30, 5"
-                            Orientation="Horizontal">
-
-                            <Label
-                                HorizontalOptions="Start"
-                                VerticalOptions="Center"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontFamily="Barlow-Bold"
-                                FontSize="28"
-                                Text="Edit Order"/>
-
-                        </StackLayout>
-                        <!--BOX VIEW-->
-                        <StackLayout 
-                            Grid.Row="1"
-                            VerticalOptions="EndAndExpand"
-                            Orientation="Vertical">
-
-                            <BoxView 
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                    HeightRequest="1"
-                                    VerticalOptions="End"/>
-                        </StackLayout>
-
+                    <Grid RowDefinitions="*, auto">
+                        
                         <Grid 
-                            x:DataType="viewModels:NewOrderViewModel" 
-                            Grid.Row="2"
-                            Margin="30, 0, 30, 0"
-                            RowDefinitions="auto, auto, auto, auto, auto, *">
+                            Grid.Row="0"
+                            RowDefinitions="auto, *"
+                            HeightRequest="700"
+                            RowSpacing="0">
 
-                            <!-- Row 1 Image & Title-->
+                            <StackLayout Grid.Row="0">
 
-                            <StackLayout 
-                                Grid.Row="0">
+                                <!--CANCEL-->
+                                <controls:CustomNavigationbar 
+                                    Grid.Row="0"
+                                    HeightRequest="70" 
+                                    HeightImage="25" 
+                                    Padding="15, 0, 0, 0"
+                                    Title="{xct:Translate Cancel}" 
+                                    LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}"/>
+
+                                <!--Edit Order Label-->
+                                <Label
+                                    Margin="30, 20"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontFamily="Barlow-Bold"
+                                    FontSize="28"
+                                    Text="Edit Order"/>
+
+                                <BoxView Style="{DynamicResource SeparatorStyle_i2}"/>
+
+                            </StackLayout>
+
+                            <Grid 
+                                Grid.Row="1"
+                                RowDefinitions="auto, auto, auto, auto, auto, *"
+                                Margin="30, 0, 30, 0"
+                                x:DataType="viewModels:NewOrderViewModel">
+
+                                <!-- Row 1 Image & Title-->
 
                                 <StackLayout 
+                                    Grid.Row="0"
                                     Orientation="Horizontal">
 
                                     <StackLayout 
@@ -740,238 +732,241 @@
 
                                 </StackLayout>
 
-                            </StackLayout>
+                                <!-- Row 2 Proportions-->
 
-                            <!-- Row 2 Proportions-->
-
-                            <Grid
-                                Grid.Row="1"
-                                RowDefinitions="auto, auto"
-                                ColumnDefinitions="0.50*, 0.50*">
-
-                                <BoxView 
-                                    Grid.ColumnSpan="2"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                    HeightRequest="1"
-                                    VerticalOptions="StartAndExpand"/>
-
-                                <Label 
-                                    Grid.Row="0"
-                                    Margin="0, 10, 0, 0"
-                                    Text="Proportions"
-                                    FontFamily="Barlow-Medium"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
-
-                                <StackLayout 
-                                    Grid.Column="0"
+                                <Grid
                                     Grid.Row="1"
-                                    Orientation="Vertical">
-
-                                    <Label 
-                                        Text="{Binding OrderRegistrationViewModel.SelectedDish.Portion.Title}"
-                                        Margin="0, 5, 0, 10"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                </StackLayout>
-
-                                <StackLayout 
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    HorizontalOptions="EndAndExpand"
-                                    Orientation="Vertical">
-
-                                    <Label 
-                                        Text="{Binding OrderRegistrationViewModel.SelectedDish.Portion.Price, StringFormat='$ {0:F2}'}"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                </StackLayout>
-
-                            </Grid>
-
-                            <!-- Row 3 Inventory-->
-
-                            <Grid
-                                Grid.Row="2"
-                                RowDefinitions="auto, auto"
-                                ColumnDefinitions="0.50*, 0.50*">
-
-                                <BoxView 
-                                    Grid.ColumnSpan="2"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                    HeightRequest="1"
-                                    VerticalOptions="Start"/>
-
-                                <Label 
-                                    Grid.Row="0"
-                                    Margin="0, 10, 0, 0"
-                                    VerticalOptions="Start"
-                                    Text="Inventory"
-                                    FontFamily="Barlow-SemiBold"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
-
-                                <StackLayout 
-                                    Grid.Column="0"
-                                    Grid.Row="1"
-                                    VerticalOptions="Start"
-                                    Orientation="Vertical">
-
-                                    <Label 
-                                        Text="Test product 1"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                    <Label 
-                                        Text="Test product 2"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                    <Label 
-                                        Text="Test product 3"
-                                        Margin="0, 5, 0, 10"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                </StackLayout>
-
-                                <StackLayout 
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    HorizontalOptions="EndAndExpand"
-                                    Orientation="Vertical">
-
-                                    <Label 
-                                        Text="$ 12.50"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                    <Label 
-                                        Text="$ 12.50"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                    <Label 
-                                        Text="$ 1.00"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                </StackLayout>
-
-                            </Grid>
-
-                            <!-- Row 4 Replace-->
-
-                            <Grid
-                                Grid.Row="3"
-                                RowSpacing="0"
-                                RowDefinitions="auto"
-                                ColumnDefinitions="0.50*, 0.50*">
-
-                                <BoxView 
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="2"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                    HeightRequest="1"
-                                    VerticalOptions="Start"/>
-
-                                <Label
-                                    Grid.Row="0"
-                                    Margin="0, 10, 0, 0"
-                                    Text="Replace"
-                                    FontFamily="Barlow-SemiBold"
-                                    TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
-
-
-                                <StackLayout 
-                                    Grid.Column="0"
-                                    Grid.Row="1"
-                                    Orientation="Vertical">
-
-                                    <Label 
-                                        Text="Lettuce"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                    <Label 
-                                        Text="Jalapeno Mayo"
-                                        Margin="0, 5, 0, 10"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                </StackLayout>
-
-                                <StackLayout 
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    HorizontalOptions="EndAndExpand"
-                                    Orientation="Vertical">
-
-                                    <Label 
-                                        Text="$ 1.00"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                    <Label 
-                                        Text="$ 0.50"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-SemiBold"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                </StackLayout>
-
-                            </Grid>
-
-                            <!-- Row 5 Option-->
-
-                            <Grid
-                                Grid.Row="4"
-                                RowSpacing="0"
-                                RowDefinitions="auto">
-
-                                <StackLayout>
+                                    RowDefinitions="auto, auto"
+                                    ColumnDefinitions="0.50*, 0.50*">
 
                                     <BoxView 
+                                        Grid.ColumnSpan="2"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        HeightRequest="1"
+                                        VerticalOptions="StartAndExpand"/>
+
+                                    <Label 
+                                        Grid.Row="0"
+                                        Margin="0, 10, 0, 0"
+                                        Text="Proportions"
+                                        FontFamily="Barlow-Medium"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+                                    <StackLayout 
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        Orientation="Vertical">
+
+                                        <Label 
+                                            Text="{Binding OrderRegistrationViewModel.SelectedDish.Portion.Title}"
+                                            Margin="0, 5, 0, 10"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout 
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HorizontalOptions="EndAndExpand"
+                                        Orientation="Vertical">
+
+                                        <Label 
+                                            Text="{Binding OrderRegistrationViewModel.SelectedDish.Portion.Price, StringFormat='$ {0:F2}'}"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                                <!-- Row 3 Inventory-->
+
+                                <Grid
+                                    Grid.Row="2"
+                                    RowDefinitions="auto, auto"
+                                    ColumnDefinitions="0.50*, 0.50*">
+
+                                    <BoxView 
+                                        Grid.ColumnSpan="2"
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                         HeightRequest="1"
                                         VerticalOptions="Start"/>
 
                                     <Label 
-                                        Text="Option"
+                                        Grid.Row="0"
                                         Margin="0, 10, 0, 0"
+                                        VerticalOptions="Start"
+                                        Text="Inventory"
                                         FontFamily="Barlow-SemiBold"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
 
-                                    <Label 
-                                        Text="Rare"
-                                        Margin="0, 5, 0, 0"
-                                        FontFamily="Barlow-Medium"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                    <StackLayout 
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        VerticalOptions="Start"
+                                        Orientation="Vertical">
 
-                                </StackLayout>
+                                        <Label 
+                                            Text="Test product 1"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                        <Label 
+                                            Text="Test product 2"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                        <Label 
+                                            Text="Test product 3"
+                                            Margin="0, 5, 0, 10"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout 
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HorizontalOptions="EndAndExpand"
+                                        Orientation="Vertical">
+
+                                        <Label 
+                                            Text="$ 12.50"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                        <Label 
+                                            Text="$ 12.50"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                        <Label 
+                                            Text="$ 1.00"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                                <!-- Row 4 Replace-->
+
+                                <Grid
+                                    Grid.Row="3"
+                                    RowSpacing="0"
+                                    RowDefinitions="auto"
+                                    ColumnDefinitions="0.50*, 0.50*">
+
+                                    <BoxView 
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        HeightRequest="1"
+                                        VerticalOptions="Start"/>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Margin="0, 10, 0, 0"
+                                        Text="Replace"
+                                        FontFamily="Barlow-SemiBold"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+
+                                    <StackLayout 
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        Orientation="Vertical">
+
+                                        <Label 
+                                            Text="Lettuce"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                        <Label 
+                                            Text="Jalapeno Mayo"
+                                            Margin="0, 5, 0, 10"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                    <StackLayout 
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HorizontalOptions="EndAndExpand"
+                                        Orientation="Vertical">
+
+                                        <Label 
+                                            Text="$ 1.00"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                        <Label 
+                                            Text="$ 0.50"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                                <!-- Row 5 Option-->
+
+                                <Grid
+                                    Grid.Row="4"
+                                    RowSpacing="0"
+                                    RowDefinitions="auto">
+
+                                    <StackLayout>
+
+                                        <BoxView 
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                            HeightRequest="1"
+                                            VerticalOptions="Start"/>
+
+                                        <Label 
+                                            Text="Option"
+                                            Margin="0, 10, 0, 0"
+                                            FontFamily="Barlow-SemiBold"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+                                        <Label 
+                                            Text="Rare"
+                                            Margin="0, 5, 0, 0"
+                                            FontFamily="Barlow-Medium"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                                <!-- Row 6 Footer-->
+
+                                <Grid
+                                    Grid.Row="5" 
+                                    RowDefinitions="*" 
+                                    BackgroundColor="Red">
+
+                                    <Label Text="Test"/>
+
+                                </Grid>
 
                             </Grid>
-
-                            <!-- Row 6 Footer-->
-
-                            <Grid
-                                Grid.Row="5"  RowDefinitions="*" BackgroundColor="Red">
-                                <Label Text="Test"/>
-                            </Grid>
-
+                                                       
                         </Grid>
-
+                        
                         <!-- Bottom Buttons-->
-
                         <Grid
-                            Grid.Row="3"
-                            VerticalOptions="Center"
+                            Grid.Row="1"
+                            VerticalOptions="EndAndExpand"
                             ColumnDefinitions="0.09*, 0.07*, 0.26*, 0.26*, 0.30*"
                             RowDefinitions="auto, auto"
                             ColumnSpacing="12">
@@ -991,9 +986,7 @@
                                 Padding="30, 0, 0, 0"
                                 FontFamily="Barlow-Medium"
                                 FontSize="16"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}">
-
-                            </Label>
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                             <buttons:BorderButton
                                 Grid.Row="1"
@@ -1032,13 +1025,14 @@
                         </Grid>
 
                         <controls:DropDownList
-                            Grid.Row="3"
+                            Grid.Row="0"
+                            Grid.RowSpan="1"
                             Style="{DynamicResource DropDownListStyle_i1}"
                             ItemHeight="40"
-                            Direction="Up"
-                            HorizontalOptions="Start"
-                            VerticalOptions="Center"
-                            Margin="75, 20, 0, 30"
+                            Direction="Down"
+                            HorizontalOptions="End"
+                            VerticalOptions="Start"
+                            Margin="0, 90, 20, 50"
                             WidthRequest="50"
                             HeaderText="{Binding OrderRegistrationViewModel.SelectedSeat.SeatNumber}"
                             SelectedItem="{Binding OrderRegistrationViewModel.SelectedSeat}"
@@ -1051,11 +1045,12 @@
                                         <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                                         <StackLayout
-                                                Padding="14, 7, 14, 12"
-                                                HeightRequest="20"
-                                                Orientation="Horizontal">
+                                            Padding="14, 7, 14, 12"
+                                            HeightRequest="20"
+                                            Orientation="Horizontal">
 
                                             <Label
+                                                TextColor="White"
                                                 FontFamily="Barlow-Medium"
                                                 FontSize="{DynamicResource TSize_i7}"
                                                 HorizontalOptions="FillAndExpand"
@@ -1068,7 +1063,7 @@
                             </controls:DropDownList.DataTemplate>
 
                         </controls:DropDownList>
-
+                        
                     </Grid>
 
                 </xct:StateView>
