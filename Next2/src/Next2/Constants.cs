@@ -68,7 +68,8 @@
             public const string SET = nameof(SET);
             public const string CATEGORY = nameof(CATEGORY);
             public const string PORTIONS = nameof(PORTIONS);
-            public const string SEAT_NUMBER = nameof(SEAT_NUMBER);
+            public const string SOURCE_SEAT = nameof(SOURCE_SEAT);
+            public const string DESTINATION_SEAT_NUMBER = nameof(DESTINATION_SEAT_NUMBER);
             public const string DELETE_ITEMS = nameof(DELETE_ITEMS);
             public const string REDIRECT_SET = nameof(REDIRECT_SET);
             public const string ACTION = nameof(ACTION);

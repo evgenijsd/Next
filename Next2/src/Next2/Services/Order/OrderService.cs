@@ -289,6 +289,24 @@ namespace Next2.Services.Order
 
             try
             {
+                var seats = CurrentOrder.Seats;
+                var sourceSeat = seats.FirstOrDefault(x => x.SeatNumber == sourceSeatNumber);
+                int sourceSeatIndex = seats.IndexOf(sourceSeat);
+
+                var destinationSeat = seats.FirstOrDefault(x => x.SeatNumber == destinationSeatNumber);
+                int destinationSeatIndex = seats.IndexOf(destinationSeat);
+
+                if (destinationSeatIndex != -1)
+                {
+                    foreach (var item in sourceSeat.Sets)
+                    {
+                        seats[destinationSeatIndex].Sets.Add(item);
+                    }
+
+                    seats[sourceSeatIndex].Sets.Clear();
+
+                    result.SetSuccess();
+                }
             }
             catch (Exception ex)
             {

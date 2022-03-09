@@ -196,7 +196,7 @@ namespace Next2.ViewModels
         {
             if (seat.Sets.Any())
             {
-                var param = new DialogParameters { { Constants.DialogParameterKeys.SEAT_NUMBER, seat } };
+                var param = new DialogParameters { { Constants.DialogParameterKeys.SOURCE_SEAT, seat } };
 
                 await _popupNavigation.PushAsync(App.IsTablet
                     ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
@@ -216,21 +216,32 @@ namespace Next2.ViewModels
         private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult is not null
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBER, out SeatBindableModel deletingSeat))
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION, out EActionWhenDeletingSeat action)
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.SOURCE_SEAT, out SeatBindableModel deletingSeat))
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION, out EActionWhenDeletingSeat action))
+                if (action is EActionWhenDeletingSeat.DeleteSets)
                 {
-                    if (action is EActionWhenDeletingSeat.DeleteSets)
+                    var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(deletingSeat.SeatNumber);
+
+                    if (deleteSeatResult.IsSuccess)
+                    {
+                        NumberOfSeats = CurrentOrder.Seats.Count;
+                    }
+                }
+                else if (action is EActionWhenDeletingSeat.RedirectSets
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.DESTINATION_SEAT_NUMBER, out int destinationSeatNumber))
+                {
+                    var resirectSetsResult = await _orderService.RedirectSetsFromCurrentOrder(deletingSeat.SeatNumber, destinationSeatNumber);
+                    if (resirectSetsResult.IsSuccess)
                     {
                         var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(deletingSeat.SeatNumber);
 
                         if (deleteSeatResult.IsSuccess)
                         {
+                            await RefreshCurrentOrderAsync();
+
                             NumberOfSeats = CurrentOrder.Seats.Count;
                         }
-                    }
-                    else if (action is EActionWhenDeletingSeat.RedirectSets)
-                    {
                     }
                 }
             }

@@ -22,13 +22,17 @@ namespace Next2.ViewModels.Dialogs
             RequestClose = requestClose;
             AcceptCommand = new Command(() =>
             {
-                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.SEAT_NUMBER, _seat } };
+                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.SOURCE_SEAT, _seat } };
 
-                var action = IsDeletingItemsSelected
-                    ? EActionWhenDeletingSeat.DeleteSets
-                    : EActionWhenDeletingSeat.RedirectSets;
-
-                dialogParameters.Add(Constants.DialogParameterKeys.ACTION, action);
+                if (IsDeletingItemsSelected)
+                {
+                    dialogParameters.Add(Constants.DialogParameterKeys.ACTION, EActionWhenDeletingSeat.DeleteSets);
+                }
+                else
+                {
+                    dialogParameters.Add(Constants.DialogParameterKeys.ACTION, EActionWhenDeletingSeat.RedirectSets);
+                    dialogParameters.Add(Constants.DialogParameterKeys.DESTINATION_SEAT_NUMBER, SelectedSeat.SeatNumber);
+                }
 
                 RequestClose(dialogParameters);
             });
@@ -59,7 +63,7 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadDataFromParameters(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBER, out SeatBindableModel seat))
+            if (param.TryGetValue(Constants.DialogParameterKeys.SOURCE_SEAT, out SeatBindableModel seat))
             {
                 IEnumerable<int> otherSeatNumbers = Enumerable.Range(1, Constants.TABLE_SEATS_NUMBER)
                     .Where(x => x != seat.SeatNumber);
