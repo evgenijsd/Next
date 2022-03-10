@@ -60,8 +60,6 @@ namespace Next2.ViewModels.Tablet
 
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
-        public bool IsSideMenuVisible { get; set; } = true;
-
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
         public CategoryModel SelectedCategoriesItem { get; set; }

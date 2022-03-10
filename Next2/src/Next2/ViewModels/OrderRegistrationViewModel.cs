@@ -80,6 +80,12 @@ namespace Next2.ViewModels
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
 
+        private ICommand _openModifyCommand;
+        public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
+
+        private ICommand _openRemoveCommand;
+        public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync);
+
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
 
@@ -253,6 +259,16 @@ namespace Next2.ViewModels
         }
 
         private Task OnTabCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnOpenModifyCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnOpenRemoveCommandAsync()
         {
             return Task.CompletedTask;
         }

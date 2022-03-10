@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage  
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    x:Class="Next2.Views.Mobile.EditPage">
+
+    <Grid RowDefinitions="0.10*, *, 0.30*">
+
+        <controls:CustomNavigationbar 
+            Grid.Row="0"
+            Title="{xct:Translate EditOrder}" 
+            LeftButtonCommand="{prism:GoBack}"
+            HeightImage="25"/>
+
+        <BoxView
+            Grid.Row="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+            HeightRequest="1"
+            VerticalOptions="EndAndExpand"/>
+
+        <Grid 
+            Grid.Row="1"
+            BackgroundColor="Red">
+            
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            RowDefinitions="auto, auto, auto"
+            ColumnDefinitions="0.50*, 0.50*"
+            ColumnSpacing="12"
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <BoxView
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                HeightRequest="1"
+                VerticalOptions="Start"/>
+
+            <buttons:BorderButton
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                HeightRequest="45"
+                Padding="0"
+                Margin="20, 12, 20, 12"
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                Background="{DynamicResource IndicationColor_i1}"
+                Text="{xct:Translate Modify}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                Command="{Binding OrderRegistrationViewModel.OpenModifyCommand}"/>
+
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="0"
+                HeightRequest="45"
+                Margin="20, 12, 0, 12"
+                Padding="0"
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                Background="{DynamicResource IndicationColor_i5}"
+                Text="{xct:Translate HoldItem}"
+                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}"/>
+            
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="1"
+                HeightRequest="45"
+                Margin="0, 12, 20, 12"
+                Padding="0"
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                Background="{DynamicResource IndicationColor_i3}"
+                Text="{xct:Translate Remove}"
+                Command="{Binding OrderRegistrationViewMode.OpenRemoveCommand}" />
+
+        </Grid>
+
+    </Grid>
+    
+</views:BaseContentPage>
