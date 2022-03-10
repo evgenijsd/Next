@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAllCustomersAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetAllCustomersAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

@@ -66,7 +66,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
         </Grid.Resources>
 
         <!-- HEADER, 1 ROW -->
@@ -151,7 +150,7 @@
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
 
                     </DataTrigger>
                 </Label.Triggers>
@@ -166,7 +165,7 @@
                 <controls:CustomStepper.Triggers>
                     <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
-                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                         <Setter Property="IsEnabled" Value="False" />
 
                     </DataTrigger>
@@ -214,11 +213,10 @@
 
         </controls:DropDownList>
 
-        <!-- PSEUDO-MEALS LIST (REPLACE) -->
+        <!-- SETS LIST -->
         <CollectionView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-            VerticalScrollBarVisibility="Never"
             ItemsSource="{Binding CurrentOrder.Seats}">
 
             <CollectionView.Effects>
@@ -228,7 +226,9 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:SeatBindableModel">
 
-                    <templates:SeatItemTemplate Padding="24, 9, 24, 0"/>
+                    <templates:SeatItemTemplate
+                        ItemsSource="{Binding Sets}"
+                        Padding="24, 9, 24, 0"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -344,6 +344,14 @@
 
                     </Label>
 
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding IsOrderWithTax}" Value="false">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
@@ -385,7 +393,7 @@
             <Grid.Triggers>
                 <DataTrigger TargetType="Grid" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
-                    <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                     <Setter Property="IsEnabled" Value="False" />
 
                 </DataTrigger>

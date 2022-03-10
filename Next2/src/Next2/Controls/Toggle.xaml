@@ -21,7 +21,7 @@
             BorderColor="{Binding OnColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
             HeightRequest="24"
             WidthRequest="42"
-            CornerRadius="16"/>
+            CornerRadius="12"/>
 
         <Frame
             x:Name="runningFrame"
@@ -31,7 +31,7 @@
             BackgroundColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
             BorderColor="{Binding ThumbColor, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"
             HorizontalOptions="Start"
-            CornerRadius="16"/>
+            CornerRadius="11"/>
 
     </Grid>
 

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -15,10 +15,14 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IMapper _mapper;
 
-        public OrderService(IMockService mockService)
+        public OrderService(
+            IMockService mockService,
+            IMapper mapper)
         {
             _mockService = mockService;
+            _mapper = mapper;
 
             Task.Run(CreateNewOrderAsync);
         }
@@ -54,7 +58,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -82,7 +86,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAvailableTablesAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetAvailableTablesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -143,9 +147,7 @@ namespace Next2.Services.Order
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
-                    MapperConfiguration mapperConfig = new(cfg => cfg.CreateMap<TableModel, TableBindableModel>());
-                    Mapper mapper = new(mapperConfig);
-                    var tableBindableModels = mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTables.Result);
+                    var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTables.Result);
 
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
@@ -234,7 +236,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AddSeatInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

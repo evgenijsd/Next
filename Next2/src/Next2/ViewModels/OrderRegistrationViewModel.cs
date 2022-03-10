@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.Authentication;
 using Next2.Services.Order;
+using Next2.Services.UserService;
+using Next2.Views.Mobile;
+using Next2.Views.Tablet;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -22,25 +28,34 @@ namespace Next2.ViewModels
         private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly IEventAggregator _eventAggregator;
 
-        private ICommand _tapCheckedCommand;
-        private ICommand _deleteSeatCommand;
-        private ICommand _tapItemCommand;
+        private readonly ICommand _seatSelectionCommand;
+        private readonly ICommand _deleteSeatCommand;
+        private readonly ICommand _setSelectionCommand;
 
         public OrderRegistrationViewModel(
-            IPopupNavigation popupNavigation,
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IMapper mapper,
-            IOrderService orderService)
+            IOrderService orderService,
+            IUserService userService,
+            IAuthenticationService authenticationService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
-            _orderService = orderService;
             _mapper = mapper;
+            _orderService = orderService;
+            _userService = userService;
+            _authenticationService = authenticationService;
+            _eventAggregator = eventAggregator;
 
-            _tapCheckedCommand = new AsyncCommand<SeatBindableModel>(OnTapCheckedCommandAsync, allowsMultipleExecutions: false);
+            _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
-            _tapItemCommand = new AsyncCommand<SeatBindableModel>(OnTapItemCommandAsync, allowsMultipleExecutions: false);
+            _setSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSetSelectionCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -60,25 +75,25 @@ namespace Next2.ViewModels
         public bool IsOrderWithTax { get; set; } = true;
 
         private ICommand _openHoldSelectionCommand;
-        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
+        public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openDiscountSelectionCommand;
-        public ICommand OpenDiscountSelectionCommand => _openDiscountSelectionCommand ??= new AsyncCommand(OnOpenDiscountSelectionCommandAsync);
+        public ICommand OpenDiscountSelectionCommand => _openDiscountSelectionCommand ??= new AsyncCommand(OnOpenDiscountSelectionCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _removeTaxFromOrderCommand;
-        public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync);
+        public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand(OnOrderCommandAsync);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
-        public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync);
+        public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _deleteLastSeatCommand;
-        public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync);
+        public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync, allowsMultipleExecutions: true);
 
         #endregion
 
@@ -118,6 +133,9 @@ namespace Next2.ViewModels
                     }
 
                     break;
+                case nameof(IsOrderWithTax):
+                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.SubTotal;
+                    break;
             }
         }
 
@@ -138,7 +156,7 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
-            CurrentOrder = null;
+            CurrentOrder = new();
             CurrentOrder = _orderService.CurrentOrder;
 
             // value for testing
@@ -159,25 +177,28 @@ namespace Next2.ViewModels
         {
             foreach (var seat in CurrentOrder.Seats)
             {
-                seat.TapCheckBoxCommand = _tapCheckedCommand;
-                seat.TapDeleteCommand = _deleteSeatCommand;
-                seat.TapItemCommand = _tapItemCommand;
+                seat.SeatSelectionCommand = _seatSelectionCommand;
+                seat.SeatDeleteCommand = _deleteSeatCommand;
+                seat.SetSelectionCommand = _setSelectionCommand;
             }
         }
 
-        private async Task OnTapCheckedCommandAsync(SeatBindableModel seat)
+        private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
-            seat.Checked = true;
-
-            foreach (var item in CurrentOrder.Seats)
+            if(CurrentOrder.Seats is not null)
             {
-                if (item.Id != seat.Id)
-                {
-                    item.Checked = false;
-                }
-            }
+                seat.Checked = true;
 
-            _orderService.CurrentSeat = seat;
+                foreach (var item in CurrentOrder.Seats)
+                {
+                    if (item.Id != seat.Id)
+                    {
+                        item.Checked = false;
+                    }
+                }
+
+                _orderService.CurrentSeat = seat;
+            }
         }
 
         private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat)
@@ -256,13 +277,16 @@ namespace Next2.ViewModels
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
-        private async Task OnTapItemCommandAsync(SeatBindableModel seat)
+        private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            foreach (var item in CurrentOrder.Seats)
+            if (CurrentOrder.Seats is not null)
             {
-                if (item.Id != seat.Id)
+                foreach (var item in CurrentOrder.Seats)
                 {
-                    item.SelectedItem = null;
+                    if (item.Id != seat.Id)
+                    {
+                        item.SelectedItem = null;
+                    }
                 }
             }
         }
@@ -289,11 +313,36 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnRemoveTaxFromOrderCommandAsync()
+        private async Task OnRemoveTaxFromOrderCommandAsync()
         {
-            IsOrderWithTax = false;
+            var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            return Task.CompletedTask;
+            if (user.IsSuccess && (user.Result.UserType != EUserType.Admin))
+            {
+                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+
+                if (App.IsTablet)
+                {
+                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(NewOrderView) } };
+                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
+                }
+                else
+                {
+                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(OrderRegistrationPage) } };
+                    await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                }
+            }
+            else
+            {
+                IsOrderWithTax = false;
+            }
+        }
+
+        private void OnTaxEvent(bool isOrderWithTax)
+        {
+            _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
+
+            IsOrderWithTax = isOrderWithTax;
         }
 
         private Task OnOrderCommandAsync()
@@ -306,8 +355,9 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnPayCommandAsync()
+        private Task OnPayCommandAsync()
         {
+            return Task.CompletedTask;
         }
 
         #endregion

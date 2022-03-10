@@ -17,11 +17,11 @@ namespace Next2.Models
 
         public bool IsFirstSeat { get; set; }
 
-        public ICommand TapItemCommand { get; set; }
+        public ICommand SetSelectionCommand { get; set; }
 
-        public ICommand TapCheckBoxCommand { get; set; }
+        public ICommand SeatSelectionCommand { get; set; }
 
-        public ICommand TapDeleteCommand { get; set; }
+        public ICommand SeatDeleteCommand { get; set; }
 
         public ObservableCollection<SetBindableModel> Sets { get; set; }
     }

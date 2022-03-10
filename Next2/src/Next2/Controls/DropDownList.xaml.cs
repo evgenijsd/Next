@@ -1,4 +1,4 @@
-﻿using Next2.Enums;
+using Next2.Enums;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;

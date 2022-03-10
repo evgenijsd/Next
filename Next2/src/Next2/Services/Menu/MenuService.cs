@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetCategoriesAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetCategoriesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -63,7 +64,7 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetSubcategoriesAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetSubcategoriesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -99,7 +100,7 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetSetsAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetSetsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -124,7 +125,7 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetPortionsSetAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetPortionsSetAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

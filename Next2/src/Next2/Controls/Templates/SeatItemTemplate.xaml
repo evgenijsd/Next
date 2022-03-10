@@ -40,7 +40,7 @@
             HorizontalOptions="Start"
             VerticalOptions="Center"
             Source="ic_check_box_unhecked_24x24.png"
-            xct:TouchEffect.Command="{Binding TapCheckBoxCommand}"
+            xct:TouchEffect.Command="{Binding SeatSelectionCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">
 
             <ffimageloading:CachedImage.Triggers>
@@ -66,7 +66,7 @@
             HorizontalOptions="EndAndExpand"
             VerticalOptions="Center"
             Source="ic_outline_minus_24x24.png"
-            xct:TouchEffect.Command="{Binding TapDeleteCommand}"
+            xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">
 
             <ffimageloading:CachedImage.Triggers>
@@ -117,12 +117,12 @@
     </StackLayout>
 
     <CollectionView
-        ItemsSource="{Binding Sets}"
+        ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         SelectionMode="Single"
         HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         MinimumHeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         SelectedItem="{Binding SelectedItem}"
-        SelectionChangedCommand="{Binding TapItemCommand}"
+        SelectionChangedCommand="{Binding SetSelectionCommand}"
         SelectionChangedCommandParameter="{Binding .}">
 
         <CollectionView.Effects>

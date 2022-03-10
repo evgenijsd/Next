@@ -11,8 +11,6 @@ namespace Next2.Controls
     {
         private double _valueX;
 
-        private bool _tap;
-
         public Toggle()
         {
             InitializeComponent();
@@ -32,16 +30,16 @@ namespace Next2.Controls
             set => SetValue(IsToggledProperty, value);
         }
 
-        public static readonly BindableProperty CanTurnedOffProperty = BindableProperty.Create(
-            propertyName: nameof(CanTurnedOff),
+        public static readonly BindableProperty CanTurnOffProperty = BindableProperty.Create(
+            propertyName: nameof(CanTurnOff),
             returnType: typeof(bool),
             defaultValue: true,
             declaringType: typeof(Toggle));
 
-        public bool CanTurnedOff
+        public bool CanTurnOff
         {
-            get => (bool)GetValue(CanTurnedOffProperty);
-            set => SetValue(CanTurnedOffProperty, value);
+            get => (bool)GetValue(CanTurnOffProperty);
+            set => SetValue(CanTurnOffProperty, value);
         }
 
         public static readonly BindableProperty ThumbColorProperty = BindableProperty.Create(
@@ -77,9 +75,9 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if (!_tap && propertyName == nameof(IsToggled))
+            if (propertyName == nameof(IsToggled))
             {
-                ToggleChangingAsync();
+                StartAnimationAsync();
             }
         }
 
@@ -87,43 +85,18 @@ namespace Next2.Controls
 
         #region -- Private methods --
 
-        private async Task ToggleChangingAsync()
+        private async Task StartAnimationAsync()
         {
-            if (IsToggled)
-            {
-                await runningFrame.TranslateTo(runningFrame.X + 17, 0, 100, Easing.CubicInOut);
-            }
-            else
-            {
-                await runningFrame.TranslateTo(runningFrame.X, 0, 100, Easing.CubicInOut);
-            }
+            var x = IsToggled ? runningFrame.X + 17 : runningFrame.X;
+
+            await runningFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }
 
         private async Task OnTapCommandAsync()
         {
-            if (IsEnabled)
+            if (IsEnabled && (!IsToggled || CanTurnOff))
             {
-                if (IsToggled)
-                {
-                    if (CanTurnedOff)
-                    {
-                        _tap = true;
-                        IsToggled = !IsToggled;
-
-                        await ToggleChangingAsync();
-
-                        _tap = false;
-                    }
-                }
-                else
-                {
-                    _tap = true;
-                    IsToggled = !IsToggled;
-
-                    await ToggleChangingAsync();
-
-                    _tap = false;
-                }
+                IsToggled = !IsToggled;
             }
         }
 
@@ -136,19 +109,14 @@ namespace Next2.Controls
                 switch (e.StatusType)
                 {
                     case GestureStatus.Running:
-                        if (x < _valueX)
+                        if (x < _valueX && CanTurnOff)
                         {
-                            if (CanTurnedOff)
-                            {
-                                IsToggled = false;
-                            }
+                            IsToggled = false;
                         }
                         else if (x > _valueX)
                         {
                             IsToggled = true;
                         }
-
-                        ToggleChangingAsync();
 
                         break;
                     case GestureStatus.Completed:

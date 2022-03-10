@@ -116,12 +116,12 @@
   <ItemGroup>
     <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
+    <Folder Include="Helpers\" />
     <Folder Include="ViewModels\Mobile\" />
+    <Folder Include="Views\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -203,11 +203,6 @@
     <Compile Update="Controls\Buttons\CustomButton.xaml.cs">
       <DependentUpon>CustomButton.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Strings\Strings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -235,10 +230,6 @@
     <EmbeddedResource Update="Controls\Toggle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Strings\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-	</EmbeddedResource>
     <EmbeddedResource Update="Controls\StepperCarousel.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -336,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SearchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

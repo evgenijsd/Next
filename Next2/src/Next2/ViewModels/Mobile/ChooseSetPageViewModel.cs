@@ -53,7 +53,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
-        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
+        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -61,11 +61,9 @@ namespace Next2.ViewModels.Mobile
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(Constants.DialogParameterKeys.CATEGORY))
+            if (parameters.ContainsKey(Constants.Navigations.CATEGORY))
             {
-                CategoryModel category;
-
-                if (parameters.TryGetValue(Constants.DialogParameterKeys.CATEGORY, out category))
+                if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out CategoryModel category))
                 {
                     SelectedCategoriesItem = category;
                 }
@@ -115,13 +113,11 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
             {
-                SetBindableModel set;
-
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out set))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                    await _popupNavigation.PopAsync();
 
                     if (result.IsSuccess)
                     {
@@ -131,7 +127,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
