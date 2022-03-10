@@ -15,8 +15,10 @@ namespace Next2.ViewModels.Dialogs
     public class CustomerAddViewModel : BindableBase
     {
         private readonly ICustomersService _customersService;
-        private Color _acceptColorMob;
-        private Color _acceptColorTab;
+        private readonly Color _acceptColorMob = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+        private readonly Color _acceptColorTab = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+        private bool _accept => (WarningTextColor == _acceptColorTab || WarningTextColor == _acceptColorMob) && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone != string.Empty && SelectedDate != null;
+
         public CustomerAddViewModel(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
         {
             _customersService = customersService;
@@ -27,17 +29,10 @@ namespace Next2.ViewModels.Dialogs
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
 
             SelectedDate = null;
-
-            _acceptColorTab = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
-            _acceptColorMob = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-
             DoneButtonOpacity = 0.32;
         }
 
         #region --Public Properties--
-
-        private bool _accept => (WarningTextColor == _acceptColorTab || WarningTextColor == _acceptColorMob) && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone != string.Empty && SelectedDate != null;
-
         public string Name { get; set; }
 
         public string Phone { get; set; }
@@ -49,7 +44,7 @@ namespace Next2.ViewModels.Dialogs
         public double DoneButtonOpacity { get; set; }
 
         private ICommand _doneCommand;
-        public ICommand DoneCommand => _doneCommand ?? new AsyncCommand(AddNewCustomer);
+        public ICommand DoneCommand => _doneCommand ??= new AsyncCommand(AddNewCustomer);
 
         public DateTime? SelectedDate { get; set; }
 
@@ -66,13 +61,16 @@ namespace Next2.ViewModels.Dialogs
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
-            if (_accept)
+            if (args.PropertyName == nameof(SelectedDate) || args.PropertyName == nameof(Name) || args.PropertyName == nameof(Phone) || args.PropertyName == nameof(Email))
             {
-                DoneButtonOpacity = 1;
-            }
-            else
-            {
-                DoneButtonOpacity = 0.32;
+                if (_accept)
+                {
+                    DoneButtonOpacity = 1;
+                }
+                else
+                {
+                    DoneButtonOpacity = 0.32;
+                }
             }
         }
 
@@ -87,7 +85,7 @@ namespace Next2.ViewModels.Dialogs
 
                 if (result.IsSuccess)
                 {
-                    AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true }, { "Id", result.Result } }));
+                    AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true }, { nameof(CustomerModel.Id), result.Result } }));
                 }
 
                 AcceptCommand.Execute();

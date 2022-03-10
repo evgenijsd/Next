@@ -128,8 +128,6 @@ namespace Next2.ViewModels
 
         private async Task AddCustomerAsync(CustomerBindableModel customer)
         {
-            if (true)
-            {
                 var param = new DialogParameters();
                 if (Device.Idiom == TargetIdiom.Phone)
                 {
@@ -141,7 +139,6 @@ namespace Next2.ViewModels
                     await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
                     .CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService));
                 }
-            }
         }
 
         private async void AddCustomerDialogCallBack(IDialogParameters param)
