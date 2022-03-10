@@ -12,17 +12,6 @@ namespace Next2.Controls.Buttons
 
         #region -- Public properties --
 
-        public static readonly BindableProperty LeftImagePathProperty = BindableProperty.Create(
-            propertyName: nameof(LeftImagePath),
-            returnType: typeof(string),
-            declaringType: typeof(BorderButton));
-
-        public string LeftImagePath
-        {
-            get => (string)GetValue(LeftImagePathProperty);
-            set => SetValue(LeftImagePathProperty, value);
-        }
-
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
@@ -67,34 +56,10 @@ namespace Next2.Controls.Buttons
             defaultValue: string.Empty,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(
-            propertyName: nameof(BackColor),
-            returnType: typeof(Color),
-            declaringType: typeof(CustomButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public Color BackColor
-        {
-            get => (Color)GetValue(BackColorProperty);
-            set => SetValue(BackColorProperty, value);
-        }
-
         public string FontFamily
         {
             get => (string)GetValue(FontFamilyProperty);
             set => SetValue(FontFamilyProperty, value);
-        }
-
-        public static readonly BindableProperty IsLeftImageVisibleProperty = BindableProperty.Create(
-            propertyName: nameof(IsLeftImageVisible),
-            returnType: typeof(bool),
-            declaringType: typeof(BorderButton),
-            defaultBindingMode: BindingMode.TwoWay);
-
-        public bool IsLeftImageVisible
-        {
-            get => (bool)GetValue(IsLeftImageVisibleProperty);
-            set => SetValue(IsLeftImageVisibleProperty, value);
         }
 
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(

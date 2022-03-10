@@ -1,6 +1,4 @@
 ﻿using Android.Graphics.Drawables;
-using Android.Graphics.Drawables.Shapes;
-using Google.Android.Material.Shape;
 using Java.Lang;
 using Next2.Droid.Effects;
 using System.Linq;
@@ -15,6 +13,8 @@ namespace Next2.Droid.Effects
 {
     public class ScrollBarColorEffect : PlatformEffect
     {
+        #region -- Overrides --
+
         protected override void OnAttached()
         {
             UpdateUI();
@@ -24,8 +24,29 @@ namespace Next2.Droid.Effects
         {
         }
 
-        void UpdateUI()
+        #endregion
+
+        #region -- Private helpers --
+
+        private void UpdateUI()
         {
+            var scrollBarThumbWidth = 6;
+            var scrollBarCornerRadius = 9;
+            var scrollBarThumbColor = Color.FromHex("#F45E49").ToAndroid();
+            var scrollBarTrackColor = Color.FromHex("#424861").ToAndroid();
+
+            var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
+            if (effect != null)
+            {
+                scrollBarThumbWidth = effect.ScrollBarThumbWidth;
+                scrollBarCornerRadius = effect.ScrollBarCornerRadius;
+                scrollBarThumbColor = effect.ScrollBarThumbColor.ToAndroid();
+                scrollBarTrackColor = effect.ScrollBarTrackColor.ToAndroid();
+            }
+
+            var drawableThumb = this.GetGradientDrawable(scrollBarThumbColor, scrollBarCornerRadius);
+            var drawableTrack = this.GetGradientDrawable(scrollBarTrackColor, scrollBarCornerRadius);
+
             try
             {
                 Java.Lang.Reflect.Field mScrollCacheField = Class.FromType(typeof(Android.Views.View)).GetDeclaredField("mScrollCache");
@@ -36,36 +57,38 @@ namespace Next2.Droid.Effects
                 scrollBarField.Accessible = true;
 
                 var scrollBar = scrollBarField.Get(mScrollCache);
+
                 var method = scrollBar.Class.GetDeclaredMethod("setVerticalThumbDrawable", Class.FromType(typeof(Drawable)));
                 method.Accessible = true;
 
                 var layers = new Drawable[1];
-                var shapeDrawable = new ShapeDrawable(new RectShape());
-                var scrollBarColor = Color.Default;
 
-                var effect = (UIEffects.ScrollBarColorEffect)Element.Effects.FirstOrDefault(e => e is UIEffects.ScrollBarColorEffect);
-                if (effect != null)
-                {
-                    scrollBarColor = effect.ScrollBarColor;
-                }
+                layers[0] = drawableThumb;
 
-                ShapeAppearanceModel shapeAppearanceModel = new ShapeAppearanceModel()
-                    .ToBuilder()
-                    .SetAllCorners(CornerFamily.Rounded, 4)
-                    .Build();
-
-                MaterialShapeDrawable shapeDrawable2 = new MaterialShapeDrawable(shapeAppearanceModel);
-
-                shapeDrawable2.FillColor = Android.Content.Res.ColorStateList.ValueOf(Color.Red.ToAndroid());
-
-                shapeDrawable2.SetStroke(4f, Color.Red.ToAndroid());
-
-                layers[0] = shapeDrawable2;
                 method.Invoke(scrollBar, layers);
             }
             catch
             {
+                try
+                {
+                    Control.VerticalScrollbarThumbDrawable = drawableThumb;
+                    Control.VerticalScrollbarTrackDrawable = drawableTrack;
+                }
+                catch
+                {
+                }
             }
         }
+
+        private GradientDrawable GetGradientDrawable(Android.Graphics.Color color, float cornerRadius)
+        {
+            GradientDrawable gradient = new GradientDrawable();
+            gradient.SetCornerRadius(cornerRadius);
+            gradient.SetColorFilter(color, Android.Graphics.PorterDuff.Mode.SrcIn);
+
+            return gradient;
+        }
+
+        #endregion
     }
 }

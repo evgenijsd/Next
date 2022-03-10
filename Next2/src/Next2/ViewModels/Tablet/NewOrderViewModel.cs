@@ -1,14 +1,17 @@
 ﻿using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
+using Next2.Services.Order;
 using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -21,23 +24,35 @@ namespace Next2.ViewModels.Tablet
 
         private readonly IPopupNavigation _popupNavigation;
 
+        private readonly IOrderService _orderService;
+
         private bool _order;
+
+        private Timer _timerUpdateTime;
 
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
             IPopupNavigation popupNavigation,
-            OrderRegistrationViewModel orderRegistrationViewModel)
+            OrderRegistrationViewModel orderRegistrationViewModel,
+            IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
-            Task.Run(LoadCategoriesAsync);
+            _orderService = orderService;
+
+            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
+            _timerUpdateTime.Elapsed += Timer_Elapsed;
+
+            orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
+
+        public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
@@ -52,13 +67,13 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync);
+        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
-        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync);
+        public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapExpandCommand;
-        public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync);
+        public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -70,6 +85,10 @@ namespace Next2.ViewModels.Tablet
 
             _order = false;
             Task.Run(LoadCategoriesAsync);
+
+            OrderRegistrationViewModel.InitializeAsync(null);
+
+            _timerUpdateTime.Start();
         }
 
         public override void OnDisappearing()
@@ -78,6 +97,8 @@ namespace Next2.ViewModels.Tablet
 
             SelectedCategoriesItem = new ();
             SelectedSubcategoriesItem = new ();
+
+            _timerUpdateTime.Stop();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -99,6 +120,11 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Task.Run(() => { CurrentDateTime = DateTime.Now; }).ConfigureAwait(false);
+        }
+
         private async Task OnTapSortCommandAsync()
         {
             _order = !_order;
@@ -107,10 +133,37 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSetCommandAsync(SetModel set)
         {
-            var param = new DialogParameters();
-            param.Add(Constants.DialogParameterKeys.SET, set);
+            var portions = await _menuService.GetPortionsSetAsync(set.Id);
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            if (portions.IsSuccess)
+            {
+                var param = new DialogParameters();
+                param.Add(Constants.DialogParameterKeys.SET, set);
+                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            }
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            {
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
+                {
+                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    if (result.IsSuccess)
+                    {
+                        await _popupNavigation.PopAsync();
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    }
+                }
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
         }
 
         private async Task LoadCategoriesAsync()

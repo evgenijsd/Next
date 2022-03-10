@@ -339,6 +339,12 @@
   <data name="TableNumberOrOrder" xml:space="preserve">
     <value>Table Number or Order</value>
   </data>
+  <data name="AddItem" xml:space="preserve">
+    <value>Add Item</value>
+  </data>
+  <data name="RemoveOrder" xml:space="preserve">
+    <value>Remove Order</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>

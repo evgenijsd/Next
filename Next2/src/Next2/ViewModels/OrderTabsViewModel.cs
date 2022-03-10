@@ -71,7 +71,7 @@ namespace Next2.ViewModels
         public ICommand SelectTabsCommand => _SelectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
 
         private ICommand _SearchCommand;
-        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync);
+        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _ClearSearchCommand;
         public ICommand ClearSearchCommand => _ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync);

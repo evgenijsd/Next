@@ -328,7 +328,13 @@
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
-                <effects:ScrollBarColorEffect ScrollBarColor="{StaticResource AppColor_i1}"/>
+                
+                <effects:ScrollBarColorEffect
+                    ScrollBarThumbWidth="6"
+                    ScrollBarCornerRadius="9"
+                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+
             </CollectionView.Effects>
 
             <CollectionView.ItemTemplate>
@@ -336,7 +342,7 @@
                     <templates:SetItemTemplate
                             x:DataType="models:SetModel"
                             HeightRequest="327"
-                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
                             xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
