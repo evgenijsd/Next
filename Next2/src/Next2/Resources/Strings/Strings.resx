@@ -347,11 +347,26 @@
   </data>
   <data name="Seat" xml:space="preserve">
     <value>Seat</value>
-    </data>
+  </data>
   <data name="AddItem" xml:space="preserve">
     <value>Add Item</value>
   </data>
   <data name="RemoveOrder" xml:space="preserve">
     <value>Remove Order</value>
+  </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>Edit Order</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
+  </data>
+  <data name="Proportions" xml:space="preserve">
+    <value>Proportions</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
   </data>
 </root>
