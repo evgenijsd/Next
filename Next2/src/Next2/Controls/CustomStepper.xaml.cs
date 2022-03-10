@@ -15,11 +15,11 @@ namespace Next2.Controls
         #region -- Public properties --
 
         public static readonly BindableProperty DecrementIconSourceProperty = BindableProperty.Create(
-          propertyName: nameof(DecrementIconSource),
-          returnType: typeof(string),
-          defaultValue: "ic_minus_primary_32x32",
-          declaringType: typeof(CustomStepper),
-          defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(DecrementIconSource),
+            returnType: typeof(string),
+            defaultValue: "ic_minus_primary_32x32",
+            declaringType: typeof(CustomStepper),
+            defaultBindingMode: BindingMode.TwoWay);
 
         public string DecrementIconSource
         {

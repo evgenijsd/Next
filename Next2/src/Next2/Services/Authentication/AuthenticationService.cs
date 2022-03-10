@@ -5,6 +5,7 @@ using Next2.Services.SettingsService;
 using System;
 using System.Threading.Tasks;
 using Next2.Services.Mock;
+using Next2.Enums;
 
 namespace Next2.Services.Authentication
 {
@@ -31,9 +32,9 @@ namespace Next2.Services.Authentication
 
         #region -- AuthenticationService implementation --
 
-        public async Task<AOResult> CheckUserExists(int userId)
+        public async Task<AOResult<UserModel?>> CheckUserExists(int userId)
         {
-            var result = new AOResult<UserModel>();
+            var result = new AOResult<UserModel?>();
 
             try
             {
@@ -41,7 +42,7 @@ namespace Next2.Services.Authentication
 
                 if (user != null)
                 {
-                    result.SetSuccess();
+                    result.SetSuccess(user);
                     currentUser = user.Id;
                 }
                 else

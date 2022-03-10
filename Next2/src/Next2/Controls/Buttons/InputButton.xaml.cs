@@ -95,7 +95,7 @@ namespace Next2.Controls.Buttons
         }
 
         public static readonly BindableProperty IsEmployeeExistsProperty = BindableProperty.Create(
-          propertyName: nameof(IsEmployeeExistsProperty),
+          propertyName: nameof(IsEmployeeExists),
           returnType: typeof(bool),
           declaringType: typeof(InputButton),
           defaultBindingMode: BindingMode.TwoWay);
@@ -116,6 +116,30 @@ namespace Next2.Controls.Buttons
         {
             get => (ICommand)GetValue(TapGestureRecognizerCommandProperty);
             set => SetValue(TapGestureRecognizerCommandProperty, value);
+        }
+
+        public static readonly BindableProperty IsCheckAdminIDProperty = BindableProperty.Create(
+          propertyName: nameof(IsCheckAdminID),
+          returnType: typeof(bool),
+          declaringType: typeof(InputButton),
+          defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsCheckAdminID
+        {
+            get => (bool)GetValue(IsCheckAdminIDProperty);
+            set => SetValue(IsCheckAdminIDProperty, value);
+        }
+
+        public static readonly BindableProperty IsNoAdminProperty = BindableProperty.Create(
+            propertyName: nameof(IsNoAdmin),
+            returnType: typeof(bool),
+            declaringType: typeof(InputButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsNoAdmin
+        {
+            get => (bool)GetValue(IsNoAdminProperty);
+            set => SetValue(IsNoAdminProperty, value);
         }
 
         #endregion

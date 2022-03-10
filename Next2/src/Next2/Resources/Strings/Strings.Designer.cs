@@ -70,6 +70,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Item.
+        /// </summary>
+        internal static string AddItem {
+            get {
+                return ResourceManager.GetString("AddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New.
         /// </summary>
         internal static string AddNew {
@@ -120,6 +129,15 @@ namespace Next2.Resources.Strings {
         internal static string Clear {
             get {
                 return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
             }
         }
         
@@ -309,6 +327,15 @@ namespace Next2.Resources.Strings {
         internal static string Info {
             get {
                 return ResourceManager.GetString("Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid code.
+        /// </summary>
+        internal static string InvalidCode {
+            get {
+                return ResourceManager.GetString("InvalidCode", resourceCulture);
             }
         }
         
@@ -543,6 +570,15 @@ namespace Next2.Resources.Strings {
         internal static string Remove {
             get {
                 return ResourceManager.GetString("Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Order.
+        /// </summary>
+        internal static string RemoveOrder {
+            get {
+                return ResourceManager.GetString("RemoveOrder", resourceCulture);
             }
         }
         

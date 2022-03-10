@@ -25,6 +25,8 @@ using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
+using AutoMapper;
+using Next2.Models;
 
 namespace Next2
 {
@@ -50,6 +52,8 @@ namespace Next2
             containerRegistry.RegisterPopupDialogService();
 
             //Services
+            var mapper = CreateMapper();
+            containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
@@ -70,10 +74,10 @@ namespace Next2
                 //Navigation
                 containerRegistry.RegisterForNavigation<TabletViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
 
-                containerRegistry.RegisterSingleton<IMembershipService, MembershipService>();
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
@@ -81,6 +85,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
+                containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
@@ -134,6 +139,20 @@ namespace Next2
 
         protected override void OnResume()
         {
+        }
+
+        #endregion
+
+        #region --- Private helpers --
+
+        private IMapper CreateMapper()
+        {
+            return new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TableModel, TableBindableModel>();
+                cfg.CreateMap<CustomerModel, CustomerBindableModel>();
+                cfg.CreateMap<MemberModel, MemberBindableModel>();
+            }).CreateMapper();
         }
 
         #endregion

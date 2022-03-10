@@ -18,16 +18,19 @@ namespace Next2.ViewModels
 {
     public class CustomersViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly ICustomersService _customersService;
         private readonly IPopupNavigation _popupNavigation;
         private ECustomersSorting _sortCriterion;
 
         public CustomersViewModel(
+            IMapper mapper,
             INavigationService navigationService,
             ICustomersService customersService,
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
+            _mapper = mapper;
             _customersService = customersService;
             _popupNavigation = popupNavigation;
         }
@@ -79,12 +82,8 @@ namespace Next2.ViewModels
 
             if (customersAoresult.IsSuccess)
             {
-                MapperConfiguration config;
-                config = new MapperConfiguration(cfg => cfg.CreateMap<CustomerModel, CustomerBindableModel>());
-                var mapper = new Mapper(config);
-
                 var result = customersAoresult.Result.OrderBy(x => x.Name);
-                var customers = mapper.Map<IEnumerable<CustomerModel>, ObservableCollection<CustomerBindableModel>>(result);
+                var customers = _mapper.Map<IEnumerable<CustomerModel>, ObservableCollection<CustomerBindableModel>>(result);
 
                 foreach (var item in customers)
                 {
