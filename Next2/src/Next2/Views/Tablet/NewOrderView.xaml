@@ -698,31 +698,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-                
-                <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
-                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
-                    <Setter Property="VisualStateManager.VisualStateGroups">
-                    
-                        <VisualStateGroupList>
-                                <VisualStateGroup Name="CommonStates">
-                                    <VisualState  Name="Normal" />
-                                    <VisualState  Name="Selected">
-
-                                        <VisualState.Setters>              
-                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                        </VisualState.Setters>
-                                    
-                                    </VisualState>
-                                </VisualStateGroup>
-                        </VisualStateGroupList>
-                    
-                    </Setter>
-                </Style>
-                
-                <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
-                    <Setter Property="ItemHeight" Value="40"/>
-                </Style>
-                
+                                             
                 <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
@@ -811,7 +787,7 @@
 
             <controls:DropDownList
                 Grid.Row="0"
-                Style="{DynamicResource DropDownListStyle_i2}"
+                Style="{DynamicResource DropDownListStyle_i1}"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
                 Margin="18, 26"
@@ -852,7 +828,7 @@
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
-                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
@@ -941,7 +917,7 @@
 
             <controls:DropDownList
                 Grid.Row="1"
-                Style="{DynamicResource DropDownListStyle_i2}"
+                Style="{DynamicResource DropDownListStyle_i1}"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
                 Margin="18"
@@ -952,7 +928,7 @@
                 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
-                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
                             
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 

@@ -6,10 +6,10 @@
     xmlns:ffimageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:models="clr-namespace:Next2.Models"
     x:DataType="viewmodels:DeleteSeatViewModel"
     x:Class="Next2.Views.Tablet.Dialogs.DeleteSeatDialog">
         
@@ -19,32 +19,6 @@
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             <Setter Property="FontFamily" Value="Barlow-Medium"/>
-        </Style>
-                
-        <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
-            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
-            <Setter Property="VisualStateManager.VisualStateGroups">
-
-                <VisualStateGroupList>
-                    <VisualStateGroup Name="CommonStates">
-                        <VisualState  Name="Normal" />
-                        <VisualState  Name="Selected">
-
-                            <VisualState.Setters>              
-                                <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                            </VisualState.Setters>
-                                    
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-                    
-            </Setter>
-        </Style>
-        
-        <Style x:Key="BorderButtonStyle_i3" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="CornerRadius" Value="7"/>
-            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
         </Style>
         
     </rg:PopupPage.Resources>
@@ -91,7 +65,6 @@
                 Margin="25, 0"
                 VerticalOptions="Start"
                 HeaderTextSize="12"
-                ItemHeight="40"
                 ItemsSource="{Binding SeatsListItems}"
                 SelectedItem="{Binding SelectedSeatListItem}"
                 HeaderText="{Binding SelectedSeatListItem.SeatNumber, StringFormat='Seat {0}'}">
@@ -108,7 +81,7 @@
                 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
-                        <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 

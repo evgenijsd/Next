@@ -28,6 +28,7 @@
                 HorizontalOptions="StartAndExpand"
                 FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderTextSize}"
                 FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderFontFamily}"
+                TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderTextColor}"
                 Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderText}" />
 
             <ffimageloading:CachedImage

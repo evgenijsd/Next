@@ -28,6 +28,18 @@ namespace Next2.Controls
             set => SetValue(HeaderBackgroundColorProperty, value);
         }
 
+        public static readonly BindableProperty HeaderTextColorProperty = BindableProperty.Create(
+            propertyName: nameof(HeaderTextColor),
+            returnType: typeof(Color),
+            declaringType: typeof(DropDownList),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color HeaderTextColor
+        {
+            get => (Color)GetValue(HeaderTextColorProperty);
+            set => SetValue(HeaderTextColorProperty, value);
+        }
+
         public static readonly BindableProperty HeaderFontFamilyProperty = BindableProperty.Create(
             propertyName: nameof(HeaderFontFamily),
             returnType: typeof(string),
