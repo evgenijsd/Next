@@ -574,6 +574,16 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a Coupon or Discount 
+        ///                 to use it..
+        /// </summary>
+        internal static string SelectCoupon {
+            get {
+                return ResourceManager.GetString("SelectCoupon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {

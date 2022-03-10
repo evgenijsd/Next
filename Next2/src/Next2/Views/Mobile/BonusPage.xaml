@@ -9,9 +9,10 @@
     <ContentPage.Content>
         <StackLayout>
             <controls:CustomNavigationbar
-                    Title="{xct:Translate OrderTabs}"
-                    HeightImage="24"
-                    FontSize="{DynamicResource TSize_i5}"
+                Margin="15,0,0,0"
+                    Title="{xct:Translate Cancel}"
+                    HeightImage="18"
+                    FontSize="{DynamicResource TSize_i7}"
                     LeftButtonCommand="{prism:GoBack}" />
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 

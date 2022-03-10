@@ -4,18 +4,71 @@
                        xmlns:controls="clr-namespace:Next2.Controls"
                        xmlns:prism="http://prismlibrary.com"
                        xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                       xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Next2.Views.Tablet.BonusPage">
+    
     <ContentPage.Content>
-        <StackLayout>
+        
+        <StackLayout VerticalOptions="FillAndExpand">
+            
             <controls:CustomNavigationbar
-                    Title="{xct:Translate OrderTabs}"
-                    HeightImage="24"
-                    FontSize="{DynamicResource TSize_i5}"
+                Padding="15,0,0,0"
+                    Title="{xct:Translate Cancel}"
+                    HeightImage="18"
+                    FontSize="{DynamicResource TSize_i7}"
                     LeftButtonCommand="{prism:GoBack}" />
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            
+            <BoxView HeightRequest="3" Color="AliceBlue"/>
+            
+            <Grid 
+                ColumnDefinitions="0.66*,0.34*" 
+                ColumnSpacing="0" 
+                VerticalOptions="FillAndExpand">
+
+                <StackLayout>
+                    <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand">
+                        
+                        <Grid VerticalOptions="FillAndExpand">
+                            
+                            <ffimageloading:CachedImage
+                            Source="pic_coupon" 
+                                VerticalOptions="CenterAndExpand"
+                                Margin="0,0,0,0"
+                            HeightRequest="250"/>
+                            
+                            <Label 
+                                Text="{xct:Translate SelectCoupon}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i6}"
+                                FontFamily="Barlow-Regular"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                            
+                        </Grid>
+                        
+                    </StackLayout>
+                    <BoxView HeightRequest="2" Color="AliceBlue"/>
+                    <buttons:BorderButton
+                            HorizontalOptions="FillAndExpand"
+                        Margin="40,15,40,15"
+                            HeightRequest="35"
+                            Text="{xct:Translate Remove}"
+                            FontSize="{DynamicResource TSize_i6}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            BorderColor="{DynamicResource IndicationColor_i3}"
+                            BackgroundColor="Transparent"
+                            Style="{DynamicResource BorderButtonStyle_i1}" />
+                </StackLayout>
+                
+                
+            </Grid>
+
         </StackLayout>
+        
     </ContentPage.Content>
+    
 </views:BaseContentPage>
