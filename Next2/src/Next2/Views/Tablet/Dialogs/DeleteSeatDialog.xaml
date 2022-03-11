@@ -14,13 +14,11 @@
     x:Class="Next2.Views.Tablet.Dialogs.DeleteSeatDialog">
         
     <rg:PopupPage.Resources>
-        
         <Style TargetType="Label">
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             <Setter Property="FontFamily" Value="Barlow-Medium"/>
         </Style>
-        
     </rg:PopupPage.Resources>
     
     <pcView:PancakeView
@@ -28,8 +26,8 @@
         VerticalOptions="Center"
         HeightRequest="260"
         WidthRequest="380"
-        CornerRadius="10"
         Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=4}"
+        CornerRadius="10"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
                 
         <Grid 
@@ -50,7 +48,7 @@
                 Text="{xct:Translate MessageAboutRedirectingItems}">
                 
                 <Label.Triggers>
-                    <DataTrigger TargetType="Label" Binding="{Binding IsDeletingItemsSelected}" Value="True">
+                    <DataTrigger TargetType="Label" Binding="{Binding IsDeletingSetsSelected}" Value="True">
                          
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                        
@@ -62,15 +60,15 @@
             <controls:DropDownList
                 Grid.Row="2"
                 Style="{DynamicResource DropDownListStyle_i1}"
-                Margin="25, 0"
                 VerticalOptions="Start"
+                Margin="25, 0"
                 HeaderTextSize="12"
                 ItemsSource="{Binding SeatsListItems}"
                 SelectedItem="{Binding SelectedSeatListItem}"
                 HeaderText="{Binding SelectedSeatListItem.SeatNumber, StringFormat='Seat {0}'}">
 
                 <controls:DropDownList.Triggers>
-                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingItemsSelected}" Value="True">
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingSetsSelected}" Value="True">
                          
                         <Setter Property="IsEnabled" Value="False" />
                         <Setter Property="IsExpanded" Value="false" />
@@ -91,10 +89,10 @@
                                 Orientation="Horizontal">
 
                                 <Label
-                                    x:DataType="models:SeatListItemBindableModel"
                                     HorizontalOptions="FillAndExpand"
                                     FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i8}">
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    x:DataType="models:SeatListItemBindableModel">
                                     
                                     <Label.FormattedText>
                                         <FormattedString>
@@ -117,11 +115,11 @@
             <!-- CHECKBOX -->
             <StackLayout 
                 Grid.Row="3"
-                Margin="25, 0"
                 HorizontalOptions="Start"
+                Margin="25, 0"
                 Orientation="Horizontal"
                 Spacing="10"
-                xct:TouchEffect.Command="{Binding SelectDeletingItemsCommand}">
+                xct:TouchEffect.Command="{Binding SelectDeletingSetsCommand}">
                 
                 <ffimageLoading:CachedImage 
                     HeightRequest="20"
@@ -129,7 +127,7 @@
                     Source="ic_check_box_unhecked_24x24">
                     
                     <ffimageLoading:CachedImage.Triggers>
-                        <DataTrigger TargetType="ffimageLoading:CachedImage" Binding="{Binding IsDeletingItemsSelected}" Value="True">
+                        <DataTrigger TargetType="ffimageLoading:CachedImage" Binding="{Binding IsDeletingSetsSelected}" Value="True">
                          
                             <Setter Property="Source" Value="ic_check_box_checked_primary_24x24" />
                        

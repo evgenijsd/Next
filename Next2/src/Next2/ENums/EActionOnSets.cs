@@ -1,6 +1,6 @@
 ﻿namespace Next2.Enums
 {
-    public enum EActionWhenDeletingSeat
+    public enum EActionOnSets
     {
         RedirectSets,
         DeleteSets,

@@ -72,14 +72,13 @@
             public const string ACCEPT = nameof(ACCEPT);
             public const string CANCEL = nameof(CANCEL);
             public const string SET = nameof(SET);
-            public const string CATEGORY = nameof(CATEGORY);
             public const string PORTIONS = nameof(PORTIONS);
-            public const string ACTION = nameof(ACTION);
+            public const string ACTION_ON_SETS = nameof(ACTION_ON_SETS);
             public const string DELETE_ITEMS = nameof(DELETE_ITEMS);
             public const string REDIRECT_SET = nameof(REDIRECT_SET);
-            public const string SEAT = nameof(SEAT);
-            public const string SEAT_NUMBERS = nameof(SEAT_NUMBERS);
-            public const string SEAT_NUMBER = nameof(SEAT_NUMBER);
+            public const string REMOVAL_SEAT = nameof(REMOVAL_SEAT);
+            public const string SEAT_NUMBERS_OF_CURRENT_ORDER = nameof(SEAT_NUMBERS_OF_CURRENT_ORDER);
+            public const string DESTINATION_SEAT_NUMBER = nameof(DESTINATION_SEAT_NUMBER);
         }
     }
 }

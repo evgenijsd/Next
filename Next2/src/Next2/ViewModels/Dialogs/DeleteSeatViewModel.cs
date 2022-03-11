@@ -13,39 +13,24 @@ namespace Next2.ViewModels.Dialogs
 {
     public class DeleteSeatViewModel : BindableBase
     {
-        private SeatBindableModel _seat;
+        private SeatBindableModel _removalSeat;
 
         public DeleteSeatViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
             RequestClose = requestClose;
-            AcceptCommand = new Command(() =>
-            {
-                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.SEAT, _seat } };
 
-                if (IsDeletingItemsSelected)
-                {
-                    dialogParameters.Add(Constants.DialogParameterKeys.ACTION, EActionWhenDeletingSeat.DeleteSets);
-                }
-                else
-                {
-                    dialogParameters.Add(Constants.DialogParameterKeys.ACTION, EActionWhenDeletingSeat.RedirectSets);
-                    dialogParameters.Add(Constants.DialogParameterKeys.SEAT_NUMBER, SelectedSeatListItem.SeatNumber);
-                }
-
-                RequestClose(dialogParameters);
-            });
-
+            AcceptCommand = new Command(OnAcceptCommand);
             DeclineCommand = new Command(() => RequestClose(null));
         }
 
         #region -- Public properties --
 
-        public bool IsDeletingItemsSelected { get; set; }
-
         public ObservableCollection<SeatListItemBindableModel> SeatsListItems { get; set; } = new ();
 
         public SeatListItemBindableModel SelectedSeatListItem { get; set; } = new ();
+
+        public bool IsDeletingSetsSelected { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
@@ -53,8 +38,8 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand AcceptCommand { get; }
 
-        private ICommand _selectDeletingItemsCommand;
-        public ICommand SelectDeletingItemsCommand => _selectDeletingItemsCommand ??= new Command(OnSelectDeletingItemsCommand);
+        private ICommand _selectDeletingSetsCommand;
+        public ICommand SelectDeletingSetsCommand => _selectDeletingSetsCommand ??= new Command(OnSelectDeletingSetsCommand);
 
         #endregion
 
@@ -62,34 +47,52 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadPageData(IDialogParameters param)
         {
-            if (param.TryGetValue(Constants.DialogParameterKeys.SEAT, out SeatBindableModel currentSeat)
-                && param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBERS, out IEnumerable<int> seatNumbers))
+            if (param is not null
+                && param.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat)
+                && param.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, out IEnumerable<int> seatNumbersOfCurrentOrder))
             {
-                _seat = currentSeat;
+                _removalSeat = removalSeat;
 
-                if (seatNumbers.Count() > 1)
+                if (seatNumbersOfCurrentOrder.Count() > 1)
                 {
-                    var seatListItems = seatNumbers
-                    .Where(x => x != currentSeat.SeatNumber)
-                    .Select(x => new SeatListItemBindableModel { SeatNumber = x });
+                    var seatListItems = seatNumbersOfCurrentOrder
+                        .Where(x => x != removalSeat.SeatNumber)
+                        .Select(x => new SeatListItemBindableModel { SeatNumber = x });
 
-                    SeatsListItems = new(seatListItems);
+                    SeatsListItems = new (seatListItems);
                     SelectedSeatListItem = SeatsListItems.FirstOrDefault();
                 }
                 else
                 {
-                    IsDeletingItemsSelected = true;
-                    SelectedSeatListItem.SeatNumber = currentSeat.SeatNumber;
+                    IsDeletingSetsSelected = true;
+                    SelectedSeatListItem.SeatNumber = removalSeat.SeatNumber;
                 }
             }
         }
 
-        private void OnSelectDeletingItemsCommand()
+        private void OnSelectDeletingSetsCommand()
         {
             if (SeatsListItems.Any())
             {
-                IsDeletingItemsSelected = !IsDeletingItemsSelected;
+                IsDeletingSetsSelected = !IsDeletingSetsSelected;
             }
+        }
+
+        private void OnAcceptCommand()
+        {
+            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.REMOVAL_SEAT, _removalSeat } };
+
+            if (IsDeletingSetsSelected)
+            {
+                dialogParameters.Add(Constants.DialogParameterKeys.ACTION_ON_SETS, EActionOnSets.DeleteSets);
+            }
+            else
+            {
+                dialogParameters.Add(Constants.DialogParameterKeys.ACTION_ON_SETS, EActionOnSets.RedirectSets);
+                dialogParameters.Add(Constants.DialogParameterKeys.DESTINATION_SEAT_NUMBER, SelectedSeatListItem.SeatNumber);
+            }
+
+            RequestClose(dialogParameters);
         }
 
         #endregion

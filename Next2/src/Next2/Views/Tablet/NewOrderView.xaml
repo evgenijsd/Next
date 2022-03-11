@@ -779,10 +779,6 @@
                         </VisualStateGroupList>
                     </VisualStateManager.VisualStateGroups>
 
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OrderRegistrationViewModel.OrderCommand}"/>
-                    </Label.GestureRecognizers>
-
                 </Label>
 
             </StackLayout>
@@ -1195,6 +1191,14 @@
 
                     <StackLayout Orientation="Horizontal">
 
+                        <StackLayout.Triggers>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
+
+                                <Setter Property="IsVisible" Value="false" />
+
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                        
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
                             Text="{xct:Translate Tax}" >
@@ -1259,20 +1263,13 @@
 
                         </Label>
 
-                        <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
-
-                                <Setter Property="IsVisible" Value="false" />
-
-                            </DataTrigger>
-                        </StackLayout.Triggers>
-
                     </StackLayout>
 
                     <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
 
-                    <StackLayout Orientation="Horizontal"
-                                 Padding="0, 0, 0, 4">
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        Padding="0, 0, 0, 4">
 
                         <Label
                             Style="{DynamicResource Medium18LabelStyle}"
@@ -1340,44 +1337,7 @@
                             </VisualStateManager.VisualStateGroups>
 
                         </Label>
-                        
-                        <Label
-                            HorizontalOptions="EndAndExpand"
-                            FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}">
-
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="{xct:Translate CurrencySign}" />
-                                    <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                                </FormattedString>
-                            </Label.FormattedText>
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
-
-                                    <VisualStateGroup Name="AdaptiveLabel">
-
-                                        <VisualState Name="Large">
-
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1280"/>
-                                            </VisualState.StateTriggers>
-
-                                            <VisualState.Setters>
-                                                <Setter Property="Style" Value="{DynamicResource SemiBold24LabelStyle}"/>
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-
-                                </VisualStateGroupList>
-                            </VisualStateManager.VisualStateGroups>
-
-                        </Label>
-
+              
                     </StackLayout>
 
                 </StackLayout>
@@ -1385,9 +1345,10 @@
             </StackLayout>
 
             <!-- BUTTONS -->
-            <Grid Grid.Row="4"
-                  Margin="18, 12, 18, 20"
-                  ColumnSpacing="12">
+            <Grid 
+                Grid.Row="4"
+                Margin="18, 12, 18, 20"
+                ColumnSpacing="12">
 
                 <Grid.Triggers>
                     <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">

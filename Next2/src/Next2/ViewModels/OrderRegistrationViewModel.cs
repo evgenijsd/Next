@@ -11,6 +11,7 @@ using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,12 +26,13 @@ namespace Next2.ViewModels
 {
     public class OrderRegistrationViewModel : BaseViewModel
     {
+        private readonly IEventAggregator _eventAggregator;
         private readonly IPopupNavigation _popupNavigation;
-        private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
+
+        private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
-        private readonly IEventAggregator _eventAggregator;
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
@@ -38,20 +40,20 @@ namespace Next2.ViewModels
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
+            IEventAggregator eventAggregator,
             IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
-            IAuthenticationService authenticationService,
-            IEventAggregator eventAggregator)
+            IAuthenticationService authenticationService)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
+            _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;
             _userService = userService;
             _authenticationService = authenticationService;
-            _eventAggregator = eventAggregator;
 
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
@@ -60,7 +62,7 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new ();
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
 
@@ -68,7 +70,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
 
-        public TableBindableModel SelectedTable { get; set; }
+        public TableBindableModel SelectedTable { get; set; } = new ();
 
         public int NumberOfSeats { get; set; }
 
@@ -93,7 +95,7 @@ namespace Next2.ViewModels
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _deleteLastSeatCommand;
-        public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync, allowsMultipleExecutions: true);
+        public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -108,7 +110,7 @@ namespace Next2.ViewModels
             await RefreshCurrentOrderAsync();
         }
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
@@ -123,13 +125,8 @@ namespace Next2.ViewModels
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats > CurrentOrder.Seats.Count)
                     {
-                        _orderService.AddSeatInCurrentOrderAsync();
-                        AddSeatsCommandsAsync();
-                    }
-                    else if (NumberOfSeats < CurrentOrder.Seats.Count)
-                    {
-                        var lastSeat = CurrentOrder.Seats.LastOrDefault();
-                        DeleteSeat(lastSeat);
+                        await _orderService.AddSeatInCurrentOrderAsync();
+                        await AddSeatsCommandsAsync();
                     }
 
                     break;
@@ -147,7 +144,7 @@ namespace Next2.ViewModels
         {
             List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
 
-            OrderTypes = new(enums.Select(x => new OrderTypeBindableModel
+            OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
             {
                 OrderType = x,
                 Text = LocalizationResourceManager.Current[x.ToString()],
@@ -156,7 +153,6 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
-            CurrentOrder = new();
             CurrentOrder = _orderService.CurrentOrder;
 
             // value for testing
@@ -201,10 +197,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat)
-        {
-            DeleteSeat(seat);
-        }
+        private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => DeleteSeat(seat);
 
         private async Task OnDeleteLastSeatCommandAsync()
         {
@@ -217,21 +210,23 @@ namespace Next2.ViewModels
         {
             if (seat.Sets.Any())
             {
-                IEnumerable<int> seatNumbers = CurrentOrder.Seats.Select(x => x.SeatNumber);
+                IEnumerable<int> seatNumbersOfCurrentOrder = CurrentOrder.Seats.Select(x => x.SeatNumber);
 
                 var param = new DialogParameters
                 {
-                    { Constants.DialogParameterKeys.SEAT, seat },
-                    { Constants.DialogParameterKeys.SEAT_NUMBERS, seatNumbers },
+                    { Constants.DialogParameterKeys.REMOVAL_SEAT, seat },
+                    { Constants.DialogParameterKeys.SEAT_NUMBERS_OF_CURRENT_ORDER, seatNumbersOfCurrentOrder },
                 };
 
-                await _popupNavigation.PushAsync(App.IsTablet
+                PopupPage deleteSeatDialog = App.IsTablet
                     ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
-                    : new Views.Mobile.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback));
+                    : new Views.Mobile.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback);
+
+                await _popupNavigation.PushAsync(deleteSeatDialog);
             }
             else
             {
-                var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(seat.SeatNumber);
+                var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(seat);
 
                 if (deleteSeatResult.IsSuccess)
                 {
@@ -243,28 +238,28 @@ namespace Next2.ViewModels
         private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult is not null
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION, out EActionWhenDeletingSeat action)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.SEAT, out SeatBindableModel removalSeat))
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_SETS, out EActionOnSets actionOnSets)
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat))
             {
-                if (action is EActionWhenDeletingSeat.DeleteSets)
+                if (actionOnSets is EActionOnSets.DeleteSets)
                 {
-                    var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat.SeatNumber);
+                    var deleteSetsResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
-                    if (deleteSeatResult.IsSuccess)
+                    if (deleteSetsResult.IsSuccess)
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
                     }
                 }
-                else if (action is EActionWhenDeletingSeat.RedirectSets
-                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.SEAT_NUMBER, out int destinationSeatNumber))
+                else if (actionOnSets is EActionOnSets.RedirectSets
+                    && dialogResult.TryGetValue(Constants.DialogParameterKeys.DESTINATION_SEAT_NUMBER, out int destinationSeatNumber))
                 {
-                    var resirectSetsResult = await _orderService.RedirectSetsFromCurrentOrder(removalSeat.SeatNumber, destinationSeatNumber);
+                    var resirectSetsResult = await _orderService.RedirectSetsFromSeatInCurrentOrder(removalSeat, destinationSeatNumber);
 
                     if (resirectSetsResult.IsSuccess)
                     {
                         await RefreshCurrentOrderAsync();
 
-                        var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat.SeatNumber);
+                        var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
                         if (deleteSeatResult.IsSuccess)
                         {
@@ -293,7 +288,7 @@ namespace Next2.ViewModels
 
         private async Task RefreshTablesAsync()
         {
-            var availableTablesResult = await _orderService.GetAvailableTablesAsync();
+            var availableTablesResult = await _orderService.GetFreeTablesAsync();
 
             if (availableTablesResult.IsSuccess)
             {
