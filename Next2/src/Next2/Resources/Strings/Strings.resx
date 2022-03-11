@@ -355,4 +355,10 @@
     <value>Select a Coupon or Discount 
                  to use it.</value>
   </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Coupons" xml:space="preserve">
+    <value>Coupons</value>
+  </data>
 </root>
