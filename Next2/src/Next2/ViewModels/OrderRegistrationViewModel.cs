@@ -197,16 +197,16 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => DeleteSeat(seat);
+        private async Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => await DeleteSeat(seat);
 
         private async Task OnDeleteLastSeatCommandAsync()
         {
             var lastSeat = CurrentOrder.Seats.LastOrDefault();
 
-            DeleteSeat(lastSeat);
+            await DeleteSeat(lastSeat);
         }
 
-        private async void DeleteSeat(SeatBindableModel seat)
+        private async Task DeleteSeat(SeatBindableModel seat)
         {
             if (seat.Sets.Any())
             {
