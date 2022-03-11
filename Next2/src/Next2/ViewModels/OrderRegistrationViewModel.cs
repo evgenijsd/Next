@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -209,18 +210,40 @@ namespace Next2.ViewModels
         {
             if (seat.SelectedItem is not null)
             {
-                foreach (var item in CurrentOrder.Seats)
+                if (App.IsTablet)
                 {
-                    if (item.Id != seat.Id)
+                    foreach (var item in CurrentOrder.Seats)
                     {
-                        item.SelectedItem = null;
+                        if (item.Id != seat.Id)
+                        {
+                            item.SelectedItem = null;
+                        }
                     }
+
+                    SelectedDish = seat.SelectedItem;
+
+                    IsSideMenuVisible = false;
+                    CurrentState = LayoutState.Success;
                 }
+                else
+                {
+                    foreach (var item in CurrentOrder.Seats)
+                    {
+                        if (item.Id != seat.Id)
+                        {
+                            item.SelectedItem = null;
+                        }
+                    }
 
-                SelectedDish = seat.SelectedItem;
+                    SelectedDish = seat.SelectedItem;
 
-                IsSideMenuVisible = false;
-                CurrentState = LayoutState.Success;
+                    var navigationParameters = new NavigationParameters
+                    {
+                         { nameof(SelectedDish), SelectedDish },
+                    };
+
+                    await _navigationService.NavigateAsync(nameof(EditPage), navigationParameters);
+                }
             }
         }
 

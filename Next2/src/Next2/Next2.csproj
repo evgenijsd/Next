@@ -121,7 +121,6 @@
     <Folder Include="Resources\Styles\" />
     <Folder Include="Helpers\" />
     <Folder Include="Resources\Images\" />
-    <Folder Include="ViewModels\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>

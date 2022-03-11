@@ -658,7 +658,6 @@
                         <Grid 
                             Grid.Row="0"
                             RowDefinitions="auto, *"
-                            HeightRequest="700"
                             RowSpacing="0">
 
                             <StackLayout Grid.Row="0">
@@ -666,21 +665,68 @@
                                 <!--CANCEL-->
                                 <controls:CustomNavigationbar 
                                     Grid.Row="0"
-                                    HeightRequest="70" 
-                                    HeightImage="25" 
+                                    HeightRequest="50" 
+                                    HeightImage="20" 
                                     Padding="15, 0, 0, 0"
                                     Title="{xct:Translate Cancel}" 
-                                    LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}"/>
+                                    LeftButtonCommand="{Binding OrderRegistrationViewModel.GoBackCommand}">
+
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup Name="AdaptiveNavigationBar">
+
+                                                <VisualState Name="Medium">
+
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="1024"/>
+                                                    </VisualState.StateTriggers>
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="HeightRequest" Value="70"/>
+                                                        <Setter Property="HeightImage" Value="30"/>
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                </controls:CustomNavigationbar>
 
                                 <!--Edit Order Label-->
                                 <Label
-                                    Margin="30, 20"
+                                    Margin="30, 10"
                                     HorizontalOptions="Start"
                                     VerticalOptions="Center"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="28"
-                                    Text="{xct:Translate EditOrder}"/>
+                                    FontSize="18"
+                                    Text="{xct:Translate EditOrder}">
+
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup Name="AdaptiveTitle">
+
+                                                <VisualState Name="Medium">
+
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="1024"/>
+                                                    </VisualState.StateTriggers>
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="FontSize" Value="28"/>
+                                                        <Setter Property="Margin" Value="30, 20"/>
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                </Label>
 
                                 <BoxView Style="{DynamicResource SeparatorStyle_i2}"/>
 
@@ -1004,36 +1050,106 @@
                             <buttons:BorderButton
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                HeightRequest="45"
+                                HeightRequest="32"
                                 Padding="0"
                                 Margin="30, 12, 0, 12"
                                 Style="{DynamicResource BorderButtonStyle_i2}"
+                                FontSize="{DynamicResource TSize_i7}"
                                 Background="{DynamicResource IndicationColor_i1}"
                                 Text="{xct:Translate Modify}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                Command="{Binding OrderRegistrationViewModel.OpenModifyCommand}" />
+                                Command="{Binding OrderRegistrationViewModel.OpenModifyCommand}">
+                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="AdaptiveBottomButton">
+
+                                            <VisualState Name="Medium">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1024"/>
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                                                    <Setter Property="HeightRequest" Value="45"/>
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </buttons:BorderButton>
 
                             <buttons:BorderButton
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                HeightRequest="45"
+                                HeightRequest="32"
                                 Margin="0, 12, 0, 12"
                                 Padding="0"
                                 Style="{DynamicResource BorderButtonStyle_i2}"
+                                FontSize="{DynamicResource TSize_i7}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate HoldItem}"
-                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}" />
+                                Command="{Binding OrderRegistrationViewModel.OpenHoldSelectionCommand}">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="AdaptiveBottomButton">
+
+                                            <VisualState Name="Medium">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1024"/>
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                                                    <Setter Property="HeightRequest" Value="45"/>
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+                                            
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                                
+                            </buttons:BorderButton>
 
                             <buttons:BorderButton
                                 Grid.Row="1"
                                 Grid.Column="2"
-                                HeightRequest="45"
+                                HeightRequest="32"
                                 Margin="0, 12, 30, 12"
                                 Padding="0"
                                 Style="{DynamicResource BorderButtonStyle_i2}"
+                                FontSize="{DynamicResource TSize_i7}"
                                 Background="{DynamicResource IndicationColor_i3}"
                                 Text="{xct:Translate Remove}"
-                                Command="{Binding OrderRegistrationViewMode.OpenRemoveCommand}" />
+                                Command="{Binding OrderRegistrationViewMode.OpenRemoveCommand}">
+                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="AdaptiveBottomButton">
+
+                                            <VisualState Name="Medium">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1024"/>
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                                                    <Setter Property="HeightRequest" Value="45"/>
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </buttons:BorderButton>
 
                         </Grid>
 
