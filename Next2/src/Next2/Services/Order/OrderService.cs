@@ -286,7 +286,7 @@ namespace Next2.Services.Order
                 var destinationSeat = seats.FirstOrDefault(x => x.SeatNumber == destinationSeatNumber);
                 int destinationSeatIndex = seats.IndexOf(destinationSeat);
 
-                if (destinationSeatIndex != -1)
+                if (destinationSeatIndex != -1 && destinationSeat.SeatNumber != sourceSeat.SeatNumber)
                 {
                     foreach (var item in sourceSeat.Sets)
                     {
