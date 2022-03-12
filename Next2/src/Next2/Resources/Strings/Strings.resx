@@ -351,4 +351,16 @@
   <data name="InvalidCode" xml:space="preserve">
     <value>Invalid code</value>
   </data>
+  <data name="DeleteItems" xml:space="preserve">
+    <value>Delete Items</value>
+  </data>
+  <data name="MessageAboutRedirectingItems" xml:space="preserve">
+    <value>All items from this seat will be redirected to:</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Seat" xml:space="preserve">
+    <value>Seat</value>
+  </data>
 </root>

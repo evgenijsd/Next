@@ -24,12 +24,14 @@ namespace Next2.Services.Order
             _mockService = mockService;
             _mapper = mapper;
 
+            CurrentOrder.Seats = new ();
+
             Task.Run(CreateNewOrderAsync);
         }
 
         #region -- Public properties --
 
-        public FullOrderBindableModel CurrentOrder { get; set; }
+        public FullOrderBindableModel CurrentOrder { get; set; } = new ();
 
         public SeatBindableModel? CurrentSeat { get; set; }
 
@@ -45,7 +47,7 @@ namespace Next2.Services.Order
             {
                 var orders = await _mockService.GetAllAsync<OrderModel>();
 
-                if (orders != null)
+                if (orders is not null)
                 {
                     int newOrderId = orders.Max(row => row.Id) + 1;
 
@@ -64,7 +66,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetAvailableTablesAsync()
+        public async Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync()
         {
             var result = new AOResult<IEnumerable<TableModel>>();
 
@@ -74,17 +76,19 @@ namespace Next2.Services.Order
 
                 if (allTables is not null)
                 {
-                    result.SetSuccess(allTables);
-                }
+                    var allOrders = await _mockService.GetAllAsync<OrderModel>();
 
-                if (!result.IsSuccess)
-                {
-                    result.SetFailure();
+                    var freeTables = allTables?.Where(table => allOrders.All(order => order.Id != table.Id));
+
+                    if (freeTables is not null)
+                    {
+                        result.SetSuccess(freeTables);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAvailableTablesAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetFreeTablesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -141,7 +145,7 @@ namespace Next2.Services.Order
             try
             {
                 var orderId = await GetNewOrderIdAsync();
-                var availableTables = await GetAvailableTablesAsync();
+                var availableTables = await GetFreeTablesAsync();
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
@@ -213,16 +217,18 @@ namespace Next2.Services.Order
 
             try
             {
-                var seat = new SeatBindableModel();
-                seat.Id = CurrentOrder.Seats.Count + 1;
-                seat.SeatNumber = CurrentOrder.Seats.Count + 1;
-                seat.Sets = new();
-                seat.Checked = true;
-
-                foreach(var item in CurrentOrder.Seats)
+                foreach (var item in CurrentOrder.Seats)
                 {
                     item.Checked = false;
                 }
+
+                var seat = new SeatBindableModel
+                {
+                    Id = CurrentOrder.Seats.Count + 1,
+                    SeatNumber = CurrentOrder.Seats.Count + 1,
+                    Sets = new (),
+                    Checked = true,
+                };
 
                 CurrentOrder.Seats.Add(seat);
 
@@ -233,6 +239,70 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(AddSeatInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                bool isDeleted = CurrentOrder.Seats.Remove(seat);
+
+                if (isDeleted)
+                {
+                    for (int i = seat.SeatNumber - 1; i < CurrentOrder.Seats.Count; i++)
+                    {
+                        CurrentOrder.Seats[i].Id--;
+                        CurrentOrder.Seats[i].SeatNumber--;
+                    }
+
+                    if (seat.Checked)
+                    {
+                        CurrentSeat = null;
+                    }
+
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DeleteSeatFromCurrentOrder)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var seats = CurrentOrder.Seats;
+                var destinationSeat = seats.FirstOrDefault(x => x.SeatNumber == destinationSeatNumber);
+                int destinationSeatIndex = seats.IndexOf(destinationSeat);
+
+                if (destinationSeatIndex != -1 && destinationSeat.SeatNumber != sourceSeat.SeatNumber)
+                {
+                    foreach (var item in sourceSeat.Sets)
+                    {
+                        seats[destinationSeatIndex].Sets.Add(item);
+                    }
+
+                    int sourceSeatIndex = seats.IndexOf(sourceSeat);
+
+                    seats[sourceSeatIndex].Sets.Clear();
+
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(RedirectSetsFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

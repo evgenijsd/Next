@@ -2,6 +2,7 @@
 <StackLayout
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     VerticalOptions="Center"
@@ -18,7 +19,8 @@
             HorizontalOptions="StartAndExpand"
             WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
             HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
-            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementIconSource}">
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementIconSource}"
+            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementCommand}">
 
             <ffimageloading:CachedImage.Triggers>            
                 <DataTrigger 
@@ -32,10 +34,6 @@
                 </DataTrigger>                
             </ffimageloading:CachedImage.Triggers>
             
-            <ffimageloading:CachedImage.GestureRecognizers>     
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=DecrementCommand}" />
-            </ffimageloading:CachedImage.GestureRecognizers>
-
         </ffimageloading:CachedImage>
 
         <Label
@@ -53,7 +51,8 @@
             HorizontalOptions="EndAndExpand"
             WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
             HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IconSizes}"
-            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementIconSource}">
+            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementIconSource}"
+            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementCommand}">
 
             <ffimageloading:CachedImage.Triggers>
                 <DataTrigger
@@ -66,11 +65,7 @@
 
                 </DataTrigger>
             </ffimageloading:CachedImage.Triggers>
-                
-            <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomStepper}}, Path=IncrementCommand}" />
-            </ffimageloading:CachedImage.GestureRecognizers>
-            
+
         </ffimageloading:CachedImage>
 
     </Grid>

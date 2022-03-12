@@ -155,6 +155,9 @@
     <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\DeleteSeatDialog.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
     </Compile>
@@ -200,11 +203,6 @@
     <Compile Update="Controls\Buttons\CustomButton.xaml.cs">
       <DependentUpon>CustomButton.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Strings\Strings.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -232,10 +230,6 @@
     <EmbeddedResource Update="Controls\Toggle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Strings\Strings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-	</EmbeddedResource>
     <EmbeddedResource Update="Controls\StepperCarousel.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

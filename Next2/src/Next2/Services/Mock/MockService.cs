@@ -920,6 +920,51 @@ namespace Next2.Services.Mock
                      Id = 10,
                      TableNumber = 10,
                  },
+                 new TableModel
+                 {
+                     Id = 11,
+                     TableNumber = 11,
+                 },
+                 new TableModel
+                 {
+                     Id = 12,
+                     TableNumber = 12,
+                 },
+                 new TableModel
+                 {
+                     Id = 13,
+                     TableNumber = 13,
+                 },
+                 new TableModel
+                 {
+                     Id = 14,
+                     TableNumber = 14,
+                 },
+                 new TableModel
+                 {
+                     Id = 15,
+                     TableNumber = 15,
+                 },
+                 new TableModel
+                 {
+                     Id = 16,
+                     TableNumber = 16,
+                 },
+                 new TableModel
+                 {
+                     Id = 17,
+                     TableNumber = 17,
+                 },
+                 new TableModel
+                 {
+                     Id = 18,
+                     TableNumber = 18,
+                 },
+                 new TableModel
+                 {
+                     Id = 19,
+                     TableNumber = 19,
+                 },
             };
 
             _base.Add(typeof(TableModel), _tables);
