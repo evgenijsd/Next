@@ -3,7 +3,6 @@ using Next2.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Next2.Controls
