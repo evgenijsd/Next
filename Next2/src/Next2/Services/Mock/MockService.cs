@@ -24,7 +24,7 @@ namespace Next2.Services.Mock
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
         private IList<BonusSetModel> _bonusSets;
-        private IList<BonusProductModel> _bonusProducts;
+        private IList<BonusDishModel> _bonusProducts;
         private IList<PortionModel> _portions;
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -168,7 +168,7 @@ namespace Next2.Services.Mock
                 InitTaxAsync(),
                 InitBonusAsync(),
                 InitBonusSetAsync(),
-                InitBonusProductAsync(),
+                InitBonusDishAsync(),
                 InitPortionsAsync());
 
             _initCompletionSource.TrySetResult(true);
@@ -210,13 +210,13 @@ namespace Next2.Services.Mock
             _base.Add(typeof(BonusSetModel), _bonusSets);
         });
 
-        private Task InitBonusProductAsync() => Task.Run(() =>
+        private Task InitBonusDishAsync() => Task.Run(() =>
         {
-            _bonusProducts = new List<BonusProductModel>
+            _bonusProducts = new List<BonusDishModel>
             {
             };
 
-            _base.Add(typeof(BonusProductModel), _bonusProducts);
+            _base.Add(typeof(BonusDishModel), _bonusProducts);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>
