@@ -189,7 +189,7 @@ namespace Next2.ViewModels
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            if (CurrentOrder.Seats is not null)
+            if (CurrentOrder.Seats is not null && seat.SelectedItem is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
@@ -198,6 +198,8 @@ namespace Next2.ViewModels
                         item.SelectedItem = null;
                     }
                 }
+
+                await _navigationService.NavigateAsync(nameof(Views.Mobile.ModificationsPage));
             }
         }
 

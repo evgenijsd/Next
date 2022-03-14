@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -152,25 +153,29 @@
 
             <buttons:BorderButton
                 Grid.Column="0"
-                Text="Cancel"
+                Text="{xct:Translate Cancel}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 BorderColor="{DynamicResource AppColor_i1}"
                 HeightRequest="40"
-                CornerRadius="4"/>
+                Padding="0"
+                CornerRadius="4"
+                Command="{prism:GoBack}"/>
 
             <buttons:BorderButton
                 Grid.Column="1"
-                Text="Save"
+                Text="{xct:Translate Save}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 HeightRequest="40"
-                CornerRadius="4"/>
+                Padding="0"
+                CornerRadius="4"
+                Command="{Binding SaveCommand}"/>
 
         </Grid>
 

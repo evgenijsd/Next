@@ -48,7 +48,7 @@ namespace Next2.ViewModels
 
                     Set = mapper.Map<SetModel, SetBindableModel>(set);
                     Portions = portions;
-                    SelectedPortion = Portions.FirstOrDefault();
+                    SelectedPortion = Portions.FirstOrDefault(row => row.Id == set.DefaultPortionId);
                 }
             }
         }

@@ -1,17 +1,12 @@
 ﻿using Next2.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Next2.Models
 {
-    public class SetModel : IBaseModel
+    public class IngredientModel : IBaseModel
     {
         public int Id { get; set; }
 
-        public int SubcategoryId { get; set; }
-
-        public int DefaultPortionId { get; set; }
+        public int CategoryId { get; set; }
 
         public string Title { get; set; }
 

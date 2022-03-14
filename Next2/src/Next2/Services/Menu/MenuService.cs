@@ -131,6 +131,31 @@ namespace Next2.Services.Menu
             return result;
         }
 
+        public async Task<AOResult<IEnumerable<ProductModel>>> GetProductsSetAsync(int setId)
+        {
+            var result = new AOResult<IEnumerable<ProductModel>>();
+
+            try
+            {
+                var products = await _mockService.GetAsync<ProductModel>(row => row.SetId == setId);
+
+                if (products is not null)
+                {
+                    result.SetSuccess(products);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetProductsSetAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }
