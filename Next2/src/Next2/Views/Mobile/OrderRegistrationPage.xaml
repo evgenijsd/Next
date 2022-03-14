@@ -291,6 +291,7 @@
                 <DataTemplate x:DataType="models:SeatBindableModel">
 
                     <templates:SeatItemTemplate
+                        ItemsSource="{Binding Sets}"
                         Padding="24, 9, 24, 0"/>
 
                 </DataTemplate>
@@ -406,6 +407,14 @@
                         </Label.FormattedText>
 
                     </Label>
+
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding IsOrderWithTax}" Value="false">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </StackLayout.Triggers>
 
                 </StackLayout>
 

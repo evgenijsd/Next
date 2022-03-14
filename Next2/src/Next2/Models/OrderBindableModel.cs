@@ -18,5 +18,7 @@ namespace Next2.Models
         public string OrderNumberText { get; set; }
 
         public double Total { get; set; }
+
+        public double Tax { get; set; }
     }
 }

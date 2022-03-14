@@ -212,7 +212,7 @@
                                 FontFamily="Barlow-Medium"
                                 Margin="5, 0, 0, 0"
                                 HorizontalTextAlignment="Center"
-                                WidthRequest="90"/>
+                                WidthRequest="100"/>
 
                             <ffimageloading:CachedImage
                                 Source="ic_calendar_24x24"
@@ -732,7 +732,9 @@
 
                             </StackLayout>
 
-                            <ScrollView Grid.Row="1">
+                            <ScrollView 
+                                Grid.Row="1"
+                                HeightRequest="700">
 
                                 <ScrollView.Effects>
                                     <effects:NoOverScrollEffect/>
@@ -1565,6 +1567,7 @@
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <templates:SeatItemTemplate
+                            ItemsSource="{Binding Sets}"
                             Padding="24, 9, 24, 0"/>
 
                     </DataTemplate>
@@ -1820,6 +1823,14 @@
                             </VisualStateManager.VisualStateGroups>
 
                         </Label>
+
+                        <StackLayout.Triggers>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
+
+                                <Setter Property="IsVisible" Value="false" />
+
+                            </DataTrigger>
+                        </StackLayout.Triggers>
 
                     </StackLayout>
 

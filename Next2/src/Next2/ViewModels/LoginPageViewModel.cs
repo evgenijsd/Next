@@ -1,10 +1,14 @@
+using Next2.Enums;
+using Next2.Helpers;
 using Next2.Services;
 using Next2.Services.Authentication;
 using Next2.Services.Mock;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
+using Prism.Events;
 using Prism.Navigation;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
@@ -15,26 +19,34 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
+        private static System.Timers.Timer timerUpdateTime = new Timer(1);
+
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IEventAggregator _eventAggregator;
 
         private string _inputtedEmployeeId;
-
         private int _inputtedEmployeeIdToDigit;
 
         public LoginPageViewModel(
             INavigationService navigationService,
             IUserService userService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _userService = userService;
+            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties--
 
         public bool IsEmployeeExists { get; set; }
+
+        public bool IsCheckAdminID { get; set; } = false;
+
+        public bool IsNoAdmin { get; set; } = false;
 
         public bool IsUserLogIn { get; set; }
 
@@ -42,29 +54,57 @@ namespace Next2.ViewModels
 
         public DateTime CurrentDateTime { get; set; }
 
-        public string EmployeeId { get; set; } = LocalizationResourceManager.Current["TypeEmployeeId"];
+        public string EmployeeId { get; set; } = string.Empty;
 
-        private ICommand _buttonClearCommand;
-        public ICommand ButtonClearCommand => _buttonClearCommand ??= new AsyncCommand(OnTabClearAsync);
+        private ICommand _ClearCommand;
+        public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);
+
+        private ICommand _RemoveTaxCommand;
+        public ICommand RemoveTaxCommand => _RemoveTaxCommand ??= new AsyncCommand<object>(OnRemoveTaxCommandAsync);
 
         private ICommand _goToEmployeeIdPage;
         public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
 
         #endregion
 
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(EmployeeId))
+            {
+                IsErrorNotificationVisible = false;
+            }
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
-        private async Task OnTabClearAsync()
+        private Task OnClearCommandAsync()
         {
-            EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
+            EmployeeId = string.Empty;
             IsEmployeeExists = false;
+
+            return Task.CompletedTask;
+        }
+
+        private async Task OnGoBackCommandAsync()
+        {
+            await _navigationService.GoBackAsync();
         }
 
         private async Task OnGoToEmployeeIdPageAsync()
         {
+            IsNoAdmin = false;
             await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
 
@@ -81,7 +121,9 @@ namespace Next2.ViewModels
                     if (IsEmployeeExists)
                     {
                         _authenticationService.Authorization();
+
                         await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
+
                         IsUserLogIn = true;
                     }
                     else
@@ -98,13 +140,64 @@ namespace Next2.ViewModels
             {
                 _authenticationService.Authorization();
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
-                EmployeeId = LocalizationResourceManager.Current["TypeEmployeeId"];
             }
         }
 
-        private async Task CheckEmployeeExists()
+        private async Task OnRemoveTaxCommandAsync(object? sender)
         {
-            IsEmployeeExists = (await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit)).IsSuccess;
+            if (sender is string str && str is not null)
+            {
+                if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                {
+                    int.TryParse(str, out _inputtedEmployeeIdToDigit);
+
+                    await CheckEmployeeExists();
+
+                    if (IsEmployeeExists)
+                    {
+                        _authenticationService.Authorization();
+
+                        await _navigationService.GoBackAsync();
+
+                        IsUserLogIn = true;
+                    }
+                    else
+                    {
+                        IsErrorNotificationVisible = true;
+                    }
+                }
+                else
+                {
+                    IsErrorNotificationVisible = true;
+                }
+            }
+            else
+            {
+                if (App.IsTablet)
+                {
+                    int.TryParse(EmployeeId, out _inputtedEmployeeIdToDigit);
+                }
+
+                IsNoAdmin = await CheckEmployeeExists() != EUserType.Admin;
+
+                if (!IsNoAdmin)
+                {
+                    _eventAggregator.GetEvent<TaxRemovedEvent>().Publish(IsNoAdmin);
+                    await _navigationService.GoBackAsync();
+                }
+
+                IsErrorNotificationVisible = true;
+            }
+        }
+
+        private async Task<EUserType> CheckEmployeeExists()
+        {
+            var user = await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit);
+            IsEmployeeExists = user.IsSuccess;
+
+            var result = IsEmployeeExists ? user.Result.UserType : EUserType.Guest;
+
+            return result;
         }
 
         #endregion
@@ -113,7 +206,12 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (_authenticationService.AuthorizedUserId >= 0)
+            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
+            {
+                IsCheckAdminID = true;
+            }
+
+            if (_authenticationService.AuthorizedUserId >= 0 && !IsCheckAdminID)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
@@ -143,7 +241,6 @@ namespace Next2.ViewModels
         public override void OnAppearing()
         {
             base.OnAppearing();
-            var timerUpdateTime = new Timer(1);
             timerUpdateTime.Elapsed += Timer_Elapsed;
 
             Task.Run(() => timerUpdateTime.Start());
@@ -156,6 +253,15 @@ namespace Next2.ViewModels
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             CurrentDateTime = DateTime.Now;
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            EmployeeId = string.Empty;
+            timerUpdateTime.Stop();
+            timerUpdateTime.Dispose();
         }
 
         #endregion

@@ -15,8 +15,6 @@ namespace Next2.Behaviors
     {
         private InputButton _inputButton;
 
-        private string title = LocalizationResourceManager.Current["TypeEmployeeId"];
-
         #region -- Overrides --
 
         protected override void OnAttachedTo(InputButton inputButton)
@@ -41,9 +39,9 @@ namespace Next2.Behaviors
 
         private void InputButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == InputButton.TextProperty.PropertyName && _inputButton.Text != title)
+            if ((e.PropertyName == InputButton.TextProperty.PropertyName && _inputButton.Text != string.Empty) || e.PropertyName == InputButton.IsNoAdminProperty.PropertyName)
             {
-                if (_inputButton.IsEmployeeExists == true)
+                if ((_inputButton.IsEmployeeExists == true || _inputButton.IsCheckAdminID) && !_inputButton.IsNoAdmin)
                 {
                     _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
                     _inputButton.IsLeftImageVisible = false;
@@ -56,7 +54,7 @@ namespace Next2.Behaviors
                     _inputButton.SetDynamicResource(InputButton.TextColorProperty, "TextAndBackgroundColor_i1");
                 }
             }
-            else if (_inputButton.Text == title)
+            else if (_inputButton.Text == string.Empty)
             {
                 _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
                 _inputButton.IsLeftImageVisible = false;

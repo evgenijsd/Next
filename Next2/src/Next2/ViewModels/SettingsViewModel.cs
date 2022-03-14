@@ -2,6 +2,7 @@
 using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,19 +13,24 @@ namespace Next2.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private IAuthenticationService _authenticationService;
+        private readonly IAuthenticationService _authenticationService;
+
+        private readonly IPopupNavigation _popupNavigation;
+
         public SettingsViewModel(
             INavigationService navigationService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
 
         private ICommand _logOutCommand;
-        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync);
+        public ICommand LogOutCommand => _logOutCommand ??= new AsyncCommand(OnLogOutCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -34,11 +40,11 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new Next2.Views.Tablet.Dialogs.LogOutAlertView(null, CloseDialogCallback));
+                await _popupNavigation.PushAsync(new Next2.Views.Tablet.Dialogs.LogOutAlertView(null, CloseDialogCallback));
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new Next2.Views.Mobile.Dialogs.LogOutAlertView(null, CloseDialogCallback));
+                await _popupNavigation.PushAsync(new Next2.Views.Mobile.Dialogs.LogOutAlertView(null, CloseDialogCallback));
             }
         }
 
@@ -50,7 +56,7 @@ namespace Next2.ViewModels
             {
                 _authenticationService.LogOut();
 
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
 
                 var navigationParameters = new NavigationParameters
                 {
@@ -61,7 +67,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
