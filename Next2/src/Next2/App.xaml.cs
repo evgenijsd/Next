@@ -26,6 +26,7 @@ using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
+using Next2.Services.Bonuses;
 
 namespace Next2
 {
@@ -60,6 +61,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
+            containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
