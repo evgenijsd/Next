@@ -66,33 +66,6 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-            <Style x:Key="DropDownDataTemplateStyle" TargetType="StackLayout">
-                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                <Setter Property="VisualStateManager.VisualStateGroups">
-
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="CommonStates">
-                            <VisualState Name="Normal" />
-                            <VisualState Name="Selected">
-
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                </VisualState.Setters>
-
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-
-                </Setter>
-
-            </Style>
-
-            <Style x:Key="DropDownListStyle_i2" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
-                <Setter Property="CornerRadius" Value="7" />
-                <Setter Property="ScrollBarVisibility" Value="Never" />
-                <Setter Property="ItemHeight" Value="46.5" />
-            </Style>
         </Grid.Resources>
 
         <!-- HEADER, 1 ROW -->
@@ -120,30 +93,26 @@
                         <Span Text="{Binding CurrentOrder.Id, StringFormat='{} #{0}'}" />
                     </FormattedString>
                 </Label.FormattedText>
-                
-                <!-- code for testing -->  
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding OrderCommand}" />
-                </Label.GestureRecognizers>
-                
+
             </Label>
 
         </StackLayout>
 
         <controls:DropDownList
             Grid.Row="0"
-            Style="{DynamicResource DropDownListStyle_i2}"
+            Style="{DynamicResource DropDownListStyle_i1}"
             HorizontalOptions="End"
             VerticalOptions="Start"
             Margin="17"
             WidthRequest="96"
+            ItemHeight="46.5"
             HeaderText="{Binding SelectedOrderType.Text}"
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
-                    <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                    <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                         <StackLayout
                             HeightRequest="30"
@@ -189,8 +158,9 @@
             </Label>
 
             <controls:CustomStepper
-                MaxValue="{Binding NumberOfAvailableSeats}"
-                Value="{Binding NumberOfSeats}">
+                MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
+                Value="{Binding NumberOfSeats}"
+                DecrementCommand="{Binding DeleteLastSeatCommand}">
 
                 <controls:CustomStepper.Triggers>
                     <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
@@ -207,18 +177,19 @@
 
         <controls:DropDownList
             Grid.Row="1"
-            Style="{DynamicResource DropDownListStyle_i2}"
+            Style="{DynamicResource DropDownListStyle_i1}"
             HorizontalOptions="Start"
             VerticalOptions="Start"
             Margin="18, 9"
             WidthRequest="145"
+            ItemHeight="46.5"
             HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
-                    <StackLayout Style="{DynamicResource DropDownDataTemplateStyle}">
+                    <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                         <StackLayout
                             HeightRequest="30"
@@ -242,50 +213,15 @@
 
         </controls:DropDownList>
 
-        <!-- PSEUDO-MEALS LIST (REPLACE) -->
+        <!-- SETS LIST -->
         <CollectionView
             Grid.Row="2"
-            ItemsSource="{Binding CurrentOrder.Seats}"
-            VerticalScrollBarVisibility="Always"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+            ItemsSource="{Binding CurrentOrder.Seats}">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
-
-                <effects:ScrollBarColorEffect
-                    ScrollBarThumbWidth="6"
-                    ScrollBarCornerRadius="9"
-                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
-
             </CollectionView.Effects>
-
-            <CollectionView.EmptyView>
-                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
-
-                    <StackLayout VerticalOptions="CenterAndExpand">
-
-                        <ffimageloading:CachedImage
-                            HorizontalOptions="Center"
-                            HeightRequest="250"
-                            WidthRequest="250"
-                            Source="pic_payment.png" />
-
-                        <controls:LineSpacingLabel
-                            Style="{DynamicResource Regular24pxLabelStyle}"
-                            HorizontalOptions="Center"
-                            HorizontalTextAlignment="Center"
-                            WidthRequest="250"
-                            LineSpacing="{OnPlatform Android=1.15, iOS=6.45}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i4_5}"
-                            FontFamily="Barlow-Regular"
-                            Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
-
-                    </StackLayout>
-
-                </StackLayout>
-            </CollectionView.EmptyView>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:SeatBindableModel">
@@ -455,7 +391,7 @@
             ColumnSpacing="10">
 
             <Grid.Triggers>
-                <DataTrigger TargetType="Grid" Binding="{Binding Sets.Count}" Value="0">
+                <DataTrigger TargetType="Grid" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                     <Setter Property="IsEnabled" Value="False" />
