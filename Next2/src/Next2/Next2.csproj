@@ -115,13 +115,11 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Converters\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
     <Folder Include="Helpers\" />
     <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="Views\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -143,6 +141,9 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\SingleSeatItemTemplate.xaml.cs">
+      <DependentUpon>SingleSeatItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\DeleteOrderDialog.xaml.cs">
+      <DependentUpon>DeleteOrderDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\DeleteSeatDialog.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>

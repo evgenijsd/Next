@@ -162,5 +162,6 @@
     
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
+    <converters:ListHeightConverter x:Key="listHeightConverter"/>
 
 </ResourceDictionary>

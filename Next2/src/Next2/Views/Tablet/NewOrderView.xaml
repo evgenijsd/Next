@@ -903,7 +903,6 @@
                     <controls:CustomStepper.Triggers>
                         <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             
-                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                             <Setter Property="IsEnabled" Value="False" />
 
                         </DataTrigger>

@@ -6,6 +6,9 @@ using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +28,7 @@ namespace Next2.ViewModels
         private readonly double _offsetHeight = App.IsTablet ? Constants.LayoutOrderTabs.OFFSET_TABLET : Constants.LayoutOrderTabs.OFFSET_MOBILE;
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IPopupNavigation _popupNavigation;
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
@@ -33,11 +37,13 @@ namespace Next2.ViewModels
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -84,6 +90,9 @@ namespace Next2.ViewModels
 
         private ICommand _tapSelectCommand;
         public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel?>(OnTapSelectCommandAsync);
+
+        private ICommand _removeOrderCommand;
+        public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -348,6 +357,41 @@ namespace Next2.ViewModels
             SelectedOrder = order == SelectedOrder ? null : order;
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnRemoveOrderCommandAsync()
+        {
+            if (SelectedOrder is not null)
+            {
+                var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+
+                if (seatsResult.IsSuccess)
+                {
+                    var seats = seatsResult.Result;
+
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.ORDER_ID, SelectedOrder.OrderNumber },
+                        { Constants.DialogParameterKeys.SEATS,  seats },
+                    };
+
+                    PopupPage deleteSeatDialog = App.IsTablet
+                        ? new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+
+                    await _popupNavigation.PushAsync(deleteSeatDialog);
+                }
+            }
+        }
+
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters dialogParameters)
+        {
+            if (dialogParameters is not null
+                && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+            }
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         #endregion

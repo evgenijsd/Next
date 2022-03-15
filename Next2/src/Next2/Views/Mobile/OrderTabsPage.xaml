@@ -355,7 +355,8 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             BorderColor="{DynamicResource IndicationColor_i3}"
                             BackgroundColor="Transparent"
-                            Style="{DynamicResource BorderButtonStyle_i1}" />
+                            Style="{DynamicResource BorderButtonStyle_i1}"
+                            xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
 
                     </StackLayout>
 

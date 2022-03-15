@@ -17,6 +17,8 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
 
+        Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderdId);
+
         string ApplyNumberFilter(string text);
 
         string ApplyNameFilter(string text);

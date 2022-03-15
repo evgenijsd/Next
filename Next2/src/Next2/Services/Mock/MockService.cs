@@ -18,6 +18,7 @@ namespace Next2.Services.Mock
         private IList<OrderModel> _orders;
         private IList<CategoryModel> _categories;
         private IList<SubcategoryModel> _subcategories;
+        private IList<SeatModel> _seats;
         private IList<SetModel> _sets;
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
@@ -160,6 +161,7 @@ namespace Next2.Services.Mock
                 InitMembersAsync(),
                 InitCategoriesAsync(),
                 InitSubategoriesAsync(),
+                InitSeatsAsync(),
                 InitSetsAsync(),
                 InitTables(),
                 InitUsersAsync(),
@@ -864,6 +866,690 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(UserModel), _users);
+        });
+
+        private Task InitSeatsAsync() => Task.Run(() =>
+        {
+            int seatId = 1;
+            int tableId = 1;
+            int setId = 1;
+
+            _seats = new List<SeatModel>
+            {
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 3,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = 12.5f,
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+            };
+
+            _base.Add(typeof(SeatModel), _seats);
         });
 
         private Task InitTables() => Task.Run(() =>

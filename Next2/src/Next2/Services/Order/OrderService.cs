@@ -119,6 +119,27 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderId)
+        {
+            var result = new AOResult<IEnumerable<SeatModel>>();
+
+            try
+            {
+                var seats = await _mockService.GetAsync<SeatModel>(x => x.OrderId == orderId);
+
+                if (seats is not null)
+                {
+                    result.SetSuccess(seats);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetSeatsAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new(Constants.Validators.NUMBER);
