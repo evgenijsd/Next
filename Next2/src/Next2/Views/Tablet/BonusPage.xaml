@@ -199,6 +199,7 @@
 
                     <Label 
                         Grid.Row="2"
+                        Margin="0,3,0,0"
                         Text="{xct:Translate Discounts}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
