@@ -254,12 +254,7 @@ namespace Next2.ViewModels
 
                     SelectedDish = seat.SelectedItem;
 
-                    var navigationParameters = new NavigationParameters
-                    {
-                         { nameof(SelectedDish), SelectedDish },
-                    };
-
-                    await _navigationService.NavigateAsync(nameof(EditPage), navigationParameters);
+                    await _navigationService.NavigateAsync(nameof(EditPage));
                 }
             }
         }

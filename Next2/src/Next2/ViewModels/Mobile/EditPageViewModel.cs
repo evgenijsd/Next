@@ -48,14 +48,7 @@ namespace Next2.ViewModels.Mobile
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if(parameters.TryGetValue("SelectedDish", out _selectedDish))
-            {
-                SelectedDish = _selectedDish;
-            }
-            else
-            {
-                SelectedDish = _orderService.CurrentOrder.Seats[_idxSeat].Sets[_idxSet];
-            }
+            SelectedDish = _orderService.CurrentOrder.Seats[_idxSeat].Sets[_idxSet];
         }
 
         #endregion
