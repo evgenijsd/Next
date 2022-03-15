@@ -361,4 +361,7 @@
   <data name="Coupons" xml:space="preserve">
     <value>Coupons</value>
   </data>
+  <data name="Discounts" xml:space="preserve">
+    <value>Discounts</value>
+  </data>
 </root>
