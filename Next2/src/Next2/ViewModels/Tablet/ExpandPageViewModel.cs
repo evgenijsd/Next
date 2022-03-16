@@ -124,21 +124,10 @@ namespace Next2.ViewModels.Tablet
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
-
-                    if (result.IsSuccess)
-                    {
-                        var param = new NavigationParameters();
-                        param.Add(Constants.Navigations.REFRESH_ORDER, string.Empty);
-
-                        await _popupNavigation.PopAsync();
-                        await _navigationService.GoBackAsync(param);
-                    }
                 }
             }
-            else
-            {
-                await _popupNavigation.PopAsync();
-            }
+
+            await _popupNavigation.PopAsync();
         }
 
         private async Task LoadCategoriesAsync()

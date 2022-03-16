@@ -50,9 +50,8 @@ namespace Next2.ViewModels.Tablet
 
             _orderService = orderService;
 
-            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
-            _timerUpdateTime.Elapsed += Timer_Elapsed;
-
+            //_timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
+            //_timerUpdateTime.Elapsed += Timer_Elapsed;
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
 
@@ -94,7 +93,7 @@ namespace Next2.ViewModels.Tablet
 
             OrderRegistrationViewModel.InitializeAsync(null);
 
-            _timerUpdateTime.Start();
+            //_timerUpdateTime.Start();
         }
 
         public override void OnDisappearing()
@@ -104,7 +103,7 @@ namespace Next2.ViewModels.Tablet
             SelectedCategoriesItem = new ();
             SelectedSubcategoriesItem = new ();
 
-            _timerUpdateTime.Stop();
+            //_timerUpdateTime.Stop();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
