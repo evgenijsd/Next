@@ -376,7 +376,7 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
                         : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
                     await _popupNavigation.PushAsync(deleteSeatDialog);

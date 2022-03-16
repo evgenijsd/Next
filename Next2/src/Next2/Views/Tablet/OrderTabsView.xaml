@@ -125,7 +125,8 @@
                         BorderColor="{DynamicResource IndicationColor_i3}"
                         BackgroundColor="Transparent"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        WidthRequest="100"/>
+                        WidthRequest="100"
+                        xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
 
                     <buttons:BorderButton
                         Text="{xct:Translate Edit}"

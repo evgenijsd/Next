@@ -177,6 +177,9 @@
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\Dialogs\DeleteOrderDialog.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\Dialogs\LogOutAlertView.xaml.cs">
       <DependentUpon>LogOutAlertView.xaml</DependentUpon>
     </Compile>
