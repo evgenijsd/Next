@@ -42,6 +42,11 @@
             public const double ROW_HEIGHT = 48 + 2;
         }
 
+        public static class LayoutBonuses
+        {
+            public const double ROW_BONUS = 60;
+        }
+
         public static class Navigations
         {
             public const string SEARCH = nameof(SEARCH);
