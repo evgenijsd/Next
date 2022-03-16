@@ -112,11 +112,20 @@
                 </controls:SearchButton>
 
                     <StackLayout
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Spacing="15"
-                    Margin="0,0,20,0">
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="15"
+                        Margin="0,0,20,0">
 
+                        <StackLayout.Triggers>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                                
+                                <Setter Property="IsEnabled" Value="false"/>
+                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                                
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                                               
                     <buttons:BorderButton
                         HorizontalOptions="EndAndExpand"
                         Text="{xct:Translate Remove}"
