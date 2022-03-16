@@ -45,12 +45,9 @@ namespace Next2.ViewModels.Tablet
             _orderService = orderService;
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
-            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
-            _timerUpdateTime.Elapsed += Timer_Elapsed;
-
             _orderService = orderService;
 
-            //_timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
+            //_timerUpdateTime = new Timer(TimeSpan.FromSeconds(2).TotalSeconds);
             //_timerUpdateTime.Elapsed += Timer_Elapsed;
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
@@ -127,7 +124,7 @@ namespace Next2.ViewModels.Tablet
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Task.Run(() => { CurrentDateTime = DateTime.Now; }).ConfigureAwait(false);
+            Task.Run(() => { CurrentDateTime = DateTime.Now; });
         }
 
         private async Task OnTapSortCommandAsync()

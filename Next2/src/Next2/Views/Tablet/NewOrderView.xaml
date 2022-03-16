@@ -127,7 +127,9 @@
             Grid.Row="0"
             Grid.Column="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
-
+            
+            <!--StateCustomKey Doesn't work that's why I had to used Loading & Succes insted -->
+            <!--StateKeys: Loading - NewOrderPage, Success - EditPage -->
             <xct:StateLayout.StateViews>
 
                 <xct:StateView StateKey="Loading">
