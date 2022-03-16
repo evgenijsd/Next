@@ -286,6 +286,20 @@ namespace Next2.ViewModels
                     if (deleteSetsResult.IsSuccess)
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
+                        if (NumberOfSeats <= 0)
+                        {
+                            OnGoBackCommand();
+                        }
+                        else
+                        {
+                            var nextCheckedSeat = CurrentOrder.Seats.LastOrDefault();
+
+                            nextCheckedSeat.SelectedItem = nextCheckedSeat.Sets.FirstOrDefault();
+
+                            await OnSeatSelectionCommandAsync(nextCheckedSeat);
+
+                            await OnSetSelectionCommandAsync(nextCheckedSeat);
+                        }
                     }
                 }
                 else if (actionOnSets is EActionOnSets.RedirectSets
@@ -302,6 +316,10 @@ namespace Next2.ViewModels
                         if (deleteSeatResult.IsSuccess)
                         {
                             NumberOfSeats = CurrentOrder.Seats.Count;
+
+                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).SelectedItem = removalSeat.SelectedItem;
+
+                            await OnSeatSelectionCommandAsync(CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1));
                         }
                     }
                 }
