@@ -199,6 +199,16 @@ namespace Next2.ViewModels
             }
         }
 
+        private async Task DeleteSeatsCommandsAsync()
+        {
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                seat.SeatSelectionCommand = null;
+                seat.SeatDeleteCommand = null;
+                seat.SetSelectionCommand = null;
+            }
+        }
+
         private void OnGoBackCommand()
         {
             if (SelectedDish is not null)
@@ -269,6 +279,7 @@ namespace Next2.ViewModels
                 if (deleteSeatResult.IsSuccess)
                 {
                     NumberOfSeats = CurrentOrder.Seats.Count;
+                    CurrentOrder.Seats.LastOrDefault().Checked = true;
                 }
             }
         }
@@ -292,13 +303,28 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            var nextCheckedSeat = CurrentOrder.Seats.LastOrDefault();
+                            if (App.IsTablet)
+                            {
+                                CurrentOrder.Seats.LastOrDefault().Checked = true;
+                                CurrentOrder.Seats.LastOrDefault().SelectedItem = CurrentOrder.Seats.LastOrDefault().Sets.FirstOrDefault();
+                            }
+                            else
+                            {
+                                await DeleteSeatsCommandsAsync();
 
-                            nextCheckedSeat.SelectedItem = nextCheckedSeat.Sets.FirstOrDefault();
+                                CurrentOrder.Seats.LastOrDefault().Checked = true;
 
-                            await OnSeatSelectionCommandAsync(nextCheckedSeat);
+                                CurrentOrder.Seats.LastOrDefault().SelectedItem = CurrentOrder.Seats.LastOrDefault().Sets.FirstOrDefault();
 
-                            await OnSetSelectionCommandAsync(nextCheckedSeat);
+                                foreach (var item in CurrentOrder.Seats)
+                                {
+                                    item.Checked = false;
+                                }
+
+                                SelectedDish = CurrentOrder.Seats.LastOrDefault().Sets.FirstOrDefault();
+
+                                await RefreshCurrentOrderAsync();
+                            }
                         }
                     }
                 }
@@ -309,17 +335,22 @@ namespace Next2.ViewModels
 
                     if (resirectSetsResult.IsSuccess)
                     {
-                        await RefreshCurrentOrderAsync();
-
                         var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
                         if (deleteSeatResult.IsSuccess)
                         {
-                            NumberOfSeats = CurrentOrder.Seats.Count;
+                            await DeleteSeatsCommandsAsync();
 
-                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).SelectedItem = removalSeat.SelectedItem;
+                            CurrentOrder.Seats[destinationSeatNumber - 1].SelectedItem = removalSeat.SelectedItem;
+                            foreach (var item in CurrentOrder.Seats)
+                            {
+                                item.Checked = false;
+                            }
 
-                            await OnSeatSelectionCommandAsync(CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1));
+                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).Checked = true;
+
+                            SelectedDish = removalSeat.SelectedItem;
+                            await RefreshCurrentOrderAsync();
                         }
                     }
                 }
@@ -330,7 +361,7 @@ namespace Next2.ViewModels
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            if (CurrentOrder.Seats is not null && seat.SelectedItem is not null)
+            if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
                 if (App.IsTablet)
                 {
