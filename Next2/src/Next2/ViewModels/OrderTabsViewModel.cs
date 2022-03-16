@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -376,21 +377,54 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(_popupNavigation, param, CloseDeleteOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.DeleteOrderDialog(_popupNavigation, param, CloseDeleteOrderDialogCallbackAsync);
+                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
                     await _popupNavigation.PushAsync(deleteSeatDialog);
                 }
             }
         }
 
-        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters dialogParameters)
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (dialogParameters is not null
-                && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            if (parameters is not null
+                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
             {
-                if (isOrderRemovingAccepted)
+                if (isOrderDeletionConfirmationRequestCalled)
                 {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    };
+
+                    PopupPage confirmDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback);
+
+                    await _popupNavigation.PushAsync(confirmDialog);
+                }
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
+        }
+
+        private async void CloseConfirmDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+                if (isOrderRemovingAccepted && SelectedOrder is not null)
+                {
+                    var removalOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+
+                    Orders.Remove(removalOrder);
+                    SelectedOrder = null;
+
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
                 }
             }
