@@ -376,8 +376,8 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(_popupNavigation, param, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.DeleteOrderDialog(_popupNavigation, param, CloseDeleteOrderDialogCallbackAsync);
 
                     await _popupNavigation.PushAsync(deleteSeatDialog);
                 }
@@ -389,6 +389,10 @@ namespace Next2.ViewModels
             if (dialogParameters is not null
                 && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
             {
+                if (isOrderRemovingAccepted)
+                {
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                }
             }
 
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();

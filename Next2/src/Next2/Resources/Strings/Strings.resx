@@ -363,4 +363,7 @@
   <data name="Seat" xml:space="preserve">
     <value>Seat</value>
   </data>
+  <data name="OrderWillBeRemoved" xml:space="preserve">
+    <value>This order will be removed.</value>
+  </data>
 </root>

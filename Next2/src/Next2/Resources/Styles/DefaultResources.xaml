@@ -71,6 +71,10 @@
     </Style>
     
     <!-- CONTROLS -->
+    <Style TargetType="controls:LineSpacingLabel">
+        <Setter Property="LineSpacing" Value="{OnPlatform Android=1.15, iOS=6.45}"/>
+    </Style>
+    
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />

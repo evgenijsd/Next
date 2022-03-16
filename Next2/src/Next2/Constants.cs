@@ -65,8 +65,10 @@
             public const string MESSAGE = "MESSAGE";
             public const string MODEL = "MODEL";
             public const string TITLE = "TITLE";
+            public const string DESCRIPTION = "DESCRIPTION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
             public const string CANCEL_BUTTON_TEXT = "CANCEL_BUTTON_TEXT";
+            public const string CONFIRM_MODE = "CONFIRM_MODE";
             public const string ACCEPT = "ACCEPT";
             public const string CANCEL = "CANCEL";
             public const string SET = "SET";

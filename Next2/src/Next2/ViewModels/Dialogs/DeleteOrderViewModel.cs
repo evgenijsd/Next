@@ -1,22 +1,31 @@
-﻿using Next2.Models;
+﻿using Next2.Enums;
+using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
     public class DeleteOrderViewModel : BindableBase
     {
-        public DeleteOrderViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        private readonly IPopupNavigation _popupNavigation;
+
+        public DeleteOrderViewModel(IPopupNavigation popupNavigation, DialogParameters param, Action<IDialogParameters> requestClose)
         {
+            _popupNavigation = popupNavigation;
             LoadPageData(param);
             RequestClose = requestClose;
             CancelCommand = new Command(() => RequestClose(null));
-            DeleteOrderCommand = new Command(OnDeleteOrderCommand);
+            DeleteOrderCommand = new AsyncCommand(OnDeleteOrderCommand, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -62,11 +71,36 @@ namespace Next2.ViewModels.Dialogs
             IsOrderDetailsDisplayed = !IsOrderDetailsDisplayed;
         }
 
-        private void OnDeleteOrderCommand()
+        private Task OnDeleteOrderCommand()
         {
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.ACCEPT, true } };
+            bool isAccepted = false;
 
-            RequestClose(dialogParameters);
+            var dialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+            };
+
+            PopupPage confirmDialog = App.IsTablet
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
+
+            return _popupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isAccepted))
+            {
+                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.ACCEPT, isAccepted } };
+
+                RequestClose(dialogParameters);
+            }
+
+            await _popupNavigation.PopAsync();
         }
 
         #endregion
