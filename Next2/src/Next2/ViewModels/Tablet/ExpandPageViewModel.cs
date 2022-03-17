@@ -131,7 +131,6 @@ namespace Next2.ViewModels.Tablet
                         param.Add(Constants.Navigations.REFRESH_ORDER, string.Empty);
 
                         await _popupNavigation.PopAsync();
-                        await _navigationService.GoBackAsync(param);
                     }
                 }
             }

@@ -50,7 +50,7 @@
             Grid.Column="0"
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-            State="{Binding SelectedMenuItem}">
+            State="{Binding SelectedProduct.SelectedItem.Title}">
 
             <sc:StateCondition State="Proportions">
                 <StackLayout>
@@ -66,7 +66,7 @@
                         Margin="16, 16, 16, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
-                        ItemsSource="{Binding SetPortions}">
+                        ItemsSource="{Binding PortionsSet}">
 
                         <CollectionView.ItemsLayout>
 
@@ -92,8 +92,11 @@
                                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                                    <templates:PortionItemTemplate
+                                    <templates:ToggleItemTemplate
                                         State="{Binding .}"
+                                        Title="{Binding Title}"
+                                        IsVisibleSubtitle="True"
+                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
                                         BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
                                 </Frame>
@@ -128,13 +131,59 @@
             </sc:StateCondition>
 
             <sc:StateCondition State="Options">
+                <StackLayout>
 
-                <Label
-                    Text="{Binding SelectedProduct.Title, StringFormat='Options, Product - {0:s}'}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"/>
+                    <controls:SortingPanel
+                        Margin="16, 24, 16, 0"
+                        Text="{xct:Translate AvailableOptions}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortCommand}"/>
 
+                    <CollectionView
+                        Margin="16, 16, 16, 0"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalScrollBarVisibility="Never"
+                        ItemsSource="{Binding OptionsProduct}">
+
+                        <CollectionView.ItemsLayout>
+
+                            <GridItemsLayout
+                                Orientation="Vertical"
+                                Span="1"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="15"/>
+
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.Effects>
+                            <effects:NoOverScrollEffect/>
+                        </CollectionView.Effects>
+
+                        <CollectionView.ItemTemplate>
+
+                            <DataTemplate x:DataType="models:OptionModel">
+
+                                <Frame
+                                    Padding="16, 4"
+                                    CornerRadius="8"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                                    <templates:ToggleItemTemplate
+                                        State="{Binding .}"
+                                        Title="{Binding Title}"
+                                        BindableLayout="{Binding SelectedOption, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
+
+                                </Frame>
+
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </StackLayout>
             </sc:StateCondition>
 
         </sc:StateContainer>
@@ -207,7 +256,7 @@
 
                     <StackLayout.Triggers>
 
-                        <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedMenuItem}" Value="Proportions">
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedProduct.SelectedItem.Title}" Value="Proportions">
                             <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i9}"/>
                         </DataTrigger>
 
@@ -222,7 +271,7 @@
 
                         <Label.Triggers>
 
-                            <DataTrigger TargetType="Label" Binding="{Binding SelectedMenuItem}" Value="Proportions">
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedProduct.SelectedItem.Title}" Value="Proportions">
                                 <Setter Property="TextColor" Value="{DynamicResource AppColor_i1}"/>
                             </DataTrigger>
 
@@ -237,7 +286,7 @@
 
                         <BoxView.Triggers>
 
-                            <DataTrigger TargetType="BoxView" Binding="{Binding SelectedMenuItem}" Value="Proportions">
+                            <DataTrigger TargetType="BoxView" Binding="{Binding SelectedProduct.SelectedItem.Title}" Value="Proportions">
                                 <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i1}"/>
                             </DataTrigger>
 
@@ -252,30 +301,14 @@
                     HeightRequest="1"/>
 
                 <CollectionView
-                    ItemsSource="{Binding SetProducts}"
-                    SelectionMode="Single"
+                    ItemsSource="{Binding ProductsSet}"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never">
 
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:ProductBindableModel">
+                        <DataTemplate x:DataType="models:SpoilerBindableModel">
 
                             <StackLayout>
-
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup Name="CommonStates">
-
-                                        <VisualState Name="Selected">
-
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-
-                                </VisualStateManager.VisualStateGroups>
 
                                 <controls:Spoiler
                                     ItemsSource="{Binding Items}"

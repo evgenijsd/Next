@@ -118,11 +118,6 @@ namespace Next2.ViewModels.Mobile
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
                     await _popupNavigation.PopAsync();
-
-                    if (result.IsSuccess)
-                    {
-                        await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
-                    }
                 }
             }
             else

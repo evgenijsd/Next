@@ -142,6 +142,9 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\ToggleItemTemplate.xaml.cs">
+      <DependentUpon>ToggleItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -228,7 +231,7 @@
     <EmbeddedResource Update="Controls\Spoiler.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
+    <EmbeddedResource Update="Controls\Templates\ToggleItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">

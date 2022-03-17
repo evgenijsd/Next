@@ -1,20 +1,20 @@
 ﻿using Next2.Interfaces;
-using Prism.Mvvm;
-using System.Collections.Generic;
-using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace Next2.Models
 {
-    public class ProductBindableModel : BindableBase, IBaseModel
+    public class ProductBindableModel : IBaseModel
     {
         public int Id { get; set; }
 
+        public OptionModel SelectedOption { get; set; }
+
+        public ObservableCollection<OptionModel> Options { get; set; }
+
         public string Title { get; set; }
 
-        public IEnumerable<ItemSpoilerModel> Items { get; set; }
+        public string ImagePath { get; set; }
 
-        public ItemSpoilerModel SelectedItem { get; set; }
-
-        public ICommand TapCommand { get; set; }
+        public float Price { get; set; }
     }
 }

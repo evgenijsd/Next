@@ -2,18 +2,23 @@
 <StackLayout
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
-    x:Class="Next2.Controls.Templates.PortionItemTemplate"
+    x:Class="Next2.Controls.Templates.ToggleItemTemplate"
     Orientation="Horizontal"
-    x:DataType="models:PortionModel"
     Padding="0, 12">
+
+    <ffimageloading:CachedImage
+        Aspect="AspectFill"
+        Source="{Binding ImagePath, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+        IsVisible="{Binding IsVisibleImage, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
 
     <StackLayout>
 
         <Label
-            Text="{Binding Title}"
+            Text="{Binding Title, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             TextColor="{DynamicResource IndicationColor_i3}"
             FontSize="{DynamicResource TSize_i5}"
             FontFamily="Barlow-SemiBold">
@@ -22,7 +27,7 @@
 
                 <DataTrigger
                     TargetType="Label"
-                    Binding="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:PortionItemTemplate}}}"
+                    Binding="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
                     Value="True">
 
                     <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
@@ -34,18 +39,19 @@
         </Label>
 
         <Label
-            Text="{Binding Price, StringFormat='$ {0:F2}'}"
+            Text="{Binding Subtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontSize="{DynamicResource TSize_i6}"
-            FontFamily="Barlow-SemiBold"/>
+            FontFamily="Barlow-SemiBold"
+            IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
 
     </StackLayout>
 
     <controls:Toggle
         VerticalOptions="Start"
         HorizontalOptions="EndAndExpand"
-        IsToggled="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:PortionItemTemplate}}}"
-        CanTurnOff="False"
+        IsToggled="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+        CanTurnOff="{Binding CanTurnOff, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
         ThumbColor="{DynamicResource IndicationColor_i3}"
         OnColor="{DynamicResource IndicationColor_i4}">
 

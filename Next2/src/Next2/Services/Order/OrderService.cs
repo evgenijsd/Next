@@ -176,6 +176,7 @@ namespace Next2.Services.Order
         public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
         {
             var result = new AOResult();
+            bool success = true;
 
             try
             {
@@ -191,6 +192,47 @@ namespace Next2.Services.Order
                     CurrentOrder.Seats.Add(seat);
 
                     CurrentSeat = seat;
+                }
+
+                var products = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+
+                if (products is not null)
+                {
+                    set.Products = new();
+
+                    foreach (var item in products)
+                    {
+                        var optionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == item.Id);
+
+                        if (optionsProduct is not null)
+                        {
+                            var product = new ProductBindableModel()
+                            {
+                                Id = item.Id,
+                                SelectedOption = optionsProduct.FirstOrDefault(row => row.Id == item.DefaultOptionId),
+                                Options = new(optionsProduct),
+                                Title = item.Title,
+                                ImagePath = item.ImagePath,
+                                Price = item.Price,
+                            };
+
+                            set.Products.Add(product);
+                        }
+                        else
+                        {
+                            success = false;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    success = false;
+                }
+
+                if(!success)
+                {
+                    result.SetFailure();
                 }
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);

@@ -1,5 +1,6 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
+using System.Collections.ObjectModel;
 
 namespace Next2.Models
 {
@@ -16,5 +17,9 @@ namespace Next2.Models
         public string ImagePath { get; set; }
 
         public PortionModel Portion { get; set; }
+
+        public ObservableCollection<PortionModel> Portions { get; set; }
+
+        public ObservableCollection<ProductBindableModel> Products { get; set; }
     }
 }

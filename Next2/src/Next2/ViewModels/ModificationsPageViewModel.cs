@@ -2,7 +2,6 @@
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -35,39 +34,45 @@ namespace Next2.ViewModels
             _menuService = menuService;
             _orderService = orderService;
 
-            var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+            CurrentOrder = new(_orderService.CurrentOrder);
 
-            _idxSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-            _set = _orderService.CurrentOrder.Seats[_idxSeat].SelectedItem;
+            var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
+            _idxSeat = CurrentOrder.Seats.IndexOf(seat);
+            _set = CurrentOrder.Seats[_idxSeat].SelectedItem;
             _idxSet = seat.Sets.IndexOf(_set);
 
             InitSubmenuItems();
 
-            InitProductsSetAsync();
+            InitProductsSet();
 
-            InitPortionsSetAsync();
+            InitPortionsSet();
+
+            SelectedProduct = new() { SelectedItem = new() { Title = "Proportions" } };
         }
 
         #region -- Public properties --
 
+        public FullOrderBindableModel CurrentOrder { get; set; }
+
         public ObservableCollection<ItemSpoilerModel> SubmenuItems { get; set; }
 
-        public ObservableCollection<ProductBindableModel> SetProducts { get; set; }
+        public ObservableCollection<SpoilerBindableModel> ProductsSet { get; set; }
 
-        public ObservableCollection<PortionModel> SetPortions { get; set; }
+        public SpoilerBindableModel SelectedProduct { get; set; }
 
-        public ProductBindableModel SelectedProduct { get; set; }
-
-        public PortionModel CurrentSelectedPortion { get; set; }
+        public ObservableCollection<PortionModel> PortionsSet { get; set; }
 
         public PortionModel SelectedPortion { get; set; }
 
-        public object SelectedMenuItem { get; set; } = "Proportions";
+        public ObservableCollection<OptionModel> OptionsProduct { get; set; }
+
+        public OptionModel SelectedOption { get; set; }
 
         public bool IsShowMenu { get; set; }
 
         private ICommand _tapSubmenuCommand;
-        public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<ProductBindableModel>(OnTapSubmenuCommandAsync);
+        public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
 
         private ICommand _tapOpenProportionsCommand;
         public ICommand TapOpenProportionsCommand => _tapOpenProportionsCommand ??= new AsyncCommand(OnTapOpenProportionsCommandAsync);
@@ -92,20 +97,33 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SelectedMenuItem))
-            {
-                switch (SelectedMenuItem)
-                {
-                    case "Proportions":
-                        SelectedPortion = CurrentSelectedPortion;
-                        break;
-                }
-            }
-            else if (args.PropertyName == nameof(SelectedPortion))
+            if (args.PropertyName == nameof(SelectedPortion))
             {
                 if (SelectedPortion is not null)
                 {
-                    CurrentSelectedPortion = SelectedPortion;
+                    CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion = SelectedPortion;
+                }
+            }
+            else if (args.PropertyName == nameof(SelectedOption))
+            {
+                if (SelectedOption is not null)
+                {
+                    var products = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Products;
+                    var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+
+                    products[products.IndexOf(product)].SelectedOption = SelectedOption;
+                }
+            }
+            else if (args.PropertyName == nameof(SelectedProduct))
+            {
+                switch (SelectedProduct?.SelectedItem?.Title)
+                {
+                    case "Proportions":
+                        SelectedPortion = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion;
+                        break;
+                    case "Options":
+                        LoadOptionsProduct();
+                        break;
                 }
             }
         }
@@ -145,13 +163,12 @@ namespace Next2.ViewModels
             };
         }
 
-        private async Task InitProductsSetAsync()
+        private void InitProductsSet()
         {
-            var products = await _menuService.GetProductsSetAsync(_set.Id);
-
-            if (products.IsSuccess)
+            var products = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Products;
+            if (products is not null)
             {
-                SetProducts = new(products.Result.Select(row => new ProductBindableModel
+                ProductsSet = new(products.Select(row => new SpoilerBindableModel
                 {
                     Id = row.Id,
                     Title = row.Title,
@@ -161,33 +178,49 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task InitPortionsSetAsync()
+        private void InitPortionsSet()
         {
-            var portions = await _menuService.GetPortionsSetAsync(_set.Id);
+            var portions = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portions;
 
-            if (portions.IsSuccess)
+            if (portions is not null)
             {
-                SetPortions = new(portions.Result);
+                PortionsSet = new(portions);
 
-                SelectedPortion = SetPortions.FirstOrDefault(row => row.Id == _set.Portion.Id);
-                CurrentSelectedPortion = SelectedPortion;
+                SelectedPortion = PortionsSet.FirstOrDefault(row => row.Id == _set.Portion.Id);
+                CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion = SelectedPortion;
             }
         }
 
-        private async Task OnTapSubmenuCommandAsync(ProductBindableModel item)
+        private void LoadOptionsProduct()
+        {
+            if (SelectedProduct != null)
+            {
+                var products = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Products;
+                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                var idxProduct = products.IndexOf(product);
+
+                var options = products[idxProduct].Options;
+                if (options is not null)
+                {
+                    OptionsProduct = new(options);
+                    SelectedOption = products[idxProduct].SelectedOption;
+                }
+            }
+        }
+
+        private async Task OnTapSubmenuCommandAsync(SpoilerBindableModel item)
         {
             if (item.SelectedItem is not null)
             {
                 SelectedProduct = item;
-                SelectedMenuItem = item.SelectedItem.Title;
 
-                var idx = SetProducts.IndexOf(item);
+                var idx = ProductsSet.IndexOf(item);
 
-                for (int i = 0; i < SetProducts.Count; i++)
+                for (int i = 0; i < ProductsSet.Count; i++)
                 {
                     if (i != idx)
                     {
-                        SetProducts[i].SelectedItem = null;
+                        ProductsSet[i].SelectedItem = null;
                     }
                 }
 
@@ -200,12 +233,11 @@ namespace Next2.ViewModels
 
         private async Task OnTapOpenProportionsCommandAsync()
         {
-            SelectedProduct = null;
-            SelectedMenuItem = "Proportions";
+            SelectedProduct = new() { SelectedItem = new() { Title = "Proportions" } };
 
-            for (int i = 0; i < SetProducts.Count; i++)
+            for (int i = 0; i < ProductsSet.Count; i++)
             {
-                SetProducts[i].SelectedItem = null;
+                ProductsSet[i].SelectedItem = null;
             }
 
             if (!App.IsTablet)
@@ -220,14 +252,14 @@ namespace Next2.ViewModels
 
             if (_order)
             {
-                SetPortions = new (SetPortions.OrderBy(row => row.Title));
+                PortionsSet = new (PortionsSet.OrderBy(row => row.Title));
             }
             else
             {
-                SetPortions = new (SetPortions.OrderByDescending(row => row.Title));
+                PortionsSet = new (PortionsSet.OrderByDescending(row => row.Title));
             }
 
-            SelectedPortion = SetPortions[SetPortions.IndexOf(CurrentSelectedPortion)];
+            SelectedPortion = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion;
         }
 
         private async Task OnOpenMenuCommandAsync()
@@ -242,7 +274,7 @@ namespace Next2.ViewModels
 
         private async Task OnSaveCommandAsync()
         {
-            _orderService.CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion = SelectedPortion;
+            _orderService.CurrentOrder = CurrentOrder;
 
             await _navigationService.GoBackAsync();
         }
