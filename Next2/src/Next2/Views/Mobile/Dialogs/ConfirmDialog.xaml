@@ -10,6 +10,7 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     x:Class="Next2.Views.Mobile.Dialogs.ConfirmDialog"
     x:DataType="viewModels:ConfirmViewModel">
+
     
     <pancakeview:PancakeView
         HorizontalOptions="Center" 
@@ -19,7 +20,17 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         CornerRadius="{OnPlatform Android='6', iOS='8'}"
         Padding="0">
-
+  
+        <pancakeview:PancakeView.Resources>
+            <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+                <Setter Property="Padding" Value="0, 0, 0, 2"/>
+                <Setter Property="HeightRequest" Value="42"/>
+                <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
+            </Style>
+        </pancakeview:PancakeView.Resources>
+        
         <StackLayout>
             <Label 
                 VerticalTextAlignment="Center"
@@ -27,7 +38,7 @@
                 MaxLines="1"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="{DynamicResource TSize_i5}"
-                FontFamily="Barlow-SemiBold"
+                FontFamily="Barlow-Bold"
                 Text="{Binding Title}"/>
 
             <BoxView 
@@ -51,15 +62,12 @@
             <Grid 
                 ColumnDefinitions="0.5*, 0.5*"
                 ColumnSpacing="10"
-                Padding="18, 15">
+                Padding="20, 16">
                     
                 <buttons:BorderButton
                     Grid.Column="0"
-                    Style="{DynamicResource BorderButtonStyle_i2}"
-                    Padding="0"
-                    HeightRequest="45"
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
                     BorderColor="{DynamicResource AppColor_i1}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Text="{Binding CancellationText}" 
                     Command="{Binding DeclineCommand}">
                     
@@ -75,11 +83,8 @@
 
                 <buttons:BorderButton
                     Grid.Column="1"
-                    Style="{DynamicResource BorderButtonStyle_i2}"
-                    Padding="0"
-                    HeightRequest="45"
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
                     BackgroundColor="{DynamicResource IndicationColor_i3}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Text="{Binding ConfirmationText}" 
                     Command="{Binding AcceptCommand}">
                     

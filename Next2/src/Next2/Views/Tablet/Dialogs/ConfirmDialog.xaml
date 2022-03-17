@@ -17,12 +17,21 @@
         VerticalOptions="Center"
         Padding="0"
         MinimumHeightRequest="226"
-        WidthRequest="484"
-        CornerRadius="8"
+        WidthRequest="470"
+        CornerRadius="10"
         Border="{pancakeview:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i2}}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         xct:ShadowEffect.Color="Black"
         xct:ShadowEffect.Radius="16">
+        
+        <pancakeview:PancakeView.Resources>
+            <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+                <Setter Property="Padding" Value="0, 0, 0, 2"/>
+                <Setter Property="HeightRequest" Value="42"/>
+                <Setter Property="CornerRadius" Value="6"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            </Style>
+        </pancakeview:PancakeView.Resources>
         
         <StackLayout>
             <Label
@@ -37,7 +46,7 @@
             <controls:LineSpacingLabel
                 VerticalTextAlignment="Start"
                 Padding="28, 0, 28, 40"
-                FontFamily="Barlow-Regular"
+                FontFamily="Barlow-Medium"
                 FontSize="{DynamicResource TSize_i6}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 Text="{Binding Description}"/>
@@ -49,17 +58,13 @@
             <StackLayout>
                 <Grid
                     ColumnDefinitions="0.5*, 0.5*"
-                    ColumnSpacing="16"
-                    Padding="28, 24">
+                    ColumnSpacing="12"
+                    Padding="24">
 
                     <buttons:BorderButton
                         Grid.Column="0"
-                        Style="{DynamicResource BorderButtonStyle_i2}"
-                        Padding="0"
-                        HeightRequest="50"
-                        CornerRadius="8"
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BorderColor="{DynamicResource AppColor_i1}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         Text="{Binding CancellationText}"
                         Command="{Binding DeclineCommand}">
 
@@ -75,12 +80,8 @@
 
                     <buttons:BorderButton
                         Grid.Column="1"
-                        Style="{DynamicResource BorderButtonStyle_i2}"
-                        Padding="0"
-                        HeightRequest="50"
-                        CornerRadius="8"
+                        Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource IndicationColor_i3}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         Text="{Binding ConfirmationText}"
                         Command="{Binding AcceptCommand}">
 

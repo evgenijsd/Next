@@ -161,7 +161,6 @@ namespace Next2.Services.Mock
                 InitMembersAsync(),
                 InitCategoriesAsync(),
                 InitSubategoriesAsync(),
-                InitSeatsAsync(),
                 InitSetsAsync(),
                 InitTables(),
                 InitUsersAsync(),
@@ -188,8 +187,10 @@ namespace Next2.Services.Mock
             _maxIdentifiers.Add(typeof(TaxModel), GetMaxId(_taxBonus));
         });
 
-        private Task InitOrdersAsync() => Task.Run(() =>
+        private Task InitOrdersAsync() => Task.Run(async () =>
         {
+            await InitSeatsAsync();
+
             _orders = new List<OrderModel>
             {
                 new OrderModel()
@@ -357,6 +358,14 @@ namespace Next2.Services.Mock
                     Tax = 0.1,
                 },
             };
+
+            for (int i = 0; i < _orders.Count; i++)
+            {
+                var orderSeats = _seats.Where(s => s.OrderId == _orders[i].Id);
+                var amountsBySeats = orderSeats.Select(x => x.Sets.Select(x => x.Price).Sum());
+
+                _orders[i].Total = amountsBySeats.Sum();
+            }
 
             _base.Add(typeof(OrderModel), _orders);
             _maxIdentifiers.Add(typeof(OrderModel), GetMaxId(_orders));
@@ -880,6 +889,7 @@ namespace Next2.Services.Mock
             int seatId = 1;
             int tableId = 1;
             int setId = 1;
+            var rand = new Random();
 
             _seats = new List<SeatModel>
             {
@@ -895,7 +905,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -903,7 +913,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -920,7 +930,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -928,7 +938,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -936,7 +946,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -953,7 +963,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -961,7 +971,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -978,7 +988,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -995,7 +1005,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1003,7 +1013,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1020,7 +1030,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1037,7 +1047,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1045,7 +1055,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1062,7 +1072,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1079,7 +1089,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1087,7 +1097,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1104,7 +1114,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1121,7 +1131,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1129,7 +1139,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1146,7 +1156,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1163,7 +1173,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1171,7 +1181,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1188,7 +1198,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1205,7 +1215,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1213,7 +1223,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1230,7 +1240,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1247,7 +1257,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1255,7 +1265,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1272,7 +1282,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1289,7 +1299,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1297,7 +1307,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1314,7 +1324,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1331,7 +1341,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1339,7 +1349,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1356,7 +1366,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1373,7 +1383,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1381,7 +1391,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1398,7 +1408,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1415,7 +1425,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1423,7 +1433,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1440,7 +1450,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1457,7 +1467,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1465,7 +1475,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1482,7 +1492,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1499,7 +1509,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1507,7 +1517,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1524,7 +1534,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
@@ -1541,7 +1551,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                         new SetModel()
@@ -1549,7 +1559,7 @@ namespace Next2.Services.Mock
                             Id = setId++,
                             SubcategoryId = 1,
                             Title = "B Pulled Pork Sammy Meal",
-                            Price = 12.5f,
+                            Price = rand.Next(10, 40),
                             ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                         },
                     },
