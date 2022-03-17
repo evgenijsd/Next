@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Next2.ViewModels"
              xmlns:templates="clr-namespace:Next2.Controls.Templates"
-             x:Class="Next2.Controls.Templates.BonusItemTemplate"
+             x:Class="Next2.Controls.Templates.BonusItemTemplate2"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     HorizontalOptions="Fill"
                                     VerticalOptions="Start"

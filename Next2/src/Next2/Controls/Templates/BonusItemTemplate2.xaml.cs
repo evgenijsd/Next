@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace Next2.Controls.Templates
 {
-    public partial class BonusItemTemplate : StackLayout
+    public partial class BonusItemTemplate2 : StackLayout
     {
-        public BonusItemTemplate()
+        public BonusItemTemplate2()
         {
             InitializeComponent();
         }
@@ -16,7 +16,7 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(BonusItemTemplate));
+            declaringType: typeof(BonusItemTemplate2));
 
         public string Text
         {
@@ -27,7 +27,7 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TapSelectCommandProperty = BindableProperty.Create(
             propertyName: nameof(TapSelectCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(BonusItemTemplate),
+            declaringType: typeof(BonusItemTemplate2),
             defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand TapSelectCommand
@@ -39,7 +39,7 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TapSelectCommandParameterProperty = BindableProperty.Create(
             propertyName: nameof(TapSelectCommandParameter),
             returnType: typeof(BonusBindableModel),
-            declaringType: typeof(BonusItemTemplate),
+            declaringType: typeof(BonusItemTemplate2),
             defaultBindingMode: BindingMode.TwoWay);
 
         public object TapSelectCommandParameter

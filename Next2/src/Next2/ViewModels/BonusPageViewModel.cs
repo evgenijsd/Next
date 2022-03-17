@@ -93,7 +93,6 @@ namespace Next2.ViewModels
             SelectedDiscount = null;
 
             SelectedCoupon = coupon == SelectedCoupon ? null : coupon;
-
             return Task.CompletedTask;
         }
 

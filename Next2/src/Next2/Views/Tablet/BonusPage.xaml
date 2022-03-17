@@ -27,11 +27,7 @@
                                     Property="ffimageloading:CachedImage.Source"
                                     Value="ic_check_box_checked_primary_24x24" />
                                 <Setter
-                                    TargetName="bonusFrameCoupon"
-                                    Property="Frame.BorderColor"
-                                    Value="{DynamicResource AppColor_i1}" />
-                                <Setter
-                                    TargetName="bonusFrameDiscount"
+                                    TargetName="bonusFrame"
                                     Property="Frame.BorderColor"
                                     Value="{DynamicResource AppColor_i1}" />
                             </VisualState.Setters>
@@ -150,86 +146,13 @@
 
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
-                                <StackLayout
-                                        HorizontalOptions="Fill"
-                                    VerticalOptions="Start"
-                                    Margin="0,10,0,0">
-
-
-
-                                    <Frame BackgroundColor="Transparent"
-                                           BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                           CornerRadius="8"
-                                           HeightRequest="50"
-                                           x:Name="bonusFrameCoupon">
-                                        
-                                            <!--VisualStateManager.VisualStateGroups>
-
-                                                <VisualStateGroup Name="CommonStates">
-
-                                                    <VisualState
-                                                    Name="Normal">
-                                                        <VisualState.Setters>
-                                                            <Setter
-                                                            Property="BorderColor"
-                                                            Value="{DynamicResource TextAndBackgroundColor_i2}" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-
-                                                    <VisualState Name="Selected">
-                                                        <VisualState.Setters>
-                                                            <Setter
-                                                            Property="BorderColor"
-                                                            Value="{DynamicResource AppColor_i1}" />
-                                                            <Setter
-                                                            TargetName="checkBoxImage"
-                                                            Property="ffimageloading:CachedImage.Source"
-                                                            Value="ic_check_box_checked_white" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-
-                                                </VisualStateGroup>
-
-                                            </VisualStateManager.VisualStateGroups-->
-
-                                            <Grid
-                                            Grid.Row="0"
-                                            ColumnDefinitions="*,50">
-
-                                                <ffimageloading:CachedImage
-                                                    Source="ic_check_box_unchecked_white"
-                                                    Grid.Column="1"
-                                                    HeightRequest="25"
-                                                    HorizontalOptions="CenterAndExpand"
-                                                    Margin="0,0,15,0"
-                                                    VerticalOptions="CenterAndExpand"
-                                                    x:Name="checkBoxImage"/>
-
-                                                <Label
-                                                Grid.Column="0"
-                                                HorizontalOptions="FillAndExpand"
-                                                Margin="20,13,0,0"
-                                                Text="{Binding Name}"
-                                                HeightRequest="{DynamicResource TSize_i9}"
-                                                LineBreakMode="TailTruncation"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                FontSize="{DynamicResource TSize_i7}"
-                                                FontFamily="Barlow-SemiBold" />
-
-                                    </Grid>
-
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
+                                    <templates:BonusItemTemplate
+                        Text="{Binding Name}"
+                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
                                                         Path=TapSelectCouponCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
+                                        TapSelectCommandParameter="{Binding .}"/>
 
-                                        </Frame>
-
-                                </StackLayout>
-
-                            </DataTemplate>
+                                </DataTemplate>
 
                         </CollectionView.ItemTemplate>
 
@@ -242,6 +165,7 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     <CollectionView Grid.Row="3"
+                                    SelectionMode="Single"
                             ItemsSource="{Binding Discounts}"
                             SelectedItem="{Binding SelectedDiscount}">
 
@@ -249,91 +173,11 @@
 
                             <DataTemplate x:DataType="models:BonusBindableModel">
 
-                                <StackLayout
-                                        HorizontalOptions="Fill"
-                                    VerticalOptions="Start"
-                                    Margin="0,10,0,0">
-
-                                    <!--VisualStateManager.VisualStateGroups>
-
-                                        <VisualStateGroup Name="CommonStates">
-
-                                            <VisualState
-                                                    Name="Normal">
-                                                
-                                                <VisualState.Setters>
-                                                    <Setter
-                                                            Property="BackgroundColor"
-                                                            Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                                </VisualState.Setters>
-                                                
-                                            </VisualState>
-
-                                            <VisualState Name="Selected">
-                                                
-                                                <VisualState.Setters>
-                                                    <Setter
-                                                            Property="BackgroundColor"
-                                                            Value="{DynamicResource AppColor_i4}" />
-                                                    <Setter
-                                                            TargetName="orderStatusLabel"
-                                                            Property="Label.TextColor"
-                                                            Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                                    <Setter
-                                                            TargetName="checkBoxImage"
-                                                            Property="ffimageloading:CachedImage.Source"
-                                                            Value="ic_check_box_checked_white" />
-                                                </VisualState.Setters>
-                                                
-                                            </VisualState>
-
-                                        </VisualStateGroup>
-
-                                    </VisualStateManager.VisualStateGroups-->
-
-                                    <Frame BackgroundColor="Transparent"
-                                           BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                           CornerRadius="8"
-                                           HeightRequest="50"
-                                           x:Name="bonusFrameDiscount">
-
-                                        <Grid
-                                            Grid.Row="0"
-                                            ColumnDefinitions="*,50">
-
-                                            <ffimageloading:CachedImage
-                                                Source="ic_check_box_unchecked_white"
-                                                Grid.Column="1"
-                                                HeightRequest="25"
-                                                HorizontalOptions="CenterAndExpand"
-                                                Margin="0,0,15,0"
-                                                VerticalOptions="CenterAndExpand"
-                                                x:Name="checkBoxImage">
-                                            </ffimageloading:CachedImage>
-
-                                            <Label
-                                                Grid.Column="0"
-                                                HorizontalOptions="FillAndExpand"
-                                                Margin="20,13,0,0"
-                                                Text="{Binding Name}"
-                                                HeightRequest="{DynamicResource TSize_i9}"
-                                                LineBreakMode="TailTruncation"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                FontSize="{DynamicResource TSize_i7}"
-                                                FontFamily="Barlow-SemiBold" />
-
-                                        </Grid>
-
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
+                                    <templates:BonusItemTemplate
+                        Text="{Binding Name}"
+                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
                                                         Path=TapSelectDiscountCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
-
-                                        </Frame>
-
-                                </StackLayout>
+                                        TapSelectCommandParameter="{Binding .}"/>
 
                             </DataTemplate>
 
