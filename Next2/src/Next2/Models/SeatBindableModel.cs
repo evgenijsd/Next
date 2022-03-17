@@ -7,6 +7,23 @@ namespace Next2.Models
 {
     public class SeatBindableModel : BindableBase, IBaseModel
     {
+        public SeatBindableModel()
+        {
+        }
+
+        public SeatBindableModel(SeatBindableModel seat)
+        {
+            Id = seat.Id;
+            SeatNumber = seat.SeatNumber;
+            Checked = seat.Checked;
+            SelectedItem = new();
+            IsFirstSeat = seat.IsFirstSeat;
+            SetSelectionCommand = seat.SetSelectionCommand;
+            SeatSelectionCommand = seat.SeatSelectionCommand;
+            SeatDeleteCommand = seat.SeatDeleteCommand;
+            Sets = new();
+        }
+
         public int Id { get; set; }
 
         public int SeatNumber { get; set; }

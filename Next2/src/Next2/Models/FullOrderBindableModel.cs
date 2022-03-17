@@ -14,7 +14,7 @@ namespace Next2.Models
 
         public FullOrderBindableModel(FullOrderBindableModel order)
         {
-            int idx = -1;
+            int index = -1;
 
             Id = order.Id;
             OrderNumber = order.OrderNumber;
@@ -29,76 +29,35 @@ namespace Next2.Models
 
             foreach (var seat in order.Seats)
             {
-                var newSeat = new SeatBindableModel()
-                {
-                    Id = seat.Id,
-                    SeatNumber = seat.SeatNumber,
-                    Checked = seat.Checked,
-                    IsFirstSeat = seat.IsFirstSeat,
-                    SetSelectionCommand = seat.SetSelectionCommand,
-                    SeatSelectionCommand = seat.SeatSelectionCommand,
-                    SeatDeleteCommand = seat.SeatDeleteCommand,
-                    Sets = new(),
-                };
+                var newSeat = new SeatBindableModel(seat);
 
                 foreach (var set in seat.Sets)
                 {
-                    var newSet = new SetBindableModel()
-                    {
-                        Id = set.Id,
-                        SubcategoryId = set.SubcategoryId,
-                        Title = set.Title,
-                        Price = set.Price,
-                        ImagePath = set.ImagePath,
-                        Portions = new(),
-                        Products = new(),
-                    };
+                    var newSet = new SetBindableModel(set);
 
                     foreach (var portion in set.Portions)
                     {
-                        var newPortion = new PortionModel()
-                        {
-                            Id = portion.Id,
-                            SetId = portion.SetId,
-                            Title = portion.Title,
-                            Price = portion.Price,
-                        };
-
-                        newSet.Portions.Add(newPortion);
+                        newSet.Portions.Add(new PortionModel(portion));
                     }
 
                     var tmpPortion = newSet.Portions.FirstOrDefault(row => row.Id == set.Portion.Id);
-                    idx = newSet.Portions.IndexOf(tmpPortion);
+                    index = newSet.Portions.IndexOf(tmpPortion);
 
-                    newSet.Portion = newSet.Portions[idx];
+                    newSet.Portion = newSet.Portions[index];
 
                     foreach (var product in set.Products)
                     {
-                        var newProduct = new ProductBindableModel()
-                        {
-                            Id = product.Id,
-                            Options = new(),
-                            Title = product.Title,
-                            ImagePath = product.ImagePath,
-                            Price = product.Price,
-                        };
+                        var newProduct = new ProductBindableModel(product);
 
                         foreach (var option in product.Options)
                         {
-                            var newOption = new OptionModel()
-                            {
-                                Id = option.Id,
-                                ProductId = option.ProductId,
-                                Title = option.Title,
-                            };
-
-                            newProduct.Options.Add(newOption);
+                            newProduct.Options.Add(new OptionModel(option));
                         }
 
                         var tmpProduct = newProduct.Options.FirstOrDefault(row => row.Id == product.SelectedOption.Id);
-                        idx = newProduct.Options.IndexOf(tmpProduct);
+                        index = newProduct.Options.IndexOf(tmpProduct);
 
-                        newProduct.SelectedOption = newProduct.Options[idx];
+                        newProduct.SelectedOption = newProduct.Options[index];
 
                         newSet.Products.Add(newProduct);
                     }
@@ -107,9 +66,9 @@ namespace Next2.Models
                 }
 
                 var tmpSet = newSeat.Sets.FirstOrDefault(row => row.Id == seat.SelectedItem.Id);
-                idx = newSeat.Sets.IndexOf(tmpSet);
+                index = newSeat.Sets.IndexOf(tmpSet);
 
-                newSeat.SelectedItem = newSeat.Sets[idx];
+                newSeat.SelectedItem = newSeat.Sets[index];
                 Seats.Add(newSeat);
             }
         }

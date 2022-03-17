@@ -233,7 +233,7 @@
             Grid.Column="0"
             Grid.RowSpan="5"
             ColumnDefinitions="300, *"
-            IsVisible="{Binding IsShowMenu}">
+            IsVisible="{Binding IsMenuOpen}">
 
             <StackLayout
                 Grid.Column="0"

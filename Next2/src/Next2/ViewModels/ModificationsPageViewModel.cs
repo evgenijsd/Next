@@ -13,34 +13,30 @@ namespace Next2.ViewModels
 {
     public class ModificationsPageViewModel : BaseViewModel
     {
-        private readonly IMenuService _menuService;
-
         private readonly IOrderService _orderService;
 
-        private bool _order;
+        private bool _isOrderedByDescending;
 
-        private int _idxSeat;
+        private int _indexOfSeat;
 
-        private int _idxSet;
+        private int _indexOfSelectedSet;
 
-        private SetBindableModel _set;
+        private SetBindableModel _selectedSet;
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
-            IMenuService menuService,
             IOrderService orderService)
             : base(navigationService)
         {
-            _menuService = menuService;
             _orderService = orderService;
 
             CurrentOrder = new(_orderService.CurrentOrder);
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            _idxSeat = CurrentOrder.Seats.IndexOf(seat);
-            _set = CurrentOrder.Seats[_idxSeat].SelectedItem;
-            _idxSet = seat.Sets.IndexOf(_set);
+            _indexOfSeat = CurrentOrder.Seats.IndexOf(seat);
+            _selectedSet = CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            _indexOfSelectedSet = seat.Sets.IndexOf(_selectedSet);
 
             InitSubmenuItems();
 
@@ -69,7 +65,7 @@ namespace Next2.ViewModels
 
         public OptionModel SelectedOption { get; set; }
 
-        public bool IsShowMenu { get; set; }
+        public bool IsMenuOpen { get; set; }
 
         private ICommand _tapSubmenuCommand;
         public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
@@ -97,34 +93,37 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName == nameof(SelectedPortion))
+            switch (args.PropertyName)
             {
-                if (SelectedPortion is not null)
-                {
-                    CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion = SelectedPortion;
-                }
-            }
-            else if (args.PropertyName == nameof(SelectedOption))
-            {
-                if (SelectedOption is not null)
-                {
-                    var products = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Products;
-                    var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                case nameof(SelectedPortion):
+                    if (SelectedPortion is not null)
+                    {
+                        CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Portion = SelectedPortion;
+                    }
 
-                    products[products.IndexOf(product)].SelectedOption = SelectedOption;
-                }
-            }
-            else if (args.PropertyName == nameof(SelectedProduct))
-            {
-                switch (SelectedProduct?.SelectedItem?.Title)
-                {
-                    case "Proportions":
-                        SelectedPortion = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion;
-                        break;
-                    case "Options":
-                        LoadOptionsProduct();
-                        break;
-                }
+                    break;
+                case nameof(SelectedOption):
+                    if (SelectedOption is not null)
+                    {
+                        var products = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Products;
+                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+
+                        products[products.IndexOf(product)].SelectedOption = SelectedOption;
+                    }
+
+                    break;
+                case nameof(SelectedProduct):
+                    switch (SelectedProduct?.SelectedItem?.Title)
+                    {
+                        case "Proportions":
+                            SelectedPortion = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Portion;
+                            break;
+                        case "Options":
+                            LoadOptionsProduct();
+                            break;
+                    }
+
+                    break;
             }
         }
 
@@ -165,7 +164,7 @@ namespace Next2.ViewModels
 
         private void InitProductsSet()
         {
-            var products = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Products;
+            var products = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Products;
             if (products is not null)
             {
                 ProductsSet = new(products.Select(row => new SpoilerBindableModel
@@ -180,14 +179,14 @@ namespace Next2.ViewModels
 
         private void InitPortionsSet()
         {
-            var portions = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portions;
+            var portions = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Portions;
 
             if (portions is not null)
             {
                 PortionsSet = new(portions);
 
-                SelectedPortion = PortionsSet.FirstOrDefault(row => row.Id == _set.Portion.Id);
-                CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion = SelectedPortion;
+                SelectedPortion = PortionsSet.FirstOrDefault(row => row.Id == _selectedSet.Portion.Id);
+                CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Portion = SelectedPortion;
             }
         }
 
@@ -195,7 +194,7 @@ namespace Next2.ViewModels
         {
             if (SelectedProduct != null)
             {
-                var products = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Products;
+                var products = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Products;
                 var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                 var idxProduct = products.IndexOf(product);
 
@@ -248,9 +247,9 @@ namespace Next2.ViewModels
 
         private async Task OnChangingOrderSortCommandAsync()
         {
-            _order = !_order;
+            _isOrderedByDescending = !_isOrderedByDescending;
 
-            if (_order)
+            if (_isOrderedByDescending)
             {
                 PortionsSet = new (PortionsSet.OrderBy(row => row.Title));
             }
@@ -259,17 +258,17 @@ namespace Next2.ViewModels
                 PortionsSet = new (PortionsSet.OrderByDescending(row => row.Title));
             }
 
-            SelectedPortion = CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion;
+            SelectedPortion = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Portion;
         }
 
         private async Task OnOpenMenuCommandAsync()
         {
-            IsShowMenu = true;
+            IsMenuOpen = true;
         }
 
         private async Task OnCloseMenuCommandAsync()
         {
-            IsShowMenu = false;
+            IsMenuOpen = false;
         }
 
         private async Task OnSaveCommandAsync()

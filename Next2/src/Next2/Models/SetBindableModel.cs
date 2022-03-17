@@ -6,6 +6,22 @@ namespace Next2.Models
 {
     public class SetBindableModel : BindableBase, IBaseModel
     {
+        public SetBindableModel()
+        {
+        }
+
+        public SetBindableModel(SetBindableModel set)
+        {
+            Id = set.Id;
+            SubcategoryId = set.SubcategoryId;
+            Title = set.Title;
+            Price = set.Price;
+            ImagePath = set.ImagePath;
+            Portion = new();
+            Portions = new();
+            Products = new();
+        }
+
         public int Id { get; set; }
 
         public int SubcategoryId { get; set; }
