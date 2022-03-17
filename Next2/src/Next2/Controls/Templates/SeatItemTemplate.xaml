@@ -91,9 +91,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
             Padding="16, 8"
             CornerRadius="8"
-            IsVisible="{Binding IsFirstSeat}"
-            xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
-            xct:TouchEffect.CommandParameter="{Binding .}">
+            IsVisible="{Binding IsFirstSeat}">
 
             <StackLayout
                 Orientation="Horizontal"

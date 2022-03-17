@@ -17,6 +17,8 @@ namespace Next2.ViewModels
 
         private IEnumerable<BonusModel>? _bonuses;
 
+        private IEnumerable<SetModel>? _sets;
+
         public BonusPageViewModel(
             INavigationService navigationService,
             IBonusesService bonusesService)
@@ -29,6 +31,8 @@ namespace Next2.ViewModels
         public ObservableCollection<BonusBindableModel> Coupons { get; set; } = new();
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
+
+        public ObservableCollection<SetBindableModel> Sets { get; set; } = new();
 
         public BonusBindableModel? SelectedCoupon { get; set; }
 
@@ -66,6 +70,16 @@ namespace Next2.ViewModels
                 Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(result.Result);
                 HeightCoupons = Coupons.Count * Constants.LayoutBonuses.ROW_BONUS;
                 HeightDiscounts = Discounts.Count * Constants.LayoutBonuses.ROW_BONUS;
+            }
+
+            var resultSet = await _bonusesService.GetSetsAsync();
+
+            if (resultSet.IsSuccess)
+            {
+                _sets = new List<SetModel>(resultSet.Result);
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
+                var mapper = new Mapper(config);
+                Sets = mapper.Map<IEnumerable<SetModel>, ObservableCollection<SetBindableModel>>(resultSet.Result);
             }
         }
 

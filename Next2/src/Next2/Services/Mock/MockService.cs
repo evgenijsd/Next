@@ -24,7 +24,6 @@ namespace Next2.Services.Mock
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
         private IList<BonusSetModel> _bonusSets;
-        private IList<BonusDishModel> _bonusProducts;
         private IList<PortionModel> _portions;
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -168,7 +167,6 @@ namespace Next2.Services.Mock
                 InitTaxAsync(),
                 InitBonusAsync(),
                 InitBonusSetAsync(),
-                InitBonusDishAsync(),
                 InitPortionsAsync());
 
             _initCompletionSource.TrySetResult(true);
@@ -208,15 +206,6 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(BonusSetModel), _bonusSets);
-        });
-
-        private Task InitBonusDishAsync() => Task.Run(() =>
-        {
-            _bonusProducts = new List<BonusDishModel>
-            {
-            };
-
-            _base.Add(typeof(BonusDishModel), _bonusProducts);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>
@@ -382,7 +371,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
-                    Tax = 0.0,
+                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -1004,6 +993,51 @@ namespace Next2.Services.Mock
                  {
                      Id = 10,
                      TableNumber = 10,
+                 },
+                 new TableModel
+                 {
+                     Id = 11,
+                     TableNumber = 11,
+                 },
+                 new TableModel
+                 {
+                     Id = 12,
+                     TableNumber = 12,
+                 },
+                 new TableModel
+                 {
+                     Id = 13,
+                     TableNumber = 13,
+                 },
+                 new TableModel
+                 {
+                     Id = 14,
+                     TableNumber = 14,
+                 },
+                 new TableModel
+                 {
+                     Id = 15,
+                     TableNumber = 15,
+                 },
+                 new TableModel
+                 {
+                     Id = 16,
+                     TableNumber = 16,
+                 },
+                 new TableModel
+                 {
+                     Id = 17,
+                     TableNumber = 17,
+                 },
+                 new TableModel
+                 {
+                     Id = 18,
+                     TableNumber = 18,
+                 },
+                 new TableModel
+                 {
+                     Id = 19,
+                     TableNumber = 19,
                  },
             };
 

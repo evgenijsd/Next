@@ -41,5 +41,30 @@ namespace Next2.Services.Bonuses
 
             return result;
         }
+
+        public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync()
+        {
+            var result = new AOResult<IEnumerable<SetModel>>();
+
+            try
+            {
+                var sets = await _mockService.GetAsync<SetModel>(x => x.Id != 0);
+
+                if (sets is not null)
+                {
+                    result.SetSuccess(sets);
+                }
+                else
+                {
+                    result.SetFailure(Strings.NotFoundOrders);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<int>> GetNewOrderIdAsync();
 
-        Task<AOResult<IEnumerable<TableModel>>> GetAvailableTablesAsync();
+        Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync();
 
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
 
@@ -26,5 +26,9 @@ namespace Next2.Services.Order
         Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
+
+        Task<AOResult> DeleteSeatFromCurrentOrder(SeatBindableModel seat);
+
+        Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
     }
 }

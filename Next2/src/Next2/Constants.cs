@@ -6,6 +6,8 @@
 
         public const float TAX_PERCENTAGE = 20;
 
+        public const int MAX_TABLE_SEATS = 10;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
         public const int SERVER_RESPONCE_DELAY = 100;
@@ -13,8 +15,6 @@
         public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";
-
-        public const int NUMBER_OF_AVAILABLE_SEATS = 10;
 
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";
@@ -49,12 +49,12 @@
 
         public static class Navigations
         {
-            public const string SEARCH = nameof(SEARCH);
-            public const string FUNC = nameof(FUNC);
-            public const string REFRESH_ORDER = nameof(REFRESH_ORDER);
-            public const string IS_LAST_USER_LOGGED_OUT = nameof(IS_LAST_USER_LOGGED_OUT);
-            public const string CATEGORY = nameof(CATEGORY);
-            public const string ADMIN = nameof(ADMIN);
+            public const string SEARCH = "SEARCH";
+            public const string FUNC = "FUNC";
+            public const string REFRESH_ORDER = "REFRESH_ORDER";
+            public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
+            public const string CATEGORY = "CATEGORY";
+            public const string ADMIN = "ADMIN";
         }
 
         public static class Validators
@@ -67,15 +67,19 @@
 
         public static class DialogParameterKeys
         {
-            public const string MESSAGE = nameof(MESSAGE);
-            public const string MODEL = nameof(MODEL);
-            public const string TITLE = nameof(TITLE);
-            public const string OK_BUTTON_TEXT = nameof(OK_BUTTON_TEXT);
-            public const string CANCEL_BUTTON_TEXT = nameof(CANCEL_BUTTON_TEXT);
-            public const string ACCEPT = nameof(ACCEPT);
-            public const string CANCEL = nameof(CANCEL);
-            public const string SET = nameof(SET);
-            public const string PORTIONS = nameof(PORTIONS);
+            public const string MESSAGE = "MESSAGE";
+            public const string MODEL = "MODEL";
+            public const string TITLE = "TITLE";
+            public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
+            public const string CANCEL_BUTTON_TEXT = "CANCEL_BUTTON_TEXT";
+            public const string ACCEPT = "ACCEPT";
+            public const string CANCEL = "CANCEL";
+            public const string SET = "SET";
+            public const string PORTIONS = "PORTIONS";
+            public const string ACTION_ON_SETS = "ACTION_ON_SETS";
+            public const string REMOVAL_SEAT = "REMOVAL_SEAT";
+            public const string SEAT_NUMBERS_OF_CURRENT_ORDER = "SEAT_NUMBERS_OF_CURRENT_ORDER";
+            public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
         }
     }
 }

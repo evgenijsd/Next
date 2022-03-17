@@ -12,7 +12,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Next2.Views.Tablet.BonusPage">
 
-    <ContentPage.Resources>
+    <!--ContentPage.Resources>
         <Style TargetType="StackLayout">
             <Setter Property="VisualStateManager.VisualStateGroups">
                 <VisualStateGroupList>
@@ -36,7 +36,7 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
-    </ContentPage.Resources>
+    </ContentPage.Resources-->
     
     <ContentPage.Content>
         
@@ -60,7 +60,7 @@
 
                 <StackLayout>
                     <Label
-                        Text="{xct:Translate OrderTabs}"
+                        Text="{xct:Translate CouponsAndDiscounts}"
                         Grid.Column="0"
                         Margin="30,20,0,10"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"

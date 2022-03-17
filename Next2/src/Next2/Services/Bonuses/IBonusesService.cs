@@ -10,5 +10,7 @@ namespace Next2.Services.Bonuses
     public interface IBonusesService
     {
         Task<AOResult<IEnumerable<BonusModel>>> GetBonusesAsync();
+
+        Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync();
     }
 }
