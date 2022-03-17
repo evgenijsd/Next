@@ -121,6 +121,7 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            SelectedOrder = null;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)

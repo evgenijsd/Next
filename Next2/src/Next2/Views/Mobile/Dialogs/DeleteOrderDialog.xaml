@@ -91,7 +91,7 @@
                             </Label>
                             
                             <CollectionView
-                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=80}"
+                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=81}"
                                 ItemsSource="{Binding Sets}">
 
                                 <CollectionView.Effects>

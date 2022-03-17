@@ -23,6 +23,8 @@ namespace Next2.Models
 
         public ICommand SeatDeleteCommand { get; set; }
 
+        public ICommand RemoveOrderCommand { get; set; }
+
         public ObservableCollection<SetBindableModel> Sets { get; set; }
     }
 }

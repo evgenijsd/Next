@@ -108,7 +108,8 @@
                     Text="{xct:Translate RemoveOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
-                    FontFamily="Barlow-SemiBold"/>
+                    FontFamily="Barlow-SemiBold"
+                    xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
 
             </StackLayout>
 

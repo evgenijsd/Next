@@ -404,7 +404,7 @@
                                                     <Trigger
                                                         TargetType="Label"
                                                         Property="Text"
-                                                        Value="Annuled">
+                                                        Value="Cancelled">
                                                         <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                                                     </Trigger>
                                                 </Label.Triggers>

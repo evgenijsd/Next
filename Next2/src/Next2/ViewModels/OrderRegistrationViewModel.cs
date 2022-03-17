@@ -36,6 +36,7 @@ namespace Next2.ViewModels
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
+        private readonly ICommand _removeOrderCommand;
         private readonly ICommand _setSelectionCommand;
 
         public OrderRegistrationViewModel(
@@ -57,6 +58,7 @@ namespace Next2.ViewModels
 
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
+            _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _setSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSetSelectionCommandAsync, allowsMultipleExecutions: false);
         }
 
@@ -175,7 +177,12 @@ namespace Next2.ViewModels
             {
                 seat.SeatSelectionCommand = _seatSelectionCommand;
                 seat.SeatDeleteCommand = _deleteSeatCommand;
-                seat.SetSelectionCommand = _setSelectionCommand;
+                seat.RemoveOrderCommand = _removeOrderCommand;
+
+                if (seat.IsFirstSeat)
+                {
+                    seat.SetSelectionCommand = _setSelectionCommand;
+                }
             }
         }
 
@@ -195,6 +202,95 @@ namespace Next2.ViewModels
 
                 _orderService.CurrentSeat = seat;
             }
+        }
+
+        private async Task OnRemoveOrderCommandAsync()
+        {
+            List<SeatModel> seats = new ();
+
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                if (seat.Sets.Any())
+                {
+                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                    {
+                        ImagePath = x.ImagePath,
+                        Title = x.Title,
+                        Price = x.Portion.Price,
+                    }));
+
+                    var newSeat = new SeatModel
+                    {
+                        SeatNumber = seat.SeatNumber,
+                        Sets = sets,
+                    };
+
+                    seats.Add(newSeat);
+                }
+            }
+
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.ORDER_ID, CurrentOrder.OrderNumber },
+                { Constants.DialogParameterKeys.SEATS, seats },
+            };
+
+            PopupPage removeOrderDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(removeOrderDialog);
+        }
+
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null
+                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            {
+                if (isOrderDeletionConfirmationRequestCalled)
+                {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    };
+
+                    PopupPage confirmDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback);
+
+                    await _popupNavigation.PushAsync(confirmDialog);
+                }
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
+        }
+
+        private async void CloseConfirmDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+                if (isOrderRemovingAccepted)
+                {
+                    var result = await _orderService.CreateNewOrderAsync();
+
+                    if (result.IsSuccess)
+                    {
+                        NumberOfSeats = 0;
+
+                        await RefreshCurrentOrderAsync();
+                    }
+
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                }
+            }
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => DeleteSeatAsync(seat);
