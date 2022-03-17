@@ -20,11 +20,11 @@ namespace Next2.ViewModels
 
         private bool _isOrderedByDescending;
 
-        private int _idxSeat;
+        private int _indexOfSeat;
 
-        private int _idxSet;
+        private int _indexOfSelectedSet;
 
-        private SetBindableModel _set;
+        private SetBindableModel _selectedSet;
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
@@ -37,9 +37,9 @@ namespace Next2.ViewModels
 
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            _idxSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-            _set = _orderService.CurrentOrder.Seats[_idxSeat].SelectedItem;
-            _idxSet = seat.Sets.IndexOf(_set);
+            _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
+            _selectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            _indexOfSelectedSet = seat.Sets.IndexOf(_selectedSet);
 
             InitSubmenuItems();
 
@@ -147,7 +147,7 @@ namespace Next2.ViewModels
 
         private async Task InitProductsSetAsync()
         {
-            var products = await _menuService.GetProductsSetAsync(_set.Id);
+            var products = await _menuService.GetProductsSetAsync(_selectedSet.Id);
 
             if (products.IsSuccess)
             {
@@ -163,13 +163,13 @@ namespace Next2.ViewModels
 
         private async Task InitPortionsSetAsync()
         {
-            var portions = await _menuService.GetPortionsSetAsync(_set.Id);
+            var portions = await _menuService.GetPortionsSetAsync(_selectedSet.Id);
 
             if (portions.IsSuccess)
             {
                 SetPortions = new(portions.Result);
 
-                SelectedPortion = SetPortions.FirstOrDefault(row => row.Id == _set.Portion.Id);
+                SelectedPortion = SetPortions.FirstOrDefault(row => row.Id == _selectedSet.Portion.Id);
                 CurrentSelectedPortion = SelectedPortion;
             }
         }
@@ -242,7 +242,7 @@ namespace Next2.ViewModels
 
         private async Task OnSaveCommandAsync()
         {
-            _orderService.CurrentOrder.Seats[_idxSeat].Sets[_idxSet].Portion = SelectedPortion;
+            _orderService.CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet].Portion = SelectedPortion;
 
             await _navigationService.GoBackAsync();
         }
