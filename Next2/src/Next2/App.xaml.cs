@@ -26,7 +26,6 @@ using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
-using Next2.ViewModels.Mobile;
 
 namespace Next2
 {
@@ -94,7 +93,7 @@ namespace Next2
             else
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.EditPage, EditPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.EditPage, MobileViewModels.EditPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();

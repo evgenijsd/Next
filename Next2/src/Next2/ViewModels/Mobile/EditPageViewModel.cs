@@ -11,10 +11,8 @@ namespace Next2.ViewModels.Mobile
     public class EditPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private int _idxSeat;
-        private int _idxSet;
-        private SetBindableModel _set;
-        private SetBindableModel _selectedDish;
+        private readonly int _indexOfSeat;
+
         public EditPageViewModel(
             INavigationService navigationService,
             IOrderService orderService)
@@ -24,14 +22,13 @@ namespace Next2.ViewModels.Mobile
 
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            _idxSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-            _set = _orderService.CurrentOrder.Seats[_idxSeat].SelectedItem;
-            _idxSet = seat.Sets.IndexOf(_set);
+            _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
+            SelectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
         }
 
         #region -- Public properties --
 
-        public SetBindableModel SelectedDish { get; set; } = null;
+        public SetBindableModel? SelectedSet { get; set; }
 
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
@@ -41,15 +38,6 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
-
-        #endregion
-
-        #region -- Overrides --
-
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            SelectedDish = _orderService.CurrentOrder.Seats[_idxSeat].Sets[_idxSet];
-        }
 
         #endregion
 

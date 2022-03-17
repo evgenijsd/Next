@@ -67,7 +67,7 @@
                             WidthRequest="80">
 
                             <ffimageloading:CachedImage 
-                                Source="{Binding SelectedDish.ImagePath}"
+                                Source="{Binding SelectedSet.ImagePath}"
                                 Aspect="AspectFill"/>
 
                         </Frame>
@@ -80,13 +80,13 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding SelectedDish.Title}"
+                            Text="{Binding SelectedSet.Title}"
                             Margin="0, 0, 0, 0"
                             FontFamily="Barlow-Medium"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <Label 
-                            Text="{Binding SelectedDish.Portion.Price, StringFormat='$ {0:F2}'}"
+                            Text="{Binding SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
                             Margin="0, 5, 0, 0"
                             FontFamily="Barlow-SemiBold"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -123,7 +123,7 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding SelectedDish.Portion.Title}"
+                            Text="{Binding SelectedSet.Portion.Title}"
                             Margin="0, 5, 0, 10"
                             FontFamily="Barlow-SemiBold"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -137,7 +137,7 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding SelectedDish.Portion.Price, StringFormat='$ {0:F2}'}"
+                            Text="{Binding SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
                             FontFamily="Barlow-Medium"
                             TextColor="{DynamicResource IndicationColor_i3}">
 
@@ -145,8 +145,8 @@
                                 
                                 <DataTrigger 
                                     TargetType="Label"
-                                    Binding="{Binding SelectedDish.Price}"
-                                    Value="{Binding SelectedDish.Portion.Price}">
+                                    Binding="{Binding SelectedSet.Price}"
+                                    Value="{Binding SelectedSet.Portion.Price}">
 
                                     <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
                                 
@@ -223,7 +223,7 @@
 
                                 <DataTrigger 
                                     TargetType="Label"
-                                    Binding="{Binding SelectedDish.Price}"
+                                    Binding="{Binding SelectedSet.Price}"
                                     Value="0">
 
                                     <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
@@ -243,7 +243,7 @@
 
                                 <DataTrigger 
                                     TargetType="Label"
-                                    Binding="{Binding SelectedDish.Price}"
+                                    Binding="{Binding SelectedSet.Price}"
                                     Value="0">
 
                                     <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
@@ -263,7 +263,7 @@
 
                                 <DataTrigger 
                                     TargetType="Label"
-                                    Binding="{Binding SelectedDish.Price}"
+                                    Binding="{Binding SelectedSet.Price}"
                                     Value="0">
 
                                     <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>

@@ -18,7 +18,7 @@ namespace Next2.ViewModels
 
         private readonly IOrderService _orderService;
 
-        private bool _order;
+        private bool _isOrderedByDescending;
 
         private int _idxSeat;
 
@@ -56,7 +56,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<PortionModel> SetPortions { get; set; }
 
-        public ProductBindableModel SelectedProduct { get; set; }
+        public ProductBindableModel? SelectedProduct { get; set; }
 
         public PortionModel CurrentSelectedPortion { get; set; }
 
@@ -64,7 +64,7 @@ namespace Next2.ViewModels
 
         public object SelectedMenuItem { get; set; } = "Proportions";
 
-        public bool IsShowMenu { get; set; }
+        public bool IsMenuOpen { get; set; }
 
         private ICommand _tapSubmenuCommand;
         public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<ProductBindableModel>(OnTapSubmenuCommandAsync);
@@ -216,9 +216,9 @@ namespace Next2.ViewModels
 
         private async Task OnChangingOrderSortCommandAsync()
         {
-            _order = !_order;
+            _isOrderedByDescending = !_isOrderedByDescending;
 
-            if (_order)
+            if (_isOrderedByDescending)
             {
                 SetPortions = new (SetPortions.OrderBy(row => row.Title));
             }
@@ -232,12 +232,12 @@ namespace Next2.ViewModels
 
         private async Task OnOpenMenuCommandAsync()
         {
-            IsShowMenu = true;
+            IsMenuOpen = true;
         }
 
         private async Task OnCloseMenuCommandAsync()
         {
-            IsShowMenu = false;
+            IsMenuOpen = false;
         }
 
         private async Task OnSaveCommandAsync()
