@@ -420,10 +420,16 @@ namespace Next2.ViewModels
             {
                 if (isOrderRemovingAccepted && SelectedOrder is not null)
                 {
-                    var removalOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+                    int removalOrderId = SelectedOrder.Id;
+                    var result = await _orderService.DeleteOrderAsync(removalOrderId);
 
-                    Orders.Remove(removalOrder);
-                    SelectedOrder = null;
+                    if (result.IsSuccess)
+                    {
+                        var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+
+                        Orders.Remove(removalBindableOrder);
+                        SelectedOrder = null;
+                    }
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
                 }

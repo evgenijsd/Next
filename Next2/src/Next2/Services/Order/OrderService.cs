@@ -119,6 +119,29 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult> DeleteOrderAsync(int orderId)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var removalOrder = await _mockService.FindAsync<OrderModel>(x => x.Id == orderId);
+
+                if (removalOrder is not null)
+                {
+                    await _mockService.RemoveAsync(removalOrder);
+
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderId)
         {
             var result = new AOResult<IEnumerable<SeatModel>>();
