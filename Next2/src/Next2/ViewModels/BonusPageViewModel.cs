@@ -32,6 +32,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
 
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+
         public ObservableCollection<SetBindableModel> Sets { get; set; } = new();
 
         public BonusBindableModel? SelectedCoupon { get; set; }
@@ -55,10 +57,8 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnAppearing()
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            base.OnAppearing();
-
             var result = await _bonusesService.GetBonusesAsync();
 
             if (result.IsSuccess)
@@ -72,15 +72,20 @@ namespace Next2.ViewModels
                 HeightDiscounts = Discounts.Count * Constants.LayoutBonuses.ROW_BONUS;
             }
 
-            var resultSet = await _bonusesService.GetSetsAsync();
-
-            if (resultSet.IsSuccess)
+            if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                _sets = new List<SetModel>(resultSet.Result);
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
-                var mapper = new Mapper(config);
-                Sets = mapper.Map<IEnumerable<SetModel>, ObservableCollection<SetBindableModel>>(resultSet.Result);
+                CurrentOrder = currentOrder;
             }
+
+            /*var resultSet = await _bonusesService.GetSetsAsync();
+
+if (resultSet.IsSuccess)
+{
+    _sets = new List<SetModel>(resultSet.Result);
+    var config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
+    var mapper = new Mapper(config);
+    Sets = mapper.Map<IEnumerable<SetModel>, ObservableCollection<SetBindableModel>>(resultSet.Result);
+}*/
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)

@@ -19,6 +19,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using MobileViews = Next2.Views.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
+using TabletViews = Next2.Views.Tablet;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
@@ -307,8 +311,8 @@ namespace Next2.ViewModels
 
         private async Task OnOpenDiscountSelectionCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(Views.Mobile.BonusPage));
-            //return Task.CompletedTask;
+            var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
+            await _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
