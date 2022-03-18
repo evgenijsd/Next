@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
@@ -38,6 +39,7 @@ namespace Next2.ViewModels.Tablet
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
             _orderService = orderService;
@@ -110,6 +112,11 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Private methods --
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Task.Run(() => { CurrentDateTime = DateTime.Now; });
+        }
 
         private async Task OnTapSortCommandAsync()
         {

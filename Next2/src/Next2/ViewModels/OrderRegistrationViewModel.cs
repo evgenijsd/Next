@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -58,6 +60,8 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
 
+            CurrentState = LayoutState.Loading;
+
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
@@ -66,19 +70,35 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new ();
+        public LayoutState CurrentState { get; set; }
 
-        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+
+        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
+        public SetBindableModel SelectedSet { get; set; }
 
-        public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
+        public SeatBindableModel SelectedSeat { get; set; }
+
+        public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
         public TableBindableModel SelectedTable { get; set; } = new ();
 
         public int NumberOfSeats { get; set; }
 
         public bool IsOrderWithTax { get; set; } = true;
+
+        public bool IsSideMenuVisible { get; set; } = true;
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
+
+        private ICommand _openModifyCommand;
+        public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
+
+        private ICommand _openRemoveCommand;
+        public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync);
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
@@ -105,6 +125,17 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (!App.IsTablet)
+            {
+                foreach (var seat in CurrentOrder.Seats)
+                {
+                    seat.SelectedItem = null;
+                }
+            }
+        }
+
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
             base.InitializeAsync(parameters);
@@ -118,7 +149,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            switch (args.PropertyName)
+           switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
                     _orderService.CurrentOrder.Table = SelectedTable;
@@ -200,11 +231,27 @@ namespace Next2.ViewModels
             }
         }
 
+        private void OnGoBackCommand()
+        {
+            if (SelectedSet is not null)
+            {
+                foreach (var item in CurrentOrder.Seats)
+                {
+                   item.SelectedItem = null;
+                }
+            }
+
+            IsSideMenuVisible = true;
+            CurrentState = LayoutState.Loading;
+        }
+
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
             if (CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
+
+                SelectedSeat = seat;
 
                 foreach (var item in CurrentOrder.Seats)
                 {
@@ -369,20 +416,30 @@ namespace Next2.ViewModels
 
                         if (App.IsTablet)
                         {
-                            _firstSeat.Checked = true;
-                            _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault();
+                            if (NumberOfSeats <= 0)
+                            {
+                                OnGoBackCommand();
+                            }
+                            else
+                            {
+                                _firstSeat.Checked = true;
+                                _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault();
+                            }
                         }
                         else
                         {
                             await DeleteSeatsCommandsAsync();
+
                             foreach (var item in CurrentOrder.Seats)
                             {
                                 item.Checked = false;
                             }
 
                             _firstSeat.Checked = true;
-                            await RefreshCurrentOrderAsync();
 
+                            SelectedSet = _firstSeat.Sets.FirstOrDefault();
+
+                            await RefreshCurrentOrderAsync();
                             if (!CurrentOrder.Seats.Any())
                             {
                                 await _navigationService.GoBackToRootAsync();
@@ -397,8 +454,6 @@ namespace Next2.ViewModels
 
                     if (resirectSetsResult.IsSuccess)
                     {
-                        await RefreshCurrentOrderAsync();
-
                         var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
                         if (deleteSeatResult.IsSuccess)
@@ -413,6 +468,8 @@ namespace Next2.ViewModels
                             }
 
                             CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).Checked = true;
+
+                            SelectedSet = removalSeat.SelectedItem;
                             await RefreshCurrentOrderAsync();
                         }
                     }
@@ -432,6 +489,18 @@ namespace Next2.ViewModels
                     {
                         item.SelectedItem = null;
                     }
+                }
+
+                SelectedSet = seat.SelectedItem;
+
+                if (App.IsTablet)
+                {
+                    IsSideMenuVisible = false;
+                    CurrentState = LayoutState.Success;
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync(nameof(EditPage));
                 }
             }
         }
@@ -496,6 +565,16 @@ namespace Next2.ViewModels
         }
 
         private Task OnTabCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnOpenModifyCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnOpenRemoveCommandAsync()
         {
             return Task.CompletedTask;
         }

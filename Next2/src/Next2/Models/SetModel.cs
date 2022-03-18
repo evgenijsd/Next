@@ -11,6 +11,8 @@ namespace Next2.Models
 
         public int SubcategoryId { get; set; }
 
+        public int DefaultPortionId { get; set; }
+
         public string Title { get; set; }
 
         public float Price { get; set; }
