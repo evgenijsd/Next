@@ -39,6 +39,8 @@ namespace Next2.ViewModels
         private readonly ICommand _removeOrderCommand;
         private readonly ICommand _setSelectionCommand;
 
+        private SeatBindableModel _firstSeat;
+
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
@@ -160,6 +162,8 @@ namespace Next2.ViewModels
             // value for testing
             CurrentOrder.CustomerName = "Martin Levin";
 
+            _firstSeat = CurrentOrder.Seats.FirstOrDefault();
+
             await AddSeatsCommandsAsync();
 
             SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
@@ -186,9 +190,19 @@ namespace Next2.ViewModels
             }
         }
 
+        private async Task DeleteSeatsCommandsAsync()
+        {
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                seat.SeatSelectionCommand = null;
+                seat.SeatDeleteCommand = null;
+                seat.SetSelectionCommand = null;
+            }
+        }
+
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
-            if(CurrentOrder.Seats is not null)
+            if (CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
 
@@ -287,6 +301,11 @@ namespace Next2.ViewModels
                     }
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+
+                    if (!App.IsTablet)
+                    {
+                        await _navigationService.GoBackToRootAsync();
+                    }
                 }
             }
 
@@ -329,6 +348,7 @@ namespace Next2.ViewModels
                 if (deleteSeatResult.IsSuccess)
                 {
                     NumberOfSeats = CurrentOrder.Seats.Count;
+                    _firstSeat.Checked = true;
                 }
             }
         }
@@ -346,6 +366,28 @@ namespace Next2.ViewModels
                     if (deleteSetsResult.IsSuccess)
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
+
+                        if (App.IsTablet)
+                        {
+                            _firstSeat.Checked = true;
+                            _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault();
+                        }
+                        else
+                        {
+                            await DeleteSeatsCommandsAsync();
+                            foreach (var item in CurrentOrder.Seats)
+                            {
+                                item.Checked = false;
+                            }
+
+                            _firstSeat.Checked = true;
+                            await RefreshCurrentOrderAsync();
+
+                            if (!CurrentOrder.Seats.Any())
+                            {
+                                await _navigationService.GoBackToRootAsync();
+                            }
+                        }
                     }
                 }
                 else if (actionOnSets is EActionOnSets.RedirectSets
@@ -362,6 +404,16 @@ namespace Next2.ViewModels
                         if (deleteSeatResult.IsSuccess)
                         {
                             NumberOfSeats = CurrentOrder.Seats.Count;
+
+                            await DeleteSeatsCommandsAsync();
+                            CurrentOrder.Seats[destinationSeatNumber - 1].SelectedItem = removalSeat.SelectedItem;
+                            foreach (var item in CurrentOrder.Seats)
+                            {
+                                item.Checked = false;
+                            }
+
+                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).Checked = true;
+                            await RefreshCurrentOrderAsync();
                         }
                     }
                 }
@@ -372,7 +424,7 @@ namespace Next2.ViewModels
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            if (CurrentOrder.Seats is not null)
+            if (CurrentOrder.Seats?.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
