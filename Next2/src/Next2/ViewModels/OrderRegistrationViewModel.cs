@@ -319,7 +319,7 @@ namespace Next2.ViewModels
                             if (App.IsTablet)
                             {
                                 _firstSeat.Checked = true;
-                                _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault();
+                                _firstSeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault() : _firstSeat.SelectedItem = null;
                             }
                             else
                             {
@@ -352,13 +352,13 @@ namespace Next2.ViewModels
                         {
                             await DeleteSeatsCommandsAsync();
 
-                            CurrentOrder.Seats[destinationSeatNumber - 1].SelectedItem = removalSeat.SelectedItem;
+                            CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == destinationSeatNumber).SelectedItem = removalSeat.SelectedItem;
                             foreach (var item in CurrentOrder.Seats)
                             {
                                 item.Checked = false;
                             }
 
-                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).Checked = true;
+                            CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == destinationSeatNumber).Checked = true;
 
                             SelectedSet = removalSeat.SelectedItem;
                             await RefreshCurrentOrderAsync();
