@@ -16,7 +16,7 @@ namespace Next2.Models
             Id = seat.Id;
             SeatNumber = seat.SeatNumber;
             Checked = seat.Checked;
-            SelectedItem = new();
+            SelectedItem = null;
             IsFirstSeat = seat.IsFirstSeat;
             SetSelectionCommand = seat.SetSelectionCommand;
             SeatSelectionCommand = seat.SeatSelectionCommand;
@@ -30,7 +30,7 @@ namespace Next2.Models
 
         public bool Checked { get; set; }
 
-        public SetBindableModel SelectedItem { get; set; }
+        public SetBindableModel? SelectedItem { get; set; }
 
         public bool IsFirstSeat { get; set; }
 

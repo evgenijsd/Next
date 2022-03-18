@@ -101,6 +101,13 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            RefreshCurrentOrderAsync();
+        }
+
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
             base.InitializeAsync(parameters);
@@ -199,6 +206,7 @@ namespace Next2.ViewModels
                     }
                 }
 
+                _orderService.CurrentOrder = CurrentOrder;
                 await _navigationService.NavigateAsync(nameof(Views.Mobile.ModificationsPage));
             }
         }

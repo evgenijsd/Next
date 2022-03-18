@@ -65,12 +65,32 @@ namespace Next2.Models
                     newSeat.Sets.Add(newSet);
                 }
 
-                var tmpSet = newSeat.Sets.FirstOrDefault(row => row.Id == seat.SelectedItem.Id);
-                index = newSeat.Sets.IndexOf(tmpSet);
+                if(seat.SelectedItem is not null)
+                {
+                    var tmpSet = newSeat.Sets.FirstOrDefault(row => row.Id == seat.SelectedItem.Id);
+                    index = newSeat.Sets.IndexOf(tmpSet);
 
-                newSeat.SelectedItem = newSeat.Sets[index];
+                    newSeat.SelectedItem = newSeat.Sets[index];
+                }
+
                 Seats.Add(newSeat);
             }
+        }
+
+        public void UpdateTotalSum()
+        {
+            Total = 0;
+
+            foreach (var seat in Seats)
+            {
+                foreach (var set in seat.Sets)
+                {
+                    set.Price = set.Portion.Price;
+                    Total += set.Price;
+                }
+            }
+
+            SubTotal = Total - Tax;
         }
 
         public int Id { get; set; }

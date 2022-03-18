@@ -74,7 +74,29 @@
                     HorizontalOptions="End"
                     IsClippedToBounds="True">
 
-                    <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png" />
+                    <Frame.Triggers>
+
+                        <DataTrigger TargetType="Frame" Binding="{Binding CanShowOrder}" Value="True">
+                            
+                            <Setter Property="BorderColor" Value="{DynamicResource AppColor_i3}"/>
+
+                        </DataTrigger>
+
+                    </Frame.Triggers>
+
+                    <ffimageloading:CachedImage Source="ic_buy_disabled_48x48.png">
+
+                        <ffimageloading:CachedImage.Triggers>
+
+                            <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding CanShowOrder}" Value="True">
+
+                                <Setter Property="Source" Value="ic_buy_48x48.png"/>
+
+                            </DataTrigger>
+                            
+                        </ffimageloading:CachedImage.Triggers>
+                        
+                    </ffimageloading:CachedImage>
 
                     <Frame.GestureRecognizers>
 

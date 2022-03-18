@@ -16,8 +16,7 @@
     x:DataType="viewmodels:ModificationsPageViewModel"
     x:Class="Next2.Views.Mobile.ModificationsPage">
 
-    <Grid
-        RowDefinitions="72, 1, *, 1, 99">
+    <Grid RowDefinitions="72, 1, *, 1, 99">
 
         <StackLayout
             Grid.Column="0"
@@ -60,7 +59,7 @@
                         Text="{xct:Translate AvailableOptions}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        ChangingOrderSortCommand="{Binding ChangingOrderSortCommand}"/>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortProportionsCommand}"/>
 
                     <CollectionView
                         Margin="16, 16, 16, 0"
@@ -138,7 +137,7 @@
                         Text="{xct:Translate AvailableOptions}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        ChangingOrderSortCommand="{Binding ChangingOrderSortCommand}"/>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortOptionsCommand}"/>
 
                     <CollectionView
                         Margin="16, 16, 16, 0"

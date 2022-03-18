@@ -92,10 +92,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
-            {
-                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-            }
+            NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
 
         #endregion

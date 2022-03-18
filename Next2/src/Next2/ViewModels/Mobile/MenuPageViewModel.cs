@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Menu;
+using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
@@ -18,20 +19,28 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IMenuService _menuService;
 
+        private readonly IOrderService _orderService;
+
         private MenuItemBindableModel _oldSelectedMenuItem;
 
         public MenuPageViewModel(
             INavigationService navigationService,
-            IMenuService menuService)
+            IMenuService menuService,
+            IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
+            _orderService = orderService;
+
+            CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
             InitMenuItems();
             Task.Run(LoadCategoriesAsync);
         }
 
         #region -- Public properties --
+
+        public bool CanShowOrder { get; set; }
 
         public ObservableCollection<MenuItemBindableModel> MenuItems { get; set; }
 
@@ -56,6 +65,8 @@ namespace Next2.ViewModels.Mobile
         {
             SelectedMenuItem = MenuItems.FirstOrDefault();
             _oldSelectedMenuItem = SelectedMenuItem;
+
+            CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -137,7 +148,7 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnOpenNewOrderPageCommandAsync()
         {
-            return _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
+            return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
         }
 
         private async Task OnTapCategoryCommandAsync(CategoryModel category)

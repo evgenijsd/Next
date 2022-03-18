@@ -9,7 +9,6 @@ using Next2.Services.SettingsService;
 using Next2.Services.UserService;
 using Next2.ViewModels;
 using Next2.ViewModels.Dialogs;
-using Next2.ViewModels.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
@@ -77,12 +76,12 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
 
-                containerRegistry.RegisterSingleton<NewOrderViewModel>();
+                containerRegistry.RegisterSingleton<TabletViewModels.NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
-                containerRegistry.RegisterSingleton<MembershipViewModel>();
+                containerRegistry.RegisterSingleton<TabletViewModels.MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
 
@@ -111,7 +110,6 @@ namespace Next2
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
             App.Current.UserAppTheme = OSAppTheme.Dark;
 
 #if !DEBUG

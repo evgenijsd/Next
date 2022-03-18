@@ -127,9 +127,6 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        var param = new NavigationParameters();
-                        param.Add(Constants.Navigations.REFRESH_ORDER, string.Empty);
-
                         await _popupNavigation.PopAsync();
                     }
                 }
