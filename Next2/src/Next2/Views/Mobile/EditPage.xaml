@@ -1,0 +1,439 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage  
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:effects="clr-namespace:Next2.Effects" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Next2.Views.Mobile.EditPage"
+    x:DataType="viewModels:EditPageViewModel">
+
+    <Grid RowDefinitions="0.10*, *, 0.30*">
+
+        <controls:CustomNavigationbar 
+            Grid.Row="0"
+            Padding="0, 0, 0, 0"
+            Title="{xct:Translate EditOrder}" 
+            LeftButtonCommand="{prism:GoBack}"
+            HeightImage="20"/>
+
+        <BoxView
+            Grid.Row="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+            HeightRequest="1"
+            VerticalOptions="EndAndExpand"/>
+
+
+        <ScrollView Grid.Row="1">
+
+            <ScrollView.Effects>
+                <effects:NoOverScrollEffect/>
+
+                <effects:ScrollBarColorEffect
+                        ScrollBarThumbWidth="6"
+                        ScrollBarCornerRadius="9"
+                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+            </ScrollView.Effects>
+
+            <Grid
+                Grid.Row="1"
+                RowDefinitions="auto, auto, auto, auto, auto, *"
+                Margin="20, 0, 20, 0">
+
+                <!--Row 1 Image & Title-->
+
+                <StackLayout 
+                    Grid.Row="0"
+                    VerticalOptions="Start"
+                    Orientation="Horizontal">
+
+                    <StackLayout 
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        Margin="0, 15, 0, 15"
+                        Orientation="Vertical">
+
+                        <Frame 
+                            CornerRadius="10"
+                            Padding="0"
+                            BorderColor="Transparent"
+                            HeightRequest="80"
+                            WidthRequest="80">
+
+                            <ffimageloading:CachedImage 
+                                Source="{Binding SelectedSet.ImagePath}"
+                                Aspect="AspectFill"/>
+
+                        </Frame>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Margin="20, 0, 0, 0"
+                        VerticalOptions="Center"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="{Binding SelectedSet.Title}"
+                            Margin="0, 0, 0, 0"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                        <Label 
+                            Text="{Binding SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <!--Row 2 Proportions-->
+
+                <Grid
+                    Grid.Row="1"
+                    RowDefinitions="auto, auto"
+                    ColumnDefinitions="0.50*, 0.50*">
+
+                    <BoxView 
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"/>
+
+                    <Label 
+                        Grid.Row="0"
+                        VerticalOptions="Start"
+                        Margin="0, 10, 0, 0"
+                        Text="{xct:Translate Proportions}" 
+                        FontFamily="Barlow-Medium"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+                    <StackLayout 
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        VerticalOptions="Start"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="{Binding SelectedSet.Portion.Title}"
+                            Margin="0, 5, 0, 10"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    </StackLayout>
+
+                    <StackLayout 
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HorizontalOptions="EndAndExpand"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="{Binding SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource IndicationColor_i3}">
+
+                            <Label.Triggers>
+                                
+                                <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding SelectedSet.Price}"
+                                    Value="{Binding SelectedSet.Portion.Price}">
+
+                                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
+                                
+                                </DataTrigger>
+                                
+                            </Label.Triggers>
+                            
+                        </Label>
+
+                    </StackLayout>
+
+                </Grid>
+
+                <!--Row 3 Inventory Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
+                <Grid
+                    Grid.Row="2"
+                    RowDefinitions="auto, auto"
+                    IsVisible="False"
+                    ColumnDefinitions="0.50*, 0.50*">
+
+                    <BoxView 
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"/>
+
+                    <Label 
+                        Grid.Row="0"
+                        Margin="0, 10, 0, 0"
+                        VerticalOptions="Start"
+                        Text="{xct:Translate Inventory}" 
+                        FontFamily="Barlow-SemiBold"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+                    <StackLayout 
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        VerticalOptions="Start"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="Test product 1"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                        <Label 
+                            Text="Test product 2"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                        <Label 
+                            Text="Test product 3"
+                            Margin="0, 5, 0, 10"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    </StackLayout>
+
+                    <StackLayout 
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HorizontalOptions="EndAndExpand"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="$ 12.50"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource IndicationColor_i3}">
+                            
+                            <Label.Triggers>
+
+                                <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding SelectedSet.Price}"
+                                    Value="0">
+
+                                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+                        </Label>
+
+                        <Label 
+                            Text="$ 12.50"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource IndicationColor_i3}">
+
+                            <Label.Triggers>
+
+                                <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding SelectedSet.Price}"
+                                    Value="0">
+
+                                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+                        </Label>
+
+                        <Label 
+                            Text="$ 1.00"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource IndicationColor_i3}">
+
+                            <Label.Triggers>
+
+                                <DataTrigger 
+                                    TargetType="Label"
+                                    Binding="{Binding SelectedSet.Price}"
+                                    Value="0">
+
+                                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+
+                        </Label>
+
+                    </StackLayout>
+
+                </Grid>
+
+                <!--Row 4 Replace Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
+
+                <Grid
+                    Grid.Row="3"
+                    RowDefinitions="auto, auto"
+                    IsVisible="False"
+                    RowSpacing="0"
+                    ColumnDefinitions="0.50*, 0.50*">
+
+                    <BoxView 
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        HeightRequest="1"
+                        VerticalOptions="Start"/>
+
+                    <Label
+                        Grid.Row="0"
+                        VerticalOptions="Start"
+                        Margin="0, 10, 0, 0"
+                        Text="{xct:Translate Replace}" 
+                        FontFamily="Barlow-SemiBold"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+
+                    <StackLayout 
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        VerticalOptions="Start"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="Lettuce"
+                            VerticalOptions="Start"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                        <Label 
+                            Text="Jalapeno Mayo"
+                            Margin="0, 5, 0, 10"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    </StackLayout>
+
+                    <StackLayout 
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HorizontalOptions="EndAndExpand"
+                        Orientation="Vertical">
+
+                        <Label 
+                            Text="$ 1.00"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                        <Label 
+                            Text="$ 0.50"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    </StackLayout>
+
+                </Grid>
+
+                <!--Row 5 Option Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
+
+                <Grid
+                    Grid.Row="4"
+                    RowSpacing="0"
+                    IsVisible="False">
+
+                    <StackLayout>
+
+                        <BoxView 
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            HeightRequest="1"
+                            VerticalOptions="Start"/>
+
+                        <Label 
+                            Text="{xct:Translate Option}"
+                            Margin="0, 10, 0, 0"
+                            FontFamily="Barlow-SemiBold"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
+
+                        <Label 
+                            Text="Rare"
+                            Margin="0, 5, 0, 0"
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                    </StackLayout>
+
+                </Grid>
+
+                <!--Row 6 Footer-->
+
+                <Grid Grid.Row="5" />
+
+            </Grid>
+
+        </ScrollView>
+
+        <Grid
+            Grid.Row="2"
+            RowDefinitions="auto, auto, auto"
+            ColumnDefinitions="0.50*, 0.50*"
+            ColumnSpacing="12"
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <BoxView
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                HeightRequest="1"
+                VerticalOptions="Start"/>
+
+            <buttons:BorderButton
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                HeightRequest="45"
+                Padding="0"
+                Margin="20, 12, 20, 12"
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                Background="{DynamicResource IndicationColor_i1}"
+                Text="{xct:Translate Modify}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                Command="{Binding OpenModifyCommand}"/>
+
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="0"
+                HeightRequest="45"
+                Margin="20, 12, 0, 12"
+                Padding="0"
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                Background="{DynamicResource IndicationColor_i5}"
+                Text="{xct:Translate HoldItem}"
+                Command="{Binding OpenHoldSelectionCommand}"/>
+            
+            <buttons:BorderButton
+                Grid.Row="2"
+                Grid.Column="1"
+                HeightRequest="45"
+                Margin="0, 12, 20, 12"
+                Padding="0"
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                Background="{DynamicResource IndicationColor_i3}"
+                Text="{xct:Translate Remove}"
+                Command="{Binding OpenRemoveCommand}" />
+
+        </Grid>
+
+    </Grid>
+    
+</views:BaseContentPage>

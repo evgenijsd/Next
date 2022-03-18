@@ -116,19 +116,10 @@ namespace Next2.ViewModels.Mobile
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
-
-                    await _popupNavigation.PopAsync();
-
-                    if (result.IsSuccess)
-                    {
-                        await _navigationService.NavigateAsync(nameof(OrderRegistrationPage));
-                    }
                 }
             }
-            else
-            {
-                await _popupNavigation.PopAsync();
-            }
+
+            await _popupNavigation.PopAsync();
         }
 
         private async Task LoadSetsAsync()

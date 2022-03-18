@@ -121,7 +121,6 @@
     <Folder Include="Resources\Styles\" />
     <Folder Include="Helpers\" />
     <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="Views\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -259,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\EditPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderRegistrationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

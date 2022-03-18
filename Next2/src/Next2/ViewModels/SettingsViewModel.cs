@@ -1,4 +1,5 @@
 ﻿using Next2.Services.Authentication;
+using Next2.Services.Order;
 using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -17,14 +18,18 @@ namespace Next2.ViewModels
 
         private readonly IPopupNavigation _popupNavigation;
 
+        private readonly IOrderService _orderService;
+
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            IOrderService orderService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -41,10 +46,12 @@ namespace Next2.ViewModels
             if (App.IsTablet)
             {
                 await _popupNavigation.PushAsync(new Next2.Views.Tablet.Dialogs.LogOutAlertView(null, CloseDialogCallback));
+                await _orderService.CreateNewOrderAsync();
             }
             else
             {
                 await _popupNavigation.PushAsync(new Next2.Views.Mobile.Dialogs.LogOutAlertView(null, CloseDialogCallback));
+                await _orderService.CreateNewOrderAsync();
             }
         }
 

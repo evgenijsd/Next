@@ -144,11 +144,10 @@
   <ItemGroup>
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
-    <Compile Include="Renderers\LineSpacingLabelRenderer.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
+    <Compile Include="Renderers\LineSpacingLabelRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

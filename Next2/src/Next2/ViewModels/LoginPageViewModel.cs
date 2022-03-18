@@ -241,9 +241,9 @@ namespace Next2.ViewModels
         public override void OnAppearing()
         {
             base.OnAppearing();
-            timerUpdateTime.Elapsed += Timer_Elapsed;
+            //timerUpdateTime.Elapsed += Timer_Elapsed;
 
-            Task.Run(() => timerUpdateTime.Start());
+            //Task.Run(() => timerUpdateTime.Start());
         }
 
         #endregion
@@ -260,8 +260,8 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             EmployeeId = string.Empty;
-            timerUpdateTime.Stop();
-            timerUpdateTime.Dispose();
+            //timerUpdateTime.Stop();
+            //timerUpdateTime.Dispose();
         }
 
         #endregion
