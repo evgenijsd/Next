@@ -121,7 +121,7 @@ namespace Next2.Controls
         {
             base.OnPropertyChanged(propertyName);
 
-            if ((propertyName == nameof(ItemsSource) || propertyName == nameof(ItemTemplate)) && ItemTemplate is not null && ItemsSource is not null)
+            if (propertyName is nameof(ItemsSource) or nameof(ItemTemplate))
             {
                 var view = (View)ItemTemplate.CreateContent();
                 HeightList = ItemsSource.Count * view.HeightRequest;
