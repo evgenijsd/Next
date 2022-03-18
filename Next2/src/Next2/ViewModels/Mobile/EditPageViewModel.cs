@@ -48,9 +48,9 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private async Task OnOpenModifyCommandAsync()
+        private Task OnOpenModifyCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(Views.Mobile.ModificationsPage));
+            return Task.CompletedTask;
         }
 
         private Task OnOpenRemoveCommandAsync()

@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Authentication;
+using Next2.Services.Order;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -21,8 +22,8 @@ namespace Next2.ViewModels.Tablet
     public class MenuPageViewModel : BaseViewModel
     {
         private readonly IAuthenticationService _authenticationService;
-
         private readonly IPopupNavigation _popupNavigation;
+        private readonly IOrderService _orderService;
 
         public MenuPageViewModel(
             INavigationService navigationService,
@@ -34,7 +35,8 @@ namespace Next2.ViewModels.Tablet
             ReservationsViewModel reservationsViewModel,
             MembershipViewModel membershipViewModel,
             CustomersViewModel customersViewModel,
-            SettingsViewModel settingsViewModel)
+            SettingsViewModel settingsViewModel,
+            IOrderService orderService)
             : base(navigationService)
         {
             NewOrderViewModel = newOrderViewModel;
@@ -46,6 +48,7 @@ namespace Next2.ViewModels.Tablet
             SettingsViewModel = settingsViewModel;
             _authenticationService = authenticationService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
 
             InitMenuItems();
         }
@@ -171,6 +174,7 @@ namespace Next2.ViewModels.Tablet
 
             if (result)
             {
+                await _orderService.CreateNewOrderAsync();
                 _authenticationService.LogOut();
 
                 await _popupNavigation.PopAsync();

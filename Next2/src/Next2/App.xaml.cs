@@ -75,7 +75,6 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
-                containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
@@ -103,7 +102,6 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
@@ -115,16 +113,6 @@ namespace Next2
             InitializeComponent();
             App.Current.UserAppTheme = OSAppTheme.Dark;
 
-#if !DEBUG
-            AppCenter.Start(
-                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
-                typeof(Analytics),
-                typeof(Crashes));
-
-            await Analytics.SetEnabledAsync(true);
-#endif
-            InitializeComponent();
-
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
@@ -134,6 +122,14 @@ namespace Next2
 
         protected override void OnStart()
         {
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
+
+            Analytics.SetEnabledAsync(true);
+#endif
         }
 
         protected override void OnSleep()
