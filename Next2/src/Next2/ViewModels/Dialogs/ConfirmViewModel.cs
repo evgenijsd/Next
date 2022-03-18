@@ -3,18 +3,27 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
     public class ConfirmViewModel : BindableBase
     {
+        private bool _canExecute = true;
+
         public ConfirmViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(null));
-            AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
-            DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+            CloseCommand = new Command(() => RequestClose(null));
+            DeclineCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+            AcceptCommand = new Command(
+                execute: () =>
+                {
+                    RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } });
+                },
+                canExecute: CanExecute);
         }
 
         #region -- Public properties --
@@ -29,15 +38,15 @@ namespace Next2.ViewModels.Dialogs
 
         public string ConfirmationText { get; set; }
 
-        public DelegateCommand CloseCommand { get; }
+        public ICommand CloseCommand { get; }
 
-        public DelegateCommand AcceptCommand { get; }
+        public ICommand AcceptCommand { get; }
 
-        public DelegateCommand DeclineCommand { get; }
-
-        #endregion
+        public ICommand DeclineCommand { get; }
 
         public Action<IDialogParameters> RequestClose;
+
+        #endregion
 
         #region -- Private helpers --
 
@@ -70,6 +79,19 @@ namespace Next2.ViewModels.Dialogs
                     ConfirmationText = confirmationText;
                 }
             }
+        }
+
+        private bool CanExecute()
+        {
+            bool result = false;
+
+            if (_canExecute)
+            {
+                _canExecute = false;
+                result = true;
+            }
+
+            return result;
         }
 
         #endregion

@@ -141,9 +141,6 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\SingleSeatItemTemplate.xaml.cs">
-      <DependentUpon>SingleSeatItemTemplate.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
     </Compile>

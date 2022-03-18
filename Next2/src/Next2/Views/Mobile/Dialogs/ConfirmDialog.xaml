@@ -11,7 +11,6 @@
     x:Class="Next2.Views.Mobile.Dialogs.ConfirmDialog"
     x:DataType="viewModels:ConfirmViewModel">
 
-    
     <pancakeview:PancakeView
         HorizontalOptions="Center" 
         VerticalOptions="Center"

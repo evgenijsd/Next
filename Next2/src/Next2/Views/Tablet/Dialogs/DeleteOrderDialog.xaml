@@ -17,7 +17,7 @@
         <Style TargetType="Label">
             <Setter Property="VerticalOptions" Value="Center"/>
             <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         </Style>
     </rg:PopupPage.Resources>
@@ -44,7 +44,7 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     xct:TouchEffect.Command="{Binding ShowHideOrderDetailsCommand}">
                     
-                    <Label FontSize="18">
+                    <Label FontSize="{DynamicResource TSize_i6}">
                 
                         <Label.FormattedText>
                             <FormattedString>
@@ -100,7 +100,7 @@
                             
                             <Label
                                 FontFamily="Barlow-Medium"
-                                FontSize="12"
+                                FontSize="{DynamicResource TSize_i9}"
                                 Text="{Binding SeatNumber}">
                                 
                                 <Label.FormattedText>
@@ -155,7 +155,7 @@
                                                             MaxLines="1"
                                                             LineBreakMode="TailTruncation"
                                                             FontFamily="Barlow-Medium"
-                                                            FontSize="12"
+                                                            FontSize="{DynamicResource TSize_i9}"
                                                             Text="{Binding Title}" />
 
                                                         <Label Text="{Binding Price, StringFormat='$ {0:F2}'}" />

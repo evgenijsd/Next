@@ -14,6 +14,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:prism="http://prismlibrary.com"
+    xmlns:effects="clr-namespace:Next2.Effects"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <ContentPage.Content>
@@ -191,6 +192,10 @@
                                 SelectedItem="{Binding SelectedOrder}"
                                 VerticalScrollBarVisibility="Never">
 
+                                <CollectionView.Effects>
+                                    <effects:NoOverScrollEffect/>
+                                </CollectionView.Effects>
+                                
                                 <CollectionView.ItemTemplate>
 
                                     <DataTemplate x:DataType="models:OrderBindableModel">

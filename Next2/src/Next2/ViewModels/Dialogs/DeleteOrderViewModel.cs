@@ -64,38 +64,11 @@ namespace Next2.ViewModels.Dialogs
 
         private void OnDeleteOrderCommand()
         {
-            //bool isAccepted = false;
-
-            //var dialogParameters = new DialogParameters
-            //{
-            //    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
-            //    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-            //    { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
-            //    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-            //    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-            //};
-
-            //PopupPage confirmDialog = App.IsTablet
-            //    ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
-            //    : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
-
-            //return _popupNavigation.PushAsync(confirmDialog);
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.ACCEPT, true } };
 
             RequestClose(dialogParameters);
         }
 
-        //private async void CloseDialogCallback(IDialogParameters dialogResult)
-        //{
-        //    if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isAccepted))
-        //    {
-        //        var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.ACCEPT, isAccepted } };
-
-        //        RequestClose(dialogParameters);
-        //    }
-
-        //    await _popupNavigation.PopAsync();
-        //}
         #endregion
     }
 }

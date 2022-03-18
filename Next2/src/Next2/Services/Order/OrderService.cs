@@ -71,7 +71,7 @@ namespace Next2.Services.Order
 
                     if (allOrders is not null)
                     {
-                        var freeTables = allTables?.Where(table => allOrders
+                        var freeTables = allTables.Where(table => allOrders
                             .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is "Cancelled" or "Payed"));
 
                         if (freeTables is not null)
