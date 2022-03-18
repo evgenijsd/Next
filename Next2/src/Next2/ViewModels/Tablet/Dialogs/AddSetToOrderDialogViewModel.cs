@@ -5,50 +5,37 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace Next2.ViewModels
+namespace Next2.ViewModels.Dialogs
 {
     public class AddSetToOrderDialogViewModel : BindableBase
     {
-        private bool _canExecute = true;
-
         public AddSetToOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(null));
-            TapAddCommand = new Command(
-                execute: () =>
-                {
-                    Set.Portion = SelectedPortion;
+            TapAddCommand = new Command(() =>
+            {
+                Set.Portion = SelectedPortion;
 
-                    RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.SET, Set } });
-                },
-                canExecute: () =>
-                {
-                    bool result = false;
-
-                    if (_canExecute)
-                    {
-                        _canExecute = false;
-                        result = true;
-                    }
-
-                    return result;
-                });
+                RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.SET, Set } });
+            });
 
             if (param.ContainsKey(Constants.DialogParameterKeys.SET) && param.ContainsKey(Constants.DialogParameterKeys.PORTIONS))
             {
-                if (param.TryGetValue(Constants.DialogParameterKeys.SET, out SetModel set) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out IEnumerable<PortionModel> portions))
+                SetModel set;
+                IEnumerable<PortionModel> portions;
+
+                if (param.TryGetValue(Constants.DialogParameterKeys.SET, out set) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out portions))
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>()).CreateMapper();
+                    MapperConfiguration config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
+                    var mapper = new Mapper(config);
 
                     Set = mapper.Map<SetModel, SetBindableModel>(set);
                     Portions = portions;
-                    SelectedPortion = Portions.FirstOrDefault(row => row.Id == set.DefaultPortionId);
+                    SelectedPortion = Portions.FirstOrDefault();
                 }
             }
         }

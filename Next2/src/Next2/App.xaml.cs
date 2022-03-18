@@ -87,6 +87,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
+
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
@@ -95,6 +96,7 @@ namespace Next2
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.BonusPage, BonusPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.EditPage, MobileViewModels.EditPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
@@ -104,6 +106,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
+
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
             }
@@ -114,16 +117,6 @@ namespace Next2
             InitializeComponent();
             App.Current.UserAppTheme = OSAppTheme.Dark;
 
-#if !DEBUG
-            AppCenter.Start(
-                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
-                typeof(Analytics),
-                typeof(Crashes));
-
-            await Analytics.SetEnabledAsync(true);
-#endif
-            InitializeComponent();
-
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
@@ -133,6 +126,14 @@ namespace Next2
 
         protected override void OnStart()
         {
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
+
+            Analytics.SetEnabledAsync(true);
+#endif
         }
 
         protected override void OnSleep()

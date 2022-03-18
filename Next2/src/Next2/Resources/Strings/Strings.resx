@@ -339,11 +339,26 @@
   <data name="TableNumberOrOrder" xml:space="preserve">
     <value>Table Number or Order</value>
   </data>
+  <data name="HoldItem" xml:space="preserve">
+    <value>Hold Item</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
   <data name="AddItem" xml:space="preserve">
     <value>Add Item</value>
   </data>
   <data name="RemoveOrder" xml:space="preserve">
     <value>Remove Order</value>
+  </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>Edit Order</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
@@ -378,5 +393,20 @@
   </data>
   <data name="CouponsAndDiscounts" xml:space="preserve">
     <value>Coupons &amp; Discounts</value>
+  </data>
+  <data name="AvailableOptions" xml:space="preserve">
+    <value>Available Options</value>
+  </data>
+  <data name="Modifications" xml:space="preserve">
+    <value>Modifications</value>
+  </data>
+  <data name="Proportions" xml:space="preserve">
+    <value>Proportions</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>
