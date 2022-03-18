@@ -325,13 +325,12 @@ namespace Next2.ViewModels
                             {
                                 await DeleteSeatsCommandsAsync();
 
-                                _firstSeat.Checked = true;
-
-                                //_lastSeat.SelectedItem = _lastSeat.Sets.FirstOrDefault();
                                 foreach (var item in CurrentOrder.Seats)
                                 {
                                     item.Checked = false;
                                 }
+
+                                _firstSeat.Checked = true;
 
                                 SelectedSet = _firstSeat.Sets.FirstOrDefault();
 
