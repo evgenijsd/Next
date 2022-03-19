@@ -77,7 +77,7 @@ namespace Next2.ViewModels
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
-        public SetBindableModel SelectedSet { get; set; }
+        public SetBindableModel? SelectedSet { get; set; }
 
         public SeatBindableModel SelectedSeat { get; set; }
 
@@ -323,7 +323,7 @@ namespace Next2.ViewModels
                             if (App.IsTablet)
                             {
                                 _firstSeat.Checked = true;
-                                _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault();
+                                SelectedSet = _firstSeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstSeat.Sets.FirstOrDefault() : _firstSeat.SelectedItem = null;
                             }
                             else
                             {
@@ -356,15 +356,21 @@ namespace Next2.ViewModels
                         {
                             await DeleteSeatsCommandsAsync();
 
-                            CurrentOrder.Seats[destinationSeatNumber - 1].SelectedItem = removalSeat.SelectedItem;
+                            var updatedDestinationSeatNumber = (destinationSeatNumber < removalSeat.SeatNumber) ? destinationSeatNumber : destinationSeatNumber - 1;
+
+                            var destinationSeat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == updatedDestinationSeatNumber);
+
                             foreach (var item in CurrentOrder.Seats)
                             {
                                 item.Checked = false;
                             }
 
-                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).Checked = true;
+                            destinationSeat.Checked = true;
+                            if (CurrentState == LayoutState.Success)
+                            {
+                                SelectedSet = destinationSeat.SelectedItem = destinationSeat.Sets.FirstOrDefault();
+                            }
 
-                            SelectedSet = removalSeat.SelectedItem;
                             await RefreshCurrentOrderAsync();
                         }
                     }
