@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage  
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.AddCommentPage"
+    x:DataType="viewModels:LoginPage_EmployeeIdViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+    <StackLayout 
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+        Spacing="0" 
+        Padding="0">
+
+        <controls:CustomNavigationbar
+            xct:TouchEffect.Command="{prism:GoBack}"
+           
+            Title="{xct:Translate Cancel}"
+            HeightImage="25">
+
+        </controls:CustomNavigationbar>
+
+        <StackLayout 
+            Orientation="Vertical"
+            Spacing="0" 
+            Padding="0"
+            VerticalOptions="StartAndExpand">
+
+            <controls:CustomEntry 
+                x:Name="customEntry"
+                ReturnType="Done"
+                ReturnCommand="{Binding GoBackCommand}"
+                Placeholder="{xct:Translate CommentForOrder}"
+                VerticalTextAlignment="Center"
+                Text="{Binding Comment}"
+                Margin="22, 15, 0, 0"
+                PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Regular"/>
+
+        </StackLayout>
+
+    </StackLayout>
+
+</views:BaseContentPage>

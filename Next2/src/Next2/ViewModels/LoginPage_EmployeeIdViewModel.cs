@@ -1,9 +1,11 @@
-﻿using Prism.Navigation;
+﻿using Next2.Models;
+using Prism.Navigation;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using static Next2.Constants;
 
 namespace Next2.ViewModels
 {
@@ -18,8 +20,32 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; }
 
+        public string Comment { get; set; }
+
+        public SetBindableModel? Set { get; set; }
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+            if (parameters.TryGetValue("SelectedSet", out SetBindableModel set))
+            {
+                Set = set;
+            }
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            Set.Comment = Comment;
+        }
 
         #endregion
 
@@ -27,14 +53,27 @@ namespace Next2.ViewModels
 
         private async Task OnGoBackCommandAsync()
         {
-            EmployeeId = new string(EmployeeId?.Where(char.IsDigit).ToArray());
-
-            var navigationParameters = new NavigationParameters
+            if (!App.IsTablet)
             {
-                 { nameof(EmployeeId), EmployeeId },
-            };
+                EmployeeId = new string(EmployeeId?.Where(char.IsDigit).ToArray());
 
-            await _navigationService.GoBackAsync(navigationParameters);
+                var navigationParameters = new NavigationParameters
+                {
+                    { nameof(EmployeeId), EmployeeId },
+                    { nameof(Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                };
+                await _navigationService.GoBackAsync(navigationParameters);
+            }
+            else
+            {
+                var navigationParameters = new NavigationParameters
+                {
+                    { nameof(Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                };
+                await _navigationService.GoBackAsync(navigationParameters);
+            }
+
+            Set.Comment = Comment;
         }
 
         #endregion
