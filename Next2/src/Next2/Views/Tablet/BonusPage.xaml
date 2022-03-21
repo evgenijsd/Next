@@ -78,15 +78,18 @@
                     <StackLayout
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand">
-                        
+
                         <Grid VerticalOptions="FillAndExpand">
                             
-                            <ffimageloading:CachedImage
-                            Source="pic_coupon" 
-                                VerticalOptions="CenterAndExpand"
-                            HeightRequest="250"/>
-                            
-                            <Label 
+                            <Grid
+                                VerticalOptions="FillAndExpand">
+                                
+                                <ffimageloading:CachedImage
+                                    Source="pic_coupon"
+                                    VerticalOptions="CenterAndExpand"
+                                    HeightRequest="250"/>
+
+                                <Label 
                                 Text="{xct:Translate SelectCoupon}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i6}"
@@ -94,6 +97,52 @@
                                 Margin="0,300,0,0"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"/>
+                                
+                            </Grid>
+
+                            <!--StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:SeatBindableModel">
+                                        <Label 
+                                            Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                        <StackLayout BindableLayout.ItemsSource="{Binding Sets}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate x:DataType="models:SeatBindableModel">
+                                                    <Label 
+                                                        Text="{Binding Title}"
+                                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </StackLayout>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate-->
+                            <StackLayout>
+                                <CollectionView IsGrouped="True"
+                                    ItemsSource="{Binding CurrentOrder.Seats}">
+                                    <CollectionView.GroupHeaderTemplate>
+                                        <DataTemplate x:DataType="models:SeatBindableModel">
+                                            <Label
+                                                Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                        </DataTemplate>
+                                    </CollectionView.GroupHeaderTemplate>
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ListView ItemsSource="{Binding CurrentOrder.Seats.Sets}">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:SetBindableModel">
+                                                        <Label
+                                                            Text="{Binding Title}"
+                                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                            
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
                             
                         </Grid>
                         
