@@ -196,6 +196,11 @@ namespace Next2.ViewModels
 
                 Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
 
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    Orders = new(Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
+                }
+
                 SetHeightCollection();
             }
         }
