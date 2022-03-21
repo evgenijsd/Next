@@ -292,6 +292,12 @@ namespace Next2.ViewModels
                 if (deleteSeatResult.IsSuccess)
                 {
                     NumberOfSeats = CurrentOrder.Seats.Count;
+
+                    foreach (var item in CurrentOrder.Seats)
+                    {
+                        item.Checked = false;
+                    }
+
                     _firstSeat.Checked = true;
                 }
             }
