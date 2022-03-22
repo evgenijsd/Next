@@ -4,6 +4,21 @@ namespace Next2.Models
 {
     public class ProductModel : IBaseModel
     {
+        public ProductModel()
+        {
+        }
+
+        public ProductModel(ProductModel product)
+        {
+            Id = product.Id;
+            SetId = product.SetId;
+            DefaultProductId = product.DefaultProductId;
+            DefaultOptionId = product.DefaultOptionId;
+            Title = product.Title;
+            ImagePath = product.ImagePath;
+            Price = product.Price;
+        }
+
         public int Id { get; set; }
 
         public int SetId { get; set; }

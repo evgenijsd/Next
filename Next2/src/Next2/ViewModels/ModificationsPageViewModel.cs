@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using Next2.ENums;
+using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -14,9 +15,6 @@ namespace Next2.ViewModels
     public class ModificationsPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-
-        private bool _isOrderedByDescendingProportions;
-        private bool _isOrderedByDescendingOptions = true;
 
         private int _indexOfSeat;
 
@@ -44,12 +42,10 @@ namespace Next2.ViewModels
             _currentSet = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet];
 
             InitSubmenuItems();
-
             InitProductsSet();
-
             InitPortionsSet();
 
-            SelectedProduct = new() { SelectedItem = new() { Title = "Proportions" } };
+            SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
         }
 
         #region -- Public properties --
@@ -58,17 +54,21 @@ namespace Next2.ViewModels
 
         public ObservableCollection<ItemSpoilerModel> SubmenuItems { get; set; }
 
+        public SpoilerBindableModel SelectedProduct { get; set; }
+
         public ObservableCollection<SpoilerBindableModel> ProductsSet { get; set; }
 
-        public SpoilerBindableModel SelectedProduct { get; set; }
+        public PortionModel? SelectedPortion { get; set; }
 
         public ObservableCollection<PortionModel> PortionsSet { get; set; }
 
-        public PortionModel SelectedPortion { get; set; }
+        public OptionModel? SelectedOption { get; set; }
 
         public ObservableCollection<OptionModel> OptionsProduct { get; set; }
 
-        public OptionModel SelectedOption { get; set; }
+        public ProductModel? SelectedReplacementProduct { get; set; }
+
+        public ObservableCollection<ProductModel> ReplacementProducts { get; set; }
 
         public bool IsMenuOpen { get; set; }
 
@@ -77,12 +77,6 @@ namespace Next2.ViewModels
 
         private ICommand _tapOpenProportionsCommand;
         public ICommand TapOpenProportionsCommand => _tapOpenProportionsCommand ??= new AsyncCommand(OnTapOpenProportionsCommandAsync);
-
-        private ICommand _changingOrderSortProportionsCommand;
-        public ICommand ChangingOrderSortProportionsCommand => _changingOrderSortProportionsCommand ??= new AsyncCommand(OnChangingOrderSortProportionsCommandAsync);
-
-        private ICommand _changingOrderSortOptionsCommand;
-        public ICommand ChangingOrderSortOptionsCommand => _changingOrderSortOptionsCommand ??= new AsyncCommand(OnChangingOrderSortOptionsCommandAsync);
 
         private ICommand _openMenuCommand;
         public ICommand OpenMenuCommand => _openMenuCommand ??= new AsyncCommand(OnOpenMenuCommandAsync);
@@ -110,6 +104,16 @@ namespace Next2.ViewModels
                     }
 
                     break;
+                case nameof(SelectedReplacementProduct):
+                    if (SelectedReplacementProduct is not null)
+                    {
+                        var products = _currentSet.Products;
+                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+
+                        _currentSet.Products[products.IndexOf(product)].SelectedProduct = SelectedReplacementProduct;
+                    }
+
+                    break;
                 case nameof(SelectedOption):
                     if (SelectedOption is not null)
                     {
@@ -117,18 +121,6 @@ namespace Next2.ViewModels
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
                         products[products.IndexOf(product)].SelectedOption = SelectedOption;
-                    }
-
-                    break;
-                case nameof(SelectedProduct):
-                    switch (SelectedProduct?.SelectedItem?.Title)
-                    {
-                        case "Proportions":
-                            SelectedPortion = _currentSet.Portion;
-                            break;
-                        case "Options":
-                            LoadOptionsProduct();
-                            break;
                     }
 
                     break;
@@ -145,24 +137,28 @@ namespace Next2.ViewModels
             {
                 new ItemSpoilerModel()
                 {
+                    State = ESubmenuItemsModifactions.Replace,
                     Title = "Replace",
                     ImagePath = "ic_paper_plus_24x24.png",
                     SelectedImagePath = "ic_paper_plus_primary_24x24.png",
                 },
                 new ItemSpoilerModel()
                 {
+                    State = ESubmenuItemsModifactions.Inventory,
                     Title = "Inventory",
                     ImagePath = "ic_paper_plus_24x24.png",
                     SelectedImagePath = "ic_paper_plus_primary_24x24.png",
                 },
                 new ItemSpoilerModel()
                 {
+                    State = ESubmenuItemsModifactions.Options,
                     Title = "Options",
                     ImagePath = "ic_paper_plus_24x24.png",
                     SelectedImagePath = "ic_paper_plus_primary_24x24.png",
                 },
                 new ItemSpoilerModel()
                 {
+                    State = ESubmenuItemsModifactions.Comment,
                     Title = "Comment",
                     ImagePath = "ic_paper_plus_24x24.png",
                     SelectedImagePath = "ic_paper_plus_primary_24x24.png",
@@ -182,6 +178,17 @@ namespace Next2.ViewModels
                     Items = SubmenuItems,
                     TapCommand = TapSubmenuCommand,
                 }));
+            }
+        }
+
+        private void InitReplacementProductsSet()
+        {
+            var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+
+            if (product.ReplacementProducts is var replacementProducts)
+            {
+                ReplacementProducts = replacementProducts;
+                SelectedReplacementProduct = replacementProducts.FirstOrDefault(row => row.DefaultProductId == product.SelectedProduct.DefaultProductId);
             }
         }
 
@@ -209,14 +216,7 @@ namespace Next2.ViewModels
                 var options = products[indexProduct].Options;
                 if (options is not null)
                 {
-                    if (_isOrderedByDescendingOptions)
-                    {
-                        OptionsProduct = new(options.OrderBy(row => row.Title));
-                    }
-                    else
-                    {
-                        OptionsProduct = new(options.OrderByDescending(row => row.Title));
-                    }
+                    OptionsProduct = new(options);
 
                     SelectedOption = products[indexProduct].SelectedOption;
                 }
@@ -239,6 +239,16 @@ namespace Next2.ViewModels
                     }
                 }
 
+                switch (item.SelectedItem.State)
+                {
+                    case ESubmenuItemsModifactions.Options:
+                        LoadOptionsProduct();
+                        break;
+                    case ESubmenuItemsModifactions.Replace:
+                        InitReplacementProductsSet();
+                        break;
+                }
+
                 if (!App.IsTablet)
                 {
                     await OnCloseMenuCommandAsync();
@@ -248,52 +258,19 @@ namespace Next2.ViewModels
 
         private async Task OnTapOpenProportionsCommandAsync()
         {
-            SelectedProduct = new() { SelectedItem = new() { Title = "Proportions" } };
+            SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
 
             for (int i = 0; i < ProductsSet.Count; i++)
             {
                 ProductsSet[i].SelectedItem = null;
             }
 
+            SelectedPortion = _currentSet.Portion;
+
             if (!App.IsTablet)
             {
                 await OnCloseMenuCommandAsync();
             }
-        }
-
-        private async Task OnChangingOrderSortProportionsCommandAsync()
-        {
-            _isOrderedByDescendingProportions = !_isOrderedByDescendingProportions;
-
-            if (_isOrderedByDescendingProportions)
-            {
-                PortionsSet = new (PortionsSet.OrderBy(row => row.Title));
-            }
-            else
-            {
-                PortionsSet = new (PortionsSet.OrderByDescending(row => row.Title));
-            }
-
-            SelectedPortion = _currentSet.Portion;
-        }
-
-        private async Task OnChangingOrderSortOptionsCommandAsync()
-        {
-            _isOrderedByDescendingOptions = !_isOrderedByDescendingOptions;
-
-            if (_isOrderedByDescendingOptions)
-            {
-                OptionsProduct = new (OptionsProduct.OrderBy(row => row.Title));
-            }
-            else
-            {
-                OptionsProduct = new (OptionsProduct.OrderByDescending(row => row.Title));
-            }
-
-            var products = _currentSet.Products;
-            var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-
-            SelectedOption = products[products.IndexOf(product)].SelectedOption;
         }
 
         private async Task OnOpenMenuCommandAsync()

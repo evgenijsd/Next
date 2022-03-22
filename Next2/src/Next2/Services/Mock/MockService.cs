@@ -25,6 +25,7 @@ namespace Next2.Services.Mock
         private IList<PortionModel> _portions;
         private IList<TaxModel> _taxBonus;
         private IList<ProductModel> _products;
+        private IList<ReplacementProductModel> _replacementProducts;
         private IList<OptionModel> _optionsProduct;
 
         private Dictionary<Type, object> _base;
@@ -168,6 +169,7 @@ namespace Next2.Services.Mock
                 InitCustomersAsync(),
                 InitPortionsAsync(),
                 InitTaxAndBonusAsync(),
+                InitReplacementProductsAsync(),
                 InitProductsAsync(),
                 InitOptionsProductAsync());
 
@@ -1748,6 +1750,169 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(PortionModel), _portions);
+        });
+
+        private Task InitReplacementProductsAsync() => Task.Run(() =>
+        {
+            int id = 1;
+            int replacementProductId = 1;
+            int productId = 1;
+
+            _replacementProducts = new List<ReplacementProductModel>
+            {
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId++,
+                    ProductId = productId++,
+                },
+            };
+
+            _base.Add(typeof(ReplacementProductModel), _replacementProducts);
         });
 
         private Task InitProductsAsync() => Task.Run(() =>

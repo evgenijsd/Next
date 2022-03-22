@@ -13,7 +13,9 @@ namespace Next2.Models
         {
             Id = product.Id;
             SelectedOption = new();
+            SelectedProduct = new();
             Options = new();
+            ReplacementProducts = new();
             Title = product.Title;
             ImagePath = product.ImagePath;
             Price = product.Price;
@@ -23,7 +25,11 @@ namespace Next2.Models
 
         public OptionModel SelectedOption { get; set; }
 
+        public ProductModel SelectedProduct { get; set; }
+
         public ObservableCollection<OptionModel> Options { get; set; }
+
+        public ObservableCollection<ProductModel> ReplacementProducts { get; set; }
 
         public string Title { get; set; }
 

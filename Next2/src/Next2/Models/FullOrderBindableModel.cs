@@ -54,10 +54,26 @@ namespace Next2.Models
                             newProduct.Options.Add(new OptionModel(option));
                         }
 
-                        var tmpProduct = newProduct.Options.FirstOrDefault(row => row.Id == product.SelectedOption.Id);
-                        index = newProduct.Options.IndexOf(tmpProduct);
+                        foreach (var replacementProducts in product.ReplacementProducts)
+                        {
+                            newProduct.ReplacementProducts.Add(new ProductModel(replacementProducts));
+                        }
 
-                        newProduct.SelectedOption = newProduct.Options[index];
+                        if(product.SelectedOption is not null)
+                        {
+                            var tmpOption = newProduct.Options.FirstOrDefault(row => row.Id == product.SelectedOption.Id);
+                            index = newProduct.Options.IndexOf(tmpOption);
+
+                            newProduct.SelectedOption = newProduct.Options[index];
+                        }
+
+                        if (product.SelectedProduct is not null)
+                        {
+                            var tmpReplacementProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct.Id);
+                            index = newProduct.ReplacementProducts.IndexOf(tmpReplacementProduct);
+
+                            newProduct.SelectedProduct = newProduct.ReplacementProducts[index];
+                        }
 
                         newSet.Products.Add(newProduct);
                     }

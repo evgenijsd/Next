@@ -194,35 +194,54 @@ namespace Next2.Services.Order
                     CurrentSeat = seat;
                 }
 
-                var products = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+                var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
 
-                if (products is not null)
+                if (resultProducts is not null)
                 {
                     set.Products = new();
 
-                    foreach (var item in products)
+                    foreach (var product in resultProducts)
                     {
-                        var optionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == item.Id);
-
-                        if (optionsProduct is not null)
+                        var newProduct = new ProductBindableModel()
                         {
-                            var product = new ProductBindableModel()
-                            {
-                                Id = item.Id,
-                                SelectedOption = optionsProduct.FirstOrDefault(row => row.Id == item.DefaultOptionId),
-                                Options = new(optionsProduct),
-                                Title = item.Title,
-                                ImagePath = item.ImagePath,
-                                Price = item.Price,
-                            };
+                            Id = product.Id,
+                            ReplacementProducts = new(),
+                            Title = product.Title,
+                            ImagePath = product.ImagePath,
+                            Price = product.Price,
+                        };
 
-                            set.Products.Add(product);
+                        var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
+
+                        if (resultOptionsProduct is not null)
+                        {
+                            newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
+                            newProduct.Options = new(resultOptionsProduct);
                         }
                         else
                         {
-                            success = false;
-                            break;
+                            newProduct.SelectedOption = new();
+                            newProduct.Options = new();
                         }
+
+                        var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
+
+                        if (resultReplacementProducts is not null)
+                        {
+                            foreach (var replacementProduct in resultReplacementProducts)
+                            {
+                                var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
+                                newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
+                            }
+
+                            newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
+                        }
+                        else
+                        {
+                            newProduct.SelectedProduct = new();
+                        }
+
+                        set.Products.Add(newProduct);
                     }
                 }
                 else
