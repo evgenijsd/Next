@@ -84,8 +84,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
-
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }

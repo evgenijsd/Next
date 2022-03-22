@@ -71,6 +71,10 @@
     </Style>
     
     <!-- CONTROLS -->
+    <Style TargetType="controls:LineSpacingLabel">
+        <Setter Property="LineSpacing" Value="{OnPlatform Android=1.15, iOS=6.45}"/>
+    </Style>
+    
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />
@@ -87,6 +91,13 @@
         <Setter Property="Padding" Value="8"/>
     </Style>
 
+        
+    <Style x:Key="BorderButtonStyle_i3" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="CornerRadius" Value="7"/>
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+    </Style>  
+    
     <Style x:Key="IconBorderButtonStyle_i1" TargetType="buttons:IconBorderButton">
         <Setter Property="IconWidth" Value="26"/>
         <Setter Property="IconHeight" Value="26"/>
@@ -94,13 +105,7 @@
         <Setter Property="Padding" Value="10"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
     </Style>
-    
-    <Style x:Key="BorderButtonStyle_i3" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="CornerRadius" Value="7"/>
-        <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-    </Style>   
-    
+ 
     <Style x:Key="CustomScrollBarCollectionView_i1" TargetType="controls:CustomScrollBarCollectionView">
         <Setter Property="VerticalScrollBarVisibility" Value="Always"/>
         <Setter Property="SelectionMode" Value="Single"/>
@@ -162,5 +167,6 @@
     
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
+    <converters:ListHeightConverter x:Key="listHeightConverter"/>
 
 </ResourceDictionary>

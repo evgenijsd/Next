@@ -45,18 +45,9 @@ namespace Next2.Services.Order
 
             try
             {
-                var orders = await _mockService.GetAllAsync<OrderModel>();
+                int newOrderId = _mockService.MaxIdentifier<OrderModel>() + 1;
 
-                if (orders is not null)
-                {
-                    int newOrderId = orders.Max(row => row.Id) + 1;
-
-                    result.SetSuccess(newOrderId);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
+                result.SetSuccess(newOrderId);
             }
             catch (Exception ex)
             {
@@ -78,11 +69,15 @@ namespace Next2.Services.Order
                 {
                     var allOrders = await _mockService.GetAllAsync<OrderModel>();
 
-                    var freeTables = allTables?.Where(table => allOrders.All(order => order.Id != table.Id));
-
-                    if (freeTables is not null)
+                    if (allOrders is not null)
                     {
-                        result.SetSuccess(freeTables);
+                        var freeTables = allTables.Where(table => allOrders
+                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is Constants.OrderStatus.CANCELLED or Constants.OrderStatus.PAYED));
+
+                        if (freeTables is not null)
+                        {
+                            result.SetSuccess(freeTables);
+                        }
                     }
                 }
             }
@@ -114,6 +109,50 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetOrdersAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> DeleteOrderAsync(int orderId)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var removalOrder = await _mockService.FindAsync<OrderModel>(x => x.Id == orderId);
+
+                if (removalOrder is not null)
+                {
+                    await _mockService.RemoveAsync(removalOrder);
+
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderId)
+        {
+            var result = new AOResult<IEnumerable<SeatModel>>();
+
+            try
+            {
+                var seats = await _mockService.GetAsync<SeatModel>(x => x.OrderId == orderId);
+
+                if (seats is not null)
+                {
+                    result.SetSuccess(seats);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetSeatsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
