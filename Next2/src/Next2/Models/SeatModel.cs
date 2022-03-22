@@ -11,6 +11,6 @@ namespace Next2.Models
 
         public int SeatNumber { get; set; }
 
-        public IList<SetModel> Sets { get; set; } = new List<SetModel>();
+        public List<SetModel> Sets { get; set; } = new ();
     }
 }
