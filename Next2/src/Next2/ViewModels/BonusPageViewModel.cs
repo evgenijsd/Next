@@ -40,6 +40,8 @@ namespace Next2.ViewModels
 
         public BonusBindableModel? SelectedDiscount { get; set; }
 
+        public string Title { get; set; } = string.Empty;
+
         public double HeightCoupons { get; set; } = 0;
 
         public double HeightDiscounts { get; set; } = 0;
@@ -94,7 +96,7 @@ if (resultSet.IsSuccess)
 
             if (args.PropertyName is nameof(SelectedCoupon) || args.PropertyName is nameof(SelectedDiscount))
             {
-                var i = 0;
+                Title = SelectedCoupon?.Name + SelectedDiscount?.Name;
             }
         }
 
@@ -112,6 +114,7 @@ if (resultSet.IsSuccess)
             SelectedDiscount = null;
 
             SelectedCoupon = coupon == SelectedCoupon ? null : coupon;
+
             return Task.CompletedTask;
         }
 
