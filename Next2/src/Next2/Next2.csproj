@@ -115,7 +115,6 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Converters\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
@@ -123,7 +122,6 @@
     <Folder Include="Converters\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="ViewModels\Mobile\" />
-    <Folder Include="Views\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -157,8 +155,14 @@
     <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\DeleteOrderDialog.xaml.cs">
+      <DependentUpon>DeleteOrderDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\Dialogs\DeleteSeatDialog.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\ConfirmDialog.xaml.cs">
+      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\HoldItemsPage.xaml.cs">
       <DependentUpon>HoldItemsView.xaml</DependentUpon>
@@ -175,8 +179,11 @@
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\Dialogs\LogOutAlertView.xaml.cs">
-      <DependentUpon>LogOutAlertView.xaml</DependentUpon>
+    <Compile Update="Views\Tablet\Dialogs\DeleteOrderDialog.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\ConfirmDialog.xaml.cs">
+      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialogxaml</DependentUpon>
@@ -268,13 +275,16 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\EditPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderRegistrationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OrderView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\Dialogs\LogOutAlertView.xaml">
+    <EmbeddedResource Update="Views\Mobile\Dialogs\ConfirmDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\SearchPage.xaml">
@@ -295,7 +305,7 @@
     <EmbeddedResource Update="Views\Mobile\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\Dialogs\LogOutAlertView.xaml">
+    <EmbeddedResource Update="Views\Tablet\Dialogs\ConfirmDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\ExpandPage.xaml">

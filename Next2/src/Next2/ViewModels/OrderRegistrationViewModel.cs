@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -36,7 +38,10 @@ namespace Next2.ViewModels
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
+        private readonly ICommand _removeOrderCommand;
         private readonly ICommand _setSelectionCommand;
+
+        private SeatBindableModel _firstSeat;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -55,26 +60,45 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
 
+            CurrentState = LayoutState.Loading;
+
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
+            _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _setSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSetSelectionCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new ();
+        public LayoutState CurrentState { get; set; }
 
-        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new ();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+
+        public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
+        public SetBindableModel? SelectedSet { get; set; }
 
-        public ObservableCollection<TableBindableModel> Tables { get; set; } = new ();
+        public SeatBindableModel SelectedSeat { get; set; }
+
+        public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
         public TableBindableModel SelectedTable { get; set; } = new ();
 
         public int NumberOfSeats { get; set; }
 
         public bool IsOrderWithTax { get; set; } = true;
+
+        public bool IsSideMenuVisible { get; set; } = true;
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
+
+        private ICommand _openModifyCommand;
+        public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
+
+        private ICommand _openRemoveCommand;
+        public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync);
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
@@ -100,6 +124,17 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (!App.IsTablet)
+            {
+                foreach (var seat in CurrentOrder.Seats)
+                {
+                    seat.SelectedItem = null;
+                }
+            }
+        }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
@@ -158,6 +193,8 @@ namespace Next2.ViewModels
             // value for testing
             CurrentOrder.CustomerName = "Martin Levin";
 
+            _firstSeat = CurrentOrder.Seats.FirstOrDefault();
+
             await AddSeatsCommandsAsync();
 
             SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
@@ -175,8 +212,33 @@ namespace Next2.ViewModels
             {
                 seat.SeatSelectionCommand = _seatSelectionCommand;
                 seat.SeatDeleteCommand = _deleteSeatCommand;
+                seat.RemoveOrderCommand = _removeOrderCommand;
                 seat.SetSelectionCommand = _setSelectionCommand;
             }
+        }
+
+        private async Task DeleteSeatsCommandsAsync()
+        {
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                seat.SeatSelectionCommand = null;
+                seat.SeatDeleteCommand = null;
+                seat.SetSelectionCommand = null;
+            }
+        }
+
+        private void OnGoBackCommand()
+        {
+            if (SelectedSet is not null)
+            {
+                foreach (var item in CurrentOrder.Seats)
+                {
+                   item.SelectedItem = null;
+                }
+            }
+
+            IsSideMenuVisible = true;
+            CurrentState = LayoutState.Loading;
         }
 
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
@@ -184,6 +246,8 @@ namespace Next2.ViewModels
             if(CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
+
+                SelectedSeat = seat;
 
                 foreach (var item in CurrentOrder.Seats)
                 {
@@ -233,6 +297,13 @@ namespace Next2.ViewModels
                 if (deleteSeatResult.IsSuccess)
                 {
                     NumberOfSeats = CurrentOrder.Seats.Count;
+
+                    foreach (var item in CurrentOrder.Seats)
+                    {
+                        item.Checked = false;
+                    }
+
+                    _firstSeat.Checked = true;
                 }
             }
         }
@@ -250,6 +321,34 @@ namespace Next2.ViewModels
                     if (deleteSetsResult.IsSuccess)
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
+
+                        if (NumberOfSeats <= 0)
+                        {
+                            OnGoBackCommand();
+                        }
+                        else
+                        {
+                            if (App.IsTablet)
+                            {
+                                _firstSeat.Checked = true;
+                                SelectedSet = _firstSeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstSeat.Sets.FirstOrDefault() : _firstSeat.SelectedItem = null;
+                            }
+                            else
+                            {
+                                await DeleteSeatsCommandsAsync();
+
+                                foreach (var item in CurrentOrder.Seats)
+                                {
+                                    item.Checked = false;
+                                }
+
+                                _firstSeat.Checked = true;
+
+                                SelectedSet = _firstSeat.Sets.FirstOrDefault();
+
+                                await RefreshCurrentOrderAsync();
+                            }
+                        }
                     }
                 }
                 else if (actionOnSets is EActionOnSets.RedirectSets
@@ -259,24 +358,144 @@ namespace Next2.ViewModels
 
                     if (resirectSetsResult.IsSuccess)
                     {
-                        await RefreshCurrentOrderAsync();
-
                         var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
                         if (deleteSeatResult.IsSuccess)
                         {
-                            NumberOfSeats = CurrentOrder.Seats.Count;
+                            await DeleteSeatsCommandsAsync();
+
+                            var updatedDestinationSeatNumber = (destinationSeatNumber < removalSeat.SeatNumber) ? destinationSeatNumber : destinationSeatNumber - 1;
+
+                            var destinationSeat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == updatedDestinationSeatNumber);
+
+                            foreach (var item in CurrentOrder.Seats)
+                            {
+                                item.Checked = false;
+                            }
+
+                            destinationSeat.Checked = true;
+                            if (CurrentState == LayoutState.Success)
+                            {
+                                SelectedSet = destinationSeat.SelectedItem = destinationSeat.Sets.FirstOrDefault();
+                            }
+
+                            await RefreshCurrentOrderAsync();
                         }
                     }
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
+        }
+
+        private async Task OnRemoveOrderCommandAsync()
+        {
+            List<SeatModel> seats = new ();
+
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                if (seat.Sets.Any())
+                {
+                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                    {
+                        ImagePath = x.ImagePath,
+                        Title = x.Title,
+                        Price = x.Portion.Price,
+                    }));
+
+                    var newSeat = new SeatModel
+                    {
+                        SeatNumber = seat.SeatNumber,
+                        Sets = sets,
+                    };
+
+                    seats.Add(newSeat);
+                }
+            }
+
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                { Constants.DialogParameterKeys.SEATS, seats },
+            };
+
+            PopupPage removeOrderDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(removeOrderDialog);
+        }
+
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null
+                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            {
+                if (isOrderDeletionConfirmationRequestCalled)
+                {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    };
+
+                    PopupPage orderDeletionConfirmationDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback);
+
+                    await _popupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                }
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
+        }
+
+        private async void CloseOrderDeletionConfirmationDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+                if (isOrderRemovingAccepted)
+                {
+                    var result = await _orderService.CreateNewOrderAsync();
+
+                    if (result.IsSuccess)
+                    {
+                        NumberOfSeats = 0;
+
+                        if (App.IsTablet)
+                        {
+                            IsSideMenuVisible = true;
+                            CurrentState = LayoutState.Loading;
+                        }
+
+                        await RefreshCurrentOrderAsync();
+                    }
+
+                    await _popupNavigation.PopAsync();
+                }
+            }
+
+            await _popupNavigation.PopAsync();
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            if (CurrentOrder.Seats is not null)
+            if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
@@ -284,6 +503,18 @@ namespace Next2.ViewModels
                     {
                         item.SelectedItem = null;
                     }
+                }
+
+                SelectedSet = seat.SelectedItem;
+
+                if (App.IsTablet)
+                {
+                    IsSideMenuVisible = false;
+                    CurrentState = LayoutState.Success;
+                }
+                else
+                {
+                    await _navigationService.NavigateAsync(nameof(EditPage));
                 }
             }
         }
@@ -348,6 +579,16 @@ namespace Next2.ViewModels
         }
 
         private Task OnTabCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnOpenModifyCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task OnOpenRemoveCommandAsync()
         {
             return Task.CompletedTask;
         }

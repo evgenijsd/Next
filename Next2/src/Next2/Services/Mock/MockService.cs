@@ -18,6 +18,7 @@ namespace Next2.Services.Mock
         private IList<OrderModel> _orders;
         private IList<CategoryModel> _categories;
         private IList<SubcategoryModel> _subcategories;
+        private IList<SeatModel> _seats;
         private IList<SetModel> _sets;
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
@@ -26,6 +27,7 @@ namespace Next2.Services.Mock
         private IList<TaxModel> _taxBonus;
 
         private Dictionary<Type, object> _base;
+        private Dictionary<Type, int> _maxIdentifiers;
         private List<CustomerModel> _customers;
 
         public MockService()
@@ -35,27 +37,20 @@ namespace Next2.Services.Mock
 
         #region -- IMockService implementation --
 
+        public int MaxIdentifier<T>() => _maxIdentifiers[typeof(T)];
+
         public async Task<int> AddAsync<T>(T entity)
             where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
-            int id = 1;
 
-            if (GetBase<T>().Count > 0)
-            {
-                id = GetBase<T>().Max(x => x.Id) + 1;
-                entity.Id = id;
-            }
-            else
-            {
-                entity.Id = 1;
-            }
+            entity.Id = ++_maxIdentifiers[typeof(T)];
 
             GetBase<T>().Add(entity);
 
             await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
-            return id;
+            return entity.Id;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
@@ -152,9 +147,15 @@ namespace Next2.Services.Mock
             return (List<T>)_base[typeof(T)];
         }
 
+        private int GetMaxId(IEnumerable<IBaseModel> list) => list.Any()
+            ? list.Max(x => x.Id)
+            : 0;
+
         private async Task InitMocksAsync()
         {
             _base = new Dictionary<Type, object>();
+            _maxIdentifiers = new Dictionary<Type, int>();
+
             await Task.WhenAll(
                 InitOrdersAsync(),
                 InitMembersAsync(),
@@ -183,10 +184,13 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(TaxModel), _taxBonus);
+            _maxIdentifiers.Add(typeof(TaxModel), GetMaxId(_taxBonus));
         });
 
-        private Task InitOrdersAsync() => Task.Run(() =>
+        private Task InitOrdersAsync() => Task.Run(async () =>
         {
+            await InitSeatsAsync();
+
             _orders = new List<OrderModel>
             {
                 new OrderModel()
@@ -194,7 +198,7 @@ namespace Next2.Services.Mock
                     Id = 1,
                     CustomerName = "Bill Gates",
                     TableNumber = 10,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
@@ -205,7 +209,7 @@ namespace Next2.Services.Mock
                     Id = 2,
                     CustomerName = "Kate White",
                     TableNumber = 9,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
@@ -216,7 +220,7 @@ namespace Next2.Services.Mock
                     Id = 3,
                     CustomerName = "Sam Smith",
                     TableNumber = 8,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
@@ -227,7 +231,7 @@ namespace Next2.Services.Mock
                     Id = 4,
                     CustomerName = "Steve Jobs",
                     TableNumber = 7,
-                    OrderStatus = "Annuled",
+                    OrderStatus = "Cancelled",
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
@@ -238,7 +242,7 @@ namespace Next2.Services.Mock
                     Id = 5,
                     CustomerName = "Elon musk",
                     TableNumber = 6,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
@@ -249,7 +253,7 @@ namespace Next2.Services.Mock
                     Id = 6,
                     CustomerName = "Keano Reaves",
                     TableNumber = 5,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
@@ -260,7 +264,7 @@ namespace Next2.Services.Mock
                     Id = 7,
                     CustomerName = "Roderick Marvin",
                     TableNumber = 4,
-                    OrderStatus = "Annuled",
+                    OrderStatus = Constants.OrderStatus.CANCELLED,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
@@ -271,7 +275,7 @@ namespace Next2.Services.Mock
                     Id = 8,
                     CustomerName = "Clinton Gleichner",
                     TableNumber = 3,
-                    OrderStatus = "Annuled",
+                    OrderStatus = Constants.OrderStatus.CANCELLED,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
@@ -282,7 +286,7 @@ namespace Next2.Services.Mock
                     Id = 9,
                     CustomerName = "Victor Dickinson",
                     TableNumber = 2,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
@@ -293,7 +297,7 @@ namespace Next2.Services.Mock
                     Id = 10,
                     CustomerName = "Dave Glover",
                     TableNumber = 1,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
@@ -304,7 +308,7 @@ namespace Next2.Services.Mock
                     Id = 11,
                     CustomerName = "Dave Glover",
                     TableNumber = 11,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
@@ -315,7 +319,7 @@ namespace Next2.Services.Mock
                     Id = 12,
                     CustomerName = "Dave Glover",
                     TableNumber = 12,
-                    OrderStatus = "Annuled",
+                    OrderStatus = Constants.OrderStatus.CANCELLED,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 12,
                     Total = 9.50,
@@ -325,7 +329,7 @@ namespace Next2.Services.Mock
                     Id = 13,
                     CustomerName = "Dave Glover",
                     TableNumber = 13,
-                    OrderStatus = "Annuled",
+                    OrderStatus = Constants.OrderStatus.CANCELLED,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
@@ -336,7 +340,7 @@ namespace Next2.Services.Mock
                     Id = 14,
                     CustomerName = "Dave Glover",
                     TableNumber = 14,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
@@ -347,14 +351,24 @@ namespace Next2.Services.Mock
                     Id = 15,
                     CustomerName = "Dave Glover",
                     TableNumber = 15,
-                    OrderStatus = "Pending",
+                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
                     Tax = 0.1,
                 },
             };
+
+            for (int i = 0; i < _orders.Count; i++)
+            {
+                var orderSeats = _seats.Where(s => s.OrderId == _orders[i].Id);
+                var amountsBySeats = orderSeats.Select(x => x.Sets.Select(x => x.Price).Sum());
+
+                _orders[i].Total = amountsBySeats.Sum();
+            }
+
             _base.Add(typeof(OrderModel), _orders);
+            _maxIdentifiers.Add(typeof(OrderModel), GetMaxId(_orders));
         });
 
         private Task InitCategoriesAsync() => Task.Run(() =>
@@ -461,6 +475,7 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(CategoryModel), _categories);
+            _maxIdentifiers.Add(typeof(CategoryModel), GetMaxId(_categories));
         });
 
         private Task InitSubategoriesAsync() => Task.Run(() =>
@@ -604,11 +619,13 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(SubcategoryModel), _subcategories);
+            _maxIdentifiers.Add(typeof(SubcategoryModel), GetMaxId(_subcategories));
         });
 
         private Task InitSetsAsync() => Task.Run(() =>
         {
             int id = 1;
+            int portionId = -2;
 
             _sets = new List<SetModel>
             {
@@ -616,6 +633,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 1,
+                    DefaultPortionId = portionId += 3,
                     Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -624,6 +642,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 1,
+                    DefaultPortionId = portionId += 4,
                     Title = "B Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -632,6 +651,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 1,
+                    DefaultPortionId = portionId += 4,
                     Title = "C Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -640,6 +660,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 2,
+                    DefaultPortionId = portionId += 1,
                     Title = "D Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -648,6 +669,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 3,
+                    DefaultPortionId = portionId += 3,
                     Title = "F Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -656,6 +678,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 3,
+                    DefaultPortionId = portionId += 3,
                     Title = "F2 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -664,6 +687,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 4,
+                    DefaultPortionId = portionId += 3,
                     Title = "G Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -672,6 +696,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 5,
+                    DefaultPortionId = portionId += 3,
                     Title = "H Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -680,6 +705,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 6,
+                    DefaultPortionId = portionId += 3,
                     Title = "I Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -688,6 +714,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 7,
+                    DefaultPortionId = portionId += 3,
                     Title = "J Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -696,6 +723,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 8,
+                    DefaultPortionId = portionId += 3,
                     Title = "J8 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -704,6 +732,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 9,
+                    DefaultPortionId = portionId += 3,
                     Title = "J9 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -712,6 +741,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 10,
+                    DefaultPortionId = portionId += 3,
                     Title = "J10 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -720,6 +750,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 11,
+                    DefaultPortionId = portionId += 3,
                     Title = "J11 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -728,6 +759,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 12,
+                    DefaultPortionId = portionId += 3,
                     Title = "J12 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -736,6 +768,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 13,
+                    DefaultPortionId = portionId += 3,
                     Title = "J13 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -744,6 +777,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 14,
+                    DefaultPortionId = portionId += 3,
                     Title = "J14 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -752,6 +786,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 15,
+                    DefaultPortionId = portionId += 3,
                     Title = "J15 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -760,6 +795,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 16,
+                    DefaultPortionId = portionId += 3,
                     Title = "J16 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -768,6 +804,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 17,
+                    DefaultPortionId = portionId += 3,
                     Title = "J17 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -776,6 +813,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 18,
+                    DefaultPortionId = portionId += 3,
                     Title = "J18 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -784,6 +822,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 19,
+                    DefaultPortionId = portionId += 3,
                     Title = "J19 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -792,6 +831,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 20,
+                    DefaultPortionId = portionId += 3,
                     Title = "J20 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -800,6 +840,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 21,
+                    DefaultPortionId = portionId += 3,
                     Title = "J21 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -808,6 +849,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 22,
+                    DefaultPortionId = portionId += 3,
                     Title = "J22 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -816,6 +858,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 22,
+                    DefaultPortionId = portionId += 3,
                     Title = "J23 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -824,6 +867,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     SubcategoryId = 22,
+                    DefaultPortionId = portionId += 3,
                     Title = "J24 Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
@@ -831,6 +875,7 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(SetModel), _sets);
+            _maxIdentifiers.Add(typeof(SetModel), GetMaxId(_sets));
         });
 
         private Task InitUsersAsync() => Task.Run(() =>
@@ -864,6 +909,693 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(UserModel), _users);
+            _maxIdentifiers.Add(typeof(UserModel), GetMaxId(_users));
+        });
+
+        private Task InitSeatsAsync() => Task.Run(() =>
+        {
+            int seatId = 1;
+            int tableId = 1;
+            int setId = 1;
+            var rand = new Random();
+
+            _seats = new List<SeatModel>
+            {
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 3,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId,
+                    SeatNumber = 1,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+                new SeatModel
+                {
+                    Id = seatId++,
+                    OrderId = tableId++,
+                    SeatNumber = 2,
+                    Sets = new List<SetModel>
+                    {
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                        new SetModel()
+                        {
+                            Id = setId++,
+                            SubcategoryId = 1,
+                            Title = "B Pulled Pork Sammy Meal",
+                            Price = rand.Next(10, 40),
+                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                        },
+                    },
+                },
+            };
+
+            _base.Add(typeof(SeatModel), _seats);
+            _maxIdentifiers.Add(typeof(SeatModel), GetMaxId(_seats));
         });
 
         private Task InitTables() => Task.Run(() =>
@@ -968,6 +1700,7 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(TableModel), _tables);
+            _maxIdentifiers.Add(typeof(TableModel), GetMaxId(_tables));
         });
 
         private Task InitMembersAsync() => Task.Run(() =>
@@ -1175,12 +1908,14 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(MemberModel), _members);
+            _maxIdentifiers.Add(typeof(MemberModel), GetMaxId(_members));
         });
 
         private Task InitCustomersAsync() => Task.Run(() =>
         {
             _customers = CustomersMock.Create();
             _base.Add(typeof(CustomerModel), _customers);
+            _maxIdentifiers.Add(typeof(CustomerModel), GetMaxId(_customers));
         });
 
         private Task InitPortionsAsync() => Task.Run(() =>
@@ -1761,6 +2496,7 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(PortionModel), _portions);
+            _maxIdentifiers.Add(typeof(PortionModel), GetMaxId(_portions));
         });
 
         #endregion

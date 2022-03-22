@@ -62,13 +62,22 @@
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         }
 
+        public static class OrderStatus
+        {
+            public const string IN_PROGRESS = "In progress";
+            public const string CANCELLED = "Cancelled";
+            public const string PAYED = "Payed";
+        }
+
         public static class DialogParameterKeys
         {
             public const string MESSAGE = "MESSAGE";
             public const string MODEL = "MODEL";
             public const string TITLE = "TITLE";
+            public const string DESCRIPTION = "DESCRIPTION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
             public const string CANCEL_BUTTON_TEXT = "CANCEL_BUTTON_TEXT";
+            public const string CONFIRM_MODE = "CONFIRM_MODE";
             public const string ACCEPT = "ACCEPT";
             public const string CANCEL = "CANCEL";
             public const string SET = "SET";
@@ -77,6 +86,8 @@
             public const string REMOVAL_SEAT = "REMOVAL_SEAT";
             public const string SEAT_NUMBERS_OF_CURRENT_ORDER = "SEAT_NUMBERS_OF_CURRENT_ORDER";
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
+            public const string SEATS = "SEATS";
+            public const string ORDER_NUMBER = "ORDER_NUMBER";
         }
     }
 }

@@ -22,12 +22,12 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
         <Grid.Resources>
-            
+
             <Style TargetType="Label">
                 <Setter Property="VerticalOptions" Value="Center"/>
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
-   
+
             <!-- Bold (700) 32px -->
             <Style x:Key="Bold32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Bold" />
@@ -165,7 +165,6 @@
                 <controls:CustomStepper.Triggers>
                     <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
-                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                         <Setter Property="IsEnabled" Value="False" />
 
                     </DataTrigger>

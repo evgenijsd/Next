@@ -1,8 +1,11 @@
-﻿using Next2.Services.Authentication;
+using Next2.Enums;
+using Next2.Services.Authentication;
+using Next2.Services.Order;
 using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,14 +20,18 @@ namespace Next2.ViewModels
 
         private readonly IPopupNavigation _popupNavigation;
 
+        private readonly IOrderService _orderService;
+
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            IOrderService orderService)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -38,14 +45,21 @@ namespace Next2.ViewModels
 
         private async Task OnLogOutCommandAsync()
         {
-            if (App.IsTablet)
+            var dialogParameters = new DialogParameters
             {
-                await _popupNavigation.PushAsync(new Next2.Views.Tablet.Dialogs.LogOutAlertView(null, CloseDialogCallback));
-            }
-            else
-            {
-                await _popupNavigation.PushAsync(new Next2.Views.Mobile.Dialogs.LogOutAlertView(null, CloseDialogCallback));
-            }
+                { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+            };
+
+            PopupPage confirmDialog = App.IsTablet
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
+
+            await _orderService.CreateNewOrderAsync();
+            await _popupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
