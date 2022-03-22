@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -12,6 +12,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:local="clr-namespace:Next2"
     x:DataType="viewModels:OrderTabsViewModel">
 
     <StackLayout
@@ -404,7 +405,7 @@
                                                     <Trigger
                                                         TargetType="Label"
                                                         Property="Text"
-                                                        Value="Cancelled">
+                                                        Value="{Static local:Constants+OrderStatus.CANCELLED}">
                                                         <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                                                     </Trigger>
                                                 </Label.Triggers>

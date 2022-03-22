@@ -11,7 +11,7 @@ namespace Next2.Converters
         {
             int listHeight = 0;
 
-            if (value is not null && value is IList list && int.TryParse(parameter as string, out int itemHeight))
+            if (value is IList list && int.TryParse(parameter as string, out int itemHeight))
             {
                 listHeight = list.Count * itemHeight;
             }

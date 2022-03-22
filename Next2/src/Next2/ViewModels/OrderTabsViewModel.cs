@@ -373,7 +373,7 @@ namespace Next2.ViewModels
 
                     var param = new DialogParameters
                     {
-                        { Constants.DialogParameterKeys.ORDER_ID, SelectedOrder.OrderNumber },
+                        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
                         { Constants.DialogParameterKeys.SEATS,  seats },
                     };
 

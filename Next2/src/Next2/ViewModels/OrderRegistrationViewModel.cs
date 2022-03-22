@@ -77,7 +77,7 @@ namespace Next2.ViewModels
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
-        public SetBindableModel SelectedSet { get; set; }
+        public SetBindableModel? SelectedSet { get; set; }
 
         public SeatBindableModel SelectedSeat { get; set; }
 
@@ -149,7 +149,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-           switch (args.PropertyName)
+            switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
                     _orderService.CurrentOrder.Table = SelectedTable;
@@ -213,11 +213,7 @@ namespace Next2.ViewModels
                 seat.SeatSelectionCommand = _seatSelectionCommand;
                 seat.SeatDeleteCommand = _deleteSeatCommand;
                 seat.RemoveOrderCommand = _removeOrderCommand;
-
-                if (seat.IsFirstSeat)
-                {
-                    seat.SetSelectionCommand = _setSelectionCommand;
-                }
+                seat.SetSelectionCommand = _setSelectionCommand;
             }
         }
 
@@ -247,7 +243,7 @@ namespace Next2.ViewModels
 
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
-            if (CurrentOrder.Seats is not null)
+            if(CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
 
@@ -263,100 +259,6 @@ namespace Next2.ViewModels
 
                 _orderService.CurrentSeat = seat;
             }
-        }
-
-        private async Task OnRemoveOrderCommandAsync()
-        {
-            List<SeatModel> seats = new ();
-
-            foreach (var seat in CurrentOrder.Seats)
-            {
-                if (seat.Sets.Any())
-                {
-                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-                    {
-                        ImagePath = x.ImagePath,
-                        Title = x.Title,
-                        Price = x.Portion.Price,
-                    }));
-
-                    var newSeat = new SeatModel
-                    {
-                        SeatNumber = seat.SeatNumber,
-                        Sets = sets,
-                    };
-
-                    seats.Add(newSeat);
-                }
-            }
-
-            var param = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.ORDER_ID, CurrentOrder.OrderNumber },
-                { Constants.DialogParameterKeys.SEATS, seats },
-            };
-
-            PopupPage removeOrderDialog = App.IsTablet
-                ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
-
-            await _popupNavigation.PushAsync(removeOrderDialog);
-        }
-
-        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
-        {
-            if (parameters is not null
-                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
-            {
-                if (isOrderDeletionConfirmationRequestCalled)
-                {
-                    var confirmDialogParameters = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
-                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
-                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-                    };
-
-                    PopupPage confirmDialog = App.IsTablet
-                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback)
-                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback);
-
-                    await _popupNavigation.PushAsync(confirmDialog);
-                }
-            }
-            else
-            {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
-            }
-        }
-
-        private async void CloseConfirmDialogCallback(IDialogParameters parameters)
-        {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
-            {
-                if (isOrderRemovingAccepted)
-                {
-                    var result = await _orderService.CreateNewOrderAsync();
-
-                    if (result.IsSuccess)
-                    {
-                        NumberOfSeats = 0;
-
-                        await RefreshCurrentOrderAsync();
-                    }
-
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
-
-                    if (!App.IsTablet)
-                    {
-                        await _navigationService.GoBackToRootAsync();
-                    }
-                }
-            }
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private Task OnDeleteSeatCommandAsync(SeatBindableModel seat) => DeleteSeatAsync(seat);
@@ -414,35 +316,31 @@ namespace Next2.ViewModels
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
 
-                        if (App.IsTablet)
+                        if (NumberOfSeats <= 0)
                         {
-                            if (NumberOfSeats <= 0)
-                            {
-                                OnGoBackCommand();
-                            }
-                            else
-                            {
-                                _firstSeat.Checked = true;
-                                _firstSeat.SelectedItem = _firstSeat.Sets.FirstOrDefault();
-                            }
+                            OnGoBackCommand();
                         }
                         else
                         {
-                            await DeleteSeatsCommandsAsync();
-
-                            foreach (var item in CurrentOrder.Seats)
+                            if (App.IsTablet)
                             {
-                                item.Checked = false;
+                                _firstSeat.Checked = true;
+                                SelectedSet = _firstSeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstSeat.Sets.FirstOrDefault() : _firstSeat.SelectedItem = null;
                             }
-
-                            _firstSeat.Checked = true;
-
-                            SelectedSet = _firstSeat.Sets.FirstOrDefault();
-
-                            await RefreshCurrentOrderAsync();
-                            if (!CurrentOrder.Seats.Any())
+                            else
                             {
-                                await _navigationService.GoBackToRootAsync();
+                                await DeleteSeatsCommandsAsync();
+
+                                foreach (var item in CurrentOrder.Seats)
+                                {
+                                    item.Checked = false;
+                                }
+
+                                _firstSeat.Checked = true;
+
+                                SelectedSet = _firstSeat.Sets.FirstOrDefault();
+
+                                await RefreshCurrentOrderAsync();
                             }
                         }
                     }
@@ -458,30 +356,140 @@ namespace Next2.ViewModels
 
                         if (deleteSeatResult.IsSuccess)
                         {
-                            NumberOfSeats = CurrentOrder.Seats.Count;
-
                             await DeleteSeatsCommandsAsync();
-                            CurrentOrder.Seats[destinationSeatNumber - 1].SelectedItem = removalSeat.SelectedItem;
+
+                            var updatedDestinationSeatNumber = (destinationSeatNumber < removalSeat.SeatNumber) ? destinationSeatNumber : destinationSeatNumber - 1;
+
+                            var destinationSeat = CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == updatedDestinationSeatNumber);
+
                             foreach (var item in CurrentOrder.Seats)
                             {
                                 item.Checked = false;
                             }
 
-                            CurrentOrder.Seats.ElementAt(destinationSeatNumber - 1).Checked = true;
+                            destinationSeat.Checked = true;
+                            if (CurrentState == LayoutState.Success)
+                            {
+                                SelectedSet = destinationSeat.SelectedItem = destinationSeat.Sets.FirstOrDefault();
+                            }
 
-                            SelectedSet = removalSeat.SelectedItem;
                             await RefreshCurrentOrderAsync();
                         }
                     }
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
+        }
+
+        private async Task OnRemoveOrderCommandAsync()
+        {
+            List<SeatModel> seats = new ();
+
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                if (seat.Sets.Any())
+                {
+                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                    {
+                        ImagePath = x.ImagePath,
+                        Title = x.Title,
+                        Price = x.Portion.Price,
+                    }));
+
+                    var newSeat = new SeatModel
+                    {
+                        SeatNumber = seat.SeatNumber,
+                        Sets = sets,
+                    };
+
+                    seats.Add(newSeat);
+                }
+            }
+
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                { Constants.DialogParameterKeys.SEATS, seats },
+            };
+
+            PopupPage removeOrderDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(removeOrderDialog);
+        }
+
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null
+                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            {
+                if (isOrderDeletionConfirmationRequestCalled)
+                {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    };
+
+                    PopupPage orderDeletionConfirmationDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback);
+
+                    await _popupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                }
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
+        }
+
+        private async void CloseOrderDeletionConfirmationDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+                if (isOrderRemovingAccepted)
+                {
+                    var result = await _orderService.CreateNewOrderAsync();
+
+                    if (result.IsSuccess)
+                    {
+                        NumberOfSeats = 0;
+
+                        if (App.IsTablet)
+                        {
+                            IsSideMenuVisible = true;
+                            CurrentState = LayoutState.Loading;
+                        }
+
+                        await RefreshCurrentOrderAsync();
+                    }
+
+                    await _popupNavigation.PopAsync();
+                }
+            }
+
+            await _popupNavigation.PopAsync();
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
         {
-            if (CurrentOrder.Seats?.IndexOf(seat) != -1 && seat.SelectedItem is not null)
+            if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {

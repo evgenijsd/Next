@@ -19,10 +19,7 @@ namespace Next2.ViewModels.Dialogs
             CloseCommand = new Command(() => RequestClose(null));
             DeclineCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
             AcceptCommand = new Command(
-                execute: () =>
-                {
-                    RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } });
-                },
+                execute: () => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }),
                 canExecute: CanExecute);
         }
 

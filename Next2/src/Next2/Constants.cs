@@ -60,6 +60,13 @@
             public const string CHECK_NUMBER = @"^[\d]";
         }
 
+        public static class OrderStatus
+        {
+            public const string IN_PROGRESS = "In progress";
+            public const string CANCELLED = "Cancelled";
+            public const string PAYED = "Payed";
+        }
+
         public static class DialogParameterKeys
         {
             public const string MESSAGE = "MESSAGE";
@@ -78,7 +85,7 @@
             public const string SEAT_NUMBERS_OF_CURRENT_ORDER = "SEAT_NUMBERS_OF_CURRENT_ORDER";
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
-            public const string ORDER_ID = "ORDER_ID";
+            public const string ORDER_NUMBER = "ORDER_NUMBER";
         }
     }
 }

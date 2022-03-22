@@ -51,7 +51,7 @@
                                 <Span Text="{xct:Translate Remove}"/>
                                 <Span Text=" "/>
                                 <Span Text="{xct:Translate Order}"/>
-                                <Span Text="{Binding OrderId, StringFormat=' #{0}'}"/>
+                                <Span Text="{Binding OrderNumber, StringFormat=' #{0}'}"/>
                             </FormattedString>
                         </Label.FormattedText>
                 
