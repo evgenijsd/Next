@@ -231,10 +231,22 @@
                         FontSize="{DynamicResource TSize_i6}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         BorderColor="Transparent"
-                        Opacity="0.3"
                         BackgroundColor="{DynamicResource AppColor_i1}"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        Command="{Binding BonusCommand}" />
+                        Command="{Binding BonusCommand}">
+
+                        <buttons:BorderButton.Triggers>
+                            <DataTrigger
+                                TargetType="buttons:BorderButton"
+                                Binding="{Binding Title}"
+                                Value="">
+                                <Setter Property="IsEnabled" Value="False" />
+                                <Setter Property="Opacity" Value="0.3" />
+                            </DataTrigger>
+                        </buttons:BorderButton.Triggers>
+
+                    </buttons:BorderButton>
+                        
 
                 </StackLayout>
 

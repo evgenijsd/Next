@@ -23,6 +23,7 @@ namespace Next2.Services.Mock
         private IList<MemberModel> _members;
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
+        private IList<BonusConditionModel> _bonusConditions;
         private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private Dictionary<Type, object> _base;
@@ -167,6 +168,7 @@ namespace Next2.Services.Mock
                 InitTaxAsync(),
                 InitBonusAsync(),
                 InitBonusSetAsync(),
+                InitBonusConditionAsync(),
                 InitPortionsAsync());
 
             _initCompletionSource.TrySetResult(true);
@@ -187,6 +189,33 @@ namespace Next2.Services.Mock
             _base.Add(typeof(TaxModel), _tax);
         });
 
+        private Task InitBonusConditionAsync() => Task.Run(() =>
+        {
+            _bonusConditions = new List<BonusConditionModel>
+            {
+                new BonusConditionModel
+                {
+                    Id = 1,
+                    SetId = 1,
+                    BonusId = 3,
+                },
+                new BonusConditionModel
+                {
+                    Id = 2,
+                    SetId = 2,
+                    BonusId = 5,
+                },
+                new BonusConditionModel
+                {
+                    Id = 3,
+                    SetId = 3,
+                    BonusId = 6,
+                },
+            };
+
+            _base.Add(typeof(BonusConditionModel), _bonusConditions);
+        });
+
         private Task InitBonusSetAsync() => Task.Run(() =>
         {
             _bonusSets = new List<BonusSetModel>
@@ -194,18 +223,18 @@ namespace Next2.Services.Mock
                 new BonusSetModel
                 {
                     Id = 1,
-                    SetId = 1,
-                    BonusId = 5,
+                    SetId = 3,
+                    BonusId = 3,
                 },
                 new BonusSetModel
                 {
                     Id = 2,
                     SetId = 2,
-                    BonusId = 3,
+                    BonusId = 5,
                 },
             };
 
-            _base.Add(typeof(BonusSetModel), _bonusSets);
+            _base.Add(typeof(BonusSetModel), _bonusConditions);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>

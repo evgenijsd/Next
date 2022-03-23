@@ -11,6 +11,6 @@ namespace Next2.Services.Bonuses
     {
         Task<AOResult<IEnumerable<BonusModel>>> GetBonusesAsync();
 
-        Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync();
+        Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync();
     }
 }

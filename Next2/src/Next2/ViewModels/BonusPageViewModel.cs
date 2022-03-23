@@ -5,6 +5,7 @@ using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -16,6 +17,10 @@ namespace Next2.ViewModels
         private readonly IBonusesService _bonusesService;
 
         private IEnumerable<BonusModel>? _bonuses;
+
+        private IEnumerable<BonusConditionModel>? _bonusConditions;
+
+        private IEnumerable<BonusSetModel>? _bonusSets;
 
         private IEnumerable<SetModel>? _sets;
 
@@ -65,11 +70,19 @@ namespace Next2.ViewModels
 
             if (result.IsSuccess)
             {
-                _bonuses = new List<BonusModel>(result.Result);
+                _bonuses = result.Result;
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<BonusModel, BonusBindableModel>());
                 var mapper = new Mapper(config);
-                Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(result.Result);
-                Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(result.Result);
+
+                var resultConditions = await _bonusesService.GetConditionsAsync();
+
+                if (resultConditions.IsSuccess)
+                {
+                    _bonusConditions = resultConditions.Result;
+                    Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonuses.Where(x => _bonusConditions.Any(y => y.BonusId == x.Id)));
+                    Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonuses.Where(x => !_bonusConditions.Any(y => y.BonusId == x.Id)));
+                }
+
                 HeightCoupons = Coupons.Count * Constants.LayoutBonuses.ROW_BONUS;
                 HeightDiscounts = Discounts.Count * Constants.LayoutBonuses.ROW_BONUS;
             }
@@ -78,16 +91,6 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = currentOrder;
             }
-
-            /*var resultSet = await _bonusesService.GetSetsAsync();
-
-if (resultSet.IsSuccess)
-{
-    _sets = new List<SetModel>(resultSet.Result);
-    var config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
-    var mapper = new Mapper(config);
-    Sets = mapper.Map<IEnumerable<SetModel>, ObservableCollection<SetBindableModel>>(resultSet.Result);
-}*/
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)

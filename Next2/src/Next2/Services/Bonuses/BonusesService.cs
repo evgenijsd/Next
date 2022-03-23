@@ -42,17 +42,17 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync()
+        public async Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync()
         {
-            var result = new AOResult<IEnumerable<SetModel>>();
+            var result = new AOResult<IEnumerable<BonusConditionModel>>();
 
             try
             {
-                var sets = await _mockService.GetAsync<SetModel>(x => x.Id != 0);
+                var conditions = await _mockService.GetAsync<BonusConditionModel>(x => x.Id != 0);
 
-                if (sets is not null)
+                if (conditions is not null)
                 {
-                    result.SetSuccess(sets);
+                    result.SetSuccess(conditions);
                 }
                 else
                 {
