@@ -301,7 +301,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
-                    Tax = 0.1,
+                    Tax = 5.02,
                 },
                 new OrderModel()
                 {
@@ -312,7 +312,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
-                    Tax = 0.1,
+                    Tax = 3.03,
                 },
                 new OrderModel()
                 {
@@ -323,7 +323,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
-                    Tax = 0.1,
+                    Tax = 4.045,
                 },
                 new OrderModel()
                 {
@@ -334,7 +334,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
-                    Tax = 0.0,
+                    Tax = 0.367,
                 },
                 new OrderModel()
                 {
@@ -345,7 +345,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
-                    Tax = 0.0,
+                    Tax = 7.044,
                 },
                 new OrderModel()
                 {
@@ -356,7 +356,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
-                    Tax = 0.1,
+                    Tax = 0.68,
                 },
                 new OrderModel()
                 {
@@ -367,7 +367,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
-                    Tax = 0.1,
+                    Tax = 4.511,
                 },
                 new OrderModel()
                 {
@@ -378,7 +378,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
-                    Tax = 0.1,
+                    Tax = 3.367,
                 },
                 new OrderModel()
                 {
@@ -389,7 +389,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
-                    Tax = 0.1,
+                    Tax = 5.516,
                 },
                 new OrderModel()
                 {
@@ -400,7 +400,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
-                    Tax = 0.1,
+                    Tax = 9.766,
                 },
                 new OrderModel()
                 {
@@ -411,7 +411,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
-                    Tax = 0.1,
+                    Tax = 9.60,
                 },
                 new OrderModel()
                 {
@@ -422,6 +422,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 12,
                     Total = 9.50,
+                    Tax = 0.95,
                 },
                 new OrderModel()
                 {
@@ -432,7 +433,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
-                    Tax = 0.1,
+                    Tax = 0.94,
                 },
                 new OrderModel()
                 {
@@ -443,7 +444,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
-                    Tax = 0.1,
+                    Tax = 0.93,
                 },
                 new OrderModel()
                 {
@@ -454,7 +455,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
-                    Tax = 0.1,
+                    Tax = 0.92,
                 },
             };
             _base.Add(typeof(OrderModel), _orders);
@@ -723,6 +724,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -732,6 +734,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 4,
                     Title = "B Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -741,6 +744,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 4,
                     Title = "C Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -750,6 +754,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 1,
                     Title = "D Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -759,6 +764,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "F Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -768,6 +774,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "F2 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -777,6 +784,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "G Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -786,6 +794,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "H Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -795,6 +804,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "I Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -804,6 +814,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -813,6 +824,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J8 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -822,6 +834,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J9 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -831,6 +844,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J10 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -840,6 +854,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J11 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -849,6 +864,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J12 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -858,6 +874,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J13 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -867,6 +884,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J14 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -876,6 +894,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J15 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -885,6 +904,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J16 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -894,6 +914,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J17 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -903,6 +924,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J18 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -912,6 +934,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J19 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -921,6 +944,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J20 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -930,6 +954,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J21 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -939,6 +964,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J22 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -948,6 +974,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J23 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -957,6 +984,7 @@ namespace Next2.Services.Mock
                     DefaultPortionId = portionId += 3,
                     Title = "J24 Pulled Pork Sammy Meal",
                     Price = 12.5f,
+                    Bonus = 0f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
             };
