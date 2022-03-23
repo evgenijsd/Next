@@ -403,6 +403,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на No items in the category..
+        /// </summary>
+        internal static string NoItems {
+            get {
+                return ResourceManager.GetString("NoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Not found orders.
         /// </summary>
         internal static string NotFoundOrders {

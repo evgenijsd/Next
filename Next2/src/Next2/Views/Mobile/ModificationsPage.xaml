@@ -114,13 +114,22 @@
 
                 <StackLayout>
 
-                    <Label
+                    <controls:SortingPanel
+                        Margin="16, 24, 16, 0"
                         Text="{xct:Translate AvailableOptions}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        VerticalTextAlignment="Center"
-                        Margin="16, 24, 16, 0"/>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}">
+
+                        <controls:SortingPanel.Triggers>
+
+                            <DataTrigger TargetType="controls:SortingPanel" Binding="{Binding ReplacementProducts.Count}" Value="0">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+
+                        </controls:SortingPanel.Triggers>
+
+                    </controls:SortingPanel>
 
                     <CollectionView
                         Margin="16, 16, 16, 0"
@@ -142,6 +151,28 @@
                             <effects:NoOverScrollEffect/>
                         </CollectionView.Effects>
 
+                        <CollectionView.EmptyView>
+
+                            <StackLayout Spacing="0">
+
+                                <ffimageloading:CachedImage
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="EndAndExpand"
+                                    HeightRequest="250"
+                                    Source="pic_plate.png" />
+
+                                <Label
+                                    Text="{xct:Translate NoItems}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontSize="{DynamicResource TSize_i4}"
+                                    FontFamily="Barlow-Regular"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="StartAndExpand"/>
+
+                            </StackLayout>
+
+                        </CollectionView.EmptyView>
+                        
                         <CollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:ProductModel">

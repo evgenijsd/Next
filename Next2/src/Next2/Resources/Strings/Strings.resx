@@ -363,4 +363,7 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="NoItems" xml:space="preserve">
+    <value>No items in the category.</value>
+  </data>
 </root>

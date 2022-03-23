@@ -67,11 +67,11 @@ namespace Next2.Models
                             newProduct.SelectedOption = newProduct.Options[index];
                         }
 
-                        if (product.SelectedProduct is not null)
-                        {
-                            var tmpReplacementProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct.Id);
-                            index = newProduct.ReplacementProducts.IndexOf(tmpReplacementProduct);
+                        var tmpReplacementProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct.Id);
 
+                        if (tmpReplacementProduct is not null)
+                        {
+                            index = newProduct.ReplacementProducts.IndexOf(tmpReplacementProduct);
                             newProduct.SelectedProduct = newProduct.ReplacementProducts[index];
                         }
 

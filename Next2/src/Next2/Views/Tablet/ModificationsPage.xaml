@@ -4,6 +4,7 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
@@ -208,13 +209,22 @@
 
                 <StackLayout>
 
-                    <Label
+                    <controls:SortingPanel
+                        Margin="40, 26"
                         Text="{xct:Translate AvailableOptions}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        VerticalTextAlignment="Center"
-                        Margin="40, 26"/>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}">
+
+                        <controls:SortingPanel.Triggers>
+
+                            <DataTrigger TargetType="controls:SortingPanel" Binding="{Binding ReplacementProducts.Count}" Value="0">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+
+                        </controls:SortingPanel.Triggers>
+                        
+                    </controls:SortingPanel>
 
                     <CollectionView
                         Margin="40, 16"
@@ -236,6 +246,28 @@
                             <effects:NoOverScrollEffect/>
                         </CollectionView.Effects>
 
+                        <CollectionView.EmptyView>
+
+                            <StackLayout Spacing="0">
+
+                                <ffimageloading:CachedImage
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="EndAndExpand"
+                                    HeightRequest="250"
+                                    Source="pic_plate.png" />
+
+                                <Label
+                                    Text="{xct:Translate NoItems}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontSize="{DynamicResource TSize_i4}"
+                                    FontFamily="Barlow-Regular"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="StartAndExpand"/>
+
+                            </StackLayout>
+
+                        </CollectionView.EmptyView>
+                        
                         <CollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:ProductModel">

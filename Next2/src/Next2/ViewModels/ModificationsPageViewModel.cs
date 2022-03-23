@@ -20,6 +20,8 @@ namespace Next2.ViewModels
 
         private int _indexOfSelectedSet;
 
+        private bool _isOrderedByDescendingReplacementProducts = true;
+
         private SetBindableModel _selectedSet;
 
         private SetBindableModel _currentSet;
@@ -86,6 +88,9 @@ namespace Next2.ViewModels
 
         private ICommand _saveCommand;
         public ICommand SaveCommand => _saveCommand ??= new AsyncCommand(OnSaveCommandAsync);
+
+        private ICommand _changingOrderSortReplacementProductsCommand;
+        public ICommand ChangingOrderSortReplacementProductsCommand => _changingOrderSortReplacementProductsCommand ??= new AsyncCommand(OnChangingOrderSortReplacementProductsCommandAsync);
 
         #endregion
 
@@ -166,6 +171,15 @@ namespace Next2.ViewModels
             };
         }
 
+        private Task OnChangingOrderSortReplacementProductsCommandAsync()
+        {
+            _isOrderedByDescendingReplacementProducts = !_isOrderedByDescendingReplacementProducts;
+
+            InitReplacementProductsSet();
+
+            return Task.CompletedTask;
+        }
+
         private void InitProductsSet()
         {
             var products = _currentSet.Products;
@@ -187,8 +201,16 @@ namespace Next2.ViewModels
 
             if (product.ReplacementProducts is var replacementProducts)
             {
-                ReplacementProducts = replacementProducts;
-                SelectedReplacementProduct = replacementProducts.FirstOrDefault(row => row.DefaultProductId == product.SelectedProduct.DefaultProductId);
+                if (_isOrderedByDescendingReplacementProducts)
+                {
+                    ReplacementProducts = new(replacementProducts.OrderBy(row => row.Title));
+                }
+                else
+                {
+                    ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Title));
+                }
+
+                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct?.Id);
             }
         }
 

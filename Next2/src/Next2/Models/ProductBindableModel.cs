@@ -29,7 +29,7 @@ namespace Next2.Models
 
         public ObservableCollection<OptionModel> Options { get; set; }
 
-        public ObservableCollection<ProductModel> ReplacementProducts { get; set; }
+        public ObservableCollection<ProductModel> ReplacementProducts { get; set; } = new();
 
         public string Title { get; set; }
 
