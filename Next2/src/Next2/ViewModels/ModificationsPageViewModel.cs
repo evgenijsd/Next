@@ -3,6 +3,7 @@ using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -15,23 +16,24 @@ namespace Next2.ViewModels
     public class ModificationsPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IMenuService _menuService;
 
         private int _indexOfSeat;
-
         private int _indexOfSelectedSet;
 
         private bool _isOrderedByDescendingReplacementProducts = true;
 
         private SetBindableModel _selectedSet;
-
         private SetBindableModel _currentSet;
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IMenuService menuService)
             : base(navigationService)
         {
             _orderService = orderService;
+            _menuService = menuService;
 
             CurrentOrder = new(_orderService.CurrentOrder);
 
@@ -72,7 +74,15 @@ namespace Next2.ViewModels
 
         public ObservableCollection<ProductModel> ReplacementProducts { get; set; }
 
+        public IngredientCategoryModel? SelectedIngredientCategory { get; set; }
+
+        public ObservableCollection<IngredientCategoryModel> IngredientCategories { get; set; }
+
+        public ObservableCollection<IngredientModel> Ingredients { get; set; }
+
         public bool IsMenuOpen { get; set; }
+
+        public int HeightIngredientCategories { get; set; }
 
         private ICommand _tapSubmenuCommand;
         public ICommand TapSubmenuCommand => _tapSubmenuCommand ??= new AsyncCommand<SpoilerBindableModel>(OnTapSubmenuCommandAsync);
@@ -126,6 +136,13 @@ namespace Next2.ViewModels
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
                         products[products.IndexOf(product)].SelectedOption = SelectedOption;
+                    }
+
+                    break;
+                case nameof(SelectedIngredientCategory):
+                    if (SelectedIngredientCategory is not null)
+                    {
+                        InitIngredientsAsync(SelectedIngredientCategory.Id).Await();
                     }
 
                     break;
@@ -214,6 +231,31 @@ namespace Next2.ViewModels
             }
         }
 
+        private async Task InitIngredientCategoriesAsync()
+        {
+            var ingredientCategories = await _menuService.GetIngredientCategoriesAsync();
+
+            if (ingredientCategories.IsSuccess)
+            {
+                IngredientCategories = new(ingredientCategories.Result);
+                SelectedIngredientCategory = IngredientCategories.FirstOrDefault();
+
+                var countItemsInRow = App.IsTablet ? 6 : 2;
+
+                HeightIngredientCategories = (int)((Math.Ceiling((double)IngredientCategories.Count / countItemsInRow) * (54 + 10)) - 8);
+            }
+        }
+
+        private async Task InitIngredientsAsync(int categoryId)
+        {
+            var ingredients = await _menuService.GetIngredientsAsync(categoryId);
+
+            if (ingredients.IsSuccess)
+            {
+                Ingredients = new(ingredients.Result);
+            }
+        }
+
         private void InitPortionsSet()
         {
             var portions = _currentSet.Portions;
@@ -268,6 +310,9 @@ namespace Next2.ViewModels
                         break;
                     case ESubmenuItemsModifactions.Replace:
                         InitReplacementProductsSet();
+                        break;
+                    case ESubmenuItemsModifactions.Inventory:
+                        InitIngredientCategoriesAsync().Await();
                         break;
                 }
 

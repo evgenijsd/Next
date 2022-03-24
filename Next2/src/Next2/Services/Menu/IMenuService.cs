@@ -16,5 +16,9 @@ namespace Next2.Services.Menu
         Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId);
 
         Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId);
+
+        Task<AOResult<IEnumerable<IngredientCategoryModel>>> GetIngredientCategoriesAsync();
+
+        Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync(int categoryId);
     }
 }

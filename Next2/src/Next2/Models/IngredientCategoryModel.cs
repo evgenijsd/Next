@@ -2,7 +2,7 @@
 
 namespace Next2.Models
 {
-    public class CategoryIngredientModel : IBaseModel
+    public class IngredientCategoryModel : IBaseModel
     {
         public int Id { get; set; }
 

@@ -301,11 +301,119 @@
 
             <sc:StateCondition State="Inventory">
 
-                <Label
-                    Text="{Binding SelectedProduct.Title, StringFormat='Inventory, Product - {0:s}'}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="CenterAndExpand"/>
+                <StackLayout  Spacing="0">
+
+                    <Label
+                        Text="{xct:Translate AvailableGroups}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"
+                        VerticalTextAlignment="Center"
+                        Margin="40, 26"/>
+
+                    <CollectionView
+                        MinimumHeightRequest="{Binding HeightIngredientCategories}"
+                        HeightRequest="{Binding HeightIngredientCategories}"
+                        Margin="40, 0, 40, 26"
+                        VerticalOptions="Start"
+                        SelectionMode="Single"
+                        ItemsSource="{Binding IngredientCategories}"
+                        SelectedItem="{Binding SelectedIngredientCategory}">
+
+                        <CollectionView.ItemsLayout>
+
+                            <GridItemsLayout
+                                Orientation="Vertical"
+                                Span="6"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="8"/>
+
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.Effects>
+                            <effects:NoOverScrollEffect/>
+                        </CollectionView.Effects>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:IngredientCategoryModel">
+
+                                <templates:CategoryItemTemplate
+                                    Text="{Binding Title}"
+                                    HeightRequest="54"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    FontFamily="Barlow-Medium"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    <BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                        HeightRequest="1"/>
+
+                    <controls:SortingPanel
+                        Margin="40, 26"
+                        Text="{xct:Translate AvailableOptions}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}"/>
+
+                    <CollectionView
+                        Margin="40, 0"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalScrollBarVisibility="Never"
+                        ItemsSource="{Binding Ingredients}">
+
+                        <CollectionView.ItemsLayout>
+
+                            <GridItemsLayout
+                                Orientation="Vertical"
+                                Span="2"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="15"/>
+
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.Effects>
+                            
+                            <effects:NoOverScrollEffect/>
+                            <effects:ScrollBarColorEffect
+                                ScrollBarThumbWidth="6"
+                                ScrollBarCornerRadius="9"
+                                ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                            
+                        </CollectionView.Effects>
+
+                        <CollectionView.ItemTemplate>
+
+                            <DataTemplate x:DataType="models:IngredientModel">
+
+                                <Frame
+                                    Padding="16, 4"
+                                    CornerRadius="8"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                                    <templates:ToggleItemTemplate
+                                        Title="{Binding Title}"
+                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                        ImagePath="{Binding ImagePath}"
+                                        IsVisibleSubtitle="True"
+                                        IsVisibleImage="True"
+                                        CanTurnOff="True"/>
+
+                                </Frame>
+
+                            </DataTemplate>
+
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                </StackLayout>
 
             </sc:StateCondition>
 

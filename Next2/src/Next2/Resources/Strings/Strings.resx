@@ -364,6 +364,9 @@
     <value>Save</value>
   </data>
   <data name="NoItems" xml:space="preserve">
-    <value>No items in the category.</value>
+    <value>No items in the category</value>
+  </data>
+  <data name="AvailableGroups" xml:space="preserve">
+    <value>Available Groups</value>
   </data>
 </root>

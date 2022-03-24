@@ -158,7 +158,8 @@
                             Text="{Binding Title}"
                             HeightRequest="54"
                             FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium"/>
+                            FontFamily="Barlow-Medium"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

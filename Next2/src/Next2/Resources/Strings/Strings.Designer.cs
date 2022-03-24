@@ -97,6 +97,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Available Groups.
+        /// </summary>
+        internal static string AvailableGroups {
+            get {
+                return ResourceManager.GetString("AvailableGroups", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Available Options.
         /// </summary>
         internal static string AvailableOptions {
@@ -403,7 +412,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на No items in the category..
+        ///   Ищет локализованную строку, похожую на No items in the category.
         /// </summary>
         internal static string NoItems {
             get {
