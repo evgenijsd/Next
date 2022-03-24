@@ -149,7 +149,7 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
-                    MessagingCenter.Send<PageSwitchingMessage, EMenuItems>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE, EMenuItems.HoldItems);
+                    MessagingCenter.Send<PageSwitchingMessage>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
                 }
                 else
                 {
