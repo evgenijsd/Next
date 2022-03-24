@@ -396,4 +396,7 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="CommentForOrder" xml:space="preserve">
+    <value>Comment for Order...</value>
+  </data>
 </root>

@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Services.UserService;
+using Next2.Views;
 using Next2.Views.Mobile;
 using Next2.Views.Tablet;
 using Prism.Events;
@@ -583,9 +584,13 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
-            return Task.CompletedTask;
+            var navigationParameters = new NavigationParameters
+            {
+                 { nameof(SelectedSet), SelectedSet },
+            };
+            await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
         }
 
         private Task OnOpenRemoveCommandAsync()
