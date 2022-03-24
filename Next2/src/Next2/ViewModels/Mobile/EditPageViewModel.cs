@@ -5,6 +5,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Next2.Models;
 using Next2.Services.Order;
 using System.Linq;
+using Next2.Views;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -48,9 +49,13 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
-            return Task.CompletedTask;
+            var navigationParameters = new NavigationParameters
+            {
+                 { nameof(SelectedSet), SelectedSet },
+            };
+            await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
         }
 
         private Task OnOpenRemoveCommandAsync()
