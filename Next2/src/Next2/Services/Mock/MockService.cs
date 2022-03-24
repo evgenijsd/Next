@@ -246,42 +246,42 @@ namespace Next2.Services.Mock
                     Id = 1,
                     Name = "10% Off",
                     Value = 10f,
-                    Type = EBonusType.Percent,
+                    Type = EBonusValueType.Percent,
                 },
                 new BonusModel
                 {
                     Id = 2,
                     Name = "$2.00 Off",
                     Value = 2.0f,
-                    Type = EBonusType.Value,
+                    Type = EBonusValueType.Value,
                 },
                 new BonusModel
                 {
                     Id = 3,
                     Name = "50% Off BigMack",
                     Value = 50f,
-                    Type = EBonusType.Percent,
+                    Type = EBonusValueType.Percent,
                 },
                 new BonusModel
                 {
                     Id = 4,
                     Name = "$5.00",
                     Value = 5f,
-                    Type = EBonusType.Value,
+                    Type = EBonusValueType.Value,
                 },
                 new BonusModel
                 {
                     Id = 5,
                     Name = "BOGO Buy 1 and get 1 free",
                     Value = 100f,
-                    Type = EBonusType.Percent,
+                    Type = EBonusValueType.Percent,
                 },
                 new BonusModel
                 {
                     Id = 6,
                     Name = "GoodNeighbor",
                     Value = 100f,
-                    Type = EBonusType.Percent,
+                    Type = EBonusValueType.Percent,
                 },
             };
 

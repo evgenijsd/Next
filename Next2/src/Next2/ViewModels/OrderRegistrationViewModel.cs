@@ -44,6 +44,8 @@ namespace Next2.ViewModels
         private readonly ICommand _deleteSeatCommand;
         private readonly ICommand _setSelectionCommand;
         private SeatBindableModel _firstSeat;
+        private TaxModel _tax;
+
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,

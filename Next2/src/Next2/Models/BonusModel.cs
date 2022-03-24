@@ -11,6 +11,6 @@ namespace Next2.Models
 
         public double Value { get; set; }
 
-        public EBonusType Type { get; set; }
+        public EBonusValueType Type { get; set; }
     }
 }

@@ -39,6 +39,31 @@ namespace Next2.Services.Order
 
         #region -- IOrderService implementation --
 
+        public async Task<AOResult<double>> GetTaxAsync()
+        {
+            var result = new AOResult<double>();
+
+            try
+            {
+                var tax = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+
+                if (tax is not null)
+                {
+                    result.SetSuccess(tax.Value);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetTaxAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult<int>> GetNewOrderIdAsync()
         {
             var result = new AOResult<int>();
@@ -181,6 +206,8 @@ namespace Next2.Services.Order
         {
             var result = new AOResult();
 
+            var tax = await GetTaxAsync();
+
             try
             {
                 if (CurrentSeat is null)
@@ -199,7 +226,8 @@ namespace Next2.Services.Order
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
-                CurrentOrder.Total += set.Portion.Price;
+                CurrentOrder.Tax = CurrentOrder.SubTotal * tax.Result;
+                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * tax.Result);
 
                 result.SetSuccess();
             }

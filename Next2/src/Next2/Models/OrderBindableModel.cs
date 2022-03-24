@@ -15,6 +15,8 @@ namespace Next2.Models
 
         public EOrderType OrderType { get; set; }
 
+        public EBonusType BonusType { get; set; }
+
         public string OrderNumberText { get; set; }
 
         public double Total { get; set; }

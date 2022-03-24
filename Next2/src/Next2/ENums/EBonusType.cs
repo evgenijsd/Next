@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.ENums
+namespace Next2.Enums
 {
     public enum EBonusType
     {
-        Value,
-        Percent,
+        None,
+        Coupone,
+        Discount,
     }
 }
