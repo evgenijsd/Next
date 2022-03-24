@@ -399,4 +399,7 @@
   <data name="CommentForOrder" xml:space="preserve">
     <value>Comment for Order...</value>
   </data>
+  <data name="ThisSetWillBeRemoved" xml:space="preserve">
+    <value>This item will be removed from the order list.</value>
+  </data>
 </root>
