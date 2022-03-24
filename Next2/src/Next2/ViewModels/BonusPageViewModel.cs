@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Bonuses;
 using Prism.Navigation;
@@ -115,8 +116,34 @@ namespace Next2.ViewModels
         private Task OnTapSelectCouponCommandAsync(BonusBindableModel? coupon)
         {
             SelectedDiscount = null;
+            CurrentOrder.BonusType = EBonusType.None;
 
             SelectedCoupon = coupon == SelectedCoupon ? null : coupon;
+
+            if (SelectedCoupon is not null)
+            {
+                CurrentOrder.BonusType = EBonusType.Coupone;
+
+                foreach (SeatBindableModel seat in CurrentOrder.Seats)
+                {
+                    foreach (SetBindableModel set in seat.Sets)
+                    {
+                        if (SelectedCoupon.Type == EBonusValueType.Percent)
+                        {
+                            set.PriceBonus = (float)(set.Price - (SelectedCoupon.Value * set.Price));
+                        }
+                        else
+                        {
+                            set.PriceBonus = (float)(set.Price - SelectedCoupon.Value);
+                        }
+
+                        if (set.PriceBonus < 0)
+                        {
+                            set.PriceBonus = 0;
+                        }
+                    }
+                }
+            }
 
             return Task.CompletedTask;
         }
@@ -124,8 +151,14 @@ namespace Next2.ViewModels
         private Task OnTapSelectDiscountCommandAsync(BonusBindableModel? discount)
         {
             SelectedCoupon = null;
+            CurrentOrder.BonusType = EBonusType.None;
 
             SelectedDiscount = discount == SelectedDiscount ? null : discount;
+
+            if (SelectedDiscount is not null)
+            {
+                CurrentOrder.BonusType = EBonusType.Discount;
+            }
 
             return Task.CompletedTask;
         }

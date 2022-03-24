@@ -19,6 +19,8 @@ namespace Next2.Models
 
         public EOrderType OrderType { get; set; }
 
+        public EBonusType BonusType { get; set; } = EBonusType.None;
+
         public double SubTotal { get; set; }
 
         public double Tax { get; set; }

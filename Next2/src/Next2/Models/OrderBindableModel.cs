@@ -5,6 +5,8 @@ namespace Next2.Models
 {
     public class OrderBindableModel : BindableBase
     {
+        public int Id { get; set; }
+
         public int TableNumber { get; set; }
 
         public int OrderNumber { get; set; }
@@ -15,7 +17,7 @@ namespace Next2.Models
 
         public EOrderType OrderType { get; set; }
 
-        public EBonusType BonusType { get; set; }
+        public EBonusType BonusType { get; set; } = EBonusType.None;
 
         public string OrderNumberText { get; set; }
 

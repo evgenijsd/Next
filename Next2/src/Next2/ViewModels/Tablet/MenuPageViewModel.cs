@@ -6,6 +6,7 @@ using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -165,7 +166,20 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnLogOutCommandAsync()
         {
-            await _popupNavigation.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
+            var dialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+            };
+
+            PopupPage confirmDialog = App.IsTablet
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
+
+            await _popupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)

@@ -394,6 +394,9 @@
   <data name="CouponsAndDiscounts" xml:space="preserve">
     <value>Coupons &amp; Discounts</value>
   </data>
+  <data name="OrderWillBeRemoved" xml:space="preserve">
+    <value>This order will be removed.</value>
+  </data>
   <data name="AvailableOptions" xml:space="preserve">
     <value>Available Options</value>
   </data>
@@ -411,5 +414,8 @@
   </data>
   <data name="NotFound" xml:space="preserve">
     <value>Not found</value>
+  </data>
+  <data name="CommentForOrder" xml:space="preserve">
+    <value>Comment for Order...</value>
   </data>
 </root>

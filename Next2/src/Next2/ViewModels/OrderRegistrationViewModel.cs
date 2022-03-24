@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Services.UserService;
+using Next2.Views;
 using Next2.Views.Mobile;
 using Next2.Views.Tablet;
 using Prism.Events;
@@ -42,7 +43,9 @@ namespace Next2.ViewModels
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
+        private readonly ICommand _removeOrderCommand;
         private readonly ICommand _setSelectionCommand;
+
         private SeatBindableModel _firstSeat;
         private TaxModel _tax;
 
@@ -67,6 +70,7 @@ namespace Next2.ViewModels
 
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
+            _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
             _setSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSetSelectionCommandAsync, allowsMultipleExecutions: false);
         }
 
@@ -214,6 +218,7 @@ namespace Next2.ViewModels
             {
                 seat.SeatSelectionCommand = _seatSelectionCommand;
                 seat.SeatDeleteCommand = _deleteSeatCommand;
+                seat.RemoveOrderCommand = _removeOrderCommand;
                 seat.SetSelectionCommand = _setSelectionCommand;
             }
         }
@@ -298,6 +303,12 @@ namespace Next2.ViewModels
                 if (deleteSeatResult.IsSuccess)
                 {
                     NumberOfSeats = CurrentOrder.Seats.Count;
+
+                    foreach (var item in CurrentOrder.Seats)
+                    {
+                        item.Checked = false;
+                    }
+
                     _firstSeat.Checked = true;
                 }
             }
@@ -316,6 +327,7 @@ namespace Next2.ViewModels
                     if (deleteSetsResult.IsSuccess)
                     {
                         NumberOfSeats = CurrentOrder.Seats.Count;
+
                         if (NumberOfSeats <= 0)
                         {
                             OnGoBackCommand();
@@ -379,7 +391,112 @@ namespace Next2.ViewModels
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
+        }
+
+        private async Task OnRemoveOrderCommandAsync()
+        {
+            List<SeatModel> seats = new ();
+
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                if (seat.Sets.Any())
+                {
+                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                    {
+                        ImagePath = x.ImagePath,
+                        Title = x.Title,
+                        Price = x.Portion.Price,
+                    }));
+
+                    var newSeat = new SeatModel
+                    {
+                        SeatNumber = seat.SeatNumber,
+                        Sets = sets,
+                    };
+
+                    seats.Add(newSeat);
+                }
+            }
+
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                { Constants.DialogParameterKeys.SEATS, seats },
+            };
+
+            PopupPage removeOrderDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(removeOrderDialog);
+        }
+
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null
+                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            {
+                if (isOrderDeletionConfirmationRequestCalled)
+                {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    };
+
+                    PopupPage orderDeletionConfirmationDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback);
+
+                    await _popupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                }
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
+        }
+
+        private async void CloseOrderDeletionConfirmationDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+                if (isOrderRemovingAccepted)
+                {
+                    var result = await _orderService.CreateNewOrderAsync();
+
+                    if (result.IsSuccess)
+                    {
+                        NumberOfSeats = 0;
+
+                        if (App.IsTablet)
+                        {
+                            IsSideMenuVisible = true;
+                            CurrentState = LayoutState.Loading;
+                        }
+
+                        await RefreshCurrentOrderAsync();
+                    }
+
+                    await _popupNavigation.PopAsync();
+                }
+            }
+
+            await _popupNavigation.PopAsync();
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
@@ -473,9 +590,13 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnOpenModifyCommandAsync()
+        private async Task OnOpenModifyCommandAsync()
         {
-            return Task.CompletedTask;
+            var navigationParameters = new NavigationParameters
+            {
+                 { nameof(SelectedSet), SelectedSet },
+            };
+            await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
         }
 
         private Task OnOpenRemoveCommandAsync()

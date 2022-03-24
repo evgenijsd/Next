@@ -19,8 +19,6 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private static System.Timers.Timer timerUpdateTime = new Timer(1);
-
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IEventAggregator _eventAggregator;
@@ -241,9 +239,6 @@ namespace Next2.ViewModels
         public override void OnAppearing()
         {
             base.OnAppearing();
-            //timerUpdateTime.Elapsed += Timer_Elapsed;
-
-            //Task.Run(() => timerUpdateTime.Start());
         }
 
         #endregion
