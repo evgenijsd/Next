@@ -20,7 +20,7 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; }
 
-        public SetBindableModel? Set { get; set; }
+        public SetBindableModel? SelectedSet { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
@@ -32,9 +32,9 @@ namespace Next2.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters.TryGetValue(nameof(Set), out SetBindableModel set))
+            if (parameters.TryGetValue(nameof(SelectedSet), out SetBindableModel set))
             {
-                Set = set;
+                SelectedSet = set;
             }
         }
 

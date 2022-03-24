@@ -33,7 +33,7 @@
                 ReturnCommand="{Binding GoBackCommand}"
                 Placeholder="{xct:Translate CommentForOrder}"
                 VerticalTextAlignment="Center"
-                Text="{Binding Set.Comment}"
+                Text="{Binding SelectedSet.Comment}"
                 Margin="22, 15, 0, 0"
                 PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"

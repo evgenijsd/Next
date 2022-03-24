@@ -24,12 +24,12 @@ namespace Next2.ViewModels.Mobile
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-            Set = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            SelectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
         }
 
         #region -- Public properties --
 
-        public SetBindableModel? Set { get; set; }
+        public SetBindableModel? SelectedSet { get; set; }
 
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
@@ -53,7 +53,7 @@ namespace Next2.ViewModels.Mobile
         {
             var navigationParameters = new NavigationParameters
             {
-                 { nameof(Set), Set },
+                 { nameof(SelectedSet), SelectedSet },
             };
             await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
         }
