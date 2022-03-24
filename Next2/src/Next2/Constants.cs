@@ -50,6 +50,7 @@
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string ADMIN = "ADMIN";
+            public const string SELECTED_SET = "SELECTED_SET";
         }
 
         public static class Validators
