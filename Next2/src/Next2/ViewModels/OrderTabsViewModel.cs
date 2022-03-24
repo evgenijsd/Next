@@ -6,6 +6,9 @@ using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +17,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -25,6 +29,7 @@ namespace Next2.ViewModels
         private readonly double _offsetHeight = App.IsTablet ? Constants.LayoutOrderTabs.OFFSET_TABLET : Constants.LayoutOrderTabs.OFFSET_MOBILE;
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IPopupNavigation _popupNavigation;
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
@@ -33,11 +38,13 @@ namespace Next2.ViewModels
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -85,6 +92,9 @@ namespace Next2.ViewModels
         private ICommand _tapSelectCommand;
         public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel?>(OnTapSelectCommandAsync);
 
+        private ICommand _removeOrderCommand;
+        public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -111,6 +121,7 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            SelectedOrder = null;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -348,6 +359,84 @@ namespace Next2.ViewModels
             SelectedOrder = order == SelectedOrder ? null : order;
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnRemoveOrderCommandAsync()
+        {
+            if (SelectedOrder is not null)
+            {
+                var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+
+                if (seatsResult.IsSuccess)
+                {
+                    var seats = seatsResult.Result;
+
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
+                        { Constants.DialogParameterKeys.SEATS,  seats },
+                    };
+
+                    PopupPage deleteSeatDialog = App.IsTablet
+                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+
+                    await _popupNavigation.PushAsync(deleteSeatDialog);
+                }
+            }
+        }
+
+        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null
+                && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
+            {
+                if (isOrderDeletionConfirmationRequestCalled)
+                {
+                    var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["OrderWillBeRemoved"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    };
+
+                    PopupPage confirmDialog = App.IsTablet
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback);
+
+                    await _popupNavigation.PushAsync(confirmDialog);
+                }
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
+        }
+
+        private async void CloseConfirmDialogCallback(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            {
+                if (isOrderRemovingAccepted && SelectedOrder is not null)
+                {
+                    int removalOrderId = SelectedOrder.Id;
+                    var result = await _orderService.DeleteOrderAsync(removalOrderId);
+
+                    if (result.IsSuccess)
+                    {
+                        var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+
+                        Orders.Remove(removalBindableOrder);
+                        SelectedOrder = null;
+                    }
+
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                }
+            }
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         #endregion

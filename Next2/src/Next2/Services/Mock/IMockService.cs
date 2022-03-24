@@ -9,6 +9,8 @@ namespace Next2.Services.Mock
 {
     public interface IMockService
     {
+        int MaxIdentifier<T>();
+
         Task<int> AddAsync<T>(T entity)
             where T : IBaseModel, new();
 

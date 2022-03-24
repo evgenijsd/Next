@@ -1446,7 +1446,6 @@
                     <controls:CustomStepper.Triggers>
                         <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
                             
-                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                             <Setter Property="IsEnabled" Value="False" />
 
                         </DataTrigger>
@@ -1526,7 +1525,6 @@
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
                                 WidthRequest="250"
-                                LineSpacing="{OnPlatform Android=1.15, iOS=6.45}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i4_5}"
                                 FontFamily="Barlow-Regular"

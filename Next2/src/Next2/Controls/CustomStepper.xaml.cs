@@ -212,13 +212,14 @@ namespace Next2.Controls
             base.OnPropertyChanged(propertyName);
 
             if (propertyName
-                is nameof(Value)
+                is nameof(IsEnabled)
+                or nameof(Value)
                 or nameof(IncrementValue)
                 or nameof(MinValue)
                 or nameof(MaxValue))
             {
-                CanDecrement = (Value - IncrementValue) >= MinValue;
-                CanIncrement = (Value + IncrementValue) <= MaxValue;
+                CanDecrement = IsEnabled && (Value - IncrementValue) >= MinValue;
+                CanIncrement = IsEnabled && (Value + IncrementValue) <= MaxValue;
             }
 
             if (propertyName
