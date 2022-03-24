@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
@@ -148,6 +149,7 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
+                    MessagingCenter.Send<PageSwitchingMessage, EMenuItems>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE, EMenuItems.HoldItems);
                 }
                 else
                 {

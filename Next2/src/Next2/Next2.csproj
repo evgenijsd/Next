@@ -118,7 +118,6 @@
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
-    <Folder Include="Helpers\" />
     <Folder Include="ViewModels\Mobile\" />
   </ItemGroup>
 

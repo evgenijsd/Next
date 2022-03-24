@@ -1,4 +1,5 @@
 ﻿using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -52,6 +54,8 @@ namespace Next2.ViewModels.Tablet
             _orderService = orderService;
 
             InitMenuItems();
+
+            MessagingCenter.Subscribe<PageSwitchingMessage, EMenuItems>(this, Constants.Navigations.SWITCH_PAGE, PageSwitchingMessageHandler);
         }
 
         #region -- Public properties --
@@ -106,9 +110,19 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
+        private void PageSwitchingMessageHandler(PageSwitchingMessage sender, EMenuItems page)
+        {
+            var targetPage = MenuItems.FirstOrDefault(x => x.State == page);
+
+            if (targetPage is not null)
+            {
+                SelectedMenuItem = targetPage;
+            }
+        }
+
         private void InitMenuItems()
         {
-            MenuItems = new ()
+            MenuItems = new()
             {
                 new MenuItemBindableModel()
                 {
