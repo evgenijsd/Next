@@ -20,8 +20,6 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; }
 
-        public string Comment { get; set; }
-
         public SetBindableModel? Set { get; set; }
 
         private ICommand _goBackCommand;
@@ -34,17 +32,10 @@ namespace Next2.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters.TryGetValue("SelectedSet", out SetBindableModel set))
+            if (parameters.TryGetValue(nameof(Set), out SetBindableModel set))
             {
                 Set = set;
             }
-        }
-
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            Set.Comment = Comment;
         }
 
         #endregion
@@ -72,8 +63,6 @@ namespace Next2.ViewModels
                 };
                 await _navigationService.GoBackAsync(navigationParameters);
             }
-
-            Set.Comment = Comment;
         }
 
         #endregion

@@ -18,12 +18,9 @@
 
         <controls:CustomNavigationbar
             xct:TouchEffect.Command="{prism:GoBack}"
-           
             Title="{xct:Translate Cancel}"
-            HeightImage="25">
-
-        </controls:CustomNavigationbar>
-
+            HeightImage="25"/>
+        
         <StackLayout 
             Orientation="Vertical"
             Spacing="0" 
@@ -36,7 +33,7 @@
                 ReturnCommand="{Binding GoBackCommand}"
                 Placeholder="{xct:Translate CommentForOrder}"
                 VerticalTextAlignment="Center"
-                Text="{Binding Comment}"
+                Text="{Binding Set.Comment}"
                 Margin="22, 15, 0, 0"
                 PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
