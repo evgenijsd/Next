@@ -190,9 +190,6 @@ namespace Next2.ViewModels
         {
             CurrentOrder = _orderService.CurrentOrder;
 
-            // value for testing
-            CurrentOrder.CustomerName = "Martin Levin";
-
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
             await AddSeatsCommandsAsync();

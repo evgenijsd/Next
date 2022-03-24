@@ -2,9 +2,12 @@
 using Next2.Enums;
 using Next2.Models;
 using Next2.Services.CustomersService;
+using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +23,7 @@ namespace Next2.ViewModels
     {
         private readonly IMapper _mapper;
         private readonly ICustomersService _customersService;
+        private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
         private ECustomersSorting _sortCriterion;
 
@@ -27,11 +31,13 @@ namespace Next2.ViewModels
             IMapper mapper,
             INavigationService navigationService,
             ICustomersService customersService,
+            IOrderService orderService,
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _mapper = mapper;
             _customersService = customersService;
+            _orderService = orderService;
             _popupNavigation = popupNavigation;
         }
 
@@ -55,6 +61,9 @@ namespace Next2.ViewModels
         private ICommand _addCustomerCommand;
         public ICommand AddCustomerCommand => _addCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(AddCustomerAsync);
 
+        private ICommand _addCustomerToOrderCommand;
+        public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -66,7 +75,7 @@ namespace Next2.ViewModels
 
         public override async void OnDisappearing()
         {
-            Customers = new ();
+            Customers = new();
             SelectedCustomer = null;
         }
 
@@ -109,18 +118,41 @@ namespace Next2.ViewModels
         {
             if (customer is CustomerBindableModel selectedCustomer)
             {
-                var param = new DialogParameters();
-                param.Add(Constants.DialogParameterKeys.MODEL, selectedCustomer);
+                SelectedCustomer = customer;
+
+                var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedCustomer } };
+
+                PopupPage customerInfoDialog = App.IsTablet
+                    ? new Views.Tablet.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback)
+                    : new Views.Mobile.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback);
+
+                await _popupNavigation.PushAsync(customerInfoDialog);
+            }
+        }
+
+        private async void CloseCustomerInfoDialogCallback(IDialogParameters parameters)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerSelected) && isCustomerSelected)
+            {
+                await OnAddCustomerToOrderCommandAsync();
+            }
+        }
+
+        private async Task OnAddCustomerToOrderCommandAsync()
+        {
+            if (SelectedCustomer is not null)
+            {
+                _orderService.CurrentOrder.Customer = _mapper.Map<CustomerBindableModel, CustomerModel>(SelectedCustomer);
 
                 if (App.IsTablet)
                 {
-                    await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                        .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
                 }
                 else
                 {
-                    await _popupNavigation.PushAsync(new Views.Mobile.Dialogs
-                        .CustomerInfoDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+                    string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}/{nameof(OrderRegistrationPage)}";
+                    await _navigationService.NavigateAsync(path);
                 }
             }
         }

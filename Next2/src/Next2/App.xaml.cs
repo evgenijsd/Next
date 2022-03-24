@@ -149,6 +149,7 @@ namespace Next2
             {
                 cfg.CreateMap<TableModel, TableBindableModel>();
                 cfg.CreateMap<CustomerModel, CustomerBindableModel>();
+                cfg.CreateMap<CustomerBindableModel, CustomerModel>();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
             }).CreateMapper();
         }

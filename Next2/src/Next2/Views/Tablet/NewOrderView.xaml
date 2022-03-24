@@ -1598,9 +1598,17 @@
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName.Length}"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName}">
-                            
+                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.Customer}"
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
+                        
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                                
+                                    <Setter Property="IsVisible" Value="False"/>
+                                
+                                </DataTrigger>
+                            </Label.Triggers>
+                                                    
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
                                      
