@@ -130,11 +130,11 @@ namespace Next2.ViewModels
                     {
                         if (SelectedCoupon.Type == EBonusValueType.Percent)
                         {
-                            set.PriceBonus = (float)(set.Price - (SelectedCoupon.Value * set.Price));
+                            set.PriceBonus = (float)(set.Portion.Price - (SelectedCoupon.Value * set.Portion.Price));
                         }
                         else
                         {
-                            set.PriceBonus = (float)(set.Price - SelectedCoupon.Value);
+                            set.PriceBonus = (float)(set.Portion.Price - SelectedCoupon.Value);
                         }
 
                         if (set.PriceBonus < 0)

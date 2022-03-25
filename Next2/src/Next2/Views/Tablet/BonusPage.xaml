@@ -171,7 +171,7 @@
                                                                                     FontFamily="Barlow-SemiBold" />
 
                                                                                 <Label
-                                                                                    Text="{Binding Price, StringFormat='$ {0:F2}'}"
+                                                                                    Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
                                                                                     Margin="0,5,0,0"
                                                                                     Opacity="0.6"
                                                                                     TextDecorations="Strikethrough"
