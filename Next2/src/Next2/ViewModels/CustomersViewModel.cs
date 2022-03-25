@@ -51,19 +51,19 @@ namespace Next2.ViewModels
         public CustomerBindableModel? SelectedCustomer { get; set; }
 
         private ICommand _showInfoCommand;
-        public ICommand ShowInfoCommand => _showInfoCommand ??= new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
+        public ICommand ShowInfoCommand => _showInfoCommand ??= new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync, allowsMultipleExecutions: false);
 
         private ICommand _sortCommand;
-        public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync);
+        public ICommand SortCommand => _sortCommand ??= new AsyncCommand<ECustomersSorting>(SortAsync, allowsMultipleExecutions: false);
 
         private ICommand _refreshCommand;
-        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync);
+        public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync, allowsMultipleExecutions: false);
 
         private ICommand _addCustomerCommand;
-        public ICommand AddCustomerCommand => _addCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(AddCustomerAsync);
+        public ICommand AddCustomerCommand => _addCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(AddCustomerAsync, allowsMultipleExecutions: false);
 
         private ICommand _addCustomerToOrderCommand;
-        public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync);
+        public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -97,7 +97,7 @@ namespace Next2.ViewModels
 
                 foreach (var item in customers)
                 {
-                    item.ShowInfoCommand = new AsyncCommand<CustomerBindableModel>(ShowCustomerInfoAsync);
+                    item.ShowInfoCommand = ShowInfoCommand;
                     item.SelectItemCommand = new Command<CustomerBindableModel>(SelectDeselectItem);
                 }
 
@@ -153,7 +153,13 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}/{nameof(OrderRegistrationPage)}";
+                    string path = $"/{nameof(NavigationPage)}/{nameof(MenuPage)}";
+
+                    if (_orderService.CurrentOrder.Seats.Any())
+                    {
+                        path += $"/{nameof(OrderRegistrationPage)}";
+                    }
+
                     await _navigationService.NavigateAsync(path);
                 }
             }
