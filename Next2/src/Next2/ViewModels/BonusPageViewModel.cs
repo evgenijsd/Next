@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Bonuses;
+using Prism.Events;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +17,8 @@ namespace Next2.ViewModels
 {
     public class BonusPageViewModel : BaseViewModel
     {
+        private readonly IEventAggregator _eventAggregator;
+
         private readonly IBonusesService _bonusesService;
 
         private IEnumerable<BonusModel>? _bonuses;
@@ -27,10 +31,12 @@ namespace Next2.ViewModels
 
         public BonusPageViewModel(
             INavigationService navigationService,
+            IEventAggregator eventAggregator,
             IBonusesService bonusesService)
             : base(navigationService)
         {
             _bonusesService = bonusesService;
+            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties --
@@ -110,6 +116,8 @@ namespace Next2.ViewModels
 
         private async Task OnBonusCommandAsync()
         {
+            _eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
+
             await _navigationService.GoBackAsync();
         }
 
@@ -158,6 +166,26 @@ namespace Next2.ViewModels
             if (SelectedDiscount is not null)
             {
                 CurrentOrder.BonusType = EBonusType.Discount;
+
+                foreach (SeatBindableModel seat in CurrentOrder.Seats)
+                {
+                    foreach (SetBindableModel set in seat.Sets)
+                    {
+                        if (SelectedDiscount.Type == EBonusValueType.Percent)
+                        {
+                            set.PriceBonus = (float)(set.Portion.Price - (SelectedDiscount.Value * set.Portion.Price));
+                        }
+                        else
+                        {
+                            set.PriceBonus = (float)(set.Portion.Price - SelectedDiscount.Value);
+                        }
+
+                        if (set.PriceBonus < 0)
+                        {
+                            set.PriceBonus = 0;
+                        }
+                    }
+                }
             }
 
             return Task.CompletedTask;
