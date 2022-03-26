@@ -145,7 +145,10 @@
             Orientation="Horizontal"
             Spacing="13">
 
-            <Label Style="{DynamicResource SemiBold32pxLabelStyle}" HorizontalOptions="EndAndExpand" Text="{xct:Translate Seats}">
+            <Label 
+                Style="{DynamicResource SemiBold32pxLabelStyle}" 
+                HorizontalOptions="EndAndExpand" 
+                Text="{xct:Translate Seats}">
 
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">

@@ -299,10 +299,7 @@ namespace Next2.Services.Order
                         CurrentOrder.Seats[i].SeatNumber--;
                     }
 
-                    if (seat.Checked)
-                    {
-                        CurrentSeat = null;
-                    }
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
                     result.SetSuccess();
                 }
