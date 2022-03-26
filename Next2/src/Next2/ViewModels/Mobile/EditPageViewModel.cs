@@ -95,18 +95,18 @@ namespace Next2.ViewModels.Mobile
 
                     if (result.IsSuccess)
                     {
-                        await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                        await _popupNavigation.PopAsync();
                         await _navigationService.GoBackAsync();
                     }
                 }
                 else
                 {
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                    await _popupNavigation.PopAsync();
                 }
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
