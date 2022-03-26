@@ -756,11 +756,12 @@
 
                                     <!-- Row 1 Image & Title-->
 
-                                    <StackLayout 
+                                    <Grid
                                         Grid.Row="0"
-                                        Orientation="Horizontal">
+                                        ColumnDefinitions="0.15*, *">
 
                                         <StackLayout 
+                                            Grid.Column="0"
                                             HorizontalOptions="Start"
                                             VerticalOptions="Center"
                                             Margin="0, 15, 0, 15"
@@ -782,7 +783,9 @@
                                         </StackLayout>
 
                                         <StackLayout
+                                            Grid.Column="1"
                                             Margin="20, 0, 0, 0"
+                                            HorizontalOptions="Start"
                                             VerticalOptions="Center"
                                             Orientation="Vertical">
 
@@ -802,7 +805,7 @@
 
                                         </StackLayout>
 
-                                    </StackLayout>
+                                    </Grid>
 
                                     <!-- Row 2 Proportions-->
 
@@ -1150,7 +1153,7 @@
                                 FontSize="{DynamicResource TSize_i7}"
                                 Background="{DynamicResource IndicationColor_i3}"
                                 Text="{xct:Translate Remove}"
-                                Command="{Binding OrderRegistrationViewMode.OpenRemoveCommand}">
+                                Command="{Binding OrderRegistrationViewModel.OpenRemoveCommand}">
                                 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
