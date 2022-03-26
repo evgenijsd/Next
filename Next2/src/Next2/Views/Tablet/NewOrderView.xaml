@@ -1540,7 +1540,7 @@
 
                         <templates:SeatItemTemplate
                             ItemsSource="{Binding Sets}"
-                            Padding="24, 9, 24, 0"/>
+                            Padding="18, 9, 18, 0"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

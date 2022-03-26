@@ -230,7 +230,7 @@
 
                     <templates:SeatItemTemplate
                         ItemsSource="{Binding Sets}"
-                        Padding="24, 9, 24, 0"/>
+                        Padding="17, 9, 17, 0"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
