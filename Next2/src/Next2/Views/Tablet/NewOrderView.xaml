@@ -1598,10 +1598,10 @@
                         </Label>
 
                         <Label
+                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName, Converter={xct:IsNotNullOrEmptyConverter}}"
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName.Length}"
                             Text="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName}">
                             
                             <VisualStateManager.VisualStateGroups>

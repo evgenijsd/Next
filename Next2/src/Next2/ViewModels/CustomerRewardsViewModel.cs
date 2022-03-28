@@ -38,8 +38,14 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (true)
+            if (_orderService.CurrentOrder.CustomerName != string.Empty)
             {
+                // check any customer gift cards exist
+                bool hasCustomerAnyGiftCards = false;
+
+                PageState = hasCustomerAnyGiftCards
+                    ? ECustomerRewardsPageState.NoRewardsPoints
+                    : ECustomerRewardsPageState.NoRewardSelected;
             }
         }
 

@@ -103,6 +103,14 @@
                             </StackLayout>
                         
                         </sc:StateCondition>
+                        
+                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoRewardSelected}">
+                        
+                            <StackLayout Margin="0, 120">
+
+                             </StackLayout>
+                        
+                        </sc:StateCondition>
                     </sc:StateContainer.Conditions>
         
                 </sc:StateContainer>
