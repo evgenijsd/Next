@@ -417,4 +417,7 @@
   <data name="StillNotMember" xml:space="preserve">
     <value>Still not a member?</value>
   </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
 </root>

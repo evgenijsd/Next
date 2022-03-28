@@ -194,9 +194,6 @@ namespace Next2.ViewModels
         {
             CurrentOrder = _orderService.CurrentOrder;
 
-            // value for testing
-            CurrentOrder.CustomerName = "Martin Levin";
-
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
             _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
@@ -670,7 +667,11 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
-            return _navigationService.NavigateAsync(nameof(CustomerRewardsView));
+            string path = App.IsTablet
+                ? nameof(Views.Tablet.CustomerRewardsView)
+                : nameof(Views.Mobile.CustomerRewardsPage);
+
+            return _navigationService.NavigateAsync(path);
         }
 
         #endregion

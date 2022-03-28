@@ -38,6 +38,7 @@
                 Padding="50, 0, 76, 0"
                 HeightImage="20"
                 HeightRequest="60"
+                FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                 FontSize="{DynamicResource TSize_i9}"
                 Title="{xct:Translate Cancel}"
