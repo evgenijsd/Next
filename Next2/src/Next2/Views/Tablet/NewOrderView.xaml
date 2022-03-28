@@ -6,6 +6,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -1717,6 +1718,94 @@
 
                                             <VisualState.Setters>
                                                 <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}"/>
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+
+                        </Label>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal">
+
+                        <StackLayout.Triggers>
+                            
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Bonus}"
+                                Value="0">
+                                
+                                <Setter Property="IsVisible" Value="False" />
+                                
+                            </DataTrigger>
+                            
+                        </StackLayout.Triggers>
+
+                        <Label
+                            Style="{DynamicResource Medium14LabelStyle}"
+                            Text="{xct:Translate Coupon}">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+
+                                    <VisualStateGroup Name="AdaptiveLabel">
+
+                                        <VisualState Name="Large">
+
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1280" />
+                                            </VisualState.StateTriggers>
+
+                                            <VisualState.Setters>
+                                                <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}" />
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Label.Triggers>
+
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType}"
+                                    Value="{x:Static enum:EBonusType.Discount}">
+
+                                    <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+
+                        </Label>
+
+                        <Label
+                            Style="{DynamicResource Medium14LabelStyle}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.BonusName}" >
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+
+                                    <VisualStateGroup Name="AdaptiveLabel">
+
+                                        <VisualState Name="Large">
+
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowWidth="1280" />
+                                            </VisualState.StateTriggers>
+
+                                            <VisualState.Setters>
+                                                <Setter Property="Style" Value="{DynamicResource Medium16LabelStyle}" />
                                             </VisualState.Setters>
 
                                         </VisualState>

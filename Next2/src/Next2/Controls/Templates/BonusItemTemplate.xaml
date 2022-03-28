@@ -1,31 +1,24 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<StackLayout xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:Next2.ViewModels"
-             xmlns:templates="clr-namespace:Next2.Controls.Templates"
-             x:Class="Next2.Controls.Templates.BonusItemTemplate"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    x:Class="Next2.Controls.Templates.BonusItemTemplate"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     HorizontalOptions="Fill"
-                                    VerticalOptions="Start"
-                                    Margin="0,10,0,0">
+    VerticalOptions="Start"
+    Margin="0,10,0,0">
 
     <VisualStateManager.VisualStateGroups>
 
         <VisualStateGroupList>
             <VisualStateGroup x:Name="CommonStates">
-                <VisualState x:Name="Normal" />
+                <VisualState x:Name="Normal"/>
                 <VisualState x:Name="Selected">
                     <VisualState.Setters>
-                        <Setter Property="BackgroundColor"
-                                        Value="Transparent" />
-                        <Setter
-                                    TargetName="checkBoxImage"
-                                    Property="ffimageloading:CachedImage.Source"
-                                    Value="ic_check_box_checked_primary_24x24" />
-                        <Setter
-                                    TargetName="bonusFrame"
-                                    Property="Frame.BorderColor"
-                                    Value="{DynamicResource AppColor_i1}" />
+                        <Setter Property="BackgroundColor" Value="Transparent" />
+                        <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24" />
+                        <Setter TargetName="bonusFrame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -33,43 +26,44 @@
 
     </VisualStateManager.VisualStateGroups>
 
-    <Frame BackgroundColor="Transparent"
-                                           BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                           CornerRadius="8"
-                                           HeightRequest="50"
-                                           x:Name="bonusFrame">
+    <Frame
+        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=BackColor}"
+        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=BorderBonusColor}"
+        CornerRadius="8"
+        HeightRequest="50"
+        x:Name="bonusFrame">
 
         <Grid
-                                            Grid.Row="0"
-                                            ColumnDefinitions="*,50">
+            Grid.Row="0"
+            ColumnDefinitions="*,50">
 
             <ffimageloading:CachedImage
-                                                    Source="ic_check_box_unchecked_white"
-                                                    Grid.Column="1"
-                                                    HeightRequest="25"
-                                                    HorizontalOptions="CenterAndExpand"
-                                                    Margin="0,0,15,0"
-                                                    VerticalOptions="CenterAndExpand"
-                                                    x:Name="checkBoxImage"/>
+                Source="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=ImagePath}"
+                Grid.Column="1"
+                HeightRequest="25"
+                HorizontalOptions="CenterAndExpand"
+                Margin="0,0,15,0"
+                VerticalOptions="CenterAndExpand"
+                x:Name="checkBoxImage" />
 
             <Label
-                                                Grid.Column="0"
-                                                HorizontalOptions="FillAndExpand"
-                                                Margin="20,13,0,0"
+                Grid.Column="0"
+                HorizontalOptions="FillAndExpand"
+                Margin="20,13,0,0"
                 Text="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, Path=Text}"
-                                                HeightRequest="{DynamicResource TSize_i9}"
-                                                LineBreakMode="TailTruncation"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                FontSize="{DynamicResource TSize_i7}"
-                                                FontFamily="Barlow-SemiBold" />
+                HeightRequest="{DynamicResource TSize_i9}"
+                LineBreakMode="TailTruncation"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i7}"
+                FontFamily="Barlow-SemiBold" />
 
         </Grid>
 
         <Frame.GestureRecognizers>
             <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, 
+                Command="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, 
                                                         Path=TapSelectCommand}"
-                                                    CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, 
+                CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, 
                                                         Path=TapSelectCommandParameter}" />
         </Frame.GestureRecognizers>
 

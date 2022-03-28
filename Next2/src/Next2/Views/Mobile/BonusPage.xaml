@@ -5,18 +5,140 @@
                        xmlns:controls="clr-namespace:Next2.Controls"
                        xmlns:prism="http://prismlibrary.com"
                        xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="Next2.Views.Mobile.BonusPage">
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    x:DataType="viewModels:BonusPageViewModel"
+    x:Class="Next2.Views.Mobile.BonusPage">
+    
     <ContentPage.Content>
-        <StackLayout>
+        <Grid
+            RowDefinitions="70,*"
+            RowSpacing="0">
+
             <controls:CustomNavigationbar
-                Margin="15,0,0,0"
-                    Title="{xct:Translate Cancel}"
-                    HeightImage="18"
-                    FontSize="{DynamicResource TSize_i7}"
-                    LeftButtonCommand="{prism:GoBack}" />
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+                Title="{xct:Translate CouponsAndDiscounts}"
+                Grid.Row="0"
+                HeightImage="24"
+                FontSize="{DynamicResource TSize_i5}"
+                LeftButtonCommand="{prism:GoBack}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+
+            <BoxView
+                Grid.Row="0"
+                HeightRequest="2"
+                VerticalOptions="End"
+                Color="{DynamicResource TextAndBackgroundColor_i2}" />
+
+
+
+            <ScrollView
+                Grid.Row="1">
+
+                <StackLayout>
+
+                    <Grid
+                        Margin="20,25,20,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="30" />
+                            <RowDefinition
+                                Height="{Binding HeightCoupons}" />
+                        </Grid.RowDefinitions>
+
+
+                        <Label
+                            Grid.Row="0"
+                            Text="{xct:Translate Coupons}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                        <CollectionView
+                            Grid.Row="1"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding Coupons}"
+                            SelectedItem="{Binding SelectedCoupon}">
+
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate
+                                    x:DataType="models:BonusBindableModel">
+
+                                    <templates:BonusItemTemplate
+                                        Text="{Binding Name}"
+                                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
+                                                        Path=TapSelectCouponCommand}"
+                                        TapSelectCommandParameter="{Binding .}"
+                                        ImagePath="ic_arrow_right_24x24.png"
+                                        BackColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </Grid>
+
+                    <BoxView
+                        Grid.Row="0"
+                        HeightRequest="2"
+                        VerticalOptions="End"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                    <Grid
+                        Margin="20,25,20,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="30" />
+                            <RowDefinition
+                                Height="{Binding HeightDiscounts}" />
+                        </Grid.RowDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Margin="0,3,0,0"
+                            Text="{xct:Translate Discounts}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                        <CollectionView
+                            Grid.Row="1"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding Discounts}"
+                            SelectedItem="{Binding SelectedDiscount}">
+
+                            <CollectionView.ItemTemplate>
+
+                                <DataTemplate
+                                    x:DataType="models:BonusBindableModel">
+
+                                    <templates:BonusItemTemplate
+                                        Text="{Binding Name}"
+                                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
+                                                        Path=TapSelectDiscountCommand}"
+                                        TapSelectCommandParameter="{Binding .}"
+                                        ImagePath="ic_arrow_right_24x24.png"
+                                        BackColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                                </DataTemplate>
+
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </Grid>
+
+                    <BoxView
+                        Grid.Row="0"
+                        HeightRequest="2"
+                        VerticalOptions="End"
+                        Color="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                </StackLayout>
+
+            </ScrollView>
+            
+        </Grid>
     </ContentPage.Content>
 </views:BaseContentPage>

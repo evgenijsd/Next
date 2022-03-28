@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Bonuses;
+using Next2.Services.Order;
 using Prism.Events;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -18,8 +19,8 @@ namespace Next2.ViewModels
     public class BonusPageViewModel : BaseViewModel
     {
         private readonly IEventAggregator _eventAggregator;
-
         private readonly IBonusesService _bonusesService;
+        private readonly IOrderService _orderService;
 
         private IEnumerable<BonusModel>? _bonuses;
 
@@ -32,11 +33,13 @@ namespace Next2.ViewModels
         public BonusPageViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
+            IOrderService orderService,
             IBonusesService bonusesService)
             : base(navigationService)
         {
             _bonusesService = bonusesService;
             _eventAggregator = eventAggregator;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -121,7 +124,7 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private Task OnTapSelectCouponCommandAsync(BonusBindableModel? coupon)
+        private async Task OnTapSelectCouponCommandAsync(BonusBindableModel? coupon)
         {
             SelectedDiscount = null;
             CurrentOrder.BonusType = EBonusType.None;
@@ -131,6 +134,8 @@ namespace Next2.ViewModels
             if (SelectedCoupon is not null)
             {
                 CurrentOrder.BonusType = EBonusType.Coupone;
+                CurrentOrder.BonusName = SelectedCoupon.Name;
+                CurrentOrder.Bonus = 0;
 
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
                 {
@@ -149,14 +154,25 @@ namespace Next2.ViewModels
                         {
                             set.PriceBonus = 0;
                         }
+
+                        CurrentOrder.Bonus += set.PriceBonus;
                     }
                 }
-            }
 
-            return Task.CompletedTask;
+                if (CurrentOrder.Tax != 0)
+                {
+                    var tax = await _orderService.GetTaxAsync();
+                    if (tax.IsSuccess)
+                    {
+                        CurrentOrder.Tax = CurrentOrder.Bonus * tax.Result;
+                    }
+                }
+
+                CurrentOrder.Total = CurrentOrder.Bonus + CurrentOrder.Tax;
+            }
         }
 
-        private Task OnTapSelectDiscountCommandAsync(BonusBindableModel? discount)
+        private async Task OnTapSelectDiscountCommandAsync(BonusBindableModel? discount)
         {
             SelectedCoupon = null;
             CurrentOrder.BonusType = EBonusType.None;
@@ -166,6 +182,8 @@ namespace Next2.ViewModels
             if (SelectedDiscount is not null)
             {
                 CurrentOrder.BonusType = EBonusType.Discount;
+                CurrentOrder.BonusName = SelectedDiscount.Name;
+                CurrentOrder.Bonus = 0;
 
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
                 {
@@ -184,11 +202,22 @@ namespace Next2.ViewModels
                         {
                             set.PriceBonus = 0;
                         }
+
+                        CurrentOrder.Bonus += set.PriceBonus;
                     }
+
+                    if (CurrentOrder.Tax != 0)
+                    {
+                        var tax = await _orderService.GetTaxAsync();
+                        if (tax.IsSuccess)
+                        {
+                            CurrentOrder.Tax = CurrentOrder.Bonus * tax.Result;
+                        }
+                    }
+
+                    CurrentOrder.Total = CurrentOrder.Bonus + CurrentOrder.Tax;
                 }
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion

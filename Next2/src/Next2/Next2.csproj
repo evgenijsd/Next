@@ -131,9 +131,6 @@
     <Compile Update="Controls\Buttons\SearchButton.xaml.cs">
       <DependentUpon>SearchButton.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\BonusItemTemplate2.xaml.cs">
-      <DependentUpon>BonusItemTemplate2.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Controls\Templates\CustomDateTimePanelTemplate.xaml.cs">
       <DependentUpon>CustomDateTimePanelTemplate.xaml</DependentUpon>
     </Compile>

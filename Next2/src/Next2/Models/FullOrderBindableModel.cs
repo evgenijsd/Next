@@ -21,7 +21,11 @@ namespace Next2.Models
 
         public EBonusType BonusType { get; set; } = EBonusType.None;
 
+        public string BonusName { get; set; } = string.Empty;
+
         public double SubTotal { get; set; }
+
+        public double Bonus { get; set; } = 0f;
 
         public double Tax { get; set; }
 

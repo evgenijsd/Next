@@ -245,8 +245,6 @@ namespace Next2.Services.Order
         {
             var result = new AOResult();
 
-            var tax = await GetTaxAsync();
-
             try
             {
                 if (CurrentSeat is null)
@@ -265,8 +263,14 @@ namespace Next2.Services.Order
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
-                CurrentOrder.Tax = CurrentOrder.SubTotal * tax.Result;
-                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * tax.Result);
+
+                var tax = await GetTaxAsync();
+
+                if (tax.IsSuccess)
+                {
+                    CurrentOrder.Tax = CurrentOrder.SubTotal * tax.Result;
+                    CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * tax.Result);
+                }
 
                 result.SetSuccess();
             }

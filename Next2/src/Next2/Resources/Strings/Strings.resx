@@ -418,4 +418,10 @@
   <data name="CommentForOrder" xml:space="preserve">
     <value>Comment for Order...</value>
   </data>
+  <data name="Coupon" xml:space="preserve">
+    <value>Coupon</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
 </root>

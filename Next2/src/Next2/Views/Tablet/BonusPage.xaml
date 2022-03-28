@@ -290,7 +290,9 @@
                                         Text="{Binding Name}"
                                         TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
                                                         Path=TapSelectCouponCommand}"
-                                        TapSelectCommandParameter="{Binding .}" />
+                                        TapSelectCommandParameter="{Binding .}"
+                                        BackColor="Transparent"
+                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                                 </DataTemplate>
 
@@ -319,7 +321,9 @@
                                         Text="{Binding Name}"
                                         TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
                                                         Path=TapSelectDiscountCommand}"
-                                        TapSelectCommandParameter="{Binding .}" />
+                                        TapSelectCommandParameter="{Binding .}"
+                                        BackColor="Transparent"
+                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                                 </DataTemplate>
 

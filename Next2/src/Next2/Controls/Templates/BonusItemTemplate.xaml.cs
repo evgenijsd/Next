@@ -48,6 +48,42 @@ namespace Next2.Controls.Templates
             set => SetValue(TapSelectCommandParameterProperty, value);
         }
 
+        public static readonly BindableProperty ImagePathProperty = BindableProperty.Create(
+            propertyName: nameof(ImagePath),
+            returnType: typeof(string),
+            defaultValue: "ic_check_box_unchecked_white",
+            declaringType: typeof(BonusItemTemplate));
+
+        public string ImagePath
+        {
+            get => (string)GetValue(ImagePathProperty);
+            set => SetValue(ImagePathProperty, value);
+        }
+
+        public static readonly BindableProperty BorderBonusColorProperty = BindableProperty.Create(
+            propertyName: nameof(BorderBonusColor),
+            returnType: typeof(Color),
+            declaringType: typeof(BonusItemTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color BorderBonusColor
+        {
+            get => (Color)GetValue(BorderBonusColorProperty);
+            set => SetValue(BorderBonusColorProperty, value);
+        }
+
+        public static readonly BindableProperty BackColorProperty = BindableProperty.Create(
+            propertyName: nameof(BackColor),
+            returnType: typeof(Color),
+            declaringType: typeof(BonusItemTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color BackColor
+        {
+            get => (Color)GetValue(BackColorProperty);
+            set => SetValue(BackColorProperty, value);
+        }
+
         #endregion
     }
 }

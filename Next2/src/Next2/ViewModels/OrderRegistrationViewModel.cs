@@ -140,6 +140,11 @@ namespace Next2.ViewModels
                     seat.SelectedItem = null;
                 }
             }
+
+            if (CurrentOrder.Tax == 0)
+            {
+                IsOrderWithTax = false;
+            }
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
@@ -172,7 +177,8 @@ namespace Next2.ViewModels
 
                     break;
                 case nameof(IsOrderWithTax):
-                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.SubTotal;
+                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.Bonus : _orderService.CurrentOrder.SubTotal;
+                    _orderService.CurrentOrder.Tax = 0;
                     break;
             }
         }
