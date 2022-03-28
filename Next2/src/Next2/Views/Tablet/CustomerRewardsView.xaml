@@ -86,31 +86,46 @@
                     State="{Binding PageState}">
         
                     <sc:StateContainer.Conditions>
-                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoCustomer}">
+                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoAnyRewardsSelected}">
                         
                             <StackLayout Margin="0, 120">
 
                                 <ffimageloading:CachedImage
                                     HeightRequest="200"
-                                    Source="pic_become_a_member"/>
+                                    Source="pic_become_a_member">
+                                    
+                                    <ffimageloading:CachedImage.Triggers>
+                                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsCustomerSelected}" Value="True">
+                                     
+                                            <Setter Property="Source" Value="pic_rewards"/>
+                                     
+                                        </DataTrigger>
+                                    </ffimageloading:CachedImage.Triggers>
+                                    
+                                </ffimageloading:CachedImage>
                             
-                                <Label 
+                                <controls:LineSpacingLabel
+                                    WidthRequest="200"
+                                    HorizontalTextAlignment="Center"
+                                    HorizontalOptions="Center"
                                     FontFamily="Barlow-Regular"
                                     FontSize="{DynamicResource TSize_i6}"
-                                    HorizontalOptions="Center"
-                                    Text="{xct:Translate StillNotMember}"/>
-                            
+                                    Text="{xct:Translate StillNotMember}">
+                                    
+                                    <controls:LineSpacingLabel.Triggers>
+                                        <DataTrigger TargetType="controls:LineSpacingLabel" Binding="{Binding IsCustomerSelected}" Value="True">
+                                            
+                                            <Setter Property="Text" Value="{xct:Translate SelectRewardOptionToUseYourPoints}"/>
+                                            
+                                        </DataTrigger>
+                                    </controls:LineSpacingLabel.Triggers>
+                                    
+                                </controls:LineSpacingLabel>
+
                             </StackLayout>
                         
                         </sc:StateCondition>
                         
-                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoRewardSelected}">
-                        
-                            <StackLayout Margin="0, 120">
-
-                             </StackLayout>
-                        
-                        </sc:StateCondition>
                     </sc:StateContainer.Conditions>
         
                 </sc:StateContainer>
@@ -126,9 +141,11 @@
                     Spacing="12">
                     
                     <buttons:BorderButton
+                        IsVisible="{Binding IsCustomerSelected, Converter={xct:InvertedBoolConverter}}"
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource IndicationColor_i7}"
-                        Text="{xct:Translate BecomeMember}"/>
+                        Text="{xct:Translate BecomeMember}"
+                        xct:TouchEffect.Command="{Binding AddNewCustomerCommand}"/>
 
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i2_1}"

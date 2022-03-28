@@ -60,7 +60,7 @@
         <sc:StateContainer State="{Binding PageState}">
 
             <sc:StateContainer.Conditions>
-                <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoCustomer}">
+                <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoAnyRewardsSelected}">
 
                     <StackLayout 
                         VerticalOptions="FillAndExpand"

@@ -72,6 +72,7 @@
     
     <!-- CONTROLS -->
     <Style TargetType="controls:LineSpacingLabel">
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         <Setter Property="LineSpacing" Value="{OnPlatform Android=1.15, iOS=6.45}"/>
     </Style>
     

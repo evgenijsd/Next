@@ -213,6 +213,18 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
+        private async Task RefreshTablesAsync()
+        {
+            var availableTablesResult = await _orderService.GetFreeTablesAsync();
+
+            if (availableTablesResult.IsSuccess)
+            {
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+
+                Tables = new(tableBindableModels);
+            }
+        }
+
         private async Task AddSeatsCommandsAsync()
         {
             foreach (var seat in CurrentOrder.Seats)
@@ -312,6 +324,11 @@ namespace Next2.ViewModels
 
                     _firstSeat.Checked = true;
                 }
+            }
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
             }
         }
 
@@ -525,18 +542,6 @@ namespace Next2.ViewModels
                 {
                     await _navigationService.NavigateAsync(nameof(EditPage));
                 }
-            }
-        }
-
-        private async Task RefreshTablesAsync()
-        {
-            var availableTablesResult = await _orderService.GetFreeTablesAsync();
-
-            if (availableTablesResult.IsSuccess)
-            {
-                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
-
-                Tables = new (tableBindableModels);
             }
         }
 

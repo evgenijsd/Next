@@ -420,4 +420,7 @@
   <data name="Payment" xml:space="preserve">
     <value>Payment</value>
   </data>
+  <data name="SelectRewardOptionToUseYourPoints" xml:space="preserve">
+    <value>Select a reward option to use your points.</value>
+  </data>
 </root>

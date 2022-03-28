@@ -59,6 +59,8 @@
         </ffimageloading:CachedImage>
 
         <Label
+            FontSize="{DynamicResource TSize_i7}"
+            FontFamily="Barlow-Medium"
             Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
             Margin="14, 0, 0, 0"/>
 
@@ -107,8 +109,8 @@
                     VerticalTextAlignment="Center"
                     Text="{xct:Translate RemoveOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i6}"
-                    FontFamily="Barlow-SemiBold"
+                    FontSize="{DynamicResource TSize_i7}"
+                    FontFamily="Barlow-Medium"
                     xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
 
             </StackLayout>
@@ -188,19 +190,20 @@
                             </pancakeview:PancakeView>
 
                             <StackLayout
-                                Spacing="0"
+                                Spacing="6"
+                                VerticalOptions="Center"
                                 Margin="0, 16, 16, 16">
 
                                 <Label
                                     Text="{Binding Title}"
-                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontSize="{DynamicResource TSize_i7}"
                                     FontFamily="Barlow-Medium"
                                     LineBreakMode="TailTruncation"
                                     MaxLines="1"/>
 
                                 <Label
                                     Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
-                                    FontSize="{DynamicResource TSize_i5}"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-SemiBold"/>
 
                             </StackLayout>

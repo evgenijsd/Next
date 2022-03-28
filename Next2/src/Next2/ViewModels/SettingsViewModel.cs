@@ -1,6 +1,7 @@
 using Next2.Enums;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -77,7 +79,7 @@ namespace Next2.ViewModels
                     { nameof(result), result },
                 };
 
-                await _navigationService.GoBackToRootAsync(navigationParameters);
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
             }
             else
             {
