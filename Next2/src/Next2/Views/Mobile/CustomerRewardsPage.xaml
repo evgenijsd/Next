@@ -4,18 +4,16 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:views="clr-namespace:Next2.Views"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
     x:DataType="viewModels:CustomerRewardsViewModel"
     x:Class="Next2.Views.Mobile.CustomerRewardsPage">
-
-    <!-- FONT SIZE COEFF - 0.56 -->
-    
+  
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <StackLayout.Resources>
@@ -49,8 +47,8 @@
             <controls:CustomButton
                 HeightRequest="48"
                 FontSize="{DynamicResource TSize_i8}"
-                IsSelected="True"
-                Text="{xct:Translate Rewards}" />
+                Text="{xct:Translate Rewards}" 
+                IsSelected="True"/>
 
             <controls:CustomButton
                 FontSize="{DynamicResource TSize_i8}"
@@ -59,8 +57,7 @@
         </StackLayout>
 
         <!-- PAGE STATES -->
-        <sc:StateContainer
-            State="{Binding PageState}">
+        <sc:StateContainer State="{Binding PageState}">
 
             <sc:StateContainer.Conditions>
                 <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoCustomer}">
