@@ -402,4 +402,19 @@
   <data name="ThisSetWillBeRemoved" xml:space="preserve">
     <value>This item will be removed from the order list.</value>
   </data>
+  <data name="BecomeMember" xml:space="preserve">
+    <value>Become a Member</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="RewardsPoints" xml:space="preserve">
+    <value>Rewards Points</value>
+  </data>
+  <data name="RewardsOptions" xml:space="preserve">
+    <value>Rewards Options</value>
+  </data>
+  <data name="StillNotMember" xml:space="preserve">
+    <value>Still not a member?</value>
+  </data>
 </root>

@@ -670,7 +670,7 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
-            return Task.CompletedTask;
+            return _navigationService.NavigateAsync(nameof(CustomerRewardsView));
         }
 
         #endregion

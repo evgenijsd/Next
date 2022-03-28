@@ -27,6 +27,7 @@ using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
 using Next2.Views;
+using Next2.Views.Tablet;
 
 namespace Next2
 {
@@ -77,6 +78,9 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
                 containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
+
+                // temporarily !!!
+                containerRegistry.RegisterForNavigation<CustomerRewardsView, CustomerRewardsViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
