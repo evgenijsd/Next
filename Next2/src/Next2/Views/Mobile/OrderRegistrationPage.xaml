@@ -161,19 +161,10 @@
             </Label>
 
             <controls:CustomStepper
+                IsEnabled="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                 MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
                 Value="{Binding NumberOfSeats}"
-                DecrementCommand="{Binding DeleteLastSeatCommand}">
-
-                <controls:CustomStepper.Triggers>
-                    <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
-
-                        <Setter Property="IsEnabled" Value="False" />
-
-                    </DataTrigger>
-                </controls:CustomStepper.Triggers>
-
-            </controls:CustomStepper>
+                DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
         </StackLayout>
 
@@ -238,15 +229,9 @@
         </CollectionView>
 
         <!-- SUMMARY -->
-        <StackLayout Grid.Row="3">
-
-            <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
-
-                    <Setter Property="IsVisible" Value="false" />
-
-                </DataTrigger>
-            </StackLayout.Triggers>
+        <StackLayout 
+            Grid.Row="3"
+            IsVisible="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}">
 
             <!-- SUMMARY HEADER -->
             <StackLayout
@@ -262,19 +247,10 @@
                         Text="{xct:Translate Summary}" />
 
                     <Label
+                        IsVisible="{Binding CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
-                        Text="{Binding CurrentOrder.Customer.Name}">
-                        
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding CurrentOrder.Customer.Name, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                                
-                                <Setter Property="IsVisible" Value="False"/>
-                                
-                            </DataTrigger>
-                        </Label.Triggers>
-                        
-                    </Label>
+                        Text="{Binding CurrentOrder.Customer.Name}"/>
                    
                 </StackLayout>
 
@@ -290,19 +266,10 @@
                     Command="{Binding OpenDiscountSelectionCommand}" />
 
                 <buttons:IconBorderButton
+                    IsVisible="{Binding IsOrderWithTax}"
                     Style="{DynamicResource IconBorderButtonStyle_i2}"
                     IconSource="ic_tax"
-                    Command="{Binding RemoveTaxFromOrderCommand}">
-
-                    <buttons:IconBorderButton.Triggers>
-                        <DataTrigger TargetType="buttons:IconBorderButton" Binding="{Binding IsOrderWithTax}" Value="false">
-
-                            <Setter Property="IsVisible" Value="false" />
-
-                        </DataTrigger>
-                    </buttons:IconBorderButton.Triggers>
-
-                </buttons:IconBorderButton>
+                    Command="{Binding RemoveTaxFromOrderCommand}"/>
 
             </StackLayout>
 
@@ -335,7 +302,9 @@
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout 
+                    IsVisible="{Binding IsOrderWithTax}"
+                    Orientation="Horizontal">
 
                     <Label
                         Style="{DynamicResource SemiBold24pxLabelStyle}"
@@ -354,15 +323,7 @@
                         </Label.FormattedText>
 
                     </Label>
-
-                    <StackLayout.Triggers>
-                        <DataTrigger TargetType="StackLayout" Binding="{Binding IsOrderWithTax}" Value="false">
-
-                            <Setter Property="IsVisible" Value="false" />
-
-                        </DataTrigger>
-                    </StackLayout.Triggers>
-
+                    
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i2}" />

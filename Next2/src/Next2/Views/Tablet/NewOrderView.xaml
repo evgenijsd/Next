@@ -1441,20 +1441,11 @@
                 </Label>
 
                 <controls:CustomStepper
+                    IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
-                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
-
-                    <controls:CustomStepper.Triggers>
-                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
-                            
-                            <Setter Property="IsEnabled" Value="False" />
-
-                        </DataTrigger>
-                    </controls:CustomStepper.Triggers>
-
-                </controls:CustomStepper>
+                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
 
             </StackLayout>
 
@@ -1551,15 +1542,9 @@
             </CollectionView>
 
             <!-- SUMMARY -->
-            <StackLayout Grid.Row="3">
-
-                <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
-                     
-                        <Setter Property="IsVisible" Value="false" />
-
-                    </DataTrigger>
-                </StackLayout.Triggers>
+            <StackLayout 
+                Grid.Row="3"
+                IsVisible="{Binding  OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}">
 
                 <!-- SUMMARY HEADER -->
                 <StackLayout 
@@ -1598,19 +1583,11 @@
                         </Label>
 
                         <Label
+                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.Customer}"
                             Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
-                        
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                                
-                                    <Setter Property="IsVisible" Value="False"/>
-                                
-                                </DataTrigger>
-                            </Label.Triggers>
                                                     
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
@@ -1650,20 +1627,11 @@
                         Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
 
                     <buttons:IconBorderButton
+                        IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
                         Style="{DynamicResource IconBorderButtonStyle_i2}"
                         IconSource="ic_tax"
-                        Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}">
-
-                        <buttons:IconBorderButton.Triggers>
-                            <DataTrigger TargetType="buttons:IconBorderButton" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
-
-                                <Setter Property="IsVisible" Value="false" />
-
-                            </DataTrigger>
-                        </buttons:IconBorderButton.Triggers>
-
-                    </buttons:IconBorderButton>
-
+                        Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
+                    
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
@@ -1741,15 +1709,9 @@
 
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
-
-                        <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
-
-                                <Setter Property="IsVisible" Value="false" />
-
-                            </DataTrigger>
-                        </StackLayout.Triggers>
+                    <StackLayout 
+                        IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
+                        Orientation="Horizontal">
                         
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
