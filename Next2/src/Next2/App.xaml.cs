@@ -151,7 +151,7 @@ namespace Next2
             return new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<TableModel, TableBindableModel>();
-                cfg.CreateMap<CustomerModel, CustomerBindableModel>();
+                cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
             }).CreateMapper();
         }

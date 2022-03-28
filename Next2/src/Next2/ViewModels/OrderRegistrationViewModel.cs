@@ -194,9 +194,6 @@ namespace Next2.ViewModels
         {
             CurrentOrder = _orderService.CurrentOrder;
 
-            // value for testing
-            CurrentOrder.CustomerName = "Martin Levin";
-
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
             _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
@@ -215,6 +212,18 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
+        private async Task RefreshTablesAsync()
+        {
+            var availableTablesResult = await _orderService.GetFreeTablesAsync();
+
+            if (availableTablesResult.IsSuccess)
+            {
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+
+                Tables = new(tableBindableModels);
+            }
+        }
 
         private async Task AddSeatsCommandsAsync()
         {
@@ -315,6 +324,11 @@ namespace Next2.ViewModels
 
                     _firstSeat.Checked = true;
                 }
+            }
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
             }
         }
 
@@ -528,18 +542,6 @@ namespace Next2.ViewModels
                 {
                     await _navigationService.NavigateAsync(nameof(EditPage));
                 }
-            }
-        }
-
-        private async Task RefreshTablesAsync()
-        {
-            var availableTablesResult = await _orderService.GetFreeTablesAsync();
-
-            if (availableTablesResult.IsSuccess)
-            {
-                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
-
-                Tables = new (tableBindableModels);
             }
         }
 
