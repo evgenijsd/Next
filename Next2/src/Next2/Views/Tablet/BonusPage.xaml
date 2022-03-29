@@ -259,21 +259,18 @@
                     <Grid
                         Margin="20,25,20,0">
                         <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="30" />
-                            <RowDefinition
-                                Height="{Binding HeightCoupons}" />
-                            <RowDefinition
-                                Height="30" />
-                            <RowDefinition
-                                Height="{Binding HeightDiscounts}" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="{Binding HeightCoupons}" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="{Binding HeightDiscounts}" />
                         </Grid.RowDefinitions>
 
 
                         <Label
                             Grid.Row="0"
                             Text="{xct:Translate Coupons}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-SemiBold" />
 
                         <CollectionView
                             Grid.Row="1"
@@ -304,7 +301,8 @@
                             Grid.Row="2"
                             Margin="0,3,0,0"
                             Text="{xct:Translate Discounts}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontFamily="Barlow-SemiBold" />
 
                         <CollectionView
                             Grid.Row="3"

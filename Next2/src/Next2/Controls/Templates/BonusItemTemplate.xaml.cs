@@ -13,6 +13,18 @@ namespace Next2.Controls.Templates
 
         #region -- Public properties --
 
+        public static readonly BindableProperty HeightBonusProperty = BindableProperty.Create(
+            propertyName: nameof(HeightBonus),
+            returnType: typeof(double),
+            defaultValue: 50.0d,
+            declaringType: typeof(BonusItemTemplate));
+
+        public double HeightBonus
+        {
+            get => (double)GetValue(HeightBonusProperty);
+            set => SetValue(HeightBonusProperty, value);
+        }
+
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),

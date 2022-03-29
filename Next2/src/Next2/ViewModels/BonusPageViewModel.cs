@@ -21,13 +21,11 @@ namespace Next2.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IBonusesService _bonusesService;
         private readonly IOrderService _orderService;
+        private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
         private IEnumerable<BonusModel>? _bonuses;
-
         private IEnumerable<BonusConditionModel>? _bonusConditions;
-
         private IEnumerable<BonusSetModel>? _bonusSets;
-
         private IEnumerable<SetModel>? _sets;
 
         public BonusPageViewModel(
@@ -93,8 +91,8 @@ namespace Next2.ViewModels
                     Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonuses.Where(x => !_bonusConditions.Any(y => y.BonusId == x.Id)));
                 }
 
-                HeightCoupons = Coupons.Count * Constants.LayoutBonuses.ROW_BONUS;
-                HeightDiscounts = Discounts.Count * Constants.LayoutBonuses.ROW_BONUS;
+                HeightCoupons = Coupons.Count * _heightBonus;
+                HeightDiscounts = Discounts.Count * _heightBonus;
             }
 
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
@@ -119,7 +117,8 @@ namespace Next2.ViewModels
 
         private async Task OnBonusCommandAsync()
         {
-            _eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
+            //_eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
+            _orderService.CurrentOrder = CurrentOrder;
 
             await _navigationService.GoBackAsync();
         }
