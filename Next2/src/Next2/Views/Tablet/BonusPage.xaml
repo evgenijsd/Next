@@ -84,9 +84,7 @@
                                         TargetType="Grid"
                                         Binding="{Binding Title}"
                                         Value="">
-                                        <Setter
-                                            Property="IsVisible"
-                                            Value="true" />
+                                        <Setter Property="IsVisible" Value="true" />
                                     </DataTrigger>
                                 </Grid.Triggers>
                             </Grid>

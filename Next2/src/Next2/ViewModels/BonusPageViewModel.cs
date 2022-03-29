@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Bonuses;
 using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -63,7 +64,10 @@ namespace Next2.ViewModels
         public ICommand BonusCommand => _BonusCommand ??= new AsyncCommand(OnBonusCommandAsync);
 
         private ICommand _tapSelectBonusCommand;
-        public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<EBonusType>(OnTapSelectBonusCommandAsync);
+        public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectBonusCommandAsync);
+
+        private ICommand _tapSelectCollapceCommand;
+        public ICommand TapSelectCollapceCommand => _tapSelectCollapceCommand ??= new AsyncCommand<EBonusType>(OnTapSelectCollapceCommandAsync);
 
         private ICommand _tapSelectCouponCommand;
         public ICommand TapSelectCouponCommand => _tapSelectCouponCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectCouponCommandAsync);
@@ -221,7 +225,12 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnTapSelectBonusCommandAsync(EBonusType bonusType)
+        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        {
+            await _navigationService.NavigateAsync(nameof(BonusSetPage));
+        }
+
+        private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
         {
             if (bonusType == EBonusType.Coupone)
             {

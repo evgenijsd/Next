@@ -76,7 +76,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
-                                                        Path=TapSelectBonusCommand}"
+                                                        Path=TapSelectCollapseCommand}"
                                     CommandParameter="{x:Static enum:EBonusType.Coupone}"/>
                             </StackLayout.GestureRecognizers>
                             
@@ -97,7 +97,7 @@
                                     <templates:BonusItemTemplate
                                         Text="{Binding Name}"
                                         TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
-                                                        Path=TapSelectCouponCommand}"
+                                                        Path=TapSelectBonusCommand}"
                                         TapSelectCommandParameter="{Binding .}"
                                         ImagePath="ic_arrow_right_24x24.png"
                                         HeightBonus="55"
@@ -154,7 +154,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
-                                                        Path=TapSelectBonusCommand}"
+                                                        Path=TapSelectCollapseCommand}"
                                     CommandParameter="{x:Static enum:EBonusType.Discount}" />
                             </StackLayout.GestureRecognizers>
 
@@ -175,7 +175,7 @@
                                     <templates:BonusItemTemplate
                                         Text="{Binding Name}"
                                         TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
-                                                        Path=TapSelectDiscountCommand}"
+                                                        Path=TapSelectBonusCommand}"
                                         TapSelectCommandParameter="{Binding .}"
                                         ImagePath="ic_arrow_right_24x24.png"
                                         HeightBonus="55"

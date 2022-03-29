@@ -9,8 +9,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Views.Mobile
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BonusSetPage : ContentPage
+    public partial class BonusSetPage : BaseContentPage
     {
         public BonusSetPage()
         {
