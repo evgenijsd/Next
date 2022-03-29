@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:prism="http://prismlibrary.com"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -55,11 +56,29 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontFamily="Barlow-SemiBold"
                                 FontSize="{DynamicResource TSize_i5}" />
-                            
+
                             <ffimageloading:CachedImage
                                 Source="ic_arrow_up_24x24.png"
                                 HeightRequest="25"
-                                HorizontalOptions="EndAndExpand"/>
+                                HorizontalOptions="EndAndExpand">
+
+                                <ffimageloading:CachedImage.Triggers>
+                                    <DataTrigger
+                                        TargetType="ffimageloading:CachedImage"
+                                        Binding="{Binding HeightCoupons}"
+                                        Value="0">
+                                        <Setter Property="Source" Value="ic_arrow_down_24x24" />
+                                    </DataTrigger>
+                                </ffimageloading:CachedImage.Triggers>
+                                
+                            </ffimageloading:CachedImage>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
+                                                        Path=TapSelectBonusCommand}"
+                                    CommandParameter="{x:Static enum:EBonusType.Coupone}"/>
+                            </StackLayout.GestureRecognizers>
                             
                         </StackLayout>
 
@@ -117,9 +136,27 @@
                                 FontSize="{DynamicResource TSize_i5}" />
 
                             <ffimageloading:CachedImage
-                                Source="ic_arrow_up_24x24.png"
+                                Source="ic_arrow_up_24x24"
                                 HeightRequest="25"
-                                HorizontalOptions="EndAndExpand" />
+                                HorizontalOptions="EndAndExpand">
+                                
+                                <ffimageloading:CachedImage.Triggers>
+                                    <DataTrigger
+                                        TargetType="ffimageloading:CachedImage"
+                                        Binding="{Binding HeightDiscounts}"
+                                        Value="0">
+                                        <Setter Property="Source" Value="ic_arrow_down_24x24" />
+                                    </DataTrigger>
+                                </ffimageloading:CachedImage.Triggers>
+                                
+                            </ffimageloading:CachedImage>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
+                                                        Path=TapSelectBonusCommand}"
+                                    CommandParameter="{x:Static enum:EBonusType.Discount}" />
+                            </StackLayout.GestureRecognizers>
 
                         </StackLayout>
 

@@ -62,6 +62,9 @@ namespace Next2.ViewModels
         private ICommand _BonusCommand;
         public ICommand BonusCommand => _BonusCommand ??= new AsyncCommand(OnBonusCommandAsync);
 
+        private ICommand _tapSelectBonusCommand;
+        public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<EBonusType>(OnTapSelectBonusCommandAsync);
+
         private ICommand _tapSelectCouponCommand;
         public ICommand TapSelectCouponCommand => _tapSelectCouponCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectCouponCommandAsync);
 
@@ -117,9 +120,8 @@ namespace Next2.ViewModels
 
         private async Task OnBonusCommandAsync()
         {
-            //_eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
-            _orderService.CurrentOrder = CurrentOrder;
-
+            _eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
+            //_orderService.CurrentOrder = CurrentOrder;
             await _navigationService.GoBackAsync();
         }
 
@@ -217,6 +219,20 @@ namespace Next2.ViewModels
                     CurrentOrder.Total = CurrentOrder.Bonus + CurrentOrder.Tax;
                 }
             }
+        }
+
+        private Task OnTapSelectBonusCommandAsync(EBonusType bonusType)
+        {
+            if (bonusType == EBonusType.Coupone)
+            {
+                HeightCoupons = HeightCoupons == 0 ? Coupons.Count * _heightBonus : 0;
+            }
+            else
+            {
+                HeightDiscounts = HeightDiscounts == 0 ? Discounts.Count * _heightBonus : 0;
+            }
+
+            return Task.CompletedTask;
         }
 
         #endregion

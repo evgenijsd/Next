@@ -272,6 +272,9 @@
     <EmbeddedResource Update="Views\Mobile\BonusPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\BonusSetPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
