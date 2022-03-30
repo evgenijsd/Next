@@ -25,10 +25,11 @@ namespace Next2.Services.Mock
         private IList<MemberModel> _members;
         private IList<PortionModel> _portions;
         private IList<TaxModel> _taxBonus;
-
+        private IList<RewardModel> _rewards;
+        private IList<CustomerRewardsModel> _customerRewards;
+        private List<CustomerModel> _customers;
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
-        private List<CustomerModel> _customers;
 
         public MockService()
         {
@@ -166,7 +167,9 @@ namespace Next2.Services.Mock
                 InitUsersAsync(),
                 InitCustomersAsync(),
                 InitPortionsAsync(),
-                InitTaxAndBonusAsync());
+                InitTaxAndBonusAsync(),
+                IniRewardsAsync(),
+                InitCustomerRewardsAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
@@ -185,6 +188,87 @@ namespace Next2.Services.Mock
 
             _base.Add(typeof(TaxModel), _taxBonus);
             _maxIdentifiers.Add(typeof(TaxModel), GetMaxId(_taxBonus));
+        });
+
+        private Task IniRewardsAsync() => Task.Run(() =>
+        {
+            int rewardId = 1;
+            _rewards = new List<RewardModel>
+            {
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    Title = "A Pulled Pork Sammy",
+                    DiscountType = EDiscountType.Free,
+                    Amount = 0,
+                    SetsId = new List<int>() { 1 },
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    Title = "B Pulled Pork Sammy Meal",
+                    DiscountType = EDiscountType.Percentage,
+                    Amount = 25,
+                    SetsId = new List<int>() { 2 },
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    Title = "C Pulled Pork Sammy Meal",
+                    DiscountType = EDiscountType.Currency,
+                    Amount = 10,
+                    SetsId = new List<int>() { 3 },
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    Title = "A & C Pulled Pork Sammy Meal",
+                    DiscountType = EDiscountType.Percentage,
+                    Amount = 40,
+                    SetsId = new List<int>() { 1, 3 },
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    Title = "B & C Pulled Pork Sammy Meal",
+                    DiscountType = EDiscountType.Currency,
+                    Amount = 20,
+                    SetsId = new List<int>() { 2, 3 },
+                },
+            };
+
+            _base.Add(typeof(RewardModel), _rewards);
+            _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
+        });
+
+        private Task InitCustomerRewardsAsync() => Task.Run(() =>
+        {
+            int customerRewardId = 1;
+
+            _customerRewards = new List<CustomerRewardsModel>
+            {
+                new CustomerRewardsModel
+                {
+                    Id = customerRewardId++,
+                    CustomerId = 1,
+                    RewardsId = new List<int>() { 1 },
+                },
+                new CustomerRewardsModel
+                {
+                    Id = customerRewardId++,
+                    CustomerId = 2,
+                    RewardsId = new List<int>() { 2, 4 },
+                },
+                new CustomerRewardsModel
+                {
+                    Id = customerRewardId++,
+                    CustomerId = 3,
+                    RewardsId = new List<int>() { 2, 3, 5 },
+                },
+            };
+
+            _base.Add(typeof(CustomerRewardsModel), _customerRewards);
+            _maxIdentifiers.Add(typeof(CustomerRewardsModel), GetMaxId(_customerRewards));
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>

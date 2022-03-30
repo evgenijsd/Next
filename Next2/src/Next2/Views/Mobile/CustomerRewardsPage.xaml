@@ -7,7 +7,6 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -57,31 +56,38 @@
         </StackLayout>
 
         <!-- PAGE STATES -->
-        <sc:StateContainer State="{Binding PageState}">
+        <StackLayout 
+            VerticalOptions="FillAndExpand"
+            Margin="0, 110">
 
-            <sc:StateContainer.Conditions>
-                <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoAnyRewardsSelected}">
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasNoRewards}">
+                                        
+                    <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
+                    <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate MessageAboutCashingOutAwards}"/>
+                                        
+                </DataTrigger> 
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasRewards}">
+                                        
+                    <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
+                    <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate SelectRewardOptionToUseYourPoints}"/>
+                                        
+                </DataTrigger>
+            </StackLayout.Triggers>
+                        
+            <ffimageloading:CachedImage
+                HeightRequest="230"
+                Source="pic_become_a_member" 
+                x:Name="messageImage"/>
 
-                    <StackLayout 
-                        VerticalOptions="FillAndExpand"
-                        Margin="0, 110">
+            <controls:LineSpacingLabel
+                Style="{DynamicResource LineSpacingLabelStyle_i1}"
+                WidthRequest="240"
+                FontSize="{DynamicResource TSize_i5}"
+                Text="{xct:Translate StillNotMember}"
+                x:Name="messageText" />
 
-                        <ffimageloading:CachedImage
-                            HeightRequest="230"
-                            Source="pic_become_a_member" />
-
-                        <Label
-                            FontFamily="Barlow-Regular"
-                            FontSize="{DynamicResource TSize_i5}"
-                            HorizontalOptions="Center"
-                            Text="{xct:Translate StillNotMember}" />
-
-                    </StackLayout>
-
-                </sc:StateCondition>
-            </sc:StateContainer.Conditions>
-
-        </sc:StateContainer>
+        </StackLayout>
 
         <BoxView 
             VerticalOptions="EndAndExpand"
@@ -93,13 +99,28 @@
             Orientation="Horizontal"
             Spacing="8"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-                    
+
             <buttons:BorderButton
                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                 BackgroundColor="{DynamicResource IndicationColor_i7}"
+                Text="{xct:Translate BecomeMember}"
                 CornerRadius="4"
-                Text="{xct:Translate BecomeMember}"/>
-
+                IsVisible="False"
+                xct:TouchEffect.Command="{Binding AddNewCustomerCommand}">
+                        
+                <buttons:BorderButton.Triggers>
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding PageState}"
+                        Value="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
+                                
+                        <Setter Property="IsVisible" Value="True"/>
+                                
+                    </DataTrigger>
+                </buttons:BorderButton.Triggers>
+                        
+            </buttons:BorderButton>
+            
             <buttons:BorderButton
                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                 BackgroundColor="{DynamicResource AppColor_i1}"

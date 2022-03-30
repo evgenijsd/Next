@@ -423,4 +423,10 @@
   <data name="SelectRewardOptionToUseYourPoints" xml:space="preserve">
     <value>Select a reward option to use your points.</value>
   </data>
+  <data name="Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="MessageAboutCashingOutAwards" xml:space="preserve">
+    <value>Earning points get you rewards that you can cash in to get free stuff</value>
+  </data>
 </root>

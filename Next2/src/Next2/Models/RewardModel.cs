@@ -1,9 +1,10 @@
 ﻿using Next2.Enums;
 using Next2.Interfaces;
+using System.Collections.Generic;
 
 namespace Next2.Models
 {
-    public class GiftCardModel : IBaseModel
+    public class RewardModel : IBaseModel
     {
         public int Id { get; set; }
 
@@ -11,6 +12,8 @@ namespace Next2.Models
 
         public EDiscountType DiscountType { get; set; }
 
-        public double Amount { get; set; }
+        public float Amount { get; set; }
+
+        public List<int> SetsId { get; set; } = new ();
     }
 }

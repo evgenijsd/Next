@@ -5,12 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:pc="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:DataType="viewmodels:CustomerRewardsViewModel"
     x:Class="Next2.Views.Tablet.CustomerRewardsView">
     
@@ -20,16 +22,15 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
-            
+                       
             <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="30"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-            </Style>
-            
+            </Style>           
         </StackLayout.Resources>
         
-        <!-- CANCEL, REWARDS, COMPLETE -->
+        <!-- CANCEL, REWARDS TAB, COMPLETE TAB -->
         <StackLayout 
             Orientation="Horizontal"
             Background="{DynamicResource TextAndBackgroundColor_i3}">
@@ -81,54 +82,37 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
                 
                 <!-- PAGE STATES -->
-                <sc:StateContainer 
-                    Grid.Row="0"
-                    State="{Binding PageState}">
-        
-                    <sc:StateContainer.Conditions>
-                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoAnyRewardsSelected}">
-                        
-                            <StackLayout Margin="0, 120">
+                                
+                <StackLayout Margin="0, 120">
 
-                                <ffimageloading:CachedImage
-                                    HeightRequest="200"
-                                    Source="pic_become_a_member">
-                                    
-                                    <ffimageloading:CachedImage.Triggers>
-                                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsCustomerSelected}" Value="True">
-                                     
-                                            <Setter Property="Source" Value="pic_rewards"/>
-                                     
-                                        </DataTrigger>
-                                    </ffimageloading:CachedImage.Triggers>
-                                    
-                                </ffimageloading:CachedImage>
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasNoRewards}">
+                                        
+                            <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
+                            <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate MessageAboutCashingOutAwards}" />
+                                        
+                        </DataTrigger>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasRewards}">
+                                        
+                            <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
+                            <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate SelectRewardOptionToUseYourPoints}" />
+                                        
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                                
+                    <ffimageloading:CachedImage
+                        Style="{DynamicResource CachedImageStyle_i1}"
+                        FadeAnimationEnabled="False"
+                        HeightRequest="200"
+                        Source="pic_become_a_member"
+                        x:Name="messageImage"/>
                             
-                                <controls:LineSpacingLabel
-                                    WidthRequest="200"
-                                    HorizontalTextAlignment="Center"
-                                    HorizontalOptions="Center"
-                                    FontFamily="Barlow-Regular"
-                                    FontSize="{DynamicResource TSize_i6}"
-                                    Text="{xct:Translate StillNotMember}">
-                                    
-                                    <controls:LineSpacingLabel.Triggers>
-                                        <DataTrigger TargetType="controls:LineSpacingLabel" Binding="{Binding IsCustomerSelected}" Value="True">
-                                            
-                                            <Setter Property="Text" Value="{xct:Translate SelectRewardOptionToUseYourPoints}"/>
-                                            
-                                        </DataTrigger>
-                                    </controls:LineSpacingLabel.Triggers>
-                                    
-                                </controls:LineSpacingLabel>
-
-                            </StackLayout>
-                        
-                        </sc:StateCondition>
-                        
-                    </sc:StateContainer.Conditions>
-        
-                </sc:StateContainer>
+                    <controls:LineSpacingLabel
+                        Style="{DynamicResource LineSpacingLabelStyle_i1}"
+                        Text="{xct:Translate StillNotMember}"
+                        x:Name="messageText"/>
+                                
+                </StackLayout>
                 
                 <BoxView 
                     VerticalOptions="EndAndExpand"
@@ -141,11 +125,24 @@
                     Spacing="12">
                     
                     <buttons:BorderButton
-                        IsVisible="{Binding IsCustomerSelected, Converter={xct:InvertedBoolConverter}}"
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource IndicationColor_i7}"
                         Text="{xct:Translate BecomeMember}"
-                        xct:TouchEffect.Command="{Binding AddNewCustomerCommand}"/>
+                        IsVisible="False"
+                        xct:TouchEffect.Command="{Binding AddNewCustomerCommand}">
+                        
+                        <buttons:BorderButton.Triggers>
+                            <DataTrigger 
+                                TargetType="buttons:BorderButton" 
+                                Binding="{Binding PageState}"
+                                Value="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
+                                
+                                <Setter Property="IsVisible" Value="True"/>
+                                
+                            </DataTrigger>
+                        </buttons:BorderButton.Triggers>
+                        
+                    </buttons:BorderButton>
 
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
@@ -158,13 +155,77 @@
     
             <StackLayout 
                 Grid.Column="1"
-                Padding="{DynamicResource TSize_i6}"
+                Padding="18"
+                Spacing="6"
                 Background="{DynamicResource TextAndBackgroundColor_i4}">
                 
                 <Label 
                     FontFamily="Barlow-Medium"
                     FontSize="{DynamicResource TSize_i9}"
                     Text="{xct:Translate RewardsOptions}"/>
+                
+                <CollectionView 
+                    ItemsSource="{Binding Rewards}"
+                    SelectedItems="{Binding SelectedRewards}">
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:RewardBindabledModel">
+                            <Frame
+                                Padding="0, 5"
+                                BackgroundColor="Transparent">
+                                
+                                <pc:PancakeView
+                                    CornerRadius="8"
+                                    Border="{pc:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i2}}">
+
+                                    <StackLayout
+                                        Padding="12"
+                                        Spacing="2">
+
+                                        <StackLayout
+                                            Orientation="Horizontal">
+
+                                            <Label
+                                                FontFamily="Barlow-Medium"
+                                                FontSize="{DynamicResource TSize_i9}"
+                                                Text="{Binding Title}"/>
+
+                                            <ffimageloading:CachedImage
+                                                HorizontalOptions="EndAndExpand"
+                                                HeightRequest="18"
+                                                Source="ic_check_box_unhecked_24x24"/>
+
+                                        </StackLayout>
+                                        
+                                        <Label
+                                            FontFamily="Barlow-SemiBold"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            Text="{xct:Translate Free}">
+                                            
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding DiscountType}" Value="{Static enums:EDiscountType.Percentage}">
+                                                    
+                                                    <Setter Property="Text" Value="{Binding Amount, StringFormat={Static local:Constants.PERCENTAGE_DISCOUNT_FORMAT}}"/>
+                                                    
+                                                </DataTrigger>
+                                                
+                                                <DataTrigger TargetType="Label" Binding="{Binding DiscountType}" Value="{Static enums:EDiscountType.Currency}">
+                                                    
+                                                    <Setter Property="Text" Value="{Binding Amount, StringFormat={Static local:Constants.DISCOUNT_IN_CURRENCY_FORMAT}}"/>
+                                                    
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                            
+                                        </Label>
+
+                                    </StackLayout>
+
+                                </pc:PancakeView>
+
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
                 
             </StackLayout>
             

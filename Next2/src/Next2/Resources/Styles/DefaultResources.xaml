@@ -76,6 +76,14 @@
         <Setter Property="LineSpacing" Value="{OnPlatform Android=1.15, iOS=6.45}"/>
     </Style>
     
+    <Style x:Key="LineSpacingLabelStyle_i1" TargetType="controls:LineSpacingLabel">
+        <Setter Property="WidthRequest" Value="220"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="FontFamily" Value="Barlow-Regular"/>
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+    </Style>
+    
     <Style x:Key="BorderButtonStyle_i1" TargetType="buttons:BorderButton">
         <Setter Property="FontFamily" Value="Barlow-SemiBold" />
         <Setter Property="Padding" Value="4" />

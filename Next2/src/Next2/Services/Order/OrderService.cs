@@ -366,6 +366,37 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(int customerId)
+        {
+            var result = new AOResult<IEnumerable<RewardModel>>();
+
+            try
+            {
+                var allCustomerRewards = await _mockService.GetAllAsync<CustomerRewardsModel>();
+
+                if (allCustomerRewards is not null)
+                {
+                    var cusomerRewards = allCustomerRewards.FirstOrDefault(x => x.CustomerId == customerId);
+
+                    if (cusomerRewards is not null)
+                    {
+                        var customerRewardss = await _mockService.GetAsync<RewardModel>(x => cusomerRewards.RewardsId.Contains(x.Id));
+
+                        if (customerRewardss is not null)
+                        {
+                            result.SetSuccess(customerRewardss);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetCustomersRewards)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }
