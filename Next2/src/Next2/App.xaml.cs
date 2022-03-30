@@ -97,7 +97,6 @@ namespace Next2
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.BonusPage, BonusPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.BonusSetPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.EditPage, MobileViewModels.EditPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();

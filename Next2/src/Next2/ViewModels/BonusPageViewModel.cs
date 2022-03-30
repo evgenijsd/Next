@@ -50,9 +50,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SetBindableModel> Sets { get; set; } = new();
 
-        public BonusBindableModel? SelectedCoupon { get; set; }
-
-        public BonusBindableModel? SelectedDiscount { get; set; }
+        public BonusBindableModel? SelectedBonus { get; set; }
 
         public string Title { get; set; } = string.Empty;
 
@@ -68,12 +66,6 @@ namespace Next2.ViewModels
 
         private ICommand _tapSelectCollapceCommand;
         public ICommand TapSelectCollapceCommand => _tapSelectCollapceCommand ??= new AsyncCommand<EBonusType>(OnTapSelectCollapceCommandAsync);
-
-        private ICommand _tapSelectCouponCommand;
-        public ICommand TapSelectCouponCommand => _tapSelectCouponCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectCouponCommandAsync);
-
-        private ICommand _tapSelectDiscountCommand;
-        public ICommand TapSelectDiscountCommand => _tapSelectDiscountCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectDiscountCommandAsync);
 
         #endregion
 
@@ -112,9 +104,9 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(SelectedCoupon) || args.PropertyName is nameof(SelectedDiscount))
+            if (args.PropertyName is nameof(SelectedBonus))
             {
-                Title = SelectedCoupon?.Name + SelectedDiscount?.Name;
+                Title = SelectedBonus is null ? string.Empty : SelectedBonus.Name;
             }
         }
 
@@ -129,78 +121,30 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private async Task OnTapSelectCouponCommandAsync(BonusBindableModel? coupon)
+        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            SelectedDiscount = null;
+            //await _navigationService.NavigateAsync(nameof(BonusSetPage));
             CurrentOrder.BonusType = EBonusType.None;
 
-            SelectedCoupon = coupon == SelectedCoupon ? null : coupon;
+            SelectedBonus = bonus == SelectedBonus ? null : bonus;
 
-            if (SelectedCoupon is not null)
+            if (SelectedBonus is not null)
             {
-                CurrentOrder.BonusType = EBonusType.Coupone;
-                CurrentOrder.BonusName = SelectedCoupon.Name;
+                CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
+                CurrentOrder.BonusName = SelectedBonus.Name;
                 CurrentOrder.Bonus = 0;
 
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
                 {
                     foreach (SetBindableModel set in seat.Sets)
                     {
-                        if (SelectedCoupon.Type == EBonusValueType.Percent)
+                        if (SelectedBonus.Type == EBonusValueType.Percent)
                         {
-                            set.PriceBonus = (float)(set.Portion.Price - (SelectedCoupon.Value * set.Portion.Price));
+                            set.PriceBonus = (float)(set.Portion.Price - (SelectedBonus.Value * set.Portion.Price));
                         }
                         else
                         {
-                            set.PriceBonus = (float)(set.Portion.Price - SelectedCoupon.Value);
-                        }
-
-                        if (set.PriceBonus < 0)
-                        {
-                            set.PriceBonus = 0;
-                        }
-
-                        CurrentOrder.Bonus += set.PriceBonus;
-                    }
-                }
-
-                if (CurrentOrder.Tax != 0)
-                {
-                    var tax = await _orderService.GetTaxAsync();
-                    if (tax.IsSuccess)
-                    {
-                        CurrentOrder.Tax = CurrentOrder.Bonus * tax.Result;
-                    }
-                }
-
-                CurrentOrder.Total = CurrentOrder.Bonus + CurrentOrder.Tax;
-            }
-        }
-
-        private async Task OnTapSelectDiscountCommandAsync(BonusBindableModel? discount)
-        {
-            SelectedCoupon = null;
-            CurrentOrder.BonusType = EBonusType.None;
-
-            SelectedDiscount = discount == SelectedDiscount ? null : discount;
-
-            if (SelectedDiscount is not null)
-            {
-                CurrentOrder.BonusType = EBonusType.Discount;
-                CurrentOrder.BonusName = SelectedDiscount.Name;
-                CurrentOrder.Bonus = 0;
-
-                foreach (SeatBindableModel seat in CurrentOrder.Seats)
-                {
-                    foreach (SetBindableModel set in seat.Sets)
-                    {
-                        if (SelectedDiscount.Type == EBonusValueType.Percent)
-                        {
-                            set.PriceBonus = (float)(set.Portion.Price - (SelectedDiscount.Value * set.Portion.Price));
-                        }
-                        else
-                        {
-                            set.PriceBonus = (float)(set.Portion.Price - SelectedDiscount.Value);
+                            set.PriceBonus = (float)(set.Portion.Price - SelectedBonus.Value);
                         }
 
                         if (set.PriceBonus < 0)
@@ -214,6 +158,7 @@ namespace Next2.ViewModels
                     if (CurrentOrder.Tax != 0)
                     {
                         var tax = await _orderService.GetTaxAsync();
+
                         if (tax.IsSuccess)
                         {
                             CurrentOrder.Tax = CurrentOrder.Bonus * tax.Result;
@@ -223,11 +168,6 @@ namespace Next2.ViewModels
                     CurrentOrder.Total = CurrentOrder.Bonus + CurrentOrder.Tax;
                 }
             }
-        }
-
-        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
-        {
-            await _navigationService.NavigateAsync(nameof(BonusSetPage));
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
