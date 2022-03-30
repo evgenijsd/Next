@@ -410,7 +410,6 @@ namespace Next2.Services.Order
                     if (orderId >= 0)
                     {
                         result.SetSuccess();
-                        await CreateNewOrderAsync();
                     }
                     else
                     {

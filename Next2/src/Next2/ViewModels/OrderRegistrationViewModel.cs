@@ -78,7 +78,7 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
-        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.OrderNumber);
+        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Id);
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
@@ -97,7 +97,7 @@ namespace Next2.ViewModels
 
         public bool IsSideMenuVisible { get; set; } = true;
 
-        public bool IsOrderSaved { get; set; }
+        public bool IsOrderSavedNotificationVisible { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
@@ -168,6 +168,7 @@ namespace Next2.ViewModels
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats > CurrentOrder.Seats.Count)
                     {
+                        IsOrderSavedNotificationVisible = false;
                         await _orderService.AddSeatInCurrentOrderAsync();
                         await AddSeatsCommandsAsync();
                     }
@@ -196,6 +197,8 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
+            IsOrderSavedNotificationVisible = false;
+
             CurrentOrder = _orderService.CurrentOrder;
 
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
@@ -619,11 +622,7 @@ namespace Next2.ViewModels
                     };
 
                     var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
-                    if (isSuccessSeatResult.IsSuccess)
-                    {
-                        continue;
-                    }
-                    else
+                    if (!isSuccessSeatResult.IsSuccess)
                     {
                         isAllSeatSaved = !isAllSeatSaved;
                         break;
@@ -642,8 +641,10 @@ namespace Next2.ViewModels
 
                 if (isSuccessOrderResult.IsSuccess)
                 {
-                    IsOrderSaved = true;
-                    await RefreshCurrentOrderAsync();
+                    IsOrderSavedNotificationVisible = true;
+                    CurrentOrder.Seats = new();
+
+                    await _orderService.CreateNewOrderAsync();
                 }
             }
         }

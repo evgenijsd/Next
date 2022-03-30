@@ -1507,7 +1507,7 @@
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <Frame 
-                            IsVisible="{Binding OrderRegistrationViewModel.IsOrderSaved}"
+                            IsVisible="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                             HeightRequest="88"
