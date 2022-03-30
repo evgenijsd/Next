@@ -78,6 +78,8 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
+        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.OrderNumber);
+
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
@@ -94,6 +96,8 @@ namespace Next2.ViewModels
         public bool IsOrderWithTax { get; set; } = true;
 
         public bool IsSideMenuVisible { get; set; } = true;
+
+        public bool IsOrderSaved { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
@@ -587,9 +591,61 @@ namespace Next2.ViewModels
             IsOrderWithTax = isOrderWithTax;
         }
 
-        private Task OnOrderCommandAsync()
+        private async Task OnOrderCommandAsync()
         {
-            return Task.CompletedTask;
+            List<SeatModel> seats = new();
+
+            bool isAllSeatSaved = true;
+
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                if (seat.Sets.Any())
+                {
+                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                    {
+                        Id = x.Id,
+                        SubcategoryId = x.SubcategoryId,
+                        Title = x.Title,
+                        Price = x.Portion.Price,
+                        ImagePath = x.ImagePath,
+                    }));
+
+                    var newSeat = new SeatModel
+                    {
+                        Id = CurrentOrder.OrderNumber,
+                        OrderId = CurrentOrder.Id,
+                        SeatNumber = seat.SeatNumber,
+                        Sets = sets,
+                    };
+
+                    var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
+                    if (isSuccessSeatResult.IsSuccess)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        isAllSeatSaved = !isAllSeatSaved;
+                        break;
+                    }
+                }
+            }
+
+            if (isAllSeatSaved)
+            {
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
+                .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))).CreateMapper();
+
+                var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
+
+                var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
+
+                if (isSuccessOrderResult.IsSuccess)
+                {
+                    IsOrderSaved = true;
+                    await RefreshCurrentOrderAsync();
+                }
+            }
         }
 
         private Task OnTabCommandAsync()

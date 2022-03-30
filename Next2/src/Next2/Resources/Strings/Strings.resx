@@ -402,4 +402,7 @@
   <data name="ThisSetWillBeRemoved" xml:space="preserve">
     <value>This item will be removed from the order list.</value>
   </data>
+  <data name="TheOrderWasPlacedTo" xml:space="preserve">
+    <value>The order #{0} was placed to</value>
+  </data>
 </root>

@@ -1506,13 +1506,86 @@
                 <CollectionView.EmptyView>
                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
+                        <Frame 
+                            IsVisible="{Binding OrderRegistrationViewModel.IsOrderSaved}"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                            HeightRequest="88"
+                            WidthRequest="250"
+                            Margin="15, 15, 15, 0"
+                            CornerRadius="10">
+
+                            <Grid RowDefinitions="0.50*, 0.50*">
+
+                                <Label
+                                    Grid.Row="0"
+                                    Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
+                                    FontFamily="Barlow-Medium"
+                                    FontSize="{DynamicResource TSize_i6}"
+                                    VerticalOptions="Start"
+                                    Margin="15, 15, 0, 0"/>
+
+                                <ffimageloading:CachedImage 
+                                    Grid.Row="0"
+                                    Source="ic_close_square_24x24"
+                                    HeightRequest="24"
+                                    WidthRequest="24"
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="Start"
+                                    Margin="0, 15, 15, 0"/>
+
+                                <ffimageloading:CachedImage 
+                                    Grid.Row="1"
+                                    Source="ic_folder_primary_24x24"
+                                    HeightRequest="24"
+                                    WidthRequest="24"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="EndAndExpand"
+                                    Margin="15, 0, 0, 15"/>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{xct:Translate OrderTabs}"
+                                    FontFamily="Barlow-Medium"
+                                    TextColor="{DynamicResource AppColor_i1}"
+                                    FontSize="{DynamicResource TSize_i6}"
+                                    VerticalOptions="Start"
+                                    Margin="50, 5, 0, 15"/>
+
+                            </Grid>
+
+                        </Frame>
+
                         <StackLayout VerticalOptions="CenterAndExpand">
 
                             <ffimageloading:CachedImage
                                 HorizontalOptions="Center"
-                                HeightRequest="250"
-                                WidthRequest="250"
-                                Source="pic_payment.png" />
+                                HeightRequest="200"
+                                WidthRequest="200"
+                                Source="pic_payment.png">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="AdaptivePic_payment">
+
+                                            <VisualState Name="Medium">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger MinWindowWidth="1194"/>
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter Property="HeightRequest" Value="250"/>
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                        </VisualStateGroup>
+
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+
+                            </ffimageloading:CachedImage>
 
                             <controls:LineSpacingLabel
                                 Style="{DynamicResource Regular24pxLabelStyle}"
