@@ -32,7 +32,7 @@ namespace Next2.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            if (parameters.TryGetValue(nameof(SelectedSet), out SetBindableModel set))
+            if (parameters.TryGetValue(Constants.Navigations.SELECTED_SET, out SetBindableModel set))
             {
                 SelectedSet = set;
             }

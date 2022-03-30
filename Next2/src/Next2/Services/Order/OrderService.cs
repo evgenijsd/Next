@@ -331,10 +331,7 @@ namespace Next2.Services.Order
                         CurrentOrder.Seats[i].SeatNumber--;
                     }
 
-                    if (seat.Checked)
-                    {
-                        CurrentSeat = null;
-                    }
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
                     result.SetSuccess();
                 }
@@ -374,6 +371,28 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(RedirectSetsFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> DeleteSetFromCurrentSeat()
+        {
+            var result = new AOResult();
+
+            try
+            {
+                SetBindableModel? setTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
+                if (setTobeRemoved is not null)
+                {
+                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
+                }
+
+                result.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DeleteSetFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

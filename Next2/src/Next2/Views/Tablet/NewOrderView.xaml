@@ -757,11 +757,12 @@
 
                                     <!-- Row 1 Image & Title-->
 
-                                    <StackLayout 
+                                    <Grid
                                         Grid.Row="0"
-                                        Orientation="Horizontal">
+                                        ColumnDefinitions="0.15*, *">
 
                                         <StackLayout 
+                                            Grid.Column="0"
                                             HorizontalOptions="Start"
                                             VerticalOptions="Center"
                                             Margin="0, 15, 0, 15"
@@ -783,7 +784,9 @@
                                         </StackLayout>
 
                                         <StackLayout
+                                            Grid.Column="1"
                                             Margin="20, 0, 0, 0"
+                                            HorizontalOptions="Start"
                                             VerticalOptions="Center"
                                             Orientation="Vertical">
 
@@ -803,7 +806,7 @@
 
                                         </StackLayout>
 
-                                    </StackLayout>
+                                    </Grid>
 
                                     <!-- Row 2 Proportions-->
 
@@ -1151,7 +1154,7 @@
                                 FontSize="{DynamicResource TSize_i7}"
                                 Background="{DynamicResource IndicationColor_i3}"
                                 Text="{xct:Translate Remove}"
-                                Command="{Binding OrderRegistrationViewMode.OpenRemoveCommand}">
+                                Command="{Binding OrderRegistrationViewModel.OpenRemoveCommand}">
                                 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
@@ -1439,20 +1442,11 @@
                 </Label>
 
                 <controls:CustomStepper
+                    IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
-                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
-
-                    <controls:CustomStepper.Triggers>
-                        <DataTrigger TargetType="controls:CustomStepper" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
-                            
-                            <Setter Property="IsEnabled" Value="False" />
-
-                        </DataTrigger>
-                    </controls:CustomStepper.Triggers>
-
-                </controls:CustomStepper>
+                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
 
             </StackLayout>
 
@@ -1541,7 +1535,7 @@
 
                         <templates:SeatItemTemplate
                             ItemsSource="{Binding Sets}"
-                            Padding="24, 9, 24, 0"/>
+                            Padding="18, 9, 18, 0"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -1549,15 +1543,9 @@
             </CollectionView>
 
             <!-- SUMMARY -->
-            <StackLayout Grid.Row="3">
-
-                <StackLayout.Triggers>
-                    <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
-                     
-                        <Setter Property="IsVisible" Value="false" />
-
-                    </DataTrigger>
-                </StackLayout.Triggers>
+            <StackLayout 
+                Grid.Row="3"
+                IsVisible="{Binding  OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}">
 
                 <!-- SUMMARY HEADER -->
                 <StackLayout 
@@ -1596,12 +1584,12 @@
                         </Label>
 
                         <Label
+                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName.Length}"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.CustomerName}">
-                            
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
+                                                    
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
                                      
@@ -1640,20 +1628,11 @@
                         Command="{Binding OrderRegistrationViewModel.OpenDiscountSelectionCommand}" />
 
                     <buttons:IconBorderButton
+                        IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
                         Style="{DynamicResource IconBorderButtonStyle_i2}"
                         IconSource="ic_tax"
-                        Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}">
-
-                        <buttons:IconBorderButton.Triggers>
-                            <DataTrigger TargetType="buttons:IconBorderButton" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
-
-                                <Setter Property="IsVisible" Value="false" />
-
-                            </DataTrigger>
-                        </buttons:IconBorderButton.Triggers>
-
-                    </buttons:IconBorderButton>
-
+                        Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
+                    
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
@@ -1828,6 +1807,9 @@
 
                             </DataTrigger>
                         </StackLayout.Triggers>
+                    <StackLayout 
+                        IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
+                        Orientation="Horizontal">
                         
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"

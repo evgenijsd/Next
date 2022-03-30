@@ -48,6 +48,9 @@ namespace Next2.ViewModels
 
         private SeatBindableModel _firstSeat;
         private TaxModel _tax;
+        private SeatBindableModel _firstNotEmptySeat;
+        private SeatBindableModel _seatWithSelectedSet;
+        private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -101,10 +104,10 @@ namespace Next2.ViewModels
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
 
         private ICommand _openModifyCommand;
-        public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
+        public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openRemoveCommand;
-        public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync);
+        public ICommand OpenRemoveCommand => _openRemoveCommand ??= new AsyncCommand(OnOpenRemoveCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync, allowsMultipleExecutions: false);
@@ -202,10 +205,13 @@ namespace Next2.ViewModels
         {
             CurrentOrder = _orderService.CurrentOrder;
 
-            // value for testing
-            CurrentOrder.CustomerName = "Martin Levin";
-
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
+
+            _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
+
+            _isAnySetChosen = CurrentOrder.Seats.Any(x => x.Sets.Any());
+
+            _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.Sets.Any());
 
             await AddSeatsCommandsAsync();
 
@@ -217,6 +223,18 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
+        private async Task RefreshTablesAsync()
+        {
+            var availableTablesResult = await _orderService.GetFreeTablesAsync();
+
+            if (availableTablesResult.IsSuccess)
+            {
+                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+
+                Tables = new(tableBindableModels);
+            }
+        }
 
         private async Task AddSeatsCommandsAsync()
         {
@@ -318,6 +336,11 @@ namespace Next2.ViewModels
                     _firstSeat.Checked = true;
                 }
             }
+
+            if (!App.IsTablet && !CurrentOrder.Seats.Any())
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
@@ -332,9 +355,11 @@ namespace Next2.ViewModels
 
                     if (deleteSetsResult.IsSuccess)
                     {
+                        await RefreshCurrentOrderAsync();
+
                         NumberOfSeats = CurrentOrder.Seats.Count;
 
-                        if (NumberOfSeats <= 0)
+                        if (!_isAnySetChosen)
                         {
                             OnGoBackCommand();
                         }
@@ -343,7 +368,7 @@ namespace Next2.ViewModels
                             if (App.IsTablet)
                             {
                                 _firstSeat.Checked = true;
-                                SelectedSet = _firstSeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstSeat.Sets.FirstOrDefault() : _firstSeat.SelectedItem = null;
+                                SelectedSet = _firstNotEmptySeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstNotEmptySeat.Sets.FirstOrDefault() : _firstNotEmptySeat.SelectedItem = null;
                             }
                             else
                             {
@@ -531,18 +556,6 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task RefreshTablesAsync()
-        {
-            var availableTablesResult = await _orderService.GetFreeTablesAsync();
-
-            if (availableTablesResult.IsSuccess)
-            {
-                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
-
-                Tables = new (tableBindableModels);
-            }
-        }
-
         private Task OnOpenHoldSelectionCommandAsync()
         {
             return Task.CompletedTask;
@@ -609,14 +622,73 @@ namespace Next2.ViewModels
         {
             var navigationParameters = new NavigationParameters
             {
-                 { nameof(SelectedSet), SelectedSet },
+                 { Constants.Navigations.SELECTED_SET, SelectedSet },
             };
             await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
         }
 
-        private Task OnOpenRemoveCommandAsync()
+        private async Task OnOpenRemoveCommandAsync()
         {
-            return Task.CompletedTask;
+            var parameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisSetWillBeRemoved"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+            };
+
+            PopupPage confirmDialog = App.IsTablet
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isSetRemovingAccepted))
+            {
+                if (isSetRemovingAccepted)
+                {
+                    var result = await _orderService.DeleteSetFromCurrentSeat();
+
+                    if (result.IsSuccess)
+                    {
+                        await RefreshCurrentOrderAsync();
+
+                        if (CurrentState == LayoutState.Success)
+                        {
+                            if (_seatWithSelectedSet.Sets.Any())
+                            {
+                                SelectedSet = _seatWithSelectedSet.SelectedItem = _seatWithSelectedSet.Sets.FirstOrDefault();
+                            }
+                            else if (_isAnySetChosen)
+                            {
+                                foreach (var set in CurrentOrder.Seats)
+                                {
+                                    set.SelectedItem = null;
+                                }
+
+                                SelectedSet = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.Sets.FirstOrDefault();
+                            }
+                            else
+                            {
+                                if (App.IsTablet)
+                                {
+                                    OnGoBackCommand();
+                                }
+                            }
+                        }
+                    }
+
+                    if (!App.IsTablet)
+                    {
+                        await _navigationService.GoBackToRootAsync();
+                    }
+                }
+            }
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private Task OnPayCommandAsync()
