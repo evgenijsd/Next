@@ -8,5 +8,6 @@ namespace Next2.Enums
     {
         Value,
         Percent,
+        AbsoluteValue,
     }
 }

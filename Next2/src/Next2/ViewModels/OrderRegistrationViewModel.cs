@@ -180,7 +180,7 @@ namespace Next2.ViewModels
 
                     break;
                 case nameof(IsOrderWithTax):
-                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.Bonus : _orderService.CurrentOrder.SubTotal;
+                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.PriceWithBonus : _orderService.CurrentOrder.SubTotal;
                     _orderService.CurrentOrder.Tax = 0;
                     break;
             }

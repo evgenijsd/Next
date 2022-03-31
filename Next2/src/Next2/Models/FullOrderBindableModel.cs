@@ -25,7 +25,7 @@ namespace Next2.Models
 
         public double SubTotal { get; set; }
 
-        public double Bonus { get; set; } = 0f;
+        public double PriceWithBonus { get; set; } = 0f;
 
         public double Tax { get; set; }
 

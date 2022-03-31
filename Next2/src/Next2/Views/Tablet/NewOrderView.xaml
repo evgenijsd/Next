@@ -1717,7 +1717,7 @@
                             
                             <DataTrigger
                                 TargetType="StackLayout"
-                                Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Bonus}"
+                                Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
                                 Value="0">
                                 
                                 <Setter Property="IsVisible" Value="False" />
@@ -1801,12 +1801,15 @@
                     <StackLayout Orientation="Horizontal">
 
                         <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" Value="false">
+                            <DataTrigger TargetType="StackLayout" 
+                                         Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" 
+                                         Value="false">
 
                                 <Setter Property="IsVisible" Value="false" />
 
                             </DataTrigger>
                         </StackLayout.Triggers>
+                        
                     <StackLayout 
                         IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
                         Orientation="Horizontal">

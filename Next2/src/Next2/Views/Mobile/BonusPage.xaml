@@ -224,12 +224,12 @@
                 </DataTrigger>
             </Grid.Triggers>
 
-            <controls:CustomNavigationbar
-                Title="{Binding SelectedBonus.Name}"
-                Grid.Row="0"
-                HeightImage="24"
-                FontSize="{DynamicResource TSize_i5}"
-                LeftButtonCommand="{prism:GoBack}" />
+                <controls:CustomNavigationbar
+                    Title="{Binding SelectedBonus.Name}"
+                    Grid.Row="0"
+                    HeightImage="24"
+                    FontSize="{DynamicResource TSize_i5}"
+                    LeftButtonCommand="{Binding RemoveSelectionBonusCommand}" />
 
                 <BoxView
                     Grid.Row="0"

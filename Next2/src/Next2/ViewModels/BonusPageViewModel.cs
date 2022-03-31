@@ -61,6 +61,9 @@ namespace Next2.ViewModels
         private ICommand _BonusCommand;
         public ICommand BonusCommand => _BonusCommand ??= new AsyncCommand(OnBonusCommandAsync);
 
+        private ICommand _RemoveSelectionBonusCommand;
+        public ICommand RemoveSelectionBonusCommand => _RemoveSelectionBonusCommand ??= new AsyncCommand(OnRemoveSelectionBonusCommandAsync);
+
         private ICommand _tapSelectBonusCommand;
         public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectBonusCommandAsync);
 
@@ -123,7 +126,6 @@ namespace Next2.ViewModels
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            //await _navigationService.NavigateAsync(nameof(BonusSetPage));
             CurrentOrder.BonusType = EBonusType.None;
 
             SelectedBonus = bonus == SelectedBonus ? null : bonus;
@@ -132,19 +134,25 @@ namespace Next2.ViewModels
             {
                 CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
                 CurrentOrder.BonusName = SelectedBonus.Name;
-                CurrentOrder.Bonus = 0;
+                CurrentOrder.PriceWithBonus = 0;
 
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
                 {
                     foreach (SetBindableModel set in seat.Sets)
                     {
-                        if (SelectedBonus.Type == EBonusValueType.Percent)
+                        switch (SelectedBonus.Type)
                         {
-                            set.PriceBonus = (float)(set.Portion.Price - (SelectedBonus.Value * set.Portion.Price));
-                        }
-                        else
-                        {
-                            set.PriceBonus = (float)(set.Portion.Price - SelectedBonus.Value);
+                            case EBonusValueType.Value:
+                                set.PriceBonus = (float)(set.Portion.Price - SelectedBonus.Value);
+                                break;
+                            case EBonusValueType.Percent:
+                                set.PriceBonus = (float)(set.Portion.Price - (SelectedBonus.Value * set.Portion.Price));
+                                break;
+                            case EBonusValueType.AbsoluteValue:
+                                set.PriceBonus = (float)SelectedBonus.Value;
+                                break;
+                            default:
+                                break;
                         }
 
                         if (set.PriceBonus < 0)
@@ -152,7 +160,7 @@ namespace Next2.ViewModels
                             set.PriceBonus = 0;
                         }
 
-                        CurrentOrder.Bonus += set.PriceBonus;
+                        CurrentOrder.PriceWithBonus += set.PriceBonus;
                     }
 
                     if (CurrentOrder.Tax != 0)
@@ -161,11 +169,11 @@ namespace Next2.ViewModels
 
                         if (tax.IsSuccess)
                         {
-                            CurrentOrder.Tax = CurrentOrder.Bonus * tax.Result;
+                            CurrentOrder.Tax = CurrentOrder.PriceWithBonus * tax.Result;
                         }
                     }
 
-                    CurrentOrder.Total = CurrentOrder.Bonus + CurrentOrder.Tax;
+                    CurrentOrder.Total = CurrentOrder.PriceWithBonus + CurrentOrder.Tax;
                 }
             }
         }
@@ -180,6 +188,13 @@ namespace Next2.ViewModels
             {
                 HeightDiscounts = HeightDiscounts == 0 ? Discounts.Count * _heightBonus : 0;
             }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnRemoveSelectionBonusCommandAsync()
+        {
+            SelectedBonus = null;
 
             return Task.CompletedTask;
         }
