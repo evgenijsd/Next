@@ -99,7 +99,11 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = currentOrder;
                 Sets = _bonusesService.GetSets(CurrentOrder);
-                //Discounts =
+
+                if (_bonusConditions is not null)
+                {
+                    Discounts = _bonusesService.GetDiscounts(_bonusConditions, Discounts, Sets);
+                }
             }
         }
 

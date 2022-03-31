@@ -90,12 +90,20 @@ namespace Next2.Services.Bonuses
 
             foreach (var discount in discounts)
             {
-                var conditions = bonusConditions.Where(x => x.SetId == discount.Id);
+                var conditions = bonusConditions.Where(x => x.BonusId == discount.Id);
                 int count = conditions.Count();
 
                 foreach (var condition in conditions)
                 {
-                    count -= 1;
+                    if (sets.Any(x => x.Id == condition.SetId))
+                    {
+                        count -= 1;
+                    }
+                }
+
+                if (count == 0)
+                {
+                    result.Add(discount);
                 }
             }
 
