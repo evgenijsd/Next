@@ -4,6 +4,8 @@ using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Bonuses
@@ -62,6 +64,39 @@ namespace Next2.Services.Bonuses
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public ObservableCollection<SetBindableModel> GetSets(FullOrderBindableModel currentOrder)
+        {
+            var result = new ObservableCollection<SetBindableModel>();
+
+            foreach (var seat in currentOrder.Seats)
+            {
+                foreach (var set in seat.Sets)
+                {
+                    result.Add(set);
+                }
+            }
+
+            return result;
+        }
+
+        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, ObservableCollection<SetBindableModel> sets)
+        {
+            var result = new ObservableCollection<BonusBindableModel>();
+
+            foreach (var discount in discounts)
+            {
+                var conditions = bonusConditions.Where(x => x.SetId == discount.Id);
+                int count = conditions.Count();
+
+                foreach (var condition in conditions)
+                {
+                    count -= 1;
+                }
             }
 
             return result;

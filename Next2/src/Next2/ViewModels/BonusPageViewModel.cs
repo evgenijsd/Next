@@ -26,8 +26,6 @@ namespace Next2.ViewModels
 
         private IEnumerable<BonusModel>? _bonuses;
         private IEnumerable<BonusConditionModel>? _bonusConditions;
-        private IEnumerable<BonusSetModel>? _bonusSets;
-        private IEnumerable<SetModel>? _sets;
 
         public BonusPageViewModel(
             INavigationService navigationService,
@@ -100,6 +98,8 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 CurrentOrder = currentOrder;
+                Sets = _bonusesService.GetSets(CurrentOrder);
+                //Discounts =
             }
         }
 
