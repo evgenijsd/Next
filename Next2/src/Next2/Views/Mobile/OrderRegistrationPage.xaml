@@ -341,7 +341,7 @@
                     <Label
                         Style="{DynamicResource SemiBold24pxLabelStyle}"
                         HorizontalOptions="EndAndExpand"
-                        Text="{Binding CurrentOrder.BonusName}" />
+                        Text="{Binding CurrentOrder.Bonus.Name}" />
 
                 </StackLayout>
 
@@ -361,7 +361,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 

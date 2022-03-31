@@ -133,7 +133,7 @@ namespace Next2.ViewModels
             if (SelectedBonus is not null)
             {
                 CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
-                CurrentOrder.BonusName = SelectedBonus.Name;
+                CurrentOrder.Bonus = SelectedBonus;
                 CurrentOrder.PriceWithBonus = 0;
 
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
@@ -163,17 +163,9 @@ namespace Next2.ViewModels
                         CurrentOrder.PriceWithBonus += set.PriceBonus;
                     }
 
-                    if (CurrentOrder.Tax != 0)
-                    {
-                        var tax = await _orderService.GetTaxAsync();
+                    CurrentOrder.PriceTax = CurrentOrder.PriceWithBonus * CurrentOrder.Tax.Value;
 
-                        if (tax.IsSuccess)
-                        {
-                            CurrentOrder.Tax = CurrentOrder.PriceWithBonus * tax.Result;
-                        }
-                    }
-
-                    CurrentOrder.Total = CurrentOrder.PriceWithBonus + CurrentOrder.Tax;
+                    CurrentOrder.Total = CurrentOrder.PriceWithBonus + CurrentOrder.PriceTax;
                 }
             }
         }

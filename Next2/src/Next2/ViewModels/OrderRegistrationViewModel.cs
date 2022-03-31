@@ -144,7 +144,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            if (CurrentOrder.Tax == 0)
+            if (CurrentOrder.Tax.Value == 0)
             {
                 IsOrderWithTax = false;
             }
@@ -181,7 +181,7 @@ namespace Next2.ViewModels
                     break;
                 case nameof(IsOrderWithTax):
                     _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.PriceWithBonus : _orderService.CurrentOrder.SubTotal;
-                    _orderService.CurrentOrder.Tax = 0;
+                    _orderService.CurrentOrder.PriceTax = 0;
                     break;
             }
         }
@@ -606,6 +606,11 @@ namespace Next2.ViewModels
             _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
 
             IsOrderWithTax = isOrderWithTax;
+
+            if (!IsOrderWithTax)
+            {
+                CurrentOrder.Tax.Value = 0;
+            }
         }
 
         private Task OnOrderCommandAsync()

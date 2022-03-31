@@ -39,9 +39,9 @@ namespace Next2.Services.Order
 
         #region -- IOrderService implementation --
 
-        public async Task<AOResult<double>> GetTaxAsync()
+        public async Task<AOResult<TaxModel>> GetTaxAsync()
         {
-            var result = new AOResult<double>();
+            var result = new AOResult<TaxModel>();
 
             try
             {
@@ -49,7 +49,7 @@ namespace Next2.Services.Order
 
                 if (tax is not null)
                 {
-                    result.SetSuccess(tax.Value);
+                    result.SetSuccess(tax);
                 }
                 else
                 {
@@ -218,6 +218,13 @@ namespace Next2.Services.Order
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
 
+                    var tax = await GetTaxAsync();
+
+                    if (tax.IsSuccess)
+                    {
+                        CurrentOrder.Tax = tax.Result;
+                    }
+
                     CurrentOrder.Id = orderId.Result;
                     CurrentOrder.OrderNumber = orderId.Result;
                     CurrentOrder.OrderStatus = "Open";
@@ -264,13 +271,8 @@ namespace Next2.Services.Order
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
 
-                var tax = await GetTaxAsync();
-
-                if (tax.IsSuccess)
-                {
-                    CurrentOrder.Tax = CurrentOrder.SubTotal * tax.Result;
-                    CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * tax.Result);
-                }
+                CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * CurrentOrder.Tax.Value);
 
                 result.SetSuccess();
             }

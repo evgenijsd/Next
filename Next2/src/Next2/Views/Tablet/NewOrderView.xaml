@@ -1770,7 +1770,7 @@
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
                             HorizontalOptions="EndAndExpand"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.BonusName}" >
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Bonus.Name}" >
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
@@ -1801,19 +1801,18 @@
                     <StackLayout Orientation="Horizontal">
 
                         <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" 
-                                         Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}" 
-                                         Value="false">
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
+                                Value="false">
 
-                                <Setter Property="IsVisible" Value="false" />
+                                <Setter
+                                    Property="IsVisible"
+                                    Value="false" />
 
                             </DataTrigger>
                         </StackLayout.Triggers>
-                        
-                    <StackLayout 
-                        IsVisible="{Binding OrderRegistrationViewModel.IsOrderWithTax}"
-                        Orientation="Horizontal">
-                        
+
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
                             Text="{xct:Translate Tax}" >
@@ -1850,7 +1849,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1882,83 +1881,98 @@
 
                     <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
 
-                    <StackLayout 
-                        Orientation="Horizontal"
-                        Padding="0, 0, 0, 4">
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Padding="0, 0, 0, 4">
 
-                        <Label
-                            Style="{DynamicResource Medium18LabelStyle}"
-                            Text="{xct:Translate Total}">
-                                                                     
-                            <VisualStateManager.VisualStateGroups>
-                                 <VisualStateGroupList>
-                                     
-                                     <VisualStateGroup Name="AdaptiveLabel">
-                                         
-                                         <VisualState Name="Large">
-                                             
-                                             <VisualState.StateTriggers>
-                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
-                                             </VisualState.StateTriggers>
-                                             
-                                             <VisualState.Setters>
-                                                 <Setter Property="FontFamily" Value="Barlow-Regular"/>
-                                                 <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                                             </VisualState.Setters>
-                                             
-                                         </VisualState>
-                                         
-                                     </VisualStateGroup>
-                                     
-                                 </VisualStateGroupList>
-                             </VisualStateManager.VisualStateGroups>
-                            
-                        </Label>
+                            <Label
+                                Style="{DynamicResource Medium18LabelStyle}"
+                                Text="{xct:Translate Total}">
 
-                        <Label
-                            HorizontalOptions="EndAndExpand"
-                            FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
 
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="{xct:Translate CurrencySign}" />
-                                    <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                                </FormattedString>
-                            </Label.FormattedText>
+                                        <VisualStateGroup
+                                            Name="AdaptiveLabel">
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
+                                            <VisualState
+                                                Name="Large">
 
-                                    <VisualStateGroup Name="AdaptiveLabel">
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger
+                                                        MinWindowWidth="1280" />
+                                                </VisualState.StateTriggers>
 
-                                        <VisualState Name="Large">
+                                                <VisualState.Setters>
+                                                    <Setter
+                                                        Property="FontFamily"
+                                                        Value="Barlow-Regular" />
+                                                    <Setter
+                                                        Property="FontSize"
+                                                        Value="{DynamicResource TSize_i5}" />
+                                                </VisualState.Setters>
 
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1280"/>
-                                            </VisualState.StateTriggers>
+                                            </VisualState>
 
-                                            <VisualState.Setters>
-                                                <Setter Property="FontFamily" Value="Barlow-Regular"/>
-                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                                            </VisualState.Setters>
+                                        </VisualStateGroup>
 
-                                        </VisualState>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
 
-                                    </VisualStateGroup>
+                            </Label>
 
-                                </VisualStateGroupList>
-                            </VisualStateManager.VisualStateGroups>
+                            <Label
+                                HorizontalOptions="EndAndExpand"
+                                FontFamily="Barlow-SemiBold"
+                                FontSize="{DynamicResource TSize_i6}">
 
-                        </Label>
-                    
-                    </StackLayout>
-                    
-                    </StackLayout>
-                    
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            Text="{xct:Translate CurrencySign}" />
+                                        <Span
+                                            Text=" " />
+                                        <Span
+                                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+
+                                        <VisualStateGroup
+                                            Name="AdaptiveLabel">
+
+                                            <VisualState
+                                                Name="Large">
+
+                                                <VisualState.StateTriggers>
+                                                    <AdaptiveTrigger
+                                                        MinWindowWidth="1280" />
+                                                </VisualState.StateTriggers>
+
+                                                <VisualState.Setters>
+                                                    <Setter
+                                                        Property="FontFamily"
+                                                        Value="Barlow-Regular" />
+                                                    <Setter
+                                                        Property="FontSize"
+                                                        Value="{DynamicResource TSize_i5}" />
+                                                </VisualState.Setters>
+
+                                            </VisualState>
+
+                                        </VisualStateGroup>
+
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+
+                            </Label>
+
+                        </StackLayout>
+
                 </StackLayout>
-                
+
             </StackLayout>
 
             <!-- BUTTONS -->
