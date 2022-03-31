@@ -139,7 +139,7 @@
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource IndicationColor_i7}"
                         Text="{xct:Translate BecomeMember}"
-                        IsVisible="{Binding PageState, Converter={xct:CompareConverter ComparingValue={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}, ComparisonOperator=Equal}}"
+                        IsVisible="{Binding PageState, Converter={xct:EqualConverter}, ConverterParameter={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}}"
                         xct:TouchEffect.Command="{Binding AddNewCustomerCommand}"/>
                     
                     <buttons:BorderButton
@@ -182,8 +182,9 @@
                         <DataTemplate x:DataType="models:RewardBindabledModel">
                             
                             <Frame 
+                                BackgroundColor="Transparent"
                                 Padding="0, 5"
-                                BackgroundColor="Transparent">
+                                x:Name="rewardFrame">
                                 
                                 <pc:PancakeView
                                     CornerRadius="8"
@@ -218,6 +219,25 @@
                                     </StackLayout>
 
                                 </pc:PancakeView>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Normal"/>
+
+                                            <VisualState Name="Selected">
+
+                                                <VisualState.Setters>
+                                                    <Setter TargetName="rewardFrame" Property="Frame.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+                                                    <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
+                                                    <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
+                                                </VisualState.Setters>
+                                    
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                        
+                                </VisualStateManager.VisualStateGroups>
                                 
                             </Frame>
                             
