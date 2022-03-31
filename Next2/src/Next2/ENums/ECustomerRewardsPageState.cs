@@ -3,7 +3,7 @@
     public enum ECustomerRewardsPageState
     {
         NoSelectedCustomer,
-        CustomerHasNoRewards,
-        CustomerHasRewards,
+        RewardsNotExist,
+        RewardsExist,
     }
 }

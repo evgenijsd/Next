@@ -1,14 +1,11 @@
-﻿using Next2.Enums;
-using Next2.Interfaces;
-using System.Collections.Generic;
+﻿using Next2.Interfaces;
+using Prism.Mvvm;
 
 namespace Next2.Models
 {
-    public class RewardModel : IBaseModel
+    public class RewardBindabledModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
-
-        public int CustomerId { get; set; }
 
         public int SetId { get; set; }
 

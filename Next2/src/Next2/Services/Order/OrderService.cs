@@ -372,21 +372,11 @@ namespace Next2.Services.Order
 
             try
             {
-                var allCustomerRewards = await _mockService.GetAllAsync<CustomerRewardsModel>();
+                var rewards = await _mockService.GetAsync<RewardModel>(x => x.CustomerId == customerId);
 
-                if (allCustomerRewards is not null)
+                if (rewards is not null && rewards.Any())
                 {
-                    var cusomerRewards = allCustomerRewards.FirstOrDefault(x => x.CustomerId == customerId);
-
-                    if (cusomerRewards is not null)
-                    {
-                        var customerRewardss = await _mockService.GetAsync<RewardModel>(x => cusomerRewards.RewardsId.Contains(x.Id));
-
-                        if (customerRewardss is not null)
-                        {
-                            result.SetSuccess(customerRewardss);
-                        }
-                    }
+                    result.SetSuccess(rewards);
                 }
             }
             catch (Exception ex)

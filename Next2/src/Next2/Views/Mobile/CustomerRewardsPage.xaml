@@ -61,13 +61,13 @@
             Margin="0, 110">
 
             <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasNoRewards}">
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
                                         
                     <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
                     <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate MessageAboutCashingOutAwards}"/>
                                         
                 </DataTrigger> 
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasRewards}">
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.RewardsExist}">
                                         
                     <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
                     <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate SelectRewardOptionToUseYourPoints}"/>
@@ -112,7 +112,7 @@
                     <DataTrigger 
                         TargetType="buttons:BorderButton" 
                         Binding="{Binding PageState}"
-                        Value="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
+                        Value="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
                                 
                         <Setter Property="IsVisible" Value="True"/>
                                 

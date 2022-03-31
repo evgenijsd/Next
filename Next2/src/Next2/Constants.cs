@@ -14,10 +14,6 @@
 
         public const string PRICE_FORMAT = "{0:0.00}";
 
-        public const string PERCENTAGE_DISCOUNT_FORMAT = "{0}% Off";
-
-        public const string DISCOUNT_IN_CURRENCY_FORMAT = "{0}$ Off";
-
         public const string DEFAULT_CULTURE = "en-US";
 
 #if RELEASE

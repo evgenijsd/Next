@@ -81,14 +81,15 @@ namespace Next2.ViewModels
             {
                 var customersRewardsResult = await _orderService.GetCustomersRewards(customer.Id);
 
-                if (customersRewardsResult.IsSuccess)
+                if (!customersRewardsResult.IsSuccess)
                 {
-                    PageState = ECustomerRewardsPageState.CustomerHasRewards;
-                    Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result);
+                    PageState = ECustomerRewardsPageState.RewardsNotExist;
                 }
                 else
                 {
-                    PageState = ECustomerRewardsPageState.CustomerHasNoRewards;
+                    PageState = ECustomerRewardsPageState.RewardsExist;
+
+                    Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result);
                 }
             }
         }
@@ -100,7 +101,7 @@ namespace Next2.ViewModels
 
             if (customersResult.IsSuccess)
             {
-                var customer = customersResult.Result.FirstOrDefault();
+                var customer = customersResult.Result.LastOrDefault();
                 _orderService.CurrentOrder.Customer = customer;
 
                 await LoadPageData(customer);

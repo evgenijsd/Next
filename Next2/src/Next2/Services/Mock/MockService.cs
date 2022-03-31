@@ -26,7 +26,6 @@ namespace Next2.Services.Mock
         private IList<PortionModel> _portions;
         private IList<TaxModel> _taxBonus;
         private IList<RewardModel> _rewards;
-        private IList<CustomerRewardsModel> _customerRewards;
         private List<CustomerModel> _customers;
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -168,8 +167,7 @@ namespace Next2.Services.Mock
                 InitCustomersAsync(),
                 InitPortionsAsync(),
                 InitTaxAndBonusAsync(),
-                IniRewardsAsync(),
-                InitCustomerRewardsAsync());
+                IniRewardsAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
@@ -198,77 +196,49 @@ namespace Next2.Services.Mock
                 new RewardModel
                 {
                     Id = rewardId++,
-                    Title = "A Pulled Pork Sammy",
-                    DiscountType = EDiscountType.Free,
-                    Amount = 0,
-                    SetsId = new List<int>() { 1 },
+                    CustomerId = 1,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    Title = "B Pulled Pork Sammy Meal",
-                    DiscountType = EDiscountType.Percentage,
-                    Amount = 25,
-                    SetsId = new List<int>() { 2 },
+                    CustomerId = 1,
+                    SetId = 2,
+                    SetTitle = "B Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    Title = "C Pulled Pork Sammy Meal",
-                    DiscountType = EDiscountType.Currency,
-                    Amount = 10,
-                    SetsId = new List<int>() { 3 },
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    Title = "A & C Pulled Pork Sammy Meal",
-                    DiscountType = EDiscountType.Percentage,
-                    Amount = 40,
-                    SetsId = new List<int>() { 1, 3 },
+                    CustomerId = 2,
+                    SetId = 2,
+                    SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    Title = "B & C Pulled Pork Sammy Meal",
-                    DiscountType = EDiscountType.Currency,
-                    Amount = 20,
-                    SetsId = new List<int>() { 2, 3 },
+                    CustomerId = 2,
+                    SetId = 2,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 4,
+                    SetTitle = "D Pulled Pork Sammy Meal",
                 },
             };
 
             _base.Add(typeof(RewardModel), _rewards);
             _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
-        });
-
-        private Task InitCustomerRewardsAsync() => Task.Run(() =>
-        {
-            int customerRewardId = 1;
-
-            _customerRewards = new List<CustomerRewardsModel>
-            {
-                new CustomerRewardsModel
-                {
-                    Id = customerRewardId++,
-                    CustomerId = 1,
-                    RewardsId = new List<int>() { 1 },
-                },
-                new CustomerRewardsModel
-                {
-                    Id = customerRewardId++,
-                    CustomerId = 2,
-                    RewardsId = new List<int>() { 2, 4 },
-                },
-                new CustomerRewardsModel
-                {
-                    Id = customerRewardId++,
-                    CustomerId = 3,
-                    RewardsId = new List<int>() { 2, 3, 5 },
-                },
-            };
-
-            _base.Add(typeof(CustomerRewardsModel), _customerRewards);
-            _maxIdentifiers.Add(typeof(CustomerRewardsModel), GetMaxId(_customerRewards));
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>
@@ -718,7 +688,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
-                    Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy Meal",
                     Price = 12.5f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
