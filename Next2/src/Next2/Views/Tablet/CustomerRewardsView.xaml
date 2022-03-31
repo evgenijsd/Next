@@ -85,6 +85,7 @@
                                 
                 <StackLayout Margin="0, 120">
 
+                    <!--IF HOT RELOAD NOT WORKING, TRY COMMENTED THIS CODE-->
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.CustomerHasNoRewards}">
                                         
@@ -147,7 +148,17 @@
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Complete}"/>
+                        Text="{xct:Translate Complete}">
+                        
+                        <buttons:BorderButton.Triggers>
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedRewards, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                                
+                                <Setter Property="Text" Value="{xct:Translate Apply}"/>
+                                
+                            </DataTrigger>
+                        </buttons:BorderButton.Triggers>
+                        
+                    </buttons:BorderButton>
 
                 </StackLayout>
                 
@@ -165,6 +176,8 @@
                     Text="{xct:Translate RewardsOptions}"/>
                 
                 <CollectionView 
+                    SelectionMode="Multiple"
+                    SelectionChangedCommand="{Binding SelectionChangedCommand}"
                     ItemsSource="{Binding Rewards}"
                     SelectedItems="{Binding SelectedRewards}">
                     
@@ -176,8 +189,9 @@
                                 
                                 <pc:PancakeView
                                     CornerRadius="8"
-                                    Border="{pc:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i2}}">
-
+                                    Border="{pc:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i2}}"
+                                    x:Name="rewardBorder">
+                                    
                                     <StackLayout
                                         Padding="12"
                                         Spacing="2">
@@ -193,7 +207,8 @@
                                             <ffimageloading:CachedImage
                                                 HorizontalOptions="EndAndExpand"
                                                 HeightRequest="18"
-                                                Source="ic_check_box_unhecked_24x24"/>
+                                                Source="ic_check_box_unhecked_24x24"
+                                                x:Name="rewardCheckBox"/>
 
                                         </StackLayout>
                                         
@@ -221,12 +236,39 @@
                                     </StackLayout>
 
                                 </pc:PancakeView>
+                                                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Normal" />
+                                            <VisualState Name="Selected">
 
+                                                <VisualState.Setters>              
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                    
+                                                    <Setter
+                                                        TargetName="rewardBorder"
+                                                        Property="pc:PancakeView.Border"
+                                                        Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}" />
+                                                    
+                                                    <Setter
+                                                        TargetName="rewardCheckBox"
+                                                        Property="ffimageloading:CachedImage.Source"
+                                                        Value="ic_check_box_checked_primary_24x24"/>
+                                                    
+                                                </VisualState.Setters>
+                                    
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                        
+                                </VisualStateManager.VisualStateGroups>
+                                
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                
+                                
             </StackLayout>
             
         </Grid>

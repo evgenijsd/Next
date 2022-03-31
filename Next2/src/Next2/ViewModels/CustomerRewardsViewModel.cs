@@ -37,12 +37,22 @@ namespace Next2.ViewModels
 
         public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
-        public ObservableCollection<RewardBindabledModel> SelectedRewards { get; set; } = new ();
+        public ObservableCollection<object> SelectedRewards { get; set; } = new ();
 
         public ECustomerRewardsPageState PageState { get; set; }
 
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _selectionChangedCommand;
+        public ICommand SelectionChangedCommand => _selectionChangedCommand ??= new AsyncCommand(OnSelectionChangedCommandAsync, allowsMultipleExecutions: false);
+
+        private Task OnSelectionChangedCommandAsync()
+        {
+            int count = SelectedRewards.Count;
+
+            return Task.CompletedTask;
+        }
 
         #endregion
 
@@ -90,7 +100,7 @@ namespace Next2.ViewModels
 
             if (customersResult.IsSuccess)
             {
-                var customer = customersResult.Result.LastOrDefault();
+                var customer = customersResult.Result.FirstOrDefault();
                 _orderService.CurrentOrder.Customer = customer;
 
                 await LoadPageData(customer);

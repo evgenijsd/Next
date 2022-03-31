@@ -429,4 +429,7 @@
   <data name="MessageAboutCashingOutAwards" xml:space="preserve">
     <value>Earning points get you rewards that you can cash in to get free stuff</value>
   </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
 </root>
