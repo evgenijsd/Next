@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
@@ -128,6 +129,12 @@ namespace Next2.ViewModels
 
         private ICommand _deleteLastSeatCommand;
         public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _hideOrderNotificationCommand;
+        public ICommand HideOrderNotificationCommnad => _hideOrderNotificationCommand ??= new AsyncCommand(OnHideOrderNotificationCommnadAsync, allowsMultipleExecutions: false);
+
+        private ICommand _goToOrderTabs;
+        public ICommand GoToOrderTabs => _goToOrderTabs ??= new AsyncCommand<IEventAggregator>(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -729,6 +736,20 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
+            return Task.CompletedTask;
+        }
+
+        private async Task OnHideOrderNotificationCommnadAsync()
+        {
+            await RefreshCurrentOrderAsync();
+        }
+
+        private Task OnGoToOrderTabsCommandAsync(IEventAggregator eventAggregator)
+        {
+            _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
+
+            MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
+
             return Task.CompletedTask;
         }
 

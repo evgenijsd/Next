@@ -1521,38 +1521,142 @@
                                     Grid.Row="0"
                                     Text="{Binding OrderRegistrationViewModel.PopUpInfo}"
                                     FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontSize="{DynamicResource TSize_i8}"
                                     VerticalOptions="Start"
-                                    Margin="15, 15, 0, 0"/>
+                                    Margin="15, 5, 0, 0">
+
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup Name="AdaptiveOrderNymber">
+
+                                                <VisualState Name="Medium">
+
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="1280"/>
+                                                    </VisualState.StateTriggers>
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                                                        <Setter Property="Margin" Value="15, 15, 0, 0"/>
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                    
+                                </Label>
 
                                 <ffimageloading:CachedImage 
                                     Grid.Row="0"
                                     Source="ic_close_square_24x24"
-                                    HeightRequest="24"
-                                    WidthRequest="24"
+                                    HeightRequest="20"
+                                    WidthRequest="20"
                                     HorizontalOptions="EndAndExpand"
                                     VerticalOptions="Start"
-                                    Margin="0, 15, 15, 0"/>
+                                    Margin="0, 5, 15, 0"
+                                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.HideOrderNotificationCommnad}">
 
-                                <ffimageloading:CachedImage 
-                                    Grid.Row="1"
-                                    Source="ic_folder_primary_24x24"
-                                    HeightRequest="24"
-                                    WidthRequest="24"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="EndAndExpand"
-                                    Margin="15, 0, 0, 15"/>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup Name="AdaptiveCloseOrderNotification">
 
-                                <Label
+                                                <VisualState Name="Medium">
+
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="1280"/>
+                                                    </VisualState.StateTriggers>
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="HeightRequest" Value="24"/>
+                                                        <Setter Property="WidthRequest" Value="24"/>
+                                                        <Setter Property="Margin" Value="0, 15, 15, 0"/>
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                </ffimageloading:CachedImage>
+
+                                <StackLayout
                                     Grid.Row="1"
-                                    Text="{xct:Translate OrderTabs}"
-                                    FontFamily="Barlow-Medium"
-                                    TextColor="{DynamicResource AppColor_i1}"
-                                    FontSize="{DynamicResource TSize_i6}"
-                                    VerticalOptions="Start"
-                                    Margin="50, 5, 0, 15"/>
+                                    Orientation="Horizontal"
+                                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabs}">
+
+                                    <ffimageloading:CachedImage 
+                                        Source="ic_folder_primary_24x24"
+                                        HeightRequest="20"
+                                        WidthRequest="20"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="EndAndExpand"
+                                        Margin="15, 0, 0, 5">
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup Name="AdaptiveOrderNymber">
+
+                                                    <VisualState Name="Medium">
+
+                                                        <VisualState.StateTriggers>
+                                                            <AdaptiveTrigger MinWindowWidth="1280"/>
+                                                        </VisualState.StateTriggers>
+
+                                                        <VisualState.Setters>
+                                                            <Setter Property="HeightRequest" Value="24"/>
+                                                            <Setter Property="WidthRequest" Value="24"/>
+                                                            <Setter Property="Margin" Value="15, 5, 0, 15"/>
+                                                        </VisualState.Setters>
+
+                                                    </VisualState>
+
+                                                </VisualStateGroup>
+
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+
+                                    </ffimageloading:CachedImage>
+
+                                    <Label
+                                        Text="{xct:Translate OrderTabs}"
+                                        FontFamily="Barlow-Medium"
+                                        TextColor="{DynamicResource AppColor_i1}"
+                                        FontSize="{DynamicResource TSize_i8}"
+                                        VerticalOptions="Start"
+                                        Margin="5, 0, 0, 5">
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup Name="AdaptiveOrderTitle">
+
+                                                    <VisualState Name="Medium">
+
+                                                        <VisualState.StateTriggers>
+                                                            <AdaptiveTrigger MinWindowWidth="1280"/>
+                                                        </VisualState.StateTriggers>
+
+                                                        <VisualState.Setters>
+                                                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+                                                            <Setter Property="Margin" Value="5, 5, 0, 15"/>
+                                                        </VisualState.Setters>
+
+                                                    </VisualState>
+
+                                                </VisualStateGroup>
+
+                                            </VisualStateGroupList>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Label>
+
+                                </StackLayout>
 
                             </Grid>
+                            
 
                         </Frame>
 
@@ -1561,7 +1665,7 @@
                             <ffimageloading:CachedImage
                                 HorizontalOptions="Center"
                                 HeightRequest="200"
-                                WidthRequest="200"
+                                WidthRequest="250"
                                 Source="pic_payment.png">
 
                                 <VisualStateManager.VisualStateGroups>
@@ -1571,7 +1675,7 @@
                                             <VisualState Name="Medium">
 
                                                 <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger MinWindowWidth="1194"/>
+                                                    <AdaptiveTrigger MinWindowWidth="1340"/>
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
