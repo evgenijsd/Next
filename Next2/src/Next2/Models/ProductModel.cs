@@ -17,6 +17,7 @@ namespace Next2.Models
             Title = product.Title;
             ImagePath = product.ImagePath;
             Price = product.Price;
+            PriceIngredients = product.PriceIngredients;
         }
 
         public int Id { get; set; }
@@ -32,5 +33,7 @@ namespace Next2.Models
         public string ImagePath { get; set; }
 
         public float Price { get; set; }
+
+        public float PriceIngredients { get; set; }
     }
 }

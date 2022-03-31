@@ -29,6 +29,7 @@ namespace Next2.Services.Mock
         private IList<OptionModel> _optionsProduct;
         private IList<IngredientCategoryModel> _ingredientCategories;
         private IList<IngredientModel> _ingredients;
+        private IList<IngredientOfProductModel> _ingredientsOfProductModel;
 
         private Dictionary<Type, object> _base;
         private List<CustomerModel> _customers;
@@ -175,7 +176,8 @@ namespace Next2.Services.Mock
                 InitProductsAsync(),
                 InitOptionsProductAsync(),
                 InitIngredientCategoriesAsync(),
-                InitIngredientsAsync());
+                InitIngredientsAsync(),
+                InitIngredientsOfProductAsync());
 
             _initCompletionSource.TrySetResult(true);
         }
@@ -1619,6 +1621,102 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(IngredientModel), _ingredients);
+        });
+
+        private Task InitIngredientsOfProductAsync() => Task.Run(() =>
+        {
+            int id = 1;
+            int productId = 1;
+
+            _ingredientsOfProductModel = new List<IngredientOfProductModel>
+            {
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 8,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 15,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 8,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 15,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 1,
+                },
+            };
+
+            _base.Add(typeof(IngredientOfProductModel), _ingredientsOfProductModel);
         });
 
         private Task InitPortionsAsync() => Task.Run(() =>

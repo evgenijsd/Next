@@ -358,7 +358,7 @@
                         Text="{xct:Translate AvailableOptions}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}"/>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortInventoryCommand}"/>
 
                     <CollectionView
                         Margin="40, 0"
@@ -389,7 +389,7 @@
 
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:IngredientModel">
+                            <DataTemplate x:DataType="models:IngredientBindableModel">
 
                                 <Frame
                                     Padding="16, 4"
@@ -398,6 +398,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
+                                        IsToggle="{Binding IsToggle}"
                                         Title="{Binding Title}"
                                         Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
                                         ImagePath="{Binding ImagePath}"

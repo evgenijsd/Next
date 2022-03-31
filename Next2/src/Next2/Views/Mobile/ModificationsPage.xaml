@@ -208,18 +208,45 @@
 
                 <StackLayout Spacing="0">
 
-                    <Label
-                        Text="{xct:Translate AvailableGroups}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
-                        FontFamily="Barlow-SemiBold"
-                        VerticalTextAlignment="Center"
-                        Margin="16, 24, 16, 0"/>
-                    
+                    <StackLayout Orientation="Horizontal">
+
+                        <Label
+                            Text="{xct:Translate AvailableGroups}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i5}"
+                            FontFamily="Barlow-SemiBold"
+                            VerticalTextAlignment="Center"
+                            VerticalOptions="Center"
+                            Margin="16, 16, 16, 0"/>
+
+                        <ffimageloading:CachedImage
+                            Source="ic_arrow_up_24x24.png"
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="Center"
+                            Margin="0, 16, 16, 0"
+                            xct:TouchEffect.Command="{Binding ExpandIngredientCategoriesCommand}">
+
+                            <ffimageloading:CachedImage.Triggers>
+
+                                <DataTrigger
+                                    TargetType="ffimageloading:CachedImage"
+                                    Binding="{Binding IsExpandedIngredientCategories}"
+                                    Value="False">
+
+                                    <Setter Property="Source" Value="ic_arrow_down_24x24.png"/>
+
+                                </DataTrigger>
+
+                            </ffimageloading:CachedImage.Triggers>
+
+                        </ffimageloading:CachedImage>
+
+                    </StackLayout>
+
                     <CollectionView
                         MinimumHeightRequest="{Binding HeightIngredientCategories}"
                         HeightRequest="{Binding HeightIngredientCategories}"
-                        Margin="12, 10, 12, 16"
+                        Margin="12, 10"
                         VerticalOptions="Start"
                         SelectionMode="Single"
                         ItemsSource="{Binding IngredientCategories}"
@@ -230,8 +257,8 @@
                             <GridItemsLayout
                                 Orientation="Vertical"
                                 Span="2"
-                                VerticalItemSpacing="8"
-                                HorizontalItemSpacing="8"/>
+                                VerticalItemSpacing="6"
+                                HorizontalItemSpacing="6"/>
 
                         </CollectionView.ItemsLayout>
 
@@ -244,7 +271,7 @@
 
                                 <templates:CategoryItemTemplate
                                     Text="{Binding Title}"
-                                    HeightRequest="54"
+                                    HeightRequest="44"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-Medium"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
@@ -259,14 +286,14 @@
                         HeightRequest="1"/>
 
                     <controls:SortingPanel
-                        Margin="16, 16, 16, 0"
+                        Margin="16, 12, 16, 0"
                         Text="{xct:Translate AvailableOptions}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}"/>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortInventoryCommand}"/>
 
                     <CollectionView
-                        Margin="16, 10, 16, 0"
+                        Margin="16, 12, 16, 0"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
                         ItemsSource="{Binding Ingredients}">
@@ -275,9 +302,7 @@
 
                             <GridItemsLayout
                                 Orientation="Vertical"
-                                Span="1"
-                                VerticalItemSpacing="8"
-                                HorizontalItemSpacing="15"/>
+                                Span="1"/>
 
                         </CollectionView.ItemsLayout>
 
@@ -287,23 +312,28 @@
 
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:IngredientModel">
+                            <DataTemplate x:DataType="models:IngredientBindableModel">
 
-                                <Frame
-                                    Padding="16, 4"
-                                    CornerRadius="8"
-                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                <StackLayout Margin="0, 0, 0, 8">
 
-                                    <templates:ToggleItemTemplate
-                                        Title="{Binding Title}"
-                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                                        ImagePath="{Binding ImagePath}"
-                                        IsVisibleSubtitle="True"
-                                        IsVisibleImage="True"
-                                        CanTurnOff="True"/>
+                                    <Frame
+                                        Padding="12, 2"
+                                        CornerRadius="8"
+                                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                                </Frame>
+                                        <templates:ToggleItemTemplate
+                                            IsToggle="{Binding IsToggle}"
+                                            Title="{Binding Title}"
+                                            Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                            ImagePath="{Binding ImagePath}"
+                                            IsVisibleSubtitle="True"
+                                            IsVisibleImage="True"
+                                            CanTurnOff="True"/>
+
+                                    </Frame>
+                                    
+                                </StackLayout>
 
                             </DataTemplate>
 

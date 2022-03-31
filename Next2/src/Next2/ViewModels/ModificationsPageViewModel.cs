@@ -1,9 +1,11 @@
-﻿using Next2.ENums;
+﻿using AutoMapper;
+using Next2.ENums;
 using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -22,6 +24,7 @@ namespace Next2.ViewModels
         private int _indexOfSelectedSet;
 
         private bool _isOrderedByDescendingReplacementProducts = true;
+        private bool _isOrderedByDescendingInventory = true;
 
         private SetBindableModel _selectedSet;
         private SetBindableModel _currentSet;
@@ -78,9 +81,11 @@ namespace Next2.ViewModels
 
         public ObservableCollection<IngredientCategoryModel> IngredientCategories { get; set; }
 
-        public ObservableCollection<IngredientModel> Ingredients { get; set; }
+        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; }
 
         public bool IsMenuOpen { get; set; }
+
+        public bool IsExpandedIngredientCategories { get; set; }
 
         public int HeightIngredientCategories { get; set; }
 
@@ -101,6 +106,15 @@ namespace Next2.ViewModels
 
         private ICommand _changingOrderSortReplacementProductsCommand;
         public ICommand ChangingOrderSortReplacementProductsCommand => _changingOrderSortReplacementProductsCommand ??= new AsyncCommand(OnChangingOrderSortReplacementProductsCommandAsync);
+
+        private ICommand _changingOrderSortInventoryCommand;
+        public ICommand ChangingOrderSortInventoryCommand => _changingOrderSortInventoryCommand ??= new AsyncCommand(OnChangingOrderSortInventoryCommandAsync);
+
+        private ICommand _expandIngredientCategoriesCommand;
+        public ICommand ExpandIngredientCategoriesCommand => _expandIngredientCategoriesCommand ??= new AsyncCommand(OnExpandIngredientCategoriesCommandAsync);
+
+        private ICommand _changingToggleCommand;
+        public ICommand ChangingToggleCommand => _changingToggleCommand ??= new AsyncCommand<IngredientBindableModel>(OnChangingToggleCommandAsync);
 
         #endregion
 
@@ -197,6 +211,56 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
+        private Task OnChangingOrderSortInventoryCommandAsync()
+        {
+            _isOrderedByDescendingInventory = !_isOrderedByDescendingInventory;
+
+            if (_isOrderedByDescendingInventory)
+            {
+                Ingredients = new(Ingredients.OrderBy(row => row.Title));
+            }
+            else
+            {
+                Ingredients = new(Ingredients.OrderByDescending(row => row.Title));
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnExpandIngredientCategoriesCommandAsync()
+        {
+            IsExpandedIngredientCategories = !IsExpandedIngredientCategories;
+
+            var countItemsInRow = App.IsTablet ? 6 : 2;
+            var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
+
+            HeightIngredientCategories = (int)(((IsExpandedIngredientCategories ? countRow : 2) * (44 + 8)) - 6);
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
+        {
+            var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+
+            var ingridient = product.SelectedIngredients.FirstOrDefault(row => row.IngredientId == toggleIngredient.Id);
+
+            if(ingridient is null)
+            {
+                product.SelectedIngredients.Add(new IngredientOfProductModel()
+                {
+                    IngredientId = toggleIngredient.Id,
+                    ProductId = product.Id,
+                });
+            }
+            else
+            {
+                product.SelectedIngredients.Remove(ingridient);
+            }
+
+            return Task.CompletedTask;
+        }
+
         private void InitProductsSet()
         {
             var products = _currentSet.Products;
@@ -240,9 +304,11 @@ namespace Next2.ViewModels
                 IngredientCategories = new(ingredientCategories.Result);
                 SelectedIngredientCategory = IngredientCategories.FirstOrDefault();
 
+                IsExpandedIngredientCategories = false;
                 var countItemsInRow = App.IsTablet ? 6 : 2;
+                var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
 
-                HeightIngredientCategories = (int)((Math.Ceiling((double)IngredientCategories.Count / countItemsInRow) * (54 + 10)) - 8);
+                HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * (44 + 8)) - 6);
             }
         }
 
@@ -252,7 +318,18 @@ namespace Next2.ViewModels
 
             if (ingredients.IsSuccess)
             {
-                Ingredients = new(ingredients.Result);
+                var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+
+                Ingredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
+                {
+                    Id = row.Id,
+                    CategoryId = row.CategoryId,
+                    IsToggle = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
+                    Title = row.Title,
+                    Price = row.Price,
+                    ImagePath = row.ImagePath,
+                    ChangingToggle = ChangingToggleCommand,
+                }));
             }
         }
 
@@ -281,7 +358,6 @@ namespace Next2.ViewModels
                 if (options is not null)
                 {
                     OptionsProduct = new(options);
-
                     SelectedOption = products[indexProduct].SelectedOption;
                 }
             }
@@ -312,6 +388,9 @@ namespace Next2.ViewModels
                         InitReplacementProductsSet();
                         break;
                     case ESubmenuItemsModifactions.Inventory:
+                        Ingredients = new();
+                        SelectedIngredientCategory = null;
+
                         InitIngredientCategoriesAsync().Await();
                         break;
                 }

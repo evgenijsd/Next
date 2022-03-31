@@ -206,6 +206,7 @@ namespace Next2.Services.Order
                         {
                             Id = product.Id,
                             ReplacementProducts = new(),
+                            SelectedIngredients = new(),
                             Title = product.Title,
                             ImagePath = product.ImagePath,
                             Price = product.Price,
@@ -226,19 +227,24 @@ namespace Next2.Services.Order
 
                         var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
 
-                        if (resultReplacementProducts is not null)
+                        foreach (var replacementProduct in resultReplacementProducts)
                         {
-                            foreach (var replacementProduct in resultReplacementProducts)
-                            {
-                                var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
-                                newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
-                            }
-
-                            newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
+                            var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
+                            newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
                         }
-                        else
+
+                        newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
+
+                        if (newProduct.SelectedProduct is null)
                         {
-                            newProduct.SelectedProduct = new();
+                            newProduct.SelectedProduct = product;
+                        }
+
+                        var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
+
+                        if (selectedIngredients is not null)
+                        {
+                            newProduct.SelectedIngredients = new(selectedIngredients);
                         }
 
                         set.Products.Add(newProduct);

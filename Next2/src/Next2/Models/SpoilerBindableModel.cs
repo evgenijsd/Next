@@ -13,7 +13,7 @@ namespace Next2.Models
 
         public IEnumerable<ItemSpoilerModel> Items { get; set; }
 
-        public ItemSpoilerModel SelectedItem { get; set; }
+        public ItemSpoilerModel? SelectedItem { get; set; }
 
         public ICommand TapCommand { get; set; }
     }

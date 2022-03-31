@@ -1,6 +1,7 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace Next2.Models
@@ -22,6 +23,18 @@ namespace Next2.Models
             SeatSelectionCommand = seat.SeatSelectionCommand;
             SeatDeleteCommand = seat.SeatDeleteCommand;
             Sets = new();
+
+            foreach (var set in seat.Sets)
+            {
+                Sets.Add(new SetBindableModel(set));
+            }
+
+            if (seat.SelectedItem is not null)
+            {
+                var tmpSet = Sets.FirstOrDefault(row => row.Id == seat.SelectedItem.Id);
+
+                SelectedItem = Sets[Sets.IndexOf(tmpSet)];
+            }
         }
 
         public int Id { get; set; }

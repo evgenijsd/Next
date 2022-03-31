@@ -25,6 +25,8 @@ using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Next2
 {
