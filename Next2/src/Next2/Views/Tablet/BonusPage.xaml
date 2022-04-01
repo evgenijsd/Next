@@ -162,6 +162,7 @@
                                                                             </StackLayout>
 
                                                                             <StackLayout HorizontalOptions="EndAndExpand">
+                                                                                
                                                                                 <Label
                                                                                     Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
                                                                                     TextColor="{DynamicResource IndicationColor_i1}"
@@ -178,12 +179,22 @@
                                                                                     FontFamily="Barlow-SemiBold">
                                                                                     
                                                                                     <Label.Triggers>
+                                                                                        
                                                                                         <DataTrigger
                                                                                             TargetType="Label"
-                                                                                            Binding="{Binding Portion.Price, Converter={xct:EqualConverter}, ConverterParameter={Binding PriceBonus}}"
-                                                                                            Value="false">
-                                                                                            <Setter Property="IsVisible" Value="true" />
+                                                                                            Value="0">
+                                                                                            
+                                                                                            <DataTrigger.Binding>
+                                                                                                <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                                                                                                    <Binding Path="Portion.Price" />
+                                                                                                    <Binding Path="PriceBonus" />
+                                                                                                </MultiBinding>
+                                                                                            </DataTrigger.Binding>
+                                                                                            
+                                                                                            <Setter Property="IsVisible" Value="false" />
+                                                                                            
                                                                                         </DataTrigger>
+                                                                                        
                                                                                     </Label.Triggers>
                                                                                     
                                                                                 </Label>
@@ -191,15 +202,20 @@
                                                                             </StackLayout>
 
                                                                         </StackLayout>
+                                                                        
                                                                         <BoxView
                                                                             Margin="0,15,0,15"
                                                                             HeightRequest="2"
                                                                             Color="{DynamicResource TextAndBackgroundColor_i3}" />
+                                                                        
                                                                     </StackLayout>
 
                                                                 </DataTemplate>
+                                                                    
                                                                 </BindableLayout.ItemTemplate>
+                                                            
                                                             </StackLayout>
+                                                        
                                                         </StackLayout>
 
                                                     </StackLayout>
@@ -207,6 +223,7 @@
                                             </DataTemplate>
                                             
                                         </BindableLayout.ItemTemplate>
+                                        
                                     </StackLayout>
 
                                 </ScrollView>

@@ -151,13 +151,13 @@ namespace Next2.ViewModels
                             switch (SelectedBonus.Type)
                             {
                                 case EBonusValueType.Value:
-                                    set.PriceBonus = (float)(set.Portion.Price - SelectedBonus.Value);
+                                    set.PriceBonus = set.Portion.Price - SelectedBonus.Value;
                                     break;
                                 case EBonusValueType.Percent:
-                                    set.PriceBonus = (float)(set.Portion.Price - (SelectedBonus.Value * set.Portion.Price));
+                                    set.PriceBonus = set.Portion.Price - (SelectedBonus.Value * set.Portion.Price);
                                     break;
                                 case EBonusValueType.AbsoluteValue:
-                                    set.PriceBonus = (float)SelectedBonus.Value;
+                                    set.PriceBonus = SelectedBonus.Value;
                                     break;
                                 default:
                                     break;
@@ -170,7 +170,7 @@ namespace Next2.ViewModels
                         }
                         else
                         {
-                            set.PriceBonus = (float)set.Portion.Price;
+                            set.PriceBonus = set.Portion.Price;
                         }
 
                         CurrentOrder.PriceWithBonus += set.PriceBonus;

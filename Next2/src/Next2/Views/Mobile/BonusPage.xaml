@@ -264,11 +264,13 @@
                                             HorizontalOptions="FillAndExpand"
                                             BindableLayout.ItemsSource="{Binding Sets}">
                                             <BindableLayout.ItemTemplate>
-                                                <DataTemplate
-                                                    x:DataType="models:SetBindableModel">
+                                                
+                                                <DataTemplate x:DataType="models:SetBindableModel">
+                                                    
                                                     <StackLayout>
-                                                        <StackLayout
-                                                            Orientation="Horizontal">
+                                                        
+                                                        <StackLayout Orientation="Horizontal">
+                                                            
                                                             <Frame
                                                                 Margin="0,0,20,0"
                                                                 CornerRadius="5">
@@ -280,11 +282,14 @@
                                                                 </ffimageloading:CachedImage>
                                                             </Frame>
 
-                                                            <StackLayout>
+                                                            <StackLayout
+                                                                WidthRequest="220">
+                                                                
                                                                 <Label
                                                                     Text="{Binding Title}"
                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
+                                                                    LineBreakMode="TailTruncation"
                                                                     FontFamily="Barlow-Medium" />
 
                                                                 <Label
@@ -293,15 +298,17 @@
                                                                     Opacity="0.6"
                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
+                                                                    LineBreakMode="TailTruncation"
+                                                                    HorizontalTextAlignment="Start"
                                                                     FontFamily="Barlow-Regular" />
 
                                                             </StackLayout>
 
-                                                            <StackLayout
-                                                                HorizontalOptions="EndAndExpand">
+                                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                                
                                                                 <Label
                                                                     Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
-                                                                    HorizontalOptions="End"
+                                                                    HorizontalOptions="EndAndExpand"
                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
                                                                     FontFamily="Barlow-Medium" />
@@ -314,20 +321,46 @@
                                                                     TextDecorations="Strikethrough"
                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
-                                                                    FontFamily="Barlow-Medium" />
+                                                                    FontFamily="Barlow-Medium">
+
+                                                                    <Label.Triggers>
+
+                                                                        <DataTrigger
+                                                                            TargetType="Label"
+                                                                            Value="0">
+
+                                                                            <DataTrigger.Binding>
+                                                                                <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                                                                                    <Binding Path="Portion.Price" />
+                                                                                    <Binding Path="PriceBonus" />
+                                                                                </MultiBinding>
+                                                                            </DataTrigger.Binding>
+
+                                                                            <Setter Property="IsVisible" Value="false" />
+
+                                                                        </DataTrigger>
+
+                                                                    </Label.Triggers>
+
+                                                                </Label>
 
                                                             </StackLayout>
 
                                                         </StackLayout>
+                                                        
                                                         <BoxView
                                                             Margin="0,20,0,15"
                                                             HeightRequest="2"
                                                             Color="{DynamicResource TextAndBackgroundColor_i3}" />
+                                                        
                                                     </StackLayout>
 
                                                 </DataTemplate>
+                                                
                                             </BindableLayout.ItemTemplate>
+                                            
                                         </StackLayout>
+                                        
                                     </StackLayout>
 
                                 </StackLayout>
@@ -335,6 +368,7 @@
                             </DataTemplate>
 
                         </BindableLayout.ItemTemplate>
+                        
                     </StackLayout>
 
                 </ScrollView>
