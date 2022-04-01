@@ -84,7 +84,7 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, ObservableCollection<SetBindableModel> sets)
+        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets)
         {
             var result = new ObservableCollection<BonusBindableModel>();
 

@@ -175,7 +175,18 @@
                                                                                     TextDecorations="Strikethrough"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
-                                                                                    FontFamily="Barlow-SemiBold" />
+                                                                                    FontFamily="Barlow-SemiBold">
+                                                                                    
+                                                                                    <Label.Triggers>
+                                                                                        <DataTrigger
+                                                                                            TargetType="Label"
+                                                                                            Binding="{Binding Portion.Price, Converter={xct:EqualConverter}, ConverterParameter={Binding PriceBonus}}"
+                                                                                            Value="false">
+                                                                                            <Setter Property="IsVisible" Value="true" />
+                                                                                        </DataTrigger>
+                                                                                    </Label.Triggers>
+                                                                                    
+                                                                                </Label>
 
                                                                             </StackLayout>
 

@@ -203,11 +203,17 @@ namespace Next2.Services.Mock
                 {
                     Id = 2,
                     SetId = 2,
-                    BonusId = 5,
+                    BonusId = 3,
                 },
                 new BonusConditionModel
                 {
                     Id = 3,
+                    SetId = 2,
+                    BonusId = 5,
+                },
+                new BonusConditionModel
+                {
+                    Id = 4,
                     SetId = 3,
                     BonusId = 6,
                 },

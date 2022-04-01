@@ -26,6 +26,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<BonusModel>? _bonuses;
         private IEnumerable<BonusConditionModel>? _bonusConditions;
+        public IEnumerable<SetBindableModel>? _sets;
 
         public BonusPageViewModel(
             INavigationService navigationService,
@@ -45,8 +46,6 @@ namespace Next2.ViewModels
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
-
-        public ObservableCollection<SetBindableModel> Sets { get; set; } = new();
 
         public BonusBindableModel? SelectedBonus { get; set; }
 
@@ -98,11 +97,11 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 CurrentOrder = currentOrder;
-                Sets = _bonusesService.GetSets(CurrentOrder);
+                _sets = _bonusesService.GetSets(CurrentOrder);
 
                 if (_bonusConditions is not null)
                 {
-                    Discounts = _bonusesService.GetDiscounts(_bonusConditions, Discounts, Sets);
+                    Discounts = _bonusesService.GetDiscounts(_bonusConditions, Discounts, _sets);
                 }
             }
         }
@@ -140,28 +139,38 @@ namespace Next2.ViewModels
                 CurrentOrder.Bonus = SelectedBonus;
                 CurrentOrder.PriceWithBonus = 0;
 
+                var bonusConditions = _bonusConditions?.Where(x => x.BonusId == SelectedBonus.Id);
+                var setConditions = _sets?.Where(x => bonusConditions.Any(y => y.SetId == x.Id));
+
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
                 {
                     foreach (SetBindableModel set in seat.Sets)
                     {
-                        switch (SelectedBonus.Type)
+                        if (setConditions is null || !setConditions.Any(x => x.Id == set.Id))
                         {
-                            case EBonusValueType.Value:
-                                set.PriceBonus = (float)(set.Portion.Price - SelectedBonus.Value);
-                                break;
-                            case EBonusValueType.Percent:
-                                set.PriceBonus = (float)(set.Portion.Price - (SelectedBonus.Value * set.Portion.Price));
-                                break;
-                            case EBonusValueType.AbsoluteValue:
-                                set.PriceBonus = (float)SelectedBonus.Value;
-                                break;
-                            default:
-                                break;
-                        }
+                            switch (SelectedBonus.Type)
+                            {
+                                case EBonusValueType.Value:
+                                    set.PriceBonus = (float)(set.Portion.Price - SelectedBonus.Value);
+                                    break;
+                                case EBonusValueType.Percent:
+                                    set.PriceBonus = (float)(set.Portion.Price - (SelectedBonus.Value * set.Portion.Price));
+                                    break;
+                                case EBonusValueType.AbsoluteValue:
+                                    set.PriceBonus = (float)SelectedBonus.Value;
+                                    break;
+                                default:
+                                    break;
+                            }
 
-                        if (set.PriceBonus < 0)
+                            if (set.PriceBonus < 0)
+                            {
+                                set.PriceBonus = 0;
+                            }
+                        }
+                        else
                         {
-                            set.PriceBonus = 0;
+                            set.PriceBonus = (float)set.Portion.Price;
                         }
 
                         CurrentOrder.PriceWithBonus += set.PriceBonus;
