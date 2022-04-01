@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.ENums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Order;
@@ -33,7 +34,6 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
-        private string _orderStatus;
         private int _lastSavedOrderId = -1;
         public double _heightPage;
 
@@ -451,9 +451,12 @@ namespace Next2.ViewModels
             _lastSavedOrderId = orderId;
         }
 
-        private void SetOrderStatus(string orderStatus)
+        private void SetOrderStatus(Enum orderStatus)
         {
-            _orderStatus = orderStatus;
+            if (orderStatus is not null)
+            {
+                IsOrderTabsSelected = orderStatus is EOrderStatus.Tab ? false : true;
+            }
         }
 
         #endregion

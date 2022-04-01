@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.ENums;
 using Next2.Helpers;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
@@ -46,7 +47,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
-        private string _moveOrderTo;
+        private EOrderStatus _orderStatus;
         private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
@@ -65,6 +66,8 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _userService = userService;
             _authenticationService = authenticationService;
+
+            _orderStatus = EOrderStatus.None;
 
             CurrentState = LayoutState.Loading;
 
@@ -604,6 +607,22 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync(string commandParameter)
         {
+            switch (commandParameter)
+            {
+                case "Order":
+                    _orderStatus = EOrderStatus.Order;
+
+                    break;
+                case "Tab":
+                    _orderStatus = EOrderStatus.Tab;
+
+                    break;
+                case "Pay":
+                    _orderStatus = EOrderStatus.Pay;
+
+                    break;
+            }
+
             List<SeatModel> seats = new();
 
             bool isAllSeatSaved = true;
@@ -651,7 +670,6 @@ namespace Next2.ViewModels
                 {
                     IsOrderSavedNotificationVisible = true;
                     CurrentOrder.Seats = new();
-                    _moveOrderTo = commandParameter;
                     await _orderService.CreateNewOrderAsync();
                 }
             }
@@ -678,15 +696,13 @@ namespace Next2.ViewModels
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string commandParameter))
             {
-                if (isMovedOrderAccepted && string.IsNullOrWhiteSpace(commandParameter))
+                if (isMovedOrderAccepted && !string.IsNullOrWhiteSpace(commandParameter))
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
             }
 
             await _popupNavigation.PopAsync();
-
-            //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private async Task OnOpenModifyCommandAsync()
@@ -722,6 +738,8 @@ namespace Next2.ViewModels
                 if (isSetRemovingAccepted)
                 {
                     var result = await _orderService.DeleteSetFromCurrentSeat();
+
+                    RecalculateOrderPrice(SelectedSet);
 
                     if (result.IsSuccess)
                     {
@@ -775,11 +793,21 @@ namespace Next2.ViewModels
         private Task OnGoToOrderTabsCommandAsync(IEventAggregator eventAggregator)
         {
             _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<MovementOrderEvent>().Publish(Constants.Navigations.ORDER_STATUS);
+            _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
 
             MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
 
             return Task.CompletedTask;
+        }
+
+        private void RecalculateOrderPrice(SetBindableModel selectedSet)
+        {
+            if (selectedSet is not null)
+            {
+                var amoutToSubtract = selectedSet.Portion.Price;
+                CurrentOrder.Total -= amoutToSubtract;
+                CurrentOrder.SubTotal -= amoutToSubtract;
+            }
         }
 
         #endregion

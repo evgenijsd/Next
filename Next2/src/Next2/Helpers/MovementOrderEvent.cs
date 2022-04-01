@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Helpers
 {
-    public class MovementOrderEvent : PubSubEvent<string>
+    public class MovementOrderEvent : PubSubEvent<Enum>
     {
     }
 }

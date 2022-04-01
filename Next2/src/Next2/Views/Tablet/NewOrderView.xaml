@@ -2056,7 +2056,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="ORDER"/>
+                    xct:TouchEffect.CommandParameter="Order"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -2064,7 +2064,7 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="TAB"/>
+                    xct:TouchEffect.CommandParameter="Tab"/>
 
                 <buttons:BorderButton
                     Grid.Column="2"
