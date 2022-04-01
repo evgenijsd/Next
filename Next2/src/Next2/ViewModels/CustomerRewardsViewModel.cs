@@ -54,7 +54,6 @@ namespace Next2.ViewModels
             {
                 if (App.IsTablet)
                 {
-                    IsAnyRewardsSelected = Rewards.Any(x => x.IsSelected);
                     reward.IsSelected = !reward.IsSelected;
 
                     bool isRewardApplyed = reward.IsSelected;
@@ -72,6 +71,8 @@ namespace Next2.ViewModels
 
                         seat.Sets = new (seat.Sets);
                     }
+
+                    IsAnyRewardsSelected = Rewards.Any(x => x.IsSelected);
                 }
                 else
                 {
