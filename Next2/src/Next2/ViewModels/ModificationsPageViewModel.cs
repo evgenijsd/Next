@@ -73,7 +73,12 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OptionModel> OptionsProduct { get; set; }
 
-        public ProductModel? SelectedReplacementProduct { get; set; }
+        private ProductModel _selectedReplacementProduct;
+        public ProductModel? SelectedReplacementProduct
+        {
+            get => _selectedReplacementProduct;
+            set => SetProperty(ref _selectedReplacementProduct, value);
+        }
 
         public ObservableCollection<ProductModel> ReplacementProducts { get; set; }
 
@@ -139,7 +144,17 @@ namespace Next2.ViewModels
                         var products = _currentSet.Products;
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
-                        _currentSet.Products[products.IndexOf(product)].SelectedProduct = SelectedReplacementProduct;
+                        product.SelectedProduct = SelectedReplacementProduct;
+                        ProductsSet[ProductsSet.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Title;
+
+                        _currentSet.Price = 0;
+
+                        foreach (var item in _currentSet.Products)
+                        {
+                            _currentSet.Price += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
+                        }
+
+                        ResetSelectedIngredientsAsync(product);
                     }
 
                     break;
@@ -202,6 +217,16 @@ namespace Next2.ViewModels
             };
         }
 
+        private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
+        {
+            var ingridients = await _menuService.GetIngredientOfProductAsync(product.SelectedProduct.Id);
+
+            if (ingridients.IsSuccess)
+            {
+                product.SelectedIngredients = new(ingridients.Result);
+            }
+        }
+
         private Task OnChangingOrderSortReplacementProductsCommandAsync()
         {
             _isOrderedByDescendingReplacementProducts = !_isOrderedByDescendingReplacementProducts;
@@ -252,10 +277,16 @@ namespace Next2.ViewModels
                     IngredientId = toggleIngredient.Id,
                     ProductId = product.Id,
                 });
+
+                product.IngredientsPrice += toggleIngredient.Price;
+                product.TotalPrice += toggleIngredient.Price;
             }
             else
             {
                 product.SelectedIngredients.Remove(ingridient);
+
+                product.IngredientsPrice -= toggleIngredient.Price;
+                product.TotalPrice -= toggleIngredient.Price;
             }
 
             return Task.CompletedTask;
@@ -268,8 +299,8 @@ namespace Next2.ViewModels
             {
                 ProductsSet = new(products.Select(row => new SpoilerBindableModel
                 {
-                    Id = row.Id,
-                    Title = row.Title,
+                    Id = row.SelectedProduct.Id,
+                    Title = row.SelectedProduct.Title,
                     Items = SubmenuItems,
                     TapCommand = TapSubmenuCommand,
                 }));
@@ -291,7 +322,7 @@ namespace Next2.ViewModels
                     ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Title));
                 }
 
-                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct?.Id);
+                _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct?.Id);
             }
         }
 

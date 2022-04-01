@@ -20,8 +20,9 @@ namespace Next2.Models
             SelectedIngredients = new();
             Title = product.Title;
             ImagePath = product.ImagePath;
-            Price = product.Price;
-            PriceIngredients = product.PriceIngredients;
+            ProductPrice = product.ProductPrice;
+            IngredientsPrice = product.IngredientsPrice;
+            TotalPrice = product.TotalPrice;
 
             foreach (var option in product.Options)
             {
@@ -45,11 +46,15 @@ namespace Next2.Models
                 SelectedOption = Options[Options.IndexOf(tmpOption)];
             }
 
-            var tmpReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct.Id);
+            var tmpSelectedProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct.Id);
 
-            if (tmpReplacementProduct is not null)
+            if (tmpSelectedProduct is not null)
             {
-                SelectedProduct = ReplacementProducts[ReplacementProducts.IndexOf(tmpReplacementProduct)];
+                SelectedProduct = ReplacementProducts[ReplacementProducts.IndexOf(tmpSelectedProduct)];
+            }
+            else
+            {
+                SelectedProduct = new(product.SelectedProduct);
             }
         }
 
@@ -69,8 +74,10 @@ namespace Next2.Models
 
         public string ImagePath { get; set; }
 
-        public float Price { get; set; }
+        public float ProductPrice { get; set; }
 
-        public float PriceIngredients { get; set; }
+        public float IngredientsPrice { get; set; }
+
+        public float TotalPrice { get; set; }
     }
 }

@@ -186,7 +186,7 @@
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
                                         Title="{Binding Title}"
-                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                        Subtitle="{Binding ProductPrice, StringFormat='$ {0:F2}'}"
                                         ImagePath="{Binding ImagePath}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"

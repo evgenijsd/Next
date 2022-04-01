@@ -209,7 +209,9 @@ namespace Next2.Services.Order
                             SelectedIngredients = new(),
                             Title = product.Title,
                             ImagePath = product.ImagePath,
-                            Price = product.Price,
+                            ProductPrice = product.ProductPrice,
+                            IngredientsPrice = product.IngredientsPrice,
+                            TotalPrice = product.TotalPrice,
                         };
 
                         var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);

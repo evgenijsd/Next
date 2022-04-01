@@ -16,8 +16,9 @@ namespace Next2.Models
             DefaultOptionId = product.DefaultOptionId;
             Title = product.Title;
             ImagePath = product.ImagePath;
-            Price = product.Price;
-            PriceIngredients = product.PriceIngredients;
+            ProductPrice = product.ProductPrice;
+            IngredientsPrice = product.IngredientsPrice;
+            TotalPrice = product.TotalPrice;
         }
 
         public int Id { get; set; }
@@ -32,8 +33,10 @@ namespace Next2.Models
 
         public string ImagePath { get; set; }
 
-        public float Price { get; set; }
+        public float ProductPrice { get; set; }
 
-        public float PriceIngredients { get; set; }
+        public float IngredientsPrice { get; set; }
+
+        public float TotalPrice { get; set; }
     }
 }

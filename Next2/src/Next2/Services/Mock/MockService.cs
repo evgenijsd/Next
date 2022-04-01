@@ -1,13 +1,11 @@
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Next2.Enums;
 
 namespace Next2.Services.Mock
 {
@@ -631,7 +629,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
                     Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -640,7 +638,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 4,
                     Title = "B Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 35,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -649,7 +647,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 4,
                     Title = "C Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 56,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -658,7 +656,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 2,
                     DefaultPortionId = portionId += 1,
                     Title = "D Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 48,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -667,7 +665,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 3,
                     DefaultPortionId = portionId += 3,
                     Title = "F Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 41.3f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -676,7 +674,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 3,
                     DefaultPortionId = portionId += 3,
                     Title = "F2 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 29.4f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -685,7 +683,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 4,
                     DefaultPortionId = portionId += 3,
                     Title = "G Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -694,7 +692,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 5,
                     DefaultPortionId = portionId += 3,
                     Title = "H Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -703,7 +701,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 6,
                     DefaultPortionId = portionId += 3,
                     Title = "I Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -712,7 +710,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 7,
                     DefaultPortionId = portionId += 3,
                     Title = "J Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -721,7 +719,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 8,
                     DefaultPortionId = portionId += 3,
                     Title = "J8 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -730,7 +728,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 9,
                     DefaultPortionId = portionId += 3,
                     Title = "J9 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -739,7 +737,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 10,
                     DefaultPortionId = portionId += 3,
                     Title = "J10 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -748,7 +746,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 11,
                     DefaultPortionId = portionId += 3,
                     Title = "J11 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -757,7 +755,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 12,
                     DefaultPortionId = portionId += 3,
                     Title = "J12 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -766,7 +764,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 13,
                     DefaultPortionId = portionId += 3,
                     Title = "J13 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -775,7 +773,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 14,
                     DefaultPortionId = portionId += 3,
                     Title = "J14 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -784,7 +782,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 15,
                     DefaultPortionId = portionId += 3,
                     Title = "J15 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -793,7 +791,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 16,
                     DefaultPortionId = portionId += 3,
                     Title = "J16 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -802,7 +800,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 17,
                     DefaultPortionId = portionId += 3,
                     Title = "J17 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -811,7 +809,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 18,
                     DefaultPortionId = portionId += 3,
                     Title = "J18 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -820,7 +818,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 19,
                     DefaultPortionId = portionId += 3,
                     Title = "J19 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -829,7 +827,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 20,
                     DefaultPortionId = portionId += 3,
                     Title = "J20 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -838,7 +836,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 21,
                     DefaultPortionId = portionId += 3,
                     Title = "J21 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -847,7 +845,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 22,
                     DefaultPortionId = portionId += 3,
                     Title = "J22 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -856,7 +854,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 22,
                     DefaultPortionId = portionId += 3,
                     Title = "J23 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -865,7 +863,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 22,
                     DefaultPortionId = portionId += 3,
                     Title = "J24 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
             };
@@ -1231,7 +1229,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 10,
+                    Price = 5,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1239,47 +1237,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 20,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId++,
-                    Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 8,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1295,7 +1253,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
+                    Price = 12,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1303,7 +1261,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 20,
+                    Price = 7,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1311,23 +1269,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
+                    Price = 3,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1335,7 +1277,23 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId++,
                     Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 9,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 5,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 8,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1351,7 +1309,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
+                    Price = 12,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1359,7 +1317,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 20,
+                    Price = 7,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1367,23 +1325,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
+                    Price = 3,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1391,7 +1333,23 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId++,
                     Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 9,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 5,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 8,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1407,7 +1365,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
+                    Price = 12,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1415,7 +1373,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 20,
+                    Price = 7,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1423,23 +1381,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
+                    Price = 3,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1447,7 +1389,23 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId++,
                     Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 9,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 5,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 8,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1463,7 +1421,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
+                    Price = 12,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1471,7 +1429,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 20,
+                    Price = 7,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1479,23 +1437,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
+                    Price = 3,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1503,7 +1445,23 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId++,
                     Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 9,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 5,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 8,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1519,7 +1477,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
+                    Price = 12,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1527,7 +1485,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 20,
+                    Price = 7,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1535,23 +1493,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
+                    Price = 3,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1559,7 +1501,23 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId++,
                     Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 9,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 5,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 8,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1575,7 +1533,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 15,
+                    Price = 12,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1583,7 +1541,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 20,
+                    Price = 7,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1591,23 +1549,7 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId,
                     Title = "Ingredient " + id++,
-                    Price = 25,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 30,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                },
-                new()
-                {
-                    Id = id,
-                    CategoryId = categoryId,
-                    Title = "Ingredient " + id++,
-                    Price = 35,
+                    Price = 3,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new()
@@ -1615,7 +1557,63 @@ namespace Next2.Services.Mock
                     Id = id,
                     CategoryId = categoryId++,
                     Title = "Ingredient " + id++,
-                    Price = 40,
+                    Price = 9,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 5,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 8,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 10,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 12,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 7,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    Title = "Ingredient " + id++,
+                    Price = 3,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                },
+                new()
+                {
+                    Id = id,
+                    CategoryId = categoryId++,
+                    Title = "Ingredient " + id++,
+                    Price = 9,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
             };
@@ -1639,42 +1637,6 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = id,
-                    ProductId = productId,
-                    IngredientId = 2,
-                },
-                new()
-                {
-                    Id = id,
-                    ProductId = productId,
-                    IngredientId = 8,
-                },
-                new()
-                {
-                    Id = id,
-                    ProductId = productId++,
-                    IngredientId = 15,
-                },
-                new()
-                {
-                    Id = id,
-                    ProductId = productId,
-                    IngredientId = 1,
-                },
-                new()
-                {
-                    Id = id,
-                    ProductId = productId,
-                    IngredientId = 2,
-                },
-                new()
-                {
-                    Id = id,
-                    ProductId = productId,
-                    IngredientId = 8,
-                },
-                new()
-                {
-                    Id = id,
                     ProductId = productId++,
                     IngredientId = 15,
                 },
@@ -1688,6 +1650,12 @@ namespace Next2.Services.Mock
                 {
                     Id = id,
                     ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
@@ -1713,6 +1681,246 @@ namespace Next2.Services.Mock
                     Id = id,
                     ProductId = productId++,
                     IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId,
+                    IngredientId = 1,
+                },
+                new()
+                {
+                    Id = id,
+                    ProductId = productId++,
+                    IngredientId = 2,
                 },
             };
 
@@ -1723,7 +1931,6 @@ namespace Next2.Services.Mock
         {
             int id = 1;
             int setId = 1;
-            var rand = new Random();
 
             _portions = new List<PortionModel>
             {
@@ -1732,567 +1939,567 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 25,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 30,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 35,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 27,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 35,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 43,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 33,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 45,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 56,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 48,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 60,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 70,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 41.3f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 56.3f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 72,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 29.4f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 37
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 51
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
             };
 
@@ -2329,7 +2536,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2347,7 +2554,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2365,7 +2572,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2383,7 +2590,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2401,7 +2608,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2413,7 +2620,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2425,7 +2632,7 @@ namespace Next2.Services.Mock
                 {
                     Id = id++,
                     ReplacementProductId = replacementProductId,
-                    ProductId = productId++,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2436,8 +2643,8 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = id++,
-                    ReplacementProductId = replacementProductId++,
-                    ProductId = productId++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = replacementProductId,
                 },
                 new()
                 {
@@ -2448,7 +2655,13 @@ namespace Next2.Services.Mock
                 new()
                 {
                     Id = id++,
-                    ReplacementProductId = replacementProductId++,
+                    ReplacementProductId = replacementProductId,
+                    ProductId = replacementProductId,
+                },
+                new()
+                {
+                    Id = id++,
+                    ReplacementProductId = replacementProductId,
                     ProductId = productId++,
                 },
                 new()
@@ -2467,7 +2680,6 @@ namespace Next2.Services.Mock
             int id = 1;
             int setId = 1;
             int optionId = -2;
-            var rand = new Random();
 
             _products = new List<ProductModel>
             {
@@ -2476,138 +2688,132 @@ namespace Next2.Services.Mock
                     Id = id,
                     SetId = setId,
                     DefaultOptionId = optionId += 3,
-                    DefaultProductId = 1,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId++,
                     DefaultOptionId = optionId += 3,
-                    DefaultProductId = 4,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 15,
+                    TotalPrice = 15,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 7,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 12,
+                    TotalPrice = 12,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId++,
                     DefaultOptionId = optionId += 3,
-                    DefaultProductId = 10,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 15,
+                    TotalPrice = 15,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 13,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 15,
+                    TotalPrice = 15,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId++,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 16,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 18,
+                    TotalPrice = 18,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 18,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 20,
+                    TotalPrice = 20,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId++,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 20,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 28,
+                    TotalPrice = 28,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 22,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10.5f,
+                    TotalPrice = 10.5f,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId++,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 23,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 30.8f,
+                    TotalPrice = 30.8f,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 24,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 16.4f,
+                    TotalPrice = 16.4f,
                 },
                 new()
                 {
                     Id = id,
                     SetId = setId++,
                     DefaultOptionId = optionId += 2,
-                    DefaultProductId = 25,
+                    DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
-                },
-                new()
-                {
-                    Id = id,
-                    SetId = setId,
-                    DefaultOptionId = optionId += 2,
-                    Title = "Product " + id++,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
-                },
-                new()
-                {
-                    Id = id,
-                    SetId = setId++,
-                    DefaultOptionId = optionId += 2,
-                    Title = "Product " + id++,
-                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 13,
+                    TotalPrice = 13,
                 },
                 new()
                 {
@@ -2616,7 +2822,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2625,7 +2832,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2634,7 +2842,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2643,7 +2852,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2652,7 +2862,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2661,7 +2872,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2670,7 +2882,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2679,7 +2892,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2688,7 +2902,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2697,7 +2912,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2706,7 +2922,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2715,7 +2932,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2724,7 +2942,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2733,7 +2952,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2742,7 +2962,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2751,7 +2972,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2760,7 +2982,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2769,7 +2992,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2778,7 +3002,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2787,7 +3012,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2796,7 +3022,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2805,7 +3032,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2814,7 +3042,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2823,7 +3052,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2832,7 +3062,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2841,7 +3072,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2850,7 +3082,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2859,7 +3092,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2868,7 +3102,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2877,7 +3112,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2886,7 +3122,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2895,7 +3132,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2904,7 +3142,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2913,7 +3152,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2922,7 +3162,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2931,7 +3172,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2940,7 +3182,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2949,7 +3192,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2958,7 +3202,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2967,7 +3212,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
                 new()
                 {
@@ -2976,7 +3222,8 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 10,
+                    TotalPrice = 10,
                 },
                 new()
                 {
@@ -2985,7 +3232,28 @@ namespace Next2.Services.Mock
                     DefaultOptionId = optionId += 2,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    Price = rand.Next(10, 40),
+                    ProductPrice = 27,
+                    TotalPrice = 27,
+                },
+                new()
+                {
+                    Id = id,
+                    SetId = setId,
+                    DefaultOptionId = optionId += 2,
+                    Title = "Product " + id++,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                    ProductPrice = 10,
+                    TotalPrice = 10,
+                },
+                new()
+                {
+                    Id = id,
+                    SetId = setId++,
+                    DefaultOptionId = optionId += 2,
+                    Title = "Product " + id++,
+                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+                    ProductPrice = 27,
+                    TotalPrice = 27,
                 },
             };
 

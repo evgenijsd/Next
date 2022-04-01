@@ -40,7 +40,13 @@ namespace Next2.Models
                 foreach (var set in seat.Sets)
                 {
                     set.Price = set.Portion.Price;
+
                     Total += set.Price;
+
+                    foreach (var product in set.Products)
+                    {
+                        Total += product.IngredientsPrice;
+                    }
                 }
             }
 
