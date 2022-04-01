@@ -4,8 +4,6 @@ using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Navigation;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -38,6 +36,8 @@ namespace Next2.ViewModels
         public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
         public ObservableCollection<object> SelectedRewards { get; set; } = new ();
+
+        public ObservableCollection<SeatWithDiscountedBindableModel> Seats { get; set; } = new ();
 
         public ECustomerRewardsPageState PageState { get; set; }
 
@@ -90,8 +90,31 @@ namespace Next2.ViewModels
                     PageState = ECustomerRewardsPageState.RewardsExist;
 
                     Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result);
+
+                    await LoadSeats();
                 }
             }
+        }
+
+        public Task LoadSeats()
+        {
+            var seats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
+
+            foreach (var seat in seats)
+            {
+                var disocuntedSets = _mapper.Map<ObservableCollection<SetBindableModel>, ObservableCollection<DiscountedSetBindableModel>>(seat.Sets);
+
+                var newSeat = new SeatWithDiscountedBindableModel
+                {
+                    Id = seat.Id,
+                    SeatNumber = seat.SeatNumber,
+                    Sets = disocuntedSets,
+                };
+
+                Seats.Add(newSeat);
+            }
+
+            return Task.CompletedTask;
         }
 
         private async Task OnAddNewCustomerCommandAsync()

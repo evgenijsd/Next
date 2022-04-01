@@ -14,6 +14,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:pc="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:effects="clr-namespace:Next2.Effects"
     x:DataType="viewmodels:CustomerRewardsViewModel"
     x:Class="Next2.Views.Tablet.CustomerRewardsView">
     
@@ -87,6 +88,7 @@
                 <sc:StateContainer State="{Binding PageState}">
                     
                     <sc:StateContainer.Conditions>
+                        
                         <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
                             <StackLayout Margin="0, 120">
                                 
@@ -102,6 +104,7 @@
 
                             </StackLayout>
                         </sc:StateCondition>
+                        
                         <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
                             <StackLayout Margin="0, 120">
                                                                 
@@ -117,9 +120,120 @@
 
                             </StackLayout>
                         </sc:StateCondition>
+                        
                         <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsExist}">
-                            
+                            <StackLayout>
+                                <CollectionView ItemsSource="{Binding Seats}">
+                                    
+                                    <CollectionView.Effects>
+                                        <effects:NoOverScrollEffect/>
+                                    </CollectionView.Effects>
+                                    
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:SeatWithDiscountedBindableModel"> 
+
+                                            <StackLayout
+                                                Padding="28, 24, 28, 0">
+                                                
+                                                <Label
+                                                    FontFamily="Barlow-SemiBold"
+                                                    FontSize="12"
+                                                    TextColor="{DynamicResource TextAndBackgroundColor_i10}">
+                                                    
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{xct:Translate Seat}"/>
+                                                            <Span Text=" "/>
+                                                            <Span Text="{Binding SeatNumber}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                    
+                                                </Label>
+    
+                                                <CollectionView
+                                                    ItemsSource="{Binding Sets}"
+                                                    HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=90}">
+                                                    
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate x:DataType="models:DiscountedSetBindableModel">
+                                                           
+                                                            <StackLayout>
+                                                                <StackLayout 
+                                                                    Padding="0, 24, 0, 14"
+                                                                    Orientation="Horizontal"
+                                                                    Spacing="18">
+                                                                
+                                                                    <Frame CornerRadius="9">
+
+                                                                        <ffimageloading:CachedImage
+                                                                            HeightRequest="48"
+                                                                            WidthRequest="48"
+                                                                            Aspect="AspectFill"
+                                                                            Source="{Binding ImagePath}" />
+                                                                    
+                                                                    </Frame>
+                                                                    
+                                                                    <StackLayout 
+                                                                        VerticalOptions="Center"
+                                                                        HorizontalOptions="FillAndExpand"
+                                                                        Spacing="8">     
+                                                                        
+                                                                        <StackLayout Orientation="Horizontal">
+                                                                        
+                                                                            <Label
+                                                                                FontSize="14"
+                                                                                FontFamily="Barlow-Medium"
+                                                                                Text="{Binding Title}"/>
+                   
+                                                                            <Label
+                                                                                HorizontalOptions="EndAndExpand"
+                                                                                FontFamily="Barlow-SemiBold"
+                                                                                FontSize="14"
+                                                                                TextColor="{DynamicResource IndicationColor_i1}">
+
+                                                                                <Label.FormattedText>
+                                                                                    <FormattedString>
+                                                                                        <Span Text="{xct:Translate CurrencySign}" />
+                                                                                        <Span Text=" " />
+                                                                                        <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                                                                    </FormattedString>
+                                                                                </Label.FormattedText>
+                                                                            </Label>
+                                                                        
+                                                                        </StackLayout>
+                                                                        
+                                                                        <StackLayout Orientation="Horizontal">
+                                                                            
+                                                                            <Label 
+                                                                                FontSize="12"
+                                                                                FontFamily="Barlow-Medium"
+                                                                                TextColor="{DynamicResource TextAndBackgroundColor_i10}"
+                                                                                Text="Product 1, product 2, product 3..."/>
+
+                                                                        </StackLayout>
+                                                                        
+                                                                    </StackLayout>
+                                                                                                                                       
+                                                                </StackLayout>
+
+                                                                <BoxView
+                                                                    HeightRequest="1.5"
+                                                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                                                            </StackLayout>
+                                                            
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+
+                                            </StackLayout>
+                                                
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
                         </sc:StateCondition>
+                        
                     </sc:StateContainer.Conditions>
                     
                 </sc:StateContainer>

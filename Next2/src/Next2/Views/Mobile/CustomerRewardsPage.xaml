@@ -55,40 +55,6 @@
             
         </StackLayout>
 
-        <!-- PAGE STATES -->
-        <StackLayout 
-            VerticalOptions="FillAndExpand"
-            Margin="0, 110">
-
-            <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
-                                        
-                    <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
-                    <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate MessageAboutCashingOutAwards}"/>
-                                        
-                </DataTrigger> 
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PageState}" Value="{Static enums:ECustomerRewardsPageState.RewardsExist}">
-                                        
-                    <Setter TargetName="messageImage" Property="ffimageloading:CachedImage.Source" Value="pic_rewards" />
-                    <Setter TargetName="messageText" Property="controls:LineSpacingLabel.Text" Value="{xct:Translate SelectRewardOptionToUseYourPoints}"/>
-                                        
-                </DataTrigger>
-            </StackLayout.Triggers>
-                        
-            <ffimageloading:CachedImage
-                HeightRequest="230"
-                Source="pic_become_a_member" 
-                x:Name="messageImage"/>
-
-            <controls:LineSpacingLabel
-                Style="{DynamicResource LineSpacingLabelStyle_i1}"
-                WidthRequest="240"
-                FontSize="{DynamicResource TSize_i5}"
-                Text="{xct:Translate StillNotMember}"
-                x:Name="messageText" />
-
-        </StackLayout>
-
         <BoxView 
             VerticalOptions="EndAndExpand"
             HeightRequest="1.5"
@@ -104,29 +70,24 @@
                 Style="{DynamicResource BorderButtonStyle_i2_1}"
                 BackgroundColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate BecomeMember}"
-                CornerRadius="4"
-                IsVisible="False"
-                xct:TouchEffect.Command="{Binding AddNewCustomerCommand}">
-                        
-                <buttons:BorderButton.Triggers>
-                    <DataTrigger 
-                        TargetType="buttons:BorderButton" 
-                        Binding="{Binding PageState}"
-                        Value="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
-                                
-                        <Setter Property="IsVisible" Value="True"/>
-                                
-                    </DataTrigger>
-                </buttons:BorderButton.Triggers>
-                        
-            </buttons:BorderButton>
-            
-            <buttons:BorderButton
-                Style="{DynamicResource BorderButtonStyle_i2_1}"
-                BackgroundColor="{DynamicResource AppColor_i1}"
-                CornerRadius="4"
-                Text="{xct:Translate Complete}"/>
+                IsVisible="{Binding PageState, Converter={xct:EqualConverter}, ConverterParameter={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}}"
+                xct:TouchEffect.Command="{Binding AddNewCustomerCommand}" />
 
+            <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
+                    BackgroundColor="{DynamicResource AppColor_i1}"
+                    Text="{xct:Translate Apply}">
+                        
+                    <buttons:BorderButton.Triggers>
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedRewards.Count}" Value="0">
+                                
+                            <Setter Property="Text" Value="{xct:Translate Complete}"/>
+                                
+                        </DataTrigger>
+                    </buttons:BorderButton.Triggers>
+                        
+                </buttons:BorderButton>
+            
         </StackLayout>
 
         <BoxView
