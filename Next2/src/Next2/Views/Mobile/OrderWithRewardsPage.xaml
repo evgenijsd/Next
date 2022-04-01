@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewmodels="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views"
+    x:DataType="viewmodels:OrderWithRewardsViewModel"
+    x:Class="Next2.Views.Mobile.OrderWithRewardsPage">
+    
+    <StackLayout>
+        
+        <StackLayout.Resources>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            </Style>
+        </StackLayout.Resources>
+        
+        <controls:CustomNavigationbar
+            HeightImage="20"
+            HeightRequest="78"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            FontSize="18"
+            FontFamily="Barlow-Bold"
+            Title="{xct:Translate RewardsPoints}"
+            LeftButtonCommand="{prism:GoBack}" />
+
+        <BoxView
+            HeightRequest="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+        <CollectionView 
+            Background="{DynamicResource TextAndBackgroundColor_i4}"
+            ItemsSource="{Binding Seats}">
+                                    
+            <CollectionView.Effects>
+                <effects:NoOverScrollEffect/>
+            </CollectionView.Effects>
+                                    
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SeatWithDiscountedBindableModel"> 
+
+                    <StackLayout 
+                        Padding="16, 16, 16, 0">
+                                                
+                        <Label TextColor="{DynamicResource TextAndBackgroundColor_i10}">
+                                                    
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate Seat}"/>
+                                    <Span Text=" "/>
+                                    <Span Text="{Binding SeatNumber}"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                                                    
+                        </Label>
+    
+                        <CollectionView
+                            ItemsSource="{Binding Sets}"
+                            HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=80}">
+                                                    
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:DiscountedSetBindableModel">
+
+                                    <StackLayout>
+
+                                        <StackLayout
+                                            Padding="0, 16"
+                                            Orientation="Horizontal">
+               
+                                            <StackLayout 
+                                                VerticalOptions="Center"
+                                                HorizontalOptions="FillAndExpand"
+                                                Spacing="8">     
+                                                                        
+                                                <StackLayout Orientation="Horizontal">
+                                                                        
+                                                    <Label Text="{Binding Title}"/>
+                   
+                                                    <Label
+                                                        HorizontalOptions="EndAndExpand"
+                                                        TextColor="{DynamicResource IndicationColor_i1}">
+
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                                        
+                                                </StackLayout>
+                                                
+                                                <Label
+                                                    HorizontalOptions="End"
+                                                    TextColor="{DynamicResource TextAndBackgroundColor_i10}"
+                                                    Text="OldPrice"/>
+
+                                            </StackLayout>
+                                                                                                                                       
+                                        </StackLayout>
+
+                                        <BoxView
+                                            HeightRequest="2"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
+
+                                    </StackLayout>
+                                                            
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </StackLayout>
+                                                
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+                
+        <BoxView 
+            VerticalOptions="EndAndExpand"
+            HeightRequest="1.5"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+                
+        <StackLayout
+            Padding="16, 12, 16, 14"
+            Orientation="Horizontal"
+            Spacing="8"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <buttons:BorderButton
+                Style="{DynamicResource BorderButtonStyle_i2}"
+                HorizontalOptions="FillAndExpand"
+                CornerRadius="4"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                FontFamily="Barlow-SemiBold"
+                FontSize="18"
+                Text="{xct:Translate Apply}"
+                xct:TouchEffect.Command="{Binding ApplyRewardCommand}"/>
+                       
+        </StackLayout>
+
+        <BoxView
+            HeightRequest="1.5"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>         
+    </StackLayout>
+      
+</views:BaseContentPage>

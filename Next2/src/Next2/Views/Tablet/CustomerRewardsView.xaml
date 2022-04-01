@@ -209,6 +209,10 @@
                                                                                 FontFamily="Barlow-Medium"
                                                                                 TextColor="{DynamicResource TextAndBackgroundColor_i10}"
                                                                                 Text="Product 1, product 2, product 3..."/>
+                                                                            
+                                                                            <Label 
+                                                                                HorizontalOptions="EndAndExpand"
+                                                                                Text="{Binding IsFree}"/>
 
                                                                         </StackLayout>
                                                                         
@@ -259,12 +263,12 @@
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Apply}">
+                        Text="{xct:Translate Complete}">
                         
                         <buttons:BorderButton.Triggers>
-                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedRewards.Count}" Value="0">
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAnyRewardsSelected}" Value="True">
                                 
-                                <Setter Property="Text" Value="{xct:Translate Complete}"/>
+                                <Setter Property="Text" Value="{xct:Translate Apply}"/>
                                 
                             </DataTrigger>
                         </buttons:BorderButton.Triggers>
@@ -287,17 +291,16 @@
                     FontSize="{DynamicResource TSize_i9}"
                     Text="{xct:Translate RewardsOptions}"/>
                 
-                <CollectionView 
-                    SelectionMode="Multiple"
-                    ItemsSource="{Binding Rewards}"
-                    SelectedItems="{Binding SelectedRewards}">
+                <CollectionView ItemsSource="{Binding Rewards}">
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:RewardBindabledModel">
                             
                             <Frame 
-                                BackgroundColor="Transparent"
                                 Padding="0, 5"
+                                BackgroundColor="Transparent"
+                                xct:TouchEffect.Command="{Binding SelectCommand}"
+                                xct:TouchEffect.CommandParameter="{Binding .}"
                                 x:Name="rewardFrame">
                                 
                                 <pc:PancakeView
@@ -334,25 +337,14 @@
 
                                 </pc:PancakeView>
 
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroupList>
-                                        <VisualStateGroup Name="CommonStates">
-                                            <VisualState Name="Normal"/>
-
-                                            <VisualState Name="Selected">
-
-                                                <VisualState.Setters>
-                                                    <Setter TargetName="rewardFrame" Property="Frame.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
-                                                    <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
-                                                    <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
-                                                </VisualState.Setters>
-                                    
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateGroupList>
-                                        
-                                </VisualStateManager.VisualStateGroups>
-                                
+                                <Frame.Triggers>
+                                    <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                        <Setter TargetName="rewardFrame" Property="Frame.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
+                                        <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
+                                        <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
+                                    </DataTrigger>
+                                </Frame.Triggers>
+                                                                
                             </Frame>
                             
                         </DataTemplate>

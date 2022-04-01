@@ -52,6 +52,7 @@
             public const string ADMIN = "ADMIN";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
+            public const string SEATS = "SEATS";
         }
 
         public static class Validators

@@ -16,5 +16,7 @@ namespace Next2.Models
         public float OldPrice { get; set; }
 
         public PortionModel Portion { get; set; }
+
+        public bool IsFree { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,9 +34,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
+        public bool IsAnyRewardsSelected { get; set; }
 
-        public ObservableCollection<object> SelectedRewards { get; set; } = new ();
+        public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
         public ObservableCollection<SeatWithDiscountedBindableModel> Seats { get; set; } = new ();
 
@@ -44,14 +45,44 @@ namespace Next2.ViewModels
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectionChangedCommand;
-        public ICommand SelectionChangedCommand => _selectionChangedCommand ??= new AsyncCommand(OnSelectionChangedCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _selectRewardCommand;
+        public ICommand SelectRewardCommand => _selectRewardCommand ??= new AsyncCommand<object>(OnSeletRewardCommandAsync, allowsMultipleExecutions: false);
 
-        private Task OnSelectionChangedCommandAsync()
+        private async Task OnSeletRewardCommandAsync(object rewardObj)
         {
-            int count = SelectedRewards.Count;
+            if (rewardObj is RewardBindabledModel reward)
+            {
+                if (App.IsTablet)
+                {
+                    IsAnyRewardsSelected = Rewards.Any(x => x.IsSelected);
+                    reward.IsSelected = !reward.IsSelected;
 
-            return Task.CompletedTask;
+                    bool isRewardApplyed = reward.IsSelected;
+
+                    foreach (var seat in Seats)
+                    {
+                        foreach (var set in seat.Sets)
+                        {
+                            if (set.Id == reward.SetId)
+                            {
+                                set.IsFree = reward.IsSelected && isRewardApplyed;
+                                isRewardApplyed = false;
+                            }
+                        }
+
+                        seat.Sets = new (seat.Sets);
+                    }
+                }
+                else
+                {
+                    var parameters = new NavigationParameters
+                    {
+                        { Constants.Navigations.SEATS, Seats },
+                    };
+
+                    await _navigationService.NavigateAsync(nameof(OrderWithRewardsPage), parameters);
+                }
+            }
         }
 
         #endregion
@@ -90,6 +121,11 @@ namespace Next2.ViewModels
                     PageState = ECustomerRewardsPageState.RewardsExist;
 
                     Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result);
+
+                    foreach (var item in Rewards)
+                    {
+                        item.SelectCommand = SelectRewardCommand;
+                    }
 
                     await LoadSeats();
                 }

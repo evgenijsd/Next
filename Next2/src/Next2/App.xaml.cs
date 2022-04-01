@@ -28,6 +28,7 @@ using AutoMapper;
 using Next2.Models;
 using Next2.Views;
 using Next2.Views.Tablet;
+using Next2.ViewModels.Mobile;
 
 namespace Next2
 {
@@ -108,6 +109,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.CustomerRewardsPage, CustomerRewardsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
