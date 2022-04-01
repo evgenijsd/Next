@@ -7,9 +7,13 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:pc="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:effects="clr-namespace:Next2.Effects"
     x:DataType="viewModels:CustomerRewardsViewModel"
     x:Class="Next2.Views.Mobile.CustomerRewardsPage">
   
@@ -26,6 +30,12 @@
                 <Setter Property="Padding" Value="10, 4, 10, 8"/>
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
             </Style>
+            
+            <Style x:Key="LineSpacingLabelStyle_i1_1" TargetType="controls:LineSpacingLabel" BasedOn="{StaticResource LineSpacingLabelStyle_i1}">
+                <Setter Property="WidthRequest" Value="230"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
+            </Style>
+            
          </StackLayout.Resources>
         
         <controls:CustomNavigationbar
@@ -55,6 +65,137 @@
             
         </StackLayout>
 
+        <sc:StateContainer State="{Binding PageState}">
+                    
+            <sc:StateContainer.Conditions>
+                        
+                <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
+                    <StackLayout Margin="0, 120, 0, 0">
+                                
+                        <ffimageloading:CachedImage
+                            Style="{DynamicResource CachedImageStyle_i1}"
+                            FadeAnimationEnabled="False"
+                            HeightRequest="230"
+                            Source="pic_become_a_member"/>
+
+                        <controls:LineSpacingLabel
+                            Style="{DynamicResource LineSpacingLabelStyle_i1_1}"
+                            Text="{xct:Translate StillNotMember}"/>
+
+                    </StackLayout>
+                </sc:StateCondition>
+                        
+                <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
+                    <StackLayout Margin="0, 60">
+                                                                
+                        <ffimageloading:CachedImage
+                            Style="{DynamicResource CachedImageStyle_i1}"
+                            FadeAnimationEnabled="False"
+                            HeightRequest="230"
+                            Source="pic_rewards"/>
+
+                        <controls:LineSpacingLabel
+                            Style="{DynamicResource LineSpacingLabelStyle_i1_1}"
+                            Text="{xct:Translate MessageAboutCashingOutAwards}"/>
+
+                    </StackLayout>
+                </sc:StateCondition>
+                        
+                <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsExist}">
+                    <StackLayout 
+                        Padding="20"
+                        Spacing="13">
+
+                        <Label
+                            FontFamily="Barlow-Bold"
+                            FontSize="{DynamicResource TSize_i6}"
+                            Text="{xct:Translate RewardsOptions}" />
+
+                        <CollectionView
+                            HeightRequest="{Binding Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
+                            SelectionMode="Multiple"
+                            ItemsSource="{Binding Rewards}"
+                            SelectedItems="{Binding SelectedRewards}">
+                    
+                            <CollectionView.Effects>
+                                <effects:NoOverScrollEffect/>
+                            </CollectionView.Effects>
+                            
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:RewardBindabledModel">
+                            
+                                    <Frame 
+                                        BackgroundColor="Transparent"
+                                        Padding="0, 5"
+                                        x:Name="rewardFrame">
+                                
+                                        <pc:PancakeView
+                                            CornerRadius="6"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                            Border="{pc:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
+                                            x:Name="rewardBorder">
+                                    
+                                            <StackLayout
+                                                Orientation="Horizontal"
+                                                Padding="14, 12">
+
+                                                <StackLayout Spacing="3">
+
+                                                    <Label
+                                                        FontFamily="Barlow-Medium"
+                                                        FontSize="{DynamicResource TSize_i6}"
+                                                        Text="{Binding SetTitle}"/>
+
+                                                    <Label
+                                                        FontFamily="Barlow-SemiBold"
+                                                        FontSize="{DynamicResource TSize_i8}"
+                                                        Text="{xct:Translate Free}"/>
+
+                                                </StackLayout>
+
+                                                <ffimageloading:CachedImage
+                                                    HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="Center"
+                                                    HeightRequest="24"
+                                                    Source="ic_arrow_right_32x32"
+                                                    x:Name="rewardCheckBox" />
+
+                                            </StackLayout>
+
+                                        </pc:PancakeView>
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroupList>
+                                                <VisualStateGroup Name="CommonStates">
+                                                    <VisualState Name="Normal"/>
+
+                                                    <VisualState Name="Selected">
+
+                                                        <VisualState.Setters>
+                                                            <Setter TargetName="rewardFrame" Property="Frame.BackgroundColor" Value="Transparent"/>
+                                                            <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
+                                                            <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
+                                                        </VisualState.Setters>
+                                    
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateGroupList>
+                                        
+                                        </VisualStateManager.VisualStateGroups>
+                                
+                                    </Frame>
+                            
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                    
+                        </CollectionView>
+                    </StackLayout>
+                </sc:StateCondition>
+                        
+            </sc:StateContainer.Conditions>
+                    
+        </sc:StateContainer>
+        
         <BoxView 
             VerticalOptions="EndAndExpand"
             HeightRequest="1.5"
@@ -67,26 +208,32 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <buttons:BorderButton
+                IsVisible="{Binding PageState, Converter={xct:EqualConverter}, ConverterParameter={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}}"
                 Style="{DynamicResource BorderButtonStyle_i2_1}"
+                CornerRadius="4"
                 BackgroundColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate BecomeMember}"
-                IsVisible="{Binding PageState, Converter={xct:EqualConverter}, ConverterParameter={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}}"
                 xct:TouchEffect.Command="{Binding AddNewCustomerCommand}" />
 
             <buttons:BorderButton
-                    Style="{DynamicResource BorderButtonStyle_i2_1}"
-                    BackgroundColor="{DynamicResource AppColor_i1}"
-                    Text="{xct:Translate Apply}">
+                Style="{DynamicResource BorderButtonStyle_i2_1}"
+                CornerRadius="4"
+                BackgroundColor="{DynamicResource AppColor_i1}"
+                Text="{xct:Translate Complete}">
                         
-                    <buttons:BorderButton.Triggers>
-                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding SelectedRewards.Count}" Value="0">
+                <buttons:BorderButton.Triggers>
+                    <DataTrigger
+                        TargetType="buttons:BorderButton"
+                        Binding="{Binding PageState, Converter={xct:EqualConverter}, ConverterParameter={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}}"
+                        Value="False">
                                 
-                            <Setter Property="Text" Value="{xct:Translate Complete}"/>
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+                            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i3}"/>
                                 
                         </DataTrigger>
-                    </buttons:BorderButton.Triggers>
+                </buttons:BorderButton.Triggers>
                         
-                </buttons:BorderButton>
+            </buttons:BorderButton>
             
         </StackLayout>
 
