@@ -35,6 +35,8 @@ namespace Next2.ViewModels.Dialogs
 
         public string ConfirmationText { get; set; }
 
+        public string Parameter { get; set; }
+
         public ICommand CloseCommand { get; }
 
         public ICommand AcceptCommand { get; }
@@ -74,6 +76,11 @@ namespace Next2.ViewModels.Dialogs
                 if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string confirmationText))
                 {
                     ConfirmationText = confirmationText;
+                }
+
+                if (param.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string parametr))
+                {
+                    Parameter = parametr;
                 }
             }
         }

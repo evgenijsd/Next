@@ -52,6 +52,7 @@
             public const string ADMIN = "ADMIN";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
+            public const string ORDER_STATUS = "ORDER_STATUS";
         }
 
         public static class Validators
@@ -88,6 +89,7 @@
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
+            public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
         }
     }
 }

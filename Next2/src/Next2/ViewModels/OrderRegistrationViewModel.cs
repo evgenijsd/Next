@@ -46,6 +46,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
+        private string _moveOrderTo;
         private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
@@ -90,7 +91,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
-        public TableBindableModel SelectedTable { get; set; } = new ();
+        public TableBindableModel SelectedTable { get; set; } = new();
 
         public int NumberOfSeats { get; set; }
 
@@ -119,10 +120,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<string>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<string>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -193,9 +194,9 @@ namespace Next2.ViewModels
 
         public void InitOrderTypes()
         {
-            List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
+            List<EOrderType> enums = new(Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
 
-            OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
+            OrderTypes = new(enums.Select(x => new OrderTypeBindableModel
             {
                 OrderType = x,
                 Text = LocalizationResourceManager.Current[x.ToString()],
@@ -266,7 +267,7 @@ namespace Next2.ViewModels
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
-                   item.SelectedItem = null;
+                    item.SelectedItem = null;
                 }
             }
 
@@ -276,7 +277,7 @@ namespace Next2.ViewModels
 
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
-            if(CurrentOrder.Seats is not null)
+            if (CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
 
@@ -435,7 +436,7 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            List<SeatModel> seats = new ();
+            List<SeatModel> seats = new();
 
             foreach (var seat in CurrentOrder.Seats)
             {
@@ -601,7 +602,7 @@ namespace Next2.ViewModels
             IsOrderWithTax = isOrderWithTax;
         }
 
-        private async Task OnOrderCommandAsync()
+        private async Task OnOrderCommandAsync(string commandParameter)
         {
             List<SeatModel> seats = new();
 
@@ -650,15 +651,42 @@ namespace Next2.ViewModels
                 {
                     IsOrderSavedNotificationVisible = true;
                     CurrentOrder.Seats = new();
-
+                    _moveOrderTo = commandParameter;
                     await _orderService.CreateNewOrderAsync();
                 }
             }
         }
 
-        private Task OnTabCommandAsync()
+        private async Task OnTabCommandAsync(string commandParameter)
         {
-            return Task.CompletedTask;
+            var parameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["NeedCard"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
+                { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
+            };
+
+            PopupPage confirmDialog = new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string commandParameter))
+            {
+                if (isMovedOrderAccepted && string.IsNullOrWhiteSpace(commandParameter))
+                {
+                    await OnOrderCommandAsync(commandParameter);
+                }
+            }
+
+            await _popupNavigation.PopAsync();
+
+            //await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
         private async Task OnOpenModifyCommandAsync()
@@ -747,6 +775,7 @@ namespace Next2.ViewModels
         private Task OnGoToOrderTabsCommandAsync(IEventAggregator eventAggregator)
         {
             _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
+            _eventAggregator.GetEvent<MovementOrderEvent>().Publish(Constants.Navigations.ORDER_STATUS);
 
             MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
 

@@ -11,7 +11,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:prism="http://prismlibrary.com"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -2055,14 +2055,16 @@
                     Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
-                    Command="{Binding OrderRegistrationViewModel.OrderCommand}" />
+                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
+                    xct:TouchEffect.CommandParameter="ORDER"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
                     Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
-                    Command="{Binding OrderRegistrationViewModel.TabCommand}" />
+                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
+                    xct:TouchEffect.CommandParameter="TAB"/>
 
                 <buttons:BorderButton
                     Grid.Column="2"

@@ -33,6 +33,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
+        private string _orderStatus;
         private int _lastSavedOrderId = -1;
         public double _heightPage;
 
@@ -45,7 +46,8 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<SelectedOrderEvent>().Subscribe(LastSafeOrderIdReceived);
+            _eventAggregator.GetEvent<SelectedOrderEvent>().Subscribe(SetLastSavedOrderId);
+            _eventAggregator.GetEvent<MovementOrderEvent>().Subscribe(SetOrderStatus);
 
             _popupNavigation = popupNavigation;
         }
@@ -444,9 +446,14 @@ namespace Next2.ViewModels
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
-        private void LastSafeOrderIdReceived(int orderId)
+        private void SetLastSavedOrderId(int orderId)
         {
             _lastSavedOrderId = orderId;
+        }
+
+        private void SetOrderStatus(string orderStatus)
+        {
+            _orderStatus = orderStatus;
         }
 
         #endregion
