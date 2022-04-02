@@ -122,7 +122,6 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:RewardBindabledModel">
                             
-                                    
                                     <Frame 
                                         Padding="0, 5"
                                         BackgroundColor="Transparent"
@@ -132,7 +131,6 @@
                                 
                                         <Frame.Triggers>
                                             <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
-                                                <!--<Setter TargetName="rewardFrame" Property="Frame.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>-->
                                                 <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
                                                 <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
                                             </DataTrigger>

@@ -5,6 +5,7 @@ using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -54,25 +55,25 @@ namespace Next2.ViewModels
             {
                 if (App.IsTablet)
                 {
+                    IsAnyRewardsSelected = Rewards.Any(x => x.IsSelected);
+
                     reward.IsSelected = !reward.IsSelected;
 
-                    bool isRewardApplyed = reward.IsSelected;
+                    Func<DiscountedSetBindableModel, bool> rewardSetComparer = y => y.IsFree != reward.IsSelected && y.Id == reward.SetId;
 
-                    foreach (var seat in Seats)
+                    var seat = reward.IsSelected
+                        ? Seats.FirstOrDefault(x => x.Sets.Any(rewardSetComparer))
+                        : Seats.LastOrDefault(x => x.Sets.Any(rewardSetComparer));
+
+                    if (seat is not null)
                     {
-                        foreach (var set in seat.Sets)
-                        {
-                            if (set.Id == reward.SetId)
-                            {
-                                set.IsFree = reward.IsSelected && isRewardApplyed;
-                                isRewardApplyed = false;
-                            }
-                        }
+                        var set = reward.IsSelected
+                             ? seat.Sets.FirstOrDefault(rewardSetComparer)
+                             : seat.Sets.LastOrDefault(rewardSetComparer);
 
+                        set.IsFree = reward.IsSelected;
                         seat.Sets = new (seat.Sets);
                     }
-
-                    IsAnyRewardsSelected = Rewards.Any(x => x.IsSelected);
                 }
                 else
                 {

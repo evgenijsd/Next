@@ -174,12 +174,20 @@
                                                                     </Frame>
                                                                     
                                                                     <StackLayout 
-                                                                        VerticalOptions="Center"
+                                                                        VerticalOptions="CenterAndExpand"
                                                                         HorizontalOptions="FillAndExpand"
+                                                                        HeightRequest="44"
                                                                         Spacing="8">     
                                                                         
                                                                         <StackLayout Orientation="Horizontal">
                                                                         
+                                                                             <StackLayout.Triggers>
+                                                                                <DataTrigger TargetType="StackLayout" Binding="{Binding IsFree}" Value="True">
+                                                                                    <Setter TargetName="newPrice" Property="Label.Text" Value="{xct:Translate Free}"/>
+                                                                                    <Setter TargetName="oldPrice" Property="Label.IsVisible" Value="True"/>
+                                                                                </DataTrigger>
+                                                                             </StackLayout.Triggers>
+                                                                            
                                                                             <Label
                                                                                 FontSize="14"
                                                                                 FontFamily="Barlow-Medium"
@@ -189,8 +197,9 @@
                                                                                 HorizontalOptions="EndAndExpand"
                                                                                 FontFamily="Barlow-SemiBold"
                                                                                 FontSize="14"
-                                                                                TextColor="{DynamicResource IndicationColor_i1}">
-
+                                                                                TextColor="{DynamicResource IndicationColor_i1}"
+                                                                                x:Name="newPrice">
+                                               
                                                                                 <Label.FormattedText>
                                                                                     <FormattedString>
                                                                                         <Span Text="{xct:Translate CurrencySign}" />
@@ -211,8 +220,24 @@
                                                                                 Text="Product 1, product 2, product 3..."/>
                                                                             
                                                                             <Label 
+                                                                                IsVisible="False"
                                                                                 HorizontalOptions="EndAndExpand"
-                                                                                Text="{Binding IsFree}"/>
+                                                                                TextDecorations="Strikethrough"
+                                                                                FontFamily="Barlow-SemiBold"
+                                                                                FontSize="14"
+                                                                                TextColor="{DynamicResource TextAndBackgroundColor_i10}"
+                                                                                Text="{Binding IsFree}"
+                                                                                x:Name="oldPrice">
+                                                                                
+                                                                                <Label.FormattedText>
+                                                                                    <FormattedString>
+                                                                                        <Span Text="{xct:Translate CurrencySign}" />
+                                                                                        <Span Text=" " />
+                                                                                        <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                                                                    </FormattedString>
+                                                                                </Label.FormattedText>
+                                                                                
+                                                                            </Label>
 
                                                                         </StackLayout>
                                                                         
@@ -292,6 +317,10 @@
                     Text="{xct:Translate RewardsOptions}"/>
                 
                 <CollectionView ItemsSource="{Binding Rewards}">
+                    
+                    <CollectionView.Effects>
+                        <effects:NoOverScrollEffect/>
+                    </CollectionView.Effects>
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:RewardBindabledModel">

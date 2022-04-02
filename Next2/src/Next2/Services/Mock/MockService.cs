@@ -217,15 +217,36 @@ namespace Next2.Services.Mock
                 new RewardModel
                 {
                     Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
                     CustomerId = 2,
-                    SetId = 2,
+                    SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
                     CustomerId = 2,
-                    SetId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
