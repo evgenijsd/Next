@@ -138,7 +138,7 @@ namespace Next2.ViewModels
         public ICommand HideOrderNotificationCommnad => _hideOrderNotificationCommand ??= new AsyncCommand(OnHideOrderNotificationCommnadAsync, allowsMultipleExecutions: false);
 
         private ICommand _goToOrderTabs;
-        public ICommand GoToOrderTabs => _goToOrderTabs ??= new AsyncCommand<IEventAggregator>(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
+        public ICommand GoToOrderTabs => _goToOrderTabs ??= new AsyncCommand(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -559,6 +559,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
+                    _eventAggregator.GetEvent<RemoveSetEvent>().Subscribe(RecalculateOrderPriceBySet);
                     await _navigationService.NavigateAsync(nameof(EditPage));
                 }
             }
@@ -794,14 +795,21 @@ namespace Next2.ViewModels
             await RefreshCurrentOrderAsync();
         }
 
-        private Task OnGoToOrderTabsCommandAsync(IEventAggregator eventAggregator)
+        private async Task OnGoToOrderTabsCommandAsync()
         {
             _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
             _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
 
-            MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
-
-            return Task.CompletedTask;
+            if (App.IsTablet)
+            {
+                MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
+            }
+            else
+            {
+                _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
+                _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
+                await _navigationService.NavigateAsync(nameof(OrderTabsPage));
+            }
         }
 
         private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
@@ -809,6 +817,10 @@ namespace Next2.ViewModels
             var amoutToSubtract = selectedSet.Portion.Price;
             CurrentOrder.Total -= amoutToSubtract;
             CurrentOrder.SubTotal -= amoutToSubtract;
+            if (!App.IsTablet)
+            {
+                _eventAggregator.GetEvent<RemoveSetEvent>().Unsubscribe(RecalculateOrderPriceBySet);
+            }
         }
 
         private void RecalculateOrderPriceBySeat(SeatBindableModel seat)

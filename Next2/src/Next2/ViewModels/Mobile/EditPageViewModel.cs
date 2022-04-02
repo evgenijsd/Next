@@ -11,11 +11,14 @@ using Next2.Enums;
 using Xamarin.CommunityToolkit.Helpers;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Contracts;
+using Prism.Events;
+using Next2.Helpers;
 
 namespace Next2.ViewModels.Mobile
 {
     public class EditPageViewModel : BaseViewModel
     {
+        private readonly IEventAggregator _eventAggregator;
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
         private readonly int _indexOfSeat;
@@ -24,9 +27,12 @@ namespace Next2.ViewModels.Mobile
         public EditPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            IEventAggregator eventAggregator)
           : base(navigationService)
         {
+            _eventAggregator = eventAggregator;
+
             _popupNavigation = popupNavigation;
 
             _orderService = orderService;
@@ -95,6 +101,11 @@ namespace Next2.ViewModels.Mobile
 
                     if (result.IsSuccess)
                     {
+                        if (SelectedSet is not null)
+                        {
+                            _eventAggregator.GetEvent<RemoveSetEvent>().Publish(SelectedSet);
+                        }
+
                         await _popupNavigation.PopAsync();
                         await _navigationService.GoBackAsync();
                     }
