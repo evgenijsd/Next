@@ -362,6 +362,7 @@ namespace Next2.ViewModels
 
                     if (deleteSetsResult.IsSuccess)
                     {
+                        RecalculateOrderPriceBySeat(removalSeat);
                         await RefreshCurrentOrderAsync();
 
                         NumberOfSeats = CurrentOrder.Seats.Count;
@@ -739,7 +740,10 @@ namespace Next2.ViewModels
                 {
                     var result = await _orderService.DeleteSetFromCurrentSeat();
 
-                    RecalculateOrderPrice(SelectedSet);
+                    if (SelectedSet is not null)
+                    {
+                        RecalculateOrderPriceBySet(SelectedSet);
+                    }
 
                     if (result.IsSuccess)
                     {
@@ -800,11 +804,24 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private void RecalculateOrderPrice(SetBindableModel selectedSet)
+        private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
         {
-            if (selectedSet is not null)
+            var amoutToSubtract = selectedSet.Portion.Price;
+            CurrentOrder.Total -= amoutToSubtract;
+            CurrentOrder.SubTotal -= amoutToSubtract;
+        }
+
+        private void RecalculateOrderPriceBySeat(SeatBindableModel seat)
+        {
+            float amoutToSubtract = 0;
+
+            if (seat.Sets.Any())
             {
-                var amoutToSubtract = selectedSet.Portion.Price;
+                foreach (var set in seat.Sets)
+                {
+                    amoutToSubtract += set.Portion.Price;
+                }
+
                 CurrentOrder.Total -= amoutToSubtract;
                 CurrentOrder.SubTotal -= amoutToSubtract;
             }
