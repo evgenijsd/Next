@@ -127,7 +127,7 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
             CurrentOrder.BonusType = EBonusType.None;
 
@@ -148,25 +148,7 @@ namespace Next2.ViewModels
                     {
                         if (setConditions is null || !setConditions.Any(x => x.Id == set.Id))
                         {
-                            switch (SelectedBonus.Type)
-                            {
-                                case EBonusValueType.Value:
-                                    set.PriceBonus = set.Portion.Price - SelectedBonus.Value;
-                                    break;
-                                case EBonusValueType.Percent:
-                                    set.PriceBonus = set.Portion.Price - (SelectedBonus.Value * set.Portion.Price);
-                                    break;
-                                case EBonusValueType.AbsoluteValue:
-                                    set.PriceBonus = SelectedBonus.Value;
-                                    break;
-                                default:
-                                    break;
-                            }
-
-                            if (set.PriceBonus < 0)
-                            {
-                                set.PriceBonus = 0;
-                            }
+                            set.PriceBonus = _bonusesService.GetPriceBonus(SelectedBonus, set);
                         }
                         else
                         {
@@ -181,6 +163,8 @@ namespace Next2.ViewModels
                     CurrentOrder.Total = CurrentOrder.PriceWithBonus + CurrentOrder.PriceTax;
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

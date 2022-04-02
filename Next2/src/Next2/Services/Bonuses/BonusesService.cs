@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Enums;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
@@ -79,6 +80,33 @@ namespace Next2.Services.Bonuses
                 {
                     result.Add(set);
                 }
+            }
+
+            return result;
+        }
+
+        public float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
+        {
+            float result = 0;
+
+            switch (selectedBonus.Type)
+            {
+                case EBonusValueType.Value:
+                    result = set.Portion.Price - selectedBonus.Value;
+                    break;
+                case EBonusValueType.Percent:
+                    result = set.Portion.Price - (selectedBonus.Value * set.Portion.Price);
+                    break;
+                case EBonusValueType.AbsoluteValue:
+                    result = selectedBonus.Value;
+                    break;
+                default:
+                    break;
+            }
+
+            if (result < 0)
+            {
+                result = 0;
             }
 
             return result;
