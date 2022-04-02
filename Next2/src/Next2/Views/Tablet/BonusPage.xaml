@@ -45,6 +45,7 @@
                     <StackLayout
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand">
+                        
                         <Label
                             Text="{xct:Translate CouponsAndDiscounts}"
                             Grid.Column="0"
@@ -80,17 +81,21 @@
                                     VerticalOptions="Center" />
 
                                 <Grid.Triggers>
+                                    
                                     <DataTrigger
                                         TargetType="Grid"
                                         Binding="{Binding Title}"
                                         Value="">
+                                        
                                         <Setter Property="IsVisible" Value="true" />
+                                        
                                     </DataTrigger>
+                                    
                                 </Grid.Triggers>
+                                
                             </Grid>
 
-                            <StackLayout
-                                Margin="30,25,30,30">
+                            <StackLayout Margin="30,25,30,30">
 
                                 <Label
                                     Text="{Binding Title}"
@@ -103,16 +108,16 @@
                                     HeightRequest="2"
                                     Color="{DynamicResource TextAndBackgroundColor_i3}" />
 
-                                <ScrollView
-                                    Margin="0,15,0,0">
+                                <ScrollView Margin="0,15,0,0">
 
-                                    <StackLayout
-                                        BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
+                                    <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
+                                        
                                         <BindableLayout.ItemTemplate>
-                                            <DataTemplate
-                                                x:DataType="models:SeatBindableModel">
+                                            
+                                            <DataTemplate x:DataType="models:SeatBindableModel">
 
                                                 <StackLayout>
+                                                    
                                                     <Label
                                                         Margin="0,0,0,25"
                                                         Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
@@ -121,30 +126,34 @@
                                                         FontSize="{DynamicResource TSize_i8}"
                                                         FontFamily="Barlow-Regular"/>
 
-                                                    <StackLayout
-                                                        Orientation="Horizontal">
+                                                    <StackLayout Orientation="Horizontal">
 
                                                         <StackLayout
                                                             HorizontalOptions="FillAndExpand"
                                                             BindableLayout.ItemsSource="{Binding Sets}">
+                                                            
                                                                 <BindableLayout.ItemTemplate>
-                                                                    <DataTemplate
-                                                                        x:DataType="models:SetBindableModel">
+                                                                    
+                                                                    <DataTemplate x:DataType="models:SetBindableModel">
+                                                                        
                                                                     <StackLayout>
-                                                                        <StackLayout
-                                                                            Orientation="Horizontal">
+                                                                        
+                                                                        <StackLayout Orientation="Horizontal">
+                                                                            
                                                                             <Frame
                                                                                 Margin="0,0,20,0"
                                                                                 CornerRadius="5">
+
                                                                                 <ffimageloading:CachedImage
                                                                                     Source="{Binding ImagePath}"
                                                                                     HeightRequest="45"
                                                                                     WidthRequest="45"
-                                                                                    Aspect="AspectFill">
-                                                                                </ffimageloading:CachedImage>
+                                                                                    Aspect="AspectFill" />
+                                                                                
                                                                             </Frame>
 
                                                                             <StackLayout>
+                                                                                
                                                                                 <Label
                                                                                     Text="{Binding Title}"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -186,8 +195,10 @@
                                                                                             
                                                                                             <DataTrigger.Binding>
                                                                                                 <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+                                                                                                    
                                                                                                     <Binding Path="Portion.Price" />
                                                                                                     <Binding Path="PriceBonus" />
+                                                                                                    
                                                                                                 </MultiBinding>
                                                                                             </DataTrigger.Binding>
                                                                                             
@@ -229,12 +240,16 @@
                                 </ScrollView>
 
                                 <StackLayout.Triggers>
+                                    
                                     <DataTrigger
                                         TargetType="StackLayout"
                                         Binding="{Binding Title}"
                                         Value="">
+                                        
                                         <Setter Property="IsVisible" Value="false" />
+                                        
                                     </DataTrigger>
+                                    
                                 </StackLayout.Triggers>
 
                             </StackLayout>
@@ -260,13 +275,17 @@
                         Command="{Binding BonusCommand}">
 
                         <buttons:BorderButton.Triggers>
+                            
                             <DataTrigger
                                 TargetType="buttons:BorderButton"
                                 Binding="{Binding Title}"
                                 Value="">
+                                
                                 <Setter Property="IsEnabled" Value="False" />
                                 <Setter Property="Opacity" Value="0.3" />
+                                
                             </DataTrigger>
+                            
                         </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>
@@ -278,10 +297,10 @@
                     Grid.Column="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
 
-                <ScrollView
-                    Grid.Column="1">
-                    <Grid
-                        Margin="20,25,20,0">
+                <ScrollView Grid.Column="1">
+                    
+                    <Grid Margin="20,25,20,0">
+                        
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30" />
                             <RowDefinition Height="{Binding HeightCoupons}" />
@@ -304,8 +323,7 @@
 
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate
-                                    x:DataType="models:BonusBindableModel">
+                                <DataTemplate x:DataType="models:BonusBindableModel">
 
                                     <templates:BonusItemTemplate
                                         Text="{Binding Name}"
@@ -336,8 +354,7 @@
 
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate
-                                    x:DataType="models:BonusBindableModel">
+                                <DataTemplate x:DataType="models:BonusBindableModel">
 
                                     <templates:BonusItemTemplate
                                         Text="{Binding Name}"
