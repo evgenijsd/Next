@@ -698,7 +698,7 @@ namespace Next2.ViewModels
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string commandParameter))
             {
-                if (isMovedOrderAccepted && !string.IsNullOrWhiteSpace(commandParameter))
+                if (isMovedOrderAccepted && commandParameter == EOrderStatus.Tab.ToString())
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
@@ -797,19 +797,17 @@ namespace Next2.ViewModels
 
         private async Task OnGoToOrderTabsCommandAsync()
         {
-            _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
-
             if (App.IsTablet)
             {
                 MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
             else
             {
-                _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
-                _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
                 await _navigationService.NavigateAsync(nameof(OrderTabsPage));
             }
+
+            _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
+            _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
         }
 
         private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)

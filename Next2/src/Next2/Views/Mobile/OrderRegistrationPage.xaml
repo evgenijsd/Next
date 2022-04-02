@@ -217,7 +217,8 @@
             </CollectionView.Effects>
 
             <CollectionView.EmptyView>
-                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                <StackLayout
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                     <Frame 
                         IsVisible="{Binding IsOrderSavedNotificationVisible}"
@@ -239,19 +240,19 @@
                                 Margin="15, 15, 0, 0"/>
 
                             <ffimageloading:CachedImage 
-                                    Grid.Row="0"
-                                    Source="ic_close_square_24x24"
-                                    HeightRequest="24"
-                                    WidthRequest="24"
-                                    HorizontalOptions="EndAndExpand"
-                                    VerticalOptions="Start"
-                                    Margin="0, 15, 15, 0"
-                                    xct:TouchEffect.Command="{Binding HideOrderNotificationCommnad}"/>
+                                Grid.Row="0"
+                                Source="ic_close_square_24x24"
+                                HeightRequest="24"
+                                WidthRequest="24"
+                                HorizontalOptions="EndAndExpand"
+                                VerticalOptions="Start"
+                                Margin="0, 15, 15, 0"
+                                xct:TouchEffect.Command="{Binding HideOrderNotificationCommnad}"/>
 
                             <StackLayout
-                                    Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    xct:TouchEffect.Command="{Binding GoToOrderTabs}">
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                xct:TouchEffect.Command="{Binding GoToOrderTabs}">
 
                                 <ffimageloading:CachedImage 
                                     Source="ic_folder_primary_24x24"
@@ -269,52 +270,32 @@
                                     VerticalOptions="Start"
                                     VerticalTextAlignment="Center"
                                     Margin="5, 5, 0, 0"/>
+                                
                             </StackLayout>
 
                         </Grid>
 
                     </Frame>
 
-                    <StackLayout VerticalOptions="CenterAndExpand" IsVisible="false">
+                    <StackLayout 
+                        VerticalOptions="EndAndExpand"
+                        Margin="0, 0, 0, 100">
 
                         <ffimageloading:CachedImage
-                                HorizontalOptions="Center"
-                                HeightRequest="200"
-                                WidthRequest="250"
-                                Source="pic_payment.png">
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
-                                    <VisualStateGroup Name="AdaptivePic_payment">
-
-                                        <VisualState Name="Medium">
-
-                                            <VisualState.StateTriggers>
-                                                <AdaptiveTrigger MinWindowWidth="1340"/>
-                                            </VisualState.StateTriggers>
-
-                                            <VisualState.Setters>
-                                                <Setter Property="HeightRequest" Value="250"/>
-                                            </VisualState.Setters>
-
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-
-                                </VisualStateGroupList>
-                            </VisualStateManager.VisualStateGroups>
-
-                        </ffimageloading:CachedImage>
+                            HorizontalOptions="Center"
+                            HeightRequest="200"
+                            WidthRequest="250"
+                            Source="pic_payment.png"/>
 
                         <controls:LineSpacingLabel
-                                Style="{DynamicResource Regular24pxLabelStyle}"
-                                HorizontalOptions="Center"
-                                HorizontalTextAlignment="Center"
-                                WidthRequest="250"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i4_5}"
-                                FontFamily="Barlow-Regular"
-                                Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
+                            Style="{DynamicResource Regular24pxLabelStyle}"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            WidthRequest="250"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i4_5}"
+                            FontFamily="Barlow-Regular"
+                            Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
 
                     </StackLayout>
 
