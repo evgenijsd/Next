@@ -66,7 +66,7 @@
             FontFamily="Barlow-Bold"
             FontSize="{DynamicResource TSize_i4}"
             HorizontalOptions="FillAndExpand"
-            Text="{Binding Month.MonthName, Source={x:Reference calendar}}"
+            Text="{Binding Month.Name, Source={x:Reference calendar}}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             VerticalTextAlignment="Center">
 
@@ -103,7 +103,6 @@
         Margin="16,0,16,1"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         Month="{Binding SelectedMonth, Source={x:Reference calendar}}"
-        PropertyChanged="OnCalendarGridPropertyChanged"
         SelectedDate="{Binding SelectedDate, Source={x:Reference calendar}, Mode=TwoWay}"
         SelectedItem="{Binding SelectedDay, Source={x:Reference calendar}}"
         Year="{Binding SelectedYear.Year, Source={x:Reference calendar}}">

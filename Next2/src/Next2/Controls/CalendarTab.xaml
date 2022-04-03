@@ -8,8 +8,8 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    Padding="16"
     x:Name="calendarTab"
+    Padding="16"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     RowDefinitions="0.134*,0.24*,*">
     <Label
@@ -73,7 +73,7 @@
             FontFamily="Barlow-Regular"
             FontSize="{DynamicResource TSize_i6}"
             HorizontalOptions="FillAndExpand"
-            Text="{Binding Month.MonthName, Source={x:Reference calendarTab}}"
+            Text="{Binding Month.Name, Source={x:Reference calendarTab}}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             VerticalTextAlignment="Center">
 
@@ -107,7 +107,6 @@
         Margin="6,0,6,1"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         Month="{Binding SelectedMonth, Source={x:Reference calendarTab}}"
-        PropertyChanged="OnCalendarGridPropertyChanged"
         SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
         SelectedItem="{Binding SelectedDay, Source={x:Reference calendarTab}}"
         Year="{Binding SelectedYear.Year, Source={x:Reference calendarTab}}">

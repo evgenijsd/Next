@@ -13,8 +13,8 @@ namespace Next2.Controls
         {
             Days = new ();
             CreateArrayOfDays();
-            this.ItemsSource = Days;
-            this.SelectionMode = SelectionMode.Single;
+            ItemsSource = Days;
+            SelectionMode = SelectionMode.Single;
             VerticalScrollBarVisibility = ScrollBarVisibility.Never;
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never;
         }
@@ -131,7 +131,6 @@ namespace Next2.Controls
                                 if (Month == 1)
                                 {
                                     Month = 12;
-                                    Year--;
                                 }
                                 else
                                 {
@@ -143,7 +142,6 @@ namespace Next2.Controls
                                 if (Month == 12)
                                 {
                                     Month = 1;
-                                    Year++;
                                 }
                                 else
                                 {

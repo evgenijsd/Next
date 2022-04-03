@@ -17,18 +17,18 @@ namespace Next2.Controls
             InitializeComponent();
             Months = new()
             {
-                new MonthModel() { Id = 1, MonthName = "January" },
-                new MonthModel() { Id = 2, MonthName = "February" },
-                new MonthModel() { Id = 3, MonthName = "March" },
-                new MonthModel() { Id = 4, MonthName = "April" },
-                new MonthModel() { Id = 5, MonthName = "May" },
-                new MonthModel() { Id = 6, MonthName = "June" },
-                new MonthModel() { Id = 7, MonthName = "July" },
-                new MonthModel() { Id = 8, MonthName = "August" },
-                new MonthModel() { Id = 9, MonthName = "September" },
-                new MonthModel() { Id = 10, MonthName = "October" },
-                new MonthModel() { Id = 11, MonthName = "November" },
-                new MonthModel() { Id = 12, MonthName = "December" },
+                new MonthModel() { Number = 1, Name = "January" },
+                new MonthModel() { Number = 2, Name = "February" },
+                new MonthModel() { Number = 3, Name = "March" },
+                new MonthModel() { Number = 4, Name = "April" },
+                new MonthModel() { Number = 5, Name = "May" },
+                new MonthModel() { Number = 6, Name = "June" },
+                new MonthModel() { Number = 7, Name = "July" },
+                new MonthModel() { Number = 8, Name = "August" },
+                new MonthModel() { Number = 9, Name = "September" },
+                new MonthModel() { Number = 10, Name = "October" },
+                new MonthModel() { Number = 11, Name = "November" },
+                new MonthModel() { Number = 12, Name = "December" },
             };
 
             SelectedMonth = DateTime.Now.Month;
@@ -38,7 +38,7 @@ namespace Next2.Controls
 
             for (int i = MIN_YEAR; i < MAX_YEAR; i++)
             {
-                Years.Add(new Years() { Id = i - 1900, Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
+                Years.Add(new Years() { Year = i, Opacity = i <= DateTime.Now.Year ? 1 : 0.32 });
             }
 
             SelectedYear = Years.FirstOrDefault(x => x.Year == DateTime.Now.Year);
@@ -125,35 +125,6 @@ namespace Next2.Controls
 
         #region -- Private Helpers --
 
-        private void OnCalendarGridPropertyChanged(object sender, System.EventArgs arg)
-        {
-            if (Month is not null)
-            {
-                if (sender is CalendarGridCollectionView collectionView && collectionView.Month != Month?.Id)
-                {
-                    if (collectionView.Month > Month?.Id)
-                    {
-                        Month = Months[SelectedMonth - 1];
-                        if (SelectedMonth == 1)
-                        {
-                            SelectedMonth = 12;
-                        }
-
-                        Month = Months[SelectedMonth - 1];
-                    }
-                    else
-                    {
-                        if (SelectedMonth == 12)
-                        {
-                            SelectedMonth = 1;
-                        }
-
-                        Month = Months[SelectedMonth - 1];
-                    }
-                }
-            }
-        }
-
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {
             if (!dropdownFrame.IsVisible)
@@ -176,7 +147,6 @@ namespace Next2.Controls
             if (SelectedMonth == 12)
             {
                 SelectedMonth = 1;
-                SelectedYear.Year++;
             }
             else
             {
@@ -190,7 +160,6 @@ namespace Next2.Controls
         {
             if (SelectedMonth == 1)
             {
-                SelectedYear.Year--;
                 SelectedMonth = 12;
             }
             else

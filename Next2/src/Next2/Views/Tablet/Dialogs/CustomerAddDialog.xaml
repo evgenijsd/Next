@@ -83,7 +83,10 @@
                             VerticalOptions="EndAndExpand" />
 
                         <!--  calendar  -->
-                        <controls:CalendarTab Grid.Row="1" Grid.Column="1" SelectedDate="{Binding SelectedDate}" />
+                        <controls:CalendarTab
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            SelectedDate="{Binding SelectedDate}" />
 
                         <!--  entries  -->
                         <ScrollView
