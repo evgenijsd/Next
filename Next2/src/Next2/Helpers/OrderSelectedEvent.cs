@@ -2,7 +2,7 @@
 
 namespace Next2.Helpers
 {
-    public class SelectedOrderEvent : PubSubEvent<int>
+    public class OrderSelectedEvent : PubSubEvent<int>
     {
     }
 }

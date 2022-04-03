@@ -91,5 +91,12 @@
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
         }
+
+        public static class PaymentOrderStatus
+        {
+            public const string IN_PROGRESS = "In progress";
+            public const string CANCELLED = "Cancelled";
+            public const string PAYED = "Payed";
+        }
     }
 }

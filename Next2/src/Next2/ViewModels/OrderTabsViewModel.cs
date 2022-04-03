@@ -46,8 +46,8 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<SelectedOrderEvent>().Subscribe(SetLastSavedOrderId);
-            _eventAggregator.GetEvent<MovementOrderEvent>().Subscribe(SetOrderStatus);
+            _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderStatus);
 
             _popupNavigation = popupNavigation;
         }
@@ -453,10 +453,7 @@ namespace Next2.ViewModels
 
         private void SetOrderStatus(Enum orderStatus)
         {
-            if (orderStatus is not null)
-            {
-                IsOrderTabsSelected = orderStatus is EOrderStatus.Tab ? false : true;
-            }
+            IsOrderTabsSelected = orderStatus is not EOrderPaymentStatus.InProgress ? false : true;
         }
 
         #endregion

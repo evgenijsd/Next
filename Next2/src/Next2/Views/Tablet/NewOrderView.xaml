@@ -1594,7 +1594,7 @@
                                         HeightRequest="20"
                                         WidthRequest="20"
                                         HorizontalOptions="Start"
-                                        VerticalOptions="EndAndExpand"
+                                        VerticalOptions="Start"
                                         Margin="15, 0, 0, 5">
 
                                         <VisualStateManager.VisualStateGroups>
@@ -2056,7 +2056,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="Order"/>
+                    xct:TouchEffect.CommandParameter="InProgress"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -2064,7 +2064,8 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="Tab"/>
+                    xct:TouchEffect.CommandParameter="WaitingForPayment"/>
+
 
                 <buttons:BorderButton
                     Grid.Column="2"

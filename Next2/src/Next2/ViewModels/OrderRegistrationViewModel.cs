@@ -7,6 +7,7 @@ using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Services.UserService;
+using Next2.ViewModels.Mobile;
 using Next2.Views;
 using Next2.Views.Mobile;
 using Next2.Views.Tablet;
@@ -26,6 +27,7 @@ using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
+using static Next2.Constants;
 
 namespace Next2.ViewModels
 {
@@ -47,7 +49,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
-        private EOrderStatus _orderStatus;
+        private EOrderPaymentStatus _orderStatus;
         private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
@@ -67,7 +69,7 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
 
-            _orderStatus = EOrderStatus.None;
+            _orderStatus = EOrderPaymentStatus.None;
 
             CurrentState = LayoutState.Loading;
 
@@ -152,6 +154,11 @@ namespace Next2.ViewModels
                 {
                     seat.SelectedItem = null;
                 }
+
+                MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
+                {
+                    RecalculateOrderPriceBySet(arg);
+                });
             }
         }
 
@@ -559,7 +566,6 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    _eventAggregator.GetEvent<RemoveSetEvent>().Subscribe(RecalculateOrderPriceBySet);
                     await _navigationService.NavigateAsync(nameof(EditPage));
                 }
             }
@@ -609,20 +615,24 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync(string commandParameter)
         {
-            switch (commandParameter)
+            if (Enum.TryParse(commandParameter, out _orderStatus))
             {
-                case "Order":
-                    _orderStatus = EOrderStatus.Order;
+                switch (_orderStatus)
+                {
+                    case EOrderPaymentStatus.InProgress:
 
-                    break;
-                case "Tab":
-                    _orderStatus = EOrderStatus.Tab;
+                        _orderStatus = EOrderPaymentStatus.InProgress;
 
-                    break;
-                case "Pay":
-                    _orderStatus = EOrderStatus.Pay;
+                        break;
+                    case EOrderPaymentStatus.WaitingForPayment:
+                        _orderStatus = EOrderPaymentStatus.WaitingForPayment;
 
-                    break;
+                        break;
+                    case EOrderPaymentStatus.Completed:
+                        _orderStatus = EOrderPaymentStatus.Completed;
+
+                        break;
+                }
             }
 
             List<SeatModel> seats = new();
@@ -651,6 +661,7 @@ namespace Next2.ViewModels
                     };
 
                     var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
+
                     if (!isSuccessSeatResult.IsSuccess)
                     {
                         isAllSeatSaved = !isAllSeatSaved;
@@ -698,7 +709,7 @@ namespace Next2.ViewModels
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string commandParameter))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderStatus.Tab.ToString())
+                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.WaitingForPayment.ToString())
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
@@ -790,9 +801,9 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnHideOrderNotificationCommnadAsync()
+        private Task OnHideOrderNotificationCommnadAsync()
         {
-            await RefreshCurrentOrderAsync();
+            return Task.Run(RefreshCurrentOrderAsync().Await);
         }
 
         private async Task OnGoToOrderTabsCommandAsync()
@@ -806,8 +817,8 @@ namespace Next2.ViewModels
                 await _navigationService.NavigateAsync(nameof(OrderTabsPage));
             }
 
-            _eventAggregator.GetEvent<SelectedOrderEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<MovementOrderEvent>().Publish(_orderStatus);
+            _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderStatus);
         }
 
         private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
@@ -815,9 +826,10 @@ namespace Next2.ViewModels
             var amoutToSubtract = selectedSet.Portion.Price;
             CurrentOrder.Total -= amoutToSubtract;
             CurrentOrder.SubTotal -= amoutToSubtract;
+
             if (!App.IsTablet)
             {
-                _eventAggregator.GetEvent<RemoveSetEvent>().Unsubscribe(RecalculateOrderPriceBySet);
+                MessagingCenter.Unsubscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET);
             }
         }
 

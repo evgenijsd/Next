@@ -463,7 +463,7 @@
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Order}"
                 xct:TouchEffect.Command="{Binding OrderCommand}"
-                xct:TouchEffect.CommandParameter="Order"/>
+                xct:TouchEffect.CommandParameter="InProgress"/>  
 
             <buttons:BorderButton
                 Grid.Column="1"
@@ -471,7 +471,7 @@
                 BorderColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Tab}"
                 xct:TouchEffect.Command="{Binding TabCommand }"
-                xct:TouchEffect.CommandParameter="Tab"/>
+                xct:TouchEffect.CommandParameter="WaitingForPayment"/>
 
             <buttons:BorderButton
                 Grid.Column="2"
