@@ -18,6 +18,8 @@ namespace Next2.Services.Bonuses
 
         ObservableCollection<SetBindableModel> GetSets(FullOrderBindableModel currentOrder);
 
+        Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder);
+
         ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets);
 
         float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set);

@@ -24,10 +24,6 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
-        private IEnumerable<BonusModel>? _bonuses;
-        private IEnumerable<BonusConditionModel>? _bonusConditions;
-        public IEnumerable<BonusSetModel>? _bonusSets;
-
         public BonusPageViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
@@ -73,11 +69,13 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            IEnumerable<BonusModel>? bonuses;
+            IEnumerable<BonusConditionModel>? bonusConditions = null;
             var result = await _bonusesService.GetBonusesAsync();
 
             if (result.IsSuccess)
             {
-                _bonuses = result.Result;
+                bonuses = result.Result;
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<BonusModel, BonusBindableModel>());
                 var mapper = new Mapper(config);
 
@@ -85,16 +83,9 @@ namespace Next2.ViewModels
 
                 if (resultConditions.IsSuccess)
                 {
-                    _bonusConditions = resultConditions.Result;
-                    Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonuses.Where(x => _bonusConditions.Any(y => y.BonusId == x.Id)));
-                    Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonuses.Where(x => !_bonusConditions.Any(y => y.BonusId == x.Id)));
-                }
-
-                var resultBonusSets = await _bonusesService.GetBonusSetsAsync();
-
-                if (resultBonusSets.IsSuccess)
-                {
-                    _bonusSets = resultBonusSets.Result;
+                    bonusConditions = resultConditions.Result;
+                    Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id)));
+                    Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id)));
                 }
 
                 HeightCoupons = Coupons.Count * _heightBonus;
@@ -106,9 +97,9 @@ namespace Next2.ViewModels
                 CurrentOrder = currentOrder;
                 var sets = _bonusesService.GetSets(CurrentOrder);
 
-                if (_bonusConditions is not null)
+                if (bonusConditions is not null)
                 {
-                    Discounts = _bonusesService.GetDiscounts(_bonusConditions, Discounts, sets);
+                    Discounts = _bonusesService.GetDiscounts(bonusConditions, Discounts, sets);
                 }
             }
         }
@@ -134,7 +125,7 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
             CurrentOrder.BonusType = EBonusType.None;
 
@@ -144,83 +135,9 @@ namespace Next2.ViewModels
             {
                 CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
                 CurrentOrder.Bonus = SelectedBonus;
-                CurrentOrder.PriceWithBonus = 0;
 
-                var bonusConditions = _bonusConditions?.Where(x => x.BonusId == SelectedBonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
-                var bonusSets = _bonusSets?.Where(x => x.BonusId == SelectedBonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
-                List<SetBindableModel> setConditions = new();
-                List<SetBindableModel> setBonus = new();
-                int countCondition;
-                int countBonusSet;
-                var sets = _bonusesService.GetSets(CurrentOrder).ToList();
-
-                do
-                {
-                    countCondition = 0;
-
-                    foreach (var condition in bonusConditions)
-                    {
-                        var set = sets?.FirstOrDefault(x => x.Id == condition.SetId);
-
-                        if (set is not null)
-                        {
-                            setConditions.Add(set);
-                            sets?.Remove(set);
-                            countCondition++;
-                        }
-                    }
-
-                    countBonusSet = 0;
-
-                    foreach (var bonusSet in bonusSets)
-                    {
-                        var set = sets?.FirstOrDefault(x => x.Id == bonusSet.SetId);
-
-                        if (set is not null)
-                        {
-                            setBonus.Add(set);
-                            sets?.Remove(set);
-                            countBonusSet++;
-                        }
-                    }
-                }
-                while ((countCondition == bonusConditions.Count) && (countBonusSet == bonusSets.Count));
-
-                while(countBonusSet > 0 && countBonusSet < bonusSets.Count)
-                {
-                    setBonus.Remove(setBonus[^1]);
-                    countBonusSet--;
-                }
-
-                while (countCondition > 0 && countCondition < bonusConditions.Count)
-                {
-                    setConditions.Remove(setConditions[^1]);
-                    countCondition--;
-                }
-
-                foreach (SeatBindableModel seat in CurrentOrder.Seats)
-                {
-                    foreach (SetBindableModel set in seat.Sets)
-                    {
-                        if (setBonus is null || !setConditions.Any(x => x.Id == set.Id) || setBonus.Any(x => x.Id == set.Id))
-                        {
-                            set.PriceBonus = _bonusesService.GetPriceBonus(SelectedBonus, set);
-                        }
-                        else
-                        {
-                            set.PriceBonus = set.Portion.Price;
-                        }
-
-                        CurrentOrder.PriceWithBonus += set.PriceBonus;
-                    }
-
-                    CurrentOrder.PriceTax = CurrentOrder.PriceWithBonus * CurrentOrder.Tax.Value;
-
-                    CurrentOrder.Total = CurrentOrder.PriceWithBonus + CurrentOrder.PriceTax;
-                }
+                CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
             }
-
-            return Task.CompletedTask;
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

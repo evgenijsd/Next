@@ -162,5 +162,100 @@ namespace Next2.Services.Bonuses
 
             return result;
         }
+
+        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
+        {
+            if (currentOrder.Bonus is not null)
+            {
+                var resultConditions = await GetConditionsAsync();
+
+                if (resultConditions.IsSuccess)
+                {
+                    var resultBonusSets = await GetBonusSetsAsync();
+
+                    if (resultBonusSets.IsSuccess)
+                    {
+                        currentOrder.PriceWithBonus = 0;
+
+                        var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
+                        var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
+                        List<SetBindableModel> setConditions = new();
+                        List<SetBindableModel> setBonus = new();
+                        int countCondition;
+                        int countBonusSet;
+                        var sets = GetSets(currentOrder).ToList();
+
+                        do
+                        {
+                            countCondition = 0;
+
+                            foreach (var condition in bonusConditions)
+                            {
+                                var set = sets?.FirstOrDefault(x => x.Id == condition.SetId);
+
+                                if (set is not null)
+                                {
+                                    setConditions.Add(set);
+                                    sets?.Remove(set);
+                                    countCondition++;
+                                }
+                            }
+
+                            countBonusSet = 0;
+
+                            foreach (var bonusSet in bonusSets)
+                            {
+                                var set = sets?.FirstOrDefault(x => x.Id == bonusSet.SetId);
+
+                                if (set is not null)
+                                {
+                                    setBonus.Add(set);
+                                    sets?.Remove(set);
+                                    countBonusSet++;
+                                }
+                            }
+                        }
+                        while (((countCondition == bonusConditions.Count) && (countBonusSet == bonusSets.Count)) && !(countCondition == 0 && countBonusSet == 0));
+
+                        while (countBonusSet > 0 && countBonusSet < bonusSets.Count)
+                        {
+                            setBonus.Remove(setBonus[^1]);
+                            countBonusSet--;
+                        }
+
+                        while (countCondition > 0 && countCondition < bonusConditions.Count)
+                        {
+                            setConditions.Remove(setConditions[^1]);
+                            countCondition--;
+                        }
+
+                        foreach (SeatBindableModel seat in currentOrder.Seats)
+                        {
+                            foreach (SetBindableModel set in seat.Sets)
+                            {
+                                if (setBonus is null || !setConditions.Any(x => x.Id == set.Id) || setBonus.Any(x => x.Id == set.Id))
+                                {
+                                    set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
+                                }
+                                else
+                                {
+                                    set.PriceBonus = set.Portion.Price;
+                                }
+
+                                currentOrder.PriceWithBonus += set.PriceBonus;
+                            }
+
+                            currentOrder.PriceTax = currentOrder.PriceWithBonus * currentOrder.Tax.Value;
+
+                            currentOrder.Total = currentOrder.PriceWithBonus + currentOrder.PriceTax;
+                        }
+
+                        return currentOrder;
+                    }
+                }
+            }
+
+            return currentOrder;
+        }
     }
 }
