@@ -2,6 +2,7 @@ using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
+using Next2.Services.Bonuses;
 using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,16 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
+            IBonusesService bonusesService,
             IMapper mapper)
         {
             _mockService = mockService;
+            _bonusService = bonusesService;
             _mapper = mapper;
 
             CurrentOrder.Seats = new ();
@@ -273,6 +277,11 @@ namespace Next2.Services.Order
 
                 CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
                 CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * CurrentOrder.Tax.Value);
+
+                if (CurrentOrder.Bonus is not null)
+                {
+                    CurrentOrder = await _bonusService.ÑalculationBonusAsync(CurrentOrder);
+                }
 
                 result.SetSuccess();
             }
