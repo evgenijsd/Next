@@ -26,7 +26,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<BonusModel>? _bonuses;
         private IEnumerable<BonusConditionModel>? _bonusConditions;
-        public IEnumerable<SetBindableModel>? _sets;
+        public IEnumerable<BonusSetModel>? _bonusSets;
 
         public BonusPageViewModel(
             INavigationService navigationService,
@@ -90,6 +90,13 @@ namespace Next2.ViewModels
                     Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonuses.Where(x => !_bonusConditions.Any(y => y.BonusId == x.Id)));
                 }
 
+                var resultBonusSets = await _bonusesService.GetBonusSetsAsync();
+
+                if (resultBonusSets.IsSuccess)
+                {
+                    _bonusSets = resultBonusSets.Result;
+                }
+
                 HeightCoupons = Coupons.Count * _heightBonus;
                 HeightDiscounts = Discounts.Count * _heightBonus;
             }
@@ -97,11 +104,11 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 CurrentOrder = currentOrder;
-                _sets = _bonusesService.GetSets(CurrentOrder);
+                var sets = _bonusesService.GetSets(CurrentOrder);
 
                 if (_bonusConditions is not null)
                 {
-                    Discounts = _bonusesService.GetDiscounts(_bonusConditions, Discounts, _sets);
+                    Discounts = _bonusesService.GetDiscounts(_bonusConditions, Discounts, sets);
                 }
             }
         }
@@ -123,7 +130,7 @@ namespace Next2.ViewModels
         private async Task OnBonusCommandAsync()
         {
             _eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
-            //_orderService.CurrentOrder = CurrentOrder;
+
             await _navigationService.GoBackAsync();
         }
 
@@ -139,14 +146,63 @@ namespace Next2.ViewModels
                 CurrentOrder.Bonus = SelectedBonus;
                 CurrentOrder.PriceWithBonus = 0;
 
-                var bonusConditions = _bonusConditions?.Where(x => x.BonusId == SelectedBonus.Id);
-                var setConditions = _sets?.Where(x => bonusConditions.Any(y => y.SetId == x.Id));
+                var bonusConditions = _bonusConditions?.Where(x => x.BonusId == SelectedBonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
+                var bonusSets = _bonusSets?.Where(x => x.BonusId == SelectedBonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
+                List<SetBindableModel> setConditions = new();
+                List<SetBindableModel> setBonus = new();
+                int countCondition;
+                int countBonusSet;
+                var sets = _bonusesService.GetSets(CurrentOrder).ToList();
+
+                do
+                {
+                    countCondition = 0;
+
+                    foreach (var condition in bonusConditions)
+                    {
+                        var set = sets?.FirstOrDefault(x => x.Id == condition.SetId);
+
+                        if (set is not null)
+                        {
+                            setConditions.Add(set);
+                            sets?.Remove(set);
+                            countCondition++;
+                        }
+                    }
+
+                    countBonusSet = 0;
+
+                    foreach (var bonusSet in bonusSets)
+                    {
+                        var set = sets?.FirstOrDefault(x => x.Id == bonusSet.SetId);
+
+                        if (set is not null)
+                        {
+                            setBonus.Add(set);
+                            sets?.Remove(set);
+                            countBonusSet++;
+                        }
+                    }
+                }
+                while ((countCondition == bonusConditions.Count) && (countBonusSet == bonusSets.Count));
+
+                while(countBonusSet > 0 && countBonusSet < bonusSets.Count)
+                {
+                    setBonus.Remove(setBonus[^1]);
+                    countBonusSet--;
+                }
+
+                while (countCondition > 0 && countCondition < bonusConditions.Count)
+                {
+                    setConditions.Remove(setConditions[^1]);
+                    countCondition--;
+                }
 
                 foreach (SeatBindableModel seat in CurrentOrder.Seats)
                 {
                     foreach (SetBindableModel set in seat.Sets)
                     {
-                        if (setConditions is null || !setConditions.Any(x => x.Id == set.Id))
+                        if (setBonus is null || !setConditions.Any(x => x.Id == set.Id) || setBonus.Any(x => x.Id == set.Id))
                         {
                             set.PriceBonus = _bonusesService.GetPriceBonus(SelectedBonus, set);
                         }

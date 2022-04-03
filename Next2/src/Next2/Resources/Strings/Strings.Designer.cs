@@ -9,9 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Next2.Resources.Strings {
+    using Next2.Models;
     using System;
-    
-    
+    using System.Collections.Generic;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -31,7 +33,7 @@ namespace Next2.Resources.Strings {
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Strings() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -464,7 +466,18 @@ namespace Next2.Resources.Strings {
                 return ResourceManager.GetString("NoInternetConnection", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Not found data.
+        /// </summary>
+        internal static string NotFoundData
+        {
+            get
+            {
+                return ResourceManager.GetString("NotFoundData", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Not found orders.
         /// </summary>

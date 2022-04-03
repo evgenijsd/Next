@@ -14,6 +14,8 @@ namespace Next2.Services.Bonuses
 
         Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync();
 
+        Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync();
+
         ObservableCollection<SetBindableModel> GetSets(FullOrderBindableModel currentOrder);
 
         ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets);

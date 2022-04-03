@@ -412,8 +412,8 @@
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="NotFound" xml:space="preserve">
-    <value>Not found</value>
+  <data name="NotFoundData" xml:space="preserve">
+    <value>Not found data</value>
   </data>
   <data name="CommentForOrder" xml:space="preserve">
     <value>Comment for Order...</value>

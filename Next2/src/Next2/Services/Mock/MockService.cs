@@ -240,7 +240,7 @@ namespace Next2.Services.Mock
                 },
             };
 
-            _base.Add(typeof(BonusSetModel), _bonusConditions);
+            _base.Add(typeof(BonusSetModel), _bonusSets);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>

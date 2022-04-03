@@ -34,7 +34,7 @@ namespace Next2.Services.Bonuses
                 }
                 else
                 {
-                    result.SetFailure(Strings.NotFoundOrders);
+                    result.SetFailure(Strings.NotFoundData);
                 }
             }
             catch (Exception ex)
@@ -59,7 +59,32 @@ namespace Next2.Services.Bonuses
                 }
                 else
                 {
-                    result.SetFailure(Strings.NotFoundOrders);
+                    result.SetFailure(Strings.NotFoundData);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync()
+        {
+            var result = new AOResult<IEnumerable<BonusSetModel>>();
+
+            try
+            {
+                var bonusSet = await _mockService.GetAsync<BonusSetModel>(x => x.Id != 0);
+
+                if (bonusSet is not null)
+                {
+                    result.SetSuccess(bonusSet);
+                }
+                else
+                {
+                    result.SetFailure(Strings.NotFoundData);
                 }
             }
             catch (Exception ex)
