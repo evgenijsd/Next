@@ -115,7 +115,6 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="Controls\Templates\Mobile\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
@@ -139,6 +138,12 @@
     </Compile>
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\Mobile\FreeSetItemTemplate.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\Mobile\RewardItemTemplate.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>

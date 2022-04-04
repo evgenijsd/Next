@@ -1,6 +1,5 @@
 ﻿using Next2.Models;
 using Prism.Navigation;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -24,6 +23,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand ApplyRewardCommand => _applyRewardCommand ??= new AsyncCommand(OnApplyRewardCommandAsync);
 
         #endregion
+
         #region -- Overrides --
 
         public override void OnNavigatedTo(INavigationParameters parameters)

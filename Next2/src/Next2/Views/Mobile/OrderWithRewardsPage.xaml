@@ -4,9 +4,9 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:mobiletemplates="clr-namespace:Next2.Controls.Templates.Mobile"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Mobile"
@@ -15,11 +15,10 @@
     x:Class="Next2.Views.Mobile.OrderWithRewardsPage">
     
     <StackLayout>
-        
         <StackLayout.Resources>
             <Style TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
         </StackLayout.Resources>
@@ -28,7 +27,7 @@
             HeightImage="20"
             HeightRequest="78"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            FontSize="18"
+            FontSize="{DynamicResource TSize_i6}"
             FontFamily="Barlow-Bold"
             Title="{xct:Translate RewardsPoints}"
             LeftButtonCommand="{prism:GoBack}" />
@@ -49,7 +48,8 @@
                 <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
 
                     <StackLayout 
-                        Padding="16, 16, 16, 0">
+                        Padding="16, 14, 16, 0" 
+                        Spacing="4">
                                                 
                         <Label TextColor="{DynamicResource TextAndBackgroundColor_i10}">
                                                     
@@ -65,55 +65,12 @@
     
                         <CollectionView
                             ItemsSource="{Binding Sets}"
-                            HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=80}">
+                            HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=85}">
                                                     
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:FreeSetBindableModel">
 
-                                    <StackLayout>
-
-                                        <StackLayout
-                                            Padding="0, 16"
-                                            Orientation="Horizontal">
-               
-                                            <StackLayout 
-                                                VerticalOptions="Center"
-                                                HorizontalOptions="FillAndExpand"
-                                                Spacing="8">     
-                                                                        
-                                                <StackLayout Orientation="Horizontal">
-                                                                        
-                                                    <Label Text="{Binding Title}"/>
-                   
-                                                    <Label
-                                                        HorizontalOptions="EndAndExpand"
-                                                        TextColor="{DynamicResource IndicationColor_i1}">
-
-                                                        <Label.FormattedText>
-                                                            <FormattedString>
-                                                                <Span Text="{xct:Translate CurrencySign}" />
-                                                                <Span Text=" " />
-                                                                <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                                                            </FormattedString>
-                                                        </Label.FormattedText>
-                                                    </Label>
-                                                                        
-                                                </StackLayout>
-                                                
-                                                <Label
-                                                    HorizontalOptions="End"
-                                                    TextColor="{DynamicResource TextAndBackgroundColor_i10}"
-                                                    Text="OldPrice"/>
-
-                                            </StackLayout>
-                                                                                                                                       
-                                        </StackLayout>
-
-                                        <BoxView
-                                            HeightRequest="2"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
-
-                                    </StackLayout>
+                                    <mobiletemplates:FreeSetItemTemplate/>
                                                             
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -143,7 +100,7 @@
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontFamily="Barlow-SemiBold"
-                FontSize="18"
+                FontSize="{DynamicResource TSize_i6}"
                 Text="{xct:Translate Apply}"
                 xct:TouchEffect.Command="{Binding ApplyRewardCommand}"/>
                        
