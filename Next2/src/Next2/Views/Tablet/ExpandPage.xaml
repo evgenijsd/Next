@@ -71,29 +71,29 @@
             <!--Categories header-->
 
             <StackLayout
-                    VerticalOptions="Start"
-                    Orientation="Horizontal"
-                    Padding="12, 11, 12, 0">
+                VerticalOptions="Start"
+                Orientation="Horizontal"
+                Padding="12, 11, 12, 0">
 
                 <ContentView
                     xct:TouchEffect.Command="{prism:GoBack}"
-                        HeightRequest="40"
-                        Padding="0, 0, 12, 0">
+                    HeightRequest="40"
+                    Padding="0, 0, 12, 0">
 
                     <ffimageloading:CachedImage 
-                            Source="ic_arrow_left_tail_40x40"
-                            HeightRequest="30">
+                        Source="ic_arrow_left_tail_40x40"
+                        HeightRequest="30">
 
                     </ffimageloading:CachedImage>
 
                 </ContentView>
 
                 <Label
-                        Text="{xct:Translate Categories}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Style="{StaticResource labeltSize_i4}"
-                        FontFamily="Barlow-SemiBold"
-                        VerticalTextAlignment="Center"/>
+                    Text="{xct:Translate Categories}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Style="{StaticResource labeltSize_i4}"
+                    FontFamily="Barlow-SemiBold"
+                    VerticalTextAlignment="Center"/>
 
 
             </StackLayout>
@@ -281,19 +281,19 @@
         <!--Menu-->
 
         <CollectionView
-                Margin="12, 8, 12, 0"
-                VerticalOptions="StartAndExpand"
-                ItemsSource="{Binding SetsItems}"
-                VerticalScrollBarVisibility="Always"
-                SelectionMode="Single">
+            Margin="12, 8, 12, 0"
+            VerticalOptions="StartAndExpand"
+            ItemsSource="{Binding SetsItems}"
+            VerticalScrollBarVisibility="Always"
+            SelectionMode="Single">
 
             <CollectionView.ItemsLayout>
 
                 <GridItemsLayout
-                        Orientation="Vertical"
-                        VerticalItemSpacing="5"
-                        HorizontalItemSpacing="5"
-                        Span="5"/>
+                    Orientation="Vertical"
+                    VerticalItemSpacing="5"
+                    HorizontalItemSpacing="5"
+                    Span="5"/>
 
             </CollectionView.ItemsLayout>
 
@@ -341,10 +341,10 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <templates:SetItemTemplate
-                            x:DataType="models:SetModel"
-                            HeightRequest="327"
-                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
-                            xct:TouchEffect.CommandParameter="{Binding .}"/>
+                        x:DataType="models:SetModel"
+                        HeightRequest="327"
+                        xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
+                        xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
