@@ -4,7 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -12,6 +12,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:local="clr-namespace:Next2"
     x:DataType="viewModels:OrderTabsViewModel">
 
     <StackLayout
@@ -112,11 +113,20 @@
                 </controls:SearchButton>
 
                     <StackLayout
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Spacing="15"
-                    Margin="0,0,20,0">
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="15"
+                        Margin="0,0,20,0">
 
+                        <StackLayout.Triggers>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                                
+                                <Setter Property="IsEnabled" Value="false"/>
+                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                                
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                                               
                     <buttons:BorderButton
                         HorizontalOptions="EndAndExpand"
                         Text="{xct:Translate Remove}"
@@ -125,7 +135,8 @@
                         BorderColor="{DynamicResource IndicationColor_i3}"
                         BackgroundColor="Transparent"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        WidthRequest="100"/>
+                        WidthRequest="100"
+                        xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
 
                     <buttons:BorderButton
                         Text="{xct:Translate Edit}"
@@ -394,7 +405,7 @@
                                                     <Trigger
                                                         TargetType="Label"
                                                         Property="Text"
-                                                        Value="Annuled">
+                                                        Value="{Static local:Constants+OrderStatus.CANCELLED}">
                                                         <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                                                     </Trigger>
                                                 </Label.Triggers>

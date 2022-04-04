@@ -27,7 +27,7 @@
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}"/>
 
             </DataTrigger>
-            
+
         </BoxView.Triggers>
     </BoxView>
 
@@ -53,7 +53,7 @@
                     <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
 
                 </DataTrigger>
-                
+
             </ffimageloading:CachedImage.Triggers>
 
         </ffimageloading:CachedImage>
@@ -209,7 +209,7 @@
                         </StackLayout>
 
                     </Frame>
-                    
+
                 </StackLayout>
 
             </DataTemplate>

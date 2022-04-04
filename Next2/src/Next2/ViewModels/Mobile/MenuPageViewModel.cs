@@ -163,6 +163,7 @@ namespace Next2.ViewModels.Mobile
         {
             await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
         }
+
         #endregion
     }
 }

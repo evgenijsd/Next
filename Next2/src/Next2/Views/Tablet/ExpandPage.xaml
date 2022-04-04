@@ -56,7 +56,7 @@
             </Style>
 
         </ResourceDictionary>
-        
+
     </views:BaseContentPage.Resources>
 
     <!--Left Part-->
@@ -329,7 +329,7 @@
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
-                
+
                 <effects:ScrollBarColorEffect
                     ScrollBarThumbWidth="6"
                     ScrollBarCornerRadius="9"

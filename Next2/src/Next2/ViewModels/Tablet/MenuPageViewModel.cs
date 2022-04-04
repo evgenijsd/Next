@@ -1,10 +1,13 @@
 ﻿using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
+using Next2.Services.Order;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,14 +18,15 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
     public class MenuPageViewModel : BaseViewModel
     {
         private readonly IAuthenticationService _authenticationService;
-
         private readonly IPopupNavigation _popupNavigation;
+        private readonly IOrderService _orderService;
 
         public MenuPageViewModel(
             INavigationService navigationService,
@@ -34,7 +38,8 @@ namespace Next2.ViewModels.Tablet
             ReservationsViewModel reservationsViewModel,
             MembershipViewModel membershipViewModel,
             CustomersViewModel customersViewModel,
-            SettingsViewModel settingsViewModel)
+            SettingsViewModel settingsViewModel,
+            IOrderService orderService)
             : base(navigationService)
         {
             NewOrderViewModel = newOrderViewModel;
@@ -46,8 +51,11 @@ namespace Next2.ViewModels.Tablet
             SettingsViewModel = settingsViewModel;
             _authenticationService = authenticationService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
 
             InitMenuItems();
+
+            MessagingCenter.Subscribe<PageSwitchingMessage>(this, Constants.Navigations.SWITCH_PAGE, PageSwitchingMessageHandler);
         }
 
         #region -- Public properties --
@@ -92,16 +100,32 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnNavigatedTo(parameters);
 
-            NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
+            {
+                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+            }
         }
 
         #endregion
 
         #region -- Private methods --
 
+        private void PageSwitchingMessageHandler(PageSwitchingMessage sender)
+        {
+            if (sender is not null)
+            {
+                var targetPage = MenuItems.FirstOrDefault(x => x.State == sender.Page);
+
+                if (targetPage is not null)
+                {
+                    SelectedMenuItem = targetPage;
+                }
+            }
+        }
+
         private void InitMenuItems()
         {
-            MenuItems = new ()
+            MenuItems = new()
             {
                 new MenuItemBindableModel()
                 {
@@ -159,7 +183,20 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnLogOutCommandAsync()
         {
-            await _popupNavigation.PushAsync(new LogOutAlertView(null, CloseDialogCallback));
+            var dialogParameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["WantToLogOut"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["LogOut_UpperCase"] },
+            };
+
+            PopupPage confirmDialog = App.IsTablet
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
+
+            await _popupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -168,6 +205,7 @@ namespace Next2.ViewModels.Tablet
 
             if (result)
             {
+                await _orderService.CreateNewOrderAsync();
                 _authenticationService.LogOut();
 
                 await _popupNavigation.PopAsync();

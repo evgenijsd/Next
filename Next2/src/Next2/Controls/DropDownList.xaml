@@ -2,6 +2,7 @@
 <pancakeview:PancakeView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -16,11 +17,8 @@
         <StackLayout
             Orientation="Horizontal"
             BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderBackgroundColor}"
+            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandListCommand}"
             x:Name="listHeader">
-            
-            <StackLayout.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandListCommand}" />
-            </StackLayout.GestureRecognizers>
 
             <Label
                 Padding="10, 7, 0, 7"
@@ -28,6 +26,7 @@
                 HorizontalOptions="StartAndExpand"
                 FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderTextSize}"
                 FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderFontFamily}"
+                TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderTextColor}"
                 Text="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=HeaderText}" />
 
             <ffimageloading:CachedImage
@@ -37,21 +36,21 @@
                 HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSizes}"
                 WidthRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IconSizes}"
                 Source="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=WrappedListIconSource}">
-                
-                <ffimageloading:CachedImage.Triggers>            
+
+                <ffimageloading:CachedImage.Triggers>
                     <DataTrigger TargetType="ffimageloading:CachedImage" 
                                  Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
                                  Value="true">
-                    
+
                         <Setter Property="Source" Value="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandedListIconSource}"/>
-                    
-                    </DataTrigger>                
+
+                    </DataTrigger>
                 </ffimageloading:CachedImage.Triggers>
-                
+
             </ffimageloading:CachedImage>
 
         </StackLayout>
-        
+
         <controls:CustomScrollBarCollectionView
             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
             VerticalScrollBarVisibility="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ScrollBarVisibility}"

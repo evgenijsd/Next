@@ -100,7 +100,7 @@
             VerticalTextAlignment="Center"
             LineBreakMode="TailTruncation"
             MaxLines="1"/>
-        
+
     </Frame>
 
 </StackLayout>

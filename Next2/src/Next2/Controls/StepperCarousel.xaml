@@ -87,7 +87,7 @@
         </VisualStateManager.VisualStateGroups>
 
         <CollectionView.ItemsLayout>
-            
+
             <GridItemsLayout
                 Orientation="Horizontal"
                 Span="2"
@@ -95,7 +95,7 @@
                 SnapPointsAlignment="Start"
                 VerticalItemSpacing="4"
                 HorizontalItemSpacing="4"/>
-            
+
         </CollectionView.ItemsLayout>
 
         <CollectionView.Effects>
@@ -116,7 +116,7 @@
         </CollectionView.ItemTemplate>
 
     </CollectionView>
-    
+
     <Frame
         HeightRequest="100"
         HasShadow="False"
@@ -143,7 +143,7 @@
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 
     </Frame>

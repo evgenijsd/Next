@@ -17,6 +17,7 @@ namespace Next2.Models
             Id = order.Id;
             OrderNumber = order.OrderNumber;
             Table = order.Table;
+            Customer = order.Customer;
             CustomerName = order.CustomerName;
             OrderStatus = order.OrderStatus;
             OrderType = order.OrderType;
@@ -58,6 +59,8 @@ namespace Next2.Models
         public int OrderNumber { get; set; }
 
         public TableBindableModel Table { get; set; }
+
+        public CustomerModel Customer { get; set; } = new();
 
         public string? CustomerName { get; set; }
 

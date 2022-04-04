@@ -10,6 +10,7 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:effects="clr-namespace:Next2.Effects"
     x:DataType="viewModels:CustomersViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
@@ -146,6 +147,10 @@
                                 SelectionMode="Single"
                                 VerticalScrollBarVisibility="Never">
 
+                                <CollectionView.Effects>
+                                    <effects:NoOverScrollEffect/>
+                                </CollectionView.Effects>
+                                
                                 <CollectionView.ItemTemplate>
 
                                     <DataTemplate x:DataType="models:CustomerBindableModel">
@@ -155,10 +160,7 @@
 
                                                 <TapGestureRecognizer
                                                     Command="{Binding ShowInfoCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    NumberOfTapsRequired="2" />
-
-                                                <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
+                                                    CommandParameter="{Binding .}"/>
 
                                             </Grid.GestureRecognizers>
 

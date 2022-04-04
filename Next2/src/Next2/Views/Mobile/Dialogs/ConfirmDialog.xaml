@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    x:Class="Next2.Views.Mobile.Dialogs.ConfirmDialog"
+    x:DataType="viewModels:ConfirmViewModel">
+
+    <pancakeview:PancakeView
+        HorizontalOptions="Center" 
+        VerticalOptions="Center"
+        Margin="20, 0"
+        Border="{pancakeview:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        CornerRadius="{OnPlatform Android='6', iOS='8'}"
+        Padding="0">
+  
+        <pancakeview:PancakeView.Resources>
+            <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+                <Setter Property="Padding" Value="0, 0, 0, 2"/>
+                <Setter Property="HeightRequest" Value="42"/>
+                <Setter Property="CornerRadius" Value="4"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
+            </Style>
+        </pancakeview:PancakeView.Resources>
+        
+        <StackLayout>
+            <Label 
+                VerticalTextAlignment="Center"
+                Padding="18"
+                MaxLines="1"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-Bold"
+                Text="{Binding Title}"/>
+
+            <BoxView 
+                VerticalOptions="StartAndExpand"
+                HeightRequest="0.5"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+            <controls:LineSpacingLabel
+                VerticalTextAlignment="Start"
+                Padding="18, 28, 18, 48"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                FontFamily="Barlow-Regular"
+                FontSize="{DynamicResource TSize_i6}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                Text="{Binding Description}"/>
+
+            <BoxView 
+                HeightRequest="0.5"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+
+            <Grid 
+                ColumnDefinitions="0.5*, 0.5*"
+                ColumnSpacing="10"
+                Padding="20, 16">
+                    
+                <buttons:BorderButton
+                    Grid.Column="0"
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
+                    BorderColor="{DynamicResource AppColor_i1}"
+                    Text="{Binding CancellationText}" 
+                    Command="{Binding DeclineCommand}">
+                    
+                    <buttons:BorderButton.Triggers>
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding ConfirmMode}" Value="{Static enums:EConfirmMode.Warning}">
+                            
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+                            
+                        </DataTrigger>
+                    </buttons:BorderButton.Triggers>
+                    
+                </buttons:BorderButton>
+
+                <buttons:BorderButton
+                    Grid.Column="1"
+                    Style="{DynamicResource BorderButtonStyle_i2_1}"
+                    BackgroundColor="{DynamicResource IndicationColor_i3}"
+                    Text="{Binding ConfirmationText}" 
+                    Command="{Binding AcceptCommand}">
+                    
+                    <buttons:BorderButton.Triggers>
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding ConfirmMode}" Value="{Static enums:EConfirmMode.Warning}">
+                            
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+                            
+                        </DataTrigger>
+                    </buttons:BorderButton.Triggers>
+                    
+                </buttons:BorderButton>
+                    
+            </Grid>
+        </StackLayout>
+
+    </pancakeview:PancakeView>
+
+</rg:PopupPage>

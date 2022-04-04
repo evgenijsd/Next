@@ -18,6 +18,7 @@ namespace Next2.Models
             Title = set.Title;
             Price = set.Price;
             ImagePath = set.ImagePath;
+            Comment = set.Comment;
             Portion = new();
             Portions = new();
             Products = new();
@@ -46,6 +47,8 @@ namespace Next2.Models
         public float Price { get; set; }
 
         public string ImagePath { get; set; }
+
+        public string? Comment { get; set; }
 
         public PortionModel Portion { get; set; }
 

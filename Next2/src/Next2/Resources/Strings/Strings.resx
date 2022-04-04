@@ -339,17 +339,47 @@
   <data name="TableNumberOrOrder" xml:space="preserve">
     <value>Table Number or Order</value>
   </data>
+  <data name="HoldItem" xml:space="preserve">
+    <value>Hold Item</value>
+  </data>
+  <data name="Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
   <data name="AddItem" xml:space="preserve">
     <value>Add Item</value>
   </data>
   <data name="RemoveOrder" xml:space="preserve">
     <value>Remove Order</value>
   </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>Edit Order</value>
+  </data>
+  <data name="Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="Option" xml:space="preserve">
+    <value>Option</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="InvalidCode" xml:space="preserve">
     <value>Invalid code</value>
+  </data>
+  <data name="DeleteItems" xml:space="preserve">
+    <value>Delete Items</value>
+  </data>
+  <data name="MessageAboutRedirectingItems" xml:space="preserve">
+    <value>All items from this seat will be redirected to:</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Seat" xml:space="preserve">
+    <value>Seat</value>
+  </data>
+  <data name="OrderWillBeRemoved" xml:space="preserve">
+    <value>This order will be removed.</value>
   </data>
   <data name="AvailableOptions" xml:space="preserve">
     <value>Available Options</value>
@@ -360,13 +390,22 @@
   <data name="Proportions" xml:space="preserve">
     <value>Proportions</value>
   </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="NoItems" xml:space="preserve">
-    <value>No items in the category</value>
+  <data name="CommentForOrder" xml:space="preserve">
+    <value>Comment for Order...</value>
+  </data>
+  <data name="ThisSetWillBeRemoved" xml:space="preserve">
+    <value>This item will be removed from the order list.</value>
   </data>
   <data name="AvailableGroups" xml:space="preserve">
     <value>Available Groups</value>
+  </data>
+  <data name="NoItems" xml:space="preserve">
+    <value>No items in the category</value>
   </data>
 </root>

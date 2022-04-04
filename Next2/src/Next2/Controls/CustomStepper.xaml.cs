@@ -10,6 +10,9 @@ namespace Next2.Controls
         public CustomStepper()
         {
             InitializeComponent();
+
+            IncrementCommand = new Command(OnIncrementCommand);
+            DecrementCommand = new Command(OnDecrementCommand);
         }
 
         #region -- Public properties --
@@ -121,7 +124,7 @@ namespace Next2.Controls
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(
             propertyName: nameof(Value),
             returnType: typeof(int),
-            defaultValue: 1,
+            defaultValue: 0,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -147,7 +150,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MinValueProperty = BindableProperty.Create(
             propertyName: nameof(MinValue),
             returnType: typeof(int),
-            defaultValue: 1,
+            defaultValue: 0,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -160,7 +163,7 @@ namespace Next2.Controls
         public static readonly BindableProperty MaxValueProperty = BindableProperty.Create(
             propertyName: nameof(MaxValue),
             returnType: typeof(int),
-            defaultValue: 10,
+            defaultValue: 0,
             declaringType: typeof(CustomStepper),
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -170,17 +173,35 @@ namespace Next2.Controls
             set => SetValue(MaxValueProperty, value);
         }
 
+        public static readonly BindableProperty DecrementCommandProperty = BindableProperty.Create(
+            propertyName: nameof(DecrementCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(CustomStepper),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand DecrementCommand
+        {
+            get => (ICommand)GetValue(DecrementCommandProperty);
+            set => SetValue(DecrementCommandProperty, value);
+        }
+
+        public static readonly BindableProperty IncrementCommandProperty = BindableProperty.Create(
+            propertyName: nameof(IncrementCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(CustomStepper),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public ICommand IncrementCommand
+        {
+            get => (ICommand)GetValue(IncrementCommandProperty);
+            set => SetValue(IncrementCommandProperty, value);
+        }
+
         public bool CanDecrement { get; set; }
 
         public bool CanIncrement { get; set; }
 
         public string DisplayingValue { get; private set; }
-
-        private ICommand _decrementCommand;
-        public ICommand DecrementCommand => _decrementCommand ??= new Command(OnDecrementCommand);
-
-        private ICommand _incrementCommand;
-        public ICommand IncrementCommand => _incrementCommand ??= new Command(OnIncrementCommand);
 
         #endregion
 
@@ -191,17 +212,21 @@ namespace Next2.Controls
             base.OnPropertyChanged(propertyName);
 
             if (propertyName
-                is nameof(Value)
+                is nameof(IsEnabled)
+                or nameof(Value)
                 or nameof(IncrementValue)
                 or nameof(MinValue)
                 or nameof(MaxValue))
             {
-                CanDecrement = (Value - IncrementValue) >= MinValue;
-                CanIncrement = (Value + IncrementValue) <= MaxValue;
+                CanDecrement = IsEnabled && (Value - IncrementValue) >= MinValue;
+                CanIncrement = IsEnabled && (Value + IncrementValue) <= MaxValue;
             }
 
             if (propertyName
-                is nameof(Value)
+                is nameof(MinValue)
+                or nameof(MaxValue)
+                or nameof(IncrementValue)
+                or nameof(Value)
                 or nameof(ValueFormat))
             {
                 try

@@ -9,6 +9,7 @@ using Next2.Services.SettingsService;
 using Next2.Services.UserService;
 using Next2.ViewModels;
 using Next2.ViewModels.Dialogs;
+using Next2.ViewModels.Tablet;
 using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
@@ -25,8 +26,7 @@ using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Next2.Views;
 
 namespace Next2
 {
@@ -76,24 +76,26 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
+                containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
 
-                containerRegistry.RegisterSingleton<TabletViewModels.NewOrderViewModel>();
+                containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
                 containerRegistry.RegisterSingleton<OrderTabsViewModel>();
                 containerRegistry.RegisterSingleton<ReservationsViewModel>();
                 containerRegistry.RegisterSingleton<CustomersViewModel>();
-                containerRegistry.RegisterSingleton<TabletViewModels.MembershipViewModel>();
+                containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
 
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.LogOutAlertView, LogOutAlertViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
             }
             else
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.EditPage, MobileViewModels.EditPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.MenuPage, MobileViewModels.MenuPageViewModel>();
@@ -103,6 +105,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
+                containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
@@ -112,17 +115,8 @@ namespace Next2
 
         protected override async void OnInitialized()
         {
-            App.Current.UserAppTheme = OSAppTheme.Dark;
-
-#if !DEBUG
-            AppCenter.Start(
-                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
-                typeof(Analytics),
-                typeof(Crashes));
-
-            await Analytics.SetEnabledAsync(true);
-#endif
             InitializeComponent();
+            App.Current.UserAppTheme = OSAppTheme.Dark;
 
             LocalizationResourceManager.Current.Init(Strings.ResourceManager);
 
@@ -133,6 +127,14 @@ namespace Next2
 
         protected override void OnStart()
         {
+#if !DEBUG
+            AppCenter.Start(
+                $"ios={Constants.Analytics.IOSKey};android={Constants.Analytics.AndroidKey};",
+                typeof(Analytics),
+                typeof(Crashes));
+
+            Analytics.SetEnabledAsync(true);
+#endif
         }
 
         protected override void OnSleep()
@@ -152,7 +154,7 @@ namespace Next2
             return new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<TableModel, TableBindableModel>();
-                cfg.CreateMap<CustomerModel, CustomerBindableModel>();
+                cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
             }).CreateMapper();
         }

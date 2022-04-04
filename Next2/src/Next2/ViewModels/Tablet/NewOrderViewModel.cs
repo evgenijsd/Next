@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
@@ -28,8 +29,6 @@ namespace Next2.ViewModels.Tablet
 
         private bool _order;
 
-        private Timer _timerUpdateTime;
-
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
@@ -40,12 +39,10 @@ namespace Next2.ViewModels.Tablet
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
             _orderService = orderService;
-
-            _timerUpdateTime = new Timer(TimeSpan.FromSeconds(1).TotalSeconds);
-            _timerUpdateTime.Elapsed += Timer_Elapsed;
 
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
@@ -87,8 +84,6 @@ namespace Next2.ViewModels.Tablet
             Task.Run(LoadCategoriesAsync);
 
             OrderRegistrationViewModel.InitializeAsync(null);
-
-            _timerUpdateTime.Start();
         }
 
         public override void OnDisappearing()
@@ -97,8 +92,6 @@ namespace Next2.ViewModels.Tablet
 
             SelectedCategoriesItem = new ();
             SelectedSubcategoriesItem = new ();
-
-            _timerUpdateTime.Stop();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -122,7 +115,7 @@ namespace Next2.ViewModels.Tablet
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Task.Run(() => { CurrentDateTime = DateTime.Now; }).ConfigureAwait(false);
+            Task.Run(() => { CurrentDateTime = DateTime.Now; });
         }
 
         private async Task OnTapSortCommandAsync()
