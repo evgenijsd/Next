@@ -3,7 +3,7 @@ using Prism.Mvvm;
 
 namespace Next2.Models
 {
-    public class DiscountedSetBindableModel : BindableBase, IBaseModel
+    public class FreeSetBindableModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
 
@@ -14,8 +14,6 @@ namespace Next2.Models
         public float Price { get; set; }
 
         public float OldPrice { get; set; }
-
-        public PortionModel Portion { get; set; }
 
         public bool IsFree { get; set; }
     }

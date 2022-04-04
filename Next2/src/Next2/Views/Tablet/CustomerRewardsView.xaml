@@ -8,13 +8,13 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:pc="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
-    xmlns:effects="clr-namespace:Next2.Effects"
     x:DataType="viewmodels:CustomerRewardsViewModel"
     x:Class="Next2.Views.Tablet.CustomerRewardsView">
     
@@ -24,7 +24,27 @@
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
+            
+            <Style x:Key="LabelStyle_i1" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+            </Style>
                        
+            <Style x:Key="LabelStyle_i2" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+            </Style>
+                       
+            <Style x:Key="LabelStyle_i3" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-Medium"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+            </Style>
+            
+            <Style x:Key="LabelStyle_i4" TargetType="Label">
+                <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+            </Style>
+            
             <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="30"/>
@@ -32,25 +52,43 @@
             </Style>           
         </StackLayout.Resources>
         
-        <!-- CANCEL, REWARDS TAB, COMPLETE TAB -->
+        <!-- CANCEL BUTTON, REWARDS TAB, COMPLETE TAB -->
         <StackLayout 
             Orientation="Horizontal"
             Background="{DynamicResource TextAndBackgroundColor_i3}">
     
-            <controls:CustomNavigationbar
-                Padding="50, 0, 76, 0"
-                HeightImage="20"
-                HeightRequest="60"
-                FontFamily="Barlow-SemiBold"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                FontSize="{DynamicResource TSize_i9}"
-                Title="{xct:Translate Cancel}"
-                LeftButtonCommand="{prism:GoBack}"/>
+            <StackLayout 
+                Padding="60, 0, 76, 0"
+                Orientation="Horizontal"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
+                <StackLayout
+                    HeightRequest="60"
+                    Spacing="10"
+                    Orientation="Horizontal"
+                    xct:TouchEffect.Command="{prism:GoBack}">
+
+                    <ffimageloading:CachedImage
+                        HeightRequest="20"
+                        Source="ic_arrow_left_tail_40x40" />
+
+                    <Label
+                        VerticalOptions="Center"
+                        Style="{DynamicResource LabelStyle_i4}"
+                        Text="{xct:Translate Cancel}"/>
+                    
+                </StackLayout>
+                
+            </StackLayout>
+            
+            <BoxView
+                WidthRequest="1.5"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+            
             <controls:CustomButton
                 FontSize="{DynamicResource TSize_i6}"
-                IsSelected="True"
-                Text="{xct:Translate Rewards}"/>
+                Text="{xct:Translate Rewards}"
+                IsSelected="{Binding IsRewardSelectionCompleted, Converter={xct:InvertedBoolConverter}}"/>
             
             <BoxView
                 WidthRequest="1.5"
@@ -58,7 +96,8 @@
 
             <controls:CustomButton
                 FontSize="{DynamicResource TSize_i6}"
-                Text="{xct:Translate Complete}"/>
+                Text="{xct:Translate Complete}"
+                IsSelected="{Binding IsRewardSelectionCompleted}"/>
             
         </StackLayout>
         
@@ -72,12 +111,23 @@
                 
             <StackLayout Grid.Row="0">
                                    
-                <!-- REWARDS POINTS -->
-                <Label 
+                <StackLayout
                     Margin="28, 16, 28, 14"
-                    FontSize="{DynamicResource TSize_i4_5}"
-                    FontFamily="Barlow-Bold"
-                    Text="{xct:Translate RewardsPoints}"/>
+                    Orientation="Horizontal">
+                    
+                    <Label
+                        FontSize="{DynamicResource TSize_i4_5}"
+                        FontFamily="Barlow-Bold"
+                        Text="{xct:Translate RewardsPoints}" />
+
+                    <Label
+                        Style="{DynamicResource LabelStyle_i2}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="Center"
+                        TextColor="{DynamicResource AppColor_i1}"
+                        Text="{Binding CustomerName}"/>
+                    
+                </StackLayout>
 
                 <BoxView
                     HeightRequest="1.5"
@@ -88,7 +138,7 @@
                 <sc:StateContainer State="{Binding PageState}">
                     
                     <sc:StateContainer.Conditions>
-                        
+                        <!-- NO SELECTED CUSTOMER MESSAGE -->
                         <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
                             <StackLayout Margin="0, 120">
                                 
@@ -105,6 +155,7 @@
                             </StackLayout>
                         </sc:StateCondition>
                         
+                        <!-- REWARDS NOT EXIST MESSAGE -->
                         <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
                             <StackLayout Margin="0, 120">
                                                                 
@@ -120,7 +171,8 @@
 
                             </StackLayout>
                         </sc:StateCondition>
-                        
+
+                        <!-- LIST OF SEATS IN ORDER --> 
                         <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsExist}">
                             <StackLayout>
                                 <CollectionView ItemsSource="{Binding Seats}">
@@ -130,14 +182,12 @@
                                     </CollectionView.Effects>
                                     
                                     <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:SeatWithDiscountedBindableModel"> 
+                                        <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
 
-                                            <StackLayout
-                                                Padding="28, 24, 28, 0">
-                                                
+                                            <StackLayout Padding="28, 24, 28, 0">
+                                                <!-- SEAT NUMBER --> 
                                                 <Label
-                                                    FontFamily="Barlow-SemiBold"
-                                                    FontSize="12"
+                                                    Style="{DynamicResource LabelStyle_i4}"
                                                     TextColor="{DynamicResource TextAndBackgroundColor_i10}">
                                                     
                                                     <Label.FormattedText>
@@ -150,12 +200,13 @@
                                                     
                                                 </Label>
     
+                                                <!-- SETS LIST --> 
                                                 <CollectionView
                                                     ItemsSource="{Binding Sets}"
                                                     HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=90}">
                                                     
                                                     <CollectionView.ItemTemplate>
-                                                        <DataTemplate x:DataType="models:DiscountedSetBindableModel">
+                                                        <DataTemplate x:DataType="models:FreeSetBindableModel">
                                                            
                                                             <StackLayout>
                                                                 <StackLayout 
@@ -169,7 +220,7 @@
                                                                             HeightRequest="48"
                                                                             WidthRequest="48"
                                                                             Aspect="AspectFill"
-                                                                            Source="{Binding ImagePath}" />
+                                                                            Source="{Binding ImagePath}"/>
                                                                     
                                                                     </Frame>
                                                                     
@@ -183,22 +234,20 @@
                                                                         
                                                                              <StackLayout.Triggers>
                                                                                 <DataTrigger TargetType="StackLayout" Binding="{Binding IsFree}" Value="True">
-                                                                                    <Setter TargetName="newPrice" Property="Label.Text" Value="{xct:Translate Free}"/>
-                                                                                    <Setter TargetName="oldPrice" Property="Label.IsVisible" Value="True"/>
+                                                                                    <Setter TargetName="newSetPrice" Property="Label.Text" Value="{xct:Translate Free}"/>
+                                                                                    <Setter TargetName="oldSetPrice" Property="Label.IsVisible" Value="True"/>
                                                                                 </DataTrigger>
                                                                              </StackLayout.Triggers>
                                                                             
                                                                             <Label
-                                                                                FontSize="14"
-                                                                                FontFamily="Barlow-Medium"
+                                                                                Style="{DynamicResource LabelStyle_i2}"
                                                                                 Text="{Binding Title}"/>
                    
                                                                             <Label
+                                                                                Style="{DynamicResource LabelStyle_i1}"
                                                                                 HorizontalOptions="EndAndExpand"
-                                                                                FontFamily="Barlow-SemiBold"
-                                                                                FontSize="14"
                                                                                 TextColor="{DynamicResource IndicationColor_i1}"
-                                                                                x:Name="newPrice">
+                                                                                x:Name="newSetPrice">
                                                
                                                                                 <Label.FormattedText>
                                                                                     <FormattedString>
@@ -212,22 +261,21 @@
                                                                         </StackLayout>
                                                                         
                                                                         <StackLayout Orientation="Horizontal">
-                                                                            
-                                                                            <Label 
-                                                                                FontSize="12"
-                                                                                FontFamily="Barlow-Medium"
+
+                                                                            <!-- TEMPORARY TEXT VALUE --> 
+                                                                            <Label
+                                                                                Style="{DynamicResource LabelStyle_i3}"
                                                                                 TextColor="{DynamicResource TextAndBackgroundColor_i10}"
                                                                                 Text="Product 1, product 2, product 3..."/>
                                                                             
                                                                             <Label 
-                                                                                IsVisible="False"
+                                                                                Style="{DynamicResource LabelStyle_i1}"
                                                                                 HorizontalOptions="EndAndExpand"
                                                                                 TextDecorations="Strikethrough"
-                                                                                FontFamily="Barlow-SemiBold"
-                                                                                FontSize="14"
                                                                                 TextColor="{DynamicResource TextAndBackgroundColor_i10}"
                                                                                 Text="{Binding IsFree}"
-                                                                                x:Name="oldPrice">
+                                                                                IsVisible="False"
+                                                                                x:Name="oldSetPrice">
                                                                                 
                                                                                 <Label.FormattedText>
                                                                                     <FormattedString>
@@ -262,7 +310,6 @@
                                 </CollectionView>
                             </StackLayout>
                         </sc:StateCondition>
-                        
                     </sc:StateContainer.Conditions>
                     
                 </sc:StateContainer>
@@ -288,10 +335,11 @@
                     <buttons:BorderButton
                         Style="{DynamicResource BorderButtonStyle_i2_1}"
                         BackgroundColor="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Complete}">
+                        Text="{xct:Translate Complete}"
+                        xct:TouchEffect.Command="{Binding GoToCompleteTabCommand}">
                         
                         <buttons:BorderButton.Triggers>
-                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAnyRewardsSelected}" Value="True">
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAnyRewardsApplied}" Value="True">
                                 
                                 <Setter Property="Text" Value="{xct:Translate Apply}"/>
                                 
@@ -310,10 +358,9 @@
                 Padding="18"
                 Spacing="6"
                 Background="{DynamicResource TextAndBackgroundColor_i4}">
-                
-                <Label 
-                    FontFamily="Barlow-Medium"
-                    FontSize="{DynamicResource TSize_i9}"
+
+                <Label
+                    Style="{DynamicResource LabelStyle_i3}"
                     Text="{xct:Translate RewardsOptions}"/>
                 
                 <CollectionView ItemsSource="{Binding Rewards}">
@@ -330,6 +377,7 @@
                                 BackgroundColor="Transparent"
                                 xct:TouchEffect.Command="{Binding SelectCommand}"
                                 xct:TouchEffect.CommandParameter="{Binding .}"
+                                IsEnabled="{Binding IsCanBeApplied}"
                                 x:Name="rewardFrame">
                                 
                                 <pc:PancakeView
@@ -341,12 +389,10 @@
                                         Padding="12"
                                         Spacing="2">
 
-                                        <StackLayout
-                                            Orientation="Horizontal">
+                                        <StackLayout Orientation="Horizontal">
 
                                             <Label
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i9}"
+                                                Style="{DynamicResource LabelStyle_i3}"
                                                 Text="{Binding SetTitle}"/>
 
                                             <ffimageloading:CachedImage
@@ -358,8 +404,7 @@
                                         </StackLayout>
                                         
                                         <Label
-                                            FontFamily="Barlow-SemiBold"
-                                            FontSize="{DynamicResource TSize_i8}"
+                                            Style="{DynamicResource LabelStyle_i1}"
                                             Text="{xct:Translate Free}"/>
                                         
                                     </StackLayout>
@@ -367,7 +412,11 @@
                                 </pc:PancakeView>
 
                                 <Frame.Triggers>
-                                    <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                    <DataTrigger TargetType="Frame" Binding="{Binding IsCanBeApplied}" Value="false">
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                                    </DataTrigger>
+                                    
+                                    <DataTrigger TargetType="Frame" Binding="{Binding IsApplied}" Value="True">
                                         <Setter TargetName="rewardFrame" Property="Frame.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}"/>
                                         <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
                                         <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>

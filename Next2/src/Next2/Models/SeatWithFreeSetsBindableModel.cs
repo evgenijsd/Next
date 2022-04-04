@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 
 namespace Next2.Models
 {
-    public class SeatWithDiscountedBindableModel : BindableBase, IBaseModel
+    public class SeatWithFreeSetsBindableModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
 
         public int SeatNumber { get; set; }
 
-        public ObservableCollection<DiscountedSetBindableModel> Sets { get; set; }
+        public ObservableCollection<FreeSetBindableModel> Sets { get; set; } = new ();
     }
 }

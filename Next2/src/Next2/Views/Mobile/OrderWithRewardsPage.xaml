@@ -46,7 +46,7 @@
             </CollectionView.Effects>
                                     
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:SeatWithDiscountedBindableModel"> 
+                <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
 
                     <StackLayout 
                         Padding="16, 16, 16, 0">
@@ -68,7 +68,7 @@
                             HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=80}">
                                                     
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:DiscountedSetBindableModel">
+                                <DataTemplate x:DataType="models:FreeSetBindableModel">
 
                                     <StackLayout>
 

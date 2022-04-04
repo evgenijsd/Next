@@ -35,11 +35,15 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public bool IsAnyRewardsSelected { get; set; }
+        public string CustomerName { get; set; }
+
+        public bool IsRewardSelectionCompleted { get; set; }
+
+        public bool IsAnyRewardsApplied { get; set; }
 
         public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
-        public ObservableCollection<SeatWithDiscountedBindableModel> Seats { get; set; } = new ();
+        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new ();
 
         public ECustomerRewardsPageState PageState { get; set; }
 
@@ -47,33 +51,18 @@ namespace Next2.ViewModels
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectRewardCommand;
-        public ICommand SelectRewardCommand => _selectRewardCommand ??= new AsyncCommand<object>(OnSeletRewardCommandAsync, allowsMultipleExecutions: false);
+        public ICommand SelectRewardCommand => _selectRewardCommand ??= new AsyncCommand<RewardBindabledModel>(OnSelectRewardCommandAsync, allowsMultipleExecutions: false);
 
-        private async Task OnSeletRewardCommandAsync(object rewardObj)
+        private ICommand _goToCompleteTabCommand;
+        public ICommand GoToCompleteTabCommand => _goToCompleteTabCommand ??= new AsyncCommand(OnGoToCompleteTabCommandAsync, allowsMultipleExecutions: false);
+
+        private async Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
         {
-            if (rewardObj is RewardBindabledModel reward)
+            if (selectedReward is not null)
             {
                 if (App.IsTablet)
                 {
-                    IsAnyRewardsSelected = Rewards.Any(x => x.IsSelected);
-
-                    reward.IsSelected = !reward.IsSelected;
-
-                    Func<DiscountedSetBindableModel, bool> rewardSetComparer = y => y.IsFree != reward.IsSelected && y.Id == reward.SetId;
-
-                    var seat = reward.IsSelected
-                        ? Seats.FirstOrDefault(x => x.Sets.Any(rewardSetComparer))
-                        : Seats.LastOrDefault(x => x.Sets.Any(rewardSetComparer));
-
-                    if (seat is not null)
-                    {
-                        var set = reward.IsSelected
-                             ? seat.Sets.FirstOrDefault(rewardSetComparer)
-                             : seat.Sets.LastOrDefault(rewardSetComparer);
-
-                        set.IsFree = reward.IsSelected;
-                        seat.Sets = new (seat.Sets);
-                    }
+                    ApplyCancelReward(selectedReward);
                 }
                 else
                 {
@@ -112,6 +101,8 @@ namespace Next2.ViewModels
             }
             else
             {
+                CustomerName = customer.Name;
+
                 var customersRewardsResult = await _orderService.GetCustomersRewards(customer.Id);
 
                 if (!customersRewardsResult.IsSuccess)
@@ -122,14 +113,15 @@ namespace Next2.ViewModels
                 {
                     PageState = ECustomerRewardsPageState.RewardsExist;
 
+                    await LoadSeats();
+
                     Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result);
 
-                    foreach (var item in Rewards)
+                    foreach (var reward in Rewards)
                     {
-                        item.SelectCommand = SelectRewardCommand;
+                        reward.SelectCommand = SelectRewardCommand;
+                        reward.IsCanBeApplied = Seats.Any(x => x.Sets.Any(x => x.Id == reward.SetId));
                     }
-
-                    await LoadSeats();
                 }
             }
         }
@@ -140,19 +132,55 @@ namespace Next2.ViewModels
 
             foreach (var seat in seats)
             {
-                var disocuntedSets = _mapper.Map<ObservableCollection<SetBindableModel>, ObservableCollection<DiscountedSetBindableModel>>(seat.Sets);
+                var sets = _mapper.Map<ObservableCollection<SetBindableModel>, ObservableCollection<FreeSetBindableModel>>(seat.Sets);
 
-                var newSeat = new SeatWithDiscountedBindableModel
+                var newSeat = new SeatWithFreeSetsBindableModel
                 {
                     Id = seat.Id,
                     SeatNumber = seat.SeatNumber,
-                    Sets = disocuntedSets,
+                    Sets = sets,
                 };
 
                 Seats.Add(newSeat);
             }
 
             return Task.CompletedTask;
+        }
+
+        private void ApplyCancelReward(RewardBindabledModel selectedReward)
+        {
+            selectedReward.IsApplied = !selectedReward.IsApplied;
+
+            IsAnyRewardsApplied = Rewards.Any(x => x.IsApplied);
+
+            Func<FreeSetBindableModel, bool> setComparer = y => y.Id == selectedReward.SetId && y.IsFree != selectedReward.IsApplied;
+
+            var seat = selectedReward.IsApplied
+                ? Seats.FirstOrDefault(x => x.Sets.Any(setComparer))
+                : Seats.LastOrDefault(x => x.Sets.Any(setComparer));
+
+            if (seat is not null)
+            {
+                var set = selectedReward.IsApplied
+                     ? seat.Sets.FirstOrDefault(setComparer)
+                     : seat.Sets.LastOrDefault(setComparer);
+
+                set.IsFree = selectedReward.IsApplied;
+                seat.Sets = new(seat.Sets);
+
+                LockUnlockSimilarRewards(selectedReward);
+            }
+        }
+
+        public void LockUnlockSimilarRewards(RewardBindabledModel selectedRewardSet)
+        {
+            foreach (var reward in Rewards)
+            {
+                if (!reward.IsApplied && reward.SetId == selectedRewardSet.SetId)
+                {
+                    reward.IsCanBeApplied = Seats.Any(seat => seat.Sets.Any(set => set.Id == selectedRewardSet.SetId && !set.IsFree));
+                }
+            }
         }
 
         private async Task OnAddNewCustomerCommandAsync()
@@ -167,6 +195,11 @@ namespace Next2.ViewModels
 
                 await LoadPageData(customer);
             }
+        }
+
+        private Task OnGoToCompleteTabCommandAsync()
+        {
+            return Task.CompletedTask;
         }
 
         #endregion

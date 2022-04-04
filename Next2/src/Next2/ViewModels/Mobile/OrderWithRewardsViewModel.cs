@@ -18,7 +18,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public ObservableCollection<SeatWithDiscountedBindableModel> Seats { get; set; } = new();
+        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new();
 
         private ICommand _applyRewardCommand;
         public ICommand ApplyRewardCommand => _applyRewardCommand ??= new AsyncCommand(OnApplyRewardCommandAsync);
@@ -30,7 +30,7 @@ namespace Next2.ViewModels.Mobile
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithDiscountedBindableModel> seats))
+            if (parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
             {
                 Seats = seats;
             }

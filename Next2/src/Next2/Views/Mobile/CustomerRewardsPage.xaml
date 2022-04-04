@@ -130,7 +130,7 @@
                                         x:Name="rewardFrame">
                                 
                                         <Frame.Triggers>
-                                            <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                            <DataTrigger TargetType="Frame" Binding="{Binding IsApplied}" Value="True">
                                                 <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
                                                 <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
                                             </DataTrigger>

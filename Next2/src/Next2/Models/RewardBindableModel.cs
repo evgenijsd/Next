@@ -12,7 +12,9 @@ namespace Next2.Models
 
         public string SetTitle { get; set; } = string.Empty;
 
-        public bool IsSelected { get; set; }
+        public bool IsApplied { get; set; }
+
+        public bool IsCanBeApplied { get; set; } = true;
 
         public ICommand? SelectCommand { get; set; }
     }
