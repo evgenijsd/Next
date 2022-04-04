@@ -115,6 +115,7 @@
 
   <ItemGroup>
     <Folder Include="Behaviors\" />
+    <Folder Include="Controls\Templates\Mobile\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
@@ -144,6 +145,9 @@
     </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
+      <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
@@ -230,6 +234,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\Tablet\RewardItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Toggle.xaml">
