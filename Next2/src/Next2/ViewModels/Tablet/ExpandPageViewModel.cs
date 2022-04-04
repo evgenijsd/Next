@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Acr.UserDialogs;
+using Next2.Interfaces;
 using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -128,6 +129,14 @@ namespace Next2.ViewModels.Tablet
                     if (result.IsSuccess)
                     {
                         await _popupNavigation.PopAsync();
+
+                        var toastConfig = new ToastConfig("Successfully added to order")
+                        {
+                            Duration = TimeSpan.FromSeconds(5),
+                            Position = ToastPosition.Bottom,
+                        };
+
+                        UserDialogs.Instance.Toast(toastConfig);
                     }
                 }
             }

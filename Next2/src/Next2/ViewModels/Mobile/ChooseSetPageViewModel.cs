@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using Acr.UserDialogs;
+using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -118,6 +119,14 @@ namespace Next2.ViewModels.Mobile
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
                     await _popupNavigation.PopAsync();
+
+                    var toastConfig = new ToastConfig("Successfully added to order")
+                    {
+                        Duration = TimeSpan.FromSeconds(5),
+                        Position = ToastPosition.Bottom,
+                    };
+
+                    UserDialogs.Instance.Toast(toastConfig);
                 }
             }
             else
