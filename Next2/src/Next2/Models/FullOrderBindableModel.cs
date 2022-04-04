@@ -1,4 +1,5 @@
 ﻿using Next2.Enums;
+using Next2.ENums;
 using Next2.Interfaces;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
@@ -26,5 +27,7 @@ namespace Next2.Models
         public double Total { get; set; }
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; }
+
+        public EOrderPaymentStatus? PaymentStatus;
     }
 }

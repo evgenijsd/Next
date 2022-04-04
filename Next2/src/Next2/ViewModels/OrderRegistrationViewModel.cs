@@ -49,7 +49,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
-        private EOrderPaymentStatus _orderStatus;
+        private EOrderPaymentStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
@@ -69,7 +69,7 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
 
-            _orderStatus = EOrderPaymentStatus.None;
+            _orderPaymentStatus = EOrderPaymentStatus.None;
 
             CurrentState = LayoutState.Loading;
 
@@ -615,21 +615,21 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync(string commandParameter)
         {
-            if (Enum.TryParse(commandParameter, out _orderStatus))
+            if (Enum.TryParse(commandParameter, out _orderPaymentStatus))
             {
-                switch (_orderStatus)
+                switch (_orderPaymentStatus)
                 {
                     case EOrderPaymentStatus.InProgress:
 
-                        _orderStatus = EOrderPaymentStatus.InProgress;
+                        _orderPaymentStatus = EOrderPaymentStatus.InProgress;
 
                         break;
                     case EOrderPaymentStatus.WaitingForPayment:
-                        _orderStatus = EOrderPaymentStatus.WaitingForPayment;
+                        _orderPaymentStatus = EOrderPaymentStatus.WaitingForPayment;
 
                         break;
                     case EOrderPaymentStatus.Completed:
-                        _orderStatus = EOrderPaymentStatus.Completed;
+                        _orderPaymentStatus = EOrderPaymentStatus.Completed;
 
                         break;
                 }
@@ -654,7 +654,6 @@ namespace Next2.ViewModels
 
                     var newSeat = new SeatModel
                     {
-                        Id = CurrentOrder.OrderNumber,
                         OrderId = CurrentOrder.Id,
                         SeatNumber = seat.SeatNumber,
                         Sets = sets,
@@ -672,8 +671,13 @@ namespace Next2.ViewModels
 
             if (isAllSeatSaved)
             {
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
-                .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))).CreateMapper();
+                CurrentOrder.PaymentStatus = _orderPaymentStatus;
+
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
+                .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
+                .ForMember(x => x.CustomerName, s => s.MapFrom(x => x.Customer.Name)));
+
+                var mapper = new Mapper(config);
 
                 var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
 
@@ -709,7 +713,7 @@ namespace Next2.ViewModels
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string commandParameter))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.WaitingForPayment.ToString())
+                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.InProgress.ToString())
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
@@ -818,7 +822,7 @@ namespace Next2.ViewModels
             }
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderStatus);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
         }
 
         private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)

@@ -53,6 +53,7 @@
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
             public const string ORDER_STATUS = "ORDER_STATUS";
+            public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
         }
 
         public static class Validators

@@ -371,7 +371,19 @@
                                                 LineBreakMode="TailTruncation"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                 FontSize="{DynamicResource TSize_i8}"
-                                                FontFamily="Barlow-Regular" />
+                                                FontFamily="Barlow-Regular">
+                                                
+                                                <Label.Triggers>
+                                                    
+                                                    <DataTrigger 
+                                                        TargetType="Label"
+                                                        Binding="{Binding Name}"
+                                                        Value="''">
+                                                        <Setter Property="Text" Value="NoName"/>
+                                                    </DataTrigger>
+
+                                                </Label.Triggers>
+                                            </Label>
 
                                             <Label
                                                 Grid.Column="2"

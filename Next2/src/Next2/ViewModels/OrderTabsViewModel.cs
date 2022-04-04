@@ -100,6 +100,9 @@ namespace Next2.ViewModels
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -167,14 +170,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.CustomerName));
             }
 
             IsOrdersRefreshing = false;
@@ -453,7 +456,12 @@ namespace Next2.ViewModels
 
         private void SetOrderStatus(Enum orderStatus)
         {
-            IsOrderTabsSelected = orderStatus is not EOrderPaymentStatus.InProgress ? false : true;
+            IsOrderTabsSelected = orderStatus is not EOrderPaymentStatus.WaitingForPayment ? false : true;
+        }
+
+        private async Task OnGoBackCommand()
+        {
+            await _navigationService.NavigateAsync(nameof(MenuPage));
         }
 
         #endregion

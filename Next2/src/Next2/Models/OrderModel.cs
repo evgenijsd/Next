@@ -1,4 +1,5 @@
 ﻿using Next2.Enums;
+using Next2.ENums;
 using Next2.Interfaces;
 
 namespace Next2.Models
@@ -20,5 +21,7 @@ namespace Next2.Models
         public double Total { get; set; }
 
         public double Tax { get; set; }
+
+        public EOrderPaymentStatus? PaymentStatus;
     }
 }
