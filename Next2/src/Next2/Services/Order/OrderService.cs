@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -280,7 +280,7 @@ namespace Next2.Services.Order
 
                 if (CurrentOrder.Bonus is not null)
                 {
-                    CurrentOrder = await _bonusService.�alculationBonusAsync(CurrentOrder);
+                    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
                 }
 
                 result.SetSuccess();

@@ -12,15 +12,15 @@ namespace Next2.Services.Bonuses
     {
         Task<AOResult<IEnumerable<BonusModel>>> GetBonusesAsync();
 
-        Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync();
+        Task<AOResult<IEnumerable<BonusConditionAndSetModel>>> GetConditionsAsync();
 
-        Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync();
+        Task<AOResult<IEnumerable<BonusConditionAndSetModel>>> GetBonusSetsAsync();
 
         ObservableCollection<SetBindableModel> GetSets(FullOrderBindableModel currentOrder);
 
         Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder);
 
-        ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets);
+        ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionAndSetModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets);
 
         float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set);
     }

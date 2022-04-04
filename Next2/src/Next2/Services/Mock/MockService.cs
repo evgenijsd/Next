@@ -23,8 +23,8 @@ namespace Next2.Services.Mock
         private IList<MemberModel> _members;
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
-        private IList<BonusConditionModel> _bonusConditions;
-        private IList<BonusSetModel> _bonusSets;
+        private IList<BonusConditionAndSetModel> _bonusConditions;
+        private IList<BonusConditionAndSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -191,56 +191,80 @@ namespace Next2.Services.Mock
 
         private Task InitBonusConditionAsync() => Task.Run(() =>
         {
-            _bonusConditions = new List<BonusConditionModel>
+            _bonusConditions = new List<BonusConditionAndSetModel>
             {
-                new BonusConditionModel
+                new BonusConditionAndSetModel
                 {
                     Id = 1,
                     SetId = 1,
                     BonusId = 3,
                 },
-                new BonusConditionModel
+                new BonusConditionAndSetModel
                 {
                     Id = 2,
                     SetId = 2,
                     BonusId = 3,
                 },
-                new BonusConditionModel
+                new BonusConditionAndSetModel
                 {
                     Id = 3,
                     SetId = 2,
                     BonusId = 5,
                 },
-                new BonusConditionModel
+                new BonusConditionAndSetModel
                 {
                     Id = 4,
-                    SetId = 3,
+                    SetId = 2,
                     BonusId = 6,
                 },
             };
 
-            _base.Add(typeof(BonusConditionModel), _bonusConditions);
+            _base.Add(typeof(BonusConditionAndSetModel), _bonusConditions);
         });
 
         private Task InitBonusSetAsync() => Task.Run(() =>
         {
-            _bonusSets = new List<BonusSetModel>
+            _bonusSets = new List<BonusConditionAndSetModel>
             {
-                new BonusSetModel
+                new BonusConditionAndSetModel
                 {
                     Id = 1,
                     SetId = 3,
                     BonusId = 3,
                 },
-                new BonusSetModel
+                new BonusConditionAndSetModel
                 {
                     Id = 2,
                     SetId = 2,
                     BonusId = 5,
                 },
+                new BonusConditionAndSetModel
+                {
+                    Id = 3,
+                    SetId = 2,
+                    BonusId = 4,
+                },
+                new BonusConditionAndSetModel
+                {
+                    Id = 4,
+                    SetId = 1,
+                    BonusId = 4,
+                },
+                new BonusConditionAndSetModel
+                {
+                    Id = 5,
+                    SetId = 2,
+                    BonusId = 2,
+                },
+                new BonusConditionAndSetModel
+                {
+                    Id = 6,
+                    SetId = 2,
+                    BonusId = 6,
+                },
             };
 
-            _base.Add(typeof(BonusSetModel), _bonusSets);
+            _base.Add(typeof(BonusConditionAndSetModel), _bonusSets);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>
@@ -257,7 +281,7 @@ namespace Next2.Services.Mock
                 new BonusModel
                 {
                     Id = 2,
-                    Name = "$2.00 Off",
+                    Name = "$ 2.00 Off",
                     Value = 2.0f,
                     Type = EBonusValueType.Value,
                 },
@@ -271,7 +295,7 @@ namespace Next2.Services.Mock
                 new BonusModel
                 {
                     Id = 4,
-                    Name = "$5.00",
+                    Name = "$ 5.00",
                     Value = 5f,
                     Type = EBonusValueType.Value,
                 },

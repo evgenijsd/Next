@@ -45,13 +45,13 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync()
+        public async Task<AOResult<IEnumerable<BonusConditionAndSetModel>>> GetConditionsAsync()
         {
-            var result = new AOResult<IEnumerable<BonusConditionModel>>();
+            var result = new AOResult<IEnumerable<BonusConditionAndSetModel>>();
 
             try
             {
-                var conditions = await _mockService.GetAsync<BonusConditionModel>(x => x.Id != 0);
+                var conditions = await _mockService.GetAsync<BonusConditionAndSetModel>(x => x.Id != 0);
 
                 if (conditions is not null)
                 {
@@ -70,13 +70,13 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync()
+        public async Task<AOResult<IEnumerable<BonusConditionAndSetModel>>> GetBonusSetsAsync()
         {
-            var result = new AOResult<IEnumerable<BonusSetModel>>();
+            var result = new AOResult<IEnumerable<BonusConditionAndSetModel>>();
 
             try
             {
-                var bonusSet = await _mockService.GetAsync<BonusSetModel>(x => x.Id != 0);
+                var bonusSet = await _mockService.GetAsync<BonusConditionAndSetModel>(x => x.Id != 0);
 
                 if (bonusSet is not null)
                 {
@@ -137,7 +137,7 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets)
+        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionAndSetModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets)
         {
             var result = new ObservableCollection<BonusBindableModel>();
 
@@ -165,7 +165,7 @@ namespace Next2.Services.Bonuses
 
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
-            if (currentOrder.Bonus is not null)
+            if (currentOrder.BonusType != EBonusType.None)
             {
                 var resultConditions = await GetConditionsAsync();
 
@@ -173,8 +173,8 @@ namespace Next2.Services.Bonuses
 
                 currentOrder.PriceWithBonus = 0;
 
-                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
-                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
+                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionAndSetModel>().ToList();
+                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionAndSetModel>().ToList();
                 List<SetBindableModel> setConditions = new();
                 List<SetBindableModel> setBonus = new();
                 int countCondition;
@@ -225,16 +225,21 @@ namespace Next2.Services.Bonuses
                     countCondition--;
                 }
 
-                var setBonusNull = setBonus is null;
-
                 foreach (SeatBindableModel seat in currentOrder.Seats)
                 {
                     foreach (SetBindableModel set in seat.Sets)
                     {
-                        if (setBonus is null || setBonusNull || !setConditions.Any(x => x.Id == set.Id) || setBonus.Any(x => x.Id == set.Id))
+                        if ((setConditions.Count == 0 && bonusConditions.Count > 0) || !setConditions.Any(x => x.Id == set.Id))
                         {
-                            set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
-                            setBonus?.Remove(set);
+                            if ((setBonus.Count == 0 && bonusSets.Count == 0) || setBonus.Any(x => x.Id == set.Id))
+                            {
+                                set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
+                                setBonus.Remove(set);
+                            }
+                            else
+                            {
+                                set.PriceBonus = set.Portion.Price;
+                            }
                         }
                         else
                         {

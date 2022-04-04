@@ -70,7 +70,7 @@ namespace Next2.ViewModels
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             IEnumerable<BonusModel>? bonuses;
-            IEnumerable<BonusConditionModel>? bonusConditions = null;
+            IEnumerable<BonusConditionAndSetModel>? bonusConditions = null;
             var result = await _bonusesService.GetBonusesAsync();
 
             if (result.IsSuccess)
@@ -120,7 +120,7 @@ namespace Next2.ViewModels
 
         private async Task OnBonusCommandAsync()
         {
-            _eventAggregator.GetEvent<BonusEvent>().Publish(CurrentOrder);
+            _eventAggregator.GetEvent<BonusForCurrentOrderEvent>().Publish(CurrentOrder);
 
             await _navigationService.GoBackAsync();
         }
