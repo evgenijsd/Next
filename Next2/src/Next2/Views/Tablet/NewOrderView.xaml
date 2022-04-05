@@ -6,6 +6,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -2056,7 +2057,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="WaitingForPayment"/> 
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/> 
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -2064,7 +2065,7 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="InProgress"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.InProgress}"/>
 
 
                 <buttons:BorderButton

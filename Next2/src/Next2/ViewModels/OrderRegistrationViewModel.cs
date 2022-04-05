@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.ENums;
+using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
@@ -125,10 +125,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<string>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<string>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -613,26 +613,19 @@ namespace Next2.ViewModels
             IsOrderWithTax = isOrderWithTax;
         }
 
-        private async Task OnOrderCommandAsync(string commandParameter)
+        private async Task OnOrderCommandAsync(EOrderPaymentStatus commandParameter)
         {
-            if (Enum.TryParse(commandParameter, out _orderPaymentStatus))
+            switch (commandParameter)
             {
-                switch (_orderPaymentStatus)
-                {
-                    case EOrderPaymentStatus.InProgress:
+                case EOrderPaymentStatus.InProgress:
 
-                        _orderPaymentStatus = EOrderPaymentStatus.InProgress;
+                    _orderPaymentStatus = EOrderPaymentStatus.InProgress;
 
-                        break;
-                    case EOrderPaymentStatus.WaitingForPayment:
-                        _orderPaymentStatus = EOrderPaymentStatus.WaitingForPayment;
+                    break;
+                case EOrderPaymentStatus.WaitingForPayment:
+                    _orderPaymentStatus = EOrderPaymentStatus.WaitingForPayment;
 
-                        break;
-                    case EOrderPaymentStatus.Completed:
-                        _orderPaymentStatus = EOrderPaymentStatus.Completed;
-
-                        break;
-                }
+                    break;
             }
 
             List<SeatModel> seats = new();
@@ -692,7 +685,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnTabCommandAsync(string commandParameter)
+        private async Task OnTabCommandAsync(EOrderPaymentStatus commandParameter)
         {
             var parameters = new DialogParameters
             {
@@ -711,9 +704,9 @@ namespace Next2.ViewModels
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string commandParameter))
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderPaymentStatus commandParameter))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.InProgress.ToString())
+                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.InProgress)
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
@@ -807,7 +800,7 @@ namespace Next2.ViewModels
 
         private Task OnHideOrderNotificationCommnadAsync()
         {
-            return Task.Run(RefreshCurrentOrderAsync().Await);
+            return RefreshCurrentOrderAsync();
         }
 
         private async Task OnGoToOrderTabsCommandAsync()

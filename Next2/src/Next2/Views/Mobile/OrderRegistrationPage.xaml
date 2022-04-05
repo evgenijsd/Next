@@ -11,6 +11,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -463,7 +464,7 @@
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Order}"
                 xct:TouchEffect.Command="{Binding OrderCommand}"
-                xct:TouchEffect.CommandParameter="WaitingForPayment"/>  
+                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/> 
 
             <buttons:BorderButton
                 Grid.Column="1"
@@ -471,7 +472,7 @@
                 BorderColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Tab}"
                 xct:TouchEffect.Command="{Binding TabCommand }"
-                xct:TouchEffect.CommandParameter="InProgress"/> 
+                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.InProgress}"/> 
 
             <buttons:BorderButton
                 Grid.Column="2"
