@@ -255,6 +255,7 @@ namespace Next2.Services.Order
                             ProductPrice = product.ProductPrice,
                             IngredientsPrice = product.IngredientsPrice,
                             TotalPrice = product.TotalPrice,
+                            Comment = product.Comment,
                         };
 
                         var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);

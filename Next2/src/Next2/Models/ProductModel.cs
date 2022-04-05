@@ -38,5 +38,7 @@ namespace Next2.Models
         public float IngredientsPrice { get; set; }
 
         public float TotalPrice { get; set; }
+
+        public string? Comment { get; set; }
     }
 }

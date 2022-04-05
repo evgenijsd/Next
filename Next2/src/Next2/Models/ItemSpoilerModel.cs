@@ -12,5 +12,7 @@ namespace Next2.Models
         public string ImagePath { get; set; }
 
         public string SelectedImagePath { get; set; }
+
+        public bool CanShowDot { get; set; }
     }
 }

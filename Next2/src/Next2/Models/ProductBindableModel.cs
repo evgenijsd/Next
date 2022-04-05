@@ -23,6 +23,7 @@ namespace Next2.Models
             ProductPrice = product.ProductPrice;
             IngredientsPrice = product.IngredientsPrice;
             TotalPrice = product.TotalPrice;
+            Comment = product.Comment;
 
             foreach (var option in product.Options)
             {
@@ -79,5 +80,7 @@ namespace Next2.Models
         public float IngredientsPrice { get; set; }
 
         public float TotalPrice { get; set; }
+
+        public string? Comment { get; set; }
     }
 }

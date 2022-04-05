@@ -7,6 +7,7 @@ using Next2.Services.Order;
 using Next2.Views;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Next2.ViewModels
 
         private SetBindableModel _selectedSet;
         private SetBindableModel _currentSet;
+
+        private ObservableCollection<ItemSpoilerModel> _submenuItems { get; set; }
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
@@ -60,8 +63,6 @@ namespace Next2.ViewModels
         #region -- Public properties --
 
         public FullOrderBindableModel CurrentOrder { get; set; }
-
-        public ObservableCollection<ItemSpoilerModel> SubmenuItems { get; set; }
 
         public SpoilerBindableModel SelectedProduct { get; set; }
 
@@ -133,7 +134,16 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_TEXT, out string text))
             {
-                _currentSet.Comment = text;
+                var products = _currentSet.Products;
+                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                var indexProduct = products.IndexOf(product);
+
+                ObservableCollection<ItemSpoilerModel> submenu = new(_submenuItems);
+                submenu[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+
+                ProductsSet[indexProduct].Items = submenu;
+
+                _currentSet.Products[indexProduct].Comment = text;
             }
         }
 
@@ -196,7 +206,7 @@ namespace Next2.ViewModels
 
         private void InitSubmenuItems()
         {
-            SubmenuItems = new()
+            _submenuItems = new()
             {
                 new ItemSpoilerModel()
                 {
@@ -307,14 +317,21 @@ namespace Next2.ViewModels
         private void InitProductsSet()
         {
             var products = _currentSet.Products;
+
             if (products is not null)
             {
-                ProductsSet = new(products.Select(row => new SpoilerBindableModel
+                ProductsSet = new(products.Select(row =>
                 {
-                    Id = row.SelectedProduct.Id,
-                    Title = row.SelectedProduct.Title,
-                    Items = SubmenuItems,
-                    TapCommand = TapSubmenuCommand,
+                    ObservableCollection<ItemSpoilerModel> submenu = new(_submenuItems);
+                    submenu[3].CanShowDot = !string.IsNullOrWhiteSpace(row.Comment);
+
+                    return new SpoilerBindableModel
+                    {
+                        Id = row.SelectedProduct.Id,
+                        Title = row.SelectedProduct.Title,
+                        Items = submenu,
+                        TapCommand = TapSubmenuCommand,
+                    };
                 }));
             }
         }
@@ -398,6 +415,7 @@ namespace Next2.ViewModels
                 var indexProduct = products.IndexOf(product);
 
                 var options = products[indexProduct].Options;
+
                 if (options is not null)
                 {
                     OptionsProduct = new(options);
@@ -437,9 +455,13 @@ namespace Next2.ViewModels
                         InitIngredientCategoriesAsync().Await();
                         break;
                     case ESubmenuItemsModifactions.Comment:
+                        var products = _currentSet.Products;
+                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                        var indexProduct = products.IndexOf(product);
+
                         var navigationParameters = new NavigationParameters()
                         {
-                            { Constants.Navigations.INPUT_TEXT, _currentSet.Comment },
+                            { Constants.Navigations.INPUT_TEXT, _currentSet.Products[indexProduct].Comment },
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 
