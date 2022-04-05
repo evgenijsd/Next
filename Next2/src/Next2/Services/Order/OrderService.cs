@@ -366,27 +366,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(int customerId)
-        {
-            var result = new AOResult<IEnumerable<RewardModel>>();
-
-            try
-            {
-                var rewards = await _mockService.GetAsync<RewardModel>(x => x.CustomerId == customerId);
-
-                if (rewards is not null && rewards.Any())
-                {
-                    result.SetSuccess(rewards);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetCustomersRewards)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         #endregion
     }
 }

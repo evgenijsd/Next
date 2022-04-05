@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
+using Next2.Services.Rewards;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
@@ -20,17 +21,20 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
+        private readonly IRewardsService _rewardService;
 
         public CustomerRewardsViewModel(
             INavigationService navigationService,
             IMapper mapper,
             IOrderService orderService,
-            ICustomersService customersService)
+            ICustomersService customersService,
+            IRewardsService rewardService)
             : base(navigationService)
         {
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
+            _rewardService = rewardService;
         }
 
         #region -- Public properties --
@@ -56,26 +60,6 @@ namespace Next2.ViewModels
         private ICommand _goToCompleteTabCommand;
         public ICommand GoToCompleteTabCommand => _goToCompleteTabCommand ??= new AsyncCommand(OnGoToCompleteTabCommandAsync, allowsMultipleExecutions: false);
 
-        private async Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
-        {
-            if (selectedReward is not null)
-            {
-                if (App.IsTablet)
-                {
-                    ApplyCancelReward(selectedReward);
-                }
-                else
-                {
-                    var parameters = new NavigationParameters
-                    {
-                        { Constants.Navigations.SEATS, Seats },
-                    };
-
-                    await _navigationService.NavigateAsync(nameof(OrderWithRewardsPage), parameters);
-                }
-            }
-        }
-
         #endregion
 
         #region -- Overrides --
@@ -84,9 +68,32 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            var customer = _orderService.CurrentOrder.Customer;
+            if (App.IsTablet)
+            {
+                var customer = _orderService.CurrentOrder.Customer;
+                await LoadPageData(customer);
+            }
+            else if (
+                parameters.TryGetValue(Constants.Navigations.IS_REWARD_APPLIED, out bool isRewardApplied)
+                && parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward))
+            {
+                reward.IsApplied = isRewardApplied;
 
-            await LoadPageData(customer);
+                if (isRewardApplied && parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
+                {
+                    Seats = seats;
+                    LockUnlockSimilarRewards(Seats, reward);
+                }
+                else
+                {
+                    ApplyCancelRewardToSet(Seats, reward);
+                }
+            }
+            else
+            {
+                var customer = _orderService.CurrentOrder.Customer;
+                await LoadPageData(customer);
+            }
         }
 
         #endregion
@@ -103,7 +110,7 @@ namespace Next2.ViewModels
             {
                 CustomerName = customer.Name;
 
-                var customersRewardsResult = await _orderService.GetCustomersRewards(customer.Id);
+                var customersRewardsResult = await _rewardService.GetCustomersRewards(customer.Id);
 
                 if (!customersRewardsResult.IsSuccess)
                 {
@@ -147,38 +154,71 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private void ApplyCancelReward(RewardBindabledModel selectedReward)
+        private void ApplyCancelRewardToSet(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel reward)
         {
-            selectedReward.IsApplied = !selectedReward.IsApplied;
+            Func<FreeSetBindableModel, bool> setComparer = y => y.Id == reward.SetId && y.IsFree != reward.IsApplied;
 
-            IsAnyRewardsApplied = Rewards.Any(x => x.IsApplied);
-
-            Func<FreeSetBindableModel, bool> setComparer = y => y.Id == selectedReward.SetId && y.IsFree != selectedReward.IsApplied;
-
-            var seat = selectedReward.IsApplied
-                ? Seats.FirstOrDefault(x => x.Sets.Any(setComparer))
-                : Seats.LastOrDefault(x => x.Sets.Any(setComparer));
+            var seat = reward.IsApplied
+                ? seats.FirstOrDefault(x => x.Sets.Any(setComparer))
+                : seats.LastOrDefault(x => x.Sets.Any(setComparer));
 
             if (seat is not null)
             {
-                var set = selectedReward.IsApplied
+                var set = reward.IsApplied
                      ? seat.Sets.FirstOrDefault(setComparer)
                      : seat.Sets.LastOrDefault(setComparer);
 
-                set.IsFree = selectedReward.IsApplied;
+                set.IsFree = reward.IsApplied;
                 seat.Sets = new(seat.Sets);
-
-                LockUnlockSimilarRewards(selectedReward);
             }
         }
 
-        public void LockUnlockSimilarRewards(RewardBindabledModel selectedRewardSet)
+        public void LockUnlockSimilarRewards(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel selectedReward)
         {
             foreach (var reward in Rewards)
             {
-                if (!reward.IsApplied && reward.SetId == selectedRewardSet.SetId)
+                if (!reward.IsApplied && reward.SetId == selectedReward.SetId)
                 {
-                    reward.IsCanBeApplied = Seats.Any(seat => seat.Sets.Any(set => set.Id == selectedRewardSet.SetId && !set.IsFree));
+                    reward.IsCanBeApplied = seats.Any(seat => seat.Sets.Any(set => set.Id == selectedReward.SetId && !set.IsFree));
+                }
+            }
+        }
+
+        private async Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
+        {
+            if (selectedReward is not null)
+            {
+                if (App.IsTablet)
+                {
+                    selectedReward.IsApplied = !selectedReward.IsApplied;
+                    ApplyCancelRewardToSet(Seats, selectedReward);
+                    LockUnlockSimilarRewards(Seats, selectedReward);
+
+                    IsAnyRewardsApplied = Rewards.Any(x => x.IsApplied);
+                }
+                else
+                {
+                    if (selectedReward.IsApplied)
+                    {
+                        selectedReward.IsApplied = false;
+                        ApplyCancelRewardToSet(Seats, selectedReward);
+                        LockUnlockSimilarRewards(Seats, selectedReward);
+                    }
+                    else
+                    {
+                        ObservableCollection<SeatWithFreeSetsBindableModel> setsForRewardApplying = new (Seats);
+
+                        selectedReward.IsApplied = !selectedReward.IsApplied;
+                        ApplyCancelRewardToSet(setsForRewardApplying, selectedReward);
+
+                        var parameters = new NavigationParameters
+                        {
+                            { Constants.Navigations.REWARD, selectedReward },
+                            { Constants.Navigations.SEATS, setsForRewardApplying },
+                        };
+
+                        await _navigationService.NavigateAsync(nameof(OrderWithRewardsPage), parameters);
+                    }
                 }
             }
         }

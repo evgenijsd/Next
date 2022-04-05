@@ -4,7 +4,8 @@
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:mobiletemplates="clr-namespace:Next2.Controls.Templates.Mobile"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -22,16 +23,33 @@
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
         </StackLayout.Resources>
-        
-        <controls:CustomNavigationbar
-            HeightImage="20"
-            HeightRequest="78"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            FontSize="{DynamicResource TSize_i6}"
-            FontFamily="Barlow-Bold"
-            Title="{xct:Translate RewardsPoints}"
-            LeftButtonCommand="{prism:GoBack}" />
 
+        <!-- CANCEL BUTTON -->
+        <StackLayout
+            Padding="20, 0"
+            Orientation="Horizontal"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <StackLayout
+                HeightRequest="66"
+                Spacing="18"
+                Orientation="Horizontal"
+                xct:TouchEffect.Command="{prism:GoBack}"
+                xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.IS_REWARD_APPLIED}, Value=False}">
+
+                <ffimageloading:CachedImage
+                    HeightRequest="22"
+                    Source="ic_arrow_left_tail_40x40" />
+
+                <Label
+                    VerticalOptions="Center"
+                    FontFamily="Barlow-Bold"
+                    FontSize="{DynamicResource TSize_i6}"
+                    Text="{xct:Translate RewardsPoints}" />
+
+            </StackLayout>
+
+        </StackLayout>
         <BoxView
             HeightRequest="1"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />

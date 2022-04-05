@@ -36,7 +36,5 @@ namespace Next2.Services.Order
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
         Task<AOResult> DeleteSetFromCurrentSeat();
-
-        Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(int customerId);
     }
 }

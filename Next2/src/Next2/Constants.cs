@@ -53,6 +53,8 @@
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
             public const string SEATS = "SEATS";
+            public const string REWARD = "REWARD";
+            public const string IS_REWARD_APPLIED = "IS_REWARD_APPLIED";
         }
 
         public static class Validators

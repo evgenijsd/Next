@@ -29,6 +29,7 @@ using Next2.Models;
 using Next2.Views;
 using Next2.Views.Tablet;
 using Next2.ViewModels.Mobile;
+using Next2.Services.Rewards;
 
 namespace Next2
 {
@@ -58,6 +59,7 @@ namespace Next2
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
+            containerRegistry.RegisterSingleton<IRewardsService, RewardsService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
