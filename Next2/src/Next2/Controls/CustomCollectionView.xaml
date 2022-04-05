@@ -13,10 +13,8 @@
         Margin="20,25,20,0">
 
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="30" />
-            <RowDefinition
-                Height="{Binding HeightCoupons}" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="{Binding HeightCoupons}" />
         </Grid.RowDefinitions>
 
         <StackLayout
@@ -69,13 +67,11 @@
 
             <CollectionView.ItemTemplate>
 
-                <DataTemplate
-                    x:DataType="models:BonusBindableModel">
+                <DataTemplate x:DataType="models:BonusBindableModel">
 
                     <templates:BonusItemTemplate
                         Text="{Binding Name}"
-                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:BonusItemTemplate}}, 
-                                                        Path=TapSelectBonusCommand}"
+                        TapSelectCommand="{Binding TapCommand}"
                         TapSelectCommandParameter="{Binding .}"
                         ImagePath="ic_arrow_right_24x24.png"
                         HeightBonus="55"

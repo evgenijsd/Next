@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -14,10 +15,14 @@ namespace Next2.Services.Bonuses
     public class BonusesService : IBonusesService
     {
         private readonly IMockService _mockService;
+        private readonly IMapper _mapper;
 
-        public BonusesService(IMockService mockService)
+        public BonusesService(
+            IMockService mockService,
+            IMapper mapper)
         {
             _mockService = mockService;
+            _mapper = mapper;
         }
 
         public async Task<AOResult<IEnumerable<BonusModel>>> GetBonusesAsync()
@@ -95,21 +100,6 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public ObservableCollection<SetBindableModel> GetSets(FullOrderBindableModel currentOrder)
-        {
-            var result = new ObservableCollection<SetBindableModel>();
-
-            foreach (var seat in currentOrder.Seats)
-            {
-                foreach (var set in seat.Sets)
-                {
-                    result.Add(set);
-                }
-            }
-
-            return result;
-        }
-
         public float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
         {
             float result = 0;
@@ -137,11 +127,11 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets)
+        /*public List<BonusModel> GetDiscounts(IEnumerable<BonusConditionModel>? bonusConditions, IEnumerable<BonusModel>? discounts, List<SetModel> sets)
         {
-            var result = new ObservableCollection<BonusBindableModel>();
+            var result = new List<BonusModel>();
 
-            foreach (var discount in discounts)
+            foreach (var discount in discounts ?? Enumerable.Empty<BonusModel>())
             {
                 var conditions = bonusConditions.Where(x => x.BonusId == discount.Id);
                 int count = conditions.Count();
@@ -161,22 +151,33 @@ namespace Next2.Services.Bonuses
             }
 
             return result;
-        }
+        }*/
 
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
             if (currentOrder.BonusType != EBonusType.None)
             {
+                currentOrder.PriceWithBonus = 0;
+
                 var resultConditions = await GetConditionsAsync();
 
                 var resultBonusSets = await GetBonusSetsAsync();
 
-                currentOrder.PriceWithBonus = 0;
+                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
+                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
+
+                List<SetModel> setConditions = await GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
+                List<SetModel> setBonus = await GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
+
+                /*var resultConditions = await GetConditionsAsync();
+
+                var resultBonusSets = await GetBonusSetsAsync();
 
                 var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
                 var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
-                List<SetBindableModel> setConditions = new();
-                List<SetBindableModel> setBonus = new();
+
+                List<SetModel> setConditions = new();
+                List<SetModel> setBonus = new();
                 int countCondition;
                 int countBonusSet;
                 var sets = GetSets(currentOrder).ToList();
@@ -223,7 +224,7 @@ namespace Next2.Services.Bonuses
                 {
                     setConditions.Remove(setConditions[^1]);
                     countCondition--;
-                }
+                }*/
 
                 foreach (SeatBindableModel seat in currentOrder.Seats)
                 {
@@ -234,7 +235,7 @@ namespace Next2.Services.Bonuses
                             if ((setBonus.Count == 0 && bonusSets.Count == 0) || setBonus.Any(x => x.Id == set.Id))
                             {
                                 set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
-                                setBonus.Remove(set);
+                                setBonus.Remove(_mapper.Map<SetBindableModel, SetModel>(set));
                             }
                             else
                             {
@@ -244,7 +245,7 @@ namespace Next2.Services.Bonuses
                         else
                         {
                             set.PriceBonus = set.Portion.Price;
-                            setConditions.Remove(set);
+                            setConditions.Remove(_mapper.Map<SetBindableModel, SetModel>(set));
                         }
 
                         currentOrder.PriceWithBonus += set.PriceBonus;
@@ -254,11 +255,86 @@ namespace Next2.Services.Bonuses
 
                     currentOrder.Total = currentOrder.PriceWithBonus + currentOrder.PriceTax;
                 }
-
-                return currentOrder;
             }
 
             return currentOrder;
+        }
+
+        public async Task<List<SetModel>> GetConditionSetsAsync(FullOrderBindableModel currentOrder, EConditionSet eConditionSet)
+        {
+            var resultConditions = await GetConditionsAsync();
+
+            var resultBonusSets = await GetBonusSetsAsync();
+
+            var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
+            var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
+
+            List<SetModel> setConditions = new();
+            List<SetModel> setBonus = new();
+            int countCondition;
+            int countBonusSet;
+            var sets = GetSets(currentOrder).ToList();
+
+            do
+            {
+                countCondition = 0;
+
+                foreach (var condition in bonusConditions)
+                {
+                    var set = sets?.FirstOrDefault(x => x.Id == condition.SetId);
+
+                    if (set is not null)
+                    {
+                        setConditions.Add(set);
+                        sets?.Remove(set);
+                        countCondition++;
+                    }
+                }
+
+                countBonusSet = 0;
+
+                foreach (var bonusSet in bonusSets)
+                {
+                    var set = sets?.FirstOrDefault(x => x.Id == bonusSet.SetId);
+
+                    if (set is not null)
+                    {
+                        setBonus.Add(set);
+                        sets?.Remove(set);
+                        countBonusSet++;
+                    }
+                }
+            }
+            while ((countCondition == bonusConditions.Count) && (countBonusSet == bonusSets.Count) && !(countCondition == 0 && countBonusSet == 0));
+
+            while (countBonusSet > 0 && countBonusSet < bonusSets.Count)
+            {
+                setBonus.Remove(setBonus[^1]);
+                countBonusSet--;
+            }
+
+            while (countCondition > 0 && countCondition < bonusConditions.Count)
+            {
+                setConditions.Remove(setConditions[^1]);
+                countCondition--;
+            }
+
+            return eConditionSet == EConditionSet.BonusSet ? setBonus : setConditions;
+        }
+
+        private List<SetModel> GetSets(FullOrderBindableModel currentOrder)
+        {
+            var result = new List<SetModel>();
+
+            foreach (var seat in currentOrder.Seats)
+            {
+                foreach (var set in seat.Sets)
+                {
+                    result.Add(_mapper.Map<SetBindableModel, SetModel>(set));
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Next2.ViewModels
 {
     public class BonusPageViewModel : BaseViewModel
     {
+        private readonly IMapper _mapper;
         private readonly IEventAggregator _eventAggregator;
         private readonly IBonusesService _bonusesService;
         private readonly IOrderService _orderService;
@@ -28,9 +29,11 @@ namespace Next2.ViewModels
             INavigationService navigationService,
             IEventAggregator eventAggregator,
             IOrderService orderService,
+            IMapper mapper,
             IBonusesService bonusesService)
             : base(navigationService)
         {
+            _mapper = mapper;
             _bonusesService = bonusesService;
             _eventAggregator = eventAggregator;
             _orderService = orderService;
@@ -69,35 +72,39 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            IEnumerable<BonusModel>? bonuses;
-            IEnumerable<BonusConditionModel>? bonusConditions = null;
+            IEnumerable<BonusModel> bonuses = Enumerable.Empty<BonusModel>();
+            IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+            IEnumerable<BonusModel> discounts = Enumerable.Empty<BonusModel>();
+            IEnumerable<BonusModel> coupons = Enumerable.Empty<BonusModel>();
             var result = await _bonusesService.GetBonusesAsync();
 
             if (result.IsSuccess)
             {
                 bonuses = result.Result;
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<BonusModel, BonusBindableModel>());
-                var mapper = new Mapper(config);
 
                 var resultConditions = await _bonusesService.GetConditionsAsync();
 
                 if (resultConditions.IsSuccess)
                 {
                     bonusConditions = resultConditions.Result;
-                    Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id)));
-                    Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id)));
+                    /*discounts = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
+                    coupons = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));*/
                 }
             }
 
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 CurrentOrder = currentOrder;
-                var sets = _bonusesService.GetSets(CurrentOrder);
 
-                if (bonusConditions is not null)
+                List<SetModel> setConditions = await _bonusesService.GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
+                List<SetModel> setBonus = await _bonusesService.GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
+                //var sets = _bonusesService.GetSets(CurrentOrder);
+
+                /*if (bonusConditions.Count() > 0)
                 {
-                    Discounts = _bonusesService.GetDiscounts(bonusConditions, Discounts, sets);
-                }
+                    //Discounts = _mapper.Map<List<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonusesService.GetDiscounts(bonusConditions, discounts, sets));
+                    discounts = _bonusesService.GetDiscounts(bonusConditions, discounts, sets);
+                }*/
 
                 HeightCoupons = Coupons.Count * _heightBonus;
                 HeightDiscounts = Discounts.Count * _heightBonus;

@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Enums;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,9 @@ namespace Next2.Services.Bonuses
 
         Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync();
 
-        ObservableCollection<SetBindableModel> GetSets(FullOrderBindableModel currentOrder);
-
         Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder);
 
-        ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets);
+        Task<List<SetModel>> GetConditionSetsAsync(FullOrderBindableModel currentOrder, EConditionSet eConditionSet);
 
         float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set);
     }

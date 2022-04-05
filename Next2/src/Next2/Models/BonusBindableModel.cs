@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Interfaces;
 using Prism.Mvvm;
+using System.Windows.Input;
 
 namespace Next2.Models
 {
@@ -13,5 +14,7 @@ namespace Next2.Models
         public float Value { get; set; }
 
         public EBonusValueType Type { get; set; }
+
+        public ICommand? TapCommand { get; set; }
     }
 }

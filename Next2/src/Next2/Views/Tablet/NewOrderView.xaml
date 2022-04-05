@@ -1928,12 +1928,9 @@
 
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span
-                                            Text="{xct:Translate CurrencySign}" />
-                                        <Span
-                                            Text=" " />
-                                        <Span
-                                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                        <Span Text="{xct:Translate CurrencySign}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                                     </FormattedString>
                                 </Label.FormattedText>
 
