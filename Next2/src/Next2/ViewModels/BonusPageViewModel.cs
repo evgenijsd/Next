@@ -70,7 +70,7 @@ namespace Next2.ViewModels
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             IEnumerable<BonusModel>? bonuses;
-            IEnumerable<BonusConditionAndSetModel>? bonusConditions = null;
+            IEnumerable<BonusConditionModel>? bonusConditions = null;
             var result = await _bonusesService.GetBonusesAsync();
 
             if (result.IsSuccess)
@@ -87,9 +87,6 @@ namespace Next2.ViewModels
                     Discounts = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id)));
                     Coupons = mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id)));
                 }
-
-                HeightCoupons = Coupons.Count * _heightBonus;
-                HeightDiscounts = Discounts.Count * _heightBonus;
             }
 
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
@@ -101,6 +98,9 @@ namespace Next2.ViewModels
                 {
                     Discounts = _bonusesService.GetDiscounts(bonusConditions, Discounts, sets);
                 }
+
+                HeightCoupons = Coupons.Count * _heightBonus;
+                HeightDiscounts = Discounts.Count * _heightBonus;
             }
         }
 

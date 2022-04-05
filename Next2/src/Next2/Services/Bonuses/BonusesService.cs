@@ -45,13 +45,13 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<BonusConditionAndSetModel>>> GetConditionsAsync()
+        public async Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync()
         {
-            var result = new AOResult<IEnumerable<BonusConditionAndSetModel>>();
+            var result = new AOResult<IEnumerable<BonusConditionModel>>();
 
             try
             {
-                var conditions = await _mockService.GetAsync<BonusConditionAndSetModel>(x => x.Id != 0);
+                var conditions = await _mockService.GetAsync<BonusConditionModel>(x => x.Id != 0);
 
                 if (conditions is not null)
                 {
@@ -70,13 +70,13 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<BonusConditionAndSetModel>>> GetBonusSetsAsync()
+        public async Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync()
         {
-            var result = new AOResult<IEnumerable<BonusConditionAndSetModel>>();
+            var result = new AOResult<IEnumerable<BonusSetModel>>();
 
             try
             {
-                var bonusSet = await _mockService.GetAsync<BonusConditionAndSetModel>(x => x.Id != 0);
+                var bonusSet = await _mockService.GetAsync<BonusSetModel>(x => x.Id != 0);
 
                 if (bonusSet is not null)
                 {
@@ -137,7 +137,7 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionAndSetModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets)
+        public ObservableCollection<BonusBindableModel> GetDiscounts(IEnumerable<BonusConditionModel> bonusConditions, ObservableCollection<BonusBindableModel> discounts, IEnumerable<SetBindableModel> sets)
         {
             var result = new ObservableCollection<BonusBindableModel>();
 
@@ -173,8 +173,8 @@ namespace Next2.Services.Bonuses
 
                 currentOrder.PriceWithBonus = 0;
 
-                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionAndSetModel>().ToList();
-                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionAndSetModel>().ToList();
+                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
+                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
                 List<SetBindableModel> setConditions = new();
                 List<SetBindableModel> setBonus = new();
                 int countCondition;
@@ -244,7 +244,7 @@ namespace Next2.Services.Bonuses
                         else
                         {
                             set.PriceBonus = set.Portion.Price;
-                            setConditions?.Remove(set);
+                            setConditions.Remove(set);
                         }
 
                         currentOrder.PriceWithBonus += set.PriceBonus;

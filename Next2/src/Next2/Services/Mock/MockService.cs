@@ -23,8 +23,8 @@ namespace Next2.Services.Mock
         private IList<MemberModel> _members;
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
-        private IList<BonusConditionAndSetModel> _bonusConditions;
-        private IList<BonusConditionAndSetModel> _bonusSets;
+        private IList<BonusConditionModel> _bonusConditions;
+        private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -191,27 +191,27 @@ namespace Next2.Services.Mock
 
         private Task InitBonusConditionAsync() => Task.Run(() =>
         {
-            _bonusConditions = new List<BonusConditionAndSetModel>
+            _bonusConditions = new List<BonusConditionModel>
             {
-                new BonusConditionAndSetModel
+                new BonusConditionModel
                 {
                     Id = 1,
                     SetId = 1,
                     BonusId = 3,
                 },
-                new BonusConditionAndSetModel
+                new BonusConditionModel
                 {
                     Id = 2,
                     SetId = 2,
                     BonusId = 3,
                 },
-                new BonusConditionAndSetModel
+                new BonusConditionModel
                 {
                     Id = 3,
                     SetId = 2,
                     BonusId = 5,
                 },
-                new BonusConditionAndSetModel
+                new BonusConditionModel
                 {
                     Id = 4,
                     SetId = 2,
@@ -219,44 +219,44 @@ namespace Next2.Services.Mock
                 },
             };
 
-            _base.Add(typeof(BonusConditionAndSetModel), _bonusConditions);
+            _base.Add(typeof(BonusConditionModel), _bonusConditions);
         });
 
         private Task InitBonusSetAsync() => Task.Run(() =>
         {
-            _bonusSets = new List<BonusConditionAndSetModel>
+            _bonusSets = new List<BonusSetModel>
             {
-                new BonusConditionAndSetModel
+                new BonusSetModel
                 {
                     Id = 1,
                     SetId = 3,
                     BonusId = 3,
                 },
-                new BonusConditionAndSetModel
+                new BonusSetModel
                 {
                     Id = 2,
                     SetId = 2,
                     BonusId = 5,
                 },
-                new BonusConditionAndSetModel
+                new BonusSetModel
                 {
                     Id = 3,
                     SetId = 2,
                     BonusId = 4,
                 },
-                new BonusConditionAndSetModel
+                new BonusSetModel
                 {
                     Id = 4,
                     SetId = 1,
                     BonusId = 4,
                 },
-                new BonusConditionAndSetModel
+                new BonusSetModel
                 {
                     Id = 5,
                     SetId = 2,
                     BonusId = 2,
                 },
-                new BonusConditionAndSetModel
+                new BonusSetModel
                 {
                     Id = 6,
                     SetId = 2,
@@ -264,7 +264,7 @@ namespace Next2.Services.Mock
                 },
             };
 
-            _base.Add(typeof(BonusConditionAndSetModel), _bonusSets);
+            _base.Add(typeof(BonusSetModel), _bonusSets);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>
