@@ -8,6 +8,8 @@
 
         public const int MAX_TABLE_SEATS = 10;
 
+        public const int TOAST_DURATION = 5;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
         public const int SERVER_RESPONCE_DELAY = 100;

@@ -408,4 +408,7 @@
   <data name="NoItemsInCategory" xml:space="preserve">
     <value>No items in the category</value>
   </data>
+  <data name="SuccessfullyAddedToOrder" xml:space="preserve">
+    <value>Successfully added to order</value>
+  </data>
 </root>

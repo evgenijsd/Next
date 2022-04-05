@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Next2.Interfaces;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Tablet;
@@ -153,9 +154,9 @@ namespace Next2.ViewModels.Tablet
 
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
-                        var toastConfig = new ToastConfig("Successfully added to order")
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                         {
-                            Duration = TimeSpan.FromSeconds(5),
+                            Duration = TimeSpan.FromSeconds(Constants.TOAST_DURATION),
                             Position = ToastPosition.Bottom,
                         };
 

@@ -735,6 +735,16 @@ namespace Next2.Resources.Strings {
                 return ResourceManager.GetString("Subtotal", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SuccessfullyAddedToOrder.
+        /// </summary>
+        internal static string SuccessfullyAddedToOrder
+        {
+            get {
+                return ResourceManager.GetString("SuccessfullyAddedToOrder", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Summary.
