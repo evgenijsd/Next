@@ -405,7 +405,7 @@
   <data name="AvailableGroups" xml:space="preserve">
     <value>Available Groups</value>
   </data>
-  <data name="NoItems" xml:space="preserve">
+  <data name="NoItemsInCategory" xml:space="preserve">
     <value>No items in the category</value>
   </data>
 </root>

@@ -52,6 +52,8 @@
             public const string ADMIN = "ADMIN";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
+            public const string INPUT_TEXT = "INPUT_TEXT";
+            public const string PLACEHOLDER = "PLACEHOLDER";
         }
 
         public static class Validators

@@ -10,7 +10,7 @@ namespace Next2.Models
 
         public int CategoryId { get; set; }
 
-        public bool IsToggle { get; set; }
+        public bool IsToggled { get; set; }
 
         public string Title { get; set; }
 

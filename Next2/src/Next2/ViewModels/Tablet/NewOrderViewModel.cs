@@ -151,6 +151,8 @@ namespace Next2.ViewModels.Tablet
                     {
                         await _popupNavigation.PopAsync();
 
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+
                         var toastConfig = new ToastConfig("Successfully added to order")
                         {
                             Duration = TimeSpan.FromSeconds(5),
@@ -158,8 +160,6 @@ namespace Next2.ViewModels.Tablet
                         };
 
                         UserDialogs.Instance.Toast(toastConfig);
-
-                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                     }
                 }
             }

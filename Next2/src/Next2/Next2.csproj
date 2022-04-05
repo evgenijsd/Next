@@ -147,6 +147,9 @@
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\InputTextPage.xaml.cs">
+      <DependentUpon>InputTextPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
@@ -291,7 +294,7 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\AddCommentPage.xaml">
+    <EmbeddedResource Update="Views\InputTextPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\CustomerAddDialog.xaml">

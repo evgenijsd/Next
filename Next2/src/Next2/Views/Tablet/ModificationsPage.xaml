@@ -257,7 +257,7 @@
                                     Source="pic_plate.png" />
 
                                 <Label
-                                    Text="{xct:Translate NoItems}"
+                                    Text="{xct:Translate NoItemsInCategory}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontSize="{DynamicResource TSize_i4}"
                                     FontFamily="Barlow-Regular"
@@ -301,7 +301,7 @@
 
             <sc:StateCondition State="Inventory">
 
-                <StackLayout  Spacing="0">
+                <StackLayout Spacing="0">
 
                     <Label
                         Text="{xct:Translate AvailableGroups}"
@@ -339,7 +339,7 @@
 
                                 <templates:CategoryItemTemplate
                                     Text="{Binding Title}"
-                                    HeightRequest="54"
+                                    HeightRequest="44"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-Medium"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
@@ -398,7 +398,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                                     <templates:ToggleItemTemplate
-                                        IsToggle="{Binding IsToggle}"
+                                        IsToggle="{Binding IsToggled}"
                                         Title="{Binding Title}"
                                         Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
                                         ImagePath="{Binding ImagePath}"

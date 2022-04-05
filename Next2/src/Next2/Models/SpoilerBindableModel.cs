@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Next2.Models
 {
-    public class SpoilerBindableModel : BindableBase, IBaseModel
+    public class SpoilerBindableModel : BindableBase, IBaseModel, ITappable
     {
         public int Id { get; set; }
 

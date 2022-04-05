@@ -1,17 +1,19 @@
 ﻿using AutoMapper;
 using Next2.ENums;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
+using Next2.Views;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -123,7 +125,17 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region --Overrides--
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_TEXT, out string text))
+            {
+                _currentSet.Comment = text;
+            }
+        }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
@@ -355,7 +367,7 @@ namespace Next2.ViewModels
                 {
                     Id = row.Id,
                     CategoryId = row.CategoryId,
-                    IsToggle = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
+                    IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
                     Title = row.Title,
                     Price = row.Price,
                     ImagePath = row.ImagePath,
@@ -423,6 +435,15 @@ namespace Next2.ViewModels
                         SelectedIngredientCategory = null;
 
                         InitIngredientCategoriesAsync().Await();
+                        break;
+                    case ESubmenuItemsModifactions.Comment:
+                        var navigationParameters = new NavigationParameters()
+                        {
+                            { Constants.Navigations.INPUT_TEXT, _currentSet.Comment },
+                            { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
+                        };
+
+                        _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
                         break;
                 }
 

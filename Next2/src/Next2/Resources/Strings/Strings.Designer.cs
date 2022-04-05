@@ -131,6 +131,16 @@ namespace Next2.Resources.Strings {
                 return ResourceManager.GetString("Clear", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to CommentForOrder.
+        /// </summary>
+        internal static string CommentForOrder
+        {
+            get {
+                return ResourceManager.GetString("CommentForOrder", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Confirm.
