@@ -87,8 +87,8 @@ namespace Next2.ViewModels
                 if (resultConditions.IsSuccess)
                 {
                     bonusConditions = resultConditions.Result;
-                    /*discounts = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
-                    coupons = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));*/
+                    discounts = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
+                    coupons = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));
                 }
             }
 
@@ -98,13 +98,25 @@ namespace Next2.ViewModels
 
                 List<SetModel> setConditions = await _bonusesService.GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
                 List<SetModel> setBonus = await _bonusesService.GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
-                //var sets = _bonusesService.GetSets(CurrentOrder);
+                var sets = _bonusesService.GetSets(CurrentOrder);
 
-                /*if (bonusConditions.Count() > 0)
+                if (bonusConditions.Count() > 0)
                 {
-                    //Discounts = _mapper.Map<List<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonusesService.GetDiscounts(bonusConditions, discounts, sets));
-                    discounts = _bonusesService.GetDiscounts(bonusConditions, discounts, sets);
-                }*/
+                    Discounts = _mapper.Map<List<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonusesService.GetDiscounts(bonusConditions, discounts, sets));
+                    //discounts = _bonusesService.GetDiscounts(bonusConditions, discounts, sets);
+                }
+
+                Coupons = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(coupons);
+
+                foreach (var coupon in Coupons)
+                {
+                    coupon.TapCommand = TapSelectBonusCommand;
+                }
+
+                foreach (var discount in Discounts)
+                {
+                    discount.TapCommand = TapSelectBonusCommand;
+                }
 
                 HeightCoupons = Coupons.Count * _heightBonus;
                 HeightDiscounts = Discounts.Count * _heightBonus;

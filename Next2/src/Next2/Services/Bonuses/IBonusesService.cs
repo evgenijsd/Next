@@ -22,5 +22,9 @@ namespace Next2.Services.Bonuses
         Task<List<SetModel>> GetConditionSetsAsync(FullOrderBindableModel currentOrder, EConditionSet eConditionSet);
 
         float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set);
+
+        List<BonusModel> GetDiscounts(IEnumerable<BonusConditionModel>? bonusConditions, IEnumerable<BonusModel>? discounts, List<SetModel> sets);
+
+        List<SetModel> GetSets(FullOrderBindableModel currentOrder);
     }
 }

@@ -127,7 +127,7 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        /*public List<BonusModel> GetDiscounts(IEnumerable<BonusConditionModel>? bonusConditions, IEnumerable<BonusModel>? discounts, List<SetModel> sets)
+        public List<BonusModel> GetDiscounts(IEnumerable<BonusConditionModel>? bonusConditions, IEnumerable<BonusModel>? discounts, List<SetModel> sets)
         {
             var result = new List<BonusModel>();
 
@@ -151,7 +151,7 @@ namespace Next2.Services.Bonuses
             }
 
             return result;
-        }*/
+        }
 
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
@@ -322,7 +322,7 @@ namespace Next2.Services.Bonuses
             return eConditionSet == EConditionSet.BonusSet ? setBonus : setConditions;
         }
 
-        private List<SetModel> GetSets(FullOrderBindableModel currentOrder)
+        public List<SetModel> GetSets(FullOrderBindableModel currentOrder)
         {
             var result = new List<SetModel>();
 
