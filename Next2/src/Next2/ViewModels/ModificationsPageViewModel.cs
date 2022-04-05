@@ -144,6 +144,8 @@ namespace Next2.ViewModels
                 ProductsSet[indexProduct].Items = submenu;
 
                 _currentSet.Products[indexProduct].Comment = text;
+
+                ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
             }
         }
 
