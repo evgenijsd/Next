@@ -131,6 +131,16 @@ namespace Next2.Resources.Strings {
                 return ResourceManager.GetString("Clear", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to CommentForOrder.
+        /// </summary>
+        internal static string CommentForOrder
+        {
+            get {
+                return ResourceManager.GetString("CommentForOrder", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Confirm.
@@ -723,6 +733,16 @@ namespace Next2.Resources.Strings {
         internal static string Subtotal {
             get {
                 return ResourceManager.GetString("Subtotal", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SuccessfullyAddedToOrder.
+        /// </summary>
+        internal static string SuccessfullyAddedToOrder
+        {
+            get {
+                return ResourceManager.GetString("SuccessfullyAddedToOrder", resourceCulture);
             }
         }
         

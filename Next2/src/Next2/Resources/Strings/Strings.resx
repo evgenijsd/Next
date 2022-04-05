@@ -402,4 +402,13 @@
   <data name="ThisSetWillBeRemoved" xml:space="preserve">
     <value>This item will be removed from the order list.</value>
   </data>
+  <data name="AvailableGroups" xml:space="preserve">
+    <value>Available Groups</value>
+  </data>
+  <data name="NoItemsInCategory" xml:space="preserve">
+    <value>No items in the category</value>
+  </data>
+  <data name="SuccessfullyAddedToOrder" xml:space="preserve">
+    <value>Successfully added to order</value>
+  </data>
 </root>

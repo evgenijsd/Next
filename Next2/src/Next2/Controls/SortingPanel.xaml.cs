@@ -1,10 +1,14 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
-namespace Next2.Controls.Templates
+namespace Next2.Controls
 {
-    public partial class CategoryItemTemplate : StackLayout
+    public partial class SortingPanel : StackLayout
     {
-        public CategoryItemTemplate()
+        public SortingPanel()
         {
             InitializeComponent();
         }
@@ -14,7 +18,7 @@ namespace Next2.Controls.Templates
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(CategoryItemTemplate));
+            declaringType: typeof(SortingPanel));
 
         public string Text
         {
@@ -24,21 +28,21 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
             propertyName: nameof(FontSize),
-            returnType: typeof(float),
-            declaringType: typeof(CategoryItemTemplate),
-            defaultValue: 12f,
+            returnType: typeof(double),
+            declaringType: typeof(SortingPanel),
+            defaultValue: 12d,
             defaultBindingMode: BindingMode.TwoWay);
 
-        public float FontSize
+        public double FontSize
         {
-            get => (float)GetValue(FontSizeProperty);
+            get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 
         public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
             propertyName: nameof(FontFamily),
             returnType: typeof(string),
-            declaringType: typeof(CategoryItemTemplate),
+            declaringType: typeof(SortingPanel),
             defaultValue: string.Empty,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -46,6 +50,18 @@ namespace Next2.Controls.Templates
         {
             get => (string)GetValue(FontFamilyProperty);
             set => SetValue(FontFamilyProperty, value);
+        }
+
+        public static readonly BindableProperty ChangingOrderSortCommandProperty = BindableProperty.Create(
+            propertyName: nameof(ChangingOrderSortCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(SortingPanel),
+            defaultValue: default(ICommand));
+
+        public ICommand ChangingOrderSortCommand
+        {
+            get => (ICommand)GetValue(ChangingOrderSortCommandProperty);
+            set => SetValue(ChangingOrderSortCommandProperty, value);
         }
 
         #endregion

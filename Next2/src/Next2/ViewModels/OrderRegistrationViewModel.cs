@@ -599,11 +599,7 @@ namespace Next2.ViewModels
 
         private async Task OnOpenModifyCommandAsync()
         {
-            var navigationParameters = new NavigationParameters
-            {
-                 { Constants.Navigations.SELECTED_SET, SelectedSet },
-            };
-            await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
+            await _navigationService.NavigateAsync(nameof(Views.Tablet.ModificationsPage));
         }
 
         private async Task OnOpenRemoveCommandAsync()

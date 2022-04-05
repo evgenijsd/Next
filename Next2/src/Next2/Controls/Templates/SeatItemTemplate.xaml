@@ -27,7 +27,7 @@
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}"/>
 
             </DataTrigger>
-            
+
         </BoxView.Triggers>
     </BoxView>
 
@@ -53,14 +53,12 @@
                     <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
 
                 </DataTrigger>
-                
+
             </ffimageloading:CachedImage.Triggers>
 
         </ffimageloading:CachedImage>
 
         <Label
-            FontSize="{DynamicResource TSize_i7}"
-            FontFamily="Barlow-Medium"
             Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
             Margin="14, 0, 0, 0"/>
 
@@ -93,7 +91,9 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
             Padding="16, 8"
             CornerRadius="8"
-            IsVisible="{Binding IsFirstSeat}">
+            IsVisible="{Binding IsFirstSeat}"
+            xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
+            xct:TouchEffect.CommandParameter="{Binding .}">
 
             <StackLayout
                 Orientation="Horizontal"
@@ -109,8 +109,8 @@
                     VerticalTextAlignment="Center"
                     Text="{xct:Translate RemoveOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i7}"
-                    FontFamily="Barlow-Medium"
+                    FontSize="{DynamicResource TSize_i6}"
+                    FontFamily="Barlow-SemiBold"
                     xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
 
             </StackLayout>
@@ -190,20 +190,20 @@
                             </pancakeview:PancakeView>
 
                             <StackLayout
-                                Spacing="6"
+                                Spacing="0"
                                 VerticalOptions="Center"
                                 Margin="0, 16, 16, 16">
 
                                 <Label
                                     Text="{Binding Title}"
-                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-Medium"
                                     LineBreakMode="TailTruncation"
                                     MaxLines="1"/>
 
                                 <Label
                                     Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
-                                    FontSize="{DynamicResource TSize_i6}"
+                                    FontSize="{DynamicResource TSize_i5}"
                                     FontFamily="Barlow-SemiBold"/>
 
                             </StackLayout>
@@ -211,7 +211,7 @@
                         </StackLayout>
 
                     </Frame>
-                    
+
                 </StackLayout>
 
             </DataTemplate>

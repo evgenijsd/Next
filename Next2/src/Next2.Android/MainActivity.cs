@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using Acr.UserDialogs;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
@@ -27,6 +28,7 @@ namespace Next2.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
+            UserDialogs.Init(this);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             Rg.Plugins.Popup.Popup.Init(this);
 

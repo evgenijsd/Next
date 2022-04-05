@@ -228,7 +228,7 @@
                                 FontFamily="Barlow-Medium"
                                 Margin="5, 0, 0, 0"/>
 
-                    </StackLayout>
+                        </StackLayout>
 
                         <BoxView
                             Margin="0, 12, 0, 0"
