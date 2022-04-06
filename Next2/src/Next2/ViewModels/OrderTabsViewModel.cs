@@ -461,7 +461,7 @@ namespace Next2.ViewModels
 
         private async Task OnGoBackCommand()
         {
-            await _navigationService.NavigateAsync(nameof(MenuPage));
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
         }
 
         #endregion

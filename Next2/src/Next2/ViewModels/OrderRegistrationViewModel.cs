@@ -795,6 +795,11 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
+                IsSideMenuVisible = true;
+                CurrentState = LayoutState.Loading;
+
+                await RefreshCurrentOrderAsync();
+
                 MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
             else
