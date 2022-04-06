@@ -563,7 +563,7 @@ namespace Next2.ViewModels
 
         private async Task OnOpenDiscountSelectionCommandAsync()
         {
-            _eventAggregator.GetEvent<BonusForCurrentOrderEvent>().Subscribe(BonusEventCommand);
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Subscribe(BonusEventCommand);
 
             var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
             await _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
@@ -573,7 +573,7 @@ namespace Next2.ViewModels
         {
             CurrentOrder = currentOrder;
 
-            _eventAggregator.GetEvent<BonusForCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()

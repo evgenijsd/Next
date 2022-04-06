@@ -54,8 +54,8 @@ namespace Next2.ViewModels
 
         public double HeightDiscounts { get; set; } = 0;
 
-        private ICommand _BonusCommand;
-        public ICommand BonusCommand => _BonusCommand ??= new AsyncCommand(OnBonusCommandAsync);
+        private ICommand _ApplyBonusCommand;
+        public ICommand ApplyBonusCommand => _ApplyBonusCommand ??= new AsyncCommand(OnApplyBonusCommandAsync);
 
         private ICommand _RemoveSelectionBonusCommand;
         public ICommand RemoveSelectionBonusCommand => _RemoveSelectionBonusCommand ??= new AsyncCommand(OnRemoveSelectionBonusCommandAsync);
@@ -118,8 +118,8 @@ namespace Next2.ViewModels
                     discount.TapCommand = TapSelectBonusCommand;
                 }
 
-                HeightCoupons = Coupons.Count * _heightBonus;
-                HeightDiscounts = Discounts.Count * _heightBonus;
+                HeightCoupons = (Coupons.Count * _heightBonus) + 30;
+                HeightDiscounts = (Discounts.Count * _heightBonus) + 30;
             }
         }
 
@@ -137,9 +137,9 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnBonusCommandAsync()
+        private async Task OnApplyBonusCommandAsync()
         {
-            _eventAggregator.GetEvent<BonusForCurrentOrderEvent>().Publish(CurrentOrder);
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Publish(CurrentOrder);
 
             await _navigationService.GoBackAsync();
         }
@@ -163,11 +163,11 @@ namespace Next2.ViewModels
         {
             if (bonusType == EBonusType.Coupone)
             {
-                HeightCoupons = HeightCoupons == 0 ? Coupons.Count * _heightBonus : 0;
+                HeightCoupons = HeightCoupons == 30 ? (Coupons.Count * _heightBonus) + 30 : 30;
             }
             else
             {
-                HeightDiscounts = HeightDiscounts == 0 ? Discounts.Count * _heightBonus : 0;
+                HeightDiscounts = HeightDiscounts == 30 ? (Discounts.Count * _heightBonus) + 30 : 30;
             }
 
             return Task.CompletedTask;

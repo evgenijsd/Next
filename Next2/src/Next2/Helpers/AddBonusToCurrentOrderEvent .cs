@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Next2.Helpers
 {
-    public class BonusForCurrentOrderEvent : PubSubEvent<FullOrderBindableModel>
+    public class AddBonusToCurrentOrderEvent : PubSubEvent<FullOrderBindableModel>
     {
     }
 }

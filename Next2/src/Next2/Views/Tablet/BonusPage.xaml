@@ -272,7 +272,7 @@
                         BorderColor="Transparent"
                         BackgroundColor="{DynamicResource AppColor_i1}"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        Command="{Binding BonusCommand}">
+                        Command="{Binding ApplyBonusCommand}">
 
                         <buttons:BorderButton.Triggers>
                             
@@ -298,79 +298,88 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
 
                 <ScrollView Grid.Column="1">
-                    
-                    <Grid Margin="20,25,20,0">
+
+                    <StackLayout Spacing="0">
                         
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="{Binding HeightCoupons}" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="{Binding HeightDiscounts}" />
-                        </Grid.RowDefinitions>
+                        <Grid Margin="20,20,20,0">
 
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{Binding HeightCoupons}" />
+                            </Grid.RowDefinitions>
 
-                        <Label
-                            Grid.Row="0"
-                            Text="{xct:Translate Coupons}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-SemiBold" />
+                            <CollectionView
+                                SelectionMode="Single"
+                                ItemsSource="{Binding Coupons}"
+                                SelectedItem="{Binding SelectedBonus}">
 
-                        <CollectionView
-                            Grid.Row="1"
-                            SelectionMode="Single"
-                            ItemsSource="{Binding Coupons}"
-                            SelectedItem="{Binding SelectedBonus}">
+                                <CollectionView.Header>
+                                    <Label
+                                        Margin="0,0,0,10"
+                                        Text="{xct:Translate Coupons}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontFamily="Barlow-SemiBold" />
+                                </CollectionView.Header>
 
-                            <CollectionView.ItemTemplate>
+                                <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="models:BonusBindableModel">
+                                    <DataTemplate x:DataType="models:BonusBindableModel">
 
-                                    <templates:BonusItemTemplate
-                                        Text="{Binding Name}"
-                                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
-                                                        Path=TapSelectBonusCommand}"
-                                        TapSelectCommandParameter="{Binding .}"
-                                        BackColor="Transparent"
-                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                                        <templates:BonusItemTemplate
+                                            Text="{Binding Name}"
+                                            TapSelectCommand="{Binding TapCommand}"
+                                            TapSelectCommandParameter="{Binding .}"
+                                            BackColor="Transparent"
+                                            BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                                </DataTemplate>
+                                    </DataTemplate>
 
-                            </CollectionView.ItemTemplate>
+                                </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                            </CollectionView>
 
-                        <Label
-                            Grid.Row="2"
-                            Margin="0,3,0,0"
-                            Text="{xct:Translate Discounts}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontFamily="Barlow-SemiBold" />
+                        </Grid>
 
-                        <CollectionView
-                            Grid.Row="3"
-                            SelectionMode="Single"
-                            ItemsSource="{Binding Discounts}"
-                            SelectedItem="{Binding SelectedBonus}">
+                        <Grid
+                            Margin="20,0,20,0">
 
-                            <CollectionView.ItemTemplate>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{Binding HeightDiscounts}" />
+                            </Grid.RowDefinitions>
 
-                                <DataTemplate x:DataType="models:BonusBindableModel">
+                            <CollectionView
+                                SelectionMode="Single"
+                                ItemsSource="{Binding Discounts}"
+                                SelectedItem="{Binding SelectedBonus}">
 
-                                    <templates:BonusItemTemplate
-                                        Text="{Binding Name}"
-                                        TapSelectCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:BonusPageViewModel}}, 
-                                                        Path=TapSelectBonusCommand}"
-                                        TapSelectCommandParameter="{Binding .}"
-                                        BackColor="Transparent"
-                                        BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                                <CollectionView.Header>
+                                    <Label
+                                        Margin="0,3,0,10"
+                                        Text="{xct:Translate Discounts}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontFamily="Barlow-SemiBold" />
+                                </CollectionView.Header>
 
-                                </DataTemplate>
+                                <CollectionView.ItemTemplate>
 
-                            </CollectionView.ItemTemplate>
+                                    <DataTemplate
+                                        x:DataType="models:BonusBindableModel">
 
-                        </CollectionView>
+                                        <templates:BonusItemTemplate
+                                            Text="{Binding Name}"
+                                            TapSelectCommand="{Binding TapCommand}"
+                                            TapSelectCommandParameter="{Binding .}"
+                                            BackColor="Transparent"
+                                            BorderBonusColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                    </Grid>
+                                    </DataTemplate>
+
+                                </CollectionView.ItemTemplate>
+
+                            </CollectionView>
+
+                        </Grid>
+                        
+                    </StackLayout>
 
                 </ScrollView>
 
