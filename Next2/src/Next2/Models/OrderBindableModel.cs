@@ -11,12 +11,7 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
-        private string? _name;
-        public string? Name
-        {
-            get => _name;
-            set { _name = string.IsNullOrWhiteSpace(value) ? "- - - - - - - - -" : value; }
-        }
+        public string? Name { get; set; }
 
         public string? OrderStatus { get; set; }
 
