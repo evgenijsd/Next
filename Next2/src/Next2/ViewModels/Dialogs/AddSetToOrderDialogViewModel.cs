@@ -24,6 +24,7 @@ namespace Next2.ViewModels
                 execute: () =>
                 {
                     Set.Portion = SelectedPortion;
+                    Set.Portions = new(Portions);
 
                     RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.SET, Set } });
                 },

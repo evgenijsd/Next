@@ -155,10 +155,13 @@ namespace Next2.ViewModels
                     seat.SelectedItem = null;
                 }
 
-                MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
+                if (parameters.ContainsKey(Constants.Navigations.DELETE_SET))
                 {
-                    RecalculateOrderPriceBySet(arg);
-                });
+                    MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
+                    {
+                        RecalculateOrderPriceBySet(arg);
+                    });
+                }
             }
         }
 
@@ -717,11 +720,7 @@ namespace Next2.ViewModels
 
         private async Task OnOpenModifyCommandAsync()
         {
-            var navigationParameters = new NavigationParameters
-            {
-                 { Constants.Navigations.SELECTED_SET, SelectedSet },
-            };
-            await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
+            await _navigationService.NavigateAsync(nameof(Views.Tablet.ModificationsPage));
         }
 
         private async Task OnOpenRemoveCommandAsync()

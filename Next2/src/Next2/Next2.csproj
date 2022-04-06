@@ -90,6 +90,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.562" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Fody" Version="6.6.0">
       <PrivateAssets>all</PrivateAssets>
@@ -145,6 +146,9 @@
     </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InputTextPage.xaml.cs">
+      <DependentUpon>InputTextPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
@@ -227,7 +231,10 @@
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
+    <EmbeddedResource Update="Controls\SortingPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Spoiler.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
@@ -269,6 +276,9 @@
     <EmbeddedResource Update="Views\Mobile\EditPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\ModificationsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderRegistrationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -284,7 +294,7 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\AddCommentPage.xaml">
+    <EmbeddedResource Update="Views\InputTextPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\CustomerAddDialog.xaml">
@@ -341,6 +351,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\ModificationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
