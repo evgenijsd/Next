@@ -8,6 +8,8 @@
 
         public const int MAX_TABLE_SEATS = 10;
 
+        public const int TOAST_DURATION = 5;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
         public const int SERVER_RESPONCE_DELAY = 100;
@@ -50,6 +52,10 @@
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string ADMIN = "ADMIN";
+            public const string SWITCH_PAGE = "SWITCH_PAGE";
+            public const string SELECTED_SET = "SELECTED_SET";
+            public const string INPUT_TEXT = "INPUT_TEXT";
+            public const string PLACEHOLDER = "PLACEHOLDER";
         }
 
         public static class Validators

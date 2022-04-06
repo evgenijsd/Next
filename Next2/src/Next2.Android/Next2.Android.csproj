@@ -98,6 +98,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.2.0.562</Version>
+    </PackageReference>
     <PackageReference Include="Fody">
       <Version>6.6.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -145,6 +148,7 @@
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Effects\ScrollBarColorEffect.cs" />
+    <Compile Include="Renderers\NoCrashFrameRenderer.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />
     <Compile Include="Renderers\LineSpacingLabelRenderer.cs" />

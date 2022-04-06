@@ -219,6 +219,7 @@ namespace Next2.Services.Order
         public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
         {
             var result = new AOResult();
+            bool success = true;
 
             try
             {
@@ -234,6 +235,75 @@ namespace Next2.Services.Order
                     CurrentOrder.Seats.Add(seat);
 
                     CurrentSeat = seat;
+                }
+
+                var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+
+                if (resultProducts is not null)
+                {
+                    set.Products = new();
+
+                    foreach (var product in resultProducts)
+                    {
+                        var newProduct = new ProductBindableModel()
+                        {
+                            Id = product.Id,
+                            ReplacementProducts = new(),
+                            SelectedIngredients = new(),
+                            Title = product.Title,
+                            ImagePath = product.ImagePath,
+                            ProductPrice = product.ProductPrice,
+                            IngredientsPrice = product.IngredientsPrice,
+                            TotalPrice = product.TotalPrice,
+                            Comment = product.Comment,
+                        };
+
+                        var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
+
+                        if (resultOptionsProduct is not null)
+                        {
+                            newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
+                            newProduct.Options = new(resultOptionsProduct);
+                        }
+                        else
+                        {
+                            newProduct.SelectedOption = new();
+                            newProduct.Options = new();
+                        }
+
+                        var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
+
+                        foreach (var replacementProduct in resultReplacementProducts)
+                        {
+                            var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
+                            newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
+                        }
+
+                        newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
+
+                        if (newProduct.SelectedProduct is null)
+                        {
+                            newProduct.SelectedProduct = product;
+                        }
+
+                        var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
+
+                        if (selectedIngredients is not null)
+                        {
+                            newProduct.SelectedIngredients = new(selectedIngredients);
+                        }
+
+                        set.Products.Add(newProduct);
+                    }
+                }
+                else
+                {
+                    success = false;
+                }
+
+                if (!success)
+                {
+                    result.SetFailure();
                 }
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
@@ -299,10 +369,7 @@ namespace Next2.Services.Order
                         CurrentOrder.Seats[i].SeatNumber--;
                     }
 
-                    if (seat.Checked)
-                    {
-                        CurrentSeat = null;
-                    }
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
                     result.SetSuccess();
                 }
@@ -342,6 +409,28 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(RedirectSetsFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> DeleteSetFromCurrentSeat()
+        {
+            var result = new AOResult();
+
+            try
+            {
+                SetBindableModel? setTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
+                if (setTobeRemoved is not null)
+                {
+                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
+                }
+
+                result.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DeleteSetFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

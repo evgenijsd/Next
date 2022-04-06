@@ -373,14 +373,15 @@
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="6"
                     HasShadow="False"
-                    Opacity="1">
+                    Opacity="1"
+                    xct:TouchEffect.Command="{Binding AddCustomerToOrderCommand}">
 
                     <Label
                         FontSize="{DynamicResource TSize_i8}"
                         HorizontalOptions="Center"
                         Text="Select"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"/>
 
                     <Frame.Triggers>
 

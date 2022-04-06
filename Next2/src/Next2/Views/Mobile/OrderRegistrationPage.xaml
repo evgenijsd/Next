@@ -1,17 +1,16 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <views:BaseContentPage
-    x:Class="Next2.Views.Mobile.OrderRegistrationPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
-    xmlns:models="clr-namespace:Next2.Models"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:prism="http://prismlibrary.com"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -144,16 +143,13 @@
             Spacing="13"
             VerticalOptions="FillAndExpand">
 
-            <Label
-                HorizontalOptions="EndAndExpand"
-                Style="{DynamicResource SemiBold32pxLabelStyle}"
+            <Label 
+                Style="{DynamicResource SemiBold32pxLabelStyle}" 
+                HorizontalOptions="EndAndExpand" 
                 Text="{xct:Translate Seats}">
 
                 <Label.Triggers>
-                    <DataTrigger
-                        Binding="{Binding CurrentOrder.Seats.Count}"
-                        TargetType="Label"
-                        Value="0">
+                    <DataTrigger TargetType="Label" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
 
@@ -163,22 +159,10 @@
             </Label>
 
             <controls:CustomStepper
-                DecrementCommand="{Binding DeleteLastSeatCommand}"
+                IsEnabled="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                 MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
-                Value="{Binding NumberOfSeats}">
-
-                <controls:CustomStepper.Triggers>
-                    <DataTrigger
-                        Binding="{Binding CurrentOrder.Seats.Count}"
-                        TargetType="controls:CustomStepper"
-                        Value="0">
-
-                        <Setter Property="IsEnabled" Value="False" />
-
-                    </DataTrigger>
-                </controls:CustomStepper.Triggers>
-
-            </controls:CustomStepper>
+                Value="{Binding NumberOfSeats}"
+                DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
         </StackLayout>
 
@@ -233,28 +217,21 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:SeatBindableModel">
 
-                    <templates:SeatItemTemplate Padding="24,9,24,0" ItemsSource="{Binding Sets}" />
+                    <templates:SeatItemTemplate
+                        ItemsSource="{Binding Sets}"
+                        Padding="17, 9, 17, 0"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
         </CollectionView>
 
-        <!--  SUMMARY  -->
-        <StackLayout Grid.Row="3">
+        <!-- SUMMARY -->
+        <StackLayout 
+            Grid.Row="3"
+            IsVisible="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}">
 
-            <StackLayout.Triggers>
-                <DataTrigger
-                    Binding="{Binding CurrentOrder.Seats.Count}"
-                    TargetType="StackLayout"
-                    Value="0">
-
-                    <Setter Property="IsVisible" Value="false" />
-
-                </DataTrigger>
-            </StackLayout.Triggers>
-
-            <!--  SUMMARY HEADER  -->
+            <!-- SUMMARY HEADER -->
             <StackLayout
                 Padding="17,11"
                 Orientation="Horizontal"
@@ -268,11 +245,12 @@
                         VerticalOptions="CenterAndExpand" />
 
                     <Label
-                        IsVisible="{Binding CurrentOrder.CustomerName.Length}"
-                        Text="{Binding CurrentOrder.CustomerName}"
+                        IsVisible="{Binding CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
-                        VerticalOptions="FillAndExpand" />
-
+                        Text="{Binding CurrentOrder.Customer.Name}"/>
+                   
+                   
                 </StackLayout>
 
                 <buttons:IconBorderButton
@@ -286,23 +264,11 @@
                     IconSource="ic_discount_48x48"
                     Style="{DynamicResource IconBorderButtonStyle_i2}" />
 
-                <buttons:IconBorderButton
-                    Command="{Binding RemoveTaxFromOrderCommand}"
-                    IconSource="ic_tax"
-                    Style="{DynamicResource IconBorderButtonStyle_i2}">
-
-                    <buttons:IconBorderButton.Triggers>
-                        <DataTrigger
-                            Binding="{Binding IsOrderWithTax}"
-                            TargetType="buttons:IconBorderButton"
-                            Value="false">
-
-                            <Setter Property="IsVisible" Value="false" />
-
-                        </DataTrigger>
+                    IsVisible="{Binding IsOrderWithTax}"
+                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    Command="{Binding RemoveTaxFromOrderCommand}"/>
                     </buttons:IconBorderButton.Triggers>
-
-                </buttons:IconBorderButton>
 
             </StackLayout>
 
@@ -329,7 +295,9 @@
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout 
+                    IsVisible="{Binding IsOrderWithTax}"
+                    Orientation="Horizontal">
 
                     <Label Style="{DynamicResource SemiBold24pxLabelStyle}" Text="{xct:Translate Tax}" />
 
@@ -343,18 +311,7 @@
                             </FormattedString>
                         </Label.FormattedText>
 
-                    </Label>
-
-                    <StackLayout.Triggers>
-                        <DataTrigger
-                            Binding="{Binding IsOrderWithTax}"
-                            TargetType="StackLayout"
-                            Value="false">
-
-                            <Setter Property="IsVisible" Value="false" />
-
-                        </DataTrigger>
-                    </StackLayout.Triggers>
+                    
 
                 </StackLayout>
 

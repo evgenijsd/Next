@@ -160,10 +160,7 @@
 
                                                 <TapGestureRecognizer
                                                     Command="{Binding ShowInfoCommand}"
-                                                    CommandParameter="{Binding .}"
-                                                    NumberOfTapsRequired="2" />
-
-                                                <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
+                                                    CommandParameter="{Binding .}"/>
 
                                             </Grid.GestureRecognizers>
 

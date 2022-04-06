@@ -1,5 +1,7 @@
-﻿using Next2.Interfaces;
+﻿using Acr.UserDialogs;
+using Next2.Interfaces;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -124,10 +126,25 @@ namespace Next2.ViewModels.Tablet
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
                 {
                     var result = await _orderService.AddSetInCurrentOrderAsync(set);
+
+                    if (result.IsSuccess)
+                    {
+                        await _popupNavigation.PopAsync();
+
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        {
+                            Duration = TimeSpan.FromSeconds(Constants.TOAST_DURATION),
+                            Position = ToastPosition.Bottom,
+                        };
+
+                        UserDialogs.Instance.Toast(toastConfig);
+                    }
                 }
             }
-
-            await _popupNavigation.PopAsync();
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
         }
 
         private async Task LoadCategoriesAsync()
