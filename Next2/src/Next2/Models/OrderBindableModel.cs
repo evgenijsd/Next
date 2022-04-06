@@ -11,7 +11,7 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public string? OrderStatus { get; set; }
 

@@ -436,6 +436,69 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult> AddSeatAsync(SeatModel seat)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                if (seat is not null)
+                {
+                    var seatId = await _mockService.AddAsync(seat);
+                    if (seatId >= 0)
+                    {
+                        result.SetSuccess();
+                    }
+                    else
+                    {
+                        result.SetFailure();
+                    }
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddSeatAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> AddOrderAsync(OrderModel order)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                if (order is not null)
+                {
+                    var orderId = await _mockService.AddAsync(order);
+
+                    if (orderId >= 0)
+                    {
+                        result.SetSuccess();
+                    }
+                    else
+                    {
+                        result.SetFailure();
+                    }
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

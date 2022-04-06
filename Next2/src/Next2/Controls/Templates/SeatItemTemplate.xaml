@@ -92,7 +92,7 @@
             Padding="16, 8"
             CornerRadius="8"
             IsVisible="{Binding IsFirstSeat}"
-            xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
+            xct:TouchEffect.Command="{Binding RemoveOrderCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">
 
             <StackLayout
@@ -110,8 +110,7 @@
                     Text="{xct:Translate RemoveOrder}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontSize="{DynamicResource TSize_i6}"
-                    FontFamily="Barlow-SemiBold"
-                    xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
+                    FontFamily="Barlow-SemiBold"/>
 
             </StackLayout>
 

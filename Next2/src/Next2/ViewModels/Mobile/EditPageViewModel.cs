@@ -11,6 +11,7 @@ using Next2.Enums;
 using Xamarin.CommunityToolkit.Helpers;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Contracts;
+using Xamarin.Forms;
 using Next2.Views.Mobile;
 
 namespace Next2.ViewModels.Mobile
@@ -93,7 +94,14 @@ namespace Next2.ViewModels.Mobile
                     if (result.IsSuccess)
                     {
                         await _popupNavigation.PopAsync();
-                        await _navigationService.GoBackAsync();
+
+                        var navigationParameters = new NavigationParameters
+                        {
+                            { nameof(Constants.Navigations.DELETE_SET), Constants.Navigations.DELETE_SET },
+                        };
+                        await _navigationService.GoBackAsync(navigationParameters);
+
+                        MessagingCenter.Send(this, Constants.Navigations.SELECTED_SET, SelectedSet);
                     }
                 }
                 else
