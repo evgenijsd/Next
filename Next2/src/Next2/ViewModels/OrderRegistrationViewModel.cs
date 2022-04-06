@@ -618,18 +618,7 @@ namespace Next2.ViewModels
 
         private async Task OnOrderCommandAsync(EOrderPaymentStatus commandParameter)
         {
-            switch (commandParameter)
-            {
-                case EOrderPaymentStatus.InProgress:
-
-                    _orderPaymentStatus = EOrderPaymentStatus.InProgress;
-
-                    break;
-                case EOrderPaymentStatus.WaitingForPayment:
-                    _orderPaymentStatus = EOrderPaymentStatus.WaitingForPayment;
-
-                    break;
-            }
+            _orderPaymentStatus = commandParameter;
 
             List<SeatModel> seats = new();
 
