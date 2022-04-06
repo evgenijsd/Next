@@ -9,6 +9,8 @@ namespace Next2.Controls.Templates
 {
     public partial class CustomNumericKeyboardTemplate : ContentView
     {
+        private string _value;
+
         public CustomNumericKeyboardTemplate()
         {
             InitializeComponent();
@@ -26,6 +28,44 @@ namespace Next2.Controls.Templates
         {
             get => (string)GetValue(ScreenKeyboardProperty);
             set => SetValue(ScreenKeyboardProperty, value);
+        }
+
+        public static readonly BindableProperty BackgroundColorButtonProperty = BindableProperty.Create(
+            propertyName: nameof(BackgroundColorButton),
+            returnType: typeof(Color),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public Color BackgroundColorButton
+        {
+            get => (Color)GetValue(BackgroundColorButtonProperty);
+            set => SetValue(BackgroundColorButtonProperty, value);
+        }
+
+        public static readonly BindableProperty ValueFormatProperty = BindableProperty.Create(
+            propertyName: nameof(ValueFormat),
+            returnType: typeof(string),
+            defaultValue: "{0}",
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string ValueFormat
+        {
+            get => (string)GetValue(ValueFormatProperty);
+            set => SetValue(ValueFormatProperty, value);
+        }
+
+        public static readonly BindableProperty MaxLengthProperty = BindableProperty.Create(
+            propertyName: nameof(MaxLength),
+            returnType: typeof(int),
+            defaultValue: 6,
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int MaxLength
+        {
+            get => (int)GetValue(MaxLengthProperty);
+            set => SetValue(MaxLengthProperty, value);
         }
 
         public static readonly BindableProperty IsKeyBoardTypedProperty = BindableProperty.Create(
@@ -101,6 +141,7 @@ namespace Next2.Controls.Templates
         protected override void OnPropertyChanging([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanging(propertyName);
+
             if (propertyName == nameof(IsUserLogIn))
             {
                 ScreenKeyboard = PlaceHolder;
@@ -118,21 +159,24 @@ namespace Next2.Controls.Templates
             {
                 if (IsKeyBoardTyped)
                 {
-                    if (ScreenKeyboard.Length <= 5)
+                    if (_value.Length < MaxLength)
                     {
-                        ScreenKeyboard += str;
+                        _value += str;
+                        ScreenKeyboard = string.Format(ValueFormat, _value);
                     }
                 }
                 else
                 {
                     IsKeyBoardTyped = true;
-                    ScreenKeyboard = str;
+                    _value = str;
+                    ScreenKeyboard = string.Format(ValueFormat, _value);
                 }
             }
         }
 
         private async Task OnTabClearAsync(object? arg)
         {
+            _value = string.Empty;
             ScreenKeyboard = PlaceHolder;
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
