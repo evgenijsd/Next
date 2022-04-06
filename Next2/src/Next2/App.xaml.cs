@@ -80,8 +80,9 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
-                containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
+                containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
@@ -91,6 +92,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
+
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
@@ -110,7 +112,8 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
-                containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
+                containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
@@ -162,6 +165,7 @@ namespace Next2
                 cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
+                cfg.CreateMap<FullOrderBindableModel, OrderModel>();
             }).CreateMapper();
         }
 

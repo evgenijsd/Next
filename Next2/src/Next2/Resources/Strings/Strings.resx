@@ -432,4 +432,22 @@
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
+  <data name="AvailableGroups" xml:space="preserve">
+    <value>Available Groups</value>
+  </data>
+  <data name="NoItemsInCategory" xml:space="preserve">
+    <value>No items in the category</value>
+  </data>
+  <data name="SuccessfullyAddedToOrder" xml:space="preserve">
+    <value>Successfully added to order</value>
+  </data>
+  <data name="TheOrderWasPlacedTo" xml:space="preserve">
+    <value>The order #{0} was placed to</value>
+  </data>
+  <data name="SwipeTheCard" xml:space="preserve">
+    <value>Swipe the card to move the order to tabs.</value>
+  </data>
+  <data name="NeedCard" xml:space="preserve">
+    <value>Need a card!</value>
+  </data>
 </root>

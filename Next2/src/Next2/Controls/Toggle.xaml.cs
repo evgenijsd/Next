@@ -67,6 +67,28 @@ namespace Next2.Controls
         private ICommand _tapCommand;
         public ICommand TapCommand => _tapCommand ??= new AsyncCommand(OnTapCommandAsync, allowsMultipleExecutions: false);
 
+        public static readonly BindableProperty ChangingToggleCommandProperty = BindableProperty.Create(
+            propertyName: nameof(ChangingToggleCommand),
+            returnType: typeof(ICommand),
+            declaringType: typeof(Toggle));
+
+        public ICommand ChangingToggleCommand
+        {
+            get => (ICommand)GetValue(ChangingToggleCommandProperty);
+            set => SetValue(ChangingToggleCommandProperty, value);
+        }
+
+        public static readonly BindableProperty ChangingToggleCommandParameterProperty = BindableProperty.Create(
+            propertyName: nameof(ChangingToggleCommandParameter),
+            returnType: typeof(object),
+            declaringType: typeof(Toggle));
+
+        public object ChangingToggleCommandParameter
+        {
+            get => (object)GetValue(ChangingToggleCommandParameterProperty);
+            set => SetValue(ChangingToggleCommandParameterProperty, value);
+        }
+
         #endregion
 
         #region -- Overrides --
@@ -97,6 +119,7 @@ namespace Next2.Controls
             if (IsEnabled && (!IsToggled || CanTurnOff))
             {
                 IsToggled = !IsToggled;
+                ChangingToggleCommand?.Execute(ChangingToggleCommandParameter);
             }
         }
 
@@ -112,10 +135,12 @@ namespace Next2.Controls
                         if (x < _valueX && CanTurnOff)
                         {
                             IsToggled = false;
+                            ChangingToggleCommand?.Execute(ChangingToggleCommandParameter);
                         }
                         else if (x > _valueX)
                         {
                             IsToggled = true;
+                            ChangingToggleCommand?.Execute(ChangingToggleCommandParameter);
                         }
 
                         break;

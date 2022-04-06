@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Enums;
 using Next2.Helpers;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Services.UserService;
+using Next2.ViewModels.Mobile;
 using Next2.Views;
 using Next2.Views.Mobile;
 using Next2.Views.Tablet;
@@ -24,6 +27,7 @@ using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
+using static Next2.Constants;
 
 namespace Next2.ViewModels
 {
@@ -45,6 +49,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
+        private EOrderPaymentStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
@@ -64,6 +69,8 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
 
+            _orderPaymentStatus = EOrderPaymentStatus.None;
+
             CurrentState = LayoutState.Loading;
 
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
@@ -78,6 +85,8 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
+        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Id);
+
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
@@ -87,13 +96,15 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
-        public TableBindableModel SelectedTable { get; set; } = new ();
+        public TableBindableModel SelectedTable { get; set; } = new();
 
         public int NumberOfSeats { get; set; }
 
         public bool IsOrderWithTax { get; set; } = true;
 
         public bool IsSideMenuVisible { get; set; } = true;
+
+        public bool IsOrderSavedNotificationVisible { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
@@ -114,16 +125,22 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _deleteLastSeatCommand;
         public ICommand DeleteLastSeatCommand => _deleteLastSeatCommand ??= new AsyncCommand(OnDeleteLastSeatCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _hideOrderNotificationCommand;
+        public ICommand HideOrderNotificationCommnad => _hideOrderNotificationCommand ??= new AsyncCommand(OnHideOrderNotificationCommnadAsync, allowsMultipleExecutions: false);
+
+        private ICommand _goToOrderTabs;
+        public ICommand GoToOrderTabs => _goToOrderTabs ??= new AsyncCommand(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -136,6 +153,14 @@ namespace Next2.ViewModels
                 foreach (var seat in CurrentOrder.Seats)
                 {
                     seat.SelectedItem = null;
+                }
+
+                if (parameters.ContainsKey(Constants.Navigations.DELETE_SET))
+                {
+                    MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
+                    {
+                        RecalculateOrderPriceBySet(arg);
+                    });
                 }
             }
         }
@@ -164,6 +189,7 @@ namespace Next2.ViewModels
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats > CurrentOrder.Seats.Count)
                     {
+                        IsOrderSavedNotificationVisible = false;
                         await _orderService.AddSeatInCurrentOrderAsync();
                         await AddSeatsCommandsAsync();
                     }
@@ -181,9 +207,9 @@ namespace Next2.ViewModels
 
         public void InitOrderTypes()
         {
-            List<EOrderType> enums = new (Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
+            List<EOrderType> enums = new(Enum.GetValues(typeof(EOrderType)).Cast<EOrderType>());
 
-            OrderTypes = new (enums.Select(x => new OrderTypeBindableModel
+            OrderTypes = new(enums.Select(x => new OrderTypeBindableModel
             {
                 OrderType = x,
                 Text = LocalizationResourceManager.Current[x.ToString()],
@@ -192,6 +218,8 @@ namespace Next2.ViewModels
 
         public async Task RefreshCurrentOrderAsync()
         {
+            IsOrderSavedNotificationVisible = false;
+
             CurrentOrder = _orderService.CurrentOrder;
 
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
@@ -252,7 +280,7 @@ namespace Next2.ViewModels
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
-                   item.SelectedItem = null;
+                    item.SelectedItem = null;
                 }
             }
 
@@ -262,7 +290,7 @@ namespace Next2.ViewModels
 
         private async Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
         {
-            if(CurrentOrder.Seats is not null)
+            if (CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
 
@@ -344,6 +372,7 @@ namespace Next2.ViewModels
 
                     if (deleteSetsResult.IsSuccess)
                     {
+                        RecalculateOrderPriceBySeat(removalSeat);
                         await RefreshCurrentOrderAsync();
 
                         NumberOfSeats = CurrentOrder.Seats.Count;
@@ -421,7 +450,7 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            List<SeatModel> seats = new ();
+            List<SeatModel> seats = new();
 
             foreach (var seat in CurrentOrder.Seats)
             {
@@ -587,23 +616,100 @@ namespace Next2.ViewModels
             IsOrderWithTax = isOrderWithTax;
         }
 
-        private Task OnOrderCommandAsync()
+        private async Task OnOrderCommandAsync(EOrderPaymentStatus commandParameter)
         {
-            return Task.CompletedTask;
+            _orderPaymentStatus = commandParameter;
+
+            List<SeatModel> seats = new();
+
+            bool isAllSeatSaved = true;
+
+            foreach (var seat in CurrentOrder.Seats)
+            {
+                if (seat.Sets.Any())
+                {
+                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                    {
+                        Id = x.Id,
+                        SubcategoryId = x.SubcategoryId,
+                        Title = x.Title,
+                        Price = x.Portion.Price,
+                        ImagePath = x.ImagePath,
+                    }));
+
+                    var newSeat = new SeatModel
+                    {
+                        OrderId = CurrentOrder.Id,
+                        SeatNumber = seat.SeatNumber,
+                        Sets = sets,
+                    };
+
+                    var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
+
+                    if (!isSuccessSeatResult.IsSuccess)
+                    {
+                        isAllSeatSaved = !isAllSeatSaved;
+                        break;
+                    }
+                }
+            }
+
+            if (isAllSeatSaved)
+            {
+                CurrentOrder.PaymentStatus = _orderPaymentStatus;
+
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
+                .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
+                .ForMember(x => x.CustomerName, s => s.MapFrom(x => x.Customer.Name)));
+
+                var mapper = new Mapper(config);
+
+                var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
+
+                var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
+
+                if (isSuccessOrderResult.IsSuccess)
+                {
+                    IsOrderSavedNotificationVisible = true;
+                    CurrentOrder.Seats = new();
+                    await _orderService.CreateNewOrderAsync();
+                }
+            }
         }
 
-        private Task OnTabCommandAsync()
+        private async Task OnTabCommandAsync(EOrderPaymentStatus commandParameter)
         {
-            return Task.CompletedTask;
+            var parameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["NeedCard"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
+                { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
+                { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
+            };
+
+            PopupPage confirmDialog = new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
+
+            await _popupNavigation.PushAsync(confirmDialog);
+        }
+
+        private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderPaymentStatus commandParameter))
+            {
+                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.InProgress)
+                {
+                    await OnOrderCommandAsync(commandParameter);
+                }
+            }
+
+            await _popupNavigation.PopAsync();
         }
 
         private async Task OnOpenModifyCommandAsync()
         {
-            var navigationParameters = new NavigationParameters
-            {
-                 { Constants.Navigations.SELECTED_SET, SelectedSet },
-            };
-            await _navigationService.NavigateAsync(nameof(AddCommentPage), navigationParameters);
+            await _navigationService.NavigateAsync(nameof(Views.Tablet.ModificationsPage));
         }
 
         private async Task OnOpenRemoveCommandAsync()
@@ -630,6 +736,11 @@ namespace Next2.ViewModels
                 if (isSetRemovingAccepted)
                 {
                     var result = await _orderService.DeleteSetFromCurrentSeat();
+
+                    if (SelectedSet is not null)
+                    {
+                        RecalculateOrderPriceBySet(SelectedSet);
+                    }
 
                     if (result.IsSuccess)
                     {
@@ -677,6 +788,59 @@ namespace Next2.ViewModels
                 : nameof(Views.Mobile.PaymentPage);
 
             return _navigationService.NavigateAsync(path);
+        }
+
+        private Task OnHideOrderNotificationCommnadAsync()
+        {
+            return RefreshCurrentOrderAsync();
+        }
+
+        private async Task OnGoToOrderTabsCommandAsync()
+        {
+            if (App.IsTablet)
+            {
+                IsSideMenuVisible = true;
+                CurrentState = LayoutState.Loading;
+
+                await RefreshCurrentOrderAsync();
+
+                MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
+            }
+            else
+            {
+                await _navigationService.NavigateAsync(nameof(OrderTabsPage));
+            }
+
+            _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
+        }
+
+        private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
+        {
+            var amoutToSubtract = selectedSet.Portion.Price;
+            CurrentOrder.Total -= amoutToSubtract;
+            CurrentOrder.SubTotal -= amoutToSubtract;
+
+            if (!App.IsTablet)
+            {
+                MessagingCenter.Unsubscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET);
+            }
+        }
+
+        private void RecalculateOrderPriceBySeat(SeatBindableModel seat)
+        {
+            float amoutToSubtract = 0;
+
+            if (seat.Sets.Any())
+            {
+                foreach (var set in seat.Sets)
+                {
+                    amoutToSubtract += set.Portion.Price;
+                }
+
+                CurrentOrder.Total -= amoutToSubtract;
+                CurrentOrder.SubTotal -= amoutToSubtract;
+            }
         }
 
         #endregion

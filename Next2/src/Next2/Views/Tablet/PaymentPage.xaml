@@ -97,7 +97,7 @@
                     <!-- temporary -->
                     <StackLayout>
                         <Label 
-                            VerticalOptions="Center"
+                            VerticalOptions="CenterAndExpand"
                             HorizontalOptions="Center"
                             FontSize="20"
                             TextColor="White"

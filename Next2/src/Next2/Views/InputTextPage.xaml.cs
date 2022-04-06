@@ -8,9 +8,9 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Views
 {
-    public partial class AddCommentPage : BaseContentPage
+    public partial class InputTextPage : BaseContentPage
     {
-        public AddCommentPage()
+        public InputTextPage()
         {
             InitializeComponent();
         }
@@ -20,6 +20,7 @@ namespace Next2.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
             if (string.IsNullOrWhiteSpace(customEntry.Text))
             {
                 Device.BeginInvokeOnMainThread(async () =>

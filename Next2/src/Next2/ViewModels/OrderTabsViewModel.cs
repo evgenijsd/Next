@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Order;
@@ -33,6 +34,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
+        private int _lastSavedOrderId = -1;
         public double _heightPage;
 
         public OrderTabsViewModel(
@@ -44,6 +46,9 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderStatus);
+
             _popupNavigation = popupNavigation;
         }
 
@@ -94,6 +99,9 @@ namespace Next2.ViewModels
 
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -162,14 +170,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.CustomerName));
             }
 
             IsOrdersRefreshing = false;
@@ -209,6 +217,8 @@ namespace Next2.ViewModels
 
                 SetHeightCollection();
             }
+
+            SelectedOrder = _lastSavedOrderId != 0 ? Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId) : null;
         }
 
         private void SetHeightCollection()
@@ -437,6 +447,21 @@ namespace Next2.ViewModels
             }
 
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+        }
+
+        private void SetLastSavedOrderId(int orderId)
+        {
+            _lastSavedOrderId = orderId;
+        }
+
+        private void SetOrderStatus(Enum orderStatus)
+        {
+            IsOrderTabsSelected = orderStatus is EOrderPaymentStatus.WaitingForPayment;
+        }
+
+        private async Task OnGoBackCommand()
+        {
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
         }
 
         #endregion

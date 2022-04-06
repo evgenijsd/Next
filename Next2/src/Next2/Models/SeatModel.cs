@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 using System.Collections.Generic;
 
 namespace Next2.Models
