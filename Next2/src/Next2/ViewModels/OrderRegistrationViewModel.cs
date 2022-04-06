@@ -673,8 +673,8 @@ namespace Next2.ViewModels
         private Task OnPayCommandAsync()
         {
             string path = App.IsTablet
-                ? nameof(Views.Tablet.CustomerRewardsView)
-                : nameof(Views.Mobile.CustomerRewardsPage);
+                ? nameof(Views.Tablet.PaymentPage)
+                : nameof(Views.Mobile.PaymentPage);
 
             return _navigationService.NavigateAsync(path);
         }

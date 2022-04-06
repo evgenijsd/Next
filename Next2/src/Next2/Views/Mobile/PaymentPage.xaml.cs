@@ -1,8 +1,8 @@
 ﻿namespace Next2.Views.Mobile
 {
-    public partial class CustomerRewardsPage : BaseContentPage
+    public partial class PaymentPage : BaseContentPage
     {
-        public CustomerRewardsPage()
+        public PaymentPage()
         {
             InitializeComponent();
         }

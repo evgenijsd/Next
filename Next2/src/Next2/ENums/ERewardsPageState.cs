@@ -1,6 +1,6 @@
 ﻿namespace Next2.Enums
 {
-    public enum ECustomerRewardsPageState
+    public enum ERewardsPageState
     {
         NoSelectedCustomer,
         RewardsNotExist,

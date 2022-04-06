@@ -55,6 +55,7 @@
             public const string SEATS = "SEATS";
             public const string REWARD = "REWARD";
             public const string IS_REWARD_APPLIED = "IS_REWARD_APPLIED";
+            public const string GO_TO_REWARDS_POINTS = "GO_TO_REWARDS_POINTS";
         }
 
         public static class Validators

@@ -1,8 +1,8 @@
 ﻿namespace Next2.Views.Tablet
 {
-    public partial class CustomerRewardsView : BaseContentPage
+    public partial class PaymentPage : BaseContentPage
     {
-        public CustomerRewardsView()
+        public PaymentPage()
         {
             InitializeComponent();
         }

@@ -81,9 +81,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
                 containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
-
-                // temporarily !!!
-                containerRegistry.RegisterForNavigation<CustomerRewardsView, CustomerRewardsViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
@@ -110,7 +108,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.CustomerRewardsPage, CustomerRewardsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
 
