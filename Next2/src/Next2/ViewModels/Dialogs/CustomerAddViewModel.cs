@@ -17,7 +17,7 @@ namespace Next2.ViewModels.Dialogs
         private readonly ICustomersService _customersService;
         private readonly Color _acceptColorMob = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
         private readonly Color _acceptColorTab = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
-        private bool _accept => (WarningTextColor == _acceptColorTab || WarningTextColor == _acceptColorMob) && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone != string.Empty && SelectedDate != null;
+        private bool _accept => (WarningTextColor == _acceptColorTab || WarningTextColor == _acceptColorMob) && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone.Length == 10 && Phone != string.Empty && SelectedDate != null;
 
         public CustomerAddViewModel(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
         {

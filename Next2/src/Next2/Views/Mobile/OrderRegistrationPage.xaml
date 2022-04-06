@@ -13,77 +13,79 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:DataType="viewmodels:OrderRegistrationViewModel">
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:DataType="viewmodels:OrderRegistrationViewModel"
+    x:Class="Next2.Views.Mobile.OrderRegistrationPage">
 
-    <Grid BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" RowDefinitions="auto, auto, auto, auto, 65">
+    <Grid
+        RowDefinitions="auto, auto, auto, auto, 65"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
         <Grid.Resources>
 
             <Style TargetType="Label">
-                <Setter Property="VerticalOptions" Value="Center" />
-                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             </Style>
 
-            <!--  Bold (700) 32px  -->
+            <!-- Bold (700) 32px -->
             <Style x:Key="Bold32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Bold" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
             </Style>
 
-            <!--  SemiBold (600) 24px  -->
+            <!-- SemiBold (600) 24px -->
             <Style x:Key="SemiBold32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
             </Style>
 
-            <!--  SemiBold (600) 24px  -->
+            <!-- SemiBold (600) 24px -->
             <Style x:Key="SemiBold24pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-SemiBold" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             </Style>
 
-            <!--  Medium (500) 24px  -->
+            <!-- Medium (500) 24px -->
             <Style x:Key="Medium24pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
             </Style>
 
-            <!--  Regular (400) 32px  -->
+            <!-- Regular (400) 32px -->
             <Style x:Key="Regular32pxLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="Barlow-Regular" />
                 <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
             </Style>
 
-            <Style
-                x:Key="IconBorderButtonStyle_i2"
-                BasedOn="{StaticResource IconBorderButtonStyle_i1}"
-                TargetType="buttons:IconBorderButton">
+            <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
                 <Setter Property="Padding" Value="10" />
                 <Setter Property="Border">
                     <Setter.Value>
-                        <pancakeview:Border Thickness="{OnPlatform Android=2, iOS=1}" Color="{StaticResource AppColor_i1}" />
+                        <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
                     </Setter.Value>
                 </Setter>
             </Style>
         </Grid.Resources>
 
-        <!--  HEADER, 1 ROW  -->
+        <!-- HEADER, 1 ROW -->
         <StackLayout
             Grid.Row="0"
-            Padding="17,19,17,24"
+            Padding="17, 19, 17, 24"
             HorizontalOptions="Start"
             Orientation="Horizontal"
             Spacing="17">
 
             <ffimageloading:CachedImage
-                Margin="0,3,0,0"
-                xct:TouchEffect.Command="{prism:GoBack}"
+                Margin="0, 3, 0, 0"
                 HeightRequest="24"
+                WidthRequest="24"
                 Source="ic_arrow_left_tail_24x24.png"
-                WidthRequest="24" />
+                xct:TouchEffect.Command="{prism:GoBack}" />
 
-            <Label Margin="0,2,0,0" Style="{DynamicResource Bold32pxLabelStyle}">
+            <Label
+                Style="{DynamicResource Bold32pxLabelStyle}"
+                Margin="0, 2, 0, 0">
 
                 <Label.FormattedText>
                     <FormattedString>
@@ -98,30 +100,30 @@
 
         <controls:DropDownList
             Grid.Row="0"
-            Margin="17"
-            HeaderText="{Binding SelectedOrderType.Text}"
-            HorizontalOptions="End"
-            ItemHeight="46.5"
-            ItemsSource="{Binding OrderTypes}"
-            SelectedItem="{Binding SelectedOrderType}"
             Style="{DynamicResource DropDownListStyle_i1}"
+            HorizontalOptions="End"
             VerticalOptions="Start"
-            WidthRequest="96">
+            Margin="17"
+            WidthRequest="96"
+            ItemHeight="46.5"
+            HeaderText="{Binding SelectedOrderType.Text}"
+            SelectedItem="{Binding SelectedOrderType}"
+            ItemsSource="{Binding OrderTypes}">
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
                     <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                         <StackLayout
-                            Padding="14,8"
                             HeightRequest="30"
+                            Padding="14, 8"
                             Orientation="Horizontal">
 
                             <Label
                                 x:DataType="models:OrderTypeBindableModel"
+                                HorizontalOptions="FillAndExpand"
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i7}"
-                                HorizontalOptions="FillAndExpand"
                                 Text="{Binding Text}" />
 
                         </StackLayout>
@@ -134,14 +136,14 @@
 
         </controls:DropDownList>
 
-        <!--  HEADER, 2 ROW  -->
+        <!-- HEADER, 2 ROW -->
         <StackLayout
             Grid.Row="1"
-            Padding="17,10,17,18"
+            VerticalOptions="FillAndExpand"
             HorizontalOptions="End"
+            Padding="17, 10, 17, 18"
             Orientation="Horizontal"
-            Spacing="13"
-            VerticalOptions="FillAndExpand">
+            Spacing="13">
 
             <Label 
                 Style="{DynamicResource SemiBold32pxLabelStyle}" 
@@ -168,30 +170,30 @@
 
         <controls:DropDownList
             Grid.Row="1"
-            Margin="18,9"
-            HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
-            HorizontalOptions="Start"
-            ItemHeight="46.5"
-            ItemsSource="{Binding Tables}"
-            SelectedItem="{Binding SelectedTable}"
             Style="{DynamicResource DropDownListStyle_i1}"
+            HorizontalOptions="Start"
             VerticalOptions="Start"
-            WidthRequest="145">
+            Margin="18, 9"
+            WidthRequest="145"
+            ItemHeight="46.5"
+            HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
+            SelectedItem="{Binding SelectedTable}"
+            ItemsSource="{Binding Tables}">
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
                     <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
 
                         <StackLayout
-                            Padding="14,8"
-                            x:DataType="models:TableBindableModel"
                             HeightRequest="30"
-                            Orientation="Horizontal">
+                            Padding="14, 8"
+                            Orientation="Horizontal"
+                            x:DataType="models:TableBindableModel">
 
                             <Label
+                                HorizontalOptions="FillAndExpand"
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i7}"
-                                HorizontalOptions="FillAndExpand"
                                 Text="{Binding TableNumber, StringFormat='Table {0}'}" />
 
                         </StackLayout>
@@ -204,14 +206,14 @@
 
         </controls:DropDownList>
 
-        <!--  SETS LIST  -->
+        <!-- SETS LIST -->
         <CollectionView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
             ItemsSource="{Binding CurrentOrder.Seats}">
 
             <CollectionView.Effects>
-                <effects:NoOverScrollEffect />
+                <effects:NoOverScrollEffect/>
             </CollectionView.Effects>
 
             <CollectionView.ItemTemplate>
@@ -233,55 +235,60 @@
 
             <!-- SUMMARY HEADER -->
             <StackLayout
-                Padding="17,11"
-                Orientation="Horizontal"
-                Spacing="13">
+                Padding="17, 11"
+                Spacing="13"
+                Orientation="Horizontal">
 
                 <StackLayout>
 
                     <Label
                         Style="{DynamicResource Bold32pxLabelStyle}"
-                        Text="{xct:Translate Summary}"
-                        VerticalOptions="CenterAndExpand" />
+                        VerticalOptions="CenterAndExpand"
+                        Text="{xct:Translate Summary}" />
 
                     <Label
                         IsVisible="{Binding CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
                         Text="{Binding CurrentOrder.Customer.Name}"/>
-                   
-                   
+
                 </StackLayout>
 
                 <buttons:IconBorderButton
-                    Command="{Binding OpenHoldSelectionCommand}"
+                    Style="{DynamicResource IconBorderButtonStyle_i2}"
                     HorizontalOptions="EndAndExpand"
                     IconSource="ic_time_circle_40x40"
-                    Style="{DynamicResource IconBorderButtonStyle_i2}" />
+                    Command="{Binding OpenHoldSelectionCommand}" />
 
                 <buttons:IconBorderButton
-                    Command="{Binding OpenDiscountSelectionCommand}"
+                    Style="{DynamicResource IconBorderButtonStyle_i2}"
                     IconSource="ic_discount_48x48"
-                    Style="{DynamicResource IconBorderButtonStyle_i2}" />
+                    Command="{Binding OpenDiscountSelectionCommand}" />
 
+                <buttons:IconBorderButton
                     IsVisible="{Binding IsOrderWithTax}"
                     Style="{DynamicResource IconBorderButtonStyle_i2}"
-                    Style="{DynamicResource IconBorderButtonStyle_i2}"
+                    IconSource="ic_tax"
                     Command="{Binding RemoveTaxFromOrderCommand}"/>
-                    </buttons:IconBorderButton.Triggers>
 
             </StackLayout>
 
             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
-            <!--  SUMMARY BODY  -->
-            <StackLayout Padding="17,12,17,0" Spacing="10">
+            <!-- SUMMARY BODY -->
+            <StackLayout
+                Padding="17, 12, 17, 0"
+                Spacing="10">
 
                 <StackLayout Orientation="Horizontal">
 
-                    <Label Style="{DynamicResource SemiBold24pxLabelStyle}" Text="{xct:Translate Subtotal}" />
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        Text="{xct:Translate Subtotal}" />
 
-                    <Label HorizontalOptions="EndAndExpand" Style="{DynamicResource SemiBold24pxLabelStyle}">
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        HorizontalOptions="EndAndExpand">
 
                         <Label.FormattedText>
                             <FormattedString>
@@ -299,9 +306,13 @@
                     IsVisible="{Binding IsOrderWithTax}"
                     Orientation="Horizontal">
 
-                    <Label Style="{DynamicResource SemiBold24pxLabelStyle}" Text="{xct:Translate Tax}" />
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        Text="{xct:Translate Tax}" />
 
-                    <Label HorizontalOptions="EndAndExpand" Style="{DynamicResource SemiBold24pxLabelStyle}">
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        HorizontalOptions="EndAndExpand">
 
                         <Label.FormattedText>
                             <FormattedString>
@@ -311,7 +322,7 @@
                             </FormattedString>
                         </Label.FormattedText>
 
-                    
+                    </Label>
 
                 </StackLayout>
 
@@ -319,9 +330,13 @@
 
                 <StackLayout Orientation="Horizontal">
 
-                    <Label Style="{DynamicResource Regular32pxLabelStyle}" Text="{xct:Translate Total}" />
+                    <Label
+                        Style="{DynamicResource Regular32pxLabelStyle}"
+                        Text="{xct:Translate Total}" />
 
-                    <Label HorizontalOptions="EndAndExpand" Style="{DynamicResource Bold32pxLabelStyle}">
+                    <Label
+                        Style="{DynamicResource Bold32pxLabelStyle}"
+                        HorizontalOptions="EndAndExpand">
 
                         <Label.FormattedText>
                             <FormattedString>
@@ -339,19 +354,16 @@
 
         </StackLayout>
 
-        <!--  BUTTONS  -->
+        <!-- BUTTONS -->
         <Grid
             Grid.Row="4"
-            Padding="18,12"
-            ColumnSpacing="10"
+            VerticalOptions="End"
+            Padding="18, 12"
             RowDefinitions="auto"
-            VerticalOptions="End">
+            ColumnSpacing="10">
 
             <Grid.Triggers>
-                <DataTrigger
-                    Binding="{Binding CurrentOrder.Seats.Count}"
-                    TargetType="Grid"
-                    Value="0">
+                <DataTrigger TargetType="Grid" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
 
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                     <Setter Property="IsEnabled" Value="False" />
@@ -361,26 +373,26 @@
 
             <buttons:BorderButton
                 Grid.Column="0"
-                BorderColor="{DynamicResource IndicationColor_i5}"
-                Command="{Binding OrderCommand}"
                 Style="{DynamicResource BorderButtonStyle_i2}"
-                Text="{xct:Translate Order}" />
+                BorderColor="{DynamicResource IndicationColor_i5}"
+                Text="{xct:Translate Order}"
+                Command="{Binding OrderCommand}" />
 
             <buttons:BorderButton
                 Grid.Column="1"
-                BorderColor="{DynamicResource IndicationColor_i7}"
-                Command="{Binding TabCommand}"
                 Style="{DynamicResource BorderButtonStyle_i2}"
-                Text="{xct:Translate Tab}" />
+                BorderColor="{DynamicResource IndicationColor_i7}"
+                Text="{xct:Translate Tab}"
+                Command="{Binding TabCommand}" />
 
             <buttons:BorderButton
                 Grid.Column="2"
+                Style="{DynamicResource BorderButtonStyle_i2}"
                 Background="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
-                Command="{Binding PayCommand}"
-                Style="{DynamicResource BorderButtonStyle_i2}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Text="{xct:Translate Pay}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                Command="{Binding PayCommand}" />
 
         </Grid>
 
