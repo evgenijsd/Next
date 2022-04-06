@@ -54,8 +54,10 @@
                     Grid.Row="1">
 
                     <StackLayout>
-
-                        <Grid Margin="20,25,20,0">
+                        <controls:CustomCollectionView
+                            Bonuses="{Binding Coupons}"
+                            SelectedBonus="{Binding SelectedBonus}" />
+                        <!--Grid Margin="20,25,20,0">
                             
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30" />
@@ -128,7 +130,7 @@
 
                             </CollectionView>
 
-                        </Grid>
+                        </Grid-->
 
                         <BoxView
                             Margin="0,20,0,0"
