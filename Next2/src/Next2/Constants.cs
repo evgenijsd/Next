@@ -44,11 +44,18 @@
             public const double ROW_HEIGHT = 48 + 2;
         }
 
+        public static class LayoutBonuses
+        {
+            public const double ROW_TABLET_BONUS = 57;
+            public const double ROW_MOBILE_BONUS = 65;
+        }
+
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
+            public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string ADMIN = "ADMIN";

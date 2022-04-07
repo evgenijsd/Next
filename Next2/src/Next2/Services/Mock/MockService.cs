@@ -1,13 +1,11 @@
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Next2.Enums;
 
 namespace Next2.Services.Mock
 {
@@ -23,6 +21,10 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<TaxModel> _tax;
+        private IList<BonusModel> _bonuses;
+        private IList<BonusConditionModel> _bonusConditions;
+        private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private IList<TaxModel> _taxBonus;
         private IList<ProductModel> _products;
@@ -171,8 +173,11 @@ namespace Next2.Services.Mock
                 InitTables(),
                 InitUsersAsync(),
                 InitCustomersAsync(),
+                InitTaxAsync(),
+                InitBonusAsync(),
+                InitBonusSetAsync(),
+                InitBonusConditionAsync(),
                 InitPortionsAsync(),
-                InitTaxAndBonusAsync(),
                 InitReplacementProductsAsync(),
                 InitProductsAsync(),
                 InitOptionsProductAsync(),
@@ -183,9 +188,9 @@ namespace Next2.Services.Mock
             _initCompletionSource.TrySetResult(true);
         }
 
-        private Task InitTaxAndBonusAsync() => Task.Run(() =>
+        private Task InitTaxAsync() => Task.Run(() =>
         {
-            _taxBonus = new List<TaxModel>
+            _tax = new List<TaxModel>
             {
                 new TaxModel
                 {
@@ -195,8 +200,136 @@ namespace Next2.Services.Mock
                 },
             };
 
-            _base.Add(typeof(TaxModel), _taxBonus);
-            _maxIdentifiers.Add(typeof(TaxModel), GetMaxId(_taxBonus));
+            _base.Add(typeof(TaxModel), _tax);
+        });
+
+        private Task InitBonusConditionAsync() => Task.Run(() =>
+        {
+            _bonusConditions = new List<BonusConditionModel>
+            {
+                new BonusConditionModel
+                {
+                    Id = 1,
+                    SetId = 1,
+                    BonusId = 3,
+                },
+                new BonusConditionModel
+                {
+                    Id = 2,
+                    SetId = 2,
+                    BonusId = 3,
+                },
+                new BonusConditionModel
+                {
+                    Id = 3,
+                    SetId = 2,
+                    BonusId = 5,
+                },
+                new BonusConditionModel
+                {
+                    Id = 4,
+                    SetId = 2,
+                    BonusId = 6,
+                },
+            };
+
+            _base.Add(typeof(BonusConditionModel), _bonusConditions);
+        });
+
+        private Task InitBonusSetAsync() => Task.Run(() =>
+        {
+            _bonusSets = new List<BonusSetModel>
+            {
+                new BonusSetModel
+                {
+                    Id = 1,
+                    SetId = 3,
+                    BonusId = 3,
+                },
+                new BonusSetModel
+                {
+                    Id = 2,
+                    SetId = 2,
+                    BonusId = 5,
+                },
+                new BonusSetModel
+                {
+                    Id = 3,
+                    SetId = 2,
+                    BonusId = 4,
+                },
+                new BonusSetModel
+                {
+                    Id = 4,
+                    SetId = 1,
+                    BonusId = 4,
+                },
+                new BonusSetModel
+                {
+                    Id = 5,
+                    SetId = 2,
+                    BonusId = 2,
+                },
+                new BonusSetModel
+                {
+                    Id = 6,
+                    SetId = 2,
+                    BonusId = 6,
+                },
+            };
+
+            _base.Add(typeof(BonusSetModel), _bonusSets);
+        });
+
+        private Task InitBonusAsync() => Task.Run(() =>
+        {
+            _bonuses = new List<BonusModel>
+            {
+                new BonusModel
+                {
+                    Id = 1,
+                    Name = "10% Off",
+                    Value = 0.1f,
+                    Type = EBonusValueType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 2,
+                    Name = "$ 2.00 Off",
+                    Value = 2.0f,
+                    Type = EBonusValueType.Value,
+                },
+                new BonusModel
+                {
+                    Id = 3,
+                    Name = "50% Off BigMack",
+                    Value = 0.5f,
+                    Type = EBonusValueType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 4,
+                    Name = "$ 5.00 Off",
+                    Value = 5f,
+                    Type = EBonusValueType.Value,
+                },
+                new BonusModel
+                {
+                    Id = 5,
+                    Name = "BOGO Buy 1 and get 1 free",
+                    Value = 1.0f,
+                    Type = EBonusValueType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 6,
+                    Name = "GoodNeighbor",
+                    Value = 1.0f,
+                    Type = EBonusValueType.Percent,
+                },
+            };
+
+            _base.Add(typeof(BonusModel), _bonuses);
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>

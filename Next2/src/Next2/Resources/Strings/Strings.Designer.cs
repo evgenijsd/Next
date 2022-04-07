@@ -9,9 +9,11 @@
 //------------------------------------------------------------------------------
 
 namespace Next2.Resources.Strings {
+    using Next2.Models;
     using System;
-    
-    
+    using System.Collections.Generic;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -31,7 +33,7 @@ namespace Next2.Resources.Strings {
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Strings() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -84,6 +86,15 @@ namespace Next2.Resources.Strings {
         internal static string AddNew {
             get {
                 return ResourceManager.GetString("AddNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Apply.
+        /// </summary>
+        internal static string Apply {
+            get {
+                return ResourceManager.GetString("Apply", resourceCulture);
             }
         }
         
@@ -152,6 +163,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Coupons.
+        /// </summary>
+        internal static string Coupons {
+            get {
+                return ResourceManager.GetString("Coupons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to $.
         /// </summary>
         internal static string CurrencySign {
@@ -211,6 +231,15 @@ namespace Next2.Resources.Strings {
         internal static string DineIn {
             get {
                 return ResourceManager.GetString("DineIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discounts.
+        /// </summary>
+        internal static string Discounts {
+            get {
+                return ResourceManager.GetString("Discounts", resourceCulture);
             }
         }
         
@@ -447,7 +476,18 @@ namespace Next2.Resources.Strings {
                 return ResourceManager.GetString("NoInternetConnection", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Not found data.
+        /// </summary>
+        internal static string NotFoundData
+        {
+            get
+            {
+                return ResourceManager.GetString("NotFoundData", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Not found orders.
         /// </summary>
@@ -697,6 +737,16 @@ namespace Next2.Resources.Strings {
         internal static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a Coupon or Discount 
+        ///                 to use it..
+        /// </summary>
+        internal static string SelectCoupon {
+            get {
+                return ResourceManager.GetString("SelectCoupon", resourceCulture);
             }
         }
         
