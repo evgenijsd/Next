@@ -173,6 +173,8 @@ namespace Next2.ViewModels
                         }
 
                         ResetSelectedIngredientsAsync(product);
+
+                        ResetSelectedOptionsAsync(product);
                     }
 
                     break;
@@ -202,11 +204,30 @@ namespace Next2.ViewModels
 
         private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
         {
-            var ingridients = await _menuService.GetIngredientOfProductAsync(product.SelectedProduct.Id);
+            var ingridients = await _menuService.GetIngredientsOfProductAsync(product.SelectedProduct.Id);
 
             if (ingridients.IsSuccess)
             {
                 product.SelectedIngredients = new(ingridients.Result);
+            }
+        }
+
+        private async Task ResetSelectedOptionsAsync(ProductBindableModel product)
+        {
+            var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
+
+            if (options.IsSuccess)
+            {
+                if (options.Result is not null)
+                {
+                    product.SelectedOption = options.Result.FirstOrDefault(row => row.Id == product.SelectedProduct.DefaultOptionId);
+                    product.Options = new(options.Result);
+                }
+                else
+                {
+                    product.SelectedOption = new();
+                    product.Options = new();
+                }
             }
         }
 
