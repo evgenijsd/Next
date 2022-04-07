@@ -126,30 +126,8 @@ namespace Next2.Controls
                         break;
                     case EDayState.NoDayMonth:
                         {
-                            if (int.TryParse(selectedDay.DayOfMonth, out int day) && day > 21)
-                            {
-                                if (Month == 1)
-                                {
-                                    Month = 12;
-                                }
-                                else
-                                {
-                                    Month--;
-                                }
-                            }
-                            else
-                            {
-                                if (Month == 12)
-                                {
-                                    Month = 1;
-                                }
-                                else
-                                {
-                                    Month++;
-                                }
-                            }
-
-                            SelectedItem = Days.Where(x => x.DayOfMonth == selectedDay.DayOfMonth).FirstOrDefault();
+                            SelectedItem = null;
+                            SelectedDate = null;
                         }
 
                         break;
