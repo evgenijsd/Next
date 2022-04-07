@@ -214,15 +214,15 @@ namespace Next2.ViewModels
                 {
                     State = ESubmenuItemsModifactions.Replace,
                     Title = "Replace",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
+                    ImagePath = "ic_paper_fail_24x24.png",
+                    SelectedImagePath = "ic_paper_fail_primary_24x24.png",
                 },
                 new ItemSpoilerModel()
                 {
                     State = ESubmenuItemsModifactions.Inventory,
                     Title = "Inventory",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
+                    ImagePath = "ic_paper_24x24.png",
+                    SelectedImagePath = "ic_paper_primary_24x24.png",
                 },
                 new ItemSpoilerModel()
                 {
@@ -235,8 +235,8 @@ namespace Next2.ViewModels
                 {
                     State = ESubmenuItemsModifactions.Comment,
                     Title = "Comment",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
+                    ImagePath = "ic_chat_white_24x24.png",
+                    SelectedImagePath = "ic_chat_primary.png",
                 },
             };
         }
