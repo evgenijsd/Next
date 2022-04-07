@@ -32,8 +32,6 @@ namespace Next2.ViewModels
         private SetBindableModel _selectedSet;
         private SetBindableModel _currentSet;
 
-        private ObservableCollection<ItemSpoilerModel> _submenuItems { get; set; }
-
         public ModificationsPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
@@ -53,7 +51,6 @@ namespace Next2.ViewModels
 
             _currentSet = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet];
 
-            InitSubmenuItems();
             InitProductsSet();
             InitPortionsSet();
 
@@ -138,10 +135,7 @@ namespace Next2.ViewModels
                 var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                 var indexProduct = products.IndexOf(product);
 
-                ObservableCollection<ItemSpoilerModel> submenu = new(_submenuItems);
-                submenu[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
-
-                ProductsSet[indexProduct].Items = submenu;
+                ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
                 _currentSet.Products[indexProduct].Comment = text;
 
@@ -205,41 +199,6 @@ namespace Next2.ViewModels
         #endregion
 
         #region --Private methods--
-
-        private void InitSubmenuItems()
-        {
-            _submenuItems = new()
-            {
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Replace,
-                    Title = "Replace",
-                    ImagePath = "ic_paper_fail_24x24.png",
-                    SelectedImagePath = "ic_paper_fail_primary_24x24.png",
-                },
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Inventory,
-                    Title = "Inventory",
-                    ImagePath = "ic_paper_24x24.png",
-                    SelectedImagePath = "ic_paper_primary_24x24.png",
-                },
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Options,
-                    Title = "Options",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
-                },
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Comment,
-                    Title = "Comment",
-                    ImagePath = "ic_chat_white_24x24.png",
-                    SelectedImagePath = "ic_chat_primary.png",
-                },
-            };
-        }
 
         private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
         {
@@ -324,16 +283,46 @@ namespace Next2.ViewModels
             {
                 ProductsSet = new(products.Select(row =>
                 {
-                    ObservableCollection<ItemSpoilerModel> submenu = new(_submenuItems);
-                    submenu[3].CanShowDot = !string.IsNullOrWhiteSpace(row.Comment);
-
-                    return new SpoilerBindableModel
+                    var result = new SpoilerBindableModel
                     {
-                        Id = row.SelectedProduct.Id,
+                        Id = row.Id,
                         Title = row.SelectedProduct.Title,
-                        Items = submenu,
+                        Items = new()
+                        {
+                            new ItemSpoilerModel()
+                            {
+                                State = ESubmenuItemsModifactions.Replace,
+                                Title = "Replace",
+                                ImagePath = "ic_paper_fail_24x24.png",
+                                SelectedImagePath = "ic_paper_fail_primary_24x24.png",
+                            },
+                            new ItemSpoilerModel()
+                            {
+                                State = ESubmenuItemsModifactions.Inventory,
+                                Title = "Inventory",
+                                ImagePath = "ic_paper_24x24.png",
+                                SelectedImagePath = "ic_paper_primary_24x24.png",
+                            },
+                            new ItemSpoilerModel()
+                            {
+                                State = ESubmenuItemsModifactions.Options,
+                                Title = "Options",
+                                ImagePath = "ic_paper_plus_24x24.png",
+                                SelectedImagePath = "ic_paper_plus_primary_24x24.png",
+                            },
+                            new ItemSpoilerModel()
+                            {
+                                State = ESubmenuItemsModifactions.Comment,
+                                Title = "Comment",
+                                ImagePath = "ic_chat_white_24x24.png",
+                                SelectedImagePath = "ic_chat_primary.png",
+                                CanShowDot = !string.IsNullOrWhiteSpace(row.Comment),
+                            },
+                        },
                         TapCommand = TapSubmenuCommand,
                     };
+
+                    return result;
                 }));
             }
         }

@@ -1,9 +1,10 @@
 ﻿using Next2.ENums;
+using Prism.Mvvm;
 using System.Windows.Input;
 
 namespace Next2.Models
 {
-    public class ItemSpoilerModel
+    public class ItemSpoilerModel : BindableBase
     {
         public ESubmenuItemsModifactions State { get; set; }
 
