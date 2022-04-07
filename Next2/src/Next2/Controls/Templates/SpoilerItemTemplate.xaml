@@ -38,7 +38,7 @@
 
     <ffimageloading:CachedImage
         x:Name="image"
-        Margin="32, 0"
+        Margin="32, 0, 0, 0"
         Source="{Binding ImagePath}"
         HorizontalOptions="Start"
         VerticalOptions="Center"/>
