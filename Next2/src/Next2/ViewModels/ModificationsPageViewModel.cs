@@ -300,6 +300,8 @@ namespace Next2.ViewModels
                 {
                     IngredientId = toggleIngredient.Id,
                     ProductId = product.Id,
+                    Price = toggleIngredient.Price,
+                    Title = toggleIngredient.Title,
                 });
 
                 product.IngredientsPrice += toggleIngredient.Price;
@@ -374,7 +376,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task InitIngredientsAsync(int categoryId)
+        private async Task InitIngredientsAsync(int categoryId) //when tab Inventory Bread Id=1
         {
             var ingredients = await _menuService.GetIngredientsAsync(categoryId);
 
@@ -511,7 +513,12 @@ namespace Next2.ViewModels
             _orderService.CurrentOrder.UpdateTotalSum();
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
-            await _navigationService.GoBackAsync();
+            var navigationParameters = new NavigationParameters
+                {
+                    { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                };
+
+            await _navigationService.GoBackAsync(navigationParameters);
         }
 
         #endregion

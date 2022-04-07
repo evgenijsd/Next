@@ -5,6 +5,7 @@ using Next2.Helpers;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Services.Authentication;
+using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Services.UserService;
 using Next2.ViewModels.Mobile;
@@ -40,6 +41,7 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IMenuService _menuService;
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
@@ -59,7 +61,8 @@ namespace Next2.ViewModels
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IMenuService menuService)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
@@ -68,6 +71,7 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _userService = userService;
             _authenticationService = authenticationService;
+            _menuService = menuService;
 
             _orderPaymentStatus = EOrderPaymentStatus.None;
 
@@ -225,6 +229,8 @@ namespace Next2.ViewModels
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
             _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
+
+            SelectedSet = _seatWithSelectedSet?.SelectedItem;
 
             _isAnySetChosen = CurrentOrder.Seats.Any(x => x.Sets.Any());
 
@@ -839,6 +845,35 @@ namespace Next2.ViewModels
             }
         }
 
+        //private async Task InitIngredientsAsync(SetBindableModel selectedSet)
+        //{
+        //    foreach (var product in selectedSet.Products)
+        //    {
+        //        foreach (var ingredient in product.SelectedIngredients)
+        //        {
+        //            var ingredientId = ingredient.Id;
+        //            var productId = ingredient.ProductId;
+        //        }
+        //    }
+
+        //    var ingredients = await _menuService.GetIngredientsAsync(categoryId);
+
+        //    if (ingredients.IsSuccess)
+        //    {
+        //        var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+
+        //        Ingredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
+        //        {
+        //            Id = row.Id,
+        //            CategoryId = row.CategoryId,
+        //            IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
+        //            Title = row.Title,
+        //            Price = row.Price,
+        //            ImagePath = row.ImagePath,
+        //            ChangingToggle = ChangingToggleCommand,
+        //        }));
+        //    }
+        //}
         #endregion
     }
 }

@@ -13,6 +13,8 @@ namespace Next2.Models
             Id = ingredient.Id;
             ProductId = ingredient.ProductId;
             IngredientId = ingredient.IngredientId;
+            Price = ingredient.Price;
+            Title = ingredient.Title;
         }
 
         public int Id { get; set; }
@@ -20,5 +22,9 @@ namespace Next2.Models
         public int ProductId { get; set; }
 
         public int IngredientId { get; set; }
+
+        public float? Price { get; set; }
+
+        public string Title { get; set; }
     }
 }
