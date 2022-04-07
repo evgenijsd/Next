@@ -72,23 +72,29 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            IEnumerable<BonusModel> bonuses = Enumerable.Empty<BonusModel>();
+            List<BonusModel> bonuses = new();
             IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+            IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
             IEnumerable<BonusModel> discounts = Enumerable.Empty<BonusModel>();
             IEnumerable<BonusModel> coupons = Enumerable.Empty<BonusModel>();
-            var result = await _bonusesService.GetBonusesAsync();
+            var resultBonuses = await _bonusesService.GetBonusesAsync();
 
-            if (result.IsSuccess)
+            if (resultBonuses.IsSuccess)
             {
-                bonuses = result.Result;
-
                 var resultConditions = await _bonusesService.GetConditionsAsync();
 
                 if (resultConditions.IsSuccess)
                 {
                     bonusConditions = resultConditions.Result;
-                    discounts = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
-                    coupons = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));
+                    //discounts = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
+                    //coupons = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));
+                }
+
+                var resultBonusSets = await _bonusesService.GetBonusSetsAsync();
+
+                if (resultBonusSets.IsSuccess)
+                {
+                    bonusSets = resultBonusSets.Result;
                 }
             }
 
@@ -96,13 +102,31 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = currentOrder;
 
-                List<SetModel> setConditions = await _bonusesService.GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
-                List<SetModel> setBonus = await _bonusesService.GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
-                var sets = _bonusesService.GetSets(CurrentOrder);
+                //List<SetModel> setConditions = new();
+                //List<SetModel> setBonus = new();
+                bool isBonus = false;
 
-                if (bonusConditions.Count() > 0)
+                if (resultBonuses.Result?.Count() > 0)
                 {
-                    Discounts = _mapper.Map<List<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonusesService.GetDiscounts(bonusConditions, discounts, sets));
+                    foreach (var bonus in resultBonuses.Result)
+                    {
+                        var sets = _bonusesService.GetSets(CurrentOrder);
+                        var setsCount = sets.Count();
+                        var conditions = bonusConditions.Where(x => x.BonusId == bonus.Id);
+                        var setConditions = bonusSets.Where(x => x.BonusId == bonus.Id);
+
+                        foreach (var condition in conditions)
+                        {
+                            var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
+                            sets.Remove(set);
+                            if ((setsCount - sets.Count) == conditions.Count())
+                            {
+                                isBonus = true;
+                            }
+                        }
+                    }
+
+                    //Discounts = _mapper.Map<List<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonusesService.GetDiscounts(bonusConditions, discounts, sets));
                     //discounts = _bonusesService.GetDiscounts(bonusConditions, discounts, sets);
                 }
 
@@ -118,8 +142,8 @@ namespace Next2.ViewModels
                     discount.TapCommand = TapSelectBonusCommand;
                 }
 
-                HeightCoupons = (Coupons.Count * _heightBonus) + 30;
-                HeightDiscounts = (Discounts.Count * _heightBonus) + 30;
+                HeightCoupons = (Coupons.Count * _heightBonus) + Constants.LayoutBonuses.TITLE;
+                HeightDiscounts = (Discounts.Count * _heightBonus) + Constants.LayoutBonuses.TITLE;
             }
         }
 
@@ -163,11 +187,11 @@ namespace Next2.ViewModels
         {
             if (bonusType == EBonusType.Coupone)
             {
-                HeightCoupons = HeightCoupons == 30 ? (Coupons.Count * _heightBonus) + 30 : 30;
+                HeightCoupons = HeightCoupons == Constants.LayoutBonuses.TITLE ? (Coupons.Count * _heightBonus) + Constants.LayoutBonuses.TITLE : Constants.LayoutBonuses.TITLE;
             }
             else
             {
-                HeightDiscounts = HeightDiscounts == 30 ? (Discounts.Count * _heightBonus) + 30 : 30;
+                HeightDiscounts = HeightDiscounts == Constants.LayoutBonuses.TITLE ? (Discounts.Count * _heightBonus) + Constants.LayoutBonuses.TITLE : Constants.LayoutBonuses.TITLE;
             }
 
             return Task.CompletedTask;

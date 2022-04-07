@@ -12,6 +12,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:next="clr-namespace:Next2"
     x:DataType="viewModels:BonusPageViewModel"
     x:Class="Next2.Views.Mobile.BonusPage">
 
@@ -74,7 +75,7 @@
                                                 <DataTrigger
                                                     TargetType="ffimageloading:CachedImage"
                                                     Binding="{Binding HeightCoupons}"
-                                                    Value="30">
+                                                    Value="{x:Static next:Constants+LayoutBonuses.TITLE}">
 
                                                     <Setter Property="Source" Value="ic_arrow_down_24x24" />
 
@@ -154,7 +155,7 @@
                                                 <DataTrigger
                                                     TargetType="ffimageloading:CachedImage"
                                                     Binding="{Binding HeightDiscounts}"
-                                                    Value="30">
+                                                    Value="{x:Static next:Constants+LayoutBonuses.TITLE}">
 
                                                     <Setter Property="Source" Value="ic_arrow_down_24x24" />
 
