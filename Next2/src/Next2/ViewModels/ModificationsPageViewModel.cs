@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Next2.ENums;
+﻿using Next2.ENums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
@@ -7,14 +7,12 @@ using Next2.Services.Order;
 using Next2.Views;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -310,28 +308,28 @@ namespace Next2.ViewModels
                         Title = row.SelectedProduct.Title,
                         Items = new()
                         {
-                            new ItemSpoilerBindableModel()
+                            new SpoilerItem()
                             {
                                 State = ESubmenuItemsModifactions.Replace,
                                 Title = "Replace",
                                 ImagePath = "ic_paper_fail_24x24.png",
                                 SelectedImagePath = "ic_paper_fail_primary_24x24.png",
                             },
-                            new ItemSpoilerBindableModel()
+                            new SpoilerItem()
                             {
                                 State = ESubmenuItemsModifactions.Inventory,
                                 Title = "Inventory",
                                 ImagePath = "ic_paper_24x24.png",
                                 SelectedImagePath = "ic_paper_primary_24x24.png",
                             },
-                            new ItemSpoilerBindableModel()
+                            new SpoilerItem()
                             {
                                 State = ESubmenuItemsModifactions.Options,
                                 Title = "Options",
                                 ImagePath = "ic_paper_plus_24x24.png",
                                 SelectedImagePath = "ic_paper_plus_primary_24x24.png",
                             },
-                            new ItemSpoilerBindableModel()
+                            new SpoilerItem()
                             {
                                 State = ESubmenuItemsModifactions.Comment,
                                 Title = "Comment",

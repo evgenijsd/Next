@@ -1,9 +1,5 @@
-﻿using Next2.Models;
-using Prism.Mvvm;
+﻿using Next2.Helpers;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -33,13 +29,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
-            returnType: typeof(ItemSpoilerBindableModel),
+            returnType: typeof(SpoilerItem),
             declaringType: typeof(Spoiler),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ItemSpoilerBindableModel SelectedItem
+        public SpoilerItem SelectedItem
         {
-            get => (ItemSpoilerBindableModel)GetValue(SelectedItemProperty);
+            get => (SpoilerItem)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 

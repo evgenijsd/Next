@@ -3,10 +3,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
     Orientation="Horizontal"
-    x:DataType="models:ItemSpoilerBindableModel">
+    x:DataType="helpers:SpoilerItem">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup Name="CommonStates">
