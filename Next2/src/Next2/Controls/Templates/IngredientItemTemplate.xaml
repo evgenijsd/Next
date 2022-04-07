@@ -6,7 +6,6 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Controls.Templates.IngredientItemTemplate"
-    IsVisible="True"
     RowDefinitions="auto, auto">
 
     <BoxView 
@@ -34,7 +33,7 @@
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="models:ProductBindableModel">
+            <DataTemplate x:DataType="models:IngredientBindableModel">
 
                 <Grid 
                     ColumnDefinitions="0.50*, 0.50*"
@@ -62,7 +61,7 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding ProductPrice}"
+                            Text="{Binding Price, StringFormat='$ {0:F2}'}"
                             Margin="0, 5, 0, 0"
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i5}"

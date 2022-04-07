@@ -300,8 +300,6 @@ namespace Next2.ViewModels
                 {
                     IngredientId = toggleIngredient.Id,
                     ProductId = product.Id,
-                    Price = toggleIngredient.Price,
-                    Title = toggleIngredient.Title,
                 });
 
                 product.IngredientsPrice += toggleIngredient.Price;

@@ -100,6 +100,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
+        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; }
+
         public TableBindableModel SelectedTable { get; set; } = new();
 
         public int NumberOfSeats { get; set; }
@@ -201,6 +203,9 @@ namespace Next2.ViewModels
                     break;
                 case nameof(IsOrderWithTax):
                     _orderService.CurrentOrder.Total = _orderService.CurrentOrder.SubTotal;
+                    break;
+                case nameof(SelectedSet):
+                    await InitCategoryAsync(SelectedSet);
                     break;
             }
         }
@@ -845,35 +850,50 @@ namespace Next2.ViewModels
             }
         }
 
-        //private async Task InitIngredientsAsync(SetBindableModel selectedSet)
-        //{
-        //    foreach (var product in selectedSet.Products)
-        //    {
-        //        foreach (var ingredient in product.SelectedIngredients)
-        //        {
-        //            var ingredientId = ingredient.Id;
-        //            var productId = ingredient.ProductId;
-        //        }
-        //    }
+        private async Task InitCategoryAsync(SetBindableModel selectedSet)
+        {
+            Ingredients = new();
+            List<IngredientCategoryModel> ingredientCategoriesList;
+            var ingredientCategories = await _menuService.GetIngredientCategoriesAsync();
 
-        //    var ingredients = await _menuService.GetIngredientsAsync(categoryId);
+            if (ingredientCategories.IsSuccess)
+            {
+                ingredientCategoriesList = new(ingredientCategories.Result);
 
-        //    if (ingredients.IsSuccess)
-        //    {
-        //        var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+                foreach (var ingredientCategory in ingredientCategoriesList)
+                {
+                    await InitIngredientsAsync(ingredientCategory.Id);
+                }
+            }
+        }
 
-        //        Ingredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
-        //        {
-        //            Id = row.Id,
-        //            CategoryId = row.CategoryId,
-        //            IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
-        //            Title = row.Title,
-        //            Price = row.Price,
-        //            ImagePath = row.ImagePath,
-        //            ChangingToggle = ChangingToggleCommand,
-        //        }));
-        //    }
-        //}
+        private async Task InitIngredientsAsync(int categoryId)
+        {
+            var ingredients = await _menuService.GetIngredientsAsync(categoryId);
+
+            if (ingredients.IsSuccess && SelectedSet is not null)
+            {
+                foreach (var product in SelectedSet.Products)
+                {
+                    List<IngredientBindableModel> setOfIngredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
+                    {
+                        Id = row.Id,
+                        CategoryId = row.CategoryId,
+                        IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
+                        Title = row.Title,
+                        Price = row.Price,
+                    }).Where(row => row.IsToggled == true));
+
+                    if (setOfIngredients.Count > 0)
+                    {
+                        foreach (var ingredient in setOfIngredients)
+                        {
+                            Ingredients.Add(ingredient);
+                        }
+                    }
+                }
+            }
+        }
         #endregion
     }
 }
