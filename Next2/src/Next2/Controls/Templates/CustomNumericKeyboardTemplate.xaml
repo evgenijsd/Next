@@ -38,7 +38,7 @@
                 <StackLayout
                     Orientation="Horizontal"
                     Padding="0">
-                        
+
                     <Label
                         x:Name="employeeId"
                         Text="{Binding PlaceHolder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
@@ -50,24 +50,34 @@
 
                         <Label.Triggers>
 
-                            <DataTrigger 
-                                    TargetType="Label"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
-                                    Value="True">
+                            <MultiTrigger TargetType="Label">
+
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsTextRightToLeft}" Value="True" />
+                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}" Value="True" />
+                                </MultiTrigger.Conditions>
+                                
+                                <Setter Property="Margin" Value="10, 0, 10, 0"/>
+                                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+
+                            </MultiTrigger>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
+                                Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                            <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
+                                <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
 
                             </DataTrigger>
 
-                            <DataTrigger 
-                                    TargetType="Label"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLogIn}"               
-                                    Value="True">
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLogIn}"               
+                                Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i9}"/>
-
                                 <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}"/>
 
                             </DataTrigger>

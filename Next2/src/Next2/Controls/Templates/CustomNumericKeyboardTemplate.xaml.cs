@@ -9,7 +9,7 @@ namespace Next2.Controls.Templates
 {
     public partial class CustomNumericKeyboardTemplate : ContentView
     {
-        private string _value;
+        private double _numericValue;
 
         public CustomNumericKeyboardTemplate()
         {
@@ -28,6 +28,18 @@ namespace Next2.Controls.Templates
         {
             get => (string)GetValue(ScreenKeyboardProperty);
             set => SetValue(ScreenKeyboardProperty, value);
+        }
+
+        public static readonly BindableProperty ValueProperty = BindableProperty.Create(
+            propertyName: nameof(Value),
+            returnType: typeof(string),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string Value
+        {
+            get => (string)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
         }
 
         public static readonly BindableProperty BackgroundColorButtonProperty = BindableProperty.Create(
@@ -78,6 +90,30 @@ namespace Next2.Controls.Templates
         {
             get => (bool)GetValue(IsKeyBoardTypedProperty);
             set => SetValue(IsKeyBoardTypedProperty, value);
+        }
+
+        public static readonly BindableProperty IsNumericModeProperty = BindableProperty.Create(
+            propertyName: nameof(IsNumericMode),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsNumericMode
+        {
+            get => (bool)GetValue(IsNumericModeProperty);
+            set => SetValue(IsNumericModeProperty, value);
+        }
+
+        public static readonly BindableProperty IsTextRightToLeftProperty = BindableProperty.Create(
+            propertyName: nameof(IsTextRightToLeft),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsTextRightToLeft
+        {
+            get => (bool)GetValue(IsTextRightToLeftProperty);
+            set => SetValue(IsTextRightToLeftProperty, value);
         }
 
         public static readonly BindableProperty IsUserLogInProperty = BindableProperty.Create(
@@ -145,6 +181,7 @@ namespace Next2.Controls.Templates
             if (propertyName == nameof(IsUserLogIn))
             {
                 ScreenKeyboard = PlaceHolder;
+                Value = PlaceHolder;
                 IsKeyBoardTyped = false;
             }
         }
@@ -159,25 +196,56 @@ namespace Next2.Controls.Templates
             {
                 if (IsKeyBoardTyped)
                 {
-                    if (_value.Length < MaxLength)
+                    if (Value.Length < MaxLength)
                     {
-                        _value += str;
-                        ScreenKeyboard = string.Format(ValueFormat, _value);
+                        if (IsNumericMode)
+                        {
+                            double tmp;
+
+                            if (double.TryParse(str, out tmp))
+                            {
+                                _numericValue *= 10;
+                                _numericValue += tmp / 100;
+
+                                ScreenKeyboard = string.Format(ValueFormat, _numericValue);
+                                Value = _numericValue.ToString();
+                            }
+                        }
+                        else
+                        {
+                            Value += str;
+                            ScreenKeyboard = string.Format(ValueFormat, Value);
+                        }
                     }
                 }
                 else
                 {
                     IsKeyBoardTyped = true;
-                    _value = str;
-                    ScreenKeyboard = string.Format(ValueFormat, _value);
+
+                    if (IsNumericMode)
+                    {
+                        double tmp;
+
+                        if (double.TryParse(str, out tmp))
+                        {
+                            _numericValue = tmp / 100;
+                            ScreenKeyboard = string.Format(ValueFormat, _numericValue);
+                            Value = str;
+                        }
+                    }
+                    else
+                    {
+                        ScreenKeyboard = string.Format(ValueFormat, Value);
+                        Value = str;
+                    }
                 }
             }
         }
 
         private async Task OnTabClearAsync(object? arg)
         {
-            _value = string.Empty;
             ScreenKeyboard = PlaceHolder;
+            Value = string.Empty;
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
         }

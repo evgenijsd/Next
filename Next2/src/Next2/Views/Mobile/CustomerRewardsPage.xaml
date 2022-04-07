@@ -20,25 +20,36 @@
     x:Class="Next2.Views.Mobile.CustomerRewardsPage">
 
     <Grid
-        RowDefinitions="60, 60, 500"
+        RowDefinitions="60, 80, 500"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <controls:CustomNavigationbar
             Grid.Row="0"
             Title="Cash"
-            HeightImage="30"/>
+            HeightImage="30"
+            FontSize="{DynamicResource TSize_i3}"
+            FontFamily="Barlow-Bold"/>
 
         <Label
             Grid.Row="1"
-            Margin="20">
+            Margin="20, 30, 20, 0">
 
             <Label.FormattedText>
                 <FormattedString>
-                    <Span Text="Change" />
+                    <Span
+                        Text="Change"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i3}"
+                        FontFamily="Barlow-Regular"/>
+                    
                     <Span Text=" " />
+                    
                     <Span
                         Text="$ 12.00"
-                        TextColor="{DynamicResource IndicationColor_i1}"/>
+                        TextColor="{DynamicResource IndicationColor_i1}"
+                        FontSize="{DynamicResource TSize_i3}"
+                        FontFamily="Barlow-Bold"/>
+                    
                 </FormattedString>
             </Label.FormattedText>
             
@@ -48,9 +59,11 @@
             Grid.Row="2"
             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
             PlaceHolder="Enter The Amount"
-            ValueFormat="$ {0}.00"
+            IsTextRightToLeft="True"
+            IsNumericMode="True"
+            ValueFormat="$ {0:#,0.#0}"
             MaxLength="10"
-            Margin="20"/>
+            Margin="20, 0"/>
 
     </Grid>
     

@@ -54,7 +54,7 @@
             <controls:CustomNumericKeyboardTemplate
                 Grid.Row="1"
                 Margin="30, 0, 30, 0"
-                ScreenKeyboard="{Binding EmployeeId}"
+                Value="{Binding EmployeeId}"
                 PlaceHolder="{xct:Translate TypeEmployeeId}"
                 IsUserLogIn="{Binding IsUserLogIn}"
                 IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
