@@ -6,7 +6,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
     Orientation="Horizontal"
-    x:DataType="models:ItemSpoilerModel">
+    x:DataType="models:ItemSpoilerBindableModel">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup Name="CommonStates">

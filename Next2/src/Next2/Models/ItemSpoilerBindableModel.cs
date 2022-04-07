@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Next2.Models
 {
-    public class ItemSpoilerModel : BindableBase
+    public class ItemSpoilerBindableModel : BindableBase
     {
         public ESubmenuItemsModifactions State { get; set; }
 

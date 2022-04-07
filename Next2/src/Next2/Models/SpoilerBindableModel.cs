@@ -12,9 +12,9 @@ namespace Next2.Models
 
         public string Title { get; set; }
 
-        public ObservableCollection<ItemSpoilerModel> Items { get; set; }
+        public ObservableCollection<ItemSpoilerBindableModel> Items { get; set; }
 
-        public ItemSpoilerModel? SelectedItem { get; set; }
+        public ItemSpoilerBindableModel? SelectedItem { get; set; }
 
         public ICommand TapCommand { get; set; }
     }

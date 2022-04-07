@@ -310,28 +310,28 @@ namespace Next2.ViewModels
                         Title = row.SelectedProduct.Title,
                         Items = new()
                         {
-                            new ItemSpoilerModel()
+                            new ItemSpoilerBindableModel()
                             {
                                 State = ESubmenuItemsModifactions.Replace,
                                 Title = "Replace",
                                 ImagePath = "ic_paper_fail_24x24.png",
                                 SelectedImagePath = "ic_paper_fail_primary_24x24.png",
                             },
-                            new ItemSpoilerModel()
+                            new ItemSpoilerBindableModel()
                             {
                                 State = ESubmenuItemsModifactions.Inventory,
                                 Title = "Inventory",
                                 ImagePath = "ic_paper_24x24.png",
                                 SelectedImagePath = "ic_paper_primary_24x24.png",
                             },
-                            new ItemSpoilerModel()
+                            new ItemSpoilerBindableModel()
                             {
                                 State = ESubmenuItemsModifactions.Options,
                                 Title = "Options",
                                 ImagePath = "ic_paper_plus_24x24.png",
                                 SelectedImagePath = "ic_paper_plus_primary_24x24.png",
                             },
-                            new ItemSpoilerModel()
+                            new ItemSpoilerBindableModel()
                             {
                                 State = ESubmenuItemsModifactions.Comment,
                                 Title = "Comment",

@@ -33,13 +33,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
-            returnType: typeof(ItemSpoilerModel),
+            returnType: typeof(ItemSpoilerBindableModel),
             declaringType: typeof(Spoiler),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public ItemSpoilerModel SelectedItem
+        public ItemSpoilerBindableModel SelectedItem
         {
-            get => (ItemSpoilerModel)GetValue(SelectedItemProperty);
+            get => (ItemSpoilerBindableModel)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
