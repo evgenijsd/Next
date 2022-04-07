@@ -25,80 +25,7 @@ namespace Next2.Services.Bonuses
             _mapper = mapper;
         }
 
-        public async Task<AOResult<IEnumerable<BonusModel>>> GetBonusesAsync()
-        {
-            var result = new AOResult<IEnumerable<BonusModel>>();
-
-            try
-            {
-                var bonuses = await _mockService.GetAsync<BonusModel>(x => x.Id != 0);
-
-                if (bonuses is not null)
-                {
-                    result.SetSuccess(bonuses);
-                }
-                else
-                {
-                    result.SetFailure(Strings.NotFoundData);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync()
-        {
-            var result = new AOResult<IEnumerable<BonusConditionModel>>();
-
-            try
-            {
-                var conditions = await _mockService.GetAsync<BonusConditionModel>(x => x.Id != 0);
-
-                if (conditions is not null)
-                {
-                    result.SetSuccess(conditions);
-                }
-                else
-                {
-                    result.SetFailure(Strings.NotFoundData);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync()
-        {
-            var result = new AOResult<IEnumerable<BonusSetModel>>();
-
-            try
-            {
-                var bonusSet = await _mockService.GetAsync<BonusSetModel>(x => x.Id != 0);
-
-                if (bonusSet is not null)
-                {
-                    result.SetSuccess(bonusSet);
-                }
-                else
-                {
-                    result.SetFailure(Strings.NotFoundData);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
+        #region -- IBonusService implementation --
 
         public async Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses)
         {
@@ -224,59 +151,6 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
-        {
-            float result = 0;
-
-            switch (selectedBonus.Type)
-            {
-                case EBonusValueType.Value:
-                    result = set.Portion.Price - selectedBonus.Value;
-                    break;
-                case EBonusValueType.Percent:
-                    result = set.Portion.Price - (selectedBonus.Value * set.Portion.Price);
-                    break;
-                case EBonusValueType.AbsoluteValue:
-                    result = selectedBonus.Value;
-                    break;
-                default:
-                    break;
-            }
-
-            if (result < 0)
-            {
-                result = 0;
-            }
-
-            return result;
-        }
-
-        public List<BonusModel> GetDiscounts(IEnumerable<BonusConditionModel>? bonusConditions, IEnumerable<BonusModel>? discounts, List<SetModel> sets)
-        {
-            var result = new List<BonusModel>();
-
-            foreach (var discount in discounts ?? Enumerable.Empty<BonusModel>())
-            {
-                var conditions = bonusConditions.Where(x => x.BonusId == discount.Id);
-                int count = conditions.Count();
-
-                foreach (var condition in conditions)
-                {
-                    if (sets.Any(x => x.Id == condition.SetId))
-                    {
-                        count -= 1;
-                    }
-                }
-
-                if (count == 0)
-                {
-                    result.Add(discount);
-                }
-            }
-
-            return result;
-        }
-
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
             if (currentOrder.BonusType != EBonusType.None)
@@ -285,8 +159,6 @@ namespace Next2.Services.Bonuses
 
                 IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
                 IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
-                List<SetModel> setCurrentConditions = await GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
-                List<SetModel> setCurrent = await GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
 
                 var resultConditions = await GetConditionsAsync();
 
@@ -366,69 +238,38 @@ namespace Next2.Services.Bonuses
             return currentOrder;
         }
 
-        public async Task<List<SetModel>> GetConditionSetsAsync(FullOrderBindableModel currentOrder, EConditionSet eConditionSet)
+        #endregion
+
+        #region -- Private helpers --
+
+        private float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
         {
-            var resultConditions = await GetConditionsAsync();
+            float result = 0;
 
-            var resultBonusSets = await GetBonusSetsAsync();
-
-            var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
-            var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
-
-            List<SetModel> setConditions = new();
-            List<SetModel> setBonus = new();
-            int countCondition;
-            int countBonusSet;
-            var sets = GetSets(currentOrder).ToList();
-
-            do
+            switch (selectedBonus.Type)
             {
-                countCondition = 0;
-
-                foreach (var condition in bonusConditions)
-                {
-                    var set = sets?.FirstOrDefault(x => x.Id == condition.SetId);
-
-                    if (set is not null)
-                    {
-                        setConditions.Add(set);
-                        sets?.Remove(set);
-                        countCondition++;
-                    }
-                }
-
-                countBonusSet = 0;
-
-                foreach (var bonusSet in bonusSets)
-                {
-                    var set = sets?.FirstOrDefault(x => x.Id == bonusSet.SetId);
-
-                    if (set is not null)
-                    {
-                        setBonus.Add(set);
-                        sets?.Remove(set);
-                        countBonusSet++;
-                    }
-                }
-            }
-            while ((countCondition == bonusConditions.Count) && (countBonusSet == bonusSets.Count) && !(countCondition == 0 && countBonusSet == 0));
-
-            while (countBonusSet > 0 && countBonusSet < bonusSets.Count)
-            {
-                setBonus.Remove(setBonus[^1]);
-                countBonusSet--;
+                case EBonusValueType.Value:
+                    result = set.Portion.Price - selectedBonus.Value;
+                    break;
+                case EBonusValueType.Percent:
+                    result = set.Portion.Price - (selectedBonus.Value * set.Portion.Price);
+                    break;
+                case EBonusValueType.AbsoluteValue:
+                    result = selectedBonus.Value;
+                    break;
+                default:
+                    break;
             }
 
-            while (countCondition > 0 && countCondition < bonusConditions.Count)
+            if (result < 0)
             {
-                setConditions.Remove(setConditions[^1]);
-                countCondition--;
+                result = 0;
             }
 
-            return eConditionSet == EConditionSet.BonusSet ? setBonus : setConditions;
+            return result;
         }
 
-        public List<SetModel> GetSets(FullOrderBindableModel currentOrder)
+        private List<SetModel> GetSets(FullOrderBindableModel currentOrder)
         {
             var result = new List<SetModel>();
 
@@ -442,5 +283,82 @@ namespace Next2.Services.Bonuses
 
             return result;
         }
+
+        private async Task<AOResult<IEnumerable<BonusModel>>> GetBonusesAsync()
+        {
+            var result = new AOResult<IEnumerable<BonusModel>>();
+
+            try
+            {
+                var bonuses = await _mockService.GetAsync<BonusModel>(x => x.Id != 0);
+
+                if (bonuses is not null)
+                {
+                    result.SetSuccess(bonuses);
+                }
+                else
+                {
+                    result.SetFailure(Strings.NotFoundData);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        private async Task<AOResult<IEnumerable<BonusConditionModel>>> GetConditionsAsync()
+        {
+            var result = new AOResult<IEnumerable<BonusConditionModel>>();
+
+            try
+            {
+                var conditions = await _mockService.GetAsync<BonusConditionModel>(x => x.Id != 0);
+
+                if (conditions is not null)
+                {
+                    result.SetSuccess(conditions);
+                }
+                else
+                {
+                    result.SetFailure(Strings.NotFoundData);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        private async Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync()
+        {
+            var result = new AOResult<IEnumerable<BonusSetModel>>();
+
+            try
+            {
+                var bonusSet = await _mockService.GetAsync<BonusSetModel>(x => x.Id != 0);
+
+                if (bonusSet is not null)
+                {
+                    result.SetSuccess(bonusSet);
+                }
+                else
+                {
+                    result.SetFailure(Strings.NotFoundData);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }
