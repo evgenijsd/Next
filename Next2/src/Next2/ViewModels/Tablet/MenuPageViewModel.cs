@@ -121,6 +121,8 @@ namespace Next2.ViewModels.Tablet
                     SelectedMenuItem = targetPage;
                 }
             }
+
+            MessagingCenter.Unsubscribe<PageSwitchingMessage, SetBindableModel>(sender, Constants.Navigations.SWITCH_PAGE);
         }
 
         private void InitMenuItems()

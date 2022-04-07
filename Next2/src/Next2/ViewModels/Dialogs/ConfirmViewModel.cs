@@ -19,7 +19,11 @@ namespace Next2.ViewModels.Dialogs
             CloseCommand = new Command(() => RequestClose(null));
             DeclineCommand = new Command(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
             AcceptCommand = new Command(
-                execute: () => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }),
+                execute: () => RequestClose(new DialogParameters()
+                {
+                    { Constants.DialogParameterKeys.ACCEPT, true },
+                    { Constants.DialogParameterKeys.ACTION_ON_ORDER, Parameter },
+                }),
                 canExecute: CanExecute);
         }
 
@@ -34,6 +38,8 @@ namespace Next2.ViewModels.Dialogs
         public string CancellationText { get; set; }
 
         public string ConfirmationText { get; set; }
+
+        public string Parameter { get; set; }
 
         public ICommand CloseCommand { get; }
 
@@ -74,6 +80,11 @@ namespace Next2.ViewModels.Dialogs
                 if (param.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string confirmationText))
                 {
                     ConfirmationText = confirmationText;
+                }
+
+                if (param.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out string parametr))
+                {
+                    Parameter = parametr;
                 }
             }
         }

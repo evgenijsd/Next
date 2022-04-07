@@ -8,6 +8,8 @@
 
         public const int MAX_TABLE_SEATS = 10;
 
+        public const int TOAST_DURATION = 5;
+
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
         public const int SERVER_RESPONCE_DELAY = 100;
@@ -59,6 +61,11 @@
             public const string ADMIN = "ADMIN";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
+            public const string INPUT_TEXT = "INPUT_TEXT";
+            public const string PLACEHOLDER = "PLACEHOLDER";
+            public const string ORDER_STATUS = "ORDER_STATUS";
+            public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
+            public const string DELETE_SET = "DELETE_SET";
         }
 
         public static class Validators
@@ -95,6 +102,14 @@
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
+            public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
+        }
+
+        public static class PaymentOrderStatus
+        {
+            public const string IN_PROGRESS = "In progress";
+            public const string CANCELLED = "Cancelled";
+            public const string PAYED = "Payed";
         }
     }
 }

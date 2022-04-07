@@ -87,7 +87,7 @@
         </VisualStateManager.VisualStateGroups>
 
         <CollectionView.ItemsLayout>
-            
+
             <GridItemsLayout
                 Orientation="Horizontal"
                 Span="2"
@@ -95,7 +95,7 @@
                 SnapPointsAlignment="Start"
                 VerticalItemSpacing="4"
                 HorizontalItemSpacing="4"/>
-            
+
         </CollectionView.ItemsLayout>
 
         <CollectionView.Effects>
@@ -108,13 +108,15 @@
                 <templates:CategoryItemTemplate
                     Text="{Binding Title}"
                     FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Medium"/>
+                    FontFamily="Barlow-Medium"
+                    HeightRequest="54"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
             </DataTemplate>
         </CollectionView.ItemTemplate>
 
     </CollectionView>
-    
+
     <Frame
         HeightRequest="100"
         HasShadow="False"
@@ -141,7 +143,7 @@
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
 
     </Frame>
