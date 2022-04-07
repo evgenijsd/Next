@@ -1,6 +1,6 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Helpers;
+using Next2.Interfaces;
 using Prism.Mvvm;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -12,9 +12,9 @@ namespace Next2.Models
 
         public string Title { get; set; }
 
-        public ObservableCollection<ItemSpoilerModel> Items { get; set; }
+        public ObservableCollection<SpoilerItem> Items { get; set; }
 
-        public ItemSpoilerModel? SelectedItem { get; set; }
+        public SpoilerItem? SelectedItem { get; set; }
 
         public ICommand TapCommand { get; set; }
     }
