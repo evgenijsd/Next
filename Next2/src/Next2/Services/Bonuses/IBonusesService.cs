@@ -17,6 +17,12 @@ namespace Next2.Services.Bonuses
 
         Task<AOResult<IEnumerable<BonusSetModel>>> GetBonusSetsAsync();
 
+        Task<List<BonusModel>> GetActiveBonusesAsync(FullOrderBindableModel currentOrder);
+
+        Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses);
+
+        Task<IEnumerable<BonusModel>> GetActiveDiscountsAsync(List<BonusModel> bonuses);
+
         Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder);
 
         Task<List<SetModel>> GetConditionSetsAsync(FullOrderBindableModel currentOrder, EConditionSet eConditionSet);

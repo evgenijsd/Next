@@ -100,6 +100,130 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
+        public async Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses)
+        {
+            IEnumerable<BonusModel> result = Enumerable.Empty<BonusModel>();
+
+            IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+            IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
+
+            if (bonuses.Count > 0)
+            {
+                var resultConditions = await GetConditionsAsync();
+
+                if (resultConditions.IsSuccess)
+                {
+                    bonusConditions = resultConditions.Result;
+                }
+
+                var resultBonusSets = await GetBonusSetsAsync();
+
+                if (resultBonusSets.IsSuccess)
+                {
+                    bonusSets = resultBonusSets.Result;
+                }
+
+                result = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<BonusModel>> GetActiveDiscountsAsync(List<BonusModel> bonuses)
+        {
+            IEnumerable<BonusModel> result = Enumerable.Empty<BonusModel>();
+
+            IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+            IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
+
+            if (bonuses.Count > 0)
+            {
+                var resultConditions = await GetConditionsAsync();
+
+                if (resultConditions.IsSuccess)
+                {
+                    bonusConditions = resultConditions.Result;
+                }
+
+                var resultBonusSets = await GetBonusSetsAsync();
+
+                if (resultBonusSets.IsSuccess)
+                {
+                    bonusSets = resultBonusSets.Result;
+                }
+
+                result = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
+            }
+
+            return result;
+        }
+
+        public async Task<List<BonusModel>> GetActiveBonusesAsync(FullOrderBindableModel currentOrder)
+        {
+            List<BonusModel> result = new();
+
+            IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+            IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
+            var resultBonuses = await GetBonusesAsync();
+
+            if (resultBonuses.IsSuccess)
+            {
+                var resultConditions = await GetConditionsAsync();
+
+                if (resultConditions.IsSuccess)
+                {
+                    bonusConditions = resultConditions.Result;
+                }
+
+                var resultBonusSets = await GetBonusSetsAsync();
+
+                if (resultBonusSets.IsSuccess)
+                {
+                    bonusSets = resultBonusSets.Result;
+                }
+
+                foreach (var bonus in resultBonuses.Result)
+                {
+                    bool isBonus = true;
+                    var sets = GetSets(currentOrder);
+                    var conditions = bonusConditions.Where(x => x.BonusId == bonus.Id);
+                    var setConditions = bonusSets.Where(x => x.BonusId == bonus.Id);
+
+                    foreach (var condition in conditions)
+                    {
+                        var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
+                        if (set is null)
+                        {
+                            isBonus = false;
+                        }
+                        else
+                        {
+                            sets.Remove(set);
+                        }
+                    }
+
+                    bool isSet = setConditions.Count() == 0 ? true : false;
+
+                    foreach (var setCondition in setConditions)
+                    {
+                        var set = sets.FirstOrDefault(x => x.Id == setCondition.SetId);
+                        if (set is not null)
+                        {
+                            isSet = true;
+                            sets.Remove(set);
+                        }
+                    }
+
+                    if (isBonus && isSet)
+                    {
+                        result.Add(bonus);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
         {
             float result = 0;
@@ -159,93 +283,75 @@ namespace Next2.Services.Bonuses
             {
                 currentOrder.PriceWithBonus = 0;
 
+                IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+                IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
+                List<SetModel> setCurrentConditions = await GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
+                List<SetModel> setCurrent = await GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
+
                 var resultConditions = await GetConditionsAsync();
 
-                var resultBonusSets = await GetBonusSetsAsync();
-
-                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
-                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
-
-                List<SetModel> setConditions = await GetConditionSetsAsync(currentOrder, EConditionSet.Condition);
-                List<SetModel> setBonus = await GetConditionSetsAsync(currentOrder, EConditionSet.BonusSet);
-
-                /*var resultConditions = await GetConditionsAsync();
+                if (resultConditions.IsSuccess)
+                {
+                    bonusConditions = resultConditions.Result;
+                }
 
                 var resultBonusSets = await GetBonusSetsAsync();
 
-                var bonusConditions = resultConditions.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusConditionModel>().ToList();
-                var bonusSets = resultBonusSets.Result?.Where(x => x.BonusId == currentOrder.Bonus.Id).ToList() ?? Enumerable.Empty<BonusSetModel>().ToList();
-
-                List<SetModel> setConditions = new();
-                List<SetModel> setBonus = new();
-                int countCondition;
-                int countBonusSet;
-                var sets = GetSets(currentOrder).ToList();
-
-                do
+                if (resultBonusSets.IsSuccess)
                 {
-                    countCondition = 0;
+                    bonusSets = resultBonusSets.Result;
+                }
 
-                    foreach (var condition in bonusConditions)
+                var bonus = currentOrder.Bonus;
+                var conditions = bonusConditions.Where(x => x.BonusId == bonus.Id);
+                var setConditions = bonusSets.Where(x => x.BonusId == bonus.Id);
+                bool isBonus = true;
+                bool isSet = true;
+                var sets = GetSets(currentOrder);
+                List<SetModel> currentBonusSets = new();
+
+                foreach (var condition in conditions)
+                {
+                    var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
+                    if (set is null)
                     {
-                        var set = sets?.FirstOrDefault(x => x.Id == condition.SetId);
-
-                        if (set is not null)
-                        {
-                            setConditions.Add(set);
-                            sets?.Remove(set);
-                            countCondition++;
-                        }
+                        isBonus = false;
                     }
-
-                    countBonusSet = 0;
-
-                    foreach (var bonusSet in bonusSets)
+                    else
                     {
-                        var set = sets?.FirstOrDefault(x => x.Id == bonusSet.SetId);
+                        sets.Remove(set);
+                    }
+                }
 
+                if (isBonus)
+                {
+                    isSet = setConditions.Count() == 0 ? true : false;
+
+                    foreach (var setCondition in setConditions)
+                    {
+                        var set = sets.FirstOrDefault(x => x.Id == setCondition.SetId);
                         if (set is not null)
                         {
-                            setBonus.Add(set);
-                            sets?.Remove(set);
-                            countBonusSet++;
+                            currentBonusSets.Add(set);
+                            sets.Remove(set);
                         }
                     }
                 }
-                while ((countCondition == bonusConditions.Count) && (countBonusSet == bonusSets.Count) && !(countCondition == 0 && countBonusSet == 0));
-
-                while (countBonusSet > 0 && countBonusSet < bonusSets.Count)
-                {
-                    setBonus.Remove(setBonus[^1]);
-                    countBonusSet--;
-                }
-
-                while (countCondition > 0 && countCondition < bonusConditions.Count)
-                {
-                    setConditions.Remove(setConditions[^1]);
-                    countCondition--;
-                }*/
 
                 foreach (SeatBindableModel seat in currentOrder.Seats)
                 {
                     foreach (SetBindableModel set in seat.Sets)
                     {
-                        if ((setConditions.Count == 0 && bonusConditions.Count > 0) || !setConditions.Any(x => x.Id == set.Id))
+                        var currentBonusSet = currentBonusSets.FirstOrDefault(x => x.Id == set.Id);
+
+                        if (isSet || (currentBonusSet is not null))
                         {
-                            if ((setBonus.Count == 0 && bonusSets.Count == 0) || setBonus.Any(x => x.Id == set.Id))
-                            {
-                                set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
-                                setBonus.Remove(_mapper.Map<SetBindableModel, SetModel>(set));
-                            }
-                            else
-                            {
-                                set.PriceBonus = set.Portion.Price;
-                            }
+                            set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
+                            currentBonusSets.Remove(currentBonusSet);
                         }
                         else
                         {
                             set.PriceBonus = set.Portion.Price;
-                            setConditions.Remove(_mapper.Map<SetBindableModel, SetModel>(set));
                         }
 
                         currentOrder.PriceWithBonus += set.PriceBonus;

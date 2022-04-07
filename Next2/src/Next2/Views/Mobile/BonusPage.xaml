@@ -39,62 +39,64 @@
                     VerticalOptions="End"
                     Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                <ScrollView Grid.Row="1">
+                <ScrollView 
+                    Grid.Row="1"
+                    VerticalScrollBarVisibility="Never">
 
                     <StackLayout Spacing="0">
 
-                        <Grid Margin="20,20,20,0">
+                        <Grid Margin="20,25,20,0">
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
                                 <RowDefinition Height="{Binding HeightCoupons}" />
                             </Grid.RowDefinitions>
 
+                            <StackLayout
+                                Grid.Row="0"
+                                Orientation="Horizontal">
+
+                                <Label
+                                    Text="{xct:Translate Coupons}"
+                                    Margin="0,0,0,0"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontFamily="Barlow-SemiBold"
+                                    FontSize="{DynamicResource TSize_i5}" />
+
+                                <ffimageloading:CachedImage
+                                    Source="ic_arrow_up_24x24.png"
+                                    HeightRequest="25"
+                                    HorizontalOptions="EndAndExpand">
+
+                                    <ffimageloading:CachedImage.Triggers>
+
+                                        <DataTrigger
+                                            TargetType="ffimageloading:CachedImage"
+                                            Binding="{Binding HeightCoupons}"
+                                            Value="0">
+
+                                            <Setter Property="Source" Value="ic_arrow_down_24x24" />
+
+                                        </DataTrigger>
+
+                                    </ffimageloading:CachedImage.Triggers>
+
+                                </ffimageloading:CachedImage>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding TapSelectCollapceCommand}"
+                                        CommandParameter="{x:Static enum:EBonusType.Coupone}" />
+                                </StackLayout.GestureRecognizers>
+
+                            </StackLayout>
+                            
                             <CollectionView
+                                Grid.Row="1"
                                 SelectionMode="Single"
                                 ItemsSource="{Binding Coupons}"
                                 SelectedItem="{Binding SelectedBonus}">
 
-                                <CollectionView.Header>
-                                    
-                                    <StackLayout Orientation="Horizontal">
-
-                                        <Label
-                                            Text="{xct:Translate Coupons}"
-                                            Margin="0,3,0,15"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                            FontFamily="Barlow-SemiBold"
-                                            FontSize="{DynamicResource TSize_i5}" />
-
-                                        <ffimageloading:CachedImage
-                                            Source="ic_arrow_up_24x24.png"
-                                            HeightRequest="25"
-                                            HorizontalOptions="EndAndExpand">
-
-                                            <ffimageloading:CachedImage.Triggers>
-
-                                                <DataTrigger
-                                                    TargetType="ffimageloading:CachedImage"
-                                                    Binding="{Binding HeightCoupons}"
-                                                    Value="{x:Static next:Constants+LayoutBonuses.TITLE}">
-
-                                                    <Setter Property="Source" Value="ic_arrow_down_24x24" />
-
-                                                </DataTrigger>
-
-                                            </ffimageloading:CachedImage.Triggers>
-
-                                        </ffimageloading:CachedImage>
-
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding TapSelectCollapceCommand}"
-                                                CommandParameter="{x:Static enum:EBonusType.Coupone}" />
-                                        </StackLayout.GestureRecognizers>
-
-                                    </StackLayout>
-                                    
-                                </CollectionView.Header>
-
                                 <CollectionView.ItemTemplate>
 
                                     <DataTemplate
@@ -118,62 +120,61 @@
                         </Grid>
 
                         <BoxView
-                            Margin="0,20,0,0"
+                            Margin="0,5,0,0"
                             HeightRequest="1"
                             VerticalOptions="End"
                             Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                        <Grid Margin="20,20,20,0">
+                        <Grid Margin="20,15,20,0">
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
                                 <RowDefinition Height="{Binding HeightDiscounts}" />
                             </Grid.RowDefinitions>
 
+                            <StackLayout
+                                Orientation="Horizontal">
+
+                                <Label
+                                    Text="{xct:Translate Discounts}"
+                                    Margin="0,3,0,0"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontFamily="Barlow-SemiBold"
+                                    FontSize="{DynamicResource TSize_i5}" />
+
+                                <ffimageloading:CachedImage
+                                    Source="ic_arrow_up_24x24"
+                                    HeightRequest="25"
+                                    HorizontalOptions="EndAndExpand">
+
+                                    <ffimageloading:CachedImage.Triggers>
+
+                                        <DataTrigger
+                                            TargetType="ffimageloading:CachedImage"
+                                            Binding="{Binding HeightDiscounts}"
+                                            Value="0">
+
+                                            <Setter Property="Source" Value="ic_arrow_down_24x24" />
+
+                                        </DataTrigger>
+
+                                    </ffimageloading:CachedImage.Triggers>
+
+                                </ffimageloading:CachedImage>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding TapSelectCollapceCommand}"
+                                        CommandParameter="{x:Static enum:EBonusType.Discount}" />
+                                </StackLayout.GestureRecognizers>
+
+                            </StackLayout>
+                            
                             <CollectionView
+                                Grid.Row="1"
                                 SelectionMode="Single"
                                 ItemsSource="{Binding Discounts}"
                                 SelectedItem="{Binding SelectedBonus}">
-
-                                <CollectionView.Header>
-                                    
-                                    <StackLayout Orientation="Horizontal">
-
-                                        <Label
-                                            Text="{xct:Translate Discounts}"
-                                            Margin="0,3,0,15"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                            FontFamily="Barlow-SemiBold"
-                                            FontSize="{DynamicResource TSize_i5}" />
-
-                                        <ffimageloading:CachedImage
-                                            Source="ic_arrow_up_24x24"
-                                            HeightRequest="25"
-                                            HorizontalOptions="EndAndExpand">
-
-                                            <ffimageloading:CachedImage.Triggers>
-
-                                                <DataTrigger
-                                                    TargetType="ffimageloading:CachedImage"
-                                                    Binding="{Binding HeightDiscounts}"
-                                                    Value="{x:Static next:Constants+LayoutBonuses.TITLE}">
-
-                                                    <Setter Property="Source" Value="ic_arrow_down_24x24" />
-
-                                                </DataTrigger>
-
-                                            </ffimageloading:CachedImage.Triggers>
-
-                                        </ffimageloading:CachedImage>
-
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding TapSelectCollapceCommand}"
-                                                CommandParameter="{x:Static enum:EBonusType.Discount}" />
-                                        </StackLayout.GestureRecognizers>
-
-                                    </StackLayout>
-                                    
-                                </CollectionView.Header>
 
                                 <CollectionView.ItemTemplate>
 
@@ -198,7 +199,7 @@
                         </Grid>
 
                         <BoxView
-                            Margin="0,20,0,0"
+                            Margin="0,15,0,0"
                             HeightRequest="1"
                             VerticalOptions="End"
                             Color="{DynamicResource TextAndBackgroundColor_i2}" />
@@ -229,7 +230,8 @@
 
                 <ScrollView
                     Margin="20,17,20,0"
-                    Grid.Row="1">
+                    Grid.Row="1" 
+                    VerticalScrollBarVisibility="Never">
 
                     <StackLayout
                         BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">

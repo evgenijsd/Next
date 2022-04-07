@@ -44,9 +44,8 @@
 
         public static class LayoutBonuses
         {
-            public const double ROW_TABLET_BONUS = 60;
-            public const double ROW_MOBILE_BONUS = 66;
-            public const double TITLE = 30;
+            public const double ROW_TABLET_BONUS = 57;
+            public const double ROW_MOBILE_BONUS = 65;
         }
 
         public static class Navigations

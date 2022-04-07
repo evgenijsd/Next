@@ -25,6 +25,8 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
+        private List<BonusModel> _bonuses = new();
+
         public BonusPageViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
@@ -72,78 +74,35 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            List<BonusModel> bonuses = new();
-            IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
-            IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
-            IEnumerable<BonusModel> discounts = Enumerable.Empty<BonusModel>();
-            IEnumerable<BonusModel> coupons = Enumerable.Empty<BonusModel>();
-            var resultBonuses = await _bonusesService.GetBonusesAsync();
-
-            if (resultBonuses.IsSuccess)
-            {
-                var resultConditions = await _bonusesService.GetConditionsAsync();
-
-                if (resultConditions.IsSuccess)
-                {
-                    bonusConditions = resultConditions.Result;
-                    //discounts = bonuses.Where(x => bonusConditions.Any(y => y.BonusId == x.Id));
-                    //coupons = bonuses.Where(x => !bonusConditions.Any(y => y.BonusId == x.Id));
-                }
-
-                var resultBonusSets = await _bonusesService.GetBonusSetsAsync();
-
-                if (resultBonusSets.IsSuccess)
-                {
-                    bonusSets = resultBonusSets.Result;
-                }
-            }
-
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 CurrentOrder = currentOrder;
 
-                //List<SetModel> setConditions = new();
-                //List<SetModel> setBonus = new();
-                bool isBonus = false;
+                _bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
 
-                if (resultBonuses.Result?.Count() > 0)
+                if (_bonuses.Count > 0)
                 {
-                    foreach (var bonus in resultBonuses.Result)
-                    {
-                        var sets = _bonusesService.GetSets(CurrentOrder);
-                        var setsCount = sets.Count();
-                        var conditions = bonusConditions.Where(x => x.BonusId == bonus.Id);
-                        var setConditions = bonusSets.Where(x => x.BonusId == bonus.Id);
+                    Discounts = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveDiscountsAsync(_bonuses));
+                    Coupons = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveCouponesAsync(_bonuses));
 
-                        foreach (var condition in conditions)
-                        {
-                            var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
-                            sets.Remove(set);
-                            if ((setsCount - sets.Count) == conditions.Count())
-                            {
-                                isBonus = true;
-                            }
-                        }
+                    if (CurrentOrder.BonusType != EBonusType.None)
+                    {
+                        SelectedBonus = CurrentOrder.BonusType == EBonusType.Coupone ? Coupons.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id) : Discounts.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id);
                     }
 
-                    //Discounts = _mapper.Map<List<BonusModel>, ObservableCollection<BonusBindableModel>>(_bonusesService.GetDiscounts(bonusConditions, discounts, sets));
-                    //discounts = _bonusesService.GetDiscounts(bonusConditions, discounts, sets);
+                    foreach (var coupon in Coupons)
+                    {
+                        coupon.TapCommand = TapSelectBonusCommand;
+                    }
+
+                    foreach (var discount in Discounts)
+                    {
+                        discount.TapCommand = TapSelectBonusCommand;
+                    }
                 }
 
-                Coupons = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(coupons);
-
-                foreach (var coupon in Coupons)
-                {
-                    coupon.TapCommand = TapSelectBonusCommand;
-                }
-
-                foreach (var discount in Discounts)
-                {
-                    discount.TapCommand = TapSelectBonusCommand;
-                }
-
-                HeightCoupons = (Coupons.Count * _heightBonus) + Constants.LayoutBonuses.TITLE;
-                HeightDiscounts = (Discounts.Count * _heightBonus) + Constants.LayoutBonuses.TITLE;
+                HeightCoupons = Coupons.Count * _heightBonus;
+                HeightDiscounts = Discounts.Count * _heightBonus;
             }
         }
 
@@ -187,11 +146,11 @@ namespace Next2.ViewModels
         {
             if (bonusType == EBonusType.Coupone)
             {
-                HeightCoupons = HeightCoupons == Constants.LayoutBonuses.TITLE ? (Coupons.Count * _heightBonus) + Constants.LayoutBonuses.TITLE : Constants.LayoutBonuses.TITLE;
+                HeightCoupons = HeightCoupons == 0 ? Coupons.Count * _heightBonus : 0;
             }
             else
             {
-                HeightDiscounts = HeightDiscounts == Constants.LayoutBonuses.TITLE ? (Discounts.Count * _heightBonus) + Constants.LayoutBonuses.TITLE : Constants.LayoutBonuses.TITLE;
+                HeightDiscounts = HeightDiscounts == 0 ? Discounts.Count * _heightBonus : 0;
             }
 
             return Task.CompletedTask;
