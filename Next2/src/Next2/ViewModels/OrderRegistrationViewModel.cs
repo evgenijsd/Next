@@ -102,6 +102,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<IngredientBindableModel> Ingredients { get; set; }
 
+        public List<IngredientModel> IngredientModels = new();
+
         public TableBindableModel SelectedTable { get; set; } = new();
 
         public int NumberOfSeats { get; set; }
@@ -865,34 +867,51 @@ namespace Next2.ViewModels
                     await InitIngredientsAsync(ingredientCategory.Id);
                 }
             }
+
+            if (IngredientModels is not null && SelectedSet is not null)
+            {
+                foreach (var product in SelectedSet.Products)
+                {
+                    Ingredients = new(IngredientModels.Select(row => new IngredientBindableModel()
+                    {
+                        Title = row.Title,
+                        Price = row.Price,
+                    }).Where(row => row.IsToggled == true));
+                }
+            }
         }
 
         private async Task InitIngredientsAsync(int categoryId)
         {
             var ingredients = await _menuService.GetIngredientsAsync(categoryId);
 
-            if (ingredients.IsSuccess && SelectedSet is not null)
+            if (ingredients.IsSuccess)
             {
-                foreach (var product in SelectedSet.Products)
-                {
-                    List<IngredientBindableModel> setOfIngredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
-                    {
-                        Id = row.Id,
-                        CategoryId = row.CategoryId,
-                        IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
-                        Title = row.Title,
-                        Price = row.Price,
-                    }).Where(row => row.IsToggled == true));
-
-                    if (setOfIngredients.Count > 0)
-                    {
-                        foreach (var ingredient in setOfIngredients)
-                        {
-                            Ingredients.Add(ingredient);
-                        }
-                    }
-                }
+                IngredientModels.AddRange(ingredients.Result);
             }
+
+            //if (ingredients.IsSuccess && SelectedSet is not null)
+            //{
+            //    foreach (var product in SelectedSet.Products)
+            //    {
+            //        List<IngredientBindableModel> setOfIngredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
+            //        {
+            //            Id = row.Id,
+            //            CategoryId = row.CategoryId,
+            //            IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
+            //            Title = row.Title,
+            //            Price = row.Price,
+            //        }).Where(row => row.IsToggled == true));
+
+            //        if (setOfIngredients.Count > 0)
+            //        {
+            //            foreach (var ingredient in setOfIngredients)
+            //            {
+            //                Ingredients.Add(ingredient);
+            //            }
+            //        }
+            //    }
+            //}
         }
         #endregion
     }
