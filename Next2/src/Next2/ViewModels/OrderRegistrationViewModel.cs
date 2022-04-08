@@ -247,7 +247,7 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new(tableBindableModels);
             }

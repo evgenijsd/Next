@@ -30,13 +30,18 @@ namespace Next2.ViewModels
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customersService,
-            IRewardsService rewardService)
+            IRewardsService rewardService,
+            Action<NavigationMessage> navigateAsync,
+            Action<EPaymentPageSteps> goToCompleteStep)
             : base(navigationService)
         {
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
             _rewardService = rewardService;
+
+            NavigateAsync = navigateAsync;
+            GoToCompleteStep = goToCompleteStep;
         }
 
         #region -- Public properties --
@@ -53,11 +58,15 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new ();
 
+        private Action<NavigationMessage> NavigateAsync;
+
+        private Action<EPaymentPageSteps> GoToCompleteStep;
+
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectRewardCommand;
-        public ICommand SelectRewardCommand => _selectRewardCommand ??= new AsyncCommand<RewardBindabledModel>(OnSelectRewardCommand, allowsMultipleExecutions: false);
+        public ICommand SelectRewardCommand => _selectRewardCommand ??= new AsyncCommand<RewardBindabledModel>(OnSelectRewardCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _goToCompleteTabCommand;
         public ICommand GoToCompleteTabCommand => _goToCompleteTabCommand ??= new AsyncCommand(OnGoToCompleteTabCommandAsync, allowsMultipleExecutions: false);
@@ -88,7 +97,7 @@ namespace Next2.ViewModels
             else
             {
                 var customer = _orderService.CurrentOrder.Customer;
-                await LoadPageData(customer);
+                await LoadPageDataAsync(customer);
             }
         }
 
@@ -96,7 +105,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task LoadPageData(CustomerModel customer)
+        private async Task LoadPageDataAsync(CustomerModel customer)
         {
             IsRefreshing = true;
 
@@ -118,22 +127,23 @@ namespace Next2.ViewModels
                 {
                     PageState = ERewardsPageState.RewardsExist;
 
-                    await LoadSeats();
+                    await LoadSeatsAsync();
 
-                    Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result);
-
-                    foreach (var reward in Rewards)
+                    Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result, opt => opt.AfterMap((input, output) =>
                     {
-                        reward.SelectCommand = SelectRewardCommand;
-                        reward.IsCanBeApplied = Seats.Any(x => x.Sets.Any(x => x.Id == reward.SetId));
-                    }
+                        foreach (var reward in output)
+                        {
+                            reward.SelectCommand = SelectRewardCommand;
+                            reward.CanBeApplied = Seats.Any(x => x.Sets.Any(x => x.Id == reward.SetId));
+                        }
+                    }));
                 }
             }
 
             IsRefreshing = false;
         }
 
-        public Task LoadSeats()
+        public Task LoadSeatsAsync()
         {
             Seats.Clear();
 
@@ -181,12 +191,12 @@ namespace Next2.ViewModels
             {
                 if (!reward.IsApplied && reward.SetId == selectedReward.SetId)
                 {
-                    reward.IsCanBeApplied = seats.Any(seat => seat.Sets.Any(set => set.Id == selectedReward.SetId && !set.IsFree));
+                    reward.CanBeApplied = seats.Any(seat => seat.Sets.Any(set => set.Id == selectedReward.SetId && !set.IsFree));
                 }
             }
         }
 
-        private Task OnSelectRewardCommand(RewardBindabledModel selectedReward)
+        private Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
         {
             if (selectedReward is not null)
             {
@@ -217,7 +227,7 @@ namespace Next2.ViewModels
                         { Constants.Navigations.SEATS, setsForRewardApplying },
                     };
 
-                    MessagingCenter.Send(new NavigationMessage(nameof(OrderWithRewardsPage), parameters), Constants.Navigations.GO_TO_REWARDS_POINTS);
+                    NavigateAsync(new NavigationMessage(nameof(OrderWithRewardsPage), parameters));
                 }
             }
 
@@ -234,13 +244,13 @@ namespace Next2.ViewModels
                 var customer = customersResult.Result.LastOrDefault();
                 _orderService.CurrentOrder.Customer = customer;
 
-                await LoadPageData(customer);
+                await LoadPageDataAsync(customer);
             }
         }
 
         private Task OnGoToCompleteTabCommandAsync()
         {
-            MessagingCenter.Send<SwitchingPaymentStepMessage>(new (EPaymentPageSteps.Complete), Constants.Navigations.SWITCH_PAGE);
+            GoToCompleteStep(EPaymentPageSteps.Complete);
 
             return Task.CompletedTask;
         }

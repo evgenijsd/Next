@@ -86,7 +86,7 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                var memberBindableModels = _mapper.Map<IEnumerable<MemberModel>, ObservableCollection<MemberBindableModel>>(membersResult.Result);
+                var memberBindableModels = _mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result);
 
                 var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
 

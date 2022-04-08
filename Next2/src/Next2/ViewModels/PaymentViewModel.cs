@@ -23,10 +23,7 @@ namespace Next2.ViewModels
             IRewardsService rewardsService)
             : base(navigationService)
         {
-            RewardsViewModel = new (navigationService, mapper, orderService, customerService, rewardsService);
-
-            MessagingCenter.Subscribe<SwitchingPaymentStepMessage>(this, Constants.Navigations.SWITCH_PAGE, PageSwitchingMessageHandler);
-            MessagingCenter.Subscribe<NavigationMessage>(this, Constants.Navigations.GO_TO_REWARDS_POINTS, GoToRewardsPointsMesasageHandler);
+            RewardsViewModel = new (navigationService, mapper, orderService, customerService, rewardsService, NavigateAsync, GoToCompleteStep);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -46,17 +43,14 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async void GoToRewardsPointsMesasageHandler(NavigationMessage navigationMessage)
+        private async void NavigateAsync(NavigationMessage navigationMessage)
         {
             await _navigationService.NavigateAsync(navigationMessage.Path, navigationMessage.Parameters);
         }
 
-        private void PageSwitchingMessageHandler(SwitchingPaymentStepMessage sender)
+        private void GoToCompleteStep(EPaymentPageSteps step)
         {
-            if (sender is not null)
-            {
-                PaymentPageStep = sender.Step;
-            }
+            PaymentPageStep = step;
         }
 
         #endregion

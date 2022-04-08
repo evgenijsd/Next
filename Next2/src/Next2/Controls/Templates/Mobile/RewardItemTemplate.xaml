@@ -7,14 +7,14 @@
     xmlns:pc="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Padding="0, 5"
     BackgroundColor="Transparent"
-    IsEnabled="{Binding IsCanBeApplied}"
+    IsEnabled="{Binding CanBeApplied}"
     xct:TouchEffect.Command="{Binding SelectCommand}"
     xct:TouchEffect.CommandParameter="{Binding .}"
     x:Class="Next2.Controls.Templates.Mobile.RewardItemTemplate"  
     x:Name="rewardFrame">
 
     <Frame.Triggers>
-        <DataTrigger TargetType="Frame" Binding="{Binding IsCanBeApplied}" Value="false">
+        <DataTrigger TargetType="Frame" Binding="{Binding CanBeApplied}" Value="false">
             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
         </DataTrigger>
         
