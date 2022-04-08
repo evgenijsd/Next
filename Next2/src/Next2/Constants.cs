@@ -61,6 +61,7 @@
             public const string ORDER_STATUS = "ORDER_STATUS";
             public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
             public const string DELETE_SET = "DELETE_SET";
+            public const string MODIFIED_SET = "MODIFIED_SET";
         }
 
         public static class Validators

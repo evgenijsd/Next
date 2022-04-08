@@ -22,5 +22,7 @@ namespace Next2.Services.Menu
         Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync(int categoryId);
 
         Task<AOResult<IEnumerable<IngredientOfProductModel>>> GetIngredientOfProductAsync(int productId);
+
+        Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync();
     }
 }
