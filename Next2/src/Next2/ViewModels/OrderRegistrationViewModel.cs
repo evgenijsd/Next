@@ -855,6 +855,7 @@ namespace Next2.ViewModels
         private async Task InitCategoryAsync(SetBindableModel selectedSet)
         {
             Ingredients = new();
+            IngredientModels = new();
             List<IngredientCategoryModel> ingredientCategoriesList;
             var ingredientCategories = await _menuService.GetIngredientCategoriesAsync();
 
@@ -872,11 +873,20 @@ namespace Next2.ViewModels
             {
                 foreach (var product in SelectedSet.Products)
                 {
-                    Ingredients = new(IngredientModels.Select(row => new IngredientBindableModel()
+                    List<IngredientBindableModel> setOfIngredients = new(IngredientModels.Select(row => new IngredientBindableModel()
                     {
                         Title = row.Title,
                         Price = row.Price,
+                        IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
                     }).Where(row => row.IsToggled == true));
+
+                    if (setOfIngredients.Count > 0)
+                    {
+                        foreach (var ingredient in setOfIngredients)
+                        {
+                            Ingredients.Add(ingredient);
+                        }
+                    }
                 }
             }
         }
