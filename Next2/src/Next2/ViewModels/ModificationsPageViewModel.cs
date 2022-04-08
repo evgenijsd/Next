@@ -268,6 +268,8 @@ namespace Next2.ViewModels
 
         private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
         {
+            toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
+
             var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
 
             var ingridient = product.SelectedIngredients.FirstOrDefault(row => row.IngredientId == toggleIngredient.Id);
@@ -439,6 +441,8 @@ namespace Next2.ViewModels
             if (item.SelectedItem is not null)
             {
                 SelectedProduct = item;
+                _isOrderedByDescendingReplacementProducts = true;
+                _isOrderedByDescendingInventory = true;
 
                 var index = ProductsSet.IndexOf(item);
 
