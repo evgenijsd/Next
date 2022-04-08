@@ -12,7 +12,9 @@
 
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
-        public const int SERVER_RESPONCE_DELAY = 100;
+        public const int SERVER_RESPONCE_DELAY = 1;
+
+        public const int SERVER_RESPONCE_MIN_DELAY = 10;
 
         public const string PRICE_FORMAT = "{0:0.00}";
 

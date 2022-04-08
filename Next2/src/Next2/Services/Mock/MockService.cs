@@ -64,7 +64,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.SERVER_RESPONCE_MIN_DELAY);
 
             return GetBase<T>();
         }
@@ -138,8 +138,6 @@ namespace Next2.Services.Mock
             where T : IBaseModel, new()
         {
             await _initCompletionSource.Task;
-
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Where<T>(expression);
         }

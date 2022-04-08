@@ -25,6 +25,8 @@
 
     <CollectionView
         Grid.Row="1"
+        BackgroundColor="Red"
+        HeightRequest="{Binding ItemsSource, Converter={StaticResource listHeightConverter}, ConverterParameter=35, Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}}"
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}}">
 
         <CollectionView.Effects>
