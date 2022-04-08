@@ -1,4 +1,5 @@
 ﻿using Next2.Enums;
+using Next2.Enums;
 using Next2.Interfaces;
 
 namespace Next2.Models
@@ -17,8 +18,12 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
+        public EBonusType BonusType { get; set; } = EBonusType.None;
+
         public double Total { get; set; }
 
         public double Tax { get; set; }
+
+        public EOrderPaymentStatus? PaymentStatus;
     }
 }

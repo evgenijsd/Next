@@ -3,10 +3,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
     Orientation="Horizontal"
-    x:DataType="models:ItemSpoilerModel">
+    x:DataType="helpers:SpoilerItem">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup Name="CommonStates">
@@ -38,7 +38,7 @@
 
     <ffimageloading:CachedImage
         x:Name="image"
-        Margin="32, 0"
+        Margin="32, 0, 0, 0"
         Source="{Binding ImagePath}"
         HorizontalOptions="Start"
         VerticalOptions="Center"/>

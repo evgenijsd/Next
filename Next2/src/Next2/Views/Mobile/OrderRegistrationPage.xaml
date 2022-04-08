@@ -6,6 +6,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
@@ -216,6 +217,92 @@
                 <effects:NoOverScrollEffect/>
             </CollectionView.Effects>
 
+            <CollectionView.EmptyView>
+                <StackLayout
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+
+                    <Frame 
+                        IsVisible="{Binding IsOrderSavedNotificationVisible}"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        HeightRequest="88"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="15, 15, 15, 0"
+                        CornerRadius="10">
+
+                        <Grid RowDefinitions="0.50*, 0.50*">
+
+                            <Label
+                                Grid.Row="0"
+                                Text="{Binding PopUpInfo}"
+                                FontFamily="Barlow-Medium"
+                                FontSize="{DynamicResource TSize_i8}"
+                                VerticalOptions="Start"
+                                Margin="15, 15, 0, 0"/>
+
+                            <ffimageloading:CachedImage 
+                                Grid.Row="0"
+                                Source="ic_close_square_24x24"
+                                HeightRequest="24"
+                                WidthRequest="24"
+                                HorizontalOptions="EndAndExpand"
+                                VerticalOptions="Start"
+                                Margin="0, 15, 15, 0"
+                                xct:TouchEffect.Command="{Binding HideOrderNotificationCommnad}"/>
+
+                            <StackLayout
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                xct:TouchEffect.Command="{Binding GoToOrderTabs}">
+
+                                <ffimageloading:CachedImage 
+                                    Source="ic_folder_primary_24x24"
+                                    HeightRequest="24"
+                                    WidthRequest="24"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="EndAndExpand"
+                                    Margin="15, 5, 0, 15"/>
+
+                                <Label
+                                    Text="{xct:Translate OrderTabs}"
+                                    FontFamily="Barlow-Medium"
+                                    TextColor="{DynamicResource AppColor_i1}"
+                                    FontSize="{DynamicResource TSize_i8}"
+                                    VerticalOptions="Start"
+                                    VerticalTextAlignment="Center"
+                                    Margin="5, 5, 0, 0"/>
+                                
+                            </StackLayout>
+
+                        </Grid>
+
+                    </Frame>
+
+                    <StackLayout 
+                        VerticalOptions="EndAndExpand"
+                        Margin="0, 0, 0, 100">
+
+                        <ffimageloading:CachedImage
+                            HorizontalOptions="Center"
+                            HeightRequest="200"
+                            WidthRequest="250"
+                            Source="pic_payment.png"/>
+
+                        <controls:LineSpacingLabel
+                            Style="{DynamicResource Regular24pxLabelStyle}"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            WidthRequest="250"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i4_5}"
+                            FontFamily="Barlow-Regular"
+                            Text="{xct:Translate ToCreateNewOrderSelectDishCard}" />
+
+                    </StackLayout>
+
+                </StackLayout>
+            </CollectionView.EmptyView>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:SeatBindableModel">
 
@@ -302,6 +389,48 @@
 
                 </StackLayout>
 
+                <StackLayout
+                    Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        Text="{xct:Translate Coupon}">
+
+                        <Label.Triggers>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding CurrentOrder.BonusType}"
+                                Value="{x:Static enum:EBonusType.Discount}">
+
+                                <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+
+                    </Label>
+
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding CurrentOrder.Bonus.Name}" />
+
+                </StackLayout>
+
                 <StackLayout 
                     IsVisible="{Binding IsOrderWithTax}"
                     Orientation="Horizontal">
@@ -318,7 +447,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 
@@ -376,14 +505,16 @@
                 Style="{DynamicResource BorderButtonStyle_i2}"
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Order}"
-                Command="{Binding OrderCommand}" />
+                xct:TouchEffect.Command="{Binding OrderCommand}"
+                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/> 
 
             <buttons:BorderButton
                 Grid.Column="1"
                 Style="{DynamicResource BorderButtonStyle_i2}"
                 BorderColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Tab}"
-                Command="{Binding TabCommand}" />
+                xct:TouchEffect.Command="{Binding TabCommand }"
+                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.InProgress}"/> 
 
             <buttons:BorderButton
                 Grid.Column="2"
@@ -392,7 +523,7 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Text="{xct:Translate Pay}"
-                Command="{Binding PayCommand}" />
+                xct:TouchEffect.Command="{Binding PayCommand }" />
 
         </Grid>
 

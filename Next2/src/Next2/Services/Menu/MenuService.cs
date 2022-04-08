@@ -181,7 +181,7 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientOfProductModel>>> GetIngredientOfProductAsync(int productId)
+        public async Task<AOResult<IEnumerable<IngredientOfProductModel>>> GetIngredientsOfProductAsync(int productId)
         {
             var result = new AOResult<IEnumerable<IngredientOfProductModel>>();
 
@@ -200,7 +200,32 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetIngredientOfProductAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetIngredientsOfProductAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<OptionModel>>> GetOptionsOfProductAsync(int productId)
+        {
+            var result = new AOResult<IEnumerable<OptionModel>>();
+
+            try
+            {
+                var resultData = await _mockService.GetAsync<OptionModel>(row => row.ProductId == productId);
+
+                if (resultData is not null)
+                {
+                    result.SetSuccess(resultData);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetOptionsOfProductAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

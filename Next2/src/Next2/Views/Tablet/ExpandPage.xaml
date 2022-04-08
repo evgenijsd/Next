@@ -78,7 +78,7 @@
 
                 <ContentView
                     xct:TouchEffect.Command="{prism:GoBack}"
-                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}"
+                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}" 
                     HeightRequest="40"
                     Padding="0, 0, 12, 0">
 
