@@ -6,12 +6,12 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -389,6 +389,48 @@
 
                 </StackLayout>
 
+                <StackLayout
+                    Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        Text="{xct:Translate Coupon}">
+
+                        <Label.Triggers>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding CurrentOrder.BonusType}"
+                                Value="{x:Static enum:EBonusType.Discount}">
+
+                                <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+
+                    </Label>
+
+                    <Label
+                        Style="{DynamicResource SemiBold24pxLabelStyle}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding CurrentOrder.Bonus.Name}" />
+
+                </StackLayout>
+
                 <StackLayout 
                     IsVisible="{Binding IsOrderWithTax}"
                     Orientation="Horizontal">
@@ -405,7 +447,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.Tax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 

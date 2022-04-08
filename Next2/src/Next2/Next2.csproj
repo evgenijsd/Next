@@ -158,6 +158,9 @@
     <Compile Update="Views\Mobile\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\BonusItemTemplate.xaml.cs">
+      <DependentUpon>BonusItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\InputTextPage.xaml.cs">
       <DependentUpon>InputTextPage.xaml</DependentUpon>
     </Compile>
@@ -261,6 +264,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\Tablet\RewardItemTemplate.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\BonusItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Toggle.xaml">
@@ -294,6 +300,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\PaymentPage.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\BonusPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
@@ -324,6 +333,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\BonusPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\AddCommentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\InputTextPage.xaml">

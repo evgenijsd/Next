@@ -1691,4 +1691,22 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_paper_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_paper_24x24%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_paper_24x24%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_paper_primary_24x24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_paper_primary_24x24%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_paper_primary_24x24%403x.png" />
+  </ItemGroup>
 </Project>

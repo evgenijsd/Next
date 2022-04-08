@@ -26,6 +26,7 @@ using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
+using Next2.Services.Bonuses;
 using Next2.Views;
 using Next2.Views.Tablet;
 using Next2.ViewModels.Mobile;
@@ -65,6 +66,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
+            containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -76,6 +78,7 @@ namespace Next2
 
                 //Navigation
                 containerRegistry.RegisterForNavigation<TabletViews.SearchPage, SearchPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
@@ -100,6 +103,7 @@ namespace Next2
             else
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.EditPage, MobileViewModels.EditPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
@@ -165,6 +169,10 @@ namespace Next2
                 cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
+                cfg.CreateMap<BonusModel, BonusBindableModel>();
+                cfg.CreateMap<BonusBindableModel, BonusModel>();
+                cfg.CreateMap<SetBindableModel, SetModel>();
+                cfg.CreateMap<SetModel, SetBindableModel>();
                 cfg.CreateMap<FullOrderBindableModel, OrderModel>();
             }).CreateMapper();
         }

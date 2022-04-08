@@ -1,7 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
+using Next2.Services.Bonuses;
 using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,16 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
+            IBonusesService bonusesService,
             IMapper mapper)
         {
             _mockService = mockService;
+            _bonusService = bonusesService;
             _mapper = mapper;
 
             CurrentOrder.Seats = new ();
@@ -38,6 +42,31 @@ namespace Next2.Services.Order
         #endregion
 
         #region -- IOrderService implementation --
+
+        public async Task<AOResult<TaxModel>> GetTaxAsync()
+        {
+            var result = new AOResult<TaxModel>();
+
+            try
+            {
+                var tax = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+
+                if (tax is not null)
+                {
+                    result.SetSuccess(tax);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetTaxAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
 
         public async Task<AOResult<int>> GetNewOrderIdAsync()
         {
@@ -193,6 +222,13 @@ namespace Next2.Services.Order
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
 
+                    var tax = await GetTaxAsync();
+
+                    if (tax.IsSuccess)
+                    {
+                        CurrentOrder.Tax = tax.Result;
+                    }
+
                     CurrentOrder.Id = orderId.Result;
                     CurrentOrder.OrderNumber = orderId.Result;
                     CurrentOrder.OrderStatus = "Open";
@@ -308,7 +344,14 @@ namespace Next2.Services.Order
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
-                CurrentOrder.Total += set.Portion.Price;
+
+                CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * CurrentOrder.Tax.Value);
+
+                if (CurrentOrder.Bonus is not null)
+                {
+                    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+                }
 
                 result.SetSuccess();
             }

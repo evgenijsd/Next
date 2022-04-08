@@ -45,6 +45,10 @@ namespace Next2.Models
 
         public float Price { get; set; }
 
+        public float PriceBonus { get; set; } = 0f;
+
+        public string? Comment { get; set; }
+
         public string ImagePath { get; set; }
 
         public PortionModel Portion { get; set; }

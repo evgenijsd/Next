@@ -17,6 +17,8 @@ namespace Next2.Models
 
         public float Price { get; set; }
 
+        public float Bonus { get; set; }
+
         public string ImagePath { get; set; }
     }
 }
