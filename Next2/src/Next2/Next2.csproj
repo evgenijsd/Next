@@ -141,6 +141,9 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\ProductItemTemplate.xaml.cs">
+      <DependentUpon>ProductItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
     </Compile>
@@ -238,6 +241,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\IngredientItemTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\ProductItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">

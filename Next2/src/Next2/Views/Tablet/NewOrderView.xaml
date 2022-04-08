@@ -752,8 +752,7 @@
                                 <Grid 
                                     Grid.Row="1"
                                     RowDefinitions="auto, auto, auto, auto, auto, *"
-                                    Margin="30, 0, 30, 0"
-                                    x:DataType="viewModels:NewOrderViewModel">
+                                    Margin="30, 0, 30, 0">
 
                                     <!-- Row 1 Image & Title-->
 
@@ -863,28 +862,14 @@
 
                                     <!-- Row 3 Inventory Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
 
-                                    <Grid Grid.Row="2">
-
-                                        <templates:IngredientItemTemplate
-                                            
-                                            ItemsSource="{Binding OrderRegistrationViewModel.Ingredients}">
-
-                                        </templates:IngredientItemTemplate>
-
-
+                                    <Grid Grid.Row="2" >
+                                        <templates:IngredientItemTemplate ItemsSource="{Binding OrderRegistrationViewModel.Ingredients}"/>
                                     </Grid>
 
                                     <!-- Row 4 Replace Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
 
                                     <Grid Grid.Row="3">
-
-                                        <!--<templates:IngredientItemTemplate
-                                            
-                                            ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}">
-
-                                        </templates:IngredientItemTemplate>-->
-
-
+                                        <templates:ProductItemTemplate  ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}"/>
                                     </Grid>
 
                                     <!-- Row 5 Option Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
@@ -892,7 +877,7 @@
                                     <Grid
                                         Grid.Row="4"
                                         RowSpacing="0"
-                                        IsVisible="False">
+                                        IsVisible="True">
 
                                         <StackLayout>
 
