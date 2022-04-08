@@ -26,7 +26,6 @@ namespace Next2.Services.Mock
         private IList<BonusConditionModel> _bonusConditions;
         private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
-        private IList<TaxModel> _taxBonus;
         private IList<ProductModel> _products;
         private IList<ReplacementProductModel> _replacementProducts;
         private IList<OptionModel> _optionsProduct;
@@ -196,7 +195,7 @@ namespace Next2.Services.Mock
                 {
                     Id = 1,
                     Name = "Tax",
-                    Value = 0.1,
+                    Value = 0.1f,
                 },
             };
 
