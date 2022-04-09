@@ -268,6 +268,8 @@ namespace Next2.ViewModels
 
         private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
         {
+            toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
+
             var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
 
             var ingridient = product.SelectedIngredients.FirstOrDefault(row => row.IngredientId == toggleIngredient.Id);
@@ -439,6 +441,8 @@ namespace Next2.ViewModels
             if (item.SelectedItem is not null)
             {
                 SelectedProduct = item;
+                _isOrderedByDescendingReplacementProducts = true;
+                _isOrderedByDescendingInventory = true;
 
                 var index = ProductsSet.IndexOf(item);
 
@@ -513,13 +517,18 @@ namespace Next2.ViewModels
             IsMenuOpen = false;
         }
 
-        private async Task OnSaveCommandAsync()
+        private Task OnSaveCommandAsync()
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
-            await _navigationService.GoBackAsync();
+            var parameters = new NavigationParameters
+            {
+                { Constants.Navigations.REFRESH_ORDER, true },
+            };
+
+            return _navigationService.GoBackAsync(parameters);
         }
 
         #endregion

@@ -35,6 +35,8 @@
     <Color x:Key="TextAndBackgroundColor_i8">#2E3143</Color>
 
     <Color x:Key="TextAndBackgroundColor_i9">#757785</Color>
+    
+    <Color x:Key="TextAndBackgroundColor_i10">#A7A8AD</Color>
 
     <Color x:Key="TextAndBackgroundColor_i10">#71737E</Color>
 

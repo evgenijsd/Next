@@ -29,6 +29,9 @@ using AutoMapper;
 using Next2.Models;
 using Next2.Services.Bonuses;
 using Next2.Views;
+using Next2.Views.Tablet;
+using Next2.ViewModels.Mobile;
+using Next2.Services.Rewards;
 
 namespace Next2
 {
@@ -59,6 +62,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IMockService, MockService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
+            containerRegistry.RegisterSingleton<IRewardsService, RewardsService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
@@ -81,6 +85,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
 
@@ -111,6 +116,8 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.PaymentPage, PaymentViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
 
@@ -161,6 +168,8 @@ namespace Next2
             {
                 cfg.CreateMap<TableModel, TableBindableModel>();
                 cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
+                cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
+                cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
                 cfg.CreateMap<BonusModel, BonusBindableModel>();
                 cfg.CreateMap<BonusBindableModel, BonusModel>();

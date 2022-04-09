@@ -457,6 +457,36 @@
   <data name="ThisSetWillBeRemoved" xml:space="preserve">
     <value>This item will be removed from the order list.</value>
   </data>
+  <data name="BecomeMember" xml:space="preserve">
+    <value>Become a Member</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="RewardsPoints" xml:space="preserve">
+    <value>Rewards Points</value>
+  </data>
+  <data name="RewardsOptions" xml:space="preserve">
+    <value>Rewards Options</value>
+  </data>
+  <data name="StillNotMember" xml:space="preserve">
+    <value>Still not a member?</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="SelectRewardOptionToUseYourPoints" xml:space="preserve">
+    <value>Select a reward option to use your points.</value>
+  </data>
+  <data name="Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="MessageAboutCashingOutAwards" xml:space="preserve">
+    <value>Earning points get you rewards that you can cash in to get free stuff</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
   <data name="AvailableGroups" xml:space="preserve">
     <value>Available Groups</value>
   </data>
@@ -471,9 +501,6 @@
   </data>
   <data name="SwipeTheCard" xml:space="preserve">
     <value>Swipe the card to move the order to tabs.</value>
-  </data>
-  <data name="Complete" xml:space="preserve">
-    <value>Complete</value>
   </data>
   <data name="NeedCard" xml:space="preserve">
     <value>Need a card!</value>
