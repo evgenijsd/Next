@@ -119,7 +119,6 @@
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
-    <Folder Include="ViewModels\Mobile\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -141,11 +140,23 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\Mobile\FreeSetItemTemplate.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\Mobile\RewardItemTemplate.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubcategoryItemTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\SubcategoryItemTemplate.xaml.cs">
       <DependentUpon>SubCategoryItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
+      <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\PaymentPage.xaml.cs">
+      <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\BonusItemTemplate.xaml.cs">
       <DependentUpon>BonusItemTemplate.xaml</DependentUpon>
@@ -179,6 +190,9 @@
     </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\PaymentPage.xaml.cs">
+      <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
@@ -234,6 +248,12 @@
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\FormattedLabel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
+          <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\SortingPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -242,6 +262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\Tablet\RewardItemTemplate.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\BonusItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -276,6 +299,9 @@
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\PaymentPage.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\BonusPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -289,6 +315,12 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderRegistrationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\OrderWithRewardsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\RewardsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OrderView.xaml">
@@ -310,6 +342,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\InputTextPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\PaymentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\CustomerAddDialog.xaml">
@@ -372,6 +407,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\RewardsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SearchPage.xaml">

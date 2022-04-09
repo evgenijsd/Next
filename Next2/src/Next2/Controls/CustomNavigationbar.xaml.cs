@@ -78,6 +78,19 @@ namespace Next2.Controls
             set => SetValue(FontSizeProperty, value);
         }
 
+        public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(FontFamily),
+            returnType: typeof(string),
+            declaringType: typeof(CustomNavigationbar),
+            defaultValue: "Barlow-SemiBold",
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string FontFamily
+        {
+            get => (string)GetValue(FontFamilyProperty);
+            set => SetValue(FontFamilyProperty, value);
+        }
+
         #endregion
     }
 }

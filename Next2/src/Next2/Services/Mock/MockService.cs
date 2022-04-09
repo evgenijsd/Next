@@ -27,6 +27,8 @@ namespace Next2.Services.Mock
         private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private IList<TaxModel> _taxBonus;
+        private IList<RewardModel> _rewards;
+        private List<CustomerModel> _customers;
         private IList<ProductModel> _products;
         private IList<ReplacementProductModel> _replacementProducts;
         private IList<OptionModel> _optionsProduct;
@@ -36,7 +38,6 @@ namespace Next2.Services.Mock
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
-        private List<CustomerModel> _customers;
 
         public MockService()
         {
@@ -178,6 +179,7 @@ namespace Next2.Services.Mock
                 InitBonusSetAsync(),
                 InitBonusConditionAsync(),
                 InitPortionsAsync(),
+                IniRewardsAsync(),
                 InitReplacementProductsAsync(),
                 InitProductsAsync(),
                 InitOptionsProductAsync(),
@@ -330,6 +332,80 @@ namespace Next2.Services.Mock
             };
 
             _base.Add(typeof(BonusModel), _bonuses);
+        });
+
+        private Task IniRewardsAsync() => Task.Run(() =>
+        {
+            int rewardId = 1;
+            _rewards = new List<RewardModel>
+            {
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 2,
+                    SetTitle = "B Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 4,
+                    SetTitle = "D Pulled Pork Sammy Meal",
+                },
+            };
+
+            _base.Add(typeof(RewardModel), _rewards);
+            _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>
@@ -795,7 +871,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
-                    Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy Meal",
                     Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },

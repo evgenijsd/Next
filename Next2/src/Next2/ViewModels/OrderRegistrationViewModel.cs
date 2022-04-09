@@ -258,7 +258,7 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new(tableBindableModels);
             }
@@ -809,7 +809,11 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
-            return Task.CompletedTask;
+            string path = App.IsTablet
+                ? nameof(Views.Tablet.PaymentPage)
+                : nameof(Views.Mobile.PaymentPage);
+
+            return _navigationService.NavigateAsync(path);
         }
 
         private Task OnHideOrderNotificationCommnadAsync()
@@ -826,7 +830,7 @@ namespace Next2.ViewModels
 
                 await RefreshCurrentOrderAsync();
 
-                MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
+                MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
             else
             {

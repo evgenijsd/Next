@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    x:Class="Next2.Controls.Templates.Mobile.FreeSetItemTemplate">
+
+    <StackLayout
+        Padding="0, 16"
+        Orientation="Horizontal">
+               
+        <StackLayout 
+            VerticalOptions="Center"
+            HorizontalOptions="FillAndExpand"
+            HeightRequest="42"
+            Spacing="8">     
+                                                                        
+            <StackLayout Orientation="Horizontal">
+                                                                        
+                <Label Text="{Binding Title}"/>
+                   
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    TextColor="{DynamicResource IndicationColor_i1}">
+
+                     <Label.Triggers>
+                         <DataTrigger TargetType="Label" Binding="{Binding IsFree}" Value="True">
+                            <Setter Property="Text" Value="{xct:Translate Free}"/>
+                         </DataTrigger>
+                     </Label.Triggers>
+                    
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                                                                        
+            </StackLayout>
+                                                
+            <Label
+                HorizontalOptions="EndAndExpand"
+                TextDecorations="Strikethrough"
+                TextColor="{DynamicResource TextAndBackgroundColor_i10}"
+                FontSize="{DynamicResource TSize_i8}"
+                FontFamily="Barlow-SemiBold"
+                IsVisible="{Binding IsFree}">
+                                                                                
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{xct:Translate CurrencySign}" />
+                        <Span Text=" " />
+                        <Span Text="{Binding Price, StringFormat={Static local:Constants.PRICE_FORMAT}}" />
+                    </FormattedString>
+                </Label.FormattedText>
+                                                                                
+            </Label>
+
+        </StackLayout>
+                                                                                                                                       
+    </StackLayout>
+
+    <BoxView
+        HeightRequest="2"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
+                        
+</StackLayout>
