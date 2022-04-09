@@ -76,7 +76,7 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                CurrentOrder = currentOrder;
+                CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
 
                 _bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
 

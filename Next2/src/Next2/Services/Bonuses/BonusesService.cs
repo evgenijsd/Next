@@ -129,7 +129,7 @@ namespace Next2.Services.Bonuses
                         }
                     }
 
-                    bool isSet = setConditions.Count() == 0 ? true : false;
+                    bool isSet = setConditions.Count() == 0;
 
                     foreach (var setCondition in setConditions)
                     {
@@ -182,33 +182,41 @@ namespace Next2.Services.Bonuses
                 var sets = GetSets(currentOrder);
                 List<SetModel> currentBonusSets = new();
 
-                foreach (var condition in conditions)
+                do
                 {
-                    var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
-                    if (set is null)
-                    {
-                        isBonus = false;
-                    }
-                    else
-                    {
-                        sets.Remove(set);
-                    }
-                }
+                    isBonus = true;
+                    int countSet = 0;
 
-                if (isBonus)
-                {
-                    isSet = setConditions.Count() == 0 ? true : false;
-
-                    foreach (var setCondition in setConditions)
+                    foreach (var condition in conditions)
                     {
-                        var set = sets.FirstOrDefault(x => x.Id == setCondition.SetId);
+                        var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
                         if (set is not null)
                         {
-                            currentBonusSets.Add(set);
+                            isBonus = false;
                             sets.Remove(set);
+                            countSet++;
+                        }
+                    }
+
+                    isBonus = isBonus ? true : countSet == conditions.Count();
+
+                    if (isBonus)
+                    {
+                        isSet = true;
+
+                        foreach (var setCondition in setConditions)
+                        {
+                            var set = sets.FirstOrDefault(x => x.Id == setCondition.SetId);
+                            if (set is not null)
+                            {
+                                isSet = false;
+                                currentBonusSets.Add(set);
+                                sets.Remove(set);
+                            }
                         }
                     }
                 }
+                while (!isBonus || !isSet);
 
                 foreach (SeatBindableModel seat in currentOrder.Seats)
                 {
@@ -216,7 +224,7 @@ namespace Next2.Services.Bonuses
                     {
                         var currentBonusSet = currentBonusSets.FirstOrDefault(x => x.Id == set.Id);
 
-                        if (isSet || (currentBonusSet is not null))
+                        if (setConditions.Count() == 0 || (currentBonusSet is not null))
                         {
                             set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
                             currentBonusSets.Remove(currentBonusSet);

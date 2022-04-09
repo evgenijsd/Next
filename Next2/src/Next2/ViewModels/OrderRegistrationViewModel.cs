@@ -211,8 +211,8 @@ namespace Next2.ViewModels
                 case nameof(IsOrderWithTax):
                     if (!IsOrderWithTax)
                     {
-                        _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.PriceWithBonus : _orderService.CurrentOrder.SubTotal;
-                        _orderService.CurrentOrder.PriceTax = 0;
+                        CurrentOrder.Total = CurrentOrder.BonusType != EBonusType.None ? CurrentOrder.PriceWithBonus : CurrentOrder.SubTotal;
+                        CurrentOrder.PriceTax = 0;
                     }
 
                     break;
@@ -608,6 +608,7 @@ namespace Next2.ViewModels
         private void BonusEventCommand(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
+            _orderService.CurrentOrder = CurrentOrder;
 
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }

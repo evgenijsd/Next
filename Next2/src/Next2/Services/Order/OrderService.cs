@@ -347,7 +347,7 @@ namespace Next2.Services.Order
                 CurrentOrder.SubTotal += set.Portion.Price;
 
                 CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * CurrentOrder.Tax.Value);
+                CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
 
                 if (CurrentOrder.Bonus is not null)
                 {

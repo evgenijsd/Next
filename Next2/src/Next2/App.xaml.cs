@@ -165,6 +165,7 @@ namespace Next2
                 cfg.CreateMap<SetBindableModel, SetModel>();
                 cfg.CreateMap<SetModel, SetBindableModel>();
                 cfg.CreateMap<FullOrderBindableModel, OrderModel>();
+                cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             }).CreateMapper();
         }
 
