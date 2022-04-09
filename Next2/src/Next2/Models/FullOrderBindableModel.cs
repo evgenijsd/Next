@@ -72,7 +72,7 @@ namespace Next2.Models
 
         public BonusBindableModel Bonus { get; set; } = new();
 
-        public TaxModel Tax = new();
+        public TaxModel Tax { get; set; } = new();
 
         public double SubTotal { get; set; }
 
