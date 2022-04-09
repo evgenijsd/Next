@@ -114,7 +114,10 @@ namespace Next2.ViewModels.Mobile
             {
                 var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
-                await _popupNavigation.PopAsync();
+                if (_popupNavigation.PopupStack.Any())
+                {
+                    await _popupNavigation.PopAsync();
+                }
 
                 var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                 {

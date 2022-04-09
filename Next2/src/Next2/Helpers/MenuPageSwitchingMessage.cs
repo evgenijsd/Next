@@ -2,9 +2,9 @@
 
 namespace Next2.Helpers
 {
-    public class PageSwitchingMessage
+    public class MenuPageSwitchingMessage
     {
-        public PageSwitchingMessage(EMenuItems page)
+        public MenuPageSwitchingMessage(EMenuItems page)
         {
             Page = page;
         }

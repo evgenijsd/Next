@@ -26,6 +26,9 @@ namespace Next2.Services.Mock
         private IList<BonusConditionModel> _bonusConditions;
         private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
+        private IList<TaxModel> _taxBonus;
+        private IList<RewardModel> _rewards;
+        private List<CustomerModel> _customers;
         private IList<ProductModel> _products;
         private IList<ReplacementProductModel> _replacementProducts;
         private IList<OptionModel> _optionsProduct;
@@ -35,7 +38,6 @@ namespace Next2.Services.Mock
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
-        private List<CustomerModel> _customers;
 
         public MockService()
         {
@@ -177,6 +179,7 @@ namespace Next2.Services.Mock
                 InitBonusSetAsync(),
                 InitBonusConditionAsync(),
                 InitPortionsAsync(),
+                IniRewardsAsync(),
                 InitReplacementProductsAsync(),
                 InitProductsAsync(),
                 InitOptionsProductAsync(),
@@ -331,6 +334,80 @@ namespace Next2.Services.Mock
             _base.Add(typeof(BonusModel), _bonuses);
         });
 
+        private Task IniRewardsAsync() => Task.Run(() =>
+        {
+            int rewardId = 1;
+            _rewards = new List<RewardModel>
+            {
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 2,
+                    SetTitle = "B Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 4,
+                    SetTitle = "D Pulled Pork Sammy Meal",
+                },
+            };
+
+            _base.Add(typeof(RewardModel), _rewards);
+            _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
+        });
+
         private Task InitOrdersAsync() => Task.Run(async () =>
         {
             await InitSeatsAsync();
@@ -346,7 +423,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
-                    Tax = 0.1,
+                    PriceTax = 5.02,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -358,7 +435,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
-                    Tax = 0.1,
+                    PriceTax = 3.03,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -370,7 +447,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
-                    Tax = 0.1,
+                    PriceTax = 4.05,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -382,7 +459,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
-                    Tax = 0.0,
+                    PriceTax = 0.37,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -394,7 +471,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
-                    Tax = 0.0,
+                    PriceTax = 7.04,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -406,7 +483,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
-                    Tax = 0.1,
+                    PriceTax = 0.68,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -418,7 +495,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
-                    Tax = 0.1,
+                    PriceTax = 4.51,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -430,7 +507,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
-                    Tax = 0.1,
+                    PriceTax = 3.37,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -442,7 +519,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
-                    Tax = 0.1,
+                    PriceTax = 5.52,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -454,7 +531,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
-                    Tax = 0.0,
+                    PriceTax = 9.77,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -466,7 +543,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
-                    Tax = 0.1,
+                    PriceTax = 9.60,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -478,6 +555,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 12,
                     Total = 9.50,
+                    PriceTax = 0.95,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -489,7 +567,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
-                    Tax = 0.1,
+                    PriceTax = 0.94,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -501,7 +579,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
-                    Tax = 0.1,
+                    PriceTax = 0.93,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -513,7 +591,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
-                    Tax = 0.1,
+                    PriceTax = 0.92,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
             };
@@ -793,7 +871,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
-                    Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy Meal",
                     Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },

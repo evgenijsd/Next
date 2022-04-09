@@ -218,7 +218,7 @@ namespace Next2.Services.Order
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
-                    var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTables.Result);
+                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
 
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
