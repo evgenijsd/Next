@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;

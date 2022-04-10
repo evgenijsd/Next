@@ -38,7 +38,7 @@
     
     <Color x:Key="TextAndBackgroundColor_i10">#A7A8AD</Color>
 
-    <Color x:Key="TextAndBackgroundColor_i10">#71737E</Color>
+    <Color x:Key="TextAndBackgroundColor_i11">#71737E</Color>
 
     <!--  Indications  -->
 

@@ -1,5 +1,5 @@
 ﻿using Next2.Controls;
-using Next2.ENums;
+using Next2.Enums;
 using Next2.Services.CustomersService;
 using Next2.ViewModels.Dialogs;
 using Prism.Services.Dialogs;

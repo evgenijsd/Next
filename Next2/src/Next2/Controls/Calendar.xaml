@@ -152,7 +152,7 @@
                                     Binding="{Binding State}"
                                     TargetType="Label"
                                     Value="NoDayMonth">
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i10}" />
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i11}" />
                                 </DataTrigger>
                             </Label.Triggers>
 

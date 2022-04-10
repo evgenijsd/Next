@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Models;
 using System;
 using System.Collections.ObjectModel;
