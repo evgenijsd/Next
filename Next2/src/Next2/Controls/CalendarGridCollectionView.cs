@@ -2,7 +2,6 @@
 using Next2.Models;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -19,9 +18,7 @@ namespace Next2.Controls
             HorizontalScrollBarVisibility = ScrollBarVisibility.Never;
         }
 
-        #region -- Public Properties --
-
-        public ObservableCollection<Day> Days { get; set; }
+        #region -- Public properties --
 
         public static readonly BindableProperty YearProperty = BindableProperty.Create(
             propertyName: nameof(Year),
@@ -61,6 +58,8 @@ namespace Next2.Controls
             set => SetValue(SelectedDateProperty, value);
         }
 
+        public ObservableCollection<Day> Days { get; set; }
+
         #endregion
 
         #region -- Overrides --
@@ -72,98 +71,72 @@ namespace Next2.Controls
             switch (propertyName)
             {
                 case nameof(Year):
-                    {
-                        if (Year <= DateTime.Now.Year)
-                        {
-                            CreateArrayOfDays();
-                        }
-                    }
-
-                    break;
-                case nameof(Month):
+                    if (Year <= DateTime.Now.Year)
                     {
                         CreateArrayOfDays();
                     }
 
                     break;
-                case nameof(SelectedItem):
-                    {
-                        DaySelection();
-                    }
 
+                case nameof(Month):
+                    CreateArrayOfDays();
                     break;
-                default:
+
+                case nameof(SelectedItem):
+                    DaySelection();
                     break;
             }
         }
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private void DaySelection()
         {
             if (SelectedItem is Day selectedDay)
             {
-                switch (selectedDay.State)
+                if (selectedDay.State is EDayState.DayMonth)
                 {
-                    case EDayState.DayMonth:
+                    if (int.TryParse(selectedDay.DayOfMonth, out int numberOfselectedDay))
+                    {
+                        if (Year <= DateTime.Now.Year)
                         {
-                            if (int.TryParse(selectedDay.DayOfMonth, out int daySelected))
-                            {
-                                if (Year <= DateTime.Now.Year)
-                                {
-                                    SelectedDate = new DateTime(Year, Month, daySelected);
-                                }
-                                else
-                                {
-                                    SelectedItem = null;
-                                    SelectedDate = null;
-                                }
-                            }
+                            SelectedDate = new DateTime(Year, Month, numberOfselectedDay);
                         }
-
-                        break;
-                    case EDayState.NoDayMonth:
+                        else
                         {
-                            SelectedItem = null;
-                            SelectedDate = null;
+                            SelectedItem = SelectedDate = null;
                         }
-
-                        break;
-                    case EDayState.NameOfDay:
-                        {
-                            SelectedItem = null;
-                            SelectedDate = null;
-                        }
-
-                        break;
-                    default:
-                        break;
+                    }
+                }
+                else if (selectedDay.State is EDayState.NoDayMonth or EDayState.NameOfDay)
+                {
+                    SelectedItem = SelectedDate = null;
                 }
             }
         }
 
         private void CreateArrayOfDays()
         {
-            DateTime dt = new DateTime(Year, Month, 1);
-            int currentMonthindex = (int)dt.DayOfWeek;
-            var countDays = dt.AddMonths(1).Subtract(dt).Days;
-            int previousMonthLastDate = dt.AddDays(-1).Day;
+            DateTime dateTime = new DateTime(Year, Month, 1);
+            int currentMonthIndex = (int)dateTime.DayOfWeek;
+            var dayCounter = dateTime.AddMonths(1).Subtract(dateTime).Days;
+            int previousMonthLastDate = dateTime.AddDays(-1).Day;
 
-            int[] arrayOfDays = new int[42];
-            arrayOfDays[currentMonthindex] = 1;
-            for (int i = currentMonthindex - 1; i >= 0; i--)
+            int[] arrayOfDays = new int[Constants.Limits.DAYS_IN_CALENDAR];
+            arrayOfDays[currentMonthIndex] = 1;
+
+            for (int i = currentMonthIndex - 1; i >= 0; i--)
             {
                 arrayOfDays[i] = previousMonthLastDate--;
             }
 
-            int enumer = 1;
-            for (int i = currentMonthindex; i < arrayOfDays.Length; i++)
+            for (int enumer = 1, i = currentMonthIndex; i < arrayOfDays.Length; i++)
             {
                 arrayOfDays[i] = enumer++;
 
-                if (enumer == countDays + 1)
+                if (enumer == dayCounter + 1)
                 {
                     enumer = 1;
                 }
@@ -177,8 +150,8 @@ namespace Next2.Controls
         private void AddDayNames()
         {
             Days.Clear();
-            var namesOfDays = new string[] { "Sn", "Mn", "Tu", "Wn", "Th", "Fr", "St" };
-            foreach (string name in namesOfDays)
+
+            foreach (string name in new string[] { "Sn", "Mn", "Tu", "Wn", "Th", "Fr", "St" })
             {
                 Days.Add(new Day { DayOfMonth = name, State = EDayState.NameOfDay });
             }
@@ -192,14 +165,9 @@ namespace Next2.Controls
             {
                 if (day == 1)
                 {
-                    if (state == EDayState.DayMonth)
-                    {
-                        state = EDayState.NoDayMonth;
-                    }
-                    else
-                    {
-                        state = EDayState.DayMonth;
-                    }
+                    state = state == EDayState.DayMonth
+                        ? EDayState.NoDayMonth
+                        : EDayState.DayMonth;
                 }
 
                 Days.Add(new Day { DayOfMonth = day.ToString(), State = state, });

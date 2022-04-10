@@ -20,7 +20,7 @@ namespace Next2.Views.Tablet.Dialogs
             phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
         }
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private void OnMailEntryFocused(object sender, EventArgs arg)
         {
@@ -34,9 +34,15 @@ namespace Next2.Views.Tablet.Dialogs
         {
             if (sender is Entry entry && entry?.Text != null)
             {
-                var isValid = entry.Text?.Length == 10;
-                phoneFrame.BorderColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
-                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i3"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                if (entry.Text?.Length == Constants.Limits.PHONE_LENGTH || entry?.Text == string.Empty)
+                {
+                    phoneFrame.BorderColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
+                    phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+                }
+                else
+                {
+                    phoneFrame.BorderColor = phoneWarningLabel.TextColor = (Color)App.Current.Resources["IndicationColor_i3"];
+                }
             }
         }
 
@@ -49,8 +55,15 @@ namespace Next2.Views.Tablet.Dialogs
 
             if (sender is CustomEntry entry && entry != null && entry.Text != null)
             {
-                mailFrame.BorderColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
-                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i3"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                if (entry.IsValid || entry.Text == string.Empty)
+                {
+                    mailFrame.BorderColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
+                    mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+                }
+                else
+                {
+                    mailFrame.BorderColor = mailWarningLabel.TextColor = (Color)App.Current.Resources["IndicationColor_i3"];
+                }
             }
         }
 

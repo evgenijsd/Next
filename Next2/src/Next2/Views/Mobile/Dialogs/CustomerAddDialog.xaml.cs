@@ -11,25 +11,29 @@ namespace Next2.Views.Mobile.Dialogs
 {
     public partial class CustomerAddDialog : PopupPage
     {
-        public CustomerAddDialog(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
+        public CustomerAddDialog(
+            DialogParameters param,
+            Action<IDialogParameters> requestClose,
+            ICustomersService customersService)
         {
             InitializeComponent();
+
             BindingContext = new CustomerAddViewModel(param, requestClose, customersService);
 
-            State = ETabState.Info;
+            State = EClientAdditionPageTab.Info;
 
             mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
             nameWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
             phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
         }
 
-        #region -- Public Properties --
+        #region -- Public properties --
 
-        public ETabState State { get; set; }
+        public EClientAdditionPageTab State { get; set; }
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private void OnMailEntryFocused(object sender, EventArgs arg)
         {
@@ -41,11 +45,17 @@ namespace Next2.Views.Mobile.Dialogs
 
         private void OnPhoneEntryUnfocused(object sender, EventArgs arg)
         {
-            if (sender is Entry entry && entry?.Text != null)
+            if (sender is Entry phoneEntry && phoneEntry.Text != null)
             {
-                var isValid = entry.Text?.Length == 10;
-                phoneFrame.BorderColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
-                phoneWarningLabel.TextColor = isValid || entry?.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i4"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                if (phoneEntry.Text.Length == Constants.Limits.PHONE_LENGTH || phoneEntry.Text == string.Empty)
+                {
+                    phoneFrame.BorderColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                    phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
+                }
+                else
+                {
+                    phoneFrame.BorderColor = phoneWarningLabel.TextColor = (Color)App.Current.Resources["IndicationColor_i3"];
+                }
             }
         }
 
@@ -53,14 +63,21 @@ namespace Next2.Views.Mobile.Dialogs
         {
             nameEntryBlock.IsVisible = true;
 
-            if (sender is CustomEntry entry && entry != null && entry.Text != null)
+            if (sender is CustomEntry entry && entry.Text != null)
             {
-                mailFrame.BorderColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i2"] : (Color)App.Current.Resources["IndicationColor_i3"];
-                mailWarningLabel.TextColor = entry.IsValid || entry.Text == string.Empty ? (Color)App.Current.Resources["TextAndBackgroundColor_i4"] : (Color)App.Current.Resources["IndicationColor_i3"];
+                if (entry.IsValid || entry.Text == string.Empty)
+                {
+                    mailFrame.BorderColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
+                    mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                }
+                else
+                {
+                    mailFrame.BorderColor = mailWarningLabel.TextColor = (Color)App.Current.Resources["IndicationColor_i3"];
+                }
             }
         }
 
-        private void OnButtonTapped(object sender, System.EventArgs arg)
+        private void OnButtonTapped(object sender, EventArgs arg)
         {
             if (sender is Frame frame)
             {
@@ -70,27 +87,21 @@ namespace Next2.Views.Mobile.Dialogs
                     birthdayButtonFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
                     underLine1.BackgroundColor = (Color)App.Current.Resources["AppColor_i1"];
                     underLine2.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
-                    State = ETabState.Info;
-                    nameEntry.IsEnabled = true;
-                    phoneEntry.IsEnabled = true;
-                    mailEntry.IsEnabled = true;
+                    nameEntry.IsEnabled = phoneEntry.IsEnabled = mailEntry.IsEnabled = true;
+                    State = EClientAdditionPageTab.Info;
                 }
-
-                if (frame == birthdayButtonFrame)
+                else if (frame == birthdayButtonFrame)
                 {
-                    phoneEntry.IsEnabled = false;
-                    mailEntry.IsEnabled = false;
-                    nameEntry.IsEnabled = false;
                     birthdayButtonFrame.BackgroundColor = (Color)App.Current.Resources["AppColor_i4"];
                     infoButtonFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
                     underLine2.BackgroundColor = (Color)App.Current.Resources["AppColor_i1"];
                     underLine1.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i2"];
-                    State = ETabState.Birthday;
+                    phoneEntry.IsEnabled = mailEntry.IsEnabled = nameEntry.IsEnabled = false;
+                    State = EClientAdditionPageTab.Birthday;
                 }
             }
         }
 
         #endregion
-
     }
 }

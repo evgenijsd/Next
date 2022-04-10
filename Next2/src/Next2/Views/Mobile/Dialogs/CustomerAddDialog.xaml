@@ -1,17 +1,17 @@
 ﻿<rg:PopupPage
-    x:Class="Next2.Views.Mobile.Dialogs.CustomerAddDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:Name="customerAddDialog"
-    x:DataType="dialogs:CustomerAddViewModel"
     BackgroundColor="Transparent"
-    HasKeyboardOffset="False">
+    HasKeyboardOffset="False"
+    x:Class="Next2.Views.Mobile.Dialogs.CustomerAddDialog"
+    x:DataType="dialogs:CustomerAddViewModel"
+    x:Name="customerAddDialog">
 
     <ContentView
         Padding="18,48,18,24"
@@ -43,7 +43,7 @@
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                     <Setter Property="FontFamily" Value="Barlow-Regular" />
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                    <Setter Property="Margin" Value="0,8,0,8" />
+                    <Setter Property="Margin" Value="0, 8, 0, 8" />
                 </Style>
 
             </ResourceDictionary>
@@ -52,47 +52,49 @@
         <ContentView.Content>
 
             <Frame
-                Padding="1.5,3,1.5,3"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                Padding="1.5, 3"
+                CornerRadius="6"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                CornerRadius="6">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                <Grid BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" RowDefinitions="0.12*,0.117*,*,0.15*">
+                <Grid 
+                    RowDefinitions="0.12*,0.117*,*,0.15*"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
 
-                    <!--  header  -->
+                    <!--  HEADER  -->
                     <Label
                         Grid.Row="0"
-                        Margin="24,0,0,3"
+                        VerticalTextAlignment="Center" 
+                        Margin="24, 0, 0, 3"
+                        HorizontalTextAlignment="Start"
                         FontFamily="Barlow-Bold"
                         FontSize="{DynamicResource TSize_i5}"
-                        HorizontalTextAlignment="Start"
-                        Text="{xct:Translate NewCustomer}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        VerticalTextAlignment="Center" />
+                        Text="{xct:Translate NewCustomer}"/>
 
                     <BoxView
                         Grid.Row="0"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                        HeightRequest="0.3"
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="End" />
+                        VerticalOptions="End"
+                        HeightRequest="0.3"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
                     <!--  tabs  -->
                     <Frame
-                        x:Name="infoButtonFrame"
                         Grid.Row="1"
                         Grid.Column="0"
+                        CornerRadius="0"
                         BackgroundColor="{DynamicResource AppColor_i4}"
-                        CornerRadius="0">
+                        x:Name="infoButtonFrame">
 
                         <Label
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center" 
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
-                            HorizontalTextAlignment="Center"
-                            Text="{xct:Translate CustomerInfo}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            VerticalTextAlignment="Center" />
+                            Text="{xct:Translate CustomerInfo}"/>
 
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnButtonTapped" />
@@ -101,28 +103,27 @@
                     </Frame>
 
                     <BoxView
-                        x:Name="underLine1"
                         Grid.Row="1"
                         Grid.Column="0"
-                        BackgroundColor="{DynamicResource AppColor_i1}"
+                        VerticalOptions="End" 
                         HeightRequest="3"
-                        VerticalOptions="End" />
+                        BackgroundColor="{DynamicResource AppColor_i1}"
+                        x:Name="underLine1"/>
 
                     <Frame
-                        x:Name="birthdayButtonFrame"
                         Grid.Row="1"
                         Grid.Column="1"
+                        CornerRadius="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        CornerRadius="0">
+                        x:Name="birthdayButtonFrame">
 
                         <Label
+                            VerticalTextAlignment="Center" 
+                            HorizontalTextAlignment="Center"
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
-                            HorizontalTextAlignment="Center"
-                            Text="{xct:Translate Birthday,
-                                                 StringFormat='{0}*'}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            VerticalTextAlignment="Center" />
+                            Text="{xct:Translate Birthday, StringFormat='{0}*'}"/>
 
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnButtonTapped" />
@@ -131,12 +132,12 @@
                     </Frame>
 
                     <BoxView
-                        x:Name="underLine2"
                         Grid.Row="1"
                         Grid.Column="1"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                         HeightRequest="3"
-                        VerticalOptions="End" />
+                        VerticalOptions="End" 
+                        x:Name="underLine2"/>
 
                     <!--  VisualStateContent  -->
                     <sc:StateContainer
@@ -155,14 +156,17 @@
                         <!--  State2  entries  -->
                         <sc:StateCondition State="Info">
 
-                            <ScrollView Margin="0,18,0,0" Padding="18,0,18,0">
+                            <ScrollView 
+                                Margin="0, 18, 0, 0" 
+                                Padding="18, 0">
+                                
                                 <ScrollView.Content>
-
                                     <StackLayout Spacing="1">
 
                                         <StackLayout x:Name="nameEntryBlock">
 
                                             <StackLayout Orientation="Horizontal">
+                                                
                                                 <Label
                                                     HorizontalOptions="StartAndExpand"
                                                     Style="{StaticResource LabelStyle}"
@@ -173,29 +177,31 @@
                                                     Opacity="0.32"
                                                     Style="{StaticResource LabelStyle}"
                                                     Text="{xct:Translate Required}" />
+                                                
                                             </StackLayout>
 
                                             <Frame Style="{StaticResource EntryFrameStyle}">
 
                                                 <controls:CustomEntry
-                                                    x:Name="nameEntry"
-                                                    Margin="12,0,0,0"
+                                                    Margin="12, 0, 0, 0"
                                                     MaxLength="100"
                                                     Placeholder="{xct:Translate TypeUserName}"
                                                     Style="{StaticResource EntryPlaceholderStyle}"
-                                                    Text="{Binding Name}" />
+                                                    Text="{Binding Name}" 
+                                                    x:Name="nameEntry"/>
+                                                
                                             </Frame>
 
                                         </StackLayout>
 
                                         <Label
-                                            x:Name="nameWarningLabel"
-                                            Margin="12,0,0,0"
-                                            FontSize="{DynamicResource TSize_i9}"
+                                            VerticalOptions="Start" 
                                             HorizontalOptions="StartAndExpand"
+                                            Margin="12, 0, 0, 0"
+                                            FontSize="{DynamicResource TSize_i9}"
                                             Text="{xct:Translate IncorrectName}"
                                             TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
-                                            VerticalOptions="Start" />
+                                            x:Name="nameWarningLabel"/>
 
                                         <StackLayout Orientation="Horizontal">
 
@@ -212,28 +218,30 @@
 
                                         </StackLayout>
 
-                                        <Frame x:Name="phoneFrame" Style="{StaticResource EntryFrameStyle}">
+                                        <Frame 
+                                            Style="{StaticResource EntryFrameStyle}"
+                                            x:Name="phoneFrame" >
 
                                             <controls:CustomEntry
-                                                x:Name="phoneEntry"
-                                                Margin="12,0,0,0"
+                                                Margin="12, 0, 0, 0"
                                                 Keyboard="Numeric"
                                                 MaxLength="10"
                                                 Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
                                                 Style="{StaticResource EntryPlaceholderStyle}"
                                                 Text="{Binding Phone}"
-                                                Unfocused="OnPhoneEntryUnfocused" />
+                                                Unfocused="OnPhoneEntryUnfocused" 
+                                                x:Name="phoneEntry"/>
 
                                         </Frame>
 
                                         <Label
-                                            x:Name="phoneWarningLabel"
-                                            Margin="12,0,0,0"
-                                            FontSize="{DynamicResource TSize_i9}"
+                                            VerticalOptions="Start" 
                                             HorizontalOptions="StartAndExpand"
-                                            Text="{xct:Translate IncorrectNumber}"
+                                            Margin="12, 0, 0, 0"
+                                            FontSize="{DynamicResource TSize_i9}"
                                             TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
-                                            VerticalOptions="Start" />
+                                            Text="{xct:Translate IncorrectNumber}"
+                                            x:Name="phoneWarningLabel"/>
 
                                         <StackLayout Orientation="Horizontal">
 
@@ -250,16 +258,18 @@
 
                                         </StackLayout>
 
-                                        <Frame x:Name="mailFrame" Style="{StaticResource EntryFrameStyle}">
+                                        <Frame 
+                                            Style="{StaticResource EntryFrameStyle}"
+                                            x:Name="mailFrame" >
 
                                             <controls:CustomEntry
-                                                x:Name="mailEntry"
-                                                Margin="12,0,0,0"
-                                                Focused="OnMailEntryFocused"
-                                                Placeholder="{xct:Translate TypeEmail}"
+                                                Margin="12, 0, 0, 0"
                                                 Style="{StaticResource EntryPlaceholderStyle}"
+                                                Placeholder="{xct:Translate TypeEmail}"
                                                 Text="{Binding Email}"
-                                                Unfocused="OnMailEntryUnfocused">
+                                                Focused="OnMailEntryFocused"
+                                                Unfocused="OnMailEntryUnfocused"
+                                                x:Name="mailEntry">
 
                                                 <controls:CustomEntry.Behaviors>
                                                     <behaviors:EmailValidatorBehavior />
@@ -270,17 +280,17 @@
                                         </Frame>
 
                                         <Label
-                                            x:Name="mailWarningLabel"
-                                            Margin="12,0,0,0"
-                                            FontSize="{DynamicResource TSize_i9}"
                                             HorizontalOptions="StartAndExpand"
-                                            Text="{xct:Translate IncorrectEmail}"
+                                            VerticalOptions="StartAndExpand" 
+                                            Margin="12, 0, 0, 0"
+                                            FontSize="{DynamicResource TSize_i9}"
                                             TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
-                                            VerticalOptions="StartAndExpand" />
+                                            Text="{xct:Translate IncorrectEmail}"
+                                            x:Name="mailWarningLabel"/>
 
                                     </StackLayout>
-
                                 </ScrollView.Content>
+                                
                             </ScrollView>
 
                         </sc:StateCondition>
@@ -291,28 +301,28 @@
                     <BoxView
                         Grid.Row="3"
                         Grid.ColumnSpan="2"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        VerticalOptions="Start" 
                         HeightRequest="1"
-                        VerticalOptions="Start" />
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
                     <Frame
                         Grid.Row="3"
                         Grid.Column="0"
-                        Margin="18,12,6,12"
+                        Margin="18, 12, 6, 12"
                         Padding="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        HeightRequest="52"
+                        WidthRequest="220"
                         BorderColor="{DynamicResource AppColor_i1}"
                         CornerRadius="5"
-                        HeightRequest="52"
-                        WidthRequest="220">
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                         <Label
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Center"
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
-                            HorizontalTextAlignment="Center"
-                            Text="{xct:Translate Cancel}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            VerticalTextAlignment="Center" />
+                            Text="{xct:Translate Cancel}"/>
 
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding DeclineCommand}" />
@@ -323,27 +333,26 @@
                     <Frame
                         Grid.Row="3"
                         Grid.Column="1"
-                        Margin="6,12,18,12"
+                        Margin="6, 12, 18, 12"
                         Padding="0"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
                         BorderColor="{DynamicResource IndicationColor_i1}"
                         CornerRadius="5"
                         HeightRequest="52"
-                        Opacity="{Binding DoneButtonOpacity}"
-                        WidthRequest="220">
+                        WidthRequest="220"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        Opacity="{Binding DoneButtonOpacity}">
 
                         <Label
-                            FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
                             HorizontalTextAlignment="Center"
-                            Text="{xct:Translate Done}"
+                            VerticalTextAlignment="Center"
+                            FontSize="{DynamicResource TSize_i6}"
+                            FontFamily="Barlow-SemiBold"
                             TextColor="{DynamicResource TextAndBackgroundColor_i6}"
-                            VerticalTextAlignment="Center" />
+                            Text="{xct:Translate Done}"/>
 
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding DoneCommand}" />
+                            <TapGestureRecognizer Command="{Binding AddNewCustomerCommand}" />
                         </Frame.GestureRecognizers>
-
 
                     </Frame>
 

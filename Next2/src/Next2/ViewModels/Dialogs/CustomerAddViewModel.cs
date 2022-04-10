@@ -15,11 +15,19 @@ namespace Next2.ViewModels.Dialogs
     public class CustomerAddViewModel : BindableBase
     {
         private readonly ICustomersService _customersService;
-        private readonly Color _acceptColorMob = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-        private readonly Color _acceptColorTab = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
-        private bool _accept => (WarningTextColor == _acceptColorTab || WarningTextColor == _acceptColorMob) && Email != null && Email != string.Empty && Name != null && Name != string.Empty && Phone != null && Phone.Length == 10 && Phone != string.Empty && SelectedDate != null;
+        private readonly Color _acceptanceColorOnMobile = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+        private readonly Color _acceptanceColorOnTablet = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
 
-        public CustomerAddViewModel(DialogParameters param, Action<IDialogParameters> requestClose, ICustomersService customersService)
+        private bool _canAddNewCustomer => (WarningTextColor == _acceptanceColorOnTablet || WarningTextColor == _acceptanceColorOnMobile)
+            && SelectedDate is not null
+            && !string.IsNullOrEmpty(Email)
+            && !string.IsNullOrEmpty(Name)
+            && !string.IsNullOrEmpty(Phone);
+
+        public CustomerAddViewModel(
+            DialogParameters param,
+            Action<IDialogParameters> requestClose,
+            ICustomersService customersService)
         {
             _customersService = customersService;
 
@@ -27,26 +35,23 @@ namespace Next2.ViewModels.Dialogs
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
-
-            SelectedDate = null;
-            DoneButtonOpacity = 0.32;
         }
 
-        #region --Public Properties--
-        public string Name { get; set; }
+        #region -- Public properties --
 
-        public string Phone { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Email { get; set; }
+        public string Phone { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public DateTime? SelectedDate { get; set; } = null;
+
+        public double DoneButtonOpacity { get; set; } = 0.32;
 
         public Color WarningTextColor { get; set; }
 
-        public double DoneButtonOpacity { get; set; }
-
-        private ICommand _doneCommand;
-        public ICommand DoneCommand => _doneCommand ??= new AsyncCommand(AddNewCustomer);
-
-        public DateTime? SelectedDate { get; set; }
+        public Action<IDialogParameters> RequestClose;
 
         public DelegateCommand CloseCommand { get; }
 
@@ -54,38 +59,52 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
-        public Action<IDialogParameters> RequestClose;
+        private ICommand _addNewCustomerCommand;
+        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync);
 
         #endregion
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
-            if (args.PropertyName == nameof(SelectedDate) || args.PropertyName == nameof(Name) || args.PropertyName == nameof(Phone) || args.PropertyName == nameof(Email))
+
+            if (args.PropertyName
+                is nameof(SelectedDate)
+                or nameof(Name)
+                or nameof(Phone)
+                or nameof(Email))
             {
-                if (_accept)
-                {
-                    DoneButtonOpacity = 1;
-                }
-                else
-                {
-                    DoneButtonOpacity = 0.32;
-                }
+                DoneButtonOpacity = _canAddNewCustomer
+                    ? 1
+                    : 0.32;
             }
         }
 
-        #region --Private Helpers--
+        #region -- Private helpers --
 
-        private async Task AddNewCustomer()
+        private async Task OnAddNewCustomerCommandAsync()
         {
-            if (_accept)
+            if (_canAddNewCustomer)
             {
-                var newCustomer = new CustomerModel() { Email = Email, Name = Name, Phone = Phone, Birthday = SelectedDate };
-                var result = await _customersService.AddNewCustomer(newCustomer);
+                var newCustomer = new CustomerModel()
+                {
+                    Email = Email,
+                    Name = Name,
+                    Phone = Phone,
+                    Birthday = SelectedDate,
+                };
+
+                var result = await _customersService.AddNewCustomerAsync(newCustomer);
 
                 if (result.IsSuccess)
                 {
-                    AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true }, { nameof(CustomerModel.Id), result.Result } }));
+                    var parameters = new DialogParameters()
+                    {
+                        { Constants.DialogParameterKeys.ACCEPT, true },
+                        { nameof(CustomerModel.Id), result.Result },
+                    };
+
+                    AcceptCommand = new DelegateCommand(() => RequestClose(parameters));
                 }
 
                 AcceptCommand.Execute();

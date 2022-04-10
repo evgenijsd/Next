@@ -4,16 +4,6 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
-        public const float TAX_PERCENTAGE = 20;
-
-        public const int MAX_TABLE_SEATS = 10;
-
-        public const int TOAST_DURATION = 3;
-
-        public const int LOGIN_PASSWORD_LENGTH = 6;
-
-        public const int SERVER_RESPONCE_DELAY = 100;
-
         public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";
@@ -32,6 +22,19 @@
             public const string IOSKey = "7f9810cd-b473-4757-a025-5fa4e0429479";
 
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
+        }
+
+        public static class Limits
+        {
+            public const int TOAST_DURATION = 3;
+            public const int SERVER_RESPONCE_DELAY = 100;
+            public const int MAX_TABLE_SEATS = 10;
+            public const int LOGIN_PASSWORD_LENGTH = 6;
+            public const int PHONE_LENGTH = 10;
+            public const int MIN_YEAR = 1900;
+            public const int MAX_YEAR = 2100;
+            public const int DAYS_IN_CALENDAR = 42;
+            public const float TAX_PERCENTAGE = 20;
         }
 
         public static class LayoutOrderTabs

@@ -23,16 +23,13 @@ namespace Next2.Behaviors
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private void HandleTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (e.NewTextValue != null)
+            if (sender is CustomEntry entry && e.NewTextValue is not null)
             {
-                if (sender is CustomEntry entry && e.NewTextValue is not null)
-                {
-                    entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.EMAIL, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
-                }
+                entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.EMAIL, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }
         }
 

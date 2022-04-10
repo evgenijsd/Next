@@ -20,7 +20,7 @@ namespace Next2.Services.CustomersService
 
         #region -- ICustomersSerice implementation --
 
-        public async Task<AOResult<int>> AddNewCustomer(CustomerModel customer)
+        public async Task<AOResult<int>> AddNewCustomerAsync(CustomerModel customer)
         {
             var result = new AOResult<int>();
             try
@@ -31,14 +31,10 @@ namespace Next2.Services.CustomersService
                 {
                     result.SetSuccess(response);
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAllCustomersAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", "Some issues", ex);
             }
 
             return result;

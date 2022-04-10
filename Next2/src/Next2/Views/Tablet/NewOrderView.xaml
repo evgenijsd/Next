@@ -1444,7 +1444,7 @@
                 <controls:CustomStepper
                     IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Style="{DynamicResource CustomStepperStyle_i1}"
-                    MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
+                    MaxValue="{x:Static local:Constants+Limits.MAX_TABLE_SEATS}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
 
