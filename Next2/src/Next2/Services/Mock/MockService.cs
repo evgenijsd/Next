@@ -57,7 +57,7 @@ namespace Next2.Services.Mock
 
             GetBase<T>().Add(entity);
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return entity.Id;
         }
@@ -67,7 +67,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>();
         }
@@ -77,7 +77,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault(x => x.Id == id);
         }
@@ -89,7 +89,7 @@ namespace Next2.Services.Mock
 
             var entityDelete = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Remove(entityDelete);
         }
@@ -99,7 +99,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().RemoveAll(predicate);
         }
@@ -112,7 +112,7 @@ namespace Next2.Services.Mock
             var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
             entityUpdate = entity;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return entityUpdate;
         }
@@ -122,7 +122,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault<T>(expression);
         }
@@ -132,7 +132,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Any<T>(expression);
         }
@@ -142,7 +142,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Where<T>(expression);
         }

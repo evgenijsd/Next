@@ -15,6 +15,8 @@ namespace Next2.Models
 
         public string Phone { get; set; } = string.Empty;
 
+        public DateTime? Birthday { get; set; }
+
         public int Points { get; set; }
 
         public int Rewards { get; set; }

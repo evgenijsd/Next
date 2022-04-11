@@ -128,7 +128,7 @@
             Grid.Row="0"
             Grid.Column="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
-            
+
             <!--StateCustomKey Doesn't work that's why I had to used Loading & Succes insted -->
             <!--StateKeys: Loading - NewOrderPage, Success - EditPage -->
             <xct:StateLayout.StateViews>
@@ -651,13 +651,13 @@
                         </CollectionView>
 
                     </StackLayout>
-                    
+
                 </xct:StateView>
 
                 <xct:StateView StateKey="Success">
 
                     <Grid RowDefinitions="*, auto">
-                        
+
                         <Grid 
                             Grid.Row="0"
                             RowDefinitions="auto, *"
@@ -748,7 +748,7 @@
                                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
                                 </ScrollView.Effects>
-                                
+
                                 <Grid 
                                     Grid.Row="1"
                                     RowDefinitions="auto, auto, auto, auto, auto, *"
@@ -778,7 +778,7 @@
                                                 <ffimageloading:CachedImage 
                                                     Source="{Binding OrderRegistrationViewModel.SelectedSet.ImagePath}"
                                                     Aspect="AspectFill"/>
-                                                
+
                                             </Frame>
 
                                         </StackLayout>
@@ -1056,9 +1056,9 @@
                                 </Grid>
 
                             </ScrollView>
-                   
+
                         </Grid>
-                        
+
                         <!-- Bottom Buttons-->
                         <Grid
                             Grid.Row="1"
@@ -1086,7 +1086,7 @@
                                 Text="{xct:Translate Modify}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 Command="{Binding OrderRegistrationViewModel.OpenModifyCommand}">
-                                
+
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
                                         <VisualStateGroup Name="AdaptiveBottomButton">
@@ -1137,11 +1137,11 @@
                                                 </VisualState.Setters>
 
                                             </VisualState>
-                                            
+
                                         </VisualStateGroup>
                                     </VisualStateGroupList>
                                 </VisualStateManager.VisualStateGroups>
-                                
+
                             </buttons:BorderButton>
 
                             <buttons:BorderButton
@@ -1155,7 +1155,7 @@
                                 Background="{DynamicResource IndicationColor_i3}"
                                 Text="{xct:Translate Remove}"
                                 Command="{Binding OrderRegistrationViewModel.OpenRemoveCommand}">
-                                
+
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
                                         <VisualStateGroup Name="AdaptiveBottomButton">
@@ -1185,7 +1185,7 @@
                 </xct:StateView>
 
             </xct:StateLayout.StateViews>
-    
+
         </StackLayout>
 
         <!-- Order Registration Block -->
@@ -1201,7 +1201,7 @@
                     <Setter Property="VerticalOptions" Value="Center"/>
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
                 </Style>
-                
+
                 <Style x:Key="SemiBold24LabelStyle" TargetType="Label">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
@@ -1226,7 +1226,7 @@
                     <Setter Property="FontFamily" Value="Barlow-Medium"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                 </Style>
-            
+
                 <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="HeightRequest" Value="36"/>
@@ -1247,7 +1247,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-                                             
+
                 <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
@@ -1433,9 +1433,9 @@
 
                     <Label.Triggers>
                         <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
-                         
+
                             <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
-                       
+
                         </DataTrigger>
                     </Label.Triggers>
 
@@ -1444,7 +1444,7 @@
                 <controls:CustomStepper
                     IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Style="{DynamicResource CustomStepperStyle_i1}"
-                    MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
+                    MaxValue="{x:Static local:Constants+Limits.MAX_TABLE_SEATS}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
 
@@ -1464,7 +1464,7 @@
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
                         <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
-                            
+
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
@@ -1547,7 +1547,7 @@
 
                                         </VisualStateGroupList>
                                     </VisualStateManager.VisualStateGroups>
-                                    
+
                                 </Label>
 
                                 <ffimageloading:CachedImage 
@@ -1657,7 +1657,7 @@
                                 </StackLayout>
 
                             </Grid>
-                            
+
 
                         </Frame>
 
@@ -1766,31 +1766,31 @@
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
                             Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
-                                                    
+
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
-                                     
+
                                     <VisualStateGroup Name="AdaptiveLabel">
-                                         
+
                                         <VisualState Name="Large">
-                                             
+
                                             <VisualState.StateTriggers>
                                                 <AdaptiveTrigger MinWindowWidth="1280"/>
                                             </VisualState.StateTriggers>
-                                             
+
                                             <VisualState.Setters>
                                                 <Setter Property="Style" Value="{DynamicResource SemiBold18LabelStyle}"/>
                                             </VisualState.Setters>
-                                             
+
                                         </VisualState>
-                                         
+
                                     </VisualStateGroup>
-                                     
+
                                 </VisualStateGroupList>
                             </VisualStateManager.VisualStateGroups>
-                             
-                         </Label>
-                        
+
+                        </Label>
+
                     </StackLayout>
 
                     <buttons:IconBorderButton
@@ -1809,7 +1809,7 @@
                         Style="{DynamicResource IconBorderButtonStyle_i2}"
                         IconSource="ic_tax"
                         Command="{Binding OrderRegistrationViewModel.RemoveTaxFromOrderCommand}"/>
-                    
+
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
@@ -1891,16 +1891,16 @@
                         Orientation="Horizontal">
 
                         <StackLayout.Triggers>
-                            
+
                             <DataTrigger
                                 TargetType="StackLayout"
                                 Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
                                 Value="0">
-                                
+
                                 <Setter Property="IsVisible" Value="False" />
-                                
+
                             </DataTrigger>
-                            
+
                         </StackLayout.Triggers>
 
                         <Label
@@ -2058,92 +2058,92 @@
 
                     <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
 
-                        <StackLayout
+                    <StackLayout
                             Orientation="Horizontal"
                             Padding="0, 0, 0, 4">
 
-                            <Label
+                        <Label
                                 Style="{DynamicResource Medium18LabelStyle}"
                                 Text="{xct:Translate Total}">
 
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroupList>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
 
-                                        <VisualStateGroup
+                                    <VisualStateGroup
                                             Name="AdaptiveLabel">
 
-                                            <VisualState
+                                        <VisualState
                                                 Name="Large">
 
-                                                <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger
                                                         MinWindowWidth="1280" />
-                                                </VisualState.StateTriggers>
+                                            </VisualState.StateTriggers>
 
-                                                <VisualState.Setters>
-                                                    <Setter
+                                            <VisualState.Setters>
+                                                <Setter
                                                         Property="FontFamily"
                                                         Value="Barlow-Regular" />
-                                                    <Setter
+                                                <Setter
                                                         Property="FontSize"
                                                         Value="{DynamicResource TSize_i5}" />
-                                                </VisualState.Setters>
+                                            </VisualState.Setters>
 
-                                            </VisualState>
+                                        </VisualState>
 
-                                        </VisualStateGroup>
+                                    </VisualStateGroup>
 
-                                    </VisualStateGroupList>
-                                </VisualStateManager.VisualStateGroups>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
 
-                            </Label>
+                        </Label>
 
-                            <Label
+                        <Label
                                 HorizontalOptions="EndAndExpand"
                                 FontFamily="Barlow-SemiBold"
                                 FontSize="{DynamicResource TSize_i6}">
 
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{xct:Translate CurrencySign}" />
-                                        <Span Text=" " />
-                                        <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
 
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroupList>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
 
-                                        <VisualStateGroup
+                                    <VisualStateGroup
                                             Name="AdaptiveLabel">
 
-                                            <VisualState
+                                        <VisualState
                                                 Name="Large">
 
-                                                <VisualState.StateTriggers>
-                                                    <AdaptiveTrigger
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger
                                                         MinWindowWidth="1280" />
-                                                </VisualState.StateTriggers>
+                                            </VisualState.StateTriggers>
 
-                                                <VisualState.Setters>
-                                                    <Setter
+                                            <VisualState.Setters>
+                                                <Setter
                                                         Property="FontFamily"
                                                         Value="Barlow-Regular" />
-                                                    <Setter
+                                                <Setter
                                                         Property="FontSize"
                                                         Value="{DynamicResource TSize_i5}" />
-                                                </VisualState.Setters>
+                                            </VisualState.Setters>
 
-                                            </VisualState>
+                                        </VisualState>
 
-                                        </VisualStateGroup>
+                                    </VisualStateGroup>
 
-                                    </VisualStateGroupList>
-                                </VisualStateManager.VisualStateGroups>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
 
-                            </Label>
+                        </Label>
 
-                        </StackLayout>
+                    </StackLayout>
 
                 </StackLayout>
 
@@ -2170,7 +2170,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/> 
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
