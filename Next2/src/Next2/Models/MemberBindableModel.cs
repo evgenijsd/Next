@@ -1,6 +1,7 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
 using System;
+using System.Windows.Input;
 
 namespace Next2.Models
 {
@@ -15,5 +16,7 @@ namespace Next2.Models
         public DateTime MembershipStartTime { get; set; }
 
         public DateTime MembershipEndTime { get; set; }
+
+        public ICommand? TapCommand { get; set; }
     }
 }

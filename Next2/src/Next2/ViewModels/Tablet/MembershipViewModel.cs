@@ -43,13 +43,13 @@ namespace Next2.ViewModels.Tablet
         public EMemberSorting MemberSorting { get; set; }
 
         private ICommand _refreshMembersCommand;
-        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
+        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _memberSortingChangeCommand;
-        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync);
+        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _MembershipEditCommand;
-        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
+        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -101,6 +101,11 @@ namespace Next2.ViewModels.Tablet
 
                 Members = new (sortedmemberBindableModels);
 
+                foreach (var member in Members)
+                {
+                    member.TapCommand = MembershipEditCommand;
+                }
+
                 IsMembersRefreshing = false;
             }
         }
@@ -128,7 +133,7 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnMembershipEditCommandAsync(MemberBindableModel member)
+        private Task OnMembershipEditCommandAsync(MemberBindableModel? member)
         {
             var param = new DialogParameters();
 
@@ -141,13 +146,13 @@ namespace Next2.ViewModels.Tablet
         {
             await _popupNavigation.PopAsync();
 
-            if (param.TryGetValue("Id", out int customerId))
+            /*if (param.TryGetValue("Id", out int customerId))
             {
                 await RefreshMembersAsync();
 
-                /*int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
-                Customers.Move(index, 0);*/
-            }
+                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
+                Customers.Move(index, 0);
+            }*/
         }
 
         #endregion

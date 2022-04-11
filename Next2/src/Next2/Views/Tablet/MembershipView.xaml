@@ -187,7 +187,7 @@
                                             Text="{Binding MembershipEndTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
 
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding MembershipEditCommand}" CommandParameter="{Binding .}" />
+                                            <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding .}" />
                                         </Grid.GestureRecognizers>
 
                                     </Grid>
