@@ -17,78 +17,75 @@
     
     <StackLayout>
         
-        <RefreshView IsRefreshing="{Binding IsRefreshing}">
-            <sc:StateContainer State="{Binding PageState}">
+        <sc:StateContainer State="{Binding PageState}">
                     
-                <sc:StateContainer.Conditions>
+            <sc:StateContainer.Conditions>
                         
-                    <sc:StateCondition State="{Static enums:ERewardsPageState.NoSelectedCustomer}">
-                        <StackLayout Margin="0, 110, 0, 0">
+                <sc:StateCondition State="{Static enums:ERewardsPageState.NoSelectedCustomer}">
+                    <StackLayout Margin="0, 110, 0, 0">
                                 
-                            <ffimageloading:CachedImage
-                                Style="{DynamicResource CachedImageStyle_i1}"
-                                FadeAnimationEnabled="False"
-                                HeightRequest="250"
-                                Source="pic_become_a_member"/>
+                        <ffimageloading:CachedImage
+                            Style="{DynamicResource CachedImageStyle_i1}"
+                            FadeAnimationEnabled="False"
+                            HeightRequest="250"
+                            Source="pic_become_a_member"/>
 
-                            <controls:LineSpacingLabel
-                                Style="{DynamicResource LineSpacingLabelStyle_i1_1}"
-                                Text="{xct:Translate StillNotMember}"/>
+                        <controls:LineSpacingLabel
+                            Style="{DynamicResource LineSpacingLabelStyle_i1_1}"
+                            Text="{xct:Translate StillNotMember}"/>
 
-                        </StackLayout>
-                    </sc:StateCondition>
+                    </StackLayout>
+                </sc:StateCondition>
                         
-                    <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsNotExist}">
-                        <StackLayout Margin="0, 80">
+                <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsNotExist}">
+                    <StackLayout Margin="0, 80">
                                                                 
-                            <ffimageloading:CachedImage
-                                Style="{DynamicResource CachedImageStyle_i1}"
-                                FadeAnimationEnabled="False"
-                                HeightRequest="230"
-                                Source="pic_rewards"/>
+                        <ffimageloading:CachedImage
+                            Style="{DynamicResource CachedImageStyle_i1}"
+                            FadeAnimationEnabled="False"
+                            HeightRequest="230"
+                            Source="pic_rewards"/>
 
-                            <controls:LineSpacingLabel
-                                Style="{DynamicResource LineSpacingLabelStyle_i1_1}"
-                                Text="{xct:Translate MessageAboutCashingOutAwards}"/>
+                        <controls:LineSpacingLabel
+                            Style="{DynamicResource LineSpacingLabelStyle_i1_1}"
+                            Text="{xct:Translate MessageAboutCashingOutAwards}"/>
 
-                        </StackLayout>
-                    </sc:StateCondition>
+                    </StackLayout>
+                </sc:StateCondition>
                         
-                    <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
-                        <StackLayout 
-                            Padding="20"
-                            Spacing="13">
+                <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
+                    <StackLayout 
+                        Padding="20"
+                        Spacing="13">
 
-                            <Label
-                                FontFamily="Barlow-Bold"
-                                FontSize="{DynamicResource TSize_i6}"
-                                Text="{xct:Translate RewardsOptions}" />
+                        <Label
+                            FontFamily="Barlow-Bold"
+                            FontSize="{DynamicResource TSize_i6}"
+                            Text="{xct:Translate RewardsOptions}" />
 
-                            <CollectionView
-                                HeightRequest="{Binding Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
-                                ItemsSource="{Binding Rewards}">
+                        <CollectionView
+                            HeightRequest="{Binding Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
+                            ItemsSource="{Binding Rewards}">
                     
-                                <CollectionView.Effects>
-                                    <effects:NoOverScrollEffect/>
-                                </CollectionView.Effects>
+                            <CollectionView.Effects>
+                                <effects:NoOverScrollEffect/>
+                            </CollectionView.Effects>
                             
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:RewardBindabledModel">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:RewardBindabledModel">
 
-                                        <mobiletemplates:RewardItemTemplate/>
+                                    <mobiletemplates:RewardItemTemplate/>
 
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
                     
-                            </CollectionView>
-                        </StackLayout>
-                    </sc:StateCondition>
+                        </CollectionView>
+                    </StackLayout>
+                </sc:StateCondition>
                         
-                </sc:StateContainer.Conditions>
+            </sc:StateContainer.Conditions>
                     
-            </sc:StateContainer>
-            
-        </RefreshView>
+        </sc:StateContainer>
         
         <BoxView 
             VerticalOptions="EndAndExpand"
@@ -135,6 +132,7 @@
         <BoxView
             HeightRequest="1.5"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+        
     </StackLayout>
     
 </ContentView>

@@ -31,7 +31,15 @@ namespace Next2.ViewModels
         {
             _popupNavigation = popupNavigation;
 
-            RewardsViewModel = new (navigationService, mapper, orderService, customerService, rewardsService, NavigateAsync, GoToCompleteStep);
+            RewardsViewModel = new (
+                navigationService,
+                popupNavigation,
+                mapper,
+                orderService,
+                customerService,
+                rewardsService,
+                NavigateAsync,
+                GoToCompleteStep);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

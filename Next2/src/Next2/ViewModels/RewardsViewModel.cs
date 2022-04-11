@@ -7,6 +7,9 @@ using Next2.Services.Order;
 using Next2.Services.Rewards;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +22,7 @@ namespace Next2.ViewModels
 {
     public class RewardsViewModel : BaseViewModel
     {
+        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
@@ -26,6 +30,7 @@ namespace Next2.ViewModels
 
         public RewardsViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customersService,
@@ -34,6 +39,7 @@ namespace Next2.ViewModels
             Action<EPaymentPageSteps> goToCompleteStep)
             : base(navigationService)
         {
+            _popupNavigation = popupNavigation;
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
@@ -48,8 +54,6 @@ namespace Next2.ViewModels
         public ERewardsPageState PageState { get; set; }
 
         public string CustomerName { get; set; }
-
-        public bool IsRefreshing { get; set; }
 
         public bool IsAnyRewardsApplied { get; set; }
 
@@ -95,8 +99,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                var customer = _orderService.CurrentOrder.Customer;
-                await LoadPageDataAsync(customer);
+                await RefreshPageDataAsync();
             }
         }
 
@@ -104,9 +107,9 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task LoadPageDataAsync(CustomerModel customer)
+        private async Task RefreshPageDataAsync()
         {
-            IsRefreshing = true;
+            var customer = _orderService.CurrentOrder.Customer;
 
             if (customer.Name == string.Empty)
             {
@@ -138,8 +141,6 @@ namespace Next2.ViewModels
                     }));
                 }
             }
-
-            IsRefreshing = false;
         }
 
         public Task LoadSeatsAsync()
@@ -233,17 +234,31 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnAddNewCustomerCommandAsync()
+        private Task OnAddNewCustomerCommandAsync()
         {
-            // temporary code
-            var customersResult = await _customersService.GetAllCustomersAsync();
+            var param = new DialogParameters();
 
-            if (customersResult.IsSuccess)
+            PopupPage popupPage = App.IsTablet
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBack, _customersService)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBack, _customersService);
+
+            return _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async void AddNewCustomerDialogCallBack(IDialogParameters parameters)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ID, out int newCustomerId))
             {
-                var customer = customersResult.Result.LastOrDefault();
-                _orderService.CurrentOrder.Customer = customer;
+                var customerResult = await _customersService.GetAllCustomersAsync(x => x.Id == newCustomerId);
 
-                await LoadPageDataAsync(customer);
+                if (customerResult.IsSuccess)
+                {
+                    _orderService.CurrentOrder.Customer = customerResult.Result.FirstOrDefault();
+
+                    await RefreshPageDataAsync();
+                }
             }
         }
 

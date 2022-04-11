@@ -95,6 +95,7 @@ namespace Next2.ViewModels
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
+
         public SetBindableModel? SelectedSet { get; set; }
 
         public SeatBindableModel SelectedSeat { get; set; }
@@ -461,40 +462,54 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            List<SeatModel> seats = new();
+            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.Sets.Any());
 
-            foreach (var seat in CurrentOrder.Seats)
+            if (isAnySetsInOrder)
             {
-                if (seat.Sets.Any())
+                await RemoveOrderAsync();
+
+                if (!App.IsTablet)
                 {
-                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-                    {
-                        ImagePath = x.ImagePath,
-                        Title = x.Title,
-                        Price = x.Portion.Price,
-                    }));
-
-                    var newSeat = new SeatModel
-                    {
-                        SeatNumber = seat.SeatNumber,
-                        Sets = sets,
-                    };
-
-                    seats.Add(newSeat);
+                    await _navigationService.GoBackAsync();
                 }
             }
+            else
+            {
+                List<SeatModel> seats = new();
 
-            var param = new DialogParameters
+                foreach (var seat in CurrentOrder.Seats)
+                {
+                    if (seat.Sets.Any())
+                    {
+                        var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+                        {
+                            ImagePath = x.ImagePath,
+                            Title = x.Title,
+                            Price = x.Portion.Price,
+                        }));
+
+                        var newSeat = new SeatModel
+                        {
+                            SeatNumber = seat.SeatNumber,
+                            Sets = sets,
+                        };
+
+                        seats.Add(newSeat);
+                    }
+                }
+
+                var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
                 { Constants.DialogParameterKeys.SEATS, seats },
             };
 
-            PopupPage removeOrderDialog = App.IsTablet
-                ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                PopupPage removeOrderDialog = App.IsTablet
+                    ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                    : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(removeOrderDialog);
+                await _popupNavigation.PushAsync(removeOrderDialog);
+            }
         }
 
         private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
@@ -532,20 +547,7 @@ namespace Next2.ViewModels
             {
                 if (isOrderRemovingAccepted)
                 {
-                    var result = await _orderService.CreateNewOrderAsync();
-
-                    if (result.IsSuccess)
-                    {
-                        NumberOfSeats = 0;
-
-                        if (App.IsTablet)
-                        {
-                            IsSideMenuVisible = true;
-                            CurrentState = LayoutState.Loading;
-                        }
-
-                        await RefreshCurrentOrderAsync();
-                    }
+                    await RemoveOrderAsync();
 
                     await _popupNavigation.PopAsync();
                 }
@@ -556,6 +558,24 @@ namespace Next2.ViewModels
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
                 await _navigationService.GoBackAsync();
+            }
+        }
+
+        private async Task RemoveOrderAsync()
+        {
+            var result = await _orderService.CreateNewOrderAsync();
+
+            if (result.IsSuccess)
+            {
+                NumberOfSeats = 0;
+
+                if (App.IsTablet)
+                {
+                    IsSideMenuVisible = true;
+                    CurrentState = LayoutState.Loading;
+                }
+
+                await RefreshCurrentOrderAsync();
             }
         }
 

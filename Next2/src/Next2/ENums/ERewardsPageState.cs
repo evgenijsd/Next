@@ -2,6 +2,7 @@
 {
     public enum ERewardsPageState
     {
+        Default,
         NoSelectedCustomer,
         RewardsNotExist,
         RewardsExist,

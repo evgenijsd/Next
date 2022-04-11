@@ -101,7 +101,7 @@ namespace Next2.ViewModels.Dialogs
                     var parameters = new DialogParameters()
                     {
                         { Constants.DialogParameterKeys.ACCEPT, true },
-                        { nameof(CustomerModel.Id), result.Result },
+                        { Constants.DialogParameterKeys.ID, result.Result },
                     };
 
                     AcceptCommand = new DelegateCommand(() => RequestClose(parameters));

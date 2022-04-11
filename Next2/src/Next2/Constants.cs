@@ -112,6 +112,7 @@
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
+            public const string ID = "Id";
         }
 
         public static class PaymentOrderStatus
