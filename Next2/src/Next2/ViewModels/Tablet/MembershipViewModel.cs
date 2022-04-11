@@ -3,6 +3,9 @@ using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Membership;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,15 +20,18 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
+        private readonly IPopupNavigation _popupNavigation;
 
         public MembershipViewModel(
             IMapper mapper,
             INavigationService navigationService,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _mapper = mapper;
             _membershipService = membershipService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -41,6 +47,9 @@ namespace Next2.ViewModels.Tablet
 
         private ICommand _memberSortingChangeCommand;
         public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync);
+
+        private ICommand _MembershipEditCommand;
+        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -117,6 +126,28 @@ namespace Next2.ViewModels.Tablet
             }
 
             return Task.CompletedTask;
+        }
+
+        private Task OnMembershipEditCommandAsync(MemberBindableModel member)
+        {
+            var param = new DialogParameters();
+
+            PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(param, MembershipEditDialogCallBack, _membershipService);
+
+            return _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async void MembershipEditDialogCallBack(IDialogParameters param)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (param.TryGetValue("Id", out int customerId))
+            {
+                await RefreshMembersAsync();
+
+                /*int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
+                Customers.Move(index, 0);*/
+            }
         }
 
         #endregion

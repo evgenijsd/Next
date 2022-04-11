@@ -186,6 +186,10 @@
                                             Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipEndTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
 
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding MembershipEditCommand}" CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+
                                     </Grid>
 
                                     <BoxView
