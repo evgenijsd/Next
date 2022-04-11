@@ -1,4 +1,5 @@
 ﻿using Next2.Resources.Strings;
+using Next2.Services;
 using Next2.Services.Authentication;
 using Next2.Services.CustomersService;
 using Next2.Services.Membership;
@@ -59,6 +60,7 @@ namespace Next2
             var mapper = CreateMapper();
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
             containerRegistry.RegisterSingleton<IRewardsService, RewardsService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();

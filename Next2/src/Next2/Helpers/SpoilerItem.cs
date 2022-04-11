@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Prism.Mvvm;
 
 namespace Next2.Helpers

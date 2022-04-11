@@ -59,8 +59,8 @@ namespace Next2.ViewModels
         private ICommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addCustomerCommand;
-        public ICommand AddCustomerCommand => _addCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(AddCustomerAsync, allowsMultipleExecutions: false);
+        private ICommand _addNewCustomerCommand;
+        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
@@ -82,7 +82,7 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private async Task RefreshAsync()
         {
@@ -165,14 +165,27 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task AddCustomerAsync(CustomerBindableModel customer)
+        private Task OnAddNewCustomerCommandAsync(CustomerBindableModel customer)
         {
-            if (customer is CustomerBindableModel selectedCustomer)
-            {
-                var param = new DialogParameters();
+            var param = new DialogParameters();
 
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                    .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            PopupPage popupPage = App.IsTablet
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService);
+
+            return _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async void AddCustomerDialogCallBack(IDialogParameters param)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (param.TryGetValue("Id", out int customerId))
+            {
+                await RefreshAsync();
+
+                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
+                Customers.Move(index, 0);
             }
         }
 
@@ -201,6 +214,5 @@ namespace Next2.ViewModels
         }
 
         #endregion
-
     }
 }

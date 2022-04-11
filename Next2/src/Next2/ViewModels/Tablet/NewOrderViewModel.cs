@@ -156,7 +156,7 @@ namespace Next2.ViewModels.Tablet
 
                         var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                         {
-                            Duration = TimeSpan.FromSeconds(Constants.TOAST_DURATION),
+                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                             Position = ToastPosition.Bottom,
                         };
 

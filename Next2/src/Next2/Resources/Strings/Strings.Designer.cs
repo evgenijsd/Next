@@ -21,7 +21,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -104,6 +104,15 @@ namespace Next2.Resources.Strings {
         internal static string AreYouSure {
             get {
                 return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Birthday.
+        /// </summary>
+        internal static string Birthday {
+            get {
+                return ResourceManager.GetString("Birthday", resourceCulture);
             }
         }
         
@@ -235,6 +244,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        internal static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discounts.
         /// </summary>
         internal static string Discounts {
@@ -330,6 +348,33 @@ namespace Next2.Resources.Strings {
         internal static string GiftCardTotal {
             get {
                 return ResourceManager.GetString("GiftCardTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect email.
+        /// </summary>
+        internal static string IncorrectEmail {
+            get {
+                return ResourceManager.GetString("IncorrectEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect name.
+        /// </summary>
+        internal static string IncorrectName {
+            get {
+                return ResourceManager.GetString("IncorrectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect number.
+        /// </summary>
+        internal static string IncorrectNumber {
+            get {
+                return ResourceManager.GetString("IncorrectNumber", resourceCulture);
             }
         }
         
@@ -456,6 +501,15 @@ namespace Next2.Resources.Strings {
         internal static string NameOrOrder {
             get {
                 return ResourceManager.GetString("NameOrOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Customer.
+        /// </summary>
+        internal static string NewCustomer {
+            get {
+                return ResourceManager.GetString("NewCustomer", resourceCulture);
             }
         }
         
@@ -651,6 +705,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Required.
+        /// </summary>
+        internal static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replace.
         /// </summary>
         internal static string Replace {
@@ -665,6 +728,15 @@ namespace Next2.Resources.Strings {
         internal static string Rewards {
             get {
                 return ResourceManager.GetString("Rewards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string s {
+            get {
+                return ResourceManager.GetString("s", resourceCulture);
             }
         }
         
@@ -887,6 +959,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type Email.
+        /// </summary>
+        internal static string TypeEmail {
+            get {
+                return ResourceManager.GetString("TypeEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type Employee ID.
         /// </summary>
         internal static string TypeEmployeeId {
@@ -901,6 +982,15 @@ namespace Next2.Resources.Strings {
         internal static string TypeOrder {
             get {
                 return ResourceManager.GetString("TypeOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type User Name.
+        /// </summary>
+        internal static string TypeUserName {
+            get {
+                return ResourceManager.GetString("TypeUserName", resourceCulture);
             }
         }
         
