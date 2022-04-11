@@ -45,7 +45,7 @@
                 HeightRequest="66"
                 Spacing="18"
                 Orientation="Horizontal"
-                xct:TouchEffect.Command="{prism:GoBack}">
+                xct:TouchEffect.Command="{Binding BackCancelCommand}">
 
                 <ffimageloading:CachedImage
                     HeightRequest="22"

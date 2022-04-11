@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -41,7 +40,7 @@ namespace Next2.ViewModels
             _rewardService = rewardService;
 
             NavigateAsync = navigateAsync;
-            GoToCompleteStep = goToCompleteStep;
+            GoToStep = goToCompleteStep;
         }
 
         #region -- Public properties --
@@ -60,7 +59,7 @@ namespace Next2.ViewModels
 
         private Action<NavigationMessage> NavigateAsync;
 
-        private Action<EPaymentPageSteps> GoToCompleteStep;
+        private Action<EPaymentPageSteps> GoToStep;
 
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
@@ -183,6 +182,8 @@ namespace Next2.ViewModels
                 set.IsFree = reward.IsApplied;
                 seat.Sets = new (seat.Sets);
             }
+
+            IsAnyRewardsApplied = Rewards.Any(x => x.IsApplied);
         }
 
         public void LockUnlockSimilarRewards(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel selectedReward)
@@ -196,7 +197,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
+        private Task OnSelectRewardCommandAsync(RewardBindabledModel? selectedReward)
         {
             if (selectedReward is not null)
             {
@@ -205,8 +206,6 @@ namespace Next2.ViewModels
                     selectedReward.IsApplied = !selectedReward.IsApplied;
                     ApplyCancelRewardToSet(Seats, selectedReward);
                     LockUnlockSimilarRewards(Seats, selectedReward);
-
-                    IsAnyRewardsApplied = Rewards.Any(x => x.IsApplied);
                 }
                 else if (selectedReward.IsApplied)
                 {
@@ -250,7 +249,7 @@ namespace Next2.ViewModels
 
         private Task OnGoToCompleteTabCommandAsync()
         {
-            GoToCompleteStep(EPaymentPageSteps.Complete);
+            GoToStep(EPaymentPageSteps.Complete);
 
             return Task.CompletedTask;
         }

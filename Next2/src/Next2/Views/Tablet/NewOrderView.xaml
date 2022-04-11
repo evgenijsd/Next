@@ -1337,6 +1337,7 @@
                 VerticalOptions="Start"
                 Margin="18, 26"
                 WidthRequest="110"
+                ScrollBarVisibility="Never"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
@@ -1457,6 +1458,7 @@
                 VerticalOptions="Start"
                 Margin="18"
                 WidthRequest="125"
+                ScrollBarVisibility="Never"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">

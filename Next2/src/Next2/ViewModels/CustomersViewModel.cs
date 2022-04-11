@@ -104,10 +104,22 @@ namespace Next2.ViewModels
                 if (customers.Any())
                 {
                     Customers = customers;
+
+                    SelectCurrentCustomer();
                 }
             }
 
             IsRefreshing = false;
+        }
+
+        private void SelectCurrentCustomer()
+        {
+            var currentCustomer = _orderService.CurrentOrder.Customer;
+
+            if (currentCustomer.Id > 0)
+            {
+                SelectedCustomer = Customers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+            }
         }
 
         private void SelectDeselectItem(CustomerBindableModel customer)

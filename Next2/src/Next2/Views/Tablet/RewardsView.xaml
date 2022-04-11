@@ -202,7 +202,9 @@
                 FontSize="{DynamicResource TSize_i9}"
                 Text="{xct:Translate RewardsOptions}"/>
                 
-            <CollectionView ItemsSource="{Binding Rewards}">
+            <CollectionView
+                HeightRequest="{Binding Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
+                ItemsSource="{Binding Rewards}">
                     
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>

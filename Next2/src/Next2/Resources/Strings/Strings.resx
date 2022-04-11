@@ -312,9 +312,9 @@
   <data name="TypeEmail" xml:space="preserve">
     <value>Type Email</value>
   </data>
-	<data name="TypeUserName" xml:space="preserve">
+  <data name="TypeUserName" xml:space="preserve">
     <value>Type User Name</value>
-	  </data>
+  </data>
   <data name="CurrencySign" xml:space="preserve">
     <value>$</value>
   </data>
@@ -484,9 +484,6 @@
   <data name="MessageAboutCashingOutAwards" xml:space="preserve">
     <value>Earning points get you rewards that you can cash in to get free stuff</value>
   </data>
-  <data name="Apply" xml:space="preserve">
-    <value>Apply</value>
-  </data>
   <data name="AvailableGroups" xml:space="preserve">
     <value>Available Groups</value>
   </data>
@@ -504,5 +501,14 @@
   </data>
   <data name="NeedCard" xml:space="preserve">
     <value>Need a card!</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Leave" xml:space="preserve">
+    <value>Leave</value>
+  </data>
+  <data name="PaymentNotSavedMessage" xml:space="preserve">
+    <value>If you leave the page, payment progress is not saved.</value>
   </data>
 </root>
