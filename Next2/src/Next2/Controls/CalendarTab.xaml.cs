@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -56,6 +57,19 @@ namespace Next2.Controls
         {
             get => (DateTime?)GetValue(SelectedDateProperty);
             set => SetValue(SelectedDateProperty, value);
+        }
+
+        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
+            propertyName: nameof(Title),
+            returnType: typeof(string),
+            declaringType: typeof(SearchButton),
+            defaultValue: Strings.Birthday,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string Title
+        {
+            get => (string)GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(

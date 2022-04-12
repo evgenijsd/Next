@@ -15,13 +15,10 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class MembershipEditDialog : PopupPage
     {
-        private readonly IMembershipService _membershipService;
-
         public MembershipEditDialog(DialogParameters param, Action<IDialogParameters> requestClose, IMembershipService membershipService)
         {
             InitializeComponent();
-            _membershipService = membershipService;
-            BindingContext = new MembershipEditDialogViewModel(param, requestClose);
+            BindingContext = new MembershipEditDialogViewModel(param, requestClose, membershipService);
         }
     }
 }

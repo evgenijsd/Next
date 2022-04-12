@@ -17,8 +17,8 @@
         Margin="0, 8, 0, 0"
         FontFamily="Barlow-Medium"
         FontSize="{DynamicResource TSize_i8}"
-        TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
-        Text="{xct:Translate Birthday}"/>
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CalendarTab}}, Path=Title}" />
 
     <!--  year  -->
     <Frame

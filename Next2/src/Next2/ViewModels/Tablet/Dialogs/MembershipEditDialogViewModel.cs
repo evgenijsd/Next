@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Next2.Services.Membership;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -11,9 +12,12 @@ namespace Next2.ViewModels.Dialogs
 {
     public class MembershipEditDialogViewModel : BindableBase
     {
+        private readonly IMembershipService _membershipService;
+
         public MembershipEditDialogViewModel(
             DialogParameters param,
-            Action<IDialogParameters> requestClose)
+            Action<IDialogParameters> requestClose,
+            IMembershipService membershipService)
         {
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(null));
