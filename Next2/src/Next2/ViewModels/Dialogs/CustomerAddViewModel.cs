@@ -18,12 +18,6 @@ namespace Next2.ViewModels.Dialogs
         private readonly Color _acceptanceColorOnMobile = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
         private readonly Color _acceptanceColorOnTablet = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
 
-        private bool _canAddNewCustomer => (WarningTextColor == _acceptanceColorOnTablet || WarningTextColor == _acceptanceColorOnMobile)
-            && SelectedDate is not null
-            && !string.IsNullOrEmpty(Email)
-            && !string.IsNullOrEmpty(Name)
-            && !string.IsNullOrEmpty(Phone);
-
         public CustomerAddViewModel(
             DialogParameters param,
             Action<IDialogParameters> requestClose,
@@ -74,7 +68,7 @@ namespace Next2.ViewModels.Dialogs
                 or nameof(Phone)
                 or nameof(Email))
             {
-                DoneButtonOpacity = _canAddNewCustomer
+                DoneButtonOpacity = CanAddNewCustomer
                     ? 1
                     : 0.32;
             }
@@ -82,9 +76,15 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Private helpers --
 
+        private bool CanAddNewCustomer => (WarningTextColor == _acceptanceColorOnTablet || WarningTextColor == _acceptanceColorOnMobile)
+            && SelectedDate is not null
+            && !string.IsNullOrEmpty(Email)
+            && !string.IsNullOrEmpty(Name)
+            && !string.IsNullOrEmpty(Phone);
+
         private async Task OnAddNewCustomerCommandAsync()
         {
-            if (_canAddNewCustomer)
+            if (CanAddNewCustomer)
             {
                 var newCustomer = new CustomerModel()
                 {

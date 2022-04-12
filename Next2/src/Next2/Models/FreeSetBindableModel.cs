@@ -13,8 +13,8 @@ namespace Next2.Models
 
         public float Price { get; set; }
 
-        public float OldPrice { get; set; }
-
         public bool IsFree { get; set; }
+
+        public string ProductNames { get; set; } = string.Empty;
     }
 }

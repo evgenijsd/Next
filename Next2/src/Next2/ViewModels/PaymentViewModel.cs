@@ -8,7 +8,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -18,7 +17,7 @@ namespace Next2.ViewModels
 {
     public class PaymentViewModel : BaseViewModel
     {
-        private IPopupNavigation _popupNavigation;
+        private readonly IPopupNavigation _popupNavigation;
 
         public PaymentViewModel(
             INavigationService navigationService,
@@ -39,7 +38,7 @@ namespace Next2.ViewModels
                 customerService,
                 rewardsService,
                 NavigateAsync,
-                GoToCompleteStep);
+                GoToPaymentStep);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -62,15 +61,9 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async void NavigateAsync(NavigationMessage navigationMessage)
-        {
-            await _navigationService.NavigateAsync(navigationMessage.Path, navigationMessage.Parameters);
-        }
+        private async void NavigateAsync(NavigationMessage navigationMessage) => await _navigationService.NavigateAsync(navigationMessage.Path, navigationMessage.Parameters);
 
-        private void GoToCompleteStep(EPaymentPageSteps step)
-        {
-            PaymentPageStep = step;
-        }
+        private void GoToPaymentStep(EPaymentPageSteps step) => PaymentPageStep = step;
 
         private async Task OnBackCancelCommandAsync()
         {
@@ -92,8 +85,8 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage confirmDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPageCallbackAsync)
-                        : new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPageCallbackAsync);
+                        ? new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync)
+                        : new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync);
 
                     await _popupNavigation.PushAsync(confirmDialog);
                 }
@@ -104,15 +97,13 @@ namespace Next2.ViewModels
             }
         }
 
-        private async void CloseConfirmExitFromPageCallbackAsync(IDialogParameters parameters)
+        private async void CloseConfirmExitFromPaymentCallbackAsync(IDialogParameters parameters)
         {
-            bool isUserLeftPage = false;
-
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out isUserLeftPage))
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
                 await _popupNavigation.PopAsync();
 
-                if (isUserLeftPage)
+                if (isExitConfirmed)
                 {
                     await _navigationService.GoBackAsync();
                 }
