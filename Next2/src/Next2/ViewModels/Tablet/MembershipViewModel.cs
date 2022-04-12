@@ -133,13 +133,16 @@ namespace Next2.ViewModels.Tablet
             return Task.CompletedTask;
         }
 
-        private Task OnMembershipEditCommandAsync(MemberBindableModel? member)
+        private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
         {
-            var param = new DialogParameters();
+            if (member is MemberBindableModel selectedMember)
+            {
+                var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
 
-            PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(param, MembershipEditDialogCallBack, _membershipService);
+                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(param, MembershipEditDialogCallBack, _membershipService);
 
-            return _popupNavigation.PushAsync(popupPage);
+                await _popupNavigation.PushAsync(popupPage);
+            }
         }
 
         private async void MembershipEditDialogCallBack(IDialogParameters param)

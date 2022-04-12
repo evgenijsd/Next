@@ -3,6 +3,8 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
@@ -11,128 +13,134 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:Class="Next2.Views.Tablet.Dialogs.MembershipEditDialog">
 
-    <Frame
-        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-        CornerRadius="10"
-        HeightRequest="474"
-        WidthRequest="484"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
+    <ContentView>
 
-        <StackLayout
-            Spacing="0">
+        <Frame
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            CornerRadius="10"
+            HeightRequest="500"
+            WidthRequest="620"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
 
-            <StackLayout
-                VerticalOptions="Start"
-                Padding="24"
-                Orientation="Horizontal"
-                Spacing="0">
-
-                <StackLayout>
-
-                    <pkView:PancakeView
-                        HeightRequest="56"
-                        MinimumWidthRequest="56"
-                        WidthRequest="56"
-                        CornerRadius="8"
-                        HorizontalOptions="Start">
-
-                        <ffimageloading:CachedImage
-                            Aspect="AspectFill"
-                            Source="{Binding Set.ImagePath}" />
-
-                    </pkView:PancakeView>
-
-                </StackLayout>
-
+            <StackLayout Spacing="0" >
+                
                 <StackLayout
-                    Margin="20, 0, 0, 0"
-                    HorizontalOptions="Start">
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <Label
+                        Text="{xct:Translate EditMembership}"
+                        Margin="20,23,0,18"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontFamily="Barlow-SemiBold"
+                        FontSize="{DynamicResource TSize_i6}" />
 
                     <Label
-                        Text="{Binding Set.Title}"
+                        Text="{xct:Translate EditMembership}"
+                        HorizontalOptions="EndAndExpand"
+                        Margin="0,23,20,18"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
-                        FontFamily="Barlow-SemiBold" />
-
-                    <Label
-                        Text="{Binding Set.Price, StringFormat='$ {0:F2}'}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i5}"
-                        FontFamily="Barlow-SemiBold" />
-
+                        FontFamily="Barlow-Regular"
+                        FontSize="{DynamicResource TSize_i6}" />
                 </StackLayout>
 
+
+                <BoxView
+                    VerticalOptions="Start"
+                    HeightRequest="1"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                <Grid
+                    Margin="5,0,5,0"
+                    ColumnDefinitions="*,*">
+                    
+                    <controls:CalendarTab
+                        Grid.Column="0"
+                        SelectedDate="{Binding SelectedDate}" />
+                    
+                    <BoxView
+                        Margin="0,17,0,20"
+                        HorizontalOptions="End"
+                        WidthRequest="1"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+                    
+                    <controls:CalendarTab
+                        Grid.Column="1"
+                        SelectedDate="{Binding SelectedDate}" />
+                    
+                </Grid>
+
+
+                <BoxView
+                    VerticalOptions="End"
+                    HeightRequest="1"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                <Grid
+                    Margin="20"
+                    HeightRequest="130"
+                    ColumnDefinitions="*,*,*"
+                    ColumnSpacing="15">
+
+                    <buttons:BorderButton
+                        Grid.Column="0"
+                        Text="{xct:Translate Cancel}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        BackgroundColor="Transparent"
+                        Style="{DynamicResource BorderButtonStyle_i1}"
+                        Command="{Binding CloseCommand}" />
+
+                    <buttons:BorderButton
+                        Grid.Column="1"
+                        Text="{xct:Translate Disable}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        BorderColor="{DynamicResource IndicationColor_i3}"
+                        BackgroundColor="{DynamicResource IndicationColor_i3}"
+                        Style="{DynamicResource BorderButtonStyle_i1}" />
+
+                    <buttons:BorderButton
+                        Grid.Column="2"
+                        Text="{xct:Translate Save}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BorderColor="{DynamicResource IndicationColor_i1}"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        Style="{DynamicResource BorderButtonStyle_i1}" />
+                    
+                    <!--buttons:BorderButton
+                        Grid.Column="0"
+                        Text="{xct:Translate Cancel}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BorderColor="{DynamicResource AppColor_i1}"
+                        CornerRadius="4"
+                        Command="{Binding CloseCommand}"
+                        Padding="0" />
+
+                    <buttons:BorderButton
+                        Grid.Column="1"
+                        Text="{xct:Translate Add}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        FontSize="{DynamicResource TSize_i5}"
+                        FontFamily="Barlow-SemiBold"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}"
+                        BorderColor="{DynamicResource IndicationColor_i1}"
+                        CornerRadius="4"
+                        Command="{Binding TapAddCommand}"
+                        Padding="0" /-->
+
+                </Grid>
+
             </StackLayout>
 
-            <BoxView
-                VerticalOptions="Start"
-                Margin="24, 0"
-                HeightRequest="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+        </Frame>
+        
+    </ContentView>
 
-            <StackLayout
-                VerticalOptions="StartAndExpand"
-                Padding="24, 0"
-                BindableLayout.ItemsSource="{Binding Portions}">
-
-                <BindableLayout.ItemTemplate>
-
-                    <DataTemplate
-                        x:DataType="models:PortionModel">
-
-                        <templates:ToggleItemTemplate
-                            State="{Binding .}"
-                            IsVisibleSubtitle="True"
-                            Title="{Binding Title}"
-                            Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                            BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:AddSetToOrderDialogViewModel}}}" />
-
-                    </DataTemplate>
-
-                </BindableLayout.ItemTemplate>
-
-            </StackLayout>
-
-            <BoxView
-                VerticalOptions="End"
-                HeightRequest="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
-
-            <Grid
-                Margin="24"
-                HeightRequest="50"
-                ColumnSpacing="10">
-
-                <buttons:BorderButton
-                    Grid.Column="0"
-                    Text="{xct:Translate Cancel}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i5}"
-                    FontFamily="Barlow-SemiBold"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    BorderColor="{DynamicResource AppColor_i1}"
-                    CornerRadius="4"
-                    Command="{Binding CloseCommand}"
-                    Padding="0" />
-
-                <buttons:BorderButton
-                    Grid.Column="1"
-                    Text="{xct:Translate Add}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    FontSize="{DynamicResource TSize_i5}"
-                    FontFamily="Barlow-SemiBold"
-                    BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    BorderColor="{DynamicResource IndicationColor_i1}"
-                    CornerRadius="4"
-                    Command="{Binding TapAddCommand}"
-                    Padding="0" />
-
-            </Grid>
-
-        </StackLayout>
-
-    </Frame>
-    
 </rg:PopupPage>
