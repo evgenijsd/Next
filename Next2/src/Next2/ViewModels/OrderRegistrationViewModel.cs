@@ -18,9 +18,11 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -94,7 +96,10 @@ namespace Next2.ViewModels
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
+
         public SetBindableModel? SelectedSet { get; set; }
+
+        public ObservableCollection<IngredientBindableModel> DetailedProductModels { get; set; } = new();
 
         public SeatBindableModel SelectedSeat { get; set; }
 
@@ -855,8 +860,6 @@ namespace Next2.ViewModels
 
         private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
         {
-            ObservableCollection<IngredientBindableModel> tempListIngredients = new ();
-
             var result = await _menuService.GetIngredientsAsync();
 
             if (result.IsSuccess)
@@ -867,10 +870,14 @@ namespace Next2.ViewModels
                 {
                     foreach (var product in SelectedSet.Products)
                     {
+                        ObservableCollection<IngredientBindableModel> tempListIngredients = new();
                         List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
                         {
+                            Id = row.Id,
                             Title = row.Title,
                             Price = row.Price,
+                            IsToggled = true,
+                            ImagePath = row.ImagePath,
                         }));
 
                         if (setOfIngredients.Count > 0)
@@ -880,18 +887,36 @@ namespace Next2.ViewModels
                                 tempListIngredients.Add(ingredient);
                             }
                         }
-                    }
 
-                    Ingredients = tempListIngredients;
-                }
-                else
-                {
-                    Ingredients = new();
+                        if (product.DefaultSelectedIngredients.Count > 0)
+                        {
+                            foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+                            {
+                                var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.Id);
+
+                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId && x.ProductId == defaultIngredient.ProductId).FirstOrDefault() is not null;
+
+                                if (!isDefaultIngredientExist)
+                                {
+                                    tempListIngredients.Add(new IngredientBindableModel()
+                                    {
+                                        Title = defaultIngredientModel.Title,
+                                        Price = 0,
+                                        IsToggled = false,
+                                        IsDefault = true,
+                                    });
+                                }
+                            }
+                        }
+
+                        product.DetailedSelectedIngredientModels = new(tempListIngredients);
+                    }
                 }
             }
-            else
+
+            if (SelectedSet is not null)
             {
-                Ingredients = new();
+                SelectedSet = new(SelectedSet);
             }
         }
 

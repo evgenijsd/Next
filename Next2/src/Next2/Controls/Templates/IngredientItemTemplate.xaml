@@ -5,8 +5,10 @@
     xmlns:effects="clr-namespace:Next2.Effects" 
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Controls.Templates.IngredientItemTemplate"
-    RowDefinitions="auto, auto">
+    RowDefinitions="auto, auto"
+    x:DataType="viewModels:OrderRegistrationViewModel">
 
     <BoxView 
         Grid.ColumnSpan="2"
@@ -27,7 +29,7 @@
         Grid.Row="1"
         BackgroundColor="Green"
         HeightRequest="{Binding ItemsSource, Converter={StaticResource listHeightConverter}, ConverterParameter=35, Source={RelativeSource AncestorType={x:Type templates:IngredientItemTemplate}}}"
-        ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type templates:IngredientItemTemplate}}}">
+        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type templates:IngredientItemTemplate}}, Path=ItemsSource}">
 
         <CollectionView.Effects>
             <effects:NoOverScrollEffect/>

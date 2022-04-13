@@ -291,6 +291,7 @@ namespace Next2.Services.Order
                         if (selectedIngredients is not null)
                         {
                             newProduct.SelectedIngredients = new(selectedIngredients);
+                            newProduct.DefaultSelectedIngredients = new(selectedIngredients);
                         }
 
                         set.Products.Add(newProduct);

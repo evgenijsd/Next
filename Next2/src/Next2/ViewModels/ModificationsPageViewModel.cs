@@ -248,6 +248,7 @@ namespace Next2.ViewModels
             if (ingridients.IsSuccess)
             {
                 product.SelectedIngredients = new(ingridients.Result);
+                product.DefaultSelectedIngredients = new(ingridients.Result);
             }
         }
 

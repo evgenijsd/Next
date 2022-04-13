@@ -56,38 +56,12 @@ namespace Next2.Controls.Templates
             nameof(ItemsSource),
             typeof(ICollection),
             typeof(ProductItemTemplate),
-            default(ICollection),
-            propertyChanged: (b, o, n) =>
-            ((ProductItemTemplate)b).OnItemsSourcePropertyChanged((ICollection)o, (ICollection)n));
+            default(ICollection));
 
         public ICollection ItemsSource
         {
             get => (ICollection)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
-        }
-
-        #endregion
-
-        #region -- Private methods --
-
-        private void OnItemsSourcePropertyChanged(ICollection oldItemsSource, ICollection newItemsSource)
-        {
-            if (oldItemsSource is INotifyCollectionChanged ncc)
-            {
-                ncc.CollectionChanged -= OnItemsSourceCollectionChanged;
-            }
-
-            if (newItemsSource is INotifyCollectionChanged ncc1)
-            {
-                ncc1.CollectionChanged += OnItemsSourceCollectionChanged;
-            }
-        }
-
-        private void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (ItemsSource is not null)
-            {
-            }
         }
 
         #endregion
