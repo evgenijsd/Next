@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Membership;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -12,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
@@ -21,6 +24,8 @@ namespace Next2.ViewModels.Tablet
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
         private readonly IPopupNavigation _popupNavigation;
+
+        private MemberModel _member;
 
         public MembershipViewModel(
             IMapper mapper,
@@ -137,25 +142,76 @@ namespace Next2.ViewModels.Tablet
         {
             if (member is MemberBindableModel selectedMember)
             {
-                var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
+                var parameters = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
 
-                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(param, MembershipEditDialogCallBack, _membershipService);
+                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
 
                 await _popupNavigation.PushAsync(popupPage);
             }
         }
 
-        private async void MembershipEditDialogCallBack(IDialogParameters param)
+        private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
+            _member = new();
             await _popupNavigation.PopAsync();
 
-            /*if (param.TryGetValue("Id", out int customerId))
-            {
-                await RefreshMembersAsync();
+            var confirmDialogParameters = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
+                    };
 
-                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
-                Customers.Move(index, 0);
-            }*/
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.DISABLE, out MemberBindableModel memberDisable))
+            {
+                _member = _mapper.Map<MemberBindableModel, MemberModel>(memberDisable);
+                DateTime date = new();
+                _member.MembershipStartTime = date;
+                _member.MembershipEndTime = date;
+
+                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogDisableCallback);
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.SAVE, out MemberBindableModel memberSave))
+            {
+                _member = _mapper.Map<MemberBindableModel, MemberModel>(memberSave);
+
+                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogSaveCallback);
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
+        }
+
+        private async void CloseConfirmDialogDisableCallback(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted))
+            {
+                if (isMembershipDisableAccepted)
+                {
+                    await _membershipService.SaveMemberAsync(_member);
+
+                    await RefreshMembersAsync();
+                }
+            }
+
+            await _popupNavigation.PopAsync();
+        }
+
+        private async void CloseConfirmDialogSaveCallback(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipSaveAccepted))
+            {
+                if (isMembershipSaveAccepted)
+                {
+                    await _membershipService.SaveMemberAsync(_member);
+
+                    await RefreshMembersAsync();
+                }
+            }
+
+            await _popupNavigation.PopAsync();
         }
 
         #endregion

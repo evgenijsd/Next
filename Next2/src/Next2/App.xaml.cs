@@ -172,6 +172,8 @@ namespace Next2
                 cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
+                cfg.CreateMap<MemberBindableModel, MemberModel>();
+                cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
                 cfg.CreateMap<BonusModel, BonusBindableModel>();
                 cfg.CreateMap<BonusBindableModel, BonusModel>();
                 cfg.CreateMap<SetBindableModel, SetModel>();
