@@ -30,6 +30,8 @@ namespace Next2.Services.Mock
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
 
+        private bool _init = false;
+
         public MockService()
         {
             Task.Run(InitMocksAsync);
@@ -156,7 +158,7 @@ namespace Next2.Services.Mock
             _base = new Dictionary<Type, object>();
             _maxIdentifiers = new Dictionary<Type, int>();
 
-            await Task.WhenAll(
+            var allTasks = Task.WhenAll(
                 InitOrdersAsync(),
                 InitMembersAsync(),
                 InitCategoriesAsync(),
@@ -169,7 +171,25 @@ namespace Next2.Services.Mock
                 InitTaxAndBonusAsync(),
                 IniRewardsAsync());
 
+            try
+            {
+                await allTasks;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"IsFaulted: {allTasks.IsFaulted}");
+                if (allTasks.Exception is not null)
+                {
+                    foreach (var exception in allTasks.Exception.InnerExceptions)
+                    {
+                        Console.WriteLine($"InnerException: {exception.Message}");
+                    }
+                }
+            }
+
             _initCompletionSource.TrySetResult(true);
+            _init = true;
         }
 
         private Task InitTaxAndBonusAsync() => Task.Run(() =>

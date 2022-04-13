@@ -13,9 +13,25 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:views="clr-namespace:Next2.Views" xmlns:helpers="clr-namespace:Next2.Helpers" xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:DataType="viewmodels:CustomerRewardsViewModel"
     x:Class="Next2.Views.Tablet.CustomerRewardsView">
+
+    <views:BaseContentPage.Resources>
+
+        <ResourceDictionary>
+
+            <Style x:Key="SummaryItem" TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Barlow-Medium" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+                <Setter Property="Margin" Value="0, 2" />
+            </Style>
+
+        </ResourceDictionary>
+
+    </views:BaseContentPage.Resources>
     
     <StackLayout Background="{DynamicResource TextAndBackgroundColor_i5}">
     
@@ -96,182 +112,315 @@
                 <StackLayout
                     Margin="28, 16, 28, 14"
                     Orientation="Horizontal">
-                    
+
                     <Label
                         FontSize="{DynamicResource TSize_i4_5}"
                         FontFamily="Barlow-Bold"
-                        Text="{xct:Translate RewardsPoints}" />
+                        Text="Cash" />
 
                     <Label
                         HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Center"
-                        TextColor="{DynamicResource AppColor_i1}"
-                        Text="{Binding CustomerName}"/>
-                    
+                        VerticalOptions="Center">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span
+                                    Text="Change"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    FontSize="{DynamicResource TSize_i4}"
+                                    FontFamily="Barlow-Regular"/>
+
+                                <Span Text="   " />
+
+                                <Span
+                                    Text="$ 12.00"
+                                    TextColor="{DynamicResource IndicationColor_i1}"
+                                    FontSize="{DynamicResource TSize_i4}"
+                                    FontFamily="Barlow-Bold"/>
+
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
                 </StackLayout>
 
                 <BoxView
                     HeightRequest="1.5"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
-                
-                <!-- PAGE STATES -->
-                              
-                <sc:StateContainer State="{Binding PageState}">
-                    
-                    <sc:StateContainer.Conditions>
-                        <!-- NO SELECTED CUSTOMER MESSAGE -->
-                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.NoSelectedCustomer}">
-                            <StackLayout Margin="0, 120">
-                                
-                                <ffimageloading:CachedImage
-                                    Style="{DynamicResource CachedImageStyle_i1}"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="200"
-                                    Source="pic_become_a_member"/>
 
-                                <controls:LineSpacingLabel
-                                    Style="{DynamicResource LineSpacingLabelStyle_i1}"
-                                    Text="{xct:Translate StillNotMember}"/>
+                <templates:CustomNumericKeyboardTemplate
+                    HorizontalOptions="Center"
+                    VerticalOptions="CenterAndExpand"
+                    BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
+                    PlaceHolder="Enter The Amount"
+                    IsTextRightToLeft="True"
+                    IsNumericMode="True"
+                    ValueFormat="$ {0:#,0.#0}"
+                    MaxLength="10"
+                    WidthRequest="400"
+                    HeightRequest="480"/>
 
-                            </StackLayout>
-                        </sc:StateCondition>
-                        
-                        <!-- REWARDS NOT EXIST MESSAGE -->
-                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsNotExist}">
-                            <StackLayout Margin="0, 120">
-                                                                
-                                <ffimageloading:CachedImage
-                                    Style="{DynamicResource CachedImageStyle_i1}"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="200"
-                                    Source="pic_rewards"/>
-
-                                <controls:LineSpacingLabel
-                                    Style="{DynamicResource LineSpacingLabelStyle_i1}"
-                                    Text="{xct:Translate MessageAboutCashingOutAwards}"/>
-
-                            </StackLayout>
-                        </sc:StateCondition>
-
-                        <!-- LIST OF SEATS IN ORDER --> 
-                        <sc:StateCondition State="{Static enums:ECustomerRewardsPageState.RewardsExist}">
-                            <StackLayout>
-                                <CollectionView ItemsSource="{Binding Seats}">
-                                    
-                                    <CollectionView.Effects>
-                                        <effects:NoOverScrollEffect/>
-                                    </CollectionView.Effects>
-                                    
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
-
-                                            <StackLayout Padding="28, 24, 28, 0">
-                                                <!-- SEAT NUMBER --> 
-                                                <Label
-                                                    FontFamily="Barlow-SemiBold"
-                                                    FontSize="{DynamicResource TSize_i9}"
-                                                    TextColor="{DynamicResource TextAndBackgroundColor_i10}">
-                                                    
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{xct:Translate Seat}"/>
-                                                            <Span Text=" "/>
-                                                            <Span Text="{Binding SeatNumber}"/>
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                    
-                                                </Label>
-    
-                                                <!-- SETS LIST --> 
-                                                <CollectionView
-                                                    ItemsSource="{Binding Sets}"
-                                                    HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=94}">
-                                                    
-                                                    <CollectionView.ItemTemplate>
-                                                        <DataTemplate x:DataType="models:FreeSetBindableModel">
-                                                           
-                                                            <tablet:FreeSetItemTemplate/>
-                                                            
-                                                        </DataTemplate>
-                                                    </CollectionView.ItemTemplate>
-                                                </CollectionView>
-
-                                            </StackLayout>
-                                                
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
-                        </sc:StateCondition>
-                    </sc:StateContainer.Conditions>
-                    
-                </sc:StateContainer>
-         
-                <BoxView 
-                    VerticalOptions="EndAndExpand"
-                    HeightRequest="1.5"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
-                
-                <!-- BECOME A MEMBER, COMPLETE, APPLY BUtTONS -->
-                <StackLayout
-                    Padding="28, 16"
-                    Orientation="Horizontal"
-                    Spacing="12">
-                    
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i2_1}"
-                        BackgroundColor="{DynamicResource IndicationColor_i7}"
-                        Text="{xct:Translate BecomeMember}"
-                        IsVisible="{Binding PageState, Converter={xct:EqualConverter}, ConverterParameter={Static enums:ECustomerRewardsPageState.NoSelectedCustomer}}"
-                        xct:TouchEffect.Command="{Binding AddNewCustomerCommand}"/>
-                    
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i2_1}"
-                        BackgroundColor="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Complete}"
-                        xct:TouchEffect.Command="{Binding GoToCompleteTabCommand}">
-                        
-                        <buttons:BorderButton.Triggers>
-                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAnyRewardsApplied}" Value="True">
-                                
-                                <Setter Property="Text" Value="{xct:Translate Apply}"/>
-                                
-                            </DataTrigger>
-                        </buttons:BorderButton.Triggers>
-                        
-                    </buttons:BorderButton>
-
-                </StackLayout>
-                
             </StackLayout>
     
             <!-- REWARDS LIST -->
-            <StackLayout 
+            <StackLayout
                 Grid.Column="1"
-                Padding="18"
-                Spacing="6"
                 Background="{DynamicResource TextAndBackgroundColor_i4}">
 
                 <Label
-                    FontSize="{DynamicResource TSize_i9}"
-                    Text="{xct:Translate RewardsOptions}"/>
-                
-                <CollectionView ItemsSource="{Binding Rewards}">
-                    
+                    FontSize="{DynamicResource TSize_i6}"
+                    Text="Payment"
+                    Padding="18, 15, 18, 0"/>
+
+                <CollectionView
+                    VerticalOptions="Start"
+                    Margin="18, 15, 18, 0"
+                    SelectionMode="Single"
+                    ItemsSource="{Binding PaymentOptionsItems}">
+
+                    <CollectionView.ItemsLayout>
+
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="1"
+                            VerticalItemSpacing="8"
+                            HorizontalItemSpacing="0"/>
+
+                    </CollectionView.ItemsLayout>
+
                     <CollectionView.Effects>
                         <effects:NoOverScrollEffect/>
                     </CollectionView.Effects>
-                    
+
                     <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:RewardBindabledModel">
-                            
-                            <tablet:RewardItemTemplate/>
-                            
+                        <DataTemplate x:DataType="helpers:PaymentItem">
+
+                            <Frame
+                                Padding="0, 15"
+                                HasShadow="False"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                                xct:TouchEffect.Command="{Binding TapCommand}"
+                                xct:TouchEffect.CommandParameter="{Binding .}">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+
+                                        <VisualState Name="Selected">
+
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                        <VisualState Name="Normal">
+
+                                            <VisualState.Setters>
+                                                <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <StackLayout Orientation="Horizontal">
+
+                                    <Label
+                                        Text="{Binding Text}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        VerticalTextAlignment="Center"
+                                        FontSize="{DynamicResource TSize_i7}"
+                                        FontFamily="Barlow-Medium"
+                                        Margin="15, 0, 0, 0"
+                                        HorizontalOptions="FillAndExpand"/>
+
+                                    <ffimageloading:CachedImage 
+                                        Source="ic_arrow_right_40x40"
+                                        HeightRequest="24"
+                                        HorizontalOptions="End"
+                                        Margin="0, 0, 15, 0"/>
+
+                                </StackLayout>
+
+                            </Frame>
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-                    
+
                 </CollectionView>
-                                                    
+
+                <StackLayout Spacing="0">
+
+                    <BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        HeightRequest="1"/>
+
+                    <Label
+                        Text="Summary"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Bold"
+                        Margin="15, 7"/>
+
+                    <BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+                        HeightRequest="1"/>
+
+                </StackLayout>
+                
+                <StackLayout
+                    Spacing="0"
+                    Padding="15, 10, 15, 0">
+                    
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Subtotal"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Coupon"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Tax"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Tip"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                    <BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        HeightRequest="1"
+                        Margin="0, 10"/>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Gift Cards"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Cash"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <Label
+                            Text="Change"
+                            Style="{StaticResource SummaryItem}"/>
+
+                        <Label
+                            Text="$ 25"
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"/>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Padding="15, 5, 15, 0">
+
+                    <Label
+                        Text="Total"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        VerticalTextAlignment="Center"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Regular"/>
+
+                    <Label
+                        Text="$ 25"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        VerticalTextAlignment="Center"
+                        HorizontalOptions="EndAndExpand"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Regular"/>
+
+                </StackLayout>
+
+                <buttons:BorderButton
+                    Text="Complete"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    FontSize="{DynamicResource TSize_i5}"
+                    FontFamily="Barlow-SemiBold"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    CornerRadius="4"
+                    Padding="0, 10"
+                    Margin="15"/>
+
+
             </StackLayout>
             
         </Grid>

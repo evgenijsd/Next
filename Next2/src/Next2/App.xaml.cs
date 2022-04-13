@@ -111,6 +111,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomerRewardsPage, CustomerRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.InputCashPage, InputCashPageViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
@@ -31,6 +32,36 @@ namespace Next2.ViewModels
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
+
+            _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
+
+            PaymentOptionsItems = new()
+            {
+                new()
+                {
+                    PayemenType = EPaymentItems.Tips,
+                    Text = "Tips",
+                    TapCommand = _tapPaymentOptionCommand,
+                },
+                new()
+                {
+                    PayemenType = EPaymentItems.GiftCards,
+                    Text = "Gift Cards",
+                    TapCommand = _tapPaymentOptionCommand,
+                },
+                new()
+                {
+                    PayemenType = EPaymentItems.Cash,
+                    Text = "Cash",
+                    TapCommand = _tapPaymentOptionCommand,
+                },
+                new()
+                {
+                    PayemenType = EPaymentItems.Card,
+                    Text = "Card",
+                    TapCommand = _tapPaymentOptionCommand,
+                },
+            };
         }
 
         #region -- Public properties --
@@ -55,6 +86,12 @@ namespace Next2.ViewModels
 
         private ICommand _goToCompleteTabCommand;
         public ICommand GoToCompleteTabCommand => _goToCompleteTabCommand ??= new AsyncCommand(OnGoToCompleteTabCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _tapPaymentOptionCommand;
+
+        public bool IsExpandedSummary { get; set; } = true;
+
+        public ObservableCollection<PaymentItem> PaymentOptionsItems { get; set; } = new();
 
         private async Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
         {
@@ -92,6 +129,16 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
+        private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
+        {
+            switch (item.PayemenType)
+            {
+                case EPaymentItems.Cash:
+                    _navigationService.NavigateAsync(nameof(InputCashPage));
+                    break;
+            }
+        }
 
         private async Task LoadPageData(CustomerModel customer)
         {

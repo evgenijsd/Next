@@ -1,8 +1,8 @@
 ﻿namespace Next2.Views.Mobile
 {
-    public partial class HoldItemsPage : BaseContentPage
+    public partial class InputCashPage : BaseContentPage
     {
-        public HoldItemsPage()
+        public InputCashPage()
         {
             InitializeComponent();
         }
