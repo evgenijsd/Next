@@ -41,13 +41,6 @@ namespace Next2.ViewModels
                 GoToPaymentStep);
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            RewardsViewModel.OnNavigatedTo(parameters);
-        }
-
         #region -- Public properties --
 
         public EPaymentPageSteps PaymentPageStep { get; set; }
@@ -56,6 +49,17 @@ namespace Next2.ViewModels
 
         private ICommand _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            RewardsViewModel.OnNavigatedTo(parameters);
+        }
 
         #endregion
 

@@ -19,6 +19,10 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
 
+        Task<AOResult<OrderModel>> GetOrderByIdAsync(int orderId);
+
+        Task<AOResult> UpdateOrderAsync(OrderModel order);
+
         Task<AOResult> DeleteOrderAsync(int orderId);
 
         Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderdId);

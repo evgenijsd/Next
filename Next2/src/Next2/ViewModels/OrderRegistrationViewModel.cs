@@ -706,7 +706,7 @@ namespace Next2.ViewModels
 
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
                 .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
-                .ForMember(x => x.CustomerName, s => s.MapFrom(x => x.Customer.Name)));
+                .ForMember(x => x.Customer, s => s.MapFrom(x => x.Customer)));
 
                 var mapper = new Mapper(config);
 

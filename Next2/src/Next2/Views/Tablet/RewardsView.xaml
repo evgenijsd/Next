@@ -48,7 +48,7 @@
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="Center"
                     TextColor="{DynamicResource AppColor_i1}"
-                    Text="{Binding CustomerName}"/>
+                    Text="{Binding Customer.Name}"/>
                     
             </StackLayout>
 
