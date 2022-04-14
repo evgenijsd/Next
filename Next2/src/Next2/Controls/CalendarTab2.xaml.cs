@@ -157,6 +157,22 @@ namespace Next2.Controls
                 }
             }
 
+            if (propertyName == nameof(SelectedMonth) || propertyName == nameof(SelectedYear))
+            {
+                if (SelectedEndDate is not null && SelectedYear.YearValue == SelectedEndDate.Value.Year && SelectedMonth == SelectedEndDate.Value.Month)
+                {
+                    SelectedDay = new Day
+                    {
+                        DayOfMonth = SelectedEndDate.Value.Day.ToString(),
+                        State = EDayState.DayMonth,
+                    };
+                }
+                else
+                {
+                    SelectedDay = new();
+                }
+            }
+
             if (propertyName == nameof(SelectedDay) && dropdownFrame.IsVisible)
             {
                 dropdownFrame.IsVisible = false;
@@ -165,6 +181,10 @@ namespace Next2.Controls
             }
             else if (propertyName == nameof(SelectedYear))
             {
+                dropdownFrame.IsVisible = false;
+                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
+
                 if (SelectedYear.YearValue > DateTime.Now.Year + OffsetYears && !_isFutureYearSelected)
                 {
                     _isFutureYearSelected = true;

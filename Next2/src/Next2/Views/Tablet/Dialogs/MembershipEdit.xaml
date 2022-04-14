@@ -60,6 +60,7 @@
                         <controls:CalendarTab
                             Grid.Column="0"
                             Title="{xct:Translate StartDate}"
+                            OffsetYears="10"
                             SelectedDate="{Binding SelectedDate}" />
 
                         <BoxView

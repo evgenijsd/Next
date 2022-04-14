@@ -113,6 +113,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         Month="{Binding SelectedMonth, Source={x:Reference calendarTab}}"
         Year="{Binding SelectedYear.YearValue, Source={x:Reference calendarTab}}"
+        OffsetYears="{Binding OffsetYears, Source={x:Reference calendarTab}}"
         SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
         SelectedItem="{Binding SelectedDay, Source={x:Reference calendarTab}}"
         x:Name="calendarGrid">

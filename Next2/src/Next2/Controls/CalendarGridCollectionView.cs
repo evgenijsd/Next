@@ -33,6 +33,19 @@ namespace Next2.Controls
             set => SetValue(YearProperty, value);
         }
 
+        public static readonly BindableProperty OffsetYearsProperty = BindableProperty.Create(
+            propertyName: nameof(OffsetYears),
+            returnType: typeof(int),
+            declaringType: typeof(CalendarGridCollectionView2),
+            defaultValue: 0,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int OffsetYears
+        {
+            get => (int)GetValue(OffsetYearsProperty);
+            set => SetValue(OffsetYearsProperty, value);
+        }
+
         public static readonly BindableProperty MonthProperty = BindableProperty.Create(
             propertyName: nameof(Month),
             returnType: typeof(int),
@@ -71,7 +84,7 @@ namespace Next2.Controls
             switch (propertyName)
             {
                 case nameof(Year):
-                    if (Year <= DateTime.Now.Year)
+                    if (Year <= DateTime.Now.Year + OffsetYears)
                     {
                         CreateArrayOfDays();
                     }
@@ -100,7 +113,7 @@ namespace Next2.Controls
                 {
                     if (int.TryParse(selectedDay.DayOfMonth, out int numberOfselectedDay))
                     {
-                        if (Year <= DateTime.Now.Year)
+                        if (Year <= DateTime.Now.Year + OffsetYears)
                         {
                             SelectedDate = new DateTime(Year, Month, numberOfselectedDay);
                         }

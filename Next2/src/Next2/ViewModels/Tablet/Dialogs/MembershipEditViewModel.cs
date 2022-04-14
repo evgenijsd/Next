@@ -57,7 +57,11 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnDisableMembershipCommand()
         {
-            Member.MembershipEndTime = DateTime.Now;
+            if (Member.MembershipEndTime > DateTime.Now)
+            {
+                Member.MembershipEndTime = DateTime.Now;
+            }
+
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.UPDATE, Member } };
 
             RequestClose(dialogParameters);
@@ -67,8 +71,14 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnSaveMembershipCommand()
         {
-            Member.MembershipStartTime = SelectedDate ?? new();
-            Member.MembershipEndTime = SelectedEndDate ?? new();
+            Member.MembershipStartTime = SelectedDate ?? Member.MembershipStartTime;
+            Member.MembershipEndTime = SelectedEndDate ?? Member.MembershipEndTime;
+
+            if (Member.MembershipStartTime > Member.MembershipEndTime)
+            {
+                Member.MembershipEndTime = Member.MembershipStartTime;
+            }
+
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.UPDATE, Member } };
 
             RequestClose(dialogParameters);

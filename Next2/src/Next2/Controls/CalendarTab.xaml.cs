@@ -98,6 +98,19 @@ namespace Next2.Controls
             set => SetValue(SelectedYearProperty, value);
         }
 
+        public static readonly BindableProperty OffsetYearsProperty = BindableProperty.Create(
+            propertyName: nameof(OffsetYears),
+            returnType: typeof(int),
+            declaringType: typeof(CalendarGridCollectionView2),
+            defaultValue: 0,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int OffsetYears
+        {
+            get => (int)GetValue(OffsetYearsProperty);
+            set => SetValue(OffsetYearsProperty, value);
+        }
+
         #endregion
 
         #region -- Overrides --
@@ -117,7 +130,37 @@ namespace Next2.Controls
                 };
             }
 
-            if (propertyName == nameof(SelectedDay) && dropdownFrame.IsVisible)
+            if (propertyName == nameof(OffsetYears))
+            {
+                if (DateTime.Now.Year + OffsetYears > Constants.Limits.MAX_YEAR)
+                {
+                    OffsetYears = Constants.Limits.MAX_YEAR - DateTime.Now.Year;
+                }
+
+                for (int i = DateTime.Now.Year; i <= DateTime.Now.Year + OffsetYears; i++)
+                {
+                    var year = Years.FirstOrDefault(x => x.YearValue == i);
+                    year.Opacity = 1;
+                }
+            }
+
+            if (propertyName == nameof(SelectedMonth) || propertyName == nameof(SelectedYear))
+            {
+                if (SelectedDate is not null && SelectedYear.YearValue == SelectedDate.Value.Year && SelectedMonth == SelectedDate.Value.Month)
+                {
+                    SelectedDay = new Day
+                    {
+                        DayOfMonth = SelectedDate.Value.Day.ToString(),
+                        State = EDayState.DayMonth,
+                    };
+                }
+                else
+                {
+                    SelectedDay = new();
+                }
+            }
+
+            if (propertyName == nameof(SelectedDay))
             {
                 dropdownFrame.IsVisible = false;
                 yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
@@ -125,10 +168,14 @@ namespace Next2.Controls
             }
             else if (propertyName == nameof(SelectedYear))
             {
-                if (SelectedYear.YearValue > DateTime.Now.Year && !_isFutureYearSelected)
+                dropdownFrame.IsVisible = false;
+                yearDropdownFrame.BackgroundColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
+                yearDropdownIcon.Source = "ic_arrow_down_primary_24x24";
+
+                if (SelectedYear.YearValue > DateTime.Now.Year + OffsetYears && !_isFutureYearSelected)
                 {
                     _isFutureYearSelected = true;
-                    SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year);
+                    SelectedYear = Years.FirstOrDefault(x => x.YearValue == DateTime.Now.Year + OffsetYears);
                     yearsCollectionView.SelectedItem = null;
                 }
 

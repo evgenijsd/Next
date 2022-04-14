@@ -108,6 +108,10 @@ namespace Next2.Controls
                     CreateArrayOfDays();
                     break;
 
+                case nameof(SelectedDate):
+                    CreateArrayOfDays();
+                    break;
+
                 case nameof(SelectedItem):
                     DaySelection();
                     break;
