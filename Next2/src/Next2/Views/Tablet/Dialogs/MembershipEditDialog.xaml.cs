@@ -11,7 +11,7 @@ namespace Next2.Views.Tablet.Dialogs
         public MembershipEditDialog(DialogParameters param, Action<IDialogParameters> requestClose, IMapper mapper)
         {
             InitializeComponent();
-            BindingContext = new MembershipEditDialogViewModel(param, requestClose, mapper);
+            //BindingContext = new MembershipEditDialogViewModel(param, requestClose, mapper);
         }
     }
 }

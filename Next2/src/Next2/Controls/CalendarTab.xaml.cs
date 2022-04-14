@@ -1,4 +1,5 @@
-﻿using Next2.Helpers;
+﻿using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using System;
@@ -104,6 +105,17 @@ namespace Next2.Controls
         protected override void OnPropertyChanged(string? propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
+
+            if (propertyName == nameof(SelectedDate) && SelectedDate is not null)
+            {
+                SelectedYear = Years.FirstOrDefault(x => x.YearValue == SelectedDate.Value.Year);
+                SelectedMonth = SelectedDate.Value.Month;
+                SelectedDay = new Day
+                {
+                    DayOfMonth = SelectedDate.Value.Day.ToString(),
+                    State = EDayState.DayMonth,
+                };
+            }
 
             if (propertyName == nameof(SelectedDay) && dropdownFrame.IsVisible)
             {

@@ -5,8 +5,8 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Dialogs"
-    x:DataType="viewModels:MembershipEditDialogViewModel"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    x:DataType="dialogs:MembershipEditDialogViewModel"
     x:Class="Next2.Views.Tablet.Dialogs.MembershipEditDialog">
 
     <Frame
@@ -18,12 +18,12 @@
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
-        <StackLayout
-            Spacing="0">
+        <StackLayout Spacing="0">
 
             <StackLayout
                 HorizontalOptions="FillAndExpand"
                 Orientation="Horizontal">
+                
                 <Label
                     Text="{xct:Translate EditMembership}"
                     Margin="20,23,0,18"
@@ -32,12 +32,13 @@
                     FontSize="{DynamicResource TSize_i6}" />
 
                 <Label
-                    Text="{Binding Member.CustomerName}"
+                    Text="{Binding CustomerName}"
                     HorizontalOptions="EndAndExpand"
                     Margin="0,23,20,18"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontFamily="Barlow-Regular"
                     FontSize="{DynamicResource TSize_i6}" />
+                
             </StackLayout>
 
 
@@ -53,7 +54,7 @@
                 <controls:CalendarTab
                     Grid.Column="0"
                     Title="{xct:Translate StartDate}"
-                    SelectedDate="{Binding Member.MembershipStartTime}" />
+                    SelectedDate="{Binding SelectedStartDate}" />
 
                 <BoxView
                     Margin="0,17,0,20"
@@ -64,7 +65,7 @@
                 <controls:CalendarTab
                     Grid.Column="1"
                     Title="{xct:Translate EndDate}"
-                    SelectedDate="{Binding Member.MembershipEndTime}" />
+                    SelectedDate="{Binding SelectedEndDate}" />
 
             </Grid>
 
