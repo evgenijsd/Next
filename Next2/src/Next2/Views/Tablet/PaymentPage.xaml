@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -11,7 +10,6 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:tablet="clr-namespace:Next2.Views.Tablet"
-    xmlns:local="clr-namespace:Next2"
     x:DataType="viewmodels:PaymentViewModel"
     x:Class="Next2.Views.Tablet.PaymentPage">
     
@@ -103,15 +101,7 @@
                 
                 <sc:StateCondition State="{Static enums:EPaymentPageSteps.Complete}">
                     
-                    <!-- temporary -->
-                    <StackLayout>
-                        <Label 
-                            VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="Center"
-                            FontSize="20"
-                            TextColor="White"
-                            Text="Complete"/>
-                    </StackLayout>
+                    <tablet:PaymentCompleteView BindingContext="{Binding PaymentCompleteViewModel}"/>
                     
                 </sc:StateCondition>
             </sc:StateContainer.Conditions>

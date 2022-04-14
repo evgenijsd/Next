@@ -37,6 +37,7 @@ namespace Next2.ViewModels
             IOrderService orderService,
             ICustomersService customersService,
             IRewardsService rewardService,
+            PaidOrderBindableModel orderForPayment,
             Action<NavigationMessage> navigateAsync,
             Action<EPaymentPageSteps> goToPaymentStep)
             : base(navigationService)
@@ -47,6 +48,7 @@ namespace Next2.ViewModels
             _customersService = customersService;
             _rewardService = rewardService;
 
+            PaidOrder = orderForPayment;
             NavigateAsync = navigateAsync;
             GoToPaymentStep = goToPaymentStep;
         }
@@ -55,13 +57,9 @@ namespace Next2.ViewModels
 
         public ERewardsPageState PageState { get; set; }
 
-        public CustomerModel Customer { get; set; } = new ();
+        public PaidOrderBindableModel PaidOrder { get; set; }
 
         public bool IsAnyRewardsApplied { get; set; }
-
-        public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
-
-        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new ();
 
         private readonly Action<NavigationMessage> NavigateAsync;
 
@@ -96,12 +94,12 @@ namespace Next2.ViewModels
 
                 if (isRewardApplied && parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
                 {
-                    Seats = seats;
-                    LockUnlockSimilarRewards(Seats, reward);
+                    PaidOrder.Seats = seats;
+                    LockUnlockSimilarRewards(PaidOrder.Seats, reward);
                 }
                 else
                 {
-                    ApplyCancelRewardToSet(Seats, reward);
+                    ApplyCancelRewardToSet(PaidOrder.Seats, reward);
                 }
             }
             else
@@ -120,7 +118,7 @@ namespace Next2.ViewModels
 
             if (isPaymentForUnsavedOrder)
             {
-                Customer = _orderService.CurrentOrder.Customer;
+                PaidOrder.Customer = _orderService.CurrentOrder.Customer;
             }
             else
             {
@@ -128,17 +126,17 @@ namespace Next2.ViewModels
 
                 if (orderResult.IsSuccess && orderResult.Result.Customer.Id != 0)
                 {
-                    Customer = orderResult.Result.Customer;
+                    PaidOrder.Customer = orderResult.Result.Customer;
                 }
             }
 
-            if (Customer.Id == 0)
+            if (PaidOrder.Customer.Id == 0)
             {
                 PageState = ERewardsPageState.NoSelectedCustomer;
             }
             else
             {
-                var customersRewardsResult = await _rewardService.GetCustomersRewards(Customer.Id);
+                var customersRewardsResult = await _rewardService.GetCustomersRewards(PaidOrder.Customer.Id);
 
                 if (!customersRewardsResult.IsSuccess)
                 {
@@ -150,12 +148,12 @@ namespace Next2.ViewModels
 
                     await LoadSeats();
 
-                    Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result, opt => opt.AfterMap((input, output) =>
+                    PaidOrder.Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result, opt => opt.AfterMap((input, output) =>
                     {
                         foreach (var reward in output)
                         {
                             reward.SelectCommand = SelectRewardCommand;
-                            reward.CanBeApplied = Seats.Any(x => x.Sets.Any(x => x.Id == reward.SetId));
+                            reward.CanBeApplied = PaidOrder.Seats.Any(x => x.Sets.Any(x => x.Id == reward.SetId));
                         }
                     }));
                 }
@@ -184,7 +182,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            Seats.Clear();
+            PaidOrder.Seats.Clear();
 
             foreach (var seat in seats)
             {
@@ -197,7 +195,7 @@ namespace Next2.ViewModels
                     Sets = freeSets,
                 };
 
-                Seats.Add(newSeat);
+                PaidOrder.Seats.Add(newSeat);
             }
         }
 
@@ -227,12 +225,12 @@ namespace Next2.ViewModels
                 seat.Sets = new (seat.Sets);
             }
 
-            IsAnyRewardsApplied = Rewards.Any(x => x.IsApplied);
+            IsAnyRewardsApplied = PaidOrder.Rewards.Any(x => x.IsApplied);
         }
 
         public void LockUnlockSimilarRewards(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel selectedReward)
         {
-            foreach (var reward in Rewards)
+            foreach (var reward in PaidOrder.Rewards)
             {
                 if (!reward.IsApplied && reward.SetId == selectedReward.SetId)
                 {
@@ -248,18 +246,18 @@ namespace Next2.ViewModels
                 if (App.IsTablet)
                 {
                     selectedReward.IsApplied = !selectedReward.IsApplied;
-                    ApplyCancelRewardToSet(Seats, selectedReward);
-                    LockUnlockSimilarRewards(Seats, selectedReward);
+                    ApplyCancelRewardToSet(PaidOrder.Seats, selectedReward);
+                    LockUnlockSimilarRewards(PaidOrder.Seats, selectedReward);
                 }
                 else if (selectedReward.IsApplied)
                 {
                     selectedReward.IsApplied = false;
-                    ApplyCancelRewardToSet(Seats, selectedReward);
-                    LockUnlockSimilarRewards(Seats, selectedReward);
+                    ApplyCancelRewardToSet(PaidOrder.Seats, selectedReward);
+                    LockUnlockSimilarRewards(PaidOrder.Seats, selectedReward);
                 }
                 else
                 {
-                    ObservableCollection<SeatWithFreeSetsBindableModel> setsForRewardApplying = new (Seats);
+                    ObservableCollection<SeatWithFreeSetsBindableModel> setsForRewardApplying = new (PaidOrder.Seats);
 
                     selectedReward.IsApplied = true;
                     ApplyCancelRewardToSet(setsForRewardApplying, selectedReward);
@@ -310,7 +308,8 @@ namespace Next2.ViewModels
 
                         if (getOrderResult.IsSuccess)
                         {
-                            getOrderResult.Result.Customer = customer;
+                            var order = getOrderResult.Result;
+                            order.Customer = customer;
 
                             var orderUpdateResult = await _orderService.UpdateOrderAsync(order);
                         }

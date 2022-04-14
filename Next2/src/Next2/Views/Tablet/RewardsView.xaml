@@ -12,8 +12,8 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    x:DataType="viewmodels:RewardsViewModel"
-    x:Class="Next2.Views.Tablet.RewardsView">
+    x:Class="Next2.Views.Tablet.RewardsView"
+    x:DataType="viewmodels:RewardsViewModel">
     
     <ContentView.Resources>
         <Style TargetType="Label">
@@ -48,7 +48,7 @@
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="Center"
                     TextColor="{DynamicResource AppColor_i1}"
-                    Text="{Binding Customer.Name}"/>
+                    Text="{Binding PaidOrder.Customer.Name}"/>
                     
             </StackLayout>
 
@@ -98,7 +98,7 @@
                     <!-- LIST OF SEATS IN ORDER --> 
                     <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
                         <StackLayout>
-                            <CollectionView ItemsSource="{Binding Seats}">
+                            <CollectionView ItemsSource="{Binding PaidOrder.Seats}">
                                     
                                 <CollectionView.Effects>
                                     <effects:NoOverScrollEffect/>
@@ -202,8 +202,8 @@
                 Text="{xct:Translate RewardsOptions}"/>
                 
             <CollectionView
-                HeightRequest="{Binding Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
-                ItemsSource="{Binding Rewards}">
+                HeightRequest="{Binding PaidOrder.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
+                ItemsSource="{Binding PaidOrder.Rewards}">
                     
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>

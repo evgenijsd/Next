@@ -12,8 +12,8 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    x:DataType="viewmodels:RewardsViewModel"
-    x:Class="Next2.Views.Mobile.RewardsView">
+    x:Class="Next2.Views.Mobile.RewardsView"
+    x:DataType="viewmodels:RewardsViewModel">
     
     <StackLayout>
         
@@ -64,8 +64,8 @@
                             Text="{xct:Translate RewardsOptions}" />
 
                         <CollectionView
-                            HeightRequest="{Binding Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
-                            ItemsSource="{Binding Rewards}">
+                            HeightRequest="{Binding PaidOrder.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
+                            ItemsSource="{Binding PaidOrder.Rewards}">
                     
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect/>

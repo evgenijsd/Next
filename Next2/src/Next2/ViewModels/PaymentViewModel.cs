@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
@@ -37,15 +38,22 @@ namespace Next2.ViewModels
                 orderService,
                 customerService,
                 rewardsService,
+                OrderForPayment,
                 NavigateAsync,
                 GoToPaymentStep);
+
+            PaymentCompleteViewModel = new (navigationService);
         }
 
         #region -- Public properties --
 
+        public PaidOrderBindableModel OrderForPayment { get; set; } = new ();
+
         public EPaymentPageSteps PaymentPageStep { get; set; }
 
         public RewardsViewModel RewardsViewModel { get; set; }
+
+        public PaymentCompleteViewModel PaymentCompleteViewModel { get; set; }
 
         private ICommand _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
@@ -65,7 +73,8 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async void NavigateAsync(NavigationMessage navigationMessage) => await _navigationService.NavigateAsync(navigationMessage.Path, navigationMessage.Parameters);
+        private async void NavigateAsync(NavigationMessage navigationMessage) =>
+            await _navigationService.NavigateAsync(navigationMessage.Path, navigationMessage.Parameters);
 
         private void GoToPaymentStep(EPaymentPageSteps step) => PaymentPageStep = step;
 
