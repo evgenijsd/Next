@@ -114,11 +114,14 @@ namespace Next2.ViewModels.Mobile
             {
                 var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
-                await _popupNavigation.PopAsync();
+                if (_popupNavigation.PopupStack.Any())
+                {
+                    await _popupNavigation.PopAsync();
+                }
 
                 var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                 {
-                    Duration = TimeSpan.FromSeconds(Constants.TOAST_DURATION),
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                     Position = ToastPosition.Bottom,
                 };
 

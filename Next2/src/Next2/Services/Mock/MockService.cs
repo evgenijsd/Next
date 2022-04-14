@@ -1,13 +1,11 @@
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Next2.Enums;
 
 namespace Next2.Services.Mock
 {
@@ -23,8 +21,14 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<TaxModel> _tax;
+        private IList<BonusModel> _bonuses;
+        private IList<BonusConditionModel> _bonusConditions;
+        private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private IList<TaxModel> _taxBonus;
+        private IList<RewardModel> _rewards;
+        private List<CustomerModel> _customers;
         private IList<ProductModel> _products;
         private IList<ReplacementProductModel> _replacementProducts;
         private IList<OptionModel> _optionsProduct;
@@ -34,7 +38,6 @@ namespace Next2.Services.Mock
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
-        private List<CustomerModel> _customers;
 
         public MockService()
         {
@@ -54,7 +57,7 @@ namespace Next2.Services.Mock
 
             GetBase<T>().Add(entity);
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return entity.Id;
         }
@@ -64,7 +67,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>();
         }
@@ -74,7 +77,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault(x => x.Id == id);
         }
@@ -86,7 +89,7 @@ namespace Next2.Services.Mock
 
             var entityDelete = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Remove(entityDelete);
         }
@@ -96,7 +99,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().RemoveAll(predicate);
         }
@@ -109,7 +112,7 @@ namespace Next2.Services.Mock
             var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
             entityUpdate = entity;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return entityUpdate;
         }
@@ -119,7 +122,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault<T>(expression);
         }
@@ -129,7 +132,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Any<T>(expression);
         }
@@ -139,7 +142,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Where<T>(expression);
         }
@@ -171,8 +174,12 @@ namespace Next2.Services.Mock
                 InitTables(),
                 InitUsersAsync(),
                 InitCustomersAsync(),
+                InitTaxAsync(),
+                InitBonusAsync(),
+                InitBonusSetAsync(),
+                InitBonusConditionAsync(),
                 InitPortionsAsync(),
-                InitTaxAndBonusAsync(),
+                IniRewardsAsync(),
                 InitReplacementProductsAsync(),
                 InitProductsAsync(),
                 InitOptionsProductAsync(),
@@ -183,9 +190,9 @@ namespace Next2.Services.Mock
             _initCompletionSource.TrySetResult(true);
         }
 
-        private Task InitTaxAndBonusAsync() => Task.Run(() =>
+        private Task InitTaxAsync() => Task.Run(() =>
         {
-            _taxBonus = new List<TaxModel>
+            _tax = new List<TaxModel>
             {
                 new TaxModel
                 {
@@ -195,8 +202,210 @@ namespace Next2.Services.Mock
                 },
             };
 
-            _base.Add(typeof(TaxModel), _taxBonus);
-            _maxIdentifiers.Add(typeof(TaxModel), GetMaxId(_taxBonus));
+            _base.Add(typeof(TaxModel), _tax);
+        });
+
+        private Task InitBonusConditionAsync() => Task.Run(() =>
+        {
+            _bonusConditions = new List<BonusConditionModel>
+            {
+                new BonusConditionModel
+                {
+                    Id = 1,
+                    SetId = 1,
+                    BonusId = 3,
+                },
+                new BonusConditionModel
+                {
+                    Id = 2,
+                    SetId = 2,
+                    BonusId = 3,
+                },
+                new BonusConditionModel
+                {
+                    Id = 3,
+                    SetId = 2,
+                    BonusId = 5,
+                },
+                new BonusConditionModel
+                {
+                    Id = 4,
+                    SetId = 2,
+                    BonusId = 6,
+                },
+            };
+
+            _base.Add(typeof(BonusConditionModel), _bonusConditions);
+        });
+
+        private Task InitBonusSetAsync() => Task.Run(() =>
+        {
+            _bonusSets = new List<BonusSetModel>
+            {
+                new BonusSetModel
+                {
+                    Id = 1,
+                    SetId = 3,
+                    BonusId = 3,
+                },
+                new BonusSetModel
+                {
+                    Id = 2,
+                    SetId = 2,
+                    BonusId = 5,
+                },
+                new BonusSetModel
+                {
+                    Id = 3,
+                    SetId = 2,
+                    BonusId = 4,
+                },
+                new BonusSetModel
+                {
+                    Id = 4,
+                    SetId = 1,
+                    BonusId = 4,
+                },
+                new BonusSetModel
+                {
+                    Id = 5,
+                    SetId = 2,
+                    BonusId = 2,
+                },
+                new BonusSetModel
+                {
+                    Id = 6,
+                    SetId = 2,
+                    BonusId = 6,
+                },
+            };
+
+            _base.Add(typeof(BonusSetModel), _bonusSets);
+        });
+
+        private Task InitBonusAsync() => Task.Run(() =>
+        {
+            _bonuses = new List<BonusModel>
+            {
+                new BonusModel
+                {
+                    Id = 1,
+                    Name = "10% Off",
+                    Value = 0.1f,
+                    Type = EBonusValueType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 2,
+                    Name = "$ 2.00 Off",
+                    Value = 2.0f,
+                    Type = EBonusValueType.Value,
+                },
+                new BonusModel
+                {
+                    Id = 3,
+                    Name = "50% Off BigMack",
+                    Value = 0.5f,
+                    Type = EBonusValueType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 4,
+                    Name = "$ 5.00 Off",
+                    Value = 5f,
+                    Type = EBonusValueType.Value,
+                },
+                new BonusModel
+                {
+                    Id = 5,
+                    Name = "BOGO Buy 1 and get 1 free",
+                    Value = 1.0f,
+                    Type = EBonusValueType.Percent,
+                },
+                new BonusModel
+                {
+                    Id = 6,
+                    Name = "GoodNeighbor",
+                    Value = 1.0f,
+                    Type = EBonusValueType.Percent,
+                },
+            };
+
+            _base.Add(typeof(BonusModel), _bonuses);
+        });
+
+        private Task IniRewardsAsync() => Task.Run(() =>
+        {
+            int rewardId = 1;
+            _rewards = new List<RewardModel>
+            {
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 2,
+                    SetTitle = "B Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 1,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 2,
+                    SetId = 3,
+                    SetTitle = "C Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 1,
+                    SetTitle = "A Pulled Pork Sammy Meal",
+                },
+                new RewardModel
+                {
+                    Id = rewardId++,
+                    CustomerId = 3,
+                    SetId = 4,
+                    SetTitle = "D Pulled Pork Sammy Meal",
+                },
+            };
+
+            _base.Add(typeof(RewardModel), _rewards);
+            _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>
@@ -214,7 +423,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
-                    Tax = 0.1,
+                    PriceTax = 5.02,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -226,7 +435,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
-                    Tax = 0.1,
+                    PriceTax = 3.03,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -238,7 +447,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
-                    Tax = 0.1,
+                    PriceTax = 4.05,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -250,7 +459,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
-                    Tax = 0.0,
+                    PriceTax = 0.37,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -262,7 +471,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
-                    Tax = 0.0,
+                    PriceTax = 7.04,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -274,7 +483,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
-                    Tax = 0.1,
+                    PriceTax = 0.68,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -286,7 +495,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
-                    Tax = 0.1,
+                    PriceTax = 4.51,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -298,7 +507,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
-                    Tax = 0.1,
+                    PriceTax = 3.37,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -310,7 +519,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
-                    Tax = 0.1,
+                    PriceTax = 5.52,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -322,7 +531,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
-                    Tax = 0.0,
+                    PriceTax = 9.77,
                     PaymentStatus = Enums.EOrderPaymentStatus.WaitingForPayment,
                 },
                 new OrderModel()
@@ -334,7 +543,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
-                    Tax = 0.1,
+                    PriceTax = 9.60,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -346,6 +555,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 12,
                     Total = 9.50,
+                    PriceTax = 0.95,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -357,7 +567,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
-                    Tax = 0.1,
+                    PriceTax = 0.94,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -369,7 +579,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
-                    Tax = 0.1,
+                    PriceTax = 0.93,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
                 new OrderModel()
@@ -381,7 +591,7 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
-                    Tax = 0.1,
+                    PriceTax = 0.92,
                     PaymentStatus = Enums.EOrderPaymentStatus.InProgress,
                 },
             };
@@ -661,7 +871,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
-                    Title = "A Pulled Pork Sammy Meal Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy Meal",
                     Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
@@ -2399,295 +2609,295 @@ namespace Next2.Services.Mock
             {
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 15,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId,
                     IngredientId = 1,
                 },
                 new()
                 {
-                    Id = id,
+                    Id = id++,
                     ProductId = productId++,
                     IngredientId = 2,
                 },

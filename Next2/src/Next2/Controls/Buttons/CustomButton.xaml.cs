@@ -42,6 +42,32 @@ namespace Next2.Controls
             set => SetValue(IsSelectedProperty, value);
         }
 
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(
+            propertyName: nameof(FontSize),
+            returnType: typeof(double),
+            defaultValue: 14.0,
+            declaringType: typeof(CustomButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double FontSize
+        {
+            get => (double)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
+            propertyName: nameof(FontFamily),
+            returnType: typeof(string),
+            declaringType: typeof(CustomButton),
+            defaultValue: "Barlow-SemiBold",
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string FontFamily
+        {
+            get => (string)GetValue(FontFamilyProperty);
+            set => SetValue(FontFamilyProperty, value);
+        }
+
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),

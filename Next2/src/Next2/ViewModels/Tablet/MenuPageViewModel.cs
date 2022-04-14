@@ -55,7 +55,7 @@ namespace Next2.ViewModels.Tablet
 
             InitMenuItems();
 
-            MessagingCenter.Subscribe<PageSwitchingMessage>(this, Constants.Navigations.SWITCH_PAGE, PageSwitchingMessageHandler);
+            MessagingCenter.Subscribe<MenuPageSwitchingMessage>(this, Constants.Navigations.SWITCH_PAGE, PageSwitchingMessageHandler);
         }
 
         #region -- Public properties --
@@ -118,7 +118,7 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private methods --
 
-        private void PageSwitchingMessageHandler(PageSwitchingMessage sender)
+        private void PageSwitchingMessageHandler(MenuPageSwitchingMessage sender)
         {
             if (sender is not null)
             {
@@ -130,7 +130,7 @@ namespace Next2.ViewModels.Tablet
                 }
             }
 
-            MessagingCenter.Unsubscribe<PageSwitchingMessage, SetBindableModel>(sender, Constants.Navigations.SWITCH_PAGE);
+            MessagingCenter.Unsubscribe<MenuPageSwitchingMessage, SetBindableModel>(sender, Constants.Navigations.SWITCH_PAGE);
         }
 
         private void InitMenuItems()

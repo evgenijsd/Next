@@ -26,6 +26,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MobileViewModels = Next2.ViewModels.Mobile;
+using MobileViews = Next2.Views.Mobile;
+using TabletViewModels = Next2.ViewModels.Tablet;
+using TabletViews = Next2.Views.Tablet;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
@@ -51,6 +55,7 @@ namespace Next2.ViewModels
         private readonly ICommand _setSelectionCommand;
 
         private SeatBindableModel _firstSeat;
+        private TaxModel _tax;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
         private EOrderPaymentStatus _orderPaymentStatus;
@@ -174,6 +179,11 @@ namespace Next2.ViewModels
                     });
                 }
             }
+
+            if (CurrentOrder.Tax.Value == 0)
+            {
+                IsOrderWithTax = false;
+            }
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
@@ -204,7 +214,8 @@ namespace Next2.ViewModels
 
                     break;
                 case nameof(IsOrderWithTax):
-                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.SubTotal;
+                    _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.PriceWithBonus : _orderService.CurrentOrder.SubTotal;
+                    _orderService.CurrentOrder.PriceTax = 0;
                     break;
                 case nameof(SelectedSet):
                     await InitEditSetDetailsAsync(SelectedSet);
@@ -264,7 +275,7 @@ namespace Next2.ViewModels
 
             if (availableTablesResult.IsSuccess)
             {
-                var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
 
                 Tables = new(tableBindableModels);
             }
@@ -596,9 +607,19 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnOpenDiscountSelectionCommandAsync()
+        private async Task OnOpenDiscountSelectionCommandAsync()
         {
-            return Task.CompletedTask;
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Subscribe(BonusEventCommand);
+
+            var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
+            await _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
+        }
+
+        private void BonusEventCommand(FullOrderBindableModel currentOrder)
+        {
+            CurrentOrder = currentOrder;
+
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
@@ -631,6 +652,11 @@ namespace Next2.ViewModels
             _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
 
             IsOrderWithTax = isOrderWithTax;
+
+            if (!IsOrderWithTax)
+            {
+                CurrentOrder.Tax.Value = 0;
+            }
         }
 
         private async Task OnOrderCommandAsync(EOrderPaymentStatus commandParameter)
@@ -802,7 +828,11 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
-            return Task.CompletedTask;
+            string path = App.IsTablet
+                ? nameof(Views.Tablet.PaymentPage)
+                : nameof(Views.Mobile.PaymentPage);
+
+            return _navigationService.NavigateAsync(path);
         }
 
         private Task OnHideOrderNotificationCommnadAsync()
@@ -819,7 +849,7 @@ namespace Next2.ViewModels
 
                 await RefreshCurrentOrderAsync();
 
-                MessagingCenter.Send<PageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
+                MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
             else
             {

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Drawing;
-using Foundation;
+﻿using Foundation;
 using Next2.Controls;
 using Next2.iOS.Renderers;
 using ObjCRuntime;
+using System.Drawing;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;

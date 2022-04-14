@@ -36,6 +36,19 @@
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
         }
 
+        public static class Limits
+        {
+            public const int TOAST_DURATION = 3;
+            public const int SERVER_RESPONCE_DELAY = 100;
+            public const int MAX_TABLE_SEATS = 10;
+            public const int LOGIN_PASSWORD_LENGTH = 6;
+            public const int PHONE_LENGTH = 10;
+            public const int MIN_YEAR = 1900;
+            public const int MAX_YEAR = 2100;
+            public const int DAYS_IN_CALENDAR = 42;
+            public const float TAX_PERCENTAGE = 20;
+        }
+
         public static class LayoutOrderTabs
         {
             public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
@@ -46,16 +59,27 @@
             public const double ROW_HEIGHT = 48 + 2;
         }
 
+        public static class LayoutBonuses
+        {
+            public const double ROW_TABLET_BONUS = 57;
+            public const double ROW_MOBILE_BONUS = 65;
+        }
+
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
+            public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string ADMIN = "ADMIN";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
+            public const string SEATS = "SEATS";
+            public const string REWARD = "REWARD";
+            public const string IS_REWARD_APPLIED = "IS_REWARD_APPLIED";
+            public const string GO_TO_REWARDS_POINTS = "GO_TO_REWARDS_POINTS";
             public const string INPUT_TEXT = "INPUT_TEXT";
             public const string PLACEHOLDER = "PLACEHOLDER";
             public const string ORDER_STATUS = "ORDER_STATUS";
@@ -70,6 +94,8 @@
             public const string NAME = @"[^a-zA-Z\s]";
             public const string NUMBER = @"[\D]";
             public const string CHECK_NUMBER = @"^[\d]";
+            public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+           @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         }
 
         public static class OrderStatus

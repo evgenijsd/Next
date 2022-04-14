@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Next2.ENums;
+﻿using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
@@ -7,14 +7,12 @@ using Next2.Services.Order;
 using Next2.Views;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -31,8 +29,6 @@ namespace Next2.ViewModels
 
         private SetBindableModel _selectedSet;
         private SetBindableModel _currentSet;
-
-        private ObservableCollection<ItemSpoilerModel> _submenuItems { get; set; }
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
@@ -53,7 +49,6 @@ namespace Next2.ViewModels
 
             _currentSet = CurrentOrder.Seats[_indexOfSeat].Sets[_indexOfSelectedSet];
 
-            InitSubmenuItems();
             InitProductsSet();
             InitPortionsSet();
 
@@ -138,10 +133,7 @@ namespace Next2.ViewModels
                 var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                 var indexProduct = products.IndexOf(product);
 
-                ObservableCollection<ItemSpoilerModel> submenu = new(_submenuItems);
-                submenu[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
-
-                ProductsSet[indexProduct].Items = submenu;
+                ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
                 _currentSet.Products[indexProduct].Comment = text;
 
@@ -179,6 +171,8 @@ namespace Next2.ViewModels
                         }
 
                         ResetSelectedIngredientsAsync(product);
+
+                        ResetSelectedOptionsAsync(product);
                     }
 
                     break;
@@ -206,49 +200,33 @@ namespace Next2.ViewModels
 
         #region --Private methods--
 
-        private void InitSubmenuItems()
-        {
-            _submenuItems = new()
-            {
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Replace,
-                    Title = "Replace",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
-                },
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Inventory,
-                    Title = "Inventory",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
-                },
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Options,
-                    Title = "Options",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
-                },
-                new ItemSpoilerModel()
-                {
-                    State = ESubmenuItemsModifactions.Comment,
-                    Title = "Comment",
-                    ImagePath = "ic_paper_plus_24x24.png",
-                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
-                },
-            };
-        }
-
         private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
         {
-            var ingridients = await _menuService.GetIngredientOfProductAsync(product.SelectedProduct.Id);
+            var ingridients = await _menuService.GetIngredientsOfProductAsync(product.SelectedProduct.Id);
 
             if (ingridients.IsSuccess)
             {
                 product.SelectedIngredients = new(ingridients.Result);
                 product.DefaultSelectedIngredients = new(ingridients.Result);
+            }
+        }
+
+        private async Task ResetSelectedOptionsAsync(ProductBindableModel product)
+        {
+            var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
+
+            if (options.IsSuccess)
+            {
+                if (options.Result is not null)
+                {
+                    product.SelectedOption = options.Result.FirstOrDefault(row => row.Id == product.SelectedProduct.DefaultOptionId);
+                    product.Options = new(options.Result);
+                }
+                else
+                {
+                    product.SelectedOption = new();
+                    product.Options = new();
+                }
             }
         }
 
@@ -291,6 +269,8 @@ namespace Next2.ViewModels
 
         private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
         {
+            toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
+
             var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
 
             var ingridient = product.SelectedIngredients.FirstOrDefault(row => row.IngredientId == toggleIngredient.Id);
@@ -325,16 +305,46 @@ namespace Next2.ViewModels
             {
                 ProductsSet = new(products.Select(row =>
                 {
-                    ObservableCollection<ItemSpoilerModel> submenu = new(_submenuItems);
-                    submenu[3].CanShowDot = !string.IsNullOrWhiteSpace(row.Comment);
-
-                    return new SpoilerBindableModel
+                    var result = new SpoilerBindableModel
                     {
-                        Id = row.SelectedProduct.Id,
+                        Id = row.Id,
                         Title = row.SelectedProduct.Title,
-                        Items = submenu,
+                        Items = new()
+                        {
+                            new SpoilerItem()
+                            {
+                                State = ESubmenuItemsModifactions.Replace,
+                                Title = "Replace",
+                                ImagePath = "ic_paper_fail_24x24.png",
+                                SelectedImagePath = "ic_paper_fail_primary_24x24.png",
+                            },
+                            new SpoilerItem()
+                            {
+                                State = ESubmenuItemsModifactions.Inventory,
+                                Title = "Inventory",
+                                ImagePath = "ic_paper_24x24.png",
+                                SelectedImagePath = "ic_paper_primary_24x24.png",
+                            },
+                            new SpoilerItem()
+                            {
+                                State = ESubmenuItemsModifactions.Options,
+                                Title = "Options",
+                                ImagePath = "ic_paper_plus_24x24.png",
+                                SelectedImagePath = "ic_paper_plus_primary_24x24.png",
+                            },
+                            new SpoilerItem()
+                            {
+                                State = ESubmenuItemsModifactions.Comment,
+                                Title = "Comment",
+                                ImagePath = "ic_chat_white_24x24.png",
+                                SelectedImagePath = "ic_chat_primary.png",
+                                CanShowDot = !string.IsNullOrWhiteSpace(row.Comment),
+                            },
+                        },
                         TapCommand = TapSubmenuCommand,
                     };
+
+                    return result;
                 }));
             }
         }
@@ -432,6 +442,8 @@ namespace Next2.ViewModels
             if (item.SelectedItem is not null)
             {
                 SelectedProduct = item;
+                _isOrderedByDescendingReplacementProducts = true;
+                _isOrderedByDescendingInventory = true;
 
                 var index = ProductsSet.IndexOf(item);
 
@@ -506,19 +518,20 @@ namespace Next2.ViewModels
             IsMenuOpen = false;
         }
 
-        private async Task OnSaveCommandAsync()
+        private Task OnSaveCommandAsync()
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
-            var navigationParameters = new NavigationParameters
-                {
-                    { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
-                    { nameof(Constants.Navigations.MODIFIED_SET), Constants.Navigations.MODIFIED_SET },
-                };
+            var parameters = new NavigationParameters
+            {
+                { Constants.Navigations.REFRESH_ORDER, true },
+                { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                { nameof(Constants.Navigations.MODIFIED_SET), Constants.Navigations.MODIFIED_SET },
+            };
 
-            await _navigationService.GoBackAsync(navigationParameters);
+            return _navigationService.GoBackAsync(parameters);
         }
 
         #endregion

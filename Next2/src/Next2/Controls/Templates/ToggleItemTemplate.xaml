@@ -49,8 +49,8 @@
         <Label
             Text="{Binding Subtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontSize="{DynamicResource TSize_i6}"
-            FontFamily="Barlow-SemiBold"
+            FontSize="{DynamicResource TSize_i7}"
+            FontFamily="Barlow-Medium"
             IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
 
     </StackLayout>
