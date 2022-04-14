@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Models;
-using Next2.Services.Membership;
-using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -15,34 +11,32 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
-    public class MembershipEditDialogViewModel : BindableBase
+    public class MembershipEditViewModel : BindableBase
     {
         private readonly IMapper _mapper;
 
-        public MembershipEditDialogViewModel(
+        public MembershipEditViewModel(
             DialogParameters param,
             Action<IDialogParameters> requestClose,
             IMapper mapper)
         {
             _mapper = mapper;
             SetupParameters(param);
+
             RequestClose = requestClose;
-            CloseCommand = new Command(() => RequestClose(new DialogParameters()));
         }
 
-        #region -- Public properties --
+        public DateTime? SelectedDate { get; set; } = null;
 
-        private MemberBindableModel Member; // { get; set; }
+        public DateTime? SelectedEndDate { get; set; } = null;
 
-        public DateTime? SelectedStartDate { get; set; }
-
-        public DateTime? SelectedEndDate { get; set; }
-
-        public string CustomerName { get; set; }
+        public MemberBindableModel Member { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
-        public ICommand CloseCommand { get; }
+        public ICommand _CloseCommand;
+
+        public ICommand CloseCommand => _CloseCommand ??= new AsyncCommand(OnCloseCommand, allowsMultipleExecutions: false);
 
         public ICommand _DisableMembershipCommand;
 
@@ -52,23 +46,19 @@ namespace Next2.ViewModels.Dialogs
 
         public ICommand SaveMembershipCommand => _SaveMembershipCommand ??= new AsyncCommand(OnSaveMembershipCommand, allowsMultipleExecutions: false);
 
-        #endregion
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName is nameof(SelectedStartDate) or nameof(SelectedEndDate))
-            {
-                int i = 0;
-            }
-        }
-
         #region --Private Helpers--
+
+        private Task OnCloseCommand()
+        {
+            RequestClose(new DialogParameters());
+
+            return Task.CompletedTask;
+        }
 
         private Task OnDisableMembershipCommand()
         {
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.DISABLE, Member } };
+            Member.MembershipEndTime = DateTime.Now;
+            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.UPDATE, Member } };
 
             RequestClose(dialogParameters);
 
@@ -77,7 +67,9 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnSaveMembershipCommand()
         {
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.SAVE, Member } };
+            Member.MembershipStartTime = SelectedDate ?? new();
+            Member.MembershipEndTime = SelectedEndDate ?? new();
+            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.UPDATE, Member } };
 
             RequestClose(dialogParameters);
 
@@ -90,8 +82,8 @@ namespace Next2.ViewModels.Dialogs
             {
                 Member = _mapper.Map<MemberBindableModel, MemberBindableModel>(member);
 
-                //SelectedStartDate = Member.MembershipStartTime;
-                //SelectedEndDate = Member.MembershipEndTime;
+                SelectedDate = Member.MembershipStartTime;
+                SelectedEndDate = Member.MembershipEndTime;
             }
         }
 

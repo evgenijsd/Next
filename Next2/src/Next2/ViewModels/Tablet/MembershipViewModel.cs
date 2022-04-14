@@ -144,7 +144,7 @@ namespace Next2.ViewModels.Tablet
             {
                 var parameters = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
 
-                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
+                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEdit(parameters, MembershipEditDialogCallBack, _mapper);
 
                 await _popupNavigation.PushAsync(popupPage);
             }
@@ -152,10 +152,13 @@ namespace Next2.ViewModels.Tablet
 
         private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
-            _member = new();
             await _popupNavigation.PopAsync();
 
-            var confirmDialogParameters = new DialogParameters
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
+            {
+                _member = _mapper.Map<MemberBindableModel, MemberModel>(member);
+
+                var confirmDialogParameters = new DialogParameters
                     {
                         { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
                         { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
@@ -163,47 +166,16 @@ namespace Next2.ViewModels.Tablet
                         { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                         { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
                     };
-
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.DISABLE, out MemberBindableModel memberDisable))
-            {
-                _member = _mapper.Map<MemberBindableModel, MemberModel>(memberDisable);
-                DateTime date = new();
-                _member.MembershipStartTime = date;
-                _member.MembershipEndTime = date;
-
-                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogDisableCallback);
-                await _popupNavigation.PushAsync(confirmDialog);
-            }
-
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.SAVE, out MemberBindableModel memberSave))
-            {
-                _member = _mapper.Map<MemberBindableModel, MemberModel>(memberSave);
-
-                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogSaveCallback);
+                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);
                 await _popupNavigation.PushAsync(confirmDialog);
             }
         }
 
-        private async void CloseConfirmDialogDisableCallback(IDialogParameters parameters)
+        private async void CloseConfirmDialogUpdateCallback(IDialogParameters parameters)
         {
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted))
             {
                 if (isMembershipDisableAccepted)
-                {
-                    await _membershipService.SaveMemberAsync(_member);
-
-                    await RefreshMembersAsync();
-                }
-            }
-
-            await _popupNavigation.PopAsync();
-        }
-
-        private async void CloseConfirmDialogSaveCallback(IDialogParameters parameters)
-        {
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipSaveAccepted))
-            {
-                if (isMembershipSaveAccepted)
                 {
                     await _membershipService.SaveMemberAsync(_member);
 
