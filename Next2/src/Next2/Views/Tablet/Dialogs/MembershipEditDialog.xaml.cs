@@ -6,9 +6,9 @@ using System;
 
 namespace Next2.Views.Tablet.Dialogs
 {
-    public partial class MembershipEdit : PopupPage
+    public partial class MembershipEditDialog : PopupPage
     {
-        public MembershipEdit(DialogParameters param, Action<IDialogParameters> requestClose, IMapper mapper)
+        public MembershipEditDialog(DialogParameters param, Action<IDialogParameters> requestClose, IMapper mapper)
         {
             InitializeComponent();
 

@@ -10,7 +10,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     HasKeyboardOffset="False"
-    x:Class="Next2.Views.Tablet.Dialogs.MembershipEdit">
+    x:Class="Next2.Views.Tablet.Dialogs.MembershipEditDialog">
 
     <ContentView
         HeightRequest="500"

@@ -197,6 +197,9 @@
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
+      <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Tablet\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
@@ -356,7 +359,7 @@
     <EmbeddedResource Update="Views\InputTextPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\Dialogs\MembershipEdit.xaml">
+    <EmbeddedResource Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\PaymentPage.xaml">

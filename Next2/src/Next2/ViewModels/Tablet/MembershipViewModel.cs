@@ -144,7 +144,7 @@ namespace Next2.ViewModels.Tablet
             {
                 var parameters = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
 
-                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEdit(parameters, MembershipEditDialogCallBack, _mapper);
+                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
 
                 await _popupNavigation.PushAsync(popupPage);
             }
