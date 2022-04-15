@@ -62,6 +62,8 @@ namespace Next2.ViewModels
                     TapCommand = _tapPaymentOptionCommand,
                 },
             };
+
+            SelectedPaymentOption = PaymentOptionsItems[3];
         }
 
         #region -- Public properties --
@@ -92,6 +94,8 @@ namespace Next2.ViewModels
         public bool IsExpandedSummary { get; set; } = true;
 
         public ObservableCollection<PaymentItem> PaymentOptionsItems { get; set; } = new();
+
+        public PaymentItem SelectedPaymentOption { get; set; } = new();
 
         private async Task OnSelectRewardCommandAsync(RewardBindabledModel selectedReward)
         {

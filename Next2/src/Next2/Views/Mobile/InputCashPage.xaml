@@ -53,7 +53,7 @@
             IsTextRightToLeft="True"
             IsNumericMode="True"
             ValueFormat="$ {0:#,0.#0}"
-            MaxLength="10"
+            MaxLength="9"
             Margin="20, 0"/>
 
     </Grid>

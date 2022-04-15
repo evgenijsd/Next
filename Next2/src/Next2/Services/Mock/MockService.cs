@@ -1,19 +1,17 @@
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Next2.Enums;
 
 namespace Next2.Services.Mock
 {
     public class MockService : IMockService
     {
-        private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
+        private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
         private IList<OrderModel> _orders;
         private IList<CategoryModel> _categories;
@@ -23,14 +21,13 @@ namespace Next2.Services.Mock
         private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
+        private IList<TaxModel> _tax;
         private IList<PortionModel> _portions;
-        private IList<TaxModel> _taxBonus;
         private IList<RewardModel> _rewards;
-        private List<CustomerModel> _customers;
+        private IList<CustomerModel> _customers;
+
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
-
-        private bool _init = false;
 
         public MockService()
         {
@@ -50,7 +47,7 @@ namespace Next2.Services.Mock
 
             GetBase<T>().Add(entity);
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return entity.Id;
         }
@@ -60,7 +57,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>();
         }
@@ -70,7 +67,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault(x => x.Id == id);
         }
@@ -82,7 +79,7 @@ namespace Next2.Services.Mock
 
             var entityDelete = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Remove(entityDelete);
         }
@@ -92,7 +89,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().RemoveAll(predicate);
         }
@@ -105,7 +102,7 @@ namespace Next2.Services.Mock
             var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
             entityUpdate = entity;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return entityUpdate;
         }
@@ -115,7 +112,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().FirstOrDefault<T>(expression);
         }
@@ -125,7 +122,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Any<T>(expression);
         }
@@ -135,7 +132,7 @@ namespace Next2.Services.Mock
         {
             await _initCompletionSource.Task;
 
-            await Task.Delay(Constants.SERVER_RESPONCE_DELAY);
+            await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
             return GetBase<T>().Where<T>(expression);
         }
@@ -155,10 +152,7 @@ namespace Next2.Services.Mock
 
         private async Task InitMocksAsync()
         {
-            _base = new Dictionary<Type, object>();
-            _maxIdentifiers = new Dictionary<Type, int>();
-
-            var allTasks = Task.WhenAll(
+            await Task.WhenAll(
                 InitOrdersAsync(),
                 InitMembersAsync(),
                 InitCategoriesAsync(),
@@ -167,34 +161,46 @@ namespace Next2.Services.Mock
                 InitTables(),
                 InitUsersAsync(),
                 InitCustomersAsync(),
+                InitTaxAsync(),
                 InitPortionsAsync(),
-                InitTaxAndBonusAsync(),
                 IniRewardsAsync());
 
-            try
+            _base = new Dictionary<Type, object>
             {
-                await allTasks;
-            }
-            catch (Exception ex)
+                { typeof(TaxModel), _tax },
+                { typeof(RewardModel), _rewards },
+                { typeof(OrderModel), _orders },
+                { typeof(CategoryModel), _categories },
+                { typeof(SubcategoryModel), _subcategories },
+                { typeof(UserModel), _users },
+                { typeof(SetModel), _sets },
+                { typeof(SeatModel), _seats },
+                { typeof(TableModel), _tables },
+                { typeof(MemberModel), _members },
+                { typeof(CustomerModel), _customers },
+                { typeof(PortionModel), _portions },
+            };
+
+            _maxIdentifiers = new Dictionary<Type, int>
             {
-                Console.WriteLine($"Exception: {ex.Message}");
-                Console.WriteLine($"IsFaulted: {allTasks.IsFaulted}");
-                if (allTasks.Exception is not null)
-                {
-                    foreach (var exception in allTasks.Exception.InnerExceptions)
-                    {
-                        Console.WriteLine($"InnerException: {exception.Message}");
-                    }
-                }
-            }
+                { typeof(RewardModel), GetMaxId(_rewards) },
+                { typeof(OrderModel), GetMaxId(_orders) },
+                { typeof(CategoryModel), GetMaxId(_categories) },
+                { typeof(SubcategoryModel), GetMaxId(_subcategories) },
+                { typeof(SetModel), GetMaxId(_sets) },
+                { typeof(UserModel), GetMaxId(_users) },
+                { typeof(SeatModel), GetMaxId(_seats) },
+                { typeof(TableModel), GetMaxId(_tables) },
+                { typeof(MemberModel), GetMaxId(_members) },
+                { typeof(CustomerModel), GetMaxId(_customers) },
+            };
 
             _initCompletionSource.TrySetResult(true);
-            _init = true;
         }
 
-        private Task InitTaxAndBonusAsync() => Task.Run(() =>
+        private Task InitTaxAsync() => Task.Run(() =>
         {
-            _taxBonus = new List<TaxModel>
+            _tax = new List<TaxModel>
             {
                 new TaxModel
                 {
@@ -203,9 +209,6 @@ namespace Next2.Services.Mock
                     Value = 0.1,
                 },
             };
-
-            _base.Add(typeof(TaxModel), _taxBonus);
-            _maxIdentifiers.Add(typeof(TaxModel), GetMaxId(_taxBonus));
         });
 
         private Task IniRewardsAsync() => Task.Run(() =>
@@ -277,9 +280,6 @@ namespace Next2.Services.Mock
                     SetTitle = "D Pulled Pork Sammy Meal",
                 },
             };
-
-            _base.Add(typeof(RewardModel), _rewards);
-            _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>
@@ -297,7 +297,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 1,
                     Total = 50.2,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -308,7 +307,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 2,
                     Total = 30.3,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -319,7 +317,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 3,
                     Total = 40.45,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -330,7 +327,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 4,
                     Total = 3.67,
-                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -341,7 +337,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 5,
                     Total = 70.44,
-                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -352,7 +347,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 6,
                     Total = 6.77,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -363,7 +357,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 7,
                     Total = 45.11,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -374,7 +367,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 8,
                     Total = 33.67,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -385,7 +377,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 9,
                     Total = 55.16,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -396,7 +387,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 10,
                     Total = 97.66,
-                    Tax = 0.0,
                 },
                 new OrderModel()
                 {
@@ -407,7 +397,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 11,
                     Total = 96.00,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -428,7 +417,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 13,
                     Total = 9.40,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -439,7 +427,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 14,
                     Total = 9.30,
-                    Tax = 0.1,
                 },
                 new OrderModel()
                 {
@@ -450,7 +437,6 @@ namespace Next2.Services.Mock
                     OrderType = EOrderType.DineIn,
                     OrderNumber = 15,
                     Total = 9.20,
-                    Tax = 0.1,
                 },
             };
 
@@ -461,9 +447,6 @@ namespace Next2.Services.Mock
 
                 _orders[i].Total = amountsBySeats.Sum();
             }
-
-            _base.Add(typeof(OrderModel), _orders);
-            _maxIdentifiers.Add(typeof(OrderModel), GetMaxId(_orders));
         });
 
         private Task InitCategoriesAsync() => Task.Run(() =>
@@ -568,9 +551,6 @@ namespace Next2.Services.Mock
                     Title = "Beverages",
                 },
             };
-
-            _base.Add(typeof(CategoryModel), _categories);
-            _maxIdentifiers.Add(typeof(CategoryModel), GetMaxId(_categories));
         });
 
         private Task InitSubategoriesAsync() => Task.Run(() =>
@@ -712,9 +692,6 @@ namespace Next2.Services.Mock
                     Title = "19 Burger Meals",
                 },
             };
-
-            _base.Add(typeof(SubcategoryModel), _subcategories);
-            _maxIdentifiers.Add(typeof(SubcategoryModel), GetMaxId(_subcategories));
         });
 
         private Task InitSetsAsync() => Task.Run(() =>
@@ -730,7 +707,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
                     Title = "A Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -739,7 +716,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 4,
                     Title = "B Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 35,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -748,7 +725,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 4,
                     Title = "C Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 56,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -757,7 +734,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 2,
                     DefaultPortionId = portionId += 1,
                     Title = "D Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 48,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -766,7 +743,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 3,
                     DefaultPortionId = portionId += 3,
                     Title = "F Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 41.3f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -775,7 +752,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 3,
                     DefaultPortionId = portionId += 3,
                     Title = "F2 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 29.4f,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -784,7 +761,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 4,
                     DefaultPortionId = portionId += 3,
                     Title = "G Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -793,7 +770,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 5,
                     DefaultPortionId = portionId += 3,
                     Title = "H Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -802,7 +779,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 6,
                     DefaultPortionId = portionId += 3,
                     Title = "I Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -811,7 +788,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 7,
                     DefaultPortionId = portionId += 3,
                     Title = "J Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -820,7 +797,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 8,
                     DefaultPortionId = portionId += 3,
                     Title = "J8 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -829,7 +806,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 9,
                     DefaultPortionId = portionId += 3,
                     Title = "J9 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -838,7 +815,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 10,
                     DefaultPortionId = portionId += 3,
                     Title = "J10 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -847,7 +824,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 11,
                     DefaultPortionId = portionId += 3,
                     Title = "J11 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -856,7 +833,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 12,
                     DefaultPortionId = portionId += 3,
                     Title = "J12 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -865,7 +842,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 13,
                     DefaultPortionId = portionId += 3,
                     Title = "J13 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -874,7 +851,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 14,
                     DefaultPortionId = portionId += 3,
                     Title = "J14 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -883,7 +860,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 15,
                     DefaultPortionId = portionId += 3,
                     Title = "J15 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -892,7 +869,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 16,
                     DefaultPortionId = portionId += 3,
                     Title = "J16 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -901,7 +878,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 17,
                     DefaultPortionId = portionId += 3,
                     Title = "J17 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -910,7 +887,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 18,
                     DefaultPortionId = portionId += 3,
                     Title = "J18 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -919,7 +896,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 19,
                     DefaultPortionId = portionId += 3,
                     Title = "J19 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -928,7 +905,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 20,
                     DefaultPortionId = portionId += 3,
                     Title = "J20 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -937,7 +914,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 21,
                     DefaultPortionId = portionId += 3,
                     Title = "J21 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -946,7 +923,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 22,
                     DefaultPortionId = portionId += 3,
                     Title = "J22 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -955,7 +932,7 @@ namespace Next2.Services.Mock
                     SubcategoryId = 22,
                     DefaultPortionId = portionId += 3,
                     Title = "J23 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
                 new SetModel()
@@ -964,13 +941,10 @@ namespace Next2.Services.Mock
                     SubcategoryId = 22,
                     DefaultPortionId = portionId += 3,
                     Title = "J24 Pulled Pork Sammy Meal",
-                    Price = 12.5f,
+                    Price = 37,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
             };
-
-            _base.Add(typeof(SetModel), _sets);
-            _maxIdentifiers.Add(typeof(SetModel), GetMaxId(_sets));
         });
 
         private Task InitUsersAsync() => Task.Run(() =>
@@ -1002,9 +976,6 @@ namespace Next2.Services.Mock
                     UserType = EUserType.Admin,
                 },
             };
-
-            _base.Add(typeof(UserModel), _users);
-            _maxIdentifiers.Add(typeof(UserModel), GetMaxId(_users));
         });
 
         private Task InitSeatsAsync() => Task.Run(() =>
@@ -1688,9 +1659,6 @@ namespace Next2.Services.Mock
                     },
                 },
             };
-
-            _base.Add(typeof(SeatModel), _seats);
-            _maxIdentifiers.Add(typeof(SeatModel), GetMaxId(_seats));
         });
 
         private Task InitTables() => Task.Run(() =>
@@ -1793,9 +1761,6 @@ namespace Next2.Services.Mock
                      TableNumber = 19,
                  },
             };
-
-            _base.Add(typeof(TableModel), _tables);
-            _maxIdentifiers.Add(typeof(TableModel), GetMaxId(_tables));
         });
 
         private Task InitMembersAsync() => Task.Run(() =>
@@ -2001,23 +1966,17 @@ namespace Next2.Services.Mock
                         cultureInfo),
                 },
             };
-
-            _base.Add(typeof(MemberModel), _members);
-            _maxIdentifiers.Add(typeof(MemberModel), GetMaxId(_members));
         });
 
         private Task InitCustomersAsync() => Task.Run(() =>
         {
             _customers = CustomersMock.Create();
-            _base.Add(typeof(CustomerModel), _customers);
-            _maxIdentifiers.Add(typeof(CustomerModel), GetMaxId(_customers));
         });
 
         private Task InitPortionsAsync() => Task.Run(() =>
         {
             int id = 1;
             int setId = 1;
-            var rand = new Random();
 
             _portions = new List<PortionModel>
             {
@@ -2026,572 +1985,569 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 25,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 30,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 35,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 27,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 35,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 43,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 33,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 45,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 56,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 48,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 60,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 70,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 41.3f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 56.3f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 72,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 29.4f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 37
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 51
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = rand.Next(10, 20),
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = rand.Next(20, 30),
+                    Price = 44.7f,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = rand.Next(30, 40),
+                    Price = 57.8f,
                 },
             };
-
-            _base.Add(typeof(PortionModel), _portions);
-            _maxIdentifiers.Add(typeof(PortionModel), GetMaxId(_portions));
         });
 
         #endregion

@@ -10,8 +10,6 @@
 
         public const int LOGIN_PASSWORD_LENGTH = 6;
 
-        public const int SERVER_RESPONCE_DELAY = 100;
-
         public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";
@@ -30,6 +28,11 @@
             public const string IOSKey = "7f9810cd-b473-4757-a025-5fa4e0429479";
 
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
+        }
+
+        public static class Limits
+        {
+            public const int SERVER_RESPONCE_DELAY = 100;
         }
 
         public static class LayoutOrderTabs

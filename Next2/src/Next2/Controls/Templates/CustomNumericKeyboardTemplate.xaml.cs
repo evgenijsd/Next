@@ -182,6 +182,7 @@ namespace Next2.Controls.Templates
             {
                 ScreenKeyboard = PlaceHolder;
                 Value = PlaceHolder;
+                _numericValue = 0;
                 IsKeyBoardTyped = false;
             }
         }
@@ -208,7 +209,7 @@ namespace Next2.Controls.Templates
                                 _numericValue += tmp / 100;
 
                                 ScreenKeyboard = string.Format(ValueFormat, _numericValue);
-                                Value = _numericValue.ToString();
+                                Value += str;
                             }
                         }
                         else
@@ -232,11 +233,17 @@ namespace Next2.Controls.Templates
                             ScreenKeyboard = string.Format(ValueFormat, _numericValue);
                             Value = str;
                         }
+                        else
+                        {
+                            Value = string.Empty;
+                            ScreenKeyboard = string.Format(ValueFormat, Value);
+                            _numericValue = 0;
+                        }
                     }
                     else
                     {
-                        ScreenKeyboard = string.Format(ValueFormat, Value);
                         Value = str;
+                        ScreenKeyboard = string.Format(ValueFormat, Value);
                     }
                 }
             }
@@ -246,6 +253,7 @@ namespace Next2.Controls.Templates
         {
             ScreenKeyboard = PlaceHolder;
             Value = string.Empty;
+            _numericValue = 0;
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
         }
