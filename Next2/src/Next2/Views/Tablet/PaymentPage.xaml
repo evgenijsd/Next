@@ -21,13 +21,13 @@
             Background="{DynamicResource TextAndBackgroundColor_i3}">
     
             <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentPageStep}" Value="{Static enums:EPaymentPageSteps.Complete}">
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
                     <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
                     <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
                 </DataTrigger>
             </StackLayout.Triggers>
             
-            <!-- CANCEL BUTTON -->
+            <!-- CANCEL/BACK BUTTON -->
             <StackLayout 
                 Padding="60, 0, 0, 0"
                 Orientation="Horizontal"
@@ -52,7 +52,7 @@
                         Text="{xct:Translate Cancel}">
                         
                         <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding PaymentPageStep}" Value="{Static enums:EPaymentPageSteps.Complete}">
+                            <DataTrigger TargetType="Label" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
                                 <Setter Property="Text" Value="{xct:Translate Back}"/>
                             </DataTrigger>
                         </Label.Triggers>
@@ -90,16 +90,16 @@
 
         <sc:StateContainer 
             VerticalOptions="FillAndExpand"
-            State="{Binding PaymentPageStep}">
+            State="{Binding PaymentStep}">
             
             <sc:StateContainer.Conditions>
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Rewards}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Rewards}">
                     
                     <tablet:RewardsView BindingContext="{Binding RewardsViewModel}"/>
 
                 </sc:StateCondition>
                 
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Complete}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
                     
                     <tablet:PaymentCompleteView BindingContext="{Binding PaymentCompleteViewModel}"/>
                     

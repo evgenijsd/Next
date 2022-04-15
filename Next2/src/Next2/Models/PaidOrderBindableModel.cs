@@ -6,17 +6,17 @@ namespace Next2.Models
 {
     public class PaidOrderBindableModel : BindableBase, IBaseModel
     {
-        public bool IsOrderEditing => Id == 0;
-
         public int Id { get; set; }
+
+        public bool IsCurrent { get; set; }
 
         public bool IsUnsavedChangesExist { get; set; }
 
-        public CustomerModel Customer { get; set; } = new();
+        public CustomerModel Customer { get; set; } = new ();
 
-        public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new();
+        public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
-        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new();
+        public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new ();
 
         public float Subtotal { get; set; }
 

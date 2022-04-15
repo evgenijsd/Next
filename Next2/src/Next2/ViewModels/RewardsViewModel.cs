@@ -35,9 +35,9 @@ namespace Next2.ViewModels
             IOrderService orderService,
             ICustomersService customersService,
             IRewardsService rewardService,
-            PaidOrderBindableModel orderForPayment,
+            PaidOrderBindableModel order,
             Action<NavigationMessage> navigateAsync,
-            Action<EPaymentPageSteps> goToPaymentStep)
+            Action<EPaymentSteps> goToPaymentStep)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
@@ -46,7 +46,7 @@ namespace Next2.ViewModels
             _customersService = customersService;
             _rewardService = rewardService;
 
-            Order = orderForPayment;
+            Order = order;
             NavigateAsync = navigateAsync;
             GoToPaymentStep = goToPaymentStep;
         }
@@ -59,7 +59,7 @@ namespace Next2.ViewModels
 
         private readonly Action<NavigationMessage> NavigateAsync;
 
-        private readonly Action<EPaymentPageSteps> GoToPaymentStep;
+        private readonly Action<EPaymentSteps> GoToPaymentStep;
 
         private ICommand _addNewCustomerCommand;
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
@@ -77,6 +77,16 @@ namespace Next2.ViewModels
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out int orderId))
+            {
+                Order.Id = orderId;
+            }
+            else
+            {
+                Order.IsCurrent = true;
+                Order.Id = _orderService.CurrentOrder.Id;
+            }
 
             if (!App.IsTablet)
             {
@@ -108,11 +118,11 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- Public helpers --
+        #region -- Private helpers --
 
         public async Task RefreshPageDataAsync()
         {
-            if (Order.IsOrderEditing)
+            if (Order.IsCurrent)
             {
                 Order.Customer = _orderService.CurrentOrder.Customer;
             }
@@ -156,15 +166,11 @@ namespace Next2.ViewModels
             }
         }
 
-        #endregion
-
-        #region -- Private helpers --
-
         public async Task LoadSeats()
         {
             IEnumerable<SeatModel> seats = new List<SeatModel>();
 
-            if (Order.IsOrderEditing)
+            if (Order.IsCurrent)
             {
                 var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
 
@@ -197,14 +203,6 @@ namespace Next2.ViewModels
             }
         }
 
-        // temporary unused because the products of set are not saved
-        //private void SetProductsNamesForSets(ObservableCollection<SetBindableModel> setBindables, ObservableCollection<FreeSetBindableModel> freeSets)
-        //{
-        //    for (int i = 0; i < setBindables.Count; i++)
-        //    {
-        //        freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
-        //    }
-        //}
         private void ApplyCancelRewardToSet(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel reward)
         {
             bool CompareSetWithRewardSet(FreeSetBindableModel set) => set.Id == reward.SetId && set.IsFree != reward.IsApplied;
@@ -239,7 +237,7 @@ namespace Next2.ViewModels
 
         private async void UpdateCustomerAsync(CustomerModel customer)
         {
-            if (Order.IsOrderEditing)
+            if (Order.IsCurrent)
             {
                 _orderService.CurrentOrder.Customer = customer;
             }
@@ -261,7 +259,7 @@ namespace Next2.ViewModels
         {
             await _popupNavigation.PopAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.ID, out int newCustomerId))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int newCustomerId))
             {
                 var customerResult = await _customersService.GetAllCustomersAsync(x => x.Id == newCustomerId);
 
@@ -305,15 +303,15 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    ObservableCollection<SeatWithFreeSetsBindableModel> setsForRewardApplying = new (Order.Seats);
+                    ObservableCollection<SeatWithFreeSetsBindableModel> seatsForRewardApplying = new (Order.Seats);
 
                     selectedReward.IsApplied = true;
-                    ApplyCancelRewardToSet(setsForRewardApplying, selectedReward);
+                    ApplyCancelRewardToSet(seatsForRewardApplying, selectedReward);
 
                     var parameters = new NavigationParameters
                     {
                         { Constants.Navigations.REWARD, selectedReward },
-                        { Constants.Navigations.SEATS, setsForRewardApplying },
+                        { Constants.Navigations.SEATS, seatsForRewardApplying },
                     };
 
                     NavigateAsync(new NavigationMessage(nameof(OrderWithRewardsPage), parameters));
@@ -325,7 +323,7 @@ namespace Next2.ViewModels
 
         private Task OnGoToCompleteTabCommandAsync()
         {
-            GoToPaymentStep(EPaymentPageSteps.Complete);
+            GoToPaymentStep(EPaymentSteps.Complete);
 
             return Task.CompletedTask;
         }

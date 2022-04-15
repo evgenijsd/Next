@@ -67,7 +67,7 @@
         <StackLayout Orientation="Horizontal">
             
             <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentPageStep}" Value="{Static enums:EPaymentPageSteps.Complete}">
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
                     <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
                     <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
                 </DataTrigger>
@@ -89,17 +89,16 @@
 
         <sc:StateContainer 
             VerticalOptions="FillAndExpand"
-            State="{Binding PaymentPageStep}">
+            State="{Binding PaymentStep}">
             
             <sc:StateContainer.Conditions>
-                
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Rewards}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Rewards}">
                     
                     <mobile:RewardsView BindingContext="{Binding RewardsViewModel}"/>
 
                 </sc:StateCondition>
                 
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Complete}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
                     
                     <!-- temporary -->
                     <StackLayout>
@@ -112,7 +111,6 @@
                     </StackLayout>
                     
                 </sc:StateCondition>
-                
             </sc:StateContainer.Conditions>
             
         </sc:StateContainer>

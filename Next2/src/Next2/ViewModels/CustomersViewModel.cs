@@ -192,7 +192,7 @@ namespace Next2.ViewModels
         {
             await _popupNavigation.PopAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.ID, out int customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
             {
                 await RefreshAsync();
 

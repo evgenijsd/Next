@@ -95,7 +95,7 @@
                         </StackLayout>
                     </sc:StateCondition>
 
-                    <!-- LIST OF SEATS IN ORDER --> 
+                    <!-- SEATS AND SETS IN ORDER --> 
                     <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
                         <StackLayout>
                             <CollectionView ItemsSource="{Binding Order.Seats}">
@@ -149,9 +149,8 @@
                     
                 </sc:StateContainer.Conditions>
                     
-            </sc:StateContainer>
-                
-         
+            </sc:StateContainer>     
+    
             <BoxView 
                 VerticalOptions="EndAndExpand"
                 HeightRequest="1.5"

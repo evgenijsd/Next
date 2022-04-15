@@ -1,6 +1,6 @@
 ﻿namespace Next2.Enums
 {
-    public enum EPaymentPageSteps
+    public enum EPaymentSteps
     {
         Rewards,
         Complete,

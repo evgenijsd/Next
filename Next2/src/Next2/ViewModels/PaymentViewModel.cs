@@ -38,7 +38,7 @@ namespace Next2.ViewModels
                 orderService,
                 customerService,
                 rewardsService,
-                OrderForPayment,
+                Order,
                 NavigateAsync,
                 GoToPaymentStep);
 
@@ -47,9 +47,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public PaidOrderBindableModel OrderForPayment { get; set; } = new ();
+        public PaidOrderBindableModel Order { get; set; } = new ();
 
-        public EPaymentPageSteps PaymentPageStep { get; set; }
+        public EPaymentSteps PaymentStep { get; set; }
 
         public RewardsViewModel RewardsViewModel { get; set; }
 
@@ -66,11 +66,6 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out int orderForPaymentId))
-            {
-                OrderForPayment.Id = orderForPaymentId;
-            }
-
             RewardsViewModel.OnNavigatedTo(parameters);
         }
 
@@ -81,13 +76,13 @@ namespace Next2.ViewModels
         private async void NavigateAsync(NavigationMessage navigationMessage) =>
             await _navigationService.NavigateAsync(navigationMessage.Path, navigationMessage.Parameters);
 
-        private void GoToPaymentStep(EPaymentPageSteps step) => PaymentPageStep = step;
+        private void GoToPaymentStep(EPaymentSteps step) => PaymentStep = step;
 
         private async Task OnBackCancelCommandAsync()
         {
-            if (PaymentPageStep == EPaymentPageSteps.Complete)
+            if (PaymentStep == EPaymentSteps.Complete)
             {
-                PaymentPageStep = EPaymentPageSteps.Rewards;
+                PaymentStep = EPaymentSteps.Rewards;
             }
             else
             {

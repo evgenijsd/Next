@@ -150,7 +150,10 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        await _popupNavigation.PopAsync();
+                        if (_popupNavigation.PopupStack.Any())
+                        {
+                            await _popupNavigation.PopAsync();
+                        }
 
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
