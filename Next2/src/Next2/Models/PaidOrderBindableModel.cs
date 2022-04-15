@@ -6,7 +6,11 @@ namespace Next2.Models
 {
     public class PaidOrderBindableModel : BindableBase, IBaseModel
     {
+        public bool IsOrderEditing => Id == 0;
+
         public int Id { get; set; }
+
+        public bool IsUnsavedChangesExist { get; set; }
 
         public CustomerModel Customer { get; set; } = new();
 

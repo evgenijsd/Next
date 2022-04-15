@@ -64,8 +64,8 @@
                             Text="{xct:Translate RewardsOptions}" />
 
                         <CollectionView
-                            HeightRequest="{Binding PaidOrder.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
-                            ItemsSource="{Binding PaidOrder.Rewards}">
+                            HeightRequest="{Binding Order.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=90}"
+                            ItemsSource="{Binding Order.Rewards}">
                     
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect/>

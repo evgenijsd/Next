@@ -62,9 +62,14 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out int orderForPaymentId))
+            {
+                OrderForPayment.Id = orderForPaymentId;
+            }
 
             RewardsViewModel.OnNavigatedTo(parameters);
         }
@@ -86,7 +91,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                if (RewardsViewModel.IsAnyRewardsApplied)
+                if (RewardsViewModel.Order.IsUnsavedChangesExist)
                 {
                     var confirmDialogParameters = new DialogParameters
                     {

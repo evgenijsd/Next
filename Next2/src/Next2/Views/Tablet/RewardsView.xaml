@@ -48,7 +48,7 @@
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="Center"
                     TextColor="{DynamicResource AppColor_i1}"
-                    Text="{Binding PaidOrder.Customer.Name}"/>
+                    Text="{Binding Order.Customer.Name}"/>
                     
             </StackLayout>
 
@@ -98,7 +98,7 @@
                     <!-- LIST OF SEATS IN ORDER --> 
                     <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
                         <StackLayout>
-                            <CollectionView ItemsSource="{Binding PaidOrder.Seats}">
+                            <CollectionView ItemsSource="{Binding Order.Seats}">
                                     
                                 <CollectionView.Effects>
                                     <effects:NoOverScrollEffect/>
@@ -202,8 +202,8 @@
                 Text="{xct:Translate RewardsOptions}"/>
                 
             <CollectionView
-                HeightRequest="{Binding PaidOrder.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
-                ItemsSource="{Binding PaidOrder.Rewards}">
+                HeightRequest="{Binding Order.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
+                ItemsSource="{Binding Order.Rewards}">
                     
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>
