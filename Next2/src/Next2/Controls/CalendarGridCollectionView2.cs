@@ -200,7 +200,7 @@ namespace Next2.Controls
                         : EDayState.DayMonth;
                 }
 
-                var saveSatate = state;
+                var saveState = state;
 
                 if (SelectedDate is not null && (SelectedDate.Value.Year > Year || (SelectedDate.Value.Year == Year && SelectedDate.Value.Month > Month) ||
                     (SelectedDate.Value.Year == Year && SelectedDate.Value.Month == Month && SelectedDate.Value.Day > day)))
@@ -209,7 +209,7 @@ namespace Next2.Controls
                 }
 
                 Days.Add(new Day { DayOfMonth = day.ToString(), State = state, });
-                state = saveSatate;
+                state = saveState;
             }
         }
 
