@@ -81,6 +81,7 @@
             x:Name="monthLabel">
 
             <Label.GestureRecognizers>
+                
                 <SwipeGestureRecognizer
                     Direction="Left"
                     Swiped="OnRightMonthButtonTapped"
@@ -90,6 +91,7 @@
                     Direction="Right"
                     Swiped="OnLeftMonthButtonTapped"
                     Threshold="24" />
+                
             </Label.GestureRecognizers>
 
         </Label>
@@ -131,6 +133,7 @@
         </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
+            
             <DataTemplate x:DataType="models:Day">
 
                 <StackLayout 
@@ -167,6 +170,7 @@
                     </Frame>
 
                     <VisualStateManager.VisualStateGroups>
+                        
                         <VisualStateGroup Name="CommonStates">
 
                             <VisualState Name="Selected">
@@ -177,11 +181,15 @@
                             </VisualState>
 
                             <VisualState Name="Normal" />
+                            
                         </VisualStateGroup>
+                        
                     </VisualStateManager.VisualStateGroups>
+                    
                 </StackLayout>
 
             </DataTemplate>
+            
         </CollectionView.ItemTemplate>
 
     </controls:CalendarGridCollectionView>
@@ -201,6 +209,7 @@
         x:Name="dropdownFrame">
         
         <StackLayout>
+            
             <BoxView
                 HeightRequest="{OnPlatform Android=1, iOS=0.5}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
@@ -235,6 +244,7 @@
                                 Text="{Binding YearValue}"/>
 
                             <VisualStateManager.VisualStateGroups>
+                                
                                 <VisualStateGroup Name="CommonStates">
 
                                     <VisualState Name="Selected">
@@ -244,8 +254,11 @@
                                     </VisualState>
 
                                     <VisualState Name="Normal" />
+                                    
                                 </VisualStateGroup>
+                                
                             </VisualStateManager.VisualStateGroups>
+                            
                         </Frame>
 
                     </DataTemplate>
@@ -253,7 +266,9 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
+            
         </StackLayout>
+        
     </Frame>
 
 </Grid>

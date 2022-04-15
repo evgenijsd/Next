@@ -132,6 +132,7 @@
         </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
+            
             <DataTemplate x:DataType="models:Day">
 
                 <StackLayout 
@@ -168,6 +169,7 @@
                     </Frame>
 
                     <VisualStateManager.VisualStateGroups>
+                        
                         <VisualStateGroup Name="CommonStates">
 
                             <VisualState Name="Selected">
@@ -178,11 +180,15 @@
                             </VisualState>
 
                             <VisualState Name="Normal" />
+                            
                         </VisualStateGroup>
+                        
                     </VisualStateManager.VisualStateGroups>
+                    
                 </StackLayout>
 
             </DataTemplate>
+            
         </CollectionView.ItemTemplate>
 
     </controls:CalendarGridCollectionView2>
@@ -236,6 +242,7 @@
                                 Text="{Binding YearValue}"/>
 
                             <VisualStateManager.VisualStateGroups>
+                                
                                 <VisualStateGroup Name="CommonStates">
 
                                     <VisualState Name="Selected">
@@ -245,8 +252,11 @@
                                     </VisualState>
 
                                     <VisualState Name="Normal" />
+                                    
                                 </VisualStateGroup>
+                                
                             </VisualStateManager.VisualStateGroups>
+                            
                         </Frame>
 
                     </DataTemplate>
@@ -254,7 +264,9 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
+            
         </StackLayout>
+        
     </Frame>
 
 </Grid>

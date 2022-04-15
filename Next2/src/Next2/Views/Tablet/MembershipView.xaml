@@ -86,6 +86,7 @@
 
              <!--  TABLE HEADER  -->
             <StackLayout>
+                
                 <Grid
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*"
@@ -165,7 +166,9 @@
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
+                            
                             <DataTemplate>
+                                
                                 <StackLayout 
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                     x:DataType="models:MemberBindableModel">
@@ -204,12 +207,15 @@
                                         Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                 </StackLayout>
+                                
                             </DataTemplate>
+                            
                         </CollectionView.ItemTemplate>
 
                     </controls:CustomScrollBarCollectionView>
 
                 </RefreshView>
+                
             </StackLayout>
 
         </Frame>
