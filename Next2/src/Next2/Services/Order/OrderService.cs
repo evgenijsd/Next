@@ -143,48 +143,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<OrderModel>> GetOrderByIdAsync(int orderId)
-        {
-            var result = new AOResult<OrderModel>();
-
-            try
-            {
-                var orders = await _mockService.GetByIdAsync<OrderModel>(orderId);
-
-                if (orders is not null)
-                {
-                    result.SetSuccess(orders);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetOrderByIdAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult> UpdateOrderAsync(OrderModel order)
-        {
-            var result = new AOResult<OrderModel>();
-
-            try
-            {
-                var orders = await _mockService.UpdateAsync(order);
-
-                if (orders is not null)
-                {
-                    result.SetSuccess(orders);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public async Task<AOResult> DeleteOrderAsync(int orderId)
         {
             var result = new AOResult();
