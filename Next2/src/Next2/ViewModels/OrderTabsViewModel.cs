@@ -457,27 +457,6 @@ namespace Next2.ViewModels
 
         private Task OnPrintCommandAsync()
         {
-            if (SelectedOrder is not null)
-            {
-                if (SelectedOrder.OrderStatus == Constants.OrderStatus.PAYED)
-                {
-                    // print order must be here
-                }
-                else if (SelectedOrder.OrderStatus is Constants.OrderStatus.IN_PROGRESS)
-                {
-                    var parameters = new NavigationParameters
-                    {
-                        { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
-                    };
-
-                    string path = App.IsTablet
-                       ? nameof(Views.Tablet.PaymentPage)
-                       : nameof(Views.Mobile.PaymentPage);
-
-                    return _navigationService.NavigateAsync(path, parameters);
-                }
-            }
-
             return Task.CompletedTask;
         }
 

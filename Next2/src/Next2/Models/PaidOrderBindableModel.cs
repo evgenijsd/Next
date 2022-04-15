@@ -8,8 +8,6 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public bool IsCurrent { get; set; }
-
         public bool IsUnsavedChangesExist { get; set; }
 
         public CustomerModel Customer { get; set; } = new ();

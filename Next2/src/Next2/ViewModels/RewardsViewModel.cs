@@ -78,16 +78,6 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out int orderId))
-            {
-                Order.Id = orderId;
-            }
-            else
-            {
-                Order.IsCurrent = true;
-                Order.Id = _orderService.CurrentOrder.Id;
-            }
-
             if (!App.IsTablet)
             {
                 if (parameters.TryGetValue(Constants.Navigations.IS_REWARD_APPLIED, out bool isRewardApplied)
@@ -122,19 +112,8 @@ namespace Next2.ViewModels
 
         public async Task RefreshPageDataAsync()
         {
-            if (Order.IsCurrent)
-            {
-                Order.Customer = _orderService.CurrentOrder.Customer;
-            }
-            else
-            {
-                var orderResult = await _orderService.GetOrderByIdAsync(Order.Id);
-
-                if (orderResult.IsSuccess && orderResult.Result.Customer.Id != 0)
-                {
-                    Order.Customer = orderResult.Result.Customer;
-                }
-            }
+            Order.Id = _orderService.CurrentOrder.Id;
+            Order.Customer = _orderService.CurrentOrder.Customer;
 
             if (Order.Customer.Id == 0)
             {
@@ -152,7 +131,7 @@ namespace Next2.ViewModels
                 {
                     PageState = ERewardsPageState.RewardsExist;
 
-                    await LoadSeats();
+                    LoadSeats();
 
                     Order.Rewards = _mapper.Map<IEnumerable<RewardModel>, ObservableCollection<RewardBindabledModel>>(customersRewardsResult.Result, opt => opt.AfterMap((input, output) =>
                     {
@@ -166,25 +145,11 @@ namespace Next2.ViewModels
             }
         }
 
-        public async Task LoadSeats()
+        public void LoadSeats()
         {
-            IEnumerable<SeatModel> seats = new List<SeatModel>();
+            var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
 
-            if (Order.IsCurrent)
-            {
-                var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
-
-                seats = _mapper.Map<IEnumerable<SeatModel>>(bindableSeats);
-            }
-            else
-            {
-                var seatsResult = await _orderService.GetSeatsAsync(Order.Id);
-
-                if (seatsResult.IsSuccess)
-                {
-                    seats = seatsResult.Result;
-                }
-            }
+            var seats = _mapper.Map<IEnumerable<SeatModel>>(bindableSeats);
 
             Order.Seats.Clear();
 
@@ -235,26 +200,6 @@ namespace Next2.ViewModels
             }
         }
 
-        private async void UpdateCustomerAsync(CustomerModel customer)
-        {
-            if (Order.IsCurrent)
-            {
-                _orderService.CurrentOrder.Customer = customer;
-            }
-            else
-            {
-                var getOrderResult = await _orderService.GetOrderByIdAsync(Order.Id);
-
-                if (getOrderResult.IsSuccess)
-                {
-                    var order = getOrderResult.Result;
-                    order.Customer = customer;
-
-                    var updateOrderResult = await _orderService.UpdateOrderAsync(order);
-                }
-            }
-        }
-
         private async void AddNewCustomerDialogCallBackAsync(IDialogParameters parameters)
         {
             await _popupNavigation.PopAsync();
@@ -265,9 +210,7 @@ namespace Next2.ViewModels
 
                 if (customerResult.IsSuccess)
                 {
-                    var newCustomer = customerResult.Result.FirstOrDefault();
-
-                    UpdateCustomerAsync(newCustomer);
+                    _orderService.CurrentOrder.Customer = customerResult.Result.FirstOrDefault();
 
                     await RefreshPageDataAsync();
                 }
