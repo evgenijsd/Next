@@ -58,7 +58,7 @@ namespace Next2.ViewModels
         private TaxModel _tax;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
-        private EOrderPaymentStatus _orderPaymentStatus;
+        private EOrderStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
 
         public OrderRegistrationViewModel(
@@ -80,7 +80,7 @@ namespace Next2.ViewModels
             _authenticationService = authenticationService;
             _menuService = menuService;
 
-            _orderPaymentStatus = EOrderPaymentStatus.None;
+            _orderPaymentStatus = EOrderStatus.NONE;
 
             CurrentState = LayoutState.Loading;
 
@@ -141,10 +141,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -217,9 +217,6 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.Total = _orderService.CurrentOrder.BonusType != EBonusType.None ? _orderService.CurrentOrder.PriceWithBonus : _orderService.CurrentOrder.SubTotal;
                     _orderService.CurrentOrder.PriceTax = 0;
                     break;
-                case nameof(SelectedSet):
-                    await InitEditSetDetailsAsync(SelectedSet);
-                    break;
             }
         }
 
@@ -253,6 +250,11 @@ namespace Next2.ViewModels
             _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
             SelectedSet = _seatWithSelectedSet?.SelectedItem;
+
+            if (SelectedSet is not null)
+            {
+                await InitEditSetDetailsAsync(SelectedSet);
+            }
 
             _isAnySetChosen = CurrentOrder.Seats.Any(x => x.Sets.Any());
 
@@ -590,6 +592,8 @@ namespace Next2.ViewModels
 
                 SelectedSet = seat.SelectedItem;
 
+                await InitEditSetDetailsAsync(SelectedSet);
+
                 if (App.IsTablet)
                 {
                     IsSideMenuVisible = false;
@@ -659,7 +663,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOrderCommandAsync(EOrderPaymentStatus commandParameter)
+        private async Task OnOrderCommandAsync(EOrderStatus commandParameter)
         {
             _orderPaymentStatus = commandParameter;
 
@@ -722,7 +726,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnTabCommandAsync(EOrderPaymentStatus commandParameter)
+        private async Task OnTabCommandAsync(EOrderStatus commandParameter)
         {
             var parameters = new DialogParameters
             {
@@ -733,7 +737,9 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
             };
 
-            PopupPage confirmDialog = new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
+            PopupPage confirmDialog = App.IsTablet ?
+                new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync) :
+                new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
             await _popupNavigation.PushAsync(confirmDialog);
         }
@@ -741,9 +747,9 @@ namespace Next2.ViewModels
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderPaymentStatus commandParameter))
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderStatus commandParameter))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.InProgress)
+                if (isMovedOrderAccepted && commandParameter == EOrderStatus.TAB)
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
@@ -847,8 +853,6 @@ namespace Next2.ViewModels
                 IsSideMenuVisible = true;
                 CurrentState = LayoutState.Loading;
 
-                await RefreshCurrentOrderAsync();
-
                 MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
             else
@@ -858,6 +862,8 @@ namespace Next2.ViewModels
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
             _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
+
+            await RefreshCurrentOrderAsync();
         }
 
         private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
@@ -922,7 +928,7 @@ namespace Next2.ViewModels
                         {
                             foreach (var defaultIngredient in product.DefaultSelectedIngredients)
                             {
-                                var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.Id);
+                                var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
 
                                 var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId && x.ProductId == defaultIngredient.ProductId).FirstOrDefault() is not null;
 
@@ -939,14 +945,11 @@ namespace Next2.ViewModels
                             }
                         }
 
-                        product.DetailedSelectedIngredientModels = new(tempListIngredients);
+                        product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
                     }
-                }
-            }
 
-            if (SelectedSet is not null)
-            {
-                SelectedSet = new(SelectedSet);
+                    SelectedSet = new(SelectedSet);
+                }
             }
         }
 

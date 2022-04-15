@@ -19,37 +19,82 @@ namespace Next2.Controls.Templates
 
         #region -- Public property --
 
-        public static readonly BindableProperty TitleProperty = BindableProperty.Create(
-            propertyName: nameof(Title),
-            returnType: typeof(string),
-            declaringType: typeof(ProductItemTemplate));
+        public static readonly BindableProperty FontSizeTitleProperty = BindableProperty.Create(
+            propertyName: nameof(FontSizeTitle),
+            returnType: typeof(double),
+            defaultValue: (double)Application.Current.Resources["TSize_i6"],
+            declaringType: typeof(ProductItemTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
 
-        public string Title
+        public double FontSizeTitle
         {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
+            get => (double)GetValue(FontSizeTitleProperty);
+            set => SetValue(FontSizeTitleProperty, value);
         }
 
-        public static readonly BindableProperty TextProperty = BindableProperty.Create(
-            propertyName: nameof(Text),
+        public static readonly BindableProperty FontFamilyTitleProperty = BindableProperty.Create(
+            propertyName: nameof(FontFamilyTitle),
             returnType: typeof(string),
-            declaringType: typeof(ProductItemTemplate));
+            declaringType: typeof(ProductItemTemplate),
+            defaultValue: "Barlow-SemiBold",
+            defaultBindingMode: BindingMode.TwoWay);
 
-        public string Text
+        public string FontFamilyTitle
         {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
+            get => (string)GetValue(FontFamilyTitleProperty);
+            set => SetValue(FontFamilyTitleProperty, value);
         }
 
-        public static readonly BindableProperty PriceProperty = BindableProperty.Create(
-            propertyName: nameof(Price),
-            returnType: typeof(float),
-            declaringType: typeof(ProductItemTemplate));
+        public static readonly BindableProperty FontSizePriceProperty = BindableProperty.Create(
+           propertyName: nameof(FontSizePrice),
+           returnType: typeof(double),
+           defaultValue: (double)Application.Current.Resources["TSize_i5"],
+           declaringType: typeof(ProductItemTemplate),
+           defaultBindingMode: BindingMode.TwoWay);
 
-        public float Price
+        public double FontSizePrice
         {
-            get => (float)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
+            get => (double)GetValue(FontSizePriceProperty);
+            set => SetValue(FontSizePriceProperty, value);
+        }
+
+        public static readonly BindableProperty FontFamilyPriceProperty = BindableProperty.Create(
+            propertyName: nameof(FontFamilyPrice),
+            returnType: typeof(string),
+            declaringType: typeof(ProductItemTemplate),
+            defaultValue: "Barlow-SemiBold",
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string FontFamilyPrice
+        {
+            get => (string)GetValue(FontFamilyPriceProperty);
+            set => SetValue(FontFamilyPriceProperty, value);
+        }
+
+        public static readonly BindableProperty FontSizeProductProperty = BindableProperty.Create(
+           propertyName: nameof(FontSizeProduct),
+           returnType: typeof(double),
+           defaultValue: (double)Application.Current.Resources["TSize_i5"],
+           declaringType: typeof(ProductItemTemplate),
+           defaultBindingMode: BindingMode.TwoWay);
+
+        public double FontSizeProduct
+        {
+            get => (double)GetValue(FontSizeProductProperty);
+            set => SetValue(FontSizeProductProperty, value);
+        }
+
+        public static readonly BindableProperty FontFamilyProductProperty = BindableProperty.Create(
+            propertyName: nameof(FontFamilyProduct),
+            returnType: typeof(string),
+            declaringType: typeof(ProductItemTemplate),
+            defaultValue: "Barlow-Medium",
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string FontFamilyProduct
+        {
+            get => (string)GetValue(FontFamilyProductProperty);
+            set => SetValue(FontFamilyProductProperty, value);
         }
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(

@@ -24,6 +24,6 @@ namespace Next2.Models
 
         public double PriceTax { get; set; }
 
-        public EOrderPaymentStatus? PaymentStatus;
+        public EOrderStatus? PaymentStatus;
     }
 }

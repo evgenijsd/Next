@@ -84,6 +84,6 @@ namespace Next2.Models
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
-        public EOrderPaymentStatus? PaymentStatus;
+        public EOrderStatus? PaymentStatus;
     }
 }

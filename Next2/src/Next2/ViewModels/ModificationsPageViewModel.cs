@@ -290,8 +290,11 @@ namespace Next2.ViewModels
             {
                 product.SelectedIngredients.Remove(ingridient);
 
-                product.IngredientsPrice -= toggleIngredient.Price;
-                product.TotalPrice -= toggleIngredient.Price;
+                if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
+                {
+                    product.IngredientsPrice -= toggleIngredient.Price;
+                    product.TotalPrice -= toggleIngredient.Price;
+                }
             }
 
             return Task.CompletedTask;
@@ -385,7 +388,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task InitIngredientsAsync(int categoryId) //when tab Inventory Bread Id=1
+        private async Task InitIngredientsAsync(int categoryId)
         {
             var ingredients = await _menuService.GetIngredientsAsync(categoryId);
 
@@ -518,20 +521,27 @@ namespace Next2.ViewModels
             IsMenuOpen = false;
         }
 
-        private Task OnSaveCommandAsync()
+        private async Task OnSaveCommandAsync()
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
-            var parameters = new NavigationParameters
+            if (App.IsTablet)
             {
-                { Constants.Navigations.REFRESH_ORDER, true },
-                { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
-                { nameof(Constants.Navigations.MODIFIED_SET), Constants.Navigations.MODIFIED_SET },
-            };
+                var parameters = new NavigationParameters
+                {
+                    { Constants.Navigations.REFRESH_ORDER, true },
+                    { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                    { nameof(Constants.Navigations.MODIFIED_SET), Constants.Navigations.MODIFIED_SET },
+                };
 
-            return _navigationService.GoBackAsync(parameters);
+                await _navigationService.GoBackAsync(parameters);
+            }
+            else
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         #endregion

@@ -861,11 +861,12 @@
 
                                     <!-- Row 3 Inventory & Replacement & Option -->
                                         
-                                    <templates:ProductItemTemplate Grid.Row="2" ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}"/>
+                                    <templates:ProductItemTemplate Grid.Row="2" 
+                                                                   ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}"/>
 
                                     <!-- Row 6 Footer-->
 
-                                    <Grid Grid.Row="5" />
+                                    <Grid Grid.Row="3" />
 
                                 </Grid>
 
@@ -1984,7 +1985,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.ORDER}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -1992,7 +1993,7 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.InProgress}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.TAB}"/>
 
 
                 <buttons:BorderButton
