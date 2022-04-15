@@ -9,5 +9,7 @@ namespace Next2.Services.Membership
     public interface IMembershipService
     {
         Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null);
+
+        string ApplyNameFilter(string text);
     }
 }

@@ -5,6 +5,7 @@ using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Membership
@@ -43,6 +44,18 @@ namespace Next2.Services.Membership
             {
                 result.SetError($"{nameof(GetAllMembersAsync)}: exception", Strings.SomeIssues, ex);
             }
+
+            return result;
+        }
+
+        public string ApplyNameFilter(string text)
+        {
+            Regex regexName = new(Constants.Validators.NAME);
+            Regex regexNumber = new(Constants.Validators.NUMBER);
+            Regex regexText = new(Constants.Validators.TEXT);
+
+            var result = regexText.Replace(text, string.Empty);
+            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ? regexNumber.Replace(result, string.Empty) : regexName.Replace(result, string.Empty);
 
             return result;
         }
