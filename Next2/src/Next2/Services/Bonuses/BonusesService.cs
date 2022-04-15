@@ -198,7 +198,7 @@ namespace Next2.Services.Bonuses
                         }
                     }
 
-                    isBonus = isBonus ? true : countSet == conditions.Count();
+                    isBonus = isBonus || countSet == conditions.Count();
 
                     if (isBonus)
                     {

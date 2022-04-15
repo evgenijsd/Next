@@ -6,7 +6,7 @@
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
-    x:DataType="dialogs:MembershipEditViewModel"
+    x:DataType="dialogs:MembershipEditDialogViewModel"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     HasKeyboardOffset="False"
@@ -70,12 +70,18 @@
                             WidthRequest="1"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                        <controls:CalendarTab2
+                        <controls:CalendarTab
+                            Grid.Column="1"
+                            Title="{xct:Translate EndDate}"
+                            OffsetYears="10"
+                            SelectedDate="{Binding SelectedEndDate}"
+                            SelectedStartDate="{Binding SelectedDate}" />
+                        <!--controls:CalendarTab2
                             Grid.Column="1"
                             Title="{xct:Translate EndDate}"
                             OffsetYears="10"
                             SelectedDate="{Binding SelectedDate}"
-                            SelectedEndDate="{Binding SelectedEndDate}" />
+                            SelectedEndDate="{Binding SelectedEndDate}" /-->
                         
                     </Grid>
 

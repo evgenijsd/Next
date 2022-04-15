@@ -1,21 +1,15 @@
-﻿using AutoMapper;
-using Next2.Models;
-using Next2.Resources.Strings;
+﻿using Next2.Resources.Strings;
 using Next2.Services.Authentication;
-using Next2.Services.Bonuses;
 using Next2.Services.CustomersService;
 using Next2.Services.Membership;
 using Next2.Services.Menu;
 using Next2.Services.Mock;
 using Next2.Services.Order;
-using Next2.Services.Rewards;
 using Next2.Services.SettingsService;
 using Next2.Services.UserService;
 using Next2.ViewModels;
 using Next2.ViewModels.Dialogs;
-using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
-using Next2.Views;
 using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
@@ -23,10 +17,20 @@ using Prism.Unity;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
+using AutoMapper;
+using Next2.Models;
+using Next2.Views;
+using Next2.Views.Tablet;
+using Next2.ViewModels.Mobile;
+using Next2.Services.Rewards;
+using Next2.Services.Bonuses;
 
 namespace Next2
 {
@@ -96,7 +100,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
-                containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
             }
             else
             {

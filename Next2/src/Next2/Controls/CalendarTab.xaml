@@ -10,15 +10,14 @@
     RowDefinitions="0.134*, 0.24*, *"
     Padding="16"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-    x:Class="Next2.Controls.CalendarTab"
-    x:Name="calendarTab">
-    
+    x:Class="Next2.Controls.CalendarTab">
+
     <Label
         Margin="0, 8, 0, 0"
         FontFamily="Barlow-Medium"
         FontSize="{DynamicResource TSize_i8}"
-        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CalendarTab}}, Path=Title}" />
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+        Text="{xct:Translate Birthday}"/>
 
     <!--  year  -->
     <Frame
@@ -38,7 +37,7 @@
                 FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-Regular"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                Text="{Binding SelectedYear.YearValue, Source={x:Reference calendarTab}}"/>
+                Text="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"/>
 
             <ffimageloading:CachedImage
                 HorizontalOptions="EndAndExpand"
@@ -77,21 +76,19 @@
             FontFamily="Barlow-Regular"
             FontSize="{DynamicResource TSize_i6}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            Text="{Binding Month.Name, Source={x:Reference calendarTab}}"
+            Text="{Binding Month.Name, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
             x:Name="monthLabel">
 
             <Label.GestureRecognizers>
-                
                 <SwipeGestureRecognizer
                     Direction="Left"
                     Swiped="OnRightMonthButtonTapped"
                     Threshold="24" />
-                
+
                 <SwipeGestureRecognizer
                     Direction="Right"
                     Swiped="OnLeftMonthButtonTapped"
                     Threshold="24" />
-                
             </Label.GestureRecognizers>
 
         </Label>
@@ -113,11 +110,12 @@
         Grid.Row="2"
         Margin="6, 0, 6, 1"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-        Month="{Binding SelectedMonth, Source={x:Reference calendarTab}}"
-        Year="{Binding SelectedYear.YearValue, Source={x:Reference calendarTab}}"
-        OffsetYears="{Binding OffsetYears, Source={x:Reference calendarTab}}"
-        SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
-        SelectedItem="{Binding SelectedDay, Source={x:Reference calendarTab}}"
+        Month="{Binding SelectedMonth, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        Year="{Binding SelectedYear.YearValue, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        OffsetYears="{Binding OffsetYears, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        SelectedDate="{Binding SelectedDate, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        SelectedStartDate="{Binding SelectedStartDate, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+        SelectedItem="{Binding SelectedDay, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
         x:Name="calendarGrid">
 
         <CollectionView.ItemsLayout>
@@ -133,13 +131,12 @@
         </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
-            
             <DataTemplate x:DataType="models:Day">
 
                 <StackLayout 
                     Padding="0" 
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-                    
+
                     <Frame
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
@@ -170,7 +167,6 @@
                     </Frame>
 
                     <VisualStateManager.VisualStateGroups>
-                        
                         <VisualStateGroup Name="CommonStates">
 
                             <VisualState Name="Selected">
@@ -181,15 +177,11 @@
                             </VisualState>
 
                             <VisualState Name="Normal" />
-                            
                         </VisualStateGroup>
-                        
                     </VisualStateManager.VisualStateGroups>
-                    
                 </StackLayout>
 
             </DataTemplate>
-            
         </CollectionView.ItemTemplate>
 
     </controls:CalendarGridCollectionView>
@@ -207,18 +199,17 @@
         IsVisible="false"
         xct:CornerRadiusEffect.CornerRadius="0,0,4,4"
         x:Name="dropdownFrame">
-        
+
         <StackLayout>
-            
             <BoxView
                 HeightRequest="{OnPlatform Android=1, iOS=0.5}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
-            
+
             <CollectionView
                 VerticalScrollBarVisibility="Never"
                 SelectionMode="Single"
-                ItemsSource="{Binding Years, Source={x:Reference calendarTab}}"
-                SelectedItem="{Binding SelectedYear, Source={x:Reference calendarTab}}"
+                ItemsSource="{Binding Years, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
+                SelectedItem="{Binding SelectedYear, Source={x:RelativeSource AncestorType={x:Type controls:CalendarTab}}}"
                 x:Name="yearsCollectionView">
 
                 <CollectionView.Effects>
@@ -234,7 +225,7 @@
                             HeightRequest="32"
                             WidthRequest="120"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-                            
+
                             <Label
                                 HorizontalTextAlignment="Center"
                                 VerticalTextAlignment="Center" 
@@ -244,7 +235,6 @@
                                 Text="{Binding YearValue}"/>
 
                             <VisualStateManager.VisualStateGroups>
-                                
                                 <VisualStateGroup Name="CommonStates">
 
                                     <VisualState Name="Selected">
@@ -254,11 +244,8 @@
                                     </VisualState>
 
                                     <VisualState Name="Normal" />
-                                    
                                 </VisualStateGroup>
-                                
                             </VisualStateManager.VisualStateGroups>
-                            
                         </Frame>
 
                     </DataTemplate>
@@ -266,9 +253,7 @@
                 </CollectionView.ItemTemplate>
 
             </CollectionView>
-            
         </StackLayout>
-        
     </Frame>
 
 </Grid>

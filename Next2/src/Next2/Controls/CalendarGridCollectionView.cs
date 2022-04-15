@@ -36,7 +36,7 @@ namespace Next2.Controls
         public static readonly BindableProperty OffsetYearsProperty = BindableProperty.Create(
             propertyName: nameof(OffsetYears),
             returnType: typeof(int),
-            declaringType: typeof(CalendarGridCollectionView2),
+            declaringType: typeof(CalendarGridCollectionView),
             defaultValue: 0,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -71,6 +71,18 @@ namespace Next2.Controls
             set => SetValue(SelectedDateProperty, value);
         }
 
+        public static readonly BindableProperty SelectedStartDateProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedStartDate),
+            returnType: typeof(DateTime?),
+            declaringType: typeof(CalendarGridCollectionView),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public DateTime? SelectedStartDate
+        {
+            get => (DateTime?)GetValue(SelectedStartDateProperty);
+            set => SetValue(SelectedStartDateProperty, value);
+        }
+
         public ObservableCollection<Day> Days { get; set; }
 
         #endregion
@@ -89,6 +101,10 @@ namespace Next2.Controls
                         CreateArrayOfDays();
                     }
 
+                    break;
+
+                case nameof(SelectedStartDate):
+                    CreateArrayOfDays();
                     break;
 
                 case nameof(Month):
@@ -183,7 +199,16 @@ namespace Next2.Controls
                         : EDayState.DayMonth;
                 }
 
+                var saveState = state;
+
+                if (SelectedStartDate is not null && (SelectedStartDate.Value.Year > Year || (SelectedStartDate.Value.Year == Year && SelectedStartDate.Value.Month > Month) ||
+                    (SelectedStartDate.Value.Year == Year && SelectedStartDate.Value.Month == Month && SelectedStartDate.Value.Day > day)))
+                {
+                    state = EDayState.NoDayMonth;
+                }
+
                 Days.Add(new Day { DayOfMonth = day.ToString(), State = state, });
+                state = saveState;
             }
         }
 

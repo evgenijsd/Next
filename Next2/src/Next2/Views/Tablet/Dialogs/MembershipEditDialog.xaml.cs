@@ -12,7 +12,7 @@ namespace Next2.Views.Tablet.Dialogs
         {
             InitializeComponent();
 
-            BindingContext = new MembershipEditViewModel(param, requestClose, mapper);
+            BindingContext = new MembershipEditDialogViewModel(param, requestClose, mapper);
         }
     }
 }

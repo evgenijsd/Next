@@ -12,11 +12,11 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
-    public class MembershipEditViewModel : BindableBase
+    public class MembershipEditDialogViewModel : BindableBase
     {
         private readonly IMapper _mapper;
 
-        public MembershipEditViewModel(
+        public MembershipEditDialogViewModel(
             DialogParameters parameters,
             Action<IDialogParameters> requestClose,
             IMapper mapper)

@@ -51,7 +51,7 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectedDateProperty = BindableProperty.Create(
             propertyName: nameof(SelectedDate),
             returnType: typeof(DateTime?),
-            declaringType: typeof(CalendarGridCollectionView),
+            declaringType: typeof(CalendarTab),
             defaultBindingMode: BindingMode.TwoWay);
 
         public DateTime? SelectedDate
@@ -60,10 +60,23 @@ namespace Next2.Controls
             set => SetValue(SelectedDateProperty, value);
         }
 
+        public static readonly BindableProperty SelectedStartDateProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedStartDate),
+            returnType: typeof(DateTime?),
+            declaringType: typeof(CalendarTab),
+            defaultValue: null,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public DateTime? SelectedStartDate
+        {
+            get => (DateTime?)GetValue(SelectedStartDateProperty);
+            set => SetValue(SelectedStartDateProperty, value);
+        }
+
         public static readonly BindableProperty TitleProperty = BindableProperty.Create(
             propertyName: nameof(Title),
             returnType: typeof(string),
-            declaringType: typeof(SearchButton),
+            declaringType: typeof(CalendarTab),
             defaultValue: Strings.Birthday,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -76,7 +89,7 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectedMonthProperty = BindableProperty.Create(
             propertyName: nameof(SelectedMonth),
             returnType: typeof(int),
-            declaringType: typeof(Calendar),
+            declaringType: typeof(CalendarTab),
             defaultValue: 3,
             defaultBindingMode: BindingMode.TwoWay);
 
@@ -89,7 +102,7 @@ namespace Next2.Controls
         public static readonly BindableProperty SelectedYearProperty = BindableProperty.Create(
             propertyName: nameof(SelectedYear),
             returnType: typeof(Year),
-            declaringType: typeof(Calendar),
+            declaringType: typeof(CalendarTab),
             defaultBindingMode: BindingMode.TwoWay);
 
         public Year SelectedYear
@@ -101,7 +114,7 @@ namespace Next2.Controls
         public static readonly BindableProperty OffsetYearsProperty = BindableProperty.Create(
             propertyName: nameof(OffsetYears),
             returnType: typeof(int),
-            declaringType: typeof(CalendarGridCollectionView2),
+            declaringType: typeof(CalendarTab),
             defaultValue: 0,
             defaultBindingMode: BindingMode.TwoWay);
 
