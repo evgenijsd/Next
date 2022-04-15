@@ -275,9 +275,6 @@
     <EmbeddedResource Update="Controls\Spoiler.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\IngredientItemTemplate.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\ProductItemTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
