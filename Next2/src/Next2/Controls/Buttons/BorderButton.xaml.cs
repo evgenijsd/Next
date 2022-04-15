@@ -65,13 +65,25 @@ namespace Next2.Controls.Buttons
         public static readonly BindableProperty CommandProperty = BindableProperty.Create(
             propertyName: nameof(Command),
             returnType: typeof(ICommand),
-            declaringType: typeof(SearchBar),
+            declaringType: typeof(BorderButton),
             defaultBindingMode: BindingMode.TwoWay);
 
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
+        }
+
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+            propertyName: nameof(CommandParameter),
+            returnType: typeof(object),
+            declaringType: typeof(BorderButton),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public object CommandParameter
+        {
+            get => (object)GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
         }
 
         #endregion

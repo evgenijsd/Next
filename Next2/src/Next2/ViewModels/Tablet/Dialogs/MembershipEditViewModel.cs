@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -16,12 +17,12 @@ namespace Next2.ViewModels.Dialogs
         private readonly IMapper _mapper;
 
         public MembershipEditViewModel(
-            DialogParameters param,
+            DialogParameters parameters,
             Action<IDialogParameters> requestClose,
             IMapper mapper)
         {
             _mapper = mapper;
-            SetupParameters(param);
+            SetupParameters(parameters);
 
             RequestClose = requestClose;
         }
@@ -34,17 +35,13 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        public ICommand _CloseCommand;
+        private ICommand _CloseCommand;
 
         public ICommand CloseCommand => _CloseCommand ??= new AsyncCommand(OnCloseCommand, allowsMultipleExecutions: false);
 
-        public ICommand _DisableMembershipCommand;
+        private ICommand _MembershipEditCommand;
 
-        public ICommand DisableMembershipCommand => _DisableMembershipCommand ??= new AsyncCommand(OnDisableMembershipCommand, allowsMultipleExecutions: false);
-
-        public ICommand _SaveMembershipCommand;
-
-        public ICommand SaveMembershipCommand => _SaveMembershipCommand ??= new AsyncCommand(OnSaveMembershipCommand, allowsMultipleExecutions: false);
+        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<EMembershipEditType>(OnMembershipEditCommand, allowsMultipleExecutions: false);
 
         #region --Private Helpers--
 
@@ -55,11 +52,30 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnDisableMembershipCommand()
+        private Task OnMembershipEditCommand(EMembershipEditType editType)
         {
-            if (Member.MembershipEndTime > DateTime.Now)
+            switch (editType)
             {
-                Member.MembershipEndTime = DateTime.Now;
+                case EMembershipEditType.Disable:
+                    if (Member.MembershipEndTime > DateTime.Now)
+                    {
+                        Member.MembershipEndTime = DateTime.Now;
+                    }
+
+                    break;
+
+                case EMembershipEditType.Save:
+                    Member.MembershipStartTime = SelectedDate ?? Member.MembershipStartTime;
+                    Member.MembershipEndTime = SelectedEndDate ?? Member.MembershipEndTime;
+
+                    if (Member.MembershipStartTime > Member.MembershipEndTime)
+                    {
+                        Member.MembershipEndTime = Member.MembershipStartTime;
+                    }
+
+                    break;
+                default:
+                    break;
             }
 
             var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.UPDATE, Member } };
@@ -69,26 +85,9 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnSaveMembershipCommand()
+        private void SetupParameters(IDialogParameters parameters)
         {
-            Member.MembershipStartTime = SelectedDate ?? Member.MembershipStartTime;
-            Member.MembershipEndTime = SelectedEndDate ?? Member.MembershipEndTime;
-
-            if (Member.MembershipStartTime > Member.MembershipEndTime)
-            {
-                Member.MembershipEndTime = Member.MembershipStartTime;
-            }
-
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.UPDATE, Member } };
-
-            RequestClose(dialogParameters);
-
-            return Task.CompletedTask;
-        }
-
-        private void SetupParameters(IDialogParameters param)
-        {
-            if (param.TryGetValue(Constants.DialogParameterKeys.MODEL, out MemberBindableModel member))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.MODEL, out MemberBindableModel member))
             {
                 Member = _mapper.Map<MemberBindableModel, MemberBindableModel>(member);
 

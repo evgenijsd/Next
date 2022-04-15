@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
     x:DataType="dialogs:MembershipEditViewModel"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
@@ -108,7 +109,8 @@
                             BorderColor="{DynamicResource IndicationColor_i3}"
                             BackgroundColor="{DynamicResource IndicationColor_i3}"
                             Style="{DynamicResource BorderButtonStyle_i1}"
-                            Command="{Binding DisableMembershipCommand}" />
+                            Command="{Binding MembershipEditCommand}" 
+                            CommandParameter="{x:Static enums:EMembershipEditType.Disable}"/>
 
                         <buttons:BorderButton
                             Grid.Column="2"
@@ -118,7 +120,8 @@
                             BorderColor="{DynamicResource IndicationColor_i1}"
                             BackgroundColor="{DynamicResource IndicationColor_i1}"
                             Style="{DynamicResource BorderButtonStyle_i1}"
-                            Command="{Binding SaveMembershipCommand}" />
+                            Command="{Binding MembershipEditCommand}"
+                            CommandParameter="{x:Static enums:EMembershipEditType.Save}" />
 
                     </Grid>
 
