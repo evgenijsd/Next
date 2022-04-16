@@ -1,5 +1,4 @@
 ﻿using Next2.Resources.Strings;
-using Next2.Services;
 using Next2.Services.Authentication;
 using Next2.Services.CustomersService;
 using Next2.Services.Membership;
@@ -27,11 +26,11 @@ using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
 using AutoMapper;
 using Next2.Models;
-using Next2.Services.Bonuses;
 using Next2.Views;
 using Next2.Views.Tablet;
 using Next2.ViewModels.Mobile;
 using Next2.Services.Rewards;
+using Next2.Services.Bonuses;
 
 namespace Next2
 {
@@ -101,6 +100,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
             }
             else
             {
@@ -171,11 +171,14 @@ namespace Next2
                 cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberModel, MemberBindableModel>();
+                cfg.CreateMap<MemberBindableModel, MemberModel>();
+                cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
                 cfg.CreateMap<BonusModel, BonusBindableModel>();
                 cfg.CreateMap<BonusBindableModel, BonusModel>();
                 cfg.CreateMap<SetBindableModel, SetModel>();
                 cfg.CreateMap<SetModel, SetBindableModel>();
                 cfg.CreateMap<FullOrderBindableModel, OrderModel>();
+                cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             }).CreateMapper();
         }
 

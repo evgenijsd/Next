@@ -49,7 +49,8 @@ namespace Next2.Services.Order
 
             try
             {
-                var tax = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+                var taxMock = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+                var tax = new TaxModel() { Id = taxMock.Id, Name = taxMock.Name, Value = taxMock.Value };
 
                 if (tax is not null)
                 {
@@ -346,7 +347,7 @@ namespace Next2.Services.Order
                 CurrentOrder.SubTotal += set.Portion.Price;
 
                 CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * CurrentOrder.Tax.Value);
+                CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
 
                 if (CurrentOrder.Bonus is not null)
                 {

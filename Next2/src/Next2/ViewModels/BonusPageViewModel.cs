@@ -57,16 +57,16 @@ namespace Next2.ViewModels
         public double HeightDiscounts { get; set; } = 0;
 
         private ICommand _ApplyBonusCommand;
-        public ICommand ApplyBonusCommand => _ApplyBonusCommand ??= new AsyncCommand(OnApplyBonusCommandAsync);
+        public ICommand ApplyBonusCommand => _ApplyBonusCommand ??= new AsyncCommand(OnApplyBonusCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _RemoveSelectionBonusCommand;
-        public ICommand RemoveSelectionBonusCommand => _RemoveSelectionBonusCommand ??= new AsyncCommand(OnRemoveSelectionBonusCommandAsync);
+        public ICommand RemoveSelectionBonusCommand => _RemoveSelectionBonusCommand ??= new AsyncCommand(OnRemoveSelectionBonusCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSelectBonusCommand;
-        public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectBonusCommandAsync);
+        public ICommand TapSelectBonusCommand => _tapSelectBonusCommand ??= new AsyncCommand<BonusBindableModel?>(OnTapSelectBonusCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapSelectCollapceCommand;
-        public ICommand TapSelectCollapceCommand => _tapSelectCollapceCommand ??= new AsyncCommand<EBonusType>(OnTapSelectCollapceCommandAsync);
+        public ICommand TapSelectCollapceCommand => _tapSelectCollapceCommand ??= new AsyncCommand<EBonusType>(OnTapSelectCollapceCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                CurrentOrder = currentOrder;
+                CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
 
                 _bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
 

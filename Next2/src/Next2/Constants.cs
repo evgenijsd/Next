@@ -96,6 +96,7 @@
         {
             public const string MESSAGE = "MESSAGE";
             public const string MODEL = "MODEL";
+            public const string UPDATE = "UPDATE";
             public const string TITLE = "TITLE";
             public const string DESCRIPTION = "DESCRIPTION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";

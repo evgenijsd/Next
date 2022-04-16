@@ -312,9 +312,9 @@
   <data name="TypeEmail" xml:space="preserve">
     <value>Type Email</value>
   </data>
-	<data name="TypeUserName" xml:space="preserve">
+  <data name="TypeUserName" xml:space="preserve">
     <value>Type User Name</value>
-	  </data>
+  </data>
   <data name="CurrencySign" xml:space="preserve">
     <value>$</value>
   </data>
@@ -484,9 +484,6 @@
   <data name="MessageAboutCashingOutAwards" xml:space="preserve">
     <value>Earning points get you rewards that you can cash in to get free stuff</value>
   </data>
-  <data name="Apply" xml:space="preserve">
-    <value>Apply</value>
-  </data>
   <data name="AvailableGroups" xml:space="preserve">
     <value>Available Groups</value>
   </data>
@@ -504,5 +501,20 @@
   </data>
   <data name="NeedCard" xml:space="preserve">
     <value>Need a card!</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditMembership" xml:space="preserve">
+    <value>Edit Membership</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="MembershipUpdate" xml:space="preserve">
+    <value>This membership will be update.</value>
   </data>
 </root>

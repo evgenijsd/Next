@@ -11,7 +11,7 @@ namespace Next2.Services.Mock
 {
     public class MockService : IMockService
     {
-        private readonly TaskCompletionSource<bool> _initCompletionSource = new TaskCompletionSource<bool>();
+        private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
         private IList<OrderModel> _orders;
         private IList<CategoryModel> _categories;
@@ -26,7 +26,6 @@ namespace Next2.Services.Mock
         private IList<BonusConditionModel> _bonusConditions;
         private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
-        private IList<TaxModel> _taxBonus;
         private IList<RewardModel> _rewards;
         private List<CustomerModel> _customers;
         private IList<ProductModel> _products;
@@ -110,7 +109,8 @@ namespace Next2.Services.Mock
             await _initCompletionSource.Task;
 
             var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
-            entityUpdate = entity;
+            var index = GetBase<T>().IndexOf(entityUpdate);
+            GetBase<T>()[index] = entity;
 
             await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
@@ -187,6 +187,45 @@ namespace Next2.Services.Mock
                 InitIngredientsAsync(),
                 InitIngredientsOfProductAsync());
 
+            _base = new Dictionary<Type, object>
+            {
+                { typeof(TaxModel), _tax },
+                { typeof(BonusConditionModel), _bonusConditions },
+                { typeof(BonusSetModel), _bonusSets },
+                { typeof(BonusModel), _bonuses },
+                { typeof(RewardModel), _rewards },
+                { typeof(OrderModel), _orders },
+                { typeof(CategoryModel), _categories },
+                { typeof(SubcategoryModel), _subcategories },
+                { typeof(UserModel), _users },
+                { typeof(SetModel), _sets },
+                { typeof(SeatModel), _seats },
+                { typeof(TableModel), _tables },
+                { typeof(MemberModel), _members },
+                { typeof(CustomerModel), _customers },
+                { typeof(IngredientCategoryModel), _ingredientCategories },
+                { typeof(IngredientOfProductModel), _ingredientsOfProductModel },
+                { typeof(IngredientModel), _ingredients },
+                { typeof(PortionModel), _portions },
+                { typeof(ReplacementProductModel), _replacementProducts },
+                { typeof(ProductModel), _products },
+                { typeof(OptionModel), _optionsProduct },
+            };
+
+            _maxIdentifiers = new Dictionary<Type, int>
+            {
+                { typeof(RewardModel), GetMaxId(_rewards) },
+                { typeof(OrderModel), GetMaxId(_orders) },
+                { typeof(CategoryModel), GetMaxId(_categories) },
+                { typeof(SubcategoryModel), GetMaxId(_subcategories) },
+                { typeof(SetModel), GetMaxId(_sets) },
+                { typeof(UserModel), GetMaxId(_users) },
+                { typeof(SeatModel), GetMaxId(_seats) },
+                { typeof(TableModel), GetMaxId(_tables) },
+                { typeof(MemberModel), GetMaxId(_members) },
+                { typeof(CustomerModel), GetMaxId(_customers) },
+            };
+
             _initCompletionSource.TrySetResult(true);
         }
 
@@ -198,11 +237,9 @@ namespace Next2.Services.Mock
                 {
                     Id = 1,
                     Name = "Tax",
-                    Value = 0.1,
+                    Value = 0.1f,
                 },
             };
-
-            _base.Add(typeof(TaxModel), _tax);
         });
 
         private Task InitBonusConditionAsync() => Task.Run(() =>
@@ -234,8 +271,6 @@ namespace Next2.Services.Mock
                     BonusId = 6,
                 },
             };
-
-            _base.Add(typeof(BonusConditionModel), _bonusConditions);
         });
 
         private Task InitBonusSetAsync() => Task.Run(() =>
@@ -279,8 +314,6 @@ namespace Next2.Services.Mock
                     BonusId = 6,
                 },
             };
-
-            _base.Add(typeof(BonusSetModel), _bonusSets);
         });
 
         private Task InitBonusAsync() => Task.Run(() =>
@@ -330,8 +363,6 @@ namespace Next2.Services.Mock
                     Type = EBonusValueType.Percent,
                 },
             };
-
-            _base.Add(typeof(BonusModel), _bonuses);
         });
 
         private Task IniRewardsAsync() => Task.Run(() =>
@@ -403,9 +434,6 @@ namespace Next2.Services.Mock
                     SetTitle = "D Pulled Pork Sammy Meal",
                 },
             };
-
-            _base.Add(typeof(RewardModel), _rewards);
-            _maxIdentifiers.Add(typeof(RewardModel), GetMaxId(_rewards));
         });
 
         private Task InitOrdersAsync() => Task.Run(async () =>
@@ -603,9 +631,6 @@ namespace Next2.Services.Mock
 
                 _orders[i].Total = amountsBySeats.Sum();
             }
-
-            _base.Add(typeof(OrderModel), _orders);
-            _maxIdentifiers.Add(typeof(OrderModel), GetMaxId(_orders));
         });
 
         private Task InitCategoriesAsync() => Task.Run(() =>
@@ -710,9 +735,6 @@ namespace Next2.Services.Mock
                     Title = "Beverages",
                 },
             };
-
-            _base.Add(typeof(CategoryModel), _categories);
-            _maxIdentifiers.Add(typeof(CategoryModel), GetMaxId(_categories));
         });
 
         private Task InitSubategoriesAsync() => Task.Run(() =>
@@ -854,9 +876,6 @@ namespace Next2.Services.Mock
                     Title = "19 Burger Meals",
                 },
             };
-
-            _base.Add(typeof(SubcategoryModel), _subcategories);
-            _maxIdentifiers.Add(typeof(SubcategoryModel), GetMaxId(_subcategories));
         });
 
         private Task InitSetsAsync() => Task.Run(() =>
@@ -1110,9 +1129,6 @@ namespace Next2.Services.Mock
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
             };
-
-            _base.Add(typeof(SetModel), _sets);
-            _maxIdentifiers.Add(typeof(SetModel), GetMaxId(_sets));
         });
 
         private Task InitUsersAsync() => Task.Run(() =>
@@ -1144,9 +1160,6 @@ namespace Next2.Services.Mock
                     UserType = EUserType.Admin,
                 },
             };
-
-            _base.Add(typeof(UserModel), _users);
-            _maxIdentifiers.Add(typeof(UserModel), GetMaxId(_users));
         });
 
         private Task InitSeatsAsync() => Task.Run(() =>
@@ -1830,9 +1843,6 @@ namespace Next2.Services.Mock
                     },
                 },
             };
-
-            _base.Add(typeof(SeatModel), _seats);
-            _maxIdentifiers.Add(typeof(SeatModel), GetMaxId(_seats));
         });
 
         private Task InitTables() => Task.Run(() =>
@@ -1935,9 +1945,6 @@ namespace Next2.Services.Mock
                      TableNumber = 19,
                  },
             };
-
-            _base.Add(typeof(TableModel), _tables);
-            _maxIdentifiers.Add(typeof(TableModel), GetMaxId(_tables));
         });
 
         private Task InitMembersAsync() => Task.Run(() =>
@@ -2143,16 +2150,11 @@ namespace Next2.Services.Mock
                         cultureInfo),
                 },
             };
-
-            _base.Add(typeof(MemberModel), _members);
-            _maxIdentifiers.Add(typeof(MemberModel), GetMaxId(_members));
         });
 
         private Task InitCustomersAsync() => Task.Run(() =>
         {
             _customers = CustomersMock.Create();
-            _base.Add(typeof(CustomerModel), _customers);
-            _maxIdentifiers.Add(typeof(CustomerModel), GetMaxId(_customers));
         });
 
         private Task InitIngredientCategoriesAsync() => Task.Run(() =>
@@ -2192,8 +2194,6 @@ namespace Next2.Services.Mock
                     Title = "Sides & Snack",
                 },
             };
-
-            _base.Add(typeof(IngredientCategoryModel), _ingredientCategories);
         });
 
         private Task InitIngredientsAsync() => Task.Run(() =>
@@ -2596,8 +2596,6 @@ namespace Next2.Services.Mock
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
             };
-
-            _base.Add(typeof(IngredientModel), _ingredients);
         });
 
         private Task InitIngredientsOfProductAsync() => Task.Run(() =>
@@ -2902,8 +2900,6 @@ namespace Next2.Services.Mock
                     IngredientId = 2,
                 },
             };
-
-            _base.Add(typeof(IngredientOfProductModel), _ingredientsOfProductModel);
         });
 
         private Task InitPortionsAsync() => Task.Run(() =>
@@ -3030,14 +3026,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 37
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 51
+                    Price = 51,
                 },
                 new PortionModel()
                 {
@@ -3481,8 +3477,6 @@ namespace Next2.Services.Mock
                     Price = 57.8f,
                 },
             };
-
-            _base.Add(typeof(PortionModel), _portions);
         });
 
         private Task InitReplacementProductsAsync() => Task.Run(() =>
@@ -3650,8 +3644,6 @@ namespace Next2.Services.Mock
                     ProductId = productId++,
                 },
             };
-
-            _base.Add(typeof(ReplacementProductModel), _replacementProducts);
         });
 
         private Task InitProductsAsync() => Task.Run(() =>
@@ -4235,8 +4227,6 @@ namespace Next2.Services.Mock
                     TotalPrice = 27,
                 },
             };
-
-            _base.Add(typeof(ProductModel), _products);
         });
 
         private Task InitOptionsProductAsync() => Task.Run(() =>
@@ -4931,8 +4921,6 @@ namespace Next2.Services.Mock
                     Title = "Medium",
                 },
             };
-
-            _base.Add(typeof(OptionModel), _optionsProduct);
         });
 
         #endregion
