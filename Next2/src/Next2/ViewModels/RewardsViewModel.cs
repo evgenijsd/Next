@@ -149,13 +149,16 @@ namespace Next2.ViewModels
         {
             var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
 
-            var seats = _mapper.Map<IEnumerable<SeatModel>>(bindableSeats);
-
             Order.Seats.Clear();
 
-            foreach (var seat in seats)
+            foreach (var seat in bindableSeats)
             {
-                var freeSets = _mapper.Map<List<SetModel>, ObservableCollection<FreeSetBindableModel>>(seat.Sets);
+                var freeSets = _mapper.Map<ObservableCollection<FreeSetBindableModel>>(seat.Sets);
+
+                if (App.IsTablet)
+                {
+                    SetProductsNamesForSets(seat.Sets, freeSets);
+                }
 
                 var newSeat = new SeatWithFreeSetsBindableModel
                 {
@@ -165,6 +168,14 @@ namespace Next2.ViewModels
                 };
 
                 Order.Seats.Add(newSeat);
+            }
+        }
+
+        private void SetProductsNamesForSets(ObservableCollection<SetBindableModel> setBindables, ObservableCollection<FreeSetBindableModel> freeSets)
+        {
+            for (int i = 0; i < setBindables.Count; i++)
+            {
+                freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
             }
         }
 
