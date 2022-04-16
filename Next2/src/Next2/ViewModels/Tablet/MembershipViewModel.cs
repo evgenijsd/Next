@@ -159,13 +159,14 @@ namespace Next2.ViewModels.Tablet
                 _member = _mapper.Map<MemberBindableModel, MemberModel>(member);
 
                 var confirmDialogParameters = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
-                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                        { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
-                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
-                    };
+                {
+                    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                    { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
+                };
+
                 PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);
                 await _popupNavigation.PushAsync(confirmDialog);
             }
@@ -173,14 +174,11 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseConfirmDialogUpdateCallback(IDialogParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted) && isMembershipDisableAccepted)
             {
-                if (isMembershipDisableAccepted)
-                {
-                    await _membershipService.SaveMemberAsync(_member);
+                await _membershipService.SaveMemberAsync(_member);
 
-                    await RefreshMembersAsync();
-                }
+                await RefreshMembersAsync();
             }
 
             await _popupNavigation.PopAsync();

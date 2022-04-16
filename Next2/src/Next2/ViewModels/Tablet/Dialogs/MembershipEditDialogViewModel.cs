@@ -27,6 +27,8 @@ namespace Next2.ViewModels.Dialogs
             RequestClose = requestClose;
         }
 
+        #region -- Public properties --
+
         public DateTime? SelectedDate { get; set; } = null;
 
         public DateTime? SelectedEndDate { get; set; } = null;
@@ -35,24 +37,26 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _CloseCommand;
+        private ICommand _closeCommand;
 
-        public ICommand CloseCommand => _CloseCommand ??= new AsyncCommand(OnCloseCommand, allowsMultipleExecutions: false);
+        public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _MembershipEditCommand;
+        private ICommand _membershipEditCommand;
 
-        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<EMembershipEditType>(OnMembershipEditCommand, allowsMultipleExecutions: false);
+        public ICommand MembershipEditCommand => _membershipEditCommand ??= new AsyncCommand<EMembershipEditType>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
-        #region --Private Helpers--
+        #endregion
 
-        private Task OnCloseCommand()
+        #region --Private helpers--
+
+        private Task OnCloseCommandAsync()
         {
             RequestClose(new DialogParameters());
 
             return Task.CompletedTask;
         }
 
-        private Task OnMembershipEditCommand(EMembershipEditType editType)
+        private Task OnMembershipEditCommandAsync(EMembershipEditType editType)
         {
             switch (editType)
             {

@@ -211,7 +211,9 @@ namespace Next2.ViewModels
                 case nameof(IsOrderWithTax):
                     if (!IsOrderWithTax)
                     {
-                        CurrentOrder.Total = CurrentOrder.BonusType != EBonusType.None ? CurrentOrder.PriceWithBonus : CurrentOrder.SubTotal;
+                        CurrentOrder.Total = CurrentOrder.BonusType != EBonusType.None ?
+                            CurrentOrder.PriceWithBonus :
+                            CurrentOrder.SubTotal;
                         CurrentOrder.PriceTax = 0;
                     }
 
