@@ -76,6 +76,13 @@
     <None Remove="Extensions\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Controls\CalendarGridCollectionView2.cs" />
+    <Compile Remove="Controls\CalendarTab2.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Controls\CalendarTab2.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\Fonts\Barlow-Bold.ttf" />
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
@@ -124,6 +131,9 @@
   <ItemGroup>
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\CalendarTab.xaml.cs">
+      <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\CustomStepper.xaml.cs">
       <DependentUpon>CustomStepper.xaml</DependentUpon>
@@ -193,6 +203,9 @@
     </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
+      <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>
@@ -354,6 +367,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\PaymentCompleteView.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\PaymentPage.xaml">

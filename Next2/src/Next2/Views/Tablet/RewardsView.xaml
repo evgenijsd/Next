@@ -176,7 +176,7 @@
                     xct:TouchEffect.Command="{Binding GoToCompleteTabCommand}">
                         
                     <buttons:BorderButton.Triggers>
-                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAnyRewardsApplied}" Value="True">
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding Order.IsUnsavedChangesExist}" Value="True">
                                 
                             <Setter Property="Text" Value="{xct:Translate Apply}"/>
                                 

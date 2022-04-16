@@ -505,4 +505,19 @@
   <data name="PaymentNotSavedMessage" xml:space="preserve">
     <value>If you leave the page, payment progress will not be saved.</value>
   </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditMembership" xml:space="preserve">
+    <value>Edit Membership</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="MembershipUpdate" xml:space="preserve">
+    <value>This membership will be update.</value>
+  </data>
 </root>

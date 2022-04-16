@@ -9,5 +9,9 @@ namespace Next2.Services.Membership
     public interface IMembershipService
     {
         Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null);
+
+        Task<AOResult<bool>> DisableMemberAsync(MemberModel member);
+
+        Task<AOResult<MemberModel>> SaveMemberAsync(MemberModel member);
     }
 }

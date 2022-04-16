@@ -7,6 +7,6 @@ namespace Next2.Interfaces
 {
     public interface ITappable
     {
-        ICommand TapCommand { get; set; }
+        ICommand? TapCommand { get; set; }
     }
 }

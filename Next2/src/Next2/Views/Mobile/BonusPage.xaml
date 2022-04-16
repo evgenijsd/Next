@@ -274,7 +274,7 @@
                                                                 
                                                             </Frame>
 
-                                                            <StackLayout WidthRequest="220">
+                                                            <StackLayout HorizontalOptions="FillAndExpand">
 
                                                                 <Label
                                                                     Text="{Binding Title}"
@@ -295,13 +295,17 @@
 
                                                             </StackLayout>
 
-                                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                            <StackLayout
+                                                                HorizontalOptions="EndAndExpand"
+                                                                WidthRequest="80"
+                                                                MinimumWidthRequest="80">
 
                                                                 <Label
                                                                     Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
-                                                                    HorizontalOptions="EndAndExpand"
+                                                                    HorizontalOptions="End"
                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
+                                                                    LineBreakMode="TailTruncation"
                                                                     FontFamily="Barlow-Medium" />
 
                                                                 <Label
@@ -312,6 +316,7 @@
                                                                     TextDecorations="Strikethrough"
                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
+                                                                    LineBreakMode="TailTruncation"
                                                                     FontFamily="Barlow-Medium">
 
                                                                     <Label.Triggers>

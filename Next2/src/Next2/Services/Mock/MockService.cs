@@ -109,7 +109,8 @@ namespace Next2.Services.Mock
             await _initCompletionSource.Task;
 
             var entityUpdate = GetBase<T>().FirstOrDefault(x => x.Id == entity.Id);
-            entityUpdate = entity;
+            var index = GetBase<T>().IndexOf(entityUpdate);
+            GetBase<T>()[index] = entity;
 
             await Task.Delay(Constants.Limits.SERVER_RESPONCE_DELAY);
 
@@ -233,7 +234,7 @@ namespace Next2.Services.Mock
                 {
                     Id = 1,
                     Name = "Tax",
-                    Value = 0.1,
+                    Value = 0.1f,
                 },
             };
         });
