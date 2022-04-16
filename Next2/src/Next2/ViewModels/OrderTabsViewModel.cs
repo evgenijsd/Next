@@ -170,14 +170,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.ORDER).OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.TAB).OrderBy(x => x.CustomerName));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.CustomerName));
             }
 
             IsOrdersRefreshing = false;
@@ -461,7 +461,7 @@ namespace Next2.ViewModels
 
         private void SetOrderStatus(Enum orderStatus)
         {
-            IsOrderTabsSelected = orderStatus is EOrderStatus.ORDER;
+            IsOrderTabsSelected = orderStatus is EOrderStatus.WaitingForPayment;
         }
 
         private async Task OnGoBackCommand()

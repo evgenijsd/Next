@@ -533,7 +533,6 @@ namespace Next2.ViewModels
                 {
                     { Constants.Navigations.REFRESH_ORDER, true },
                     { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
-                    { nameof(Constants.Navigations.MODIFIED_SET), Constants.Navigations.MODIFIED_SET },
                 };
 
                 await _navigationService.GoBackAsync(parameters);

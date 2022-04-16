@@ -6,8 +6,8 @@ namespace Next2.Enums
 {
     public enum EOrderStatus
     {
-        TAB,
-        ORDER,
+        WaitingForPayment,
+        InProgress,
         NONE,
     }
 }

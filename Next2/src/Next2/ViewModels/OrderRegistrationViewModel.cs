@@ -749,7 +749,7 @@ namespace Next2.ViewModels
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderStatus commandParameter))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderStatus.TAB)
+                if (isMovedOrderAccepted && commandParameter == EOrderStatus.InProgress)
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }

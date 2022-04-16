@@ -106,11 +106,6 @@ namespace Next2.ViewModels.Tablet
                 {
                     NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                 }
-
-                if (parameters.ContainsKey(Constants.Navigations.MODIFIED_SET))
-                {
-                    NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                }
             }
         }
 
