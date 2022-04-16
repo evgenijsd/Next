@@ -119,7 +119,7 @@ namespace Next2.Controls
 
         private void CreateArrayOfDays()
         {
-            DateTime dateTime = new DateTime(Year, Month, 1);
+            DateTime dateTime = new (Year, Month, 1);
             int currentMonthIndex = (int)dateTime.DayOfWeek;
             var dayCounter = dateTime.AddMonths(1).Subtract(dateTime).Days;
             int previousMonthLastDate = dateTime.AddDays(-1).Day;

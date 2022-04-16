@@ -46,7 +46,7 @@ namespace Next2.ViewModels.Tablet
 
             _orderService = orderService;
 
-            orderRegistrationViewModel.RefreshCurrentOrderAsync();
+            orderRegistrationViewModel.RefreshCurrentOrder();
         }
 
         #region -- Public properties --
@@ -132,9 +132,11 @@ namespace Next2.ViewModels.Tablet
 
             if (portions.IsSuccess)
             {
-                var param = new DialogParameters();
-                param.Add(Constants.DialogParameterKeys.SET, set);
-                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.SET, set },
+                    { Constants.DialogParameterKeys.PORTIONS, portions.Result },
+                };
 
                 await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
             }
@@ -155,7 +157,7 @@ namespace Next2.ViewModels.Tablet
                             await _popupNavigation.PopAsync();
                         }
 
-                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                        OrderRegistrationViewModel.RefreshCurrentOrder();
 
                         var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                         {

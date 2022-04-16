@@ -205,7 +205,7 @@ namespace Next2.Services.Mock
                 { typeof(PortionModel), _portions },
                 { typeof(ReplacementProductModel), _replacementProducts },
                 { typeof(ProductModel), _products },
-                { typeof(OptionModel), _optionsProduct }
+                { typeof(OptionModel), _optionsProduct },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -219,7 +219,7 @@ namespace Next2.Services.Mock
                 { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(TableModel), GetMaxId(_tables) },
                 { typeof(MemberModel), GetMaxId(_members) },
-                { typeof(CustomerModel), GetMaxId(_customers) }
+                { typeof(CustomerModel), GetMaxId(_customers) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -3073,14 +3073,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 37
+                    Price = 37,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 51
+                    Price = 51,
                 },
                 new PortionModel()
                 {
