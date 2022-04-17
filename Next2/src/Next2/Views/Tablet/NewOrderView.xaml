@@ -1763,7 +1763,7 @@
                         </Label>
 
                         <Label
-                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
+                            IsVisible="{Binding OrderRegistrationViewModel.CurrentOrder.Customer, Converter={xct:IsNotNullOrEmptyConverter}}"
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"

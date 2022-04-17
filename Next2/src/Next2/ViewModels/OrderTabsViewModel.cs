@@ -444,7 +444,7 @@ namespace Next2.ViewModels
                     {
                         var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
 
-                        Orders.Remove(removalBindableOrder);
+                        await LoadDataAsync();
                         SelectedOrder = null;
                     }
 

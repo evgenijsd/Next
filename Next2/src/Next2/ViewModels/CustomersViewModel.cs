@@ -116,7 +116,7 @@ namespace Next2.ViewModels
         {
             var currentCustomer = _orderService.CurrentOrder.Customer;
 
-            if (currentCustomer.Id > 0)
+            if (currentCustomer is not null)
             {
                 SelectedCustomer = Customers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }

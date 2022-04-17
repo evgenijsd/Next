@@ -115,7 +115,7 @@ namespace Next2.ViewModels
             Order.Id = _orderService.CurrentOrder.Id;
             Order.Customer = _orderService.CurrentOrder.Customer;
 
-            if (Order.Customer.Id == 0)
+            if (Order.Customer is null)
             {
                 PageState = ERewardsPageState.NoSelectedCustomer;
             }

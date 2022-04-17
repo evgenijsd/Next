@@ -7,7 +7,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public CustomerModel Customer { get; set; } = new CustomerModel();
+        public CustomerModel? Customer { get; set; }
 
         public int TableNumber { get; set; }
 
