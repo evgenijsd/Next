@@ -55,7 +55,59 @@ namespace Next2.Services.Membership
             Regex regexText = new(Constants.Validators.TEXT);
 
             var result = regexText.Replace(text, string.Empty);
-            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ? regexNumber.Replace(result, string.Empty) : regexName.Replace(result, string.Empty);
+            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ?
+                regexNumber.Replace(result, string.Empty) :
+                regexName.Replace(result, string.Empty);
+
+            return result;
+        }
+
+        public async Task<AOResult<bool>> DisableMemberAsync(MemberModel member)
+        {
+            var result = new AOResult<bool>();
+
+            try
+            {
+                var remove = await _mockService.RemoveAsync<MemberModel>(member);
+
+                if (remove)
+                {
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DisableMemberAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member)
+        {
+            var result = new AOResult<MemberModel>();
+
+            try
+            {
+                var update = await _mockService.UpdateAsync<MemberModel>(member);
+
+                if (update is not null)
+                {
+                    result.SetSuccess(update);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateMemberAsync)}: exception", Strings.SomeIssues, ex);
+            }
 
             return result;
         }

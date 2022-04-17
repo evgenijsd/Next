@@ -2,16 +2,22 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Membership;
 using Next2.Views.Tablet;
 using Prism.Events;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
@@ -21,17 +27,23 @@ namespace Next2.ViewModels.Tablet
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IPopupNavigation _popupNavigation;
+
+        private MemberModel _member;
+        private ObservableCollection<MemberBindableModel> _members;
 
         public MembershipViewModel(
             IMapper mapper,
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
             _membershipService = membershipService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -51,13 +63,16 @@ namespace Next2.ViewModels.Tablet
         public bool IsSearching { get; set; } = false;
 
         private ICommand _refreshMembersCommand;
-        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
+        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _memberSortingChangeCommand;
-        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync);
+        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _SearchCommand;
-        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _MembershipEditCommand;
+        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _searchCommand;
+        public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _ClearSearchCommand;
         public ICommand ClearSearchCommand => _ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync);
@@ -107,11 +122,14 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                var memberBindableModels = _mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result);
+                _members = _mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result);
 
-                var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
+                foreach (var member in _members)
+                {
+                    member.TapCommand = MembershipEditCommand;
+                }
 
-                Members = new (sortedmemberBindableModels);
+                Members = new (GetSortedMembers(_members));
 
                 IsMembersRefreshing = false;
             }
@@ -134,7 +152,7 @@ namespace Next2.ViewModels.Tablet
 
                 var sortedMembers = GetSortedMembers(Members);
 
-                Members = new (sortedMembers);
+                Members = new(sortedMembers);
             }
 
             return Task.CompletedTask;
@@ -150,6 +168,7 @@ namespace Next2.ViewModels.Tablet
                 {
                     { Constants.Navigations.SEARCH, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
                 ClearSearchAsync();
                 IsSearching = true;
@@ -183,12 +202,56 @@ namespace Next2.ViewModels.Tablet
 
         private void ClearSearchAsync()
         {
-            /*CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
-
-            SelectedOrder = null;
+            //CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
             SearchText = string.Empty;
 
-            SetVisualCollection();*/
+            //SetVisualCollection();
+        }
+
+        private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
+        {
+            if (member is MemberBindableModel selectedMember)
+            {
+                var parameters = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
+
+                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
+
+                await _popupNavigation.PushAsync(popupPage);
+            }
+        }
+
+        private async void MembershipEditDialogCallBack(IDialogParameters parameters)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
+            {
+                _member = _mapper.Map<MemberBindableModel, MemberModel>(member);
+
+                var confirmDialogParameters = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                    { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
+                };
+
+                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
+        }
+
+        private async void CloseConfirmDialogUpdateCallback(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted) && isMembershipDisableAccepted)
+            {
+                await _membershipService.UpdateMemberAsync(_member);
+
+                await RefreshMembersAsync();
+            }
+
+            await _popupNavigation.PopAsync();
         }
 
         #endregion

@@ -20,7 +20,7 @@
 
             <StackLayout
                 Grid.Row="0"
-                Padding="40, 20, 40, 15"
+                Padding="40, 20, 40, 10"
                 Orientation="Horizontal">
 
                 <!--  TITLE  -->
@@ -42,7 +42,7 @@
         <!--  SEARCH BUTTON  -->
         <!--Grid
             Grid.Row="1"
-            Margin="40,40,40,25"
+            Margin="40,25,40,20"
             ColumnDefinitions="0.45*, 0.55*"
             RowDefinitions="*">
 
@@ -193,7 +193,7 @@
 
                 <!--  TABLE CONTENT  -->
                 <RefreshView
-                    Command="{Binding RefreshMembersCommand}" 
+                    Command="{Binding RefreshMembersCommand}"
                     IsRefreshing="{Binding IsMembersRefreshing}">
 
                     <controls:CustomScrollBarCollectionView
@@ -201,16 +201,24 @@
                         ItemsSource="{Binding Members}">
 
                         <CollectionView.Effects>
+                            
                             <effects:NoOverScrollEffect />
+
+                            <effects:ScrollBarColorEffect
+                                ScrollBarThumbWidth="6"
+                                ScrollBarCornerRadius="9"
+                                ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout 
+                                <StackLayout
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                     x:DataType="models:MemberBindableModel">
 
-                                    <Grid ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
+                                    <Grid
+                                        ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
 
                                         <Label
                                             Grid.Column="0"
@@ -231,6 +239,12 @@
                                             Grid.Column="3"
                                             Style="{DynamicResource TableCellStyle_i1}"
                                             Text="{Binding MembershipEndTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
+
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding TapCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
 
                                     </Grid>
 

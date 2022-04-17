@@ -58,12 +58,12 @@
 
                                 <Label
                                     Text="{xct:Translate Coupons}"
-                                    Margin="0,0,0,0"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontFamily="Barlow-SemiBold"
                                     FontSize="{DynamicResource TSize_i5}" />
 
                                 <ffimageloading:CachedImage
+                                    Margin="0,0,0,10"
                                     Source="ic_arrow_up_24x24.png"
                                     HeightRequest="25"
                                     HorizontalOptions="EndAndExpand">
@@ -143,6 +143,7 @@
                                     FontSize="{DynamicResource TSize_i5}" />
 
                                 <ffimageloading:CachedImage
+                                    Margin="0,0,0,5"
                                     Source="ic_arrow_up_24x24"
                                     HeightRequest="25"
                                     HorizontalOptions="EndAndExpand">
@@ -274,7 +275,7 @@
                                                                 
                                                             </Frame>
 
-                                                            <StackLayout WidthRequest="220">
+                                                            <StackLayout HorizontalOptions="FillAndExpand">
 
                                                                 <Label
                                                                     Text="{Binding Title}"
@@ -295,13 +296,17 @@
 
                                                             </StackLayout>
 
-                                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                            <StackLayout
+                                                                HorizontalOptions="EndAndExpand"
+                                                                WidthRequest="80"
+                                                                MinimumWidthRequest="80">
 
                                                                 <Label
                                                                     Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
-                                                                    HorizontalOptions="EndAndExpand"
+                                                                    HorizontalOptions="End"
                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
+                                                                    LineBreakMode="TailTruncation"
                                                                     FontFamily="Barlow-Medium" />
 
                                                                 <Label
@@ -312,6 +317,7 @@
                                                                     TextDecorations="Strikethrough"
                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
+                                                                    LineBreakMode="TailTruncation"
                                                                     FontFamily="Barlow-Medium">
 
                                                                     <Label.Triggers>

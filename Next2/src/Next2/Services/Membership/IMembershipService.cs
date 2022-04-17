@@ -11,5 +11,7 @@ namespace Next2.Services.Membership
         Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null);
 
         string ApplyNameFilter(string text);
+
+        Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member);
     }
 }
