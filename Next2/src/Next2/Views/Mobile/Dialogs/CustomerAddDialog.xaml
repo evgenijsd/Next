@@ -123,8 +123,17 @@
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{xct:Translate Birthday, StringFormat='{0}*'}"/>
-
+                            Text="{xct:Translate Birthday, StringFormat='{0}*'}">
+                            
+                            
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding SelectedDate, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                                    <Setter Property="Text" Value="{xct:Translate Birthday}"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                            
+                        </Label>
+                        
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnButtonTapped" />
                         </Frame.GestureRecognizers>

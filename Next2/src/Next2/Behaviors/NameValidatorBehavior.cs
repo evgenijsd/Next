@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Next2.Behaviors
@@ -31,11 +30,6 @@ namespace Next2.Behaviors
         {
             if (sender is CustomEntry entry && e.NewTextValue is not null && e.NewTextValue.Any())
             {
-                // 1) парсит норм, виснет
-                //bool isMatch = Regex.IsMatch(e.NewTextValue, @"^([A-Za-z-,.']+\d*[ ]?)+$");
-
-                // 2) парсит норм, виснет
-                //bool isMatch = Regex.IsMatch(e.NewTextValue, @"^\b([A-Za-z-,.']+\d*[ ]*)+$");
                 bool isMatch = false;
 
                 try
@@ -60,7 +54,7 @@ namespace Next2.Behaviors
                     entry.Text = string.Join(' ', words);
                 }
             }
-      }
+        }
 
         private string WordToPascalCase(string word)
         {
