@@ -2,12 +2,12 @@
 
 namespace Next2.Controls
 {
-    public class CustomEntry : Entry
+    public class HideClipboardEntry : Entry
     {
         public static readonly BindableProperty IsValidProperty = BindableProperty.Create(
            propertyName: nameof(IsValidProperty),
            returnType: typeof(bool),
-           declaringType: typeof(CustomEntry),
+           declaringType: typeof(HideClipboardEntry),
            defaultBindingMode: BindingMode.TwoWay);
 
         public bool IsValid

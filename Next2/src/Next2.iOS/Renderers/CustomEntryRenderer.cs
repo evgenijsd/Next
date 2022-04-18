@@ -7,7 +7,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
+[assembly: ExportRenderer(typeof(HideClipboardEntry), typeof(CustomEntryRenderer))]
 namespace Next2.iOS.Renderers
 {
     public class CustomEntryRenderer : EntryRenderer

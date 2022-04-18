@@ -30,7 +30,7 @@
                 Padding="30,40,30,20"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
-                <controls:CustomEntry
+                <controls:HideClipboardEntry
                     x:Name="searchEntry"
                     Text="{Binding SearchLine}"
                     Placeholder="{xct:Translate TableNumberOrOrder}"
@@ -43,25 +43,25 @@
                     MaxLength="100"
                     PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}">
 
-                    <controls:CustomEntry.Triggers>
+                    <controls:HideClipboardEntry.Triggers>
                         
                         <DataTrigger
-                            TargetType="controls:CustomEntry" 
+                            TargetType="controls:HideClipboardEntry" 
                             Binding="{Binding SearchLine}" 
                             Value="">
                             <Setter Property="Opacity" Value="0.32" />
                         </DataTrigger>
 
                         <DataTrigger
-                            TargetType="controls:CustomEntry"
+                            TargetType="controls:HideClipboardEntry"
                             Binding="{Binding IsOrderTabsSelected}"
                             Value="False">
                             <Setter Property="Placeholder" Value="{xct:Translate NameOrOrder}" />
                         </DataTrigger>
 
-                    </controls:CustomEntry.Triggers>
+                    </controls:HideClipboardEntry.Triggers>
                     
-                </controls:CustomEntry>
+                </controls:HideClipboardEntry>
                 
             </StackLayout>
 

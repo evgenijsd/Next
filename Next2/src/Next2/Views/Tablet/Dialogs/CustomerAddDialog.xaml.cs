@@ -53,7 +53,7 @@ namespace Next2.Views.Tablet.Dialogs
                 nameEntryBlock.IsVisible = true;
             }
 
-            if (sender is CustomEntry entry && entry != null && entry.Text != null)
+            if (sender is HideClipboardEntry entry && entry != null && entry.Text != null)
             {
                 if (entry.IsValid || entry.Text == string.Empty)
                 {

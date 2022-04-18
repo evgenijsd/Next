@@ -63,7 +63,7 @@ namespace Next2.Views.Mobile.Dialogs
         {
             nameEntryBlock.IsVisible = true;
 
-            if (sender is CustomEntry entry && entry.Text != null)
+            if (sender is HideClipboardEntry entry && entry.Text != null)
             {
                 if (entry.IsValid || entry.Text == string.Empty)
                 {
