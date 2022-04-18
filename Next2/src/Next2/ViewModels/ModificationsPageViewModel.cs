@@ -279,12 +279,16 @@ namespace Next2.ViewModels
             {
                 product.SelectedIngredients.Add(new IngredientOfProductModel()
                 {
+                    Id = toggleIngredient.Id,
                     IngredientId = toggleIngredient.Id,
                     ProductId = product.Id,
                 });
 
-                product.IngredientsPrice += toggleIngredient.Price;
-                product.TotalPrice += toggleIngredient.Price;
+                if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
+                {
+                    product.IngredientsPrice += toggleIngredient.Price;
+                    product.TotalPrice += toggleIngredient.Price;
+                }
             }
             else
             {

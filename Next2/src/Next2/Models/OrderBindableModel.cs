@@ -41,7 +41,7 @@ namespace Next2.Models
 
             Random random = new();
 
-            string name = names[random.Next(2)];
+            string name = names[random.Next(3)];
 
             string surname = surnames[random.Next(3)];
 

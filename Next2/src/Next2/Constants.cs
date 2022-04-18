@@ -4,18 +4,6 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
-        public const float TAX_PERCENTAGE = 20;
-
-        public const int MAX_TABLE_SEATS = 10;
-
-        public const int TOAST_DURATION = 5;
-
-        public const int LOGIN_PASSWORD_LENGTH = 6;
-
-        public const int SERVER_RESPONCE_DELAY = 1;
-
-        public const int SERVER_RESPONCE_MIN_DELAY = 10;
-
         public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";

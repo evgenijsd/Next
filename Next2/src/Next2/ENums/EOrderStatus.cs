@@ -8,6 +8,6 @@ namespace Next2.Enums
     {
         WaitingForPayment,
         InProgress,
-        NONE,
+        None,
     }
 }

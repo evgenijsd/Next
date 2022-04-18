@@ -80,7 +80,7 @@ namespace Next2.ViewModels
             _authenticationService = authenticationService;
             _menuService = menuService;
 
-            _orderPaymentStatus = EOrderStatus.NONE;
+            _orderPaymentStatus = EOrderStatus.None;
 
             CurrentState = LayoutState.Loading;
 
@@ -916,12 +916,9 @@ namespace Next2.ViewModels
                             ImagePath = row.ImagePath,
                         }));
 
-                        if (setOfIngredients.Count > 0)
+                        foreach (var ingredient in setOfIngredients)
                         {
-                            foreach (var ingredient in setOfIngredients)
-                            {
-                                tempListIngredients.Add(ingredient);
-                            }
+                            tempListIngredients.Add(ingredient);
                         }
 
                         if (product.DefaultSelectedIngredients.Count > 0)
@@ -930,7 +927,7 @@ namespace Next2.ViewModels
                             {
                                 var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
 
-                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId && x.ProductId == defaultIngredient.ProductId).FirstOrDefault() is not null;
+                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
 
                                 if (!isDefaultIngredientExist)
                                 {

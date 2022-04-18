@@ -157,12 +157,9 @@ namespace Next2.ViewModels.Mobile
                             ImagePath = row.ImagePath,
                         }));
 
-                        if (setOfIngredients.Count > 0)
+                        foreach (var ingredient in setOfIngredients)
                         {
-                            foreach (var ingredient in setOfIngredients)
-                            {
-                                tempListIngredients.Add(ingredient);
-                            }
+                            tempListIngredients.Add(ingredient);
                         }
 
                         if (product.DefaultSelectedIngredients.Count > 0)
@@ -171,7 +168,7 @@ namespace Next2.ViewModels.Mobile
                             {
                                 var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
 
-                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId && x.ProductId == defaultIngredient.ProductId).FirstOrDefault() is not null;
+                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
 
                                 if (!isDefaultIngredientExist)
                                 {
