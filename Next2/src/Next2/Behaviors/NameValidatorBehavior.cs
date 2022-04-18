@@ -36,8 +36,15 @@ namespace Next2.Behaviors
 
                 // 2) парсит норм, виснет
                 //bool isMatch = Regex.IsMatch(e.NewTextValue, @"^\b([A-Za-z-,.']+\d*[ ]*)+$");
-                _ = Task.Delay(150);
-                bool isMatch = Regex.IsMatch(e.NewTextValue, @"^\b([A-Za-z-,.']+\d*[ ]*)+$");
+                bool isMatch = false;
+
+                try
+                {
+                    isMatch = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100));
+                }
+                catch (Exception)
+                {
+                }
 
                 if (!isMatch)
                 {

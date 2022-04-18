@@ -80,7 +80,7 @@
         {
             public const string TEXT = @"[^\w\s]";
             public const string NAME = @"[^a-zA-Z\s]";
-            public const string CUSTOMER_NAME = @"\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+";
+            public const string CUSTOMER_NAME = @"^\b([A-Za-z-,.']+\d*[ ]?)+$";
             public const string NUMBER = @"[\D]";
             public const string CHECK_NUMBER = @"^[\d]";
             public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
