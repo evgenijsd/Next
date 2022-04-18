@@ -165,6 +165,11 @@
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Strings\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
@@ -311,6 +316,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\CustomNumericKeyboardTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DarkModeResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
