@@ -127,9 +127,11 @@ namespace Next2.ViewModels.Tablet
                     member.TapCommand = MembershipEditCommand;
                 }
 
-                Members = new(MembersAll);
-
-                if (!string.IsNullOrEmpty(SearchText))
+                if (string.IsNullOrEmpty(SearchText))
+                {
+                    Members = new(MembersAll);
+                }
+                else
                 {
                     Members = new(MembersAll.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
                 }
