@@ -8,6 +8,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:DataType="tablet:MembershipViewModel"
     x:Class="Next2.Views.Tablet.MembershipView">
 
@@ -73,6 +75,24 @@
         </Grid>
 
         <!--  TABLE  -->
+        <Frame
+            Grid.Row="2"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
+            Margin="40,0,40,20"
+            CornerRadius="{OnPlatform Android=6, iOS=8}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="true">
+
+            <ffimageloading:CachedImage
+                Source="pic_nothing_found"
+                HeightRequest="250"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+        </Frame>
+
         <Frame
             Grid.Row="2"
             Margin="40,0,40,20"
@@ -143,12 +163,14 @@
                     Style="{DynamicResource SeparatorStyle_i1}"
                     Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                <!--  TABLE CONTENT  -->
+                <!--  TABLE CONTENT  -->                
                 <RefreshView
                     Command="{Binding RefreshMembersCommand}"
-                    IsRefreshing="{Binding IsMembersRefreshing}">
+                    IsRefreshing="{Binding IsMembersRefreshing}"
+                    IsVisible="{Binding Members.Count, Converter={xct:IntToBoolConverter}}">
 
                     <controls:CustomScrollBarCollectionView
+                        HeightRequest="{Binding Members, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                         ItemsSource="{Binding Members}">
 
@@ -193,15 +215,12 @@
                                             Text="{Binding MembershipEndTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
 
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding TapCommand}"
-                                                CommandParameter="{Binding .}" />
+                                            <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="{Binding .}" />
                                         </Grid.GestureRecognizers>
 
                                     </Grid>
 
                                     <BoxView
-                                        Grid.Row="1"
                                         Style="{DynamicResource SeparatorStyle_i1}"
                                         Color="{DynamicResource TextAndBackgroundColor_i5}" />
 

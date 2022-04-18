@@ -112,7 +112,7 @@ namespace Next2.Controls.Templates
 
         #region -- Private helpers --
 
-        private async Task OnTabAsync(object? sender)
+        private Task OnTabAsync(object? sender)
         {
             if (sender is string str && str is not null)
             {
@@ -129,13 +129,17 @@ namespace Next2.Controls.Templates
                     ScreenKeyboard = str;
                 }
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnTabClearAsync(object? arg)
+        private Task OnTabClearAsync(object? arg)
         {
             ScreenKeyboard = PlaceHolder;
             IsKeyBoardTyped = false;
             IsErrorNotificationVisible = false;
+
+            return Task.CompletedTask;
         }
 
         #endregion

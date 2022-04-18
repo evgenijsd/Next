@@ -1,11 +1,11 @@
-﻿using Android.Content;
+﻿using System;
+using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Next2.Controls;
 using Next2.Droid.Renderers;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -14,7 +14,8 @@ namespace Next2.Droid.Renderers
 {
     public class CustomEntryRenderer : EntryRenderer
     {
-        public CustomEntryRenderer(Context context) : base(context) { }
+        public CustomEntryRenderer(Context context)
+            : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
@@ -29,15 +30,14 @@ namespace Next2.Droid.Renderers
                 Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
             }
 
-
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Q)
             {
-                Control.SetTextCursorDrawable(Resource.Drawable.custom_cursor); //This API Intrduced in android 10
+                Control.SetTextCursorDrawable(Resource.Drawable.custom_cursor); // This API Intrduced in android 10
             }
             else
             {
-                IntPtr IntPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
-                IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(IntPtrtextViewClass, "mCursorDrawableRes", "I");
+                IntPtr intPtrtextViewClass = JNIEnv.FindClass(typeof(TextView));
+                IntPtr mCursorDrawableResProperty = JNIEnv.GetFieldID(intPtrtextViewClass, "mCursorDrawableRes", "I");
                 JNIEnv.SetField(Control.Handle, mCursorDrawableResProperty, Resource.Drawable.custom_cursor);
             }
 
@@ -51,7 +51,6 @@ namespace Next2.Droid.Renderers
 
     public class Callback : Java.Lang.Object, ActionMode.ICallback
     {
-
         public bool OnActionItemClicked(ActionMode mode, IMenuItem item)
         {
             return false;
@@ -64,7 +63,6 @@ namespace Next2.Droid.Renderers
 
         public void OnDestroyActionMode(ActionMode mode)
         {
-
         }
 
         public bool OnPrepareActionMode(ActionMode mode, IMenu menu)

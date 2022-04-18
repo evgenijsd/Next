@@ -60,7 +60,7 @@ namespace Next2.Models
 
         public TableBindableModel Table { get; set; } = new();
 
-        public CustomerModel Customer { get; set; } = new();
+        public CustomerModel? Customer { get; set; }
 
         public string? CustomerName { get; set; }
 

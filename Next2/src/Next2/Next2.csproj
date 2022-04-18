@@ -170,6 +170,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\PaymentCompleteView.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
@@ -371,6 +374,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Views\InputTextPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\PaymentCompleteView.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

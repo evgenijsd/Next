@@ -1,7 +1,7 @@
-﻿using Android.Graphics.Drawables;
+﻿using System.Linq;
+using Android.Graphics.Drawables;
 using Java.Lang;
 using Next2.Droid.Effects;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using UIEffects = Next2.Effects;

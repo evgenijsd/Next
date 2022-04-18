@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -16,7 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -101,6 +99,9 @@ namespace Next2.ViewModels
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _printCommand;
+        public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
 
@@ -117,7 +118,7 @@ namespace Next2.ViewModels
                 _heightPage = HeightPage;
                 HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-                await LoadData();
+                await LoadDataAsync();
             }
             else
             {
@@ -158,10 +159,10 @@ namespace Next2.ViewModels
 
         private Task OnRefreshOrdersCommandAsync()
         {
-            return LoadData();
+            return LoadDataAsync();
         }
 
-        private async Task LoadData()
+        public async Task LoadDataAsync()
         {
             IsOrdersRefreshing = true;
 
@@ -178,7 +179,7 @@ namespace Next2.ViewModels
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.CustomerName));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
@@ -205,7 +206,7 @@ namespace Next2.ViewModels
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName))
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
                             .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }
@@ -444,7 +445,10 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
-                        await LoadData();
+                        var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+
+                        await LoadDataAsync();
+                        SelectedOrder = null;
                     }
 
                     await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
@@ -452,6 +456,11 @@ namespace Next2.ViewModels
             }
 
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+        }
+
+        private Task OnPrintCommandAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private void SetLastSavedOrderId(int orderId)

@@ -12,8 +12,8 @@
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    x:DataType="viewmodels:RewardsViewModel"
-    x:Class="Next2.Views.Tablet.RewardsView">
+    x:Class="Next2.Views.Tablet.RewardsView"
+    x:DataType="viewmodels:RewardsViewModel">
     
     <ContentView.Resources>
         <Style TargetType="Label">
@@ -48,7 +48,7 @@
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="Center"
                     TextColor="{DynamicResource AppColor_i1}"
-                    Text="{Binding CustomerName}"/>
+                    Text="{Binding Order.Customer.Name}"/>
                     
             </StackLayout>
 
@@ -57,102 +57,100 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
                 
             <!-- PAGE STATES -->
-         
-            <RefreshView IsRefreshing="{Binding IsRefreshing}">
-                
-                <sc:StateContainer State="{Binding PageState}">
+            <sc:StateContainer State="{Binding PageState}">
                     
-                    <sc:StateContainer.Conditions>
-                        <!-- NO SELECTED CUSTOMER MESSAGE -->
-                        <sc:StateCondition State="{Static enums:ERewardsPageState.NoSelectedCustomer}">
-                            <StackLayout Margin="0, 120">
+                <sc:StateContainer.Conditions>
+                    
+                    <!-- NO SELECTED CUSTOMER MESSAGE -->
+                    <sc:StateCondition State="{Static enums:ERewardsPageState.NoSelectedCustomer}">
+                        <StackLayout Margin="0, 120">
                                 
-                                <ffimageloading:CachedImage
-                                    Style="{DynamicResource CachedImageStyle_i1}"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="200"
-                                    Source="pic_become_a_member"/>
+                            <ffimageloading:CachedImage
+                                Style="{DynamicResource CachedImageStyle_i1}"
+                                FadeAnimationEnabled="False"
+                                HeightRequest="200"
+                                Source="pic_become_a_member"/>
 
-                                <controls:LineSpacingLabel
-                                    Style="{DynamicResource LineSpacingLabelStyle_i1}"
-                                    Text="{xct:Translate StillNotMember}"/>
+                            <controls:LineSpacingLabel
+                                Style="{DynamicResource LineSpacingLabelStyle_i1}"
+                                Text="{xct:Translate StillNotMember}"/>
 
-                            </StackLayout>
-                        </sc:StateCondition>
+                        </StackLayout>
+                    </sc:StateCondition>
                         
-                        <!-- REWARDS NOT EXIST MESSAGE -->
-                        <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsNotExist}">
-                            <StackLayout Margin="0, 120">
+                    <!-- REWARDS NOT EXIST MESSAGE -->
+                    <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsNotExist}">
+                        <StackLayout Margin="0, 120">
                                                                 
-                                <ffimageloading:CachedImage
-                                    Style="{DynamicResource CachedImageStyle_i1}"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="200"
-                                    Source="pic_rewards"/>
+                            <ffimageloading:CachedImage
+                                Style="{DynamicResource CachedImageStyle_i1}"
+                                FadeAnimationEnabled="False"
+                                HeightRequest="200"
+                                Source="pic_rewards"/>
 
-                                <controls:LineSpacingLabel
-                                    Style="{DynamicResource LineSpacingLabelStyle_i1}"
-                                    Text="{xct:Translate MessageAboutCashingOutAwards}"/>
+                            <controls:LineSpacingLabel
+                                Style="{DynamicResource LineSpacingLabelStyle_i1}"
+                                Text="{xct:Translate MessageAboutCashingOutAwards}"/>
 
-                            </StackLayout>
-                        </sc:StateCondition>
+                        </StackLayout>
+                    </sc:StateCondition>
 
-                        <!-- LIST OF SEATS IN ORDER --> 
-                        <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
-                            <StackLayout>
-                                <CollectionView ItemsSource="{Binding Seats}">
+                    <!-- SEATS AND SETS IN ORDER --> 
+                    <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
+                        <StackLayout>
+                            <CollectionView ItemsSource="{Binding Order.Seats}">
                                     
-                                    <CollectionView.Effects>
-                                        <effects:NoOverScrollEffect/>
-                                    </CollectionView.Effects>
+                                <CollectionView.Effects>
+                                    <effects:NoOverScrollEffect/>
+                                </CollectionView.Effects>
                                     
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
 
-                                            <StackLayout Padding="28, 24, 28, 0">
-                                                <!-- SEAT NUMBER --> 
-                                                <Label
-                                                    FontFamily="Barlow-SemiBold"
-                                                    FontSize="{DynamicResource TSize_i9}"
-                                                    TextColor="{DynamicResource TextAndBackgroundColor_i10}">
+                                        <StackLayout Padding="28, 24, 28, 0">
+                                            
+                                            <!-- SEAT NUMBER --> 
+                                            <Label
+                                                FontFamily="Barlow-SemiBold"
+                                                FontSize="{DynamicResource TSize_i9}"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i10}">
                                                     
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{xct:Translate Seat}"/>
-                                                            <Span Text=" "/>
-                                                            <Span Text="{Binding SeatNumber}"/>
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{xct:Translate Seat}"/>
+                                                        <Span Text=" "/>
+                                                        <Span Text="{Binding SeatNumber}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
                                                     
-                                                </Label>
+                                            </Label>
     
-                                                <!-- SETS LIST --> 
-                                                <CollectionView
-                                                    ItemsSource="{Binding Sets}"
-                                                    HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=94}">
+                                            <!-- SETS LIST --> 
+                                            <CollectionView
+                                                ItemsSource="{Binding Sets}"
+                                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=94}">
                                                     
-                                                    <CollectionView.ItemTemplate>
-                                                        <DataTemplate x:DataType="models:FreeSetBindableModel">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:FreeSetBindableModel">
                                                            
-                                                            <tablet:FreeSetItemTemplate/>
+                                                        <tablet:FreeSetItemTemplate/>
                                                             
-                                                        </DataTemplate>
-                                                    </CollectionView.ItemTemplate>
-                                                </CollectionView>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
 
-                                            </StackLayout>
+                                        </StackLayout>
                                                 
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
-                        </sc:StateCondition>
-                    </sc:StateContainer.Conditions>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </StackLayout>
+                    </sc:StateCondition>
                     
-                </sc:StateContainer>
-                
-            </RefreshView>
-         
+                </sc:StateContainer.Conditions>
+                    
+            </sc:StateContainer>     
+    
             <BoxView 
                 VerticalOptions="EndAndExpand"
                 HeightRequest="1.5"
@@ -178,7 +176,7 @@
                     xct:TouchEffect.Command="{Binding GoToCompleteTabCommand}">
                         
                     <buttons:BorderButton.Triggers>
-                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAnyRewardsApplied}" Value="True">
+                        <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding Order.IsUnsavedChangesExist}" Value="True">
                                 
                             <Setter Property="Text" Value="{xct:Translate Apply}"/>
                                 
@@ -202,7 +200,9 @@
                 FontSize="{DynamicResource TSize_i9}"
                 Text="{xct:Translate RewardsOptions}"/>
                 
-            <CollectionView ItemsSource="{Binding Rewards}">
+            <CollectionView
+                HeightRequest="{Binding Order.Rewards, Converter={StaticResource listHeightConverter}, ConverterParameter=94}"
+                ItemsSource="{Binding Order.Rewards}">
                     
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>

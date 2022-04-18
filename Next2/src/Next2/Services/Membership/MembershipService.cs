@@ -55,9 +55,9 @@ namespace Next2.Services.Membership
             Regex regexText = new(Constants.Validators.TEXT);
 
             var result = regexText.Replace(text, string.Empty);
-            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ?
-                regexNumber.Replace(result, string.Empty) :
-                regexName.Replace(result, string.Empty);
+            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER)
+                ? regexNumber.Replace(result, string.Empty)
+                : regexName.Replace(result, string.Empty);
 
             return result;
         }
@@ -68,7 +68,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var remove = await _mockService.RemoveAsync<MemberModel>(member);
+                var remove = await _mockService.RemoveAsync(member);
 
                 if (remove)
                 {
@@ -93,7 +93,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var update = await _mockService.UpdateAsync<MemberModel>(member);
+                var update = await _mockService.UpdateAsync(member);
 
                 if (update is not null)
                 {

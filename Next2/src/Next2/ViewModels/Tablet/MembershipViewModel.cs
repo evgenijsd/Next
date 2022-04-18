@@ -48,7 +48,7 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public properties --
 
-        public ObservableCollection<MemberBindableModel> Members { get; set; } = new ();
+        public ObservableCollection<MemberBindableModel> Members { get; set; } = new();
 
         public bool IsMembersRefreshing { get; set; }
 
@@ -83,18 +83,18 @@ namespace Next2.ViewModels.Tablet
 
         public override async void OnAppearing()
         {
+            base.OnAppearing();
+
             MemberSorting = EMemberSorting.ByMembershipStartTime;
 
             await RefreshMembersAsync();
-
-            base.OnAppearing();
         }
 
         public override void OnDisappearing()
         {
-            Members.Clear();
-
             base.OnDisappearing();
+
+            SearchText = string.Empty;
         }
 
         #endregion
@@ -122,14 +122,14 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                _members = _mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result);
+                _members = new(GetSortedMembers(_mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result)));
 
                 foreach (var member in _members)
                 {
                     member.TapCommand = MembershipEditCommand;
                 }
 
-                Members = new(GetSortedMembers(_members));
+                Members = new(_members);
 
                 IsMembersRefreshing = false;
             }
@@ -152,7 +152,6 @@ namespace Next2.ViewModels.Tablet
                 MemberSorting = memberSorting;
 
                 Members = new(GetSortedMembers(Members));
-
                 _members = new(GetSortedMembers(_members));
             }
 
@@ -181,7 +180,7 @@ namespace Next2.ViewModels.Tablet
         {
             SearchText = searchLine;
 
-            Members = new(_members.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.ToLower().Contains(SearchText.ToLower())));
+            Members = new(_members.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
         }
@@ -200,7 +199,6 @@ namespace Next2.ViewModels.Tablet
 
         private void ClearSearchAsync()
         {
-            //CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
             SearchText = string.Empty;
 
             Members = new(_members);

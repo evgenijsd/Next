@@ -1,5 +1,4 @@
 ﻿using Next2.Enums;
-using Next2.Enums;
 using Next2.Interfaces;
 
 namespace Next2.Models
@@ -8,7 +7,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public string? CustomerName { get; set; }
+        public CustomerModel? Customer { get; set; }
 
         public int TableNumber { get; set; }
 
@@ -24,6 +23,6 @@ namespace Next2.Models
 
         public double PriceTax { get; set; }
 
-        public EOrderPaymentStatus? PaymentStatus;
+        public EOrderPaymentStatus? PaymentStatus { get; set; }
     }
 }
