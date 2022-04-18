@@ -83,7 +83,7 @@
             CornerRadius="{OnPlatform Android=6, iOS=8}"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
-            IsVisible="true">
+            IsVisible="{Binding Members.Count, Converter={StaticResource zeroToTrueConverter}}">
 
             <ffimageloading:CachedImage
                 Source="pic_nothing_found"
