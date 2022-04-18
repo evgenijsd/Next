@@ -298,9 +298,7 @@
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Orders}"
                             SelectedItem="{Binding SelectedOrder}"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            ThumbWidth="8"
-                            ScrollBarCornerRadius="10">
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                             <CollectionView.Effects>
                                 

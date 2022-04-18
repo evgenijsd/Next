@@ -113,17 +113,10 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            if (!IsSearching)
-            {
-                _heightPage = HeightPage;
-                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
+            _heightPage = HeightPage;
+            HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-                await LoadDataAsync();
-            }
-            else
-            {
-                IsSearching = false;
-            }
+            await LoadDataAsync();
         }
 
         public override void OnDisappearing()
@@ -131,6 +124,8 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            IsSearching = false;
+            IsNotingFound = false;
             SelectedOrder = null;
         }
 

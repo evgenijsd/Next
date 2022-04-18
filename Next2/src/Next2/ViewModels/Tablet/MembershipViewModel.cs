@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using System.ComponentModel;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -30,7 +31,6 @@ namespace Next2.ViewModels.Tablet
         private readonly IPopupNavigation _popupNavigation;
 
         private MemberModel _member;
-        private ObservableCollection<MemberBindableModel> _members;
 
         public MembershipViewModel(
             IMapper mapper,
@@ -50,6 +50,8 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<MemberBindableModel> Members { get; set; } = new();
 
+        public ObservableCollection<MemberBindableModel> MembersAll { get; set; } = new();
+
         public bool IsMembersRefreshing { get; set; }
 
         public EMemberSorting MemberSorting { get; set; }
@@ -57,10 +59,6 @@ namespace Next2.ViewModels.Tablet
         public string SearchText { get; set; } = string.Empty;
 
         public string SearchPlaceholder { get; set; }
-
-        public bool IsNotingFound { get; set; } = false;
-
-        public bool IsSearching { get; set; } = false;
 
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
@@ -94,7 +92,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            SearchText = string.Empty;
+            ClearSearchAsync();
         }
 
         #endregion
@@ -122,14 +120,19 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                _members = new(GetSortedMembers(_mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result)));
+                MembersAll = new(GetSortedMembers(_mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result)));
 
-                foreach (var member in _members)
+                foreach (var member in MembersAll)
                 {
                     member.TapCommand = MembershipEditCommand;
                 }
 
-                Members = new(_members);
+                Members = new(MembersAll);
+
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    Members = new(MembersAll.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
+                }
 
                 IsMembersRefreshing = false;
             }
@@ -145,14 +148,14 @@ namespace Next2.ViewModels.Tablet
             if (MemberSorting == memberSorting)
             {
                 Members = new(Members.Reverse());
-                _members = new(_members.Reverse());
+                MembersAll = new(MembersAll.Reverse());
             }
             else
             {
                 MemberSorting = memberSorting;
 
                 Members = new(GetSortedMembers(Members));
-                _members = new(GetSortedMembers(_members));
+                MembersAll = new(GetSortedMembers(MembersAll));
             }
 
             return Task.CompletedTask;
@@ -171,7 +174,6 @@ namespace Next2.ViewModels.Tablet
                     { Constants.Navigations.PLACEHOLDER, Strings.NameOrPhone },
                 };
                 ClearSearchAsync();
-                IsSearching = true;
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
@@ -180,7 +182,7 @@ namespace Next2.ViewModels.Tablet
         {
             SearchText = searchLine;
 
-            Members = new(_members.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
+            Members = new(MembersAll.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
         }
@@ -201,7 +203,7 @@ namespace Next2.ViewModels.Tablet
         {
             SearchText = string.Empty;
 
-            Members = new(_members);
+            Members = new(MembersAll);
         }
 
         private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
