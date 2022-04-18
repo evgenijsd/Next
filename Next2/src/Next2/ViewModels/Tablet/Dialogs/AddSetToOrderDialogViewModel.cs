@@ -25,12 +25,10 @@ namespace Next2.ViewModels.Dialogs
 
             if (param.ContainsKey(Constants.DialogParameterKeys.SET) && param.ContainsKey(Constants.DialogParameterKeys.PORTIONS))
             {
-                SetModel set;
-                IEnumerable<PortionModel> portions;
-
-                if (param.TryGetValue(Constants.DialogParameterKeys.SET, out set) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out portions))
+                if (param.TryGetValue(Constants.DialogParameterKeys.SET, out SetModel set)
+                    && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out IEnumerable<PortionModel> portions))
                 {
-                    MapperConfiguration config = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
+                    MapperConfiguration config = new(cfg => cfg.CreateMap<SetModel, SetBindableModel>());
                     var mapper = new Mapper(config);
 
                     Set = mapper.Map<SetModel, SetBindableModel>(set);

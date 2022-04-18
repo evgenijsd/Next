@@ -21,7 +21,6 @@ namespace Next2.ViewModels.Mobile
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
         private readonly int _indexOfSeat;
-        private readonly int _indexOfSet;
 
         public EditPageViewModel(
             INavigationService navigationService,

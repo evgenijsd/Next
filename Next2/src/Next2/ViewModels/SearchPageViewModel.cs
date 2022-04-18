@@ -33,7 +33,7 @@ namespace Next2.ViewModels
         public string SearchLine { get; set; } = string.Empty;
 
         private ICommand _GoBackCommand;
-        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync);
+        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 

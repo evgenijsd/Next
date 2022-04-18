@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -45,7 +44,7 @@
                 HeightRequest="66"
                 Spacing="18"
                 Orientation="Horizontal"
-                xct:TouchEffect.Command="{prism:GoBack}">
+                xct:TouchEffect.Command="{Binding BackCancelCommand}">
 
                 <ffimageloading:CachedImage
                     HeightRequest="22"
@@ -68,7 +67,7 @@
         <StackLayout Orientation="Horizontal">
             
             <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentPageStep}" Value="{Static enums:EPaymentPageSteps.Complete}">
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
                     <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
                     <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
                 </DataTrigger>
@@ -90,17 +89,16 @@
 
         <sc:StateContainer 
             VerticalOptions="FillAndExpand"
-            State="{Binding PaymentPageStep}">
+            State="{Binding PaymentStep}">
             
             <sc:StateContainer.Conditions>
-                
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Rewards}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Rewards}">
                     
                     <mobile:RewardsView BindingContext="{Binding RewardsViewModel}"/>
 
                 </sc:StateCondition>
                 
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Complete}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
                     
                     <!-- temporary -->
                     <StackLayout>
@@ -113,7 +111,6 @@
                     </StackLayout>
                     
                 </sc:StateCondition>
-                
             </sc:StateContainer.Conditions>
             
         </sc:StateContainer>

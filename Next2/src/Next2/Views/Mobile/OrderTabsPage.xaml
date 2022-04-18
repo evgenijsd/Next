@@ -326,7 +326,8 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource IndicationColor_i1}"
                         BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        Style="{DynamicResource BorderButtonStyle_i1}" />
+                        Style="{DynamicResource BorderButtonStyle_i1}"
+                        xct:TouchEffect.Command="{Binding PrintCommand}" />
 
                     <StackLayout
                         Orientation="Horizontal"

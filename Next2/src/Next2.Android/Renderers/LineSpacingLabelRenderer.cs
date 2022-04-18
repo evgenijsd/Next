@@ -10,7 +10,7 @@ namespace Next2.Droid.Renderers
     public class LineSpacingLabelRenderer : LabelRenderer
     {
         protected LineSpacingLabel _lineSpacingLabel;
-        protected LineSpacingLabel LineSpacingLabel => _lineSpacingLabel ??= (Element as LineSpacingLabel);
+        protected LineSpacingLabel LineSpacingLabel => _lineSpacingLabel ??= Element as LineSpacingLabel;
 
         public LineSpacingLabelRenderer(Context context)
             : base(context)
@@ -28,7 +28,7 @@ namespace Next2.Droid.Renderers
 
         #endregion
 
-        #region -- Private hepers
+        #region -- Private helpers --
 
         protected void ConfigureLineSpacing()
         {

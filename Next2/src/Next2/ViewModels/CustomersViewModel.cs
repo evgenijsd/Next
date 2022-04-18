@@ -104,10 +104,22 @@ namespace Next2.ViewModels
                 if (customers.Any())
                 {
                     Customers = customers;
+
+                    SelectCurrentCustomer();
                 }
             }
 
             IsRefreshing = false;
+        }
+
+        private void SelectCurrentCustomer()
+        {
+            var currentCustomer = _orderService.CurrentOrder.Customer;
+
+            if (currentCustomer is not null)
+            {
+                SelectedCustomer = Customers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+            }
         }
 
         private void SelectDeselectItem(CustomerBindableModel customer)
@@ -180,7 +192,7 @@ namespace Next2.ViewModels
         {
             await _popupNavigation.PopAsync();
 
-            if (param.TryGetValue("Id", out int customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
             {
                 await RefreshAsync();
 

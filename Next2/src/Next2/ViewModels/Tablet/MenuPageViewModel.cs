@@ -102,7 +102,7 @@ namespace Next2.ViewModels.Tablet
 
             if (parameters is not null && parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
             {
-                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrder();
             }
         }
 
@@ -203,25 +203,28 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
-
-            if (result)
+            if (dialogResult is not null)
             {
-                await _orderService.CreateNewOrderAsync();
-                _authenticationService.LogOut();
+                bool result = dialogResult.ContainsKey(Constants.DialogParameterKeys.ACCEPT);
 
-                await _popupNavigation.PopAsync();
+                if (result)
+                {
+                    await _orderService.CreateNewOrderAsync();
+                    _authenticationService.LogOut();
 
-                var navigationParameters = new NavigationParameters
+                    await _popupNavigation.PopAsync();
+
+                    var navigationParameters = new NavigationParameters
                 {
                     { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
                 };
 
-                await _navigationService.GoBackToRootAsync(navigationParameters);
-            }
-            else
-            {
-                await _popupNavigation.PopAsync();
+                    await _navigationService.GoBackToRootAsync(navigationParameters);
+                }
+                else
+                {
+                    await _popupNavigation.PopAsync();
+                }
             }
         }
         #endregion

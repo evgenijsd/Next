@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -22,23 +21,24 @@
             Background="{DynamicResource TextAndBackgroundColor_i3}">
     
             <StackLayout.Triggers>
-                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentPageStep}" Value="{Static enums:EPaymentPageSteps.Complete}">
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
                     <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
                     <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
                 </DataTrigger>
             </StackLayout.Triggers>
             
-            <!-- CANCEL BUTTON -->
+            <!-- CANCEL/BACK BUTTON -->
             <StackLayout 
-                Padding="60, 0, 76, 0"
+                Padding="60, 0, 0, 0"
                 Orientation="Horizontal"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                 <StackLayout
                     HeightRequest="60"
+                    WidthRequest="140"
                     Spacing="10"
                     Orientation="Horizontal"
-                    xct:TouchEffect.Command="{prism:GoBack}">
+                    xct:TouchEffect.Command="{Binding BackCancelCommand}">
 
                     <ffimageloading:CachedImage
                         HeightRequest="18"
@@ -49,7 +49,15 @@
                         FontSize="{DynamicResource TSize_i8}"
                         FontFamily="Barlow-Medium"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Text="{xct:Translate Cancel}"/>
+                        Text="{xct:Translate Cancel}">
+                        
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
+                                <Setter Property="Text" Value="{xct:Translate Back}"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                        
+                    </Label>
                     
                 </StackLayout>
                 
@@ -82,30 +90,20 @@
 
         <sc:StateContainer 
             VerticalOptions="FillAndExpand"
-            State="{Binding PaymentPageStep}">
+            State="{Binding PaymentStep}">
             
             <sc:StateContainer.Conditions>
-                
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Rewards}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Rewards}">
                     
                     <tablet:RewardsView BindingContext="{Binding RewardsViewModel}"/>
 
                 </sc:StateCondition>
                 
-                <sc:StateCondition State="{Static enums:EPaymentPageSteps.Complete}">
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
                     
-                    <!-- temporary -->
-                    <StackLayout>
-                        <Label 
-                            VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="Center"
-                            FontSize="20"
-                            TextColor="White"
-                            Text="Complete"/>
-                    </StackLayout>
+                    <tablet:PaymentCompleteView BindingContext="{Binding PaymentCompleteViewModel}"/>
                     
                 </sc:StateCondition>
-                
             </sc:StateContainer.Conditions>
             
         </sc:StateContainer>

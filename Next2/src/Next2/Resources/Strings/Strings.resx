@@ -306,9 +306,6 @@
   <data name="Required" xml:space="preserve">
     <value>Required</value>
   </data>
-  <data name="s" xml:space="preserve">
-    <value />
-  </data>
   <data name="TypeEmail" xml:space="preserve">
     <value>Type Email</value>
   </data>
@@ -501,6 +498,12 @@
   </data>
   <data name="NeedCard" xml:space="preserve">
     <value>Need a card!</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="PaymentNotSavedMessage" xml:space="preserve">
+    <value>If you leave the page, payment progress will not be saved.</value>
   </data>
   <data name="Disable" xml:space="preserve">
     <value>Disable</value>
