@@ -183,12 +183,18 @@
                                             <Frame Style="{StaticResource EntryFrameStyle}">
 
                                                 <controls:CustomEntry
-                                                    Margin="12, 0, 0, 0"
+                                                    Margin="12, 0"
                                                     MaxLength="100"
                                                     Placeholder="{xct:Translate TypeUserName}"
                                                     Style="{StaticResource EntryPlaceholderStyle}"
                                                     Text="{Binding Name}" 
-                                                    x:Name="nameEntry"/>
+                                                    x:Name="nameEntry">
+                                                    
+                                                    <controls:CustomEntry.Behaviors>
+                                                        <behaviors:NameValidatorBehavior/>
+                                                    </controls:CustomEntry.Behaviors>
+                                                    
+                                                </controls:CustomEntry>
                                                 
                                             </Frame>
 
@@ -197,7 +203,7 @@
                                         <Label
                                             VerticalOptions="Start" 
                                             HorizontalOptions="StartAndExpand"
-                                            Margin="12, 0, 0, 0"
+                                            Margin="12, 0"
                                             FontSize="{DynamicResource TSize_i9}"
                                             Text="{xct:Translate IncorrectName}"
                                             TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
@@ -223,7 +229,7 @@
                                             x:Name="phoneFrame" >
 
                                             <controls:CustomEntry
-                                                Margin="12, 0, 0, 0"
+                                                Margin="12, 0"
                                                 Keyboard="Numeric"
                                                 MaxLength="10"
                                                 Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
@@ -267,6 +273,7 @@
                                                 Style="{StaticResource EntryPlaceholderStyle}"
                                                 Placeholder="{xct:Translate TypeEmail}"
                                                 Text="{Binding Email}"
+                                                Keyboard="Email"
                                                 Focused="OnMailEntryFocused"
                                                 Unfocused="OnMailEntryUnfocused"
                                                 x:Name="mailEntry">

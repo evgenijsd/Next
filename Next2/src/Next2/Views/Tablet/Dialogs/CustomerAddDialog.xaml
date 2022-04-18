@@ -130,12 +130,18 @@
                                         <Frame Style="{StaticResource EntryFrameStyle}">
 
                                             <controls:CustomEntry
-                                                Margin="12, 0, 0, 0"
+                                                Margin="12, 0"
                                                 MaxLength="100"
                                                 Placeholder="{xct:Translate TypeUserName}"
                                                 Style="{StaticResource EntryPlaceholderStyle}"
                                                 Text="{Binding Name}" 
-                                                x:Name="nameEntry"/>
+                                                x:Name="nameEntry">
+                                                
+                                                <controls:CustomEntry.Behaviors>
+                                                    <behaviors:NameValidatorBehavior/>
+                                                </controls:CustomEntry.Behaviors>
+                                                
+                                            </controls:CustomEntry>
                                             
                                         </Frame>
 
@@ -187,7 +193,7 @@
                                         <Label
                                             HorizontalOptions="StartAndExpand"
                                             VerticalOptions="Start" 
-                                            Margin="12, 0, 0, 0"
+                                            Margin="12, 0"
                                             FontSize="{DynamicResource TSize_i9}"
                                             TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                             Text="{xct:Translate IncorrectNumber}"
@@ -217,11 +223,12 @@
                                         x:Name="mailFrame">
 
                                         <controls:CustomEntry
-                                            Margin="12, 0, 0, 0"
+                                            Margin="12, 0"
                                             Style="{StaticResource EntryPlaceholderStyle}"
                                             Placeholder="{xct:Translate TypeEmail}"
                                             Focused="OnMailEntryFocused"
                                             Unfocused="OnMailEntryUnfocused"
+                                            Keyboard="Email"
                                             Text="{Binding Email}"
                                             x:Name="mailEntry">
 
@@ -236,7 +243,7 @@
                                     <Label
                                         HorizontalOptions="StartAndExpand"
                                         VerticalOptions="StartAndExpand"
-                                        Margin="12, 0, 0, 0"
+                                        Margin="12, 0"
                                         FontSize="{DynamicResource TSize_i9}"
                                         TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                         Text="{xct:Translate IncorrectEmail}"
