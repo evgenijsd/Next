@@ -178,7 +178,7 @@ namespace Next2.ViewModels
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.Customer.Name));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
