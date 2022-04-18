@@ -33,6 +33,19 @@ namespace Next2.Controls
             set => SetValue(YearProperty, value);
         }
 
+        public static readonly BindableProperty OffsetYearsProperty = BindableProperty.Create(
+            propertyName: nameof(OffsetYears),
+            returnType: typeof(int),
+            declaringType: typeof(CalendarGridCollectionView),
+            defaultValue: 0,
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public int OffsetYears
+        {
+            get => (int)GetValue(OffsetYearsProperty);
+            set => SetValue(OffsetYearsProperty, value);
+        }
+
         public static readonly BindableProperty MonthProperty = BindableProperty.Create(
             propertyName: nameof(Month),
             returnType: typeof(int),
@@ -58,6 +71,18 @@ namespace Next2.Controls
             set => SetValue(SelectedDateProperty, value);
         }
 
+        public static readonly BindableProperty SelectedStartDateProperty = BindableProperty.Create(
+            propertyName: nameof(SelectedStartDate),
+            returnType: typeof(DateTime?),
+            declaringType: typeof(CalendarGridCollectionView),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public DateTime? SelectedStartDate
+        {
+            get => (DateTime?)GetValue(SelectedStartDateProperty);
+            set => SetValue(SelectedStartDateProperty, value);
+        }
+
         public ObservableCollection<Day> Days { get; set; }
 
         #endregion
@@ -71,11 +96,15 @@ namespace Next2.Controls
             switch (propertyName)
             {
                 case nameof(Year):
-                    if (Year <= DateTime.Now.Year)
+                    if (Year <= DateTime.Now.Year + OffsetYears)
                     {
                         CreateArrayOfDays();
                     }
 
+                    break;
+
+                case nameof(SelectedStartDate):
+                    CreateArrayOfDays();
                     break;
 
                 case nameof(Month):
@@ -100,7 +129,7 @@ namespace Next2.Controls
                 {
                     if (int.TryParse(selectedDay.DayOfMonth, out int numberOfselectedDay))
                     {
-                        if (Year <= DateTime.Now.Year)
+                        if (Year <= DateTime.Now.Year + OffsetYears)
                         {
                             SelectedDate = new DateTime(Year, Month, numberOfselectedDay);
                         }
@@ -119,7 +148,7 @@ namespace Next2.Controls
 
         private void CreateArrayOfDays()
         {
-            DateTime dateTime = new DateTime(Year, Month, 1);
+            DateTime dateTime = new (Year, Month, 1);
             int currentMonthIndex = (int)dateTime.DayOfWeek;
             var dayCounter = dateTime.AddMonths(1).Subtract(dateTime).Days;
             int previousMonthLastDate = dateTime.AddDays(-1).Day;
@@ -170,7 +199,16 @@ namespace Next2.Controls
                         : EDayState.DayMonth;
                 }
 
+                var saveState = state;
+
+                if (SelectedStartDate is not null && (SelectedStartDate.Value.Year > Year || (SelectedStartDate.Value.Year == Year && SelectedStartDate.Value.Month > Month) ||
+                    (SelectedStartDate.Value.Year == Year && SelectedStartDate.Value.Month == Month && SelectedStartDate.Value.Day > day)))
+                {
+                    state = EDayState.NoDayMonth;
+                }
+
                 Days.Add(new Day { DayOfMonth = day.ToString(), State = state, });
+                state = saveState;
             }
         }
 

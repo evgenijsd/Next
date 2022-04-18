@@ -1,5 +1,4 @@
 ﻿using Next2.Enums;
-using Next2.Enums;
 using Next2.Interfaces;
 
 namespace Next2.Models
@@ -8,7 +7,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public string? CustomerName { get; set; }
+        public CustomerModel? Customer { get; set; }
 
         public int TableNumber { get; set; }
 

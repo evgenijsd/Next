@@ -1,14 +1,20 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Membership;
+using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
@@ -17,15 +23,20 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
+        private readonly IPopupNavigation _popupNavigation;
+
+        private MemberModel _member;
 
         public MembershipViewModel(
             IMapper mapper,
             INavigationService navigationService,
-            IMembershipService membershipService)
+            IMembershipService membershipService,
+            IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _mapper = mapper;
             _membershipService = membershipService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -37,10 +48,13 @@ namespace Next2.ViewModels.Tablet
         public EMemberSorting MemberSorting { get; set; }
 
         private ICommand _refreshMembersCommand;
-        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync);
+        public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _memberSortingChangeCommand;
-        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync);
+        public ICommand MemberSortingChangeCommand => _memberSortingChangeCommand ??= new AsyncCommand<EMemberSorting>(OnMemberSortingChangeCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _MembershipEditCommand;
+        public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -92,6 +106,11 @@ namespace Next2.ViewModels.Tablet
 
                 Members = new (sortedmemberBindableModels);
 
+                foreach (var member in Members)
+                {
+                    member.TapCommand = MembershipEditCommand;
+                }
+
                 IsMembersRefreshing = false;
             }
         }
@@ -117,6 +136,52 @@ namespace Next2.ViewModels.Tablet
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
+        {
+            if (member is MemberBindableModel selectedMember)
+            {
+                var parameters = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedMember } };
+
+                PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
+
+                await _popupNavigation.PushAsync(popupPage);
+            }
+        }
+
+        private async void MembershipEditDialogCallBack(IDialogParameters parameters)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
+            {
+                _member = _mapper.Map<MemberBindableModel, MemberModel>(member);
+
+                var confirmDialogParameters = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                    { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
+                };
+
+                PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
+        }
+
+        private async void CloseConfirmDialogUpdateCallback(IDialogParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted) && isMembershipDisableAccepted)
+            {
+                await _membershipService.SaveMemberAsync(_member);
+
+                await RefreshMembersAsync();
+            }
+
+            await _popupNavigation.PopAsync();
         }
 
         #endregion

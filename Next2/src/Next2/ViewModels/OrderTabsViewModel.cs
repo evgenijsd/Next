@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Order;
@@ -15,7 +14,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -100,6 +98,9 @@ namespace Next2.ViewModels
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _printCommand;
+        public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
 
@@ -116,7 +117,7 @@ namespace Next2.ViewModels
                 _heightPage = HeightPage;
                 HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-                await LoadData();
+                await LoadDataAsync();
             }
             else
             {
@@ -157,10 +158,10 @@ namespace Next2.ViewModels
 
         private Task OnRefreshOrdersCommandAsync()
         {
-            return LoadData();
+            return LoadDataAsync();
         }
 
-        private async Task LoadData()
+        public async Task LoadDataAsync()
         {
             IsOrdersRefreshing = true;
 
@@ -177,7 +178,7 @@ namespace Next2.ViewModels
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.CustomerName));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
@@ -204,7 +205,7 @@ namespace Next2.ViewModels
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName))
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
                             .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }
@@ -214,6 +215,11 @@ namespace Next2.ViewModels
                 var mapper = new Mapper(config);
 
                 Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
+
+                for (int i = 0; i < Orders.Count; i++)
+                {
+                    Orders[i].Name = string.IsNullOrWhiteSpace(Orders[i].Name) ? CreateRandomCustomerName() : Orders[i].Name;
+                }
 
                 if (!string.IsNullOrEmpty(SearchText))
                 {
@@ -443,7 +449,7 @@ namespace Next2.ViewModels
                     {
                         var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
 
-                        Orders.Remove(removalBindableOrder);
+                        await LoadDataAsync();
                         SelectedOrder = null;
                     }
 
@@ -452,6 +458,11 @@ namespace Next2.ViewModels
             }
 
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+        }
+
+        private Task OnPrintCommandAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private void SetLastSavedOrderId(int orderId)
@@ -467,6 +478,21 @@ namespace Next2.ViewModels
         private async Task OnGoBackCommand()
         {
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
+        }
+
+        private string CreateRandomCustomerName()
+        {
+            string[] names = { "Bob", "Tom", "Sam" };
+
+            string[] surnames = { "White", "Black", "Red" };
+
+            Random random = new();
+
+            string name = names[random.Next(3)];
+
+            string surname = surnames[random.Next(3)];
+
+            return name + " " + surname;
         }
 
         #endregion

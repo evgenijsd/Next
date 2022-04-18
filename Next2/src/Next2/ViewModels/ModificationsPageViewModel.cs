@@ -487,7 +487,7 @@ namespace Next2.ViewModels
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 
-                        _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
+                        await _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
                         break;
                 }
 
@@ -515,14 +515,18 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOpenMenuCommandAsync()
+        private Task OnOpenMenuCommandAsync()
         {
             IsMenuOpen = true;
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnCloseMenuCommandAsync()
+        private Task OnCloseMenuCommandAsync()
         {
             IsMenuOpen = false;
+
+            return Task.CompletedTask;
         }
 
         private async Task OnSaveCommandAsync()
@@ -536,7 +540,6 @@ namespace Next2.ViewModels
                 var parameters = new NavigationParameters
                 {
                     { Constants.Navigations.REFRESH_ORDER, true },
-                    { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
                 };
 
                 await _navigationService.GoBackAsync(parameters);

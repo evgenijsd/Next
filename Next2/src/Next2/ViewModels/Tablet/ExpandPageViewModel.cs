@@ -111,9 +111,11 @@ namespace Next2.ViewModels.Tablet
 
             if (portions.IsSuccess)
             {
-                var param = new DialogParameters();
-                param.Add(Constants.DialogParameterKeys.SET, set);
-                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.SET, set },
+                    { Constants.DialogParameterKeys.PORTIONS, portions.Result },
+                };
 
                 await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
             }

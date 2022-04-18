@@ -5,6 +5,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:prism="http://prismlibrary.com"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:models="clr-namespace:Next2.Models"
@@ -110,6 +111,16 @@
 
                                 <ScrollView Margin="0,15,0,0">
 
+                                    <ScrollView.Effects>
+                                        <effects:NoOverScrollEffect />
+
+                                        <effects:ScrollBarColorEffect
+                                            ScrollBarThumbWidth="6"
+                                            ScrollBarCornerRadius="9"
+                                            ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                            ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+                                    </ScrollView.Effects>
+
                                     <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
                                         
                                         <BindableLayout.ItemTemplate>
@@ -152,12 +163,14 @@
                                                                                 
                                                                             </Frame>
 
-                                                                            <StackLayout>
+                                                                            <StackLayout
+                                                                                HorizontalOptions="FillAndExpand" >
                                                                                 
                                                                                 <Label
                                                                                     Text="{Binding Title}"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
+                                                                                    LineBreakMode="TailTruncation"
                                                                                     FontFamily="Barlow-Regular" />
 
                                                                                 <Label
@@ -166,25 +179,33 @@
                                                                                     Opacity="0.6"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i9}"
+                                                                                    LineBreakMode="TailTruncation"
                                                                                     FontFamily="Barlow-Regular" />
 
                                                                             </StackLayout>
 
-                                                                            <StackLayout HorizontalOptions="EndAndExpand">
+                                                                            <StackLayout
+                                                                                HorizontalOptions="EndAndExpand"
+                                                                                WidthRequest="100"
+                                                                                MinimumWidthRequest="100">
                                                                                 
                                                                                 <Label
                                                                                     Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
+                                                                                    HorizontalOptions="End"
                                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
+                                                                                    LineBreakMode="TailTruncation"
                                                                                     FontFamily="Barlow-SemiBold" />
 
                                                                                 <Label
                                                                                     Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
                                                                                     Margin="0,5,0,0"
                                                                                     Opacity="0.6"
+                                                                                    HorizontalOptions="End"
                                                                                     TextDecorations="Strikethrough"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
+                                                                                    LineBreakMode="TailTruncation"
                                                                                     FontFamily="Barlow-SemiBold">
                                                                                     
                                                                                     <Label.Triggers>

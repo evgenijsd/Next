@@ -12,12 +12,7 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
-        private string? _name;
-        public string? Name
-        {
-            get => _name;
-            set { _name = string.IsNullOrWhiteSpace(value) ? CreateRandomCustomName() : value; }
-        }
+        public string? Name { get; set; }
 
         public string? OrderStatus { get; set; }
 
@@ -32,21 +27,6 @@ namespace Next2.Models
         public double Tax { get; set; }
 
         #region -- Private helpers --
-
-        private string CreateRandomCustomName()
-        {
-            string[] names = { "Bob", "Tom", "Sam" };
-
-            string[] surnames = { "White", "Black", "Red" };
-
-            Random random = new();
-
-            string name = names[random.Next(3)];
-
-            string surname = surnames[random.Next(3)];
-
-            return name + " " + surname;
-        }
 
         #endregion
     }

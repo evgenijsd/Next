@@ -49,7 +49,8 @@ namespace Next2.Services.Order
 
             try
             {
-                var tax = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+                var taxMock = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+                var tax = new TaxModel() { Id = taxMock.Id, Name = taxMock.Name, Value = taxMock.Value };
 
                 if (tax is not null)
                 {
@@ -231,7 +232,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder.Id = orderId.Result;
                     CurrentOrder.OrderNumber = orderId.Result;
-                    CurrentOrder.OrderStatus = "Open";
+                    CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
@@ -261,12 +262,14 @@ namespace Next2.Services.Order
             {
                 if (CurrentSeat is null)
                 {
-                    var seat = new SeatBindableModel();
-                    seat.Id = 1;
-                    seat.SeatNumber = 1;
-                    seat.Sets = new();
-                    seat.Checked = true;
-                    seat.IsFirstSeat = true;
+                    var seat = new SeatBindableModel
+                    {
+                        Id = 1,
+                        SeatNumber = 1,
+                        Sets = new(),
+                        Checked = true,
+                        IsFirstSeat = true,
+                    };
 
                     CurrentOrder.Seats.Add(seat);
 
@@ -347,7 +350,7 @@ namespace Next2.Services.Order
                 CurrentOrder.SubTotal += set.Portion.Price;
 
                 CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                CurrentOrder.Total += set.Portion.Price + (CurrentOrder.SubTotal * CurrentOrder.Tax.Value);
+                CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
 
                 if (CurrentOrder.Bonus is not null)
                 {

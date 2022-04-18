@@ -1,8 +1,5 @@
 ﻿using Next2.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Next2.Services
 {
@@ -49,7 +46,7 @@ namespace Next2.Services
                 {
                     Id = 4,
                     Name = "Kierra Bergson",
-                    Email = "Kia@yaho.com",
+                    Email = "kierrabergson@yaho.com",
                     Phone = "709-502-5598",
                     Points = 451,
                     Rewards = 0,
@@ -126,7 +123,7 @@ namespace Next2.Services
                 {
                     Id = 11,
                     Name = "Davis Septimus",
-                    Email = "Davbich@gmail.com",
+                    Email = "DavSept@gmail.com",
                     Phone = "733-901-8244",
                     Points = 108,
                     Rewards = 0,
@@ -136,8 +133,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 12,
-                    Name = "Kierra Bergson",
-                    Email = "Kia@yaho.com",
+                    Name = "Grover Parsons",
+                    Email = "groverpars@yaho.com",
                     Phone = "709-502-5598",
                     Points = 451,
                     Rewards = 0,
@@ -147,8 +144,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 13,
-                    Name = "Angel Dias",
-                    Email = "Diazzz@yaho.com",
+                    Name = "Douglas Moreno",
+                    Email = "douglasreno@yaho.com",
                     Phone = "732-902-8298",
                     Points = 22,
                     Rewards = 0,
@@ -158,8 +155,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 14,
-                    Name = "Kaiya Dorwart",
-                    Email = "KaDor@gmail.com",
+                    Name = "Colin Nichols",
+                    Email = "colinic@gmail.com",
                     Phone = "444-912-6298",
                     Points = 34,
                     Rewards = 0,
@@ -169,8 +166,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 15,
-                    Name = "Lincoln Lipshutz",
-                    Email = "liliputz@yaho.com",
+                    Name = "Kenneth Feron",
+                    Email = "kenny@yaho.com",
                     Phone = "452-955-8228",
                     Points = 35,
                     Rewards = 0,
@@ -180,8 +177,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 16,
-                    Name = "Randy Mango",
-                    Email = "mango_jango@gmail.com",
+                    Name = "Geoffrey Kim",
+                    Email = "geokim@gmail.com",
                     Phone = "332-456-2363",
                     Points = 123,
                     Rewards = 0,
@@ -191,8 +188,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 17,
-                    Name = "Martin Schleifer",
-                    Email = "MartSh@gmail.com",
+                    Name = "Fiona Cole",
+                    Email = "fiona12@gmail.com",
                     Phone = "732-902-8298",
                     Points = 221,
                     Rewards = 0,
@@ -202,8 +199,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 18,
-                    Name = "Carla Dorwart",
-                    Email = "Carla_123@gmail.com",
+                    Name = "Yeom Woong",
+                    Email = "yeo@gmail.com",
                     Phone = "732-302-8538",
                     Points = 22,
                     Rewards = 0,
@@ -213,8 +210,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 19,
-                    Name = "Davis Septimus",
-                    Email = "Davbich@gmail.com",
+                    Name = "Do Soon-Bok",
+                    Email = "soon-book@gmail.com",
                     Phone = "733-901-8244",
                     Points = 108,
                     Rewards = 0,
@@ -224,8 +221,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 20,
-                    Name = "Kierra Bergson",
-                    Email = "Kia@yaho.com",
+                    Name = "Gwan Jee",
+                    Email = "gwanone@yaho.com",
                     Phone = "709-502-5598",
                     Points = 451,
                     Rewards = 0,
@@ -235,8 +232,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 21,
-                    Name = "Angel Dias",
-                    Email = "Diazzz@yaho.com",
+                    Name = "Son Hae-Won",
+                    Email = "sonwon98@yaho.com",
                     Phone = "732-902-8298",
                     Points = 22,
                     Rewards = 0,
@@ -246,8 +243,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 22,
-                    Name = "Kaiya Dorwart",
-                    Email = "KaDor@gmail.com",
+                    Name = "Wesley Chavez",
+                    Email = "whiskey@gmail.com",
                     Phone = "444-912-6298",
                     Points = 34,
                     Rewards = 0,
@@ -257,8 +254,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 23,
-                    Name = "Lincoln Lipshutz",
-                    Email = "liliputz@yaho.com",
+                    Name = "Harlan Sharp",
+                    Email = "orlan@yaho.com",
                     Phone = "452-955-8228",
                     Points = 35,
                     Rewards = 0,
@@ -268,8 +265,8 @@ namespace Next2.Services
                 new CustomerModel()
                 {
                     Id = 24,
-                    Name = "Randy Mango",
-                    Email = "mango_jango@gmail.com",
+                    Name = "Audrey Bishop",
+                    Email = "andrewBishop@gmail.com",
                     Phone = "332-456-2363",
                     Points = 123,
                     Rewards = 0,

@@ -334,7 +334,7 @@
                         Text="{xct:Translate Summary}" />
 
                     <Label
-                        IsVisible="{Binding CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        IsVisible="{Binding CurrentOrder.Customer, Converter={xct:IsNotNullOrEmptyConverter}}"
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
                         Text="{Binding CurrentOrder.Customer.Name}"/>

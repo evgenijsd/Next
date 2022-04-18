@@ -47,6 +47,56 @@ namespace Next2.Services.Membership
             return result;
         }
 
+        public async Task<AOResult<bool>> DisableMemberAsync(MemberModel member)
+        {
+            var result = new AOResult<bool>();
+
+            try
+            {
+                var remove = await _mockService.RemoveAsync<MemberModel>(member);
+
+                if (remove)
+                {
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(DisableMemberAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<MemberModel>> SaveMemberAsync(MemberModel member)
+        {
+            var result = new AOResult<MemberModel>();
+
+            try
+            {
+                var update = await _mockService.UpdateAsync<MemberModel>(member);
+
+                if (update is not null)
+                {
+                    result.SetSuccess(update);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(SaveMemberAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

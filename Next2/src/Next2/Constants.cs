@@ -73,7 +73,7 @@
             public const string ORDER_STATUS = "ORDER_STATUS";
             public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
             public const string DELETE_SET = "DELETE_SET";
-            public const string MODIFIED_SET = "MODIFIED_SET";
+            public const string ORDER_ID = "ORDER_ID";
         }
 
         public static class Validators
@@ -97,6 +97,7 @@
         {
             public const string MESSAGE = "MESSAGE";
             public const string MODEL = "MODEL";
+            public const string UPDATE = "UPDATE";
             public const string TITLE = "TITLE";
             public const string DESCRIPTION = "DESCRIPTION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
@@ -113,6 +114,7 @@
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
+            public const string CUSTOMER_ID = "CUSTOMER_ID";
         }
 
         public static class PaymentOrderStatus
