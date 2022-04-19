@@ -30,33 +30,43 @@ namespace Next2.Behaviors
         {
             if (sender is HideClipboardEntry entry && e.NewTextValue is not null && e.NewTextValue.Any())
             {
-                bool isMatch = false;
+                int cursorPosition = entry.CursorPosition;
 
                 try
                 {
-                    isMatch = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100));
-                }
-                catch (Exception)
-                {
-                }
+                    if (Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
+                    {
+                        string formattedText = e.NewTextValue;
 
-                if (!isMatch)
+                        foreach (var matchesWord in Regex.Matches(formattedText, @"[a-z]+", RegexOptions.IgnoreCase))
+                        {
+                            string word = $"{matchesWord}";
+
+                            if (!Regex.IsMatch(word, Constants.Validators.PASCAL_CASE))
+                            {
+                                string newWord = ToPascalCase(word);
+
+                                formattedText = Regex.Replace(formattedText, word, newWord);
+                            }
+                        }
+
+                        entry.Text = formattedText;
+                    }
+                    else
+                    {
+                        entry.Text = e.OldTextValue;
+                    }
+                }
+                catch (Exception ex)
                 {
                     entry.Text = e.OldTextValue;
                 }
-                else if (e.NewTextValue.Last() != ' ')
-                {
-                    var words = e.NewTextValue
-                       .Split(' ')
-                       .Where(x => !string.IsNullOrWhiteSpace(x))
-                       .Select(x => WordToPascalCase(x));
 
-                    entry.Text = string.Join(' ', words);
-                }
+                entry.CursorPosition = cursorPosition;
             }
         }
 
-        private string WordToPascalCase(string word)
+        private string ToPascalCase(string word)
         {
             return word[0].ToString().ToUpper() + word[1..].ToLower();
         }
