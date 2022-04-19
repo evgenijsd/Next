@@ -7,6 +7,7 @@
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:enums="clr-namespace:Next2.Enums"
     BackgroundColor="Transparent"
     HasKeyboardOffset="False"
     x:Class="Next2.Views.Mobile.Dialogs.CustomerAddDialog"
@@ -46,6 +47,20 @@
                     <Setter Property="Margin" Value="0, 8, 0, 8" />
                 </Style>
 
+                <Style x:Key="MessageLabelStyle" TargetType="Label">
+                    <Setter Property="Opacity" Value="0"/>
+                    <Setter Property="Margin" Value="12, 0" />
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
+                    <!--<Setter Property="Triggers">
+                        <Setter.Value>
+                            <Trigger TargetType="Label" Property="IsEnabled" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Setter.Value>
+                    </Setter>-->
+                </Style>
+
             </ResourceDictionary>
         </ContentView.Resources>
 
@@ -58,9 +73,16 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                 <Grid 
-                    RowDefinitions="0.12*,0.117*,*,0.15*"
+                    RowDefinitions="0.12*, 0.117*, *, 0.15*"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
 
+                    <Grid.Triggers>
+                        <DataTrigger TargetType="Grid" Binding="{Binding Step}" Value="{Static enums:EClientAdditionStep.Birthday}">
+                            <Setter TargetName="customerInfoTab" Property="controls:CustomButton.IsSelected" Value="False"/>
+                            <Setter TargetName="customerBirthdayTab" Property="controls:CustomButton.IsSelected" Value="True"/>
+                        </DataTrigger>
+                    </Grid.Triggers>
+                    
                     <!--  HEADER  -->
                     <Label
                         Grid.Row="0"
@@ -80,80 +102,40 @@
                         HeightRequest="0.3"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
-                    <!--  tabs  -->
-                    <Frame
+                    <!--  tabs  -->                   
+                    <controls:CustomButton
                         Grid.Row="1"
                         Grid.Column="0"
-                        CornerRadius="0"
-                        BackgroundColor="{DynamicResource AppColor_i4}"
-                        x:Name="infoButtonFrame">
+                        IsSelected="True"
+                        FontSize="{DynamicResource TSize_i6}"
+                        Text="{xct:Translate CustomerInfo}"
+                        xct:TouchEffect.Command="{Binding GoToStepCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:EClientAdditionStep.Info}"
+                        x:Name="customerInfoTab"/>
 
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center" 
-                            FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{xct:Translate CustomerInfo}"/>
-
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnButtonTapped" />
-                        </Frame.GestureRecognizers>
-
-                    </Frame>
-
-                    <BoxView
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        VerticalOptions="End" 
-                        HeightRequest="3"
-                        BackgroundColor="{DynamicResource AppColor_i1}"
-                        x:Name="underLine1"/>
-
-                    <Frame
+                    <controls:CustomButton
                         Grid.Row="1"
                         Grid.Column="1"
-                        CornerRadius="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        x:Name="birthdayButtonFrame">
-
-                        <Label
-                            VerticalTextAlignment="Center" 
-                            HorizontalTextAlignment="Center"
-                            FontFamily="Barlow-SemiBold"
-                            FontSize="{DynamicResource TSize_i6}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            Text="{xct:Translate Birthday, StringFormat='{0}*'}">
-                            
-                            
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding SelectedDate, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
-                                    <Setter Property="Text" Value="{xct:Translate Birthday}"/>
-                                </DataTrigger>
-                            </Label.Triggers>
-                            
-                        </Label>
+                        FontSize="{DynamicResource TSize_i6}"
+                        Text="{xct:Translate Birthday, StringFormat='{0}*'}"
+                        xct:TouchEffect.Command="{Binding GoToStepCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:EClientAdditionStep.Birthday}"
+                        x:Name="customerBirthdayTab">
                         
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnButtonTapped" />
-                        </Frame.GestureRecognizers>
-
-                    </Frame>
-
-                    <BoxView
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        HeightRequest="3"
-                        VerticalOptions="End" 
-                        x:Name="underLine2"/>
+                        <controls:CustomButton.Triggers>
+                            <DataTrigger TargetType="controls:CustomButton" Binding="{Binding SelectedDate, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                                <Setter Property="Text" Value="{xct:Translate Birthday}"/>
+                            </DataTrigger>
+                        </controls:CustomButton.Triggers>
+                        
+                    </controls:CustomButton>
 
                     <!--  VisualStateContent  -->
                     <sc:StateContainer
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                        State="{Binding State, Source={x:Reference customerAddDialog}}">
+                        State="{Binding Step}">
 
                         <!--  State1 calendar  -->
                         <sc:StateCondition State="Birthday">
@@ -197,8 +179,9 @@
                                                     Placeholder="{xct:Translate TypeUserName}"
                                                     Style="{StaticResource EntryPlaceholderStyle}"
                                                     Text="{Binding Name}" 
+                                                    IsValid="{Binding IsValidName}"
                                                     x:Name="nameEntry">
-                                                    
+                                                                                                        
                                                     <controls:HideClipboardEntry.Behaviors>
                                                         <behaviors:NameValidatorBehavior/>
                                                     </controls:HideClipboardEntry.Behaviors>
@@ -210,12 +193,8 @@
                                         </StackLayout>
 
                                         <Label
-                                            VerticalOptions="Start" 
-                                            HorizontalOptions="StartAndExpand"
-                                            Margin="12, 0"
-                                            FontSize="{DynamicResource TSize_i9}"
+                                            Style="{DynamicResource MessageLabelStyle}"
                                             Text="{xct:Translate IncorrectName}"
-                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                             x:Name="nameWarningLabel"/>
 
                                         <StackLayout Orientation="Horizontal">
@@ -236,7 +215,7 @@
                                         <Frame 
                                             Style="{StaticResource EntryFrameStyle}"
                                             x:Name="phoneFrame" >
-
+                                            
                                             <controls:HideClipboardEntry
                                                 Margin="12, 0"
                                                 Keyboard="Numeric"
@@ -244,17 +223,19 @@
                                                 Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
                                                 Style="{StaticResource EntryPlaceholderStyle}"
                                                 Text="{Binding Phone}"
-                                                Unfocused="OnPhoneEntryUnfocused" 
-                                                x:Name="phoneEntry"/>
+                                                IsValid="{Binding IsValidPhone}"
+                                                x:Name="phoneEntry">
+
+                                                <controls:HideClipboardEntry.Behaviors>
+                                                    <behaviors:PhoneValidatorBehavior/>
+                                                </controls:HideClipboardEntry.Behaviors>
+                                                
+                                            </controls:HideClipboardEntry>
 
                                         </Frame>
 
                                         <Label
-                                            VerticalOptions="Start" 
-                                            HorizontalOptions="StartAndExpand"
-                                            Margin="12, 0, 0, 0"
-                                            FontSize="{DynamicResource TSize_i9}"
-                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
+                                            Style="{DynamicResource MessageLabelStyle}"
                                             Text="{xct:Translate IncorrectNumber}"
                                             x:Name="phoneWarningLabel"/>
 
@@ -282,9 +263,7 @@
                                                 Style="{StaticResource EntryPlaceholderStyle}"
                                                 Placeholder="{xct:Translate TypeEmail}"
                                                 Text="{Binding Email}"
-                                                Keyboard="Email"
-                                                Focused="OnMailEntryFocused"
-                                                Unfocused="OnMailEntryUnfocused"
+                                                IsValid="{Binding IsValidEmail}"
                                                 x:Name="mailEntry">
 
                                                 <controls:HideClipboardEntry.Behaviors>
@@ -296,11 +275,7 @@
                                         </Frame>
 
                                         <Label
-                                            HorizontalOptions="StartAndExpand"
-                                            VerticalOptions="StartAndExpand" 
-                                            Margin="12, 0, 0, 0"
-                                            FontSize="{DynamicResource TSize_i9}"
-                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
+                                            Style="{DynamicResource MessageLabelStyle}"
                                             Text="{xct:Translate IncorrectEmail}"
                                             x:Name="mailWarningLabel"/>
 
@@ -355,8 +330,15 @@
                         CornerRadius="5"
                         HeightRequest="52"
                         WidthRequest="220"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        Opacity="{Binding DoneButtonOpacity}">
+                        IsEnabled="{Binding CanAddNewCustomer}"
+                        Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                        BackgroundColor="{DynamicResource IndicationColor_i1}">
+                        
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame" Binding="{Binding CanAddNewCustomer}" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </DataTrigger>
+                        </Frame.Triggers>
 
                         <Label
                             HorizontalTextAlignment="Center"

@@ -83,6 +83,7 @@
             public const string CUSTOMER_NAME = @"^\b([A-Za-z-,.']+\d*[ ]?)+$";
             public const string PASCAL_CASE = @"\b[A-Z]{1}[a-z\d]*\b";
             public const string NUMBER = @"[\D]";
+            public const string PHONE = @"^\d{10}$";
             public const string CHECK_NUMBER = @"^[\d]";
             public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";

@@ -30,8 +30,6 @@ namespace Next2.Behaviors
         {
             if (sender is HideClipboardEntry entry && e.NewTextValue is not null && e.NewTextValue.Any())
             {
-                int cursorPosition = entry.CursorPosition;
-
                 try
                 {
                     if (Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
@@ -57,12 +55,12 @@ namespace Next2.Behaviors
                         entry.Text = e.OldTextValue;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     entry.Text = e.OldTextValue;
                 }
 
-                entry.CursorPosition = cursorPosition;
+                entry.IsValid = entry.Text.Any();
             }
         }
 

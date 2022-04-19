@@ -150,7 +150,6 @@
                                             HorizontalOptions="StartAndExpand"
                                             Margin="12, 0, 0, 0"
                                             FontSize="{DynamicResource TSize_i9}"
-                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                             Text="{xct:Translate IncorrectName}"
                                             x:Name="nameWarningLabel" />
 
@@ -195,7 +194,6 @@
                                             VerticalOptions="Start" 
                                             Margin="12, 0"
                                             FontSize="{DynamicResource TSize_i9}"
-                                            TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                             Text="{xct:Translate IncorrectNumber}"
                                             x:Name="phoneWarningLabel" />
                                         
@@ -226,9 +224,6 @@
                                             Margin="12, 0"
                                             Style="{StaticResource EntryPlaceholderStyle}"
                                             Placeholder="{xct:Translate TypeEmail}"
-                                            Focused="OnMailEntryFocused"
-                                            Unfocused="OnMailEntryUnfocused"
-                                            Keyboard="Email"
                                             Text="{Binding Email}"
                                             x:Name="mailEntry">
 
@@ -245,7 +240,6 @@
                                         VerticalOptions="StartAndExpand"
                                         Margin="12, 0"
                                         FontSize="{DynamicResource TSize_i9}"
-                                        TextColor="{Binding WarningTextColor, Mode=OneWayToSource}"
                                         Text="{xct:Translate IncorrectEmail}"
                                         x:Name="mailWarningLabel" />
 
@@ -302,7 +296,6 @@
                             WidthRequest="220"
                             HeightRequest="52"
                             CornerRadius="5"
-                            Opacity="{Binding DoneButtonOpacity}"
                             BorderColor="{DynamicResource IndicationColor_i1}"
                             BackgroundColor="{DynamicResource IndicationColor_i1}">
 
