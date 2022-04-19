@@ -19,27 +19,9 @@ namespace Next2.Views.Mobile.Dialogs
             InitializeComponent();
 
             BindingContext = new CustomerAddViewModel(param, requestClose, customersService);
-
-            //State = EClientAdditionPageTab.Info;
-            //mailWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-            //nameWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-            //phoneWarningLabel.TextColor = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
         }
 
-        #region -- Public properties --
-
-        //public EClientAdditionPageTab State { get; set; }
-        #endregion
-
         #region -- Private helpers --
-
-        //private void OnMailEntryFocused(object sender, EventArgs arg)
-        //{
-        //    if (Device.RuntimePlatform == Device.Android)
-        //    {
-        //        nameEntryBlock.IsVisible = false;
-        //    }
-        //}
 
         //private void OnPhoneEntryUnfocused(object sender, EventArgs arg)
         //{

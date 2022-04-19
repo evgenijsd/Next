@@ -47,8 +47,7 @@ namespace Next2.ViewModels.Dialogs
 
         public bool IsValidEmail { get; set; }
 
-        public bool CanAddNewCustomer => !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Phone) && !string.IsNullOrEmpty(Email) &&
-            IsValidName && IsValidPhone && IsValidEmail && SelectedDate is not null;
+        public bool CanAddNewCustomer => IsValidName && IsValidPhone && IsValidEmail && SelectedDate is not null;
 
         public EClientAdditionStep Step { get; set; } = EClientAdditionStep.Info;
 

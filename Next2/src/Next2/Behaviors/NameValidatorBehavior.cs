@@ -28,36 +28,39 @@ namespace Next2.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is HideClipboardEntry entry && e.NewTextValue is not null && e.NewTextValue.Any())
+            if (sender is HideClipboardEntry entry && e.NewTextValue is not null)
             {
-                try
+                if (e.NewTextValue.Any())
                 {
-                    if (Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
+                    try
                     {
-                        string formattedText = e.NewTextValue;
-
-                        foreach (var matchesWord in Regex.Matches(formattedText, @"[a-z]+", RegexOptions.IgnoreCase))
+                        if (Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
                         {
-                            string word = $"{matchesWord}";
+                            string formattedText = e.NewTextValue;
 
-                            if (!Regex.IsMatch(word, Constants.Validators.PASCAL_CASE))
+                            foreach (var matchesWord in Regex.Matches(formattedText, @"[a-z]+", RegexOptions.IgnoreCase))
                             {
-                                string newWord = ToPascalCase(word);
+                                string word = $"{matchesWord}";
 
-                                formattedText = Regex.Replace(formattedText, word, newWord);
+                                if (!Regex.IsMatch(word, Constants.Validators.PASCAL_CASE))
+                                {
+                                    string newWord = ToPascalCase(word);
+
+                                    formattedText = Regex.Replace(formattedText, word, newWord);
+                                }
                             }
-                        }
 
-                        entry.Text = formattedText;
+                            entry.Text = formattedText;
+                        }
+                        else
+                        {
+                            entry.Text = e.OldTextValue;
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
                         entry.Text = e.OldTextValue;
                     }
-                }
-                catch (Exception)
-                {
-                    entry.Text = e.OldTextValue;
                 }
 
                 entry.IsValid = entry.Text.Any();
