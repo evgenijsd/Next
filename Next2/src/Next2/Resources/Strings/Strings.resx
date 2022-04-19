@@ -147,6 +147,15 @@
   <data name="CustomerName" xml:space="preserve">
     <value>Customer Name</value>
   </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="EmployeeId" xml:space="preserve">
+    <value>Employee ID</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
   <data name="Customers" xml:space="preserve">
     <value>Customers</value>
   </data>
@@ -170,15 +179,6 @@
   </data>
   <data name="Expand" xml:space="preserve">
     <value>Expand</value>
-  </data>
-  <data name="Employee" xml:space="preserve">
-    <value>Employee</value>
-  </data>
-  <data name="EmployeeId" xml:space="preserve">
-    <value>Employee ID</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Log out</value>
@@ -284,6 +284,33 @@
   </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
+  </data>
+  <data name="Birthday" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="IncorrectEmail" xml:space="preserve">
+    <value>Incorrect email</value>
+  </data>
+  <data name="IncorrectName" xml:space="preserve">
+    <value>Incorrect name</value>
+  </data>
+  <data name="IncorrectNumber" xml:space="preserve">
+    <value>Incorrect number</value>
+  </data>
+  <data name="NewCustomer" xml:space="preserve">
+    <value>New Customer</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="TypeEmail" xml:space="preserve">
+    <value>Type Email</value>
+  </data>
+  <data name="TypeUserName" xml:space="preserve">
+    <value>Type User Name</value>
   </data>
   <data name="CurrencySign" xml:space="preserve">
     <value>$</value>
@@ -454,9 +481,6 @@
   <data name="MessageAboutCashingOutAwards" xml:space="preserve">
     <value>Earning points get you rewards that you can cash in to get free stuff</value>
   </data>
-  <data name="Apply" xml:space="preserve">
-    <value>Apply</value>
-  </data>
   <data name="AvailableGroups" xml:space="preserve">
     <value>Available Groups</value>
   </data>
@@ -474,5 +498,26 @@
   </data>
   <data name="NeedCard" xml:space="preserve">
     <value>Need a card!</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="PaymentNotSavedMessage" xml:space="preserve">
+    <value>If you leave the page, payment progress will not be saved.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EditMembership" xml:space="preserve">
+    <value>Edit Membership</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="MembershipUpdate" xml:space="preserve">
+    <value>This membership will be update.</value>
   </data>
 </root>

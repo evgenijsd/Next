@@ -1,4 +1,4 @@
-﻿using Next2.ENums;
+﻿using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -479,7 +479,7 @@ namespace Next2.ViewModels
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 
-                        _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
+                        await _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
                         break;
                 }
 
@@ -507,14 +507,18 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOpenMenuCommandAsync()
+        private Task OnOpenMenuCommandAsync()
         {
             IsMenuOpen = true;
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnCloseMenuCommandAsync()
+        private Task OnCloseMenuCommandAsync()
         {
             IsMenuOpen = false;
+
+            return Task.CompletedTask;
         }
 
         private Task OnSaveCommandAsync()

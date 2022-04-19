@@ -159,6 +159,9 @@
                             VerticalOptions="Center"
                             WidthRequest="110">
                             <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate AddNew}" />
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddNewCustomerCommand}" />
+                            </Frame.GestureRecognizers>
 
                         </Frame>
 

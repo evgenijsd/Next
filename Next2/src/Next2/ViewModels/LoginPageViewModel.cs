@@ -110,7 +110,7 @@ namespace Next2.ViewModels
         {
             if (sender is string str && str is not null)
             {
-                if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                if (str.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH)
                 {
                     int.TryParse(str, out _inputtedEmployeeIdToDigit);
 
@@ -145,7 +145,7 @@ namespace Next2.ViewModels
         {
             if (sender is string str && str is not null)
             {
-                if (str.Length == Constants.LOGIN_PASSWORD_LENGTH)
+                if (str.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH)
                 {
                     int.TryParse(str, out _inputtedEmployeeIdToDigit);
 
@@ -217,7 +217,7 @@ namespace Next2.ViewModels
             {
                 if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
                 {
-                    if (_inputtedEmployeeId.Length == Constants.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
+                    if (_inputtedEmployeeId.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
                     {
                         await CheckEmployeeExists();
                         EmployeeId = _inputtedEmployeeId;

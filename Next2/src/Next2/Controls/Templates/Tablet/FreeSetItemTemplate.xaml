@@ -66,7 +66,7 @@
                     FontSize="{DynamicResource TSize_i9}"
                     FontFamily="Barlow-Medium"
                     TextColor="{DynamicResource TextAndBackgroundColor_i10}"
-                    Text="Product 1, product 2, product 3..."/>
+                    Text="{Binding ProductNames}"/>
                                                                             
                 <Label
                     HorizontalOptions="EndAndExpand"
@@ -74,7 +74,6 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i10}"
                     FontSize="{DynamicResource TSize_i8}"
                     FontFamily="Barlow-SemiBold"
-                    Text="{Binding IsFree}"
                     IsVisible="{Binding IsFree}">
                                                                                 
                     <Label.FormattedText>

@@ -232,7 +232,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder.Id = orderId.Result;
                     CurrentOrder.OrderNumber = orderId.Result;
-                    CurrentOrder.OrderStatus = "Open";
+                    CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
@@ -262,12 +262,14 @@ namespace Next2.Services.Order
             {
                 if (CurrentSeat is null)
                 {
-                    var seat = new SeatBindableModel();
-                    seat.Id = 1;
-                    seat.SeatNumber = 1;
-                    seat.Sets = new();
-                    seat.Checked = true;
-                    seat.IsFirstSeat = true;
+                    var seat = new SeatBindableModel
+                    {
+                        Id = 1,
+                        SeatNumber = 1,
+                        Sets = new(),
+                        Checked = true,
+                        IsFirstSeat = true,
+                    };
 
                     CurrentOrder.Seats.Add(seat);
 

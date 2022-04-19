@@ -100,9 +100,11 @@ namespace Next2.ViewModels.Mobile
 
             if (portions.IsSuccess)
             {
-                var param = new DialogParameters();
-                param.Add(Constants.DialogParameterKeys.SET, set);
-                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.SET, set },
+                    { Constants.DialogParameterKeys.PORTIONS, portions.Result },
+                };
 
                 await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
             }
@@ -112,7 +114,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
             {
-                var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                await _orderService.AddSetInCurrentOrderAsync(set);
 
                 if (_popupNavigation.PopupStack.Any())
                 {
@@ -121,7 +123,7 @@ namespace Next2.ViewModels.Mobile
 
                 var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                 {
-                    Duration = TimeSpan.FromSeconds(Constants.TOAST_DURATION),
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                     Position = ToastPosition.Bottom,
                 };
 

@@ -114,13 +114,15 @@ namespace Next2.Controls
             await runningFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }
 
-        private async Task OnTapCommandAsync()
+        private Task OnTapCommandAsync()
         {
             if (IsEnabled && (!IsToggled || CanTurnOff))
             {
                 IsToggled = !IsToggled;
                 ChangingToggleCommand?.Execute(ChangingToggleCommandParameter);
             }
+
+            return Task.CompletedTask;
         }
 
         private void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)

@@ -153,8 +153,10 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapCategoryCommandAsync(CategoryModel category)
         {
-            var navigationParams = new NavigationParameters();
-            navigationParams.Add(Constants.Navigations.CATEGORY, category);
+            var navigationParams = new NavigationParameters
+            {
+                { Constants.Navigations.CATEGORY, category },
+            };
 
             await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
         }

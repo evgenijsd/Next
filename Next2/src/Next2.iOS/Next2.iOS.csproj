@@ -453,13 +453,10 @@
     <BundleResource Include="Resources\Default-Portrait%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_arrow _down_primary_24x24.png" />
+    <BundleResource Include="Resources\ic_arrow_down_primary_24x24%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_arrow _down_primary_24x24%402x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\ic_arrow _down_primary_24x24%403x.png" />
+    <BundleResource Include="Resources\ic_arrow_down_primary_24x24%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ic_arrow_down_24x24.png" />
@@ -1653,6 +1650,15 @@
     <BundleResource Include="Resources\pic_plate_pax%403x.png" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_checked_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_checked_white%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_checked_white%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
     <BundleResource Include="Resources\ic_danger_circle.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1680,13 +1686,22 @@
     <BundleResource Include="Resources\pic_logo_rectangular%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_check_box_checked_white.png" />
+    <BundleResource Include="Resources\ic_primary_arrow_left_circle_56x56.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_check_box_checked_white%402x.png" />
+    <BundleResource Include="Resources\ic_primary_arrow_left_circle_56x56%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_check_box_checked_white%403x.png" />
+    <BundleResource Include="Resources\ic_primary_arrow_left_circle_56x56%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_primary_arrow_right_circle_56x56.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_primary_arrow_right_circle_56x56%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_primary_arrow_right_circle_56x56%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />

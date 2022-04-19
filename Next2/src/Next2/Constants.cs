@@ -4,16 +4,6 @@
     {
         public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
-        public const float TAX_PERCENTAGE = 20;
-
-        public const int MAX_TABLE_SEATS = 10;
-
-        public const int TOAST_DURATION = 3;
-
-        public const int LOGIN_PASSWORD_LENGTH = 6;
-
-        public const int SERVER_RESPONCE_DELAY = 100;
-
         public const string PRICE_FORMAT = "{0:0.00}";
 
         public const string DEFAULT_CULTURE = "en-US";
@@ -32,6 +22,19 @@
             public const string IOSKey = "7f9810cd-b473-4757-a025-5fa4e0429479";
 
             public const string AndroidKey = "4eeb551b-15f4-4ced-a0b2-e08a2d3e8798";
+        }
+
+        public static class Limits
+        {
+            public const int TOAST_DURATION = 3;
+            public const int SERVER_RESPONCE_DELAY = 100;
+            public const int MAX_TABLE_SEATS = 10;
+            public const int LOGIN_PASSWORD_LENGTH = 6;
+            public const int PHONE_LENGTH = 10;
+            public const int MIN_YEAR = 1900;
+            public const int MAX_YEAR = 2100;
+            public const int DAYS_IN_CALENDAR = 42;
+            public const float TAX_PERCENTAGE = 20;
         }
 
         public static class LayoutOrderTabs
@@ -70,6 +73,7 @@
             public const string ORDER_STATUS = "ORDER_STATUS";
             public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
             public const string DELETE_SET = "DELETE_SET";
+            public const string ORDER_ID = "ORDER_ID";
         }
 
         public static class Validators
@@ -78,6 +82,8 @@
             public const string NAME = @"[^a-zA-Z\s]";
             public const string NUMBER = @"[\D]";
             public const string CHECK_NUMBER = @"^[\d]";
+            public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+           @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         }
 
         public static class OrderStatus
@@ -91,6 +97,7 @@
         {
             public const string MESSAGE = "MESSAGE";
             public const string MODEL = "MODEL";
+            public const string UPDATE = "UPDATE";
             public const string TITLE = "TITLE";
             public const string DESCRIPTION = "DESCRIPTION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
@@ -107,6 +114,7 @@
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
+            public const string CUSTOMER_ID = "CUSTOMER_ID";
         }
 
         public static class PaymentOrderStatus

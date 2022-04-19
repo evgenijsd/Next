@@ -163,7 +163,7 @@
 
             <controls:CustomStepper
                 IsEnabled="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
-                MaxValue="{x:Static local:Constants.MAX_TABLE_SEATS}"
+                MaxValue="{x:Static local:Constants+Limits.MAX_TABLE_SEATS}"
                 Value="{Binding NumberOfSeats}"
                 DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
@@ -326,7 +326,7 @@
                 Spacing="13"
                 Orientation="Horizontal">
 
-               <StackLayout>
+                <StackLayout>
 
                     <Label
                         Style="{DynamicResource Bold32pxLabelStyle}"
@@ -334,11 +334,11 @@
                         Text="{xct:Translate Summary}" />
 
                     <Label
-                        IsVisible="{Binding CurrentOrder.Customer.Name, Converter={xct:IsNotNullOrEmptyConverter}}"
+                        IsVisible="{Binding CurrentOrder.Customer, Converter={xct:IsNotNullOrEmptyConverter}}"
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
                         Text="{Binding CurrentOrder.Customer.Name}"/>
-                   
+
                 </StackLayout>
 
                 <buttons:IconBorderButton
@@ -452,7 +452,7 @@
                         </Label.FormattedText>
 
                     </Label>
-                    
+
                 </StackLayout>
 
                 <BoxView Style="{DynamicResource SeparatorStyle_i2}" />
