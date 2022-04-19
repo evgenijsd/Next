@@ -796,7 +796,7 @@
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.TotalPrice, StringFormat='$ {0:F2}'}"
                                                 Margin="0, 5, 0, 0"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-SemiBold"

@@ -50,7 +50,7 @@ namespace Next2.Models
                         set.ProductsPrice += product.SelectedProduct.ProductPrice;
                     }
 
-                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice + set.Portion.Price - set.Portions.First().Price;
+                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice + set.Portion.Price - set.Portions.OrderByDescending(x => x.Price).LastOrDefault().Price;
 
                     SubTotal += set.TotalPrice;
                 }

@@ -96,13 +96,9 @@ namespace Next2.ViewModels
 
         public SetBindableModel? SelectedSet { get; set; }
 
-        public ObservableCollection<IngredientBindableModel> DetailedProductModels { get; set; } = new();
-
         public SeatBindableModel SelectedSeat { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
-
-        public ObservableCollection<IngredientBindableModel> Ingredients { get; set; }
 
         public TableBindableModel SelectedTable { get; set; } = new();
 
@@ -172,8 +168,6 @@ namespace Next2.ViewModels
                         RecalculateOrderPriceBySet(arg);
                     });
                 }
-
-                //await RefreshCurrentOrderAsync();
             }
 
             if (CurrentOrder.Tax.Value == 0)
@@ -621,6 +615,9 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
+                    _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
+                    _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
+
                     IsSideMenuVisible = false;
                     CurrentState = LayoutState.Success;
                 }
