@@ -113,7 +113,9 @@
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
-                    <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                    <StackLayout 
+                        Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
                         <StackLayout
                             HeightRequest="30"
@@ -183,7 +185,9 @@
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
-                    <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                    <StackLayout 
+                        Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
                         <StackLayout
                             HeightRequest="30"
