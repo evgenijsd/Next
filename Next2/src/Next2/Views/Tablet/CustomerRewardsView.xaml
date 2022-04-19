@@ -175,32 +175,140 @@
 
                     <StackLayout>
 
-                        <Grid
+                        <StackLayout
+                            Margin="28, 16, 28, 14"
+                            Orientation="Horizontal">
+
+                            <Label
+                                FontSize="{DynamicResource TSize_i4_5}"
+                                FontFamily="Barlow-Bold"
+                                Text="Card" />
+
+                            <Label
+                                HorizontalOptions="EndAndExpand"
+                                VerticalOptions="Center">
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            Text="Change"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                            FontSize="{DynamicResource TSize_i4}"
+                                            FontFamily="Barlow-Regular"/>
+
+                                        <Span Text="   " />
+
+                                        <Span
+                                            Text="$ 12.00"
+                                            TextColor="{DynamicResource IndicationColor_i1}"
+                                            FontSize="{DynamicResource TSize_i4}"
+                                            FontFamily="Barlow-Bold"/>
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                            </Label>
+
+                        </StackLayout>
+
+                        <BoxView
+                            HeightRequest="1.5"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                        
+                        <sc:StateContainer
+                            State="{Binding CardPaymentStatus}"
                             VerticalOptions="FillAndExpand">
 
-                            <skia:SKCanvasView
-                                x:Name="canvasView"
-                                PaintSurface="OnCanvasViewPaintSurface"/>
+                            <sc:StateCondition State="WaitingSwipeCard">
 
-                            <Grid.Effects>
-                                <effects:TouchEffect
-                                    Capture="True"
-                                    TouchAction="OnTouchEffectAction" />
+                                <Frame
+                                    Margin="30"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    CornerRadius="10"
+                                    BackgroundColor="Transparent"
+                                    xct:TouchEffect.Command="{Binding ChangeCardPaymentStatusCommand}">
 
-                            </Grid.Effects>
+                                    <StackLayout>
 
-                        </Grid>
+                                        <ffimageloading:CachedImage
+                                            Source="pic_payment_swipe.png"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="EndAndExpand"/>
 
-                        <Button
-                            Text="Clear"
-                            Margin="50, 5"
-                            Clicked="OnClearButtonClicked" />
+                                        <Label
+                                            Text="Swipe the card to pay&#10;for the order."
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i4}"
+                                            HorizontalTextAlignment="Center"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="StartAndExpand"/>
 
-                        <Button
-                            Text="Save"
-                            Margin="50, 5"
-                            Clicked="OnSaveButtonClicked" />
+                                    </StackLayout>
 
+                                </Frame>
+
+                            </sc:StateCondition>
+
+                            <sc:StateCondition State="WaitingSignature">
+
+                                <Grid VerticalOptions="FillAndExpand">
+
+                                    <Frame
+                                        Grid.Row="0"
+                                        Margin="30"
+                                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                        CornerRadius="10"
+                                        BackgroundColor="Transparent">
+
+                                        <Grid>
+
+                                            <controls:DrawPanel
+                                                Grid.Row="0"
+                                                IsCleared="{Binding IsCleared}"
+                                                VerticalOptions="FillAndExpand"/>
+
+                                            <Frame
+                                                Grid.Row="0"
+                                                IsVisible="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="EndAndExpand"
+                                                Margin="32"
+                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                                BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                                CornerRadius="10"
+                                                Padding="80, 20"
+                                                xct:TouchEffect.Command="{Binding ClearDrawPanelCommand}">
+
+                                                <StackLayout Orientation="Horizontal">
+
+                                                    <Label
+                                                        Text="Clear"
+                                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                        FontSize="{DynamicResource TSize_i5}"
+                                                        FontFamily="Barlow-SemiBold"
+                                                        HorizontalOptions="Center"
+                                                        VerticalOptions="Center"/>
+
+                                                    <ffimageloading:CachedImage
+                                                        Margin="10, 0, 0, 0"
+                                                        Source="ic_close_square_24x24.png"
+                                                        HorizontalOptions="Center"
+                                                        VerticalOptions="Center"/>
+
+                                                </StackLayout>
+
+                                            </Frame>
+
+                                        </Grid>
+
+                                    </Frame>
+
+                                </Grid>
+
+                            </sc:StateCondition>
+
+                        </sc:StateContainer>
+                        
                     </StackLayout>
 
                 </sc:StateCondition>

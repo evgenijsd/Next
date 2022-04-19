@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Grid xmlns="http://xamarin.com/schemas/2014/forms"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+      xmlns:controls="clr-namespace:Next2.Controls"
+      xmlns:effects="clr-namespace:Next2.Effects"
+      xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+      x:Class="Next2.Controls.DrawPanel">
+
+    <Grid.Effects>
+        <effects:TouchEffect
+            Capture="True"
+            TouchAction="OnTouchEffectAction"/>
+
+    </Grid.Effects>
+
+    <skia:SKCanvasView
+        Grid.Row="0"
+        x:Name="canvasView"
+        PaintSurface="OnCanvasViewPaintSurface"/>
+
+    <StackLayout
+        Grid.Row="0"
+        IsVisible="{Binding IsCleared, Source={RelativeSource AncestorType={x:Type controls:DrawPanel}}}">
+
+        <ffimageloading:CachedImage
+            Source="pic_signature.png"
+            HorizontalOptions="Center"
+            VerticalOptions="EndAndExpand"/>
+
+        <Label
+            Text="Leave your signature&#10;to complete the payment."
+            FontFamily="Barlow-Regular"
+            FontSize="{DynamicResource TSize_i4}"
+            HorizontalTextAlignment="Center"
+            HorizontalOptions="Center"
+            VerticalOptions="StartAndExpand"/>
+
+    </StackLayout>
+
+</Grid>

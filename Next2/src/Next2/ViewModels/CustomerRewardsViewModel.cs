@@ -64,6 +64,7 @@ namespace Next2.ViewModels
             };
 
             SelectedPaymentOption = PaymentOptionsItems[3];
+            CardPaymentStatus = ECardPaymentStatus.WaitingSwipeCard;
         }
 
         #region -- Public properties --
@@ -89,7 +90,17 @@ namespace Next2.ViewModels
         private ICommand _goToCompleteTabCommand;
         public ICommand GoToCompleteTabCommand => _goToCompleteTabCommand ??= new AsyncCommand(OnGoToCompleteTabCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _changeCardPaymentStatusCommand;
+        public ICommand ChangeCardPaymentStatusCommand => _changeCardPaymentStatusCommand ??= new AsyncCommand(OnChangeCardPaymentStatusCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _clearDrawPanelCommand;
+        public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new AsyncCommand(OnClearDrawPanelCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _tapPaymentOptionCommand;
+
+        public ECardPaymentStatus CardPaymentStatus { get; set; }
+
+        public bool IsCleared { get; set; } = true;
 
         public bool IsExpandedSummary { get; set; } = true;
 
@@ -133,6 +144,16 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private helpers --
+
+        private async Task OnClearDrawPanelCommandAsync()
+        {
+            IsCleared = true;
+        }
+
+        private async Task OnChangeCardPaymentStatusCommandAsync()
+        {
+            CardPaymentStatus = ECardPaymentStatus.WaitingSignature;
+        }
 
         private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
         {
