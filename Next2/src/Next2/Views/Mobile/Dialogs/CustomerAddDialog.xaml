@@ -191,7 +191,7 @@
 
                                             <Frame Style="{StaticResource EntryFrameStyle}">
 
-                                                <controls:CustomEntry
+                                                <controls:HideClipboardEntry
                                                     Margin="12, 0"
                                                     MaxLength="100"
                                                     Placeholder="{xct:Translate TypeUserName}"
@@ -199,11 +199,11 @@
                                                     Text="{Binding Name}" 
                                                     x:Name="nameEntry">
                                                     
-                                                    <controls:CustomEntry.Behaviors>
+                                                    <controls:HideClipboardEntry.Behaviors>
                                                         <behaviors:NameValidatorBehavior/>
-                                                    </controls:CustomEntry.Behaviors>
+                                                    </controls:HideClipboardEntry.Behaviors>
                                                     
-                                                </controls:CustomEntry>
+                                                </controls:HideClipboardEntry>
                                                 
                                             </Frame>
 
@@ -237,7 +237,7 @@
                                             Style="{StaticResource EntryFrameStyle}"
                                             x:Name="phoneFrame" >
 
-                                            <controls:CustomEntry
+                                            <controls:HideClipboardEntry
                                                 Margin="12, 0"
                                                 Keyboard="Numeric"
                                                 MaxLength="10"
@@ -277,7 +277,7 @@
                                             Style="{StaticResource EntryFrameStyle}"
                                             x:Name="mailFrame" >
 
-                                            <controls:CustomEntry
+                                            <controls:HideClipboardEntry
                                                 Margin="12, 0, 0, 0"
                                                 Style="{StaticResource EntryPlaceholderStyle}"
                                                 Placeholder="{xct:Translate TypeEmail}"
@@ -287,11 +287,11 @@
                                                 Unfocused="OnMailEntryUnfocused"
                                                 x:Name="mailEntry">
 
-                                                <controls:CustomEntry.Behaviors>
+                                                <controls:HideClipboardEntry.Behaviors>
                                                     <behaviors:EmailValidatorBehavior />
-                                                </controls:CustomEntry.Behaviors>
+                                                </controls:HideClipboardEntry.Behaviors>
 
-                                            </controls:CustomEntry>
+                                            </controls:HideClipboardEntry>
 
                                         </Frame>
 
