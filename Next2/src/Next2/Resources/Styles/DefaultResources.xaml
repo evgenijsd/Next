@@ -178,5 +178,6 @@
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter"/>
     <converters:ZeroToTrueConverter x:Key="zeroToTrueConverter" />
+    <converters:DigitTextToTrueConverter x:Key="digitTextToTrueConverter" />
 
 </ResourceDictionary>
