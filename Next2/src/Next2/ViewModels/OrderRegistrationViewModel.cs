@@ -154,10 +154,12 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (!App.IsTablet)
             {
+                CurrentOrder = _orderService.CurrentOrder;
+
                 foreach (var seat in CurrentOrder.Seats)
                 {
                     seat.SelectedItem = null;
@@ -170,6 +172,8 @@ namespace Next2.ViewModels
                         RecalculateOrderPriceBySet(arg);
                     });
                 }
+
+                //await RefreshCurrentOrderAsync();
             }
 
             if (CurrentOrder.Tax.Value == 0)
@@ -184,7 +188,7 @@ namespace Next2.ViewModels
 
             InitOrderTypes();
             await RefreshTablesAsync();
-            RefreshCurrentOrderAsync();
+            await RefreshCurrentOrderAsync();
         }
 
         protected override async void OnPropertyChanged(PropertyChangedEventArgs args)

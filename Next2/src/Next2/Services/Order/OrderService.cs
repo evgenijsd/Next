@@ -334,7 +334,14 @@ namespace Next2.Services.Order
                         }
 
                         set.Products.Add(newProduct);
+
+                        set.IngredientsPrice += newProduct.IngredientsPrice;
+                        set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
                     }
+
+                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice;
+
+                    CurrentOrder.Total += set.TotalPrice;
                 }
                 else
                 {

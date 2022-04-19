@@ -89,7 +89,7 @@
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <Label 
-                            Text="{Binding SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                            Text="{Binding SelectedSet.TotalPrice, StringFormat='$ {0:F2}'}"
                             Margin="0, 5, 0, 0"
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
