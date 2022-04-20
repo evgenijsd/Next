@@ -247,7 +247,7 @@ namespace Next2.ViewModels.Tablet
 
                 var confirmDialogParameters = new DialogParameters
                 {
-                    { Constants.DialogParameterKeys.CONFIRM_MODE, LocalizationResourceManager.Current["Attention"] },
+                    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
                     { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
                     { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
                     { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
