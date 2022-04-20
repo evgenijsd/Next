@@ -31,7 +31,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IPopupNavigation _popupNavigation;
 
         private MemberModel _member;
-        private IEnumerable<MemberModel> _allMembers = Enumerable.Empty<MemberModel>();
+        private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
             IMapper mapper,
@@ -86,7 +86,7 @@ namespace Next2.ViewModels.Tablet
 
             if (args.PropertyName is nameof(DisplayMembers))
             {
-                AnyMembersLoaded = _allMembers.Count() != 0;
+                AnyMembersLoaded = _allMembers.Any();
             }
         }
 
@@ -103,16 +103,16 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            ClearSearchAsync();
+            ClearSearch();
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private ObservableCollection<MemberBindableModel> GetSortedMembers(IEnumerable<MemberModel> members)
+        private ObservableCollection<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
         {
-            Func<MemberModel, object> comparer = MemberSorting switch
+            Func<MemberBindableModel, object> comparer = MemberSorting switch
             {
                 EMemberSorting.ByMembershipStartTime => x => x.MembershipStartTime,
                 EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
@@ -138,9 +138,16 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                _allMembers = membersResult.Result;
+                var result = _mapper.Map<List<MemberBindableModel>>(_allMembers);
 
-                DisplayMembers = GetSortedMembers(GetMembersSearch(SearchText));
+                foreach (var member in result)
+                {
+                    member.TapCommand = MembershipEditCommand;
+                }
+
+                _allMembers = result;
+
+                DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
 
                 IsMembersRefreshing = false;
             }
@@ -161,7 +168,7 @@ namespace Next2.ViewModels.Tablet
             {
                 MemberSorting = memberSorting;
 
-                DisplayMembers = GetSortedMembers(GetMembersSearch(SearchText));
+                DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
             }
 
             return Task.CompletedTask;
@@ -181,7 +188,7 @@ namespace Next2.ViewModels.Tablet
                     { Constants.Navigations.PLACEHOLDER, Strings.NameOrPhone },
                 };
 
-                ClearSearchAsync();
+                ClearSearch();
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
@@ -191,26 +198,31 @@ namespace Next2.ViewModels.Tablet
         {
             SearchText = searchLine;
 
-            DisplayMembers = GetSortedMembers(GetMembersSearch(SearchText));
+            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }
 
-        private IEnumerable<MemberModel> GetMembersSearch(string searchLine) =>
-            _allMembers.Where(x => x.CustomerName.ToLower().Contains(searchLine.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(searchLine));
+        private List<MemberBindableModel> SearchMembers(string searchLine)
+        {
+            bool containsName(MemberBindableModel x) => x.CustomerName.ToLower().Contains(searchLine.ToLower());
+            bool containsPhone(MemberBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+
+            return _allMembers.Where(x => containsName(x) || containsPhone(x)).ToList();
+        }
 
         private Task OnClearSearchCommandAsync()
         {
-            ClearSearchAsync();
+            ClearSearch();
 
             return Task.CompletedTask;
         }
 
-        private void ClearSearchAsync()
+        private void ClearSearch()
         {
             SearchText = string.Empty;
 
-            DisplayMembers = GetSortedMembers(GetMembersSearch(SearchText));
+            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
         }
 
         private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
