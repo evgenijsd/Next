@@ -74,26 +74,26 @@
         </Grid>
 
         <!--  TABLE  -->
-        <Frame
+        <yummy:PancakeView
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-            BorderColor="{StaticResource TextAndBackgroundColor_i3}"
+            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
             Margin="40,0,40,20"
             CornerRadius="{OnPlatform Android=6, iOS=8}"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             IsVisible="false">
 
-            <Frame.Triggers>
+            <yummy:PancakeView.Triggers>
 
                 <DataTrigger
-                    TargetType="Frame"
+                    TargetType="yummy:PancakeView"
                     Binding="{Binding DisplayMembers.Count}"
                     Value="0">
                     <Setter Property="IsVisible" Value="true" />
                 </DataTrigger>
 
-            </Frame.Triggers>
+            </yummy:PancakeView.Triggers>
 
             <ffimageloading:CachedImage
                 Source="pic_nothing_found"
@@ -101,7 +101,7 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center" />
 
-        </Frame>
+        </yummy:PancakeView>
 
         <Frame
             Grid.Row="2"

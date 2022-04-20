@@ -31,7 +31,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IPopupNavigation _popupNavigation;
 
         private MemberModel _member;
-        private List<MemberModel> _allMembers = new();
+        private IEnumerable<MemberModel> _allMembers = Enumerable.Empty<MemberModel>();
 
         public MembershipViewModel(
             IMapper mapper,
@@ -86,7 +86,7 @@ namespace Next2.ViewModels.Tablet
 
             if (args.PropertyName is nameof(DisplayMembers))
             {
-                AnyMembersLoaded = _allMembers.Count != 0;
+                AnyMembersLoaded = _allMembers.Count() != 0;
             }
         }
 
@@ -110,7 +110,7 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private helpers --
 
-        private ObservableCollection<MemberBindableModel> GetSortedMembers(List<MemberModel> members)
+        private ObservableCollection<MemberBindableModel> GetSortedMembers(IEnumerable<MemberModel> members)
         {
             Func<MemberModel, object> comparer = MemberSorting switch
             {
@@ -138,7 +138,7 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                _allMembers = membersResult.Result.ToList();
+                _allMembers = membersResult.Result;
 
                 DisplayMembers = GetSortedMembers(GetMembersSearch(SearchText));
 
@@ -196,8 +196,8 @@ namespace Next2.ViewModels.Tablet
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }
 
-        private List<MemberModel> GetMembersSearch(string searchLine) =>
-            new(_allMembers.Where(x => x.CustomerName.ToLower().Contains(searchLine.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(searchLine)));
+        private IEnumerable<MemberModel> GetMembersSearch(string searchLine) =>
+            _allMembers.Where(x => x.CustomerName.ToLower().Contains(searchLine.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(searchLine));
 
         private Task OnClearSearchCommandAsync()
         {
