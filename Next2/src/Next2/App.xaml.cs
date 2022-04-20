@@ -101,6 +101,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.EmployeeTimeClockDialog, EmployeeTimeClockViewModel>();
             }
             else
             {
