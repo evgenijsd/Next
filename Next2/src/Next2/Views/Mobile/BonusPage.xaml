@@ -58,12 +58,12 @@
 
                                 <Label
                                     Text="{xct:Translate Coupons}"
-                                    Margin="0,0,0,0"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontFamily="Barlow-SemiBold"
                                     FontSize="{DynamicResource TSize_i5}" />
 
                                 <ffimageloading:CachedImage
+                                    Margin="0,0,0,10"
                                     Source="ic_arrow_up_24x24.png"
                                     HeightRequest="25"
                                     HorizontalOptions="EndAndExpand">
@@ -143,6 +143,7 @@
                                     FontSize="{DynamicResource TSize_i5}" />
 
                                 <ffimageloading:CachedImage
+                                    Margin="0,0,0,5"
                                     Source="ic_arrow_up_24x24"
                                     HeightRequest="25"
                                     HorizontalOptions="EndAndExpand">

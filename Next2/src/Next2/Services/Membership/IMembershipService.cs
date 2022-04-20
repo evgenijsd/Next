@@ -10,8 +10,8 @@ namespace Next2.Services.Membership
     {
         Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null);
 
-        Task<AOResult<bool>> DisableMemberAsync(MemberModel member);
+        string ApplyNameFilter(string text);
 
-        Task<AOResult<MemberModel>> SaveMemberAsync(MemberModel member);
+        Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member);
     }
 }
