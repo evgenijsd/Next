@@ -66,6 +66,7 @@
                         Value="">
                         <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                         <Setter Property="ImageSource" Value="ic_search_24x24" />
+                        <Setter Property="CommandClear" Value="{Binding SearchCommand}" />
                     </DataTrigger>
 
                 </controls:SearchButton.Triggers>
@@ -87,7 +88,7 @@
 
                 <DataTrigger
                     TargetType="Frame"
-                    Binding="{Binding Members.Count}"
+                    Binding="{Binding DisplayMembers.Count}"
                     Value="0">
                     <Setter Property="IsVisible" Value="true" />
                 </DataTrigger>
@@ -113,7 +114,7 @@
 
                 <DataTrigger
                     TargetType="Frame"
-                    Binding="{Binding IsCheckLoadMembers}"
+                    Binding="{Binding AnyMembersLoaded}"
                     Value="false">
                     <Setter Property="VerticalOptions" Value="FillAndExpand" />
                 </DataTrigger>
@@ -188,9 +189,9 @@
                     IsRefreshing="{Binding IsMembersRefreshing}">
 
                     <controls:CustomScrollBarCollectionView
-                        HeightRequest="{Binding Members, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                        HeightRequest="{Binding DisplayMembers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
-                        ItemsSource="{Binding Members}">
+                        ItemsSource="{Binding DisplayMembers}">
 
                         <CollectionView.Effects>
                             
