@@ -611,6 +611,19 @@ namespace Next2.ViewModels
 
                 SelectedSet = seat.SelectedItem;
 
+                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
+                {
+                    if (singleSeat.SeatNumber != seat.SeatNumber)
+                    {
+                        singleSeat.SelectedItem = null;
+                    }
+                    else
+                    {
+                        var seatIndex = _orderService.CurrentOrder.Seats.IndexOf(singleSeat);
+                        _orderService.CurrentOrder.Seats[seatIndex].SelectedItem = seat.SelectedItem;
+                    }
+                }
+
                 await InitEditSetDetailsAsync(SelectedSet);
 
                 if (App.IsTablet)

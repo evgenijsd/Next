@@ -39,9 +39,7 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _menuService = menuService;
 
-            TempCurrentOrder = _orderService.CurrentOrder;
-
-            CurrentOrder = new(TempCurrentOrder);
+            CurrentOrder = new(_orderService.CurrentOrder);
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
@@ -59,7 +57,6 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public FullOrderBindableModel TempCurrentOrder { get; set; }
         public FullOrderBindableModel CurrentOrder { get; set; }
 
         public SpoilerBindableModel SelectedProduct { get; set; }
