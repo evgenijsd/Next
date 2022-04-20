@@ -31,6 +31,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IPopupNavigation _popupNavigation;
 
         private MemberModel _member;
+        private ObservableCollection<MemberBindableModel> _members = new();
 
         public MembershipViewModel(
             IMapper mapper,
@@ -50,7 +51,7 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<MemberBindableModel> Members { get; set; } = new();
 
-        public ObservableCollection<MemberBindableModel> MembersAll { get; set; } = new();
+        public bool IsCheckLoadMembers { get; set; } = false;
 
         public bool IsMembersRefreshing { get; set; }
 
@@ -78,6 +79,16 @@ namespace Next2.ViewModels.Tablet
         #endregion
 
         #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(Members))
+            {
+                IsCheckLoadMembers = _members.Count != 0;
+            }
+        }
 
         public override async void OnAppearing()
         {
@@ -120,20 +131,20 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                MembersAll = new(GetSortedMembers(_mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result)));
+                _members = new(GetSortedMembers(_mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result)));
 
-                foreach (var member in MembersAll)
+                foreach (var member in _members)
                 {
                     member.TapCommand = MembershipEditCommand;
                 }
 
                 if (string.IsNullOrEmpty(SearchText))
                 {
-                    Members = new(MembersAll);
+                    Members = new(_members);
                 }
                 else
                 {
-                    Members = new(MembersAll.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
+                    Members = GetMembersSearch(SearchText);
                 }
 
                 IsMembersRefreshing = false;
@@ -150,14 +161,14 @@ namespace Next2.ViewModels.Tablet
             if (MemberSorting == memberSorting)
             {
                 Members = new(Members.Reverse());
-                MembersAll = new(MembersAll.Reverse());
+                _members = new(_members.Reverse());
             }
             else
             {
                 MemberSorting = memberSorting;
 
                 Members = new(GetSortedMembers(Members));
-                MembersAll = new(GetSortedMembers(MembersAll));
+                _members = new(GetSortedMembers(_members));
             }
 
             return Task.CompletedTask;
@@ -167,7 +178,8 @@ namespace Next2.ViewModels.Tablet
         {
             if (Members.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
+
                 Func<string, string> searchValidator = _membershipService.ApplyNameFilter;
                 var parameters = new NavigationParameters()
                 {
@@ -175,19 +187,24 @@ namespace Next2.ViewModels.Tablet
                     { Constants.Navigations.FUNC, searchValidator },
                     { Constants.Navigations.PLACEHOLDER, Strings.NameOrPhone },
                 };
+
                 ClearSearchAsync();
+
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
 
-        private void SearchEventCommand(string searchLine)
+        private void OnSearchEvent(string searchLine)
         {
             SearchText = searchLine;
 
-            Members = new(MembersAll.Where(x => x.CustomerName.ToLower().Contains(SearchText.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(SearchText)));
+            Members = GetMembersSearch(SearchText);
 
-            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }
+
+        private ObservableCollection<MemberBindableModel> GetMembersSearch(string searchLine) =>
+            new(_members.Where(x => x.CustomerName.ToLower().Contains(searchLine.ToLower()) || x.Phone.Replace("-", string.Empty).Contains(searchLine)));
 
         private async Task OnClearSearchCommandAsync()
         {
@@ -205,7 +222,7 @@ namespace Next2.ViewModels.Tablet
         {
             SearchText = string.Empty;
 
-            Members = new(MembersAll);
+            Members = new(_members);
         }
 
         private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
@@ -230,11 +247,11 @@ namespace Next2.ViewModels.Tablet
 
                 var confirmDialogParameters = new DialogParameters
                 {
-                    { Constants.DialogParameterKeys.CONFIRM_MODE, EConfirmMode.Attention },
-                    { Constants.DialogParameterKeys.TITLE, Strings.AreYouSure },
-                    { Constants.DialogParameterKeys.DESCRIPTION, Strings.MembershipUpdate },
-                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, Strings.Cancel },
-                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, Strings.Ok },
+                    { Constants.DialogParameterKeys.CONFIRM_MODE, LocalizationResourceManager.Current["Attention"] },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
+                    { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["MembershipUpdate"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Ok"] },
                 };
 
                 PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);

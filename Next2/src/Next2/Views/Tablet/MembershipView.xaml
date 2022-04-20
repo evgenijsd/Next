@@ -81,7 +81,18 @@
             CornerRadius="{OnPlatform Android=6, iOS=8}"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
-            IsVisible="{Binding Members.Count, Converter={StaticResource zeroToTrueConverter}}">
+            IsVisible="false">
+
+            <Frame.Triggers>
+
+                <DataTrigger
+                    TargetType="Frame"
+                    Binding="{Binding Members.Count}"
+                    Value="0">
+                    <Setter Property="IsVisible" Value="true" />
+                </DataTrigger>
+
+            </Frame.Triggers>
 
             <ffimageloading:CachedImage
                 Source="pic_nothing_found"
@@ -102,8 +113,8 @@
 
                 <DataTrigger
                     TargetType="Frame"
-                    Binding="{Binding MembersAll.Count}"
-                    Value="0">
+                    Binding="{Binding IsCheckLoadMembers}"
+                    Value="false">
                     <Setter Property="VerticalOptions" Value="FillAndExpand" />
                 </DataTrigger>
 

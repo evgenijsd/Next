@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Next2.Converters
 {
-    public class DigitTextToTrueConverter : IValueConverter
+    public class IsNumberValidConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
