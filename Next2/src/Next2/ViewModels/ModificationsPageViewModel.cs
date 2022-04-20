@@ -540,6 +540,7 @@ namespace Next2.ViewModels
                 var parameters = new NavigationParameters
                 {
                     { Constants.Navigations.REFRESH_ORDER, true },
+                    { Constants.Navigations.SET_MODIFIED, true },
                 };
 
                 await _navigationService.GoBackAsync(parameters);

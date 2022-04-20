@@ -52,6 +52,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _seatWithSelectedSet;
         private EOrderStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
+        private bool _isAnyUpDateForCurrentSet = true;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -170,6 +171,11 @@ namespace Next2.ViewModels
                 }
             }
 
+            if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
+            {
+                _isAnyUpDateForCurrentSet = true;
+            }
+
             if (CurrentOrder.Tax.Value == 0)
             {
                 IsOrderWithTax = false;
@@ -249,7 +255,7 @@ namespace Next2.ViewModels
 
             SelectedSet = _seatWithSelectedSet?.SelectedItem;
 
-            if (SelectedSet is not null)
+            if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
             {
                 await InitEditSetDetailsAsync(SelectedSet);
             }
@@ -619,12 +625,27 @@ namespace Next2.ViewModels
                     }
                     else
                     {
+                        singleSeat.SelectedItem = seat.SelectedItem;
+                    }
+                }
+
+                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
+                {
+                    if (singleSeat.SeatNumber != seat.SeatNumber)
+                    {
+                        singleSeat.SelectedItem = null;
+                    }
+                    else
+                    {
                         var seatIndex = _orderService.CurrentOrder.Seats.IndexOf(singleSeat);
                         _orderService.CurrentOrder.Seats[seatIndex].SelectedItem = seat.SelectedItem;
                     }
                 }
 
-                await InitEditSetDetailsAsync(SelectedSet);
+                if (_isAnyUpDateForCurrentSet)
+                {
+                    await InitEditSetDetailsAsync(SelectedSet);
+                }
 
                 if (App.IsTablet)
                 {
@@ -982,6 +1003,8 @@ namespace Next2.ViewModels
 
                         product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
                     }
+
+                    _isAnyUpDateForCurrentSet = false;
 
                     SelectedSet = new(SelectedSet);
                 }

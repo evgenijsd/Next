@@ -102,6 +102,11 @@ namespace Next2.ViewModels.Tablet
 
             if (parameters is not null)
             {
+                if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
+                {
+                    NewOrderViewModel.OrderRegistrationViewModel.OnNavigatedTo(parameters);
+                }
+
                 if (parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
                 {
                     NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
