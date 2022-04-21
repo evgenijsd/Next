@@ -6,12 +6,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:local="clr-namespace:Next2"
     x:DataType="viewModels:ExpandPageViewModel">
 
     <views:BaseContentPage.Resources>
@@ -57,7 +57,7 @@
             </Style>
 
         </ResourceDictionary>
-        
+
     </views:BaseContentPage.Resources>
 
     <!--Left Part-->
@@ -72,30 +72,30 @@
             <!--Categories header-->
 
             <StackLayout
-                    VerticalOptions="Start"
-                    Orientation="Horizontal"
-                    Padding="12, 11, 12, 0">
+                VerticalOptions="Start"
+                Orientation="Horizontal"
+                Padding="12, 11, 12, 0">
 
                 <ContentView
                     xct:TouchEffect.Command="{prism:GoBack}"
-                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}"
+                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}" 
                     HeightRequest="40"
                     Padding="0, 0, 12, 0">
 
                     <ffimageloading:CachedImage 
-                            Source="ic_arrow_left_tail_40x40"
-                            HeightRequest="30">
+                        Source="ic_arrow_left_tail_40x40"
+                        HeightRequest="30">
 
                     </ffimageloading:CachedImage>
 
                 </ContentView>
 
                 <Label
-                        Text="{xct:Translate Categories}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        Style="{StaticResource labeltSize_i4}"
-                        FontFamily="Barlow-SemiBold"
-                        VerticalTextAlignment="Center"/>
+                    Text="{xct:Translate Categories}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    Style="{StaticResource labeltSize_i4}"
+                    FontFamily="Barlow-SemiBold"
+                    VerticalTextAlignment="Center"/>
 
 
             </StackLayout>
@@ -160,7 +160,8 @@
                             Text="{Binding Title}"
                             HeightRequest="54"
                             FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium"/>
+                            FontFamily="Barlow-Medium"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -282,19 +283,19 @@
         <!--Menu-->
 
         <CollectionView
-                Margin="12, 8, 12, 0"
-                VerticalOptions="StartAndExpand"
-                ItemsSource="{Binding SetsItems}"
-                VerticalScrollBarVisibility="Always"
-                SelectionMode="Single">
+            Margin="12, 8, 12, 0"
+            VerticalOptions="StartAndExpand"
+            ItemsSource="{Binding SetsItems}"
+            VerticalScrollBarVisibility="Always"
+            SelectionMode="Single">
 
             <CollectionView.ItemsLayout>
 
                 <GridItemsLayout
-                        Orientation="Vertical"
-                        VerticalItemSpacing="5"
-                        HorizontalItemSpacing="5"
-                        Span="5"/>
+                    Orientation="Vertical"
+                    VerticalItemSpacing="5"
+                    HorizontalItemSpacing="5"
+                    Span="5"/>
 
             </CollectionView.ItemsLayout>
 
@@ -330,21 +331,22 @@
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
-                
+
                 <effects:ScrollBarColorEffect
                     ScrollBarThumbWidth="6"
                     ScrollBarCornerRadius="9"
                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
                     ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+
             </CollectionView.Effects>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <templates:SetItemTemplate
-                            x:DataType="models:SetModel"
-                            HeightRequest="327"
-                            xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
-                            xct:TouchEffect.CommandParameter="{Binding .}"/>
+                        x:DataType="models:SetModel"
+                        HeightRequest="327"
+                        xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
+                        xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>

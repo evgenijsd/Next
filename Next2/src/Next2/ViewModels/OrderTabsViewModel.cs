@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -14,7 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -33,6 +33,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
+        private int _lastSavedOrderId = -1;
         public double _heightPage;
 
         public OrderTabsViewModel(
@@ -44,6 +45,9 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderStatus);
+
             _popupNavigation = popupNavigation;
         }
 
@@ -78,7 +82,7 @@ namespace Next2.ViewModels
         public ICommand SelectTabsCommand => _SelectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
 
         private ICommand _SearchCommand;
-        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync);
+        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _ClearSearchCommand;
         public ICommand ClearSearchCommand => _ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync);
@@ -95,6 +99,12 @@ namespace Next2.ViewModels
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _printCommand;
+        public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -103,17 +113,10 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            if (!IsSearching)
-            {
-                _heightPage = HeightPage;
-                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
+            _heightPage = HeightPage;
+            HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-                await LoadData();
-            }
-            else
-            {
-                IsSearching = false;
-            }
+            await LoadDataAsync();
         }
 
         public override void OnDisappearing()
@@ -121,6 +124,8 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            IsSearching = false;
+            IsNotingFound = false;
             SelectedOrder = null;
         }
 
@@ -149,10 +154,10 @@ namespace Next2.ViewModels
 
         private Task OnRefreshOrdersCommandAsync()
         {
-            return LoadData();
+            return LoadDataAsync();
         }
 
-        private async Task LoadData()
+        public async Task LoadDataAsync()
         {
             IsOrdersRefreshing = true;
 
@@ -162,14 +167,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultTabs.Result.OrderBy(x => x.CustomerName));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
@@ -196,7 +201,7 @@ namespace Next2.ViewModels
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.CustomerName))
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
                             .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }
@@ -207,8 +212,15 @@ namespace Next2.ViewModels
 
                 Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
 
+                if (!string.IsNullOrEmpty(SearchText))
+                {
+                    Orders = new(Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
+                }
+
                 SetHeightCollection();
             }
+
+            SelectedOrder = _lastSavedOrderId != 0 ? Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId) : null;
         }
 
         private void SetHeightCollection()
@@ -275,11 +287,13 @@ namespace Next2.ViewModels
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
                 Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
+                var placeholder = IsOrderTabsSelected ? Strings.TableNumberOrOrder : Strings.NameOrOrder;
 
                 var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
                 ClearSearchAsync();
                 IsSearching = true;
@@ -428,7 +442,7 @@ namespace Next2.ViewModels
                     {
                         var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
 
-                        Orders.Remove(removalBindableOrder);
+                        await LoadDataAsync();
                         SelectedOrder = null;
                     }
 
@@ -437,6 +451,26 @@ namespace Next2.ViewModels
             }
 
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+        }
+
+        private Task OnPrintCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        private void SetLastSavedOrderId(int orderId)
+        {
+            _lastSavedOrderId = orderId;
+        }
+
+        private void SetOrderStatus(Enum orderStatus)
+        {
+            IsOrderTabsSelected = orderStatus is EOrderPaymentStatus.WaitingForPayment;
+        }
+
+        private async Task OnGoBackCommand()
+        {
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
         }
 
         #endregion

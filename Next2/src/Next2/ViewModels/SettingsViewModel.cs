@@ -66,24 +66,27 @@ namespace Next2.ViewModels
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
-
-            if (result)
+            if (dialogResult is not null)
             {
-                _authenticationService.LogOut();
+                bool result = dialogResult.ContainsKey(Constants.DialogParameterKeys.ACCEPT);
 
-                await _popupNavigation.PopAsync();
+                if (result)
+                {
+                    _authenticationService.LogOut();
 
-                var navigationParameters = new NavigationParameters
+                    await _popupNavigation.PopAsync();
+
+                    var navigationParameters = new NavigationParameters
                 {
                     { nameof(result), result },
                 };
 
-                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
-            }
-            else
-            {
-                await _popupNavigation.PopAsync();
+                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
+                }
+                else
+                {
+                    await _popupNavigation.PopAsync();
+                }
             }
         }
 

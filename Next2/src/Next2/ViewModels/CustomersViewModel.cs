@@ -59,8 +59,8 @@ namespace Next2.ViewModels
         private ICommand _refreshCommand;
         public ICommand RefreshCommand => _refreshCommand ??= new AsyncCommand(RefreshAsync, allowsMultipleExecutions: false);
 
-        private ICommand _addCustomerCommand;
-        public ICommand AddCustomerCommand => _addCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(AddCustomerAsync, allowsMultipleExecutions: false);
+        private ICommand _addNewCustomerCommand;
+        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand<CustomerBindableModel>(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
@@ -82,7 +82,7 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private async Task RefreshAsync()
         {
@@ -104,10 +104,22 @@ namespace Next2.ViewModels
                 if (customers.Any())
                 {
                     Customers = customers;
+
+                    SelectCurrentCustomer();
                 }
             }
 
             IsRefreshing = false;
+        }
+
+        private void SelectCurrentCustomer()
+        {
+            var currentCustomer = _orderService.CurrentOrder.Customer;
+
+            if (currentCustomer is not null)
+            {
+                SelectedCustomer = Customers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+            }
         }
 
         private void SelectDeselectItem(CustomerBindableModel customer)
@@ -149,7 +161,7 @@ namespace Next2.ViewModels
 
                 if (App.IsTablet)
                 {
-                    MessagingCenter.Send<PageSwitchingMessage>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                    MessagingCenter.Send<MenuPageSwitchingMessage>(new (EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
                 }
                 else
                 {
@@ -165,14 +177,27 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task AddCustomerAsync(CustomerBindableModel customer)
+        private Task OnAddNewCustomerCommandAsync(CustomerBindableModel customer)
         {
-            if (customer is CustomerBindableModel selectedCustomer)
-            {
-                var param = new DialogParameters();
+            var param = new DialogParameters();
 
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs
-                    .CustomerAddDialog(param, async (IDialogParameters obj) => await _popupNavigation.PopAsync()));
+            PopupPage popupPage = App.IsTablet
+                ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService)
+                : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService);
+
+            return _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async void AddCustomerDialogCallBack(IDialogParameters param)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
+            {
+                await RefreshAsync();
+
+                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
+                Customers.Move(index, 0);
             }
         }
 
@@ -201,6 +226,5 @@ namespace Next2.ViewModels
         }
 
         #endregion
-
     }
 }

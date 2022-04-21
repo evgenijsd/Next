@@ -29,6 +29,8 @@ using Next2.Models;
 using Next2.Views;
 using Next2.Views.Tablet;
 using Next2.ViewModels.Mobile;
+using Next2.Services.Rewards;
+using Next2.Services.Bonuses;
 
 namespace Next2
 {
@@ -57,12 +59,15 @@ namespace Next2
             var mapper = CreateMapper();
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
+            containerRegistry.RegisterSingleton<IRewardsService, RewardsService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
+            containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -74,14 +79,14 @@ namespace Next2
 
                 //Navigation
                 containerRegistry.RegisterForNavigation<TabletViews.SearchPage, SearchPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
-                containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
-
-                // temporarily !!!
-                containerRegistry.RegisterForNavigation<CustomerRewardsView, CustomerRewardsViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
+                containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
@@ -91,13 +96,16 @@ namespace Next2
                 containerRegistry.RegisterSingleton<MembershipViewModel>();
                 containerRegistry.RegisterSingleton<SettingsViewModel>();
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
+
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
             }
             else
             {
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.EditPage, MobileViewModels.EditPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.LoginPage_EmployeeId, LoginPage_EmployeeIdViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SettingsPage, SettingsViewModel>();
@@ -108,12 +116,10 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.CustomersPage, CustomersViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ChooseSetPage, MobileViewModels.ChooseSetPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SearchPage, SearchPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.CustomerRewardsPage, CustomerRewardsViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
-                containerRegistry.RegisterForNavigation<AddCommentPage, LoginPage_EmployeeIdViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.InputCashPage, InputCashPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.WaitingSwipeCardPage, WaitingSwipeCardPageViewModel>();
-                containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
+                containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
@@ -162,9 +168,17 @@ namespace Next2
             {
                 cfg.CreateMap<TableModel, TableBindableModel>();
                 cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
+                cfg.CreateMap<SetModel, FreeSetBindableModel>();
+                cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
                 cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
+                cfg.CreateMap<SeatBindableModel, SeatModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
-                cfg.CreateMap<MemberModel, MemberBindableModel>();
+                cfg.CreateMap<MemberModel, MemberBindableModel>().ReverseMap();
+                cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
+                cfg.CreateMap<BonusModel, BonusBindableModel>();
+                cfg.CreateMap<BonusBindableModel, BonusModel>();
+                cfg.CreateMap<FullOrderBindableModel, OrderModel>();
+                cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             }).CreateMapper();
         }
 

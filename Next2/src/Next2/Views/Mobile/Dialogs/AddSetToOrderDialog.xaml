@@ -24,7 +24,7 @@
         <StackLayout Spacing="0">
 
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-                
+
                 <Label
                     Text="{xct:Translate AddItem}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -32,14 +32,14 @@
                     FontFamily="Barlow-Bold"
                     Padding="24"
                     VerticalTextAlignment="Center"/>
-            
+
                 <BoxView
                     VerticalOptions="Start"
                     HeightRequest="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
-                
+
             </StackLayout>
-            
+
             <StackLayout
                 VerticalOptions="Start"
                 Padding="24"
@@ -61,7 +61,7 @@
                             Source="{Binding Set.ImagePath}"/>
 
                     </pkView:PancakeView>
-                    
+
                 </StackLayout>
 
                 <StackLayout
@@ -98,8 +98,11 @@
 
                     <DataTemplate x:DataType="models:PortionModel">
 
-                        <templates:PortionItemTemplate
+                        <templates:ToggleItemTemplate
                             State="{Binding .}"
+                            IsVisibleSubtitle="True"
+                            Title="{Binding Title}"
+                            Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
                             BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:AddSetToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>

@@ -76,6 +76,13 @@
     <None Remove="Extensions\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Controls\CalendarGridCollectionView2.cs" />
+    <Compile Remove="Controls\CalendarTab2.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Controls\CalendarTab2.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\Fonts\Barlow-Bold.ttf" />
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
@@ -90,6 +97,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.2.0.562" />
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Fody" Version="6.6.0">
       <PrivateAssets>all</PrivateAssets>
@@ -101,7 +109,6 @@
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
-    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -124,6 +131,9 @@
   <ItemGroup>
     <Compile Update="Controls\Buttons\BorderButton.xaml.cs">
       <DependentUpon>BorderButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\CalendarTab.xaml.cs">
+      <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\CustomStepper.xaml.cs">
       <DependentUpon>CustomStepper.xaml</DependentUpon>
@@ -155,6 +165,23 @@
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Strings\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\PaymentCompleteView.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\PaymentPage.xaml.cs">
+      <DependentUpon>PaymentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Templates\BonusItemTemplate.xaml.cs">
+      <DependentUpon>BonusItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InputTextPage.xaml.cs">
+      <DependentUpon>InputTextPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\CustomersPage.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
@@ -181,6 +208,12 @@
     </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
+      <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\PaymentPage.xaml.cs">
+      <DependentUpon>PaymentPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
@@ -224,10 +257,13 @@
     <EmbeddedResource Update="Controls\Buttons\IconBorderButton.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\CustomStepper.xaml">
+    <EmbeddedResource Update="Controls\Calendar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\DrawPanel.xaml">
+    <EmbeddedResource Update="Controls\CalendarTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\CustomStepper.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\DropDownList.xaml">
@@ -239,13 +275,25 @@
     <EmbeddedResource Update="Controls\CustomNavigationbar.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\FormattedLabel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
+          <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\SortingPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Spoiler.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\Tablet\RewardItemTemplate.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\BonusItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Toggle.xaml">
@@ -272,13 +320,20 @@
     <EmbeddedResource Update="Controls\Templates\CustomNumericKeyboardTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DarkModeResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Styles\DefaultResources.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\CustomerRewardsPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\PaymentPage.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\BonusPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
@@ -287,8 +342,8 @@
     <EmbeddedResource Update="Views\Mobile\EditPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\InputCashPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <EmbeddedResource Update="Views\Mobile\ModificationsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\OrderRegistrationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -296,10 +351,7 @@
     <EmbeddedResource Update="Views\Mobile\OrderWithRewardsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\WaitingSignaturePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\WaitingSwipeCardPage.xaml">
+    <EmbeddedResource Update="Views\Mobile\RewardsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\OrderView.xaml">
@@ -314,10 +366,22 @@
     <EmbeddedResource Update="Views\Mobile\Dialogs\CustomerAddDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\BonusPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\AddCommentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\CustomerRewardsView.xaml">
+    <EmbeddedResource Update="Views\InputTextPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\PaymentCompleteView.xaml">
+          <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\PaymentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\CustomerAddDialog.xaml">
@@ -333,6 +397,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\Dialogs\ConfirmDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\Dialogs\MovedOrderToOrderTabsDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\ExpandPage.xaml">
@@ -373,7 +440,13 @@
     <EmbeddedResource Update="Views\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\ModificationsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Tablet\RewardsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SearchPage.xaml">

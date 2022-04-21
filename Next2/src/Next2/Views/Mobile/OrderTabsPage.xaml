@@ -14,7 +14,8 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:prism="http://prismlibrary.com"
-    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:effects="clr-namespace:Next2.Effects" 
+    xmlns:mobile="clr-namespace:Next2.Views.Mobile"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <ContentPage.Content>
@@ -37,7 +38,7 @@
                     Title="{xct:Translate OrderTabs}"
                     HeightImage="24"
                     FontSize="{DynamicResource TSize_i5}"
-                    LeftButtonCommand="{prism:GoBack}" />
+                    LeftButtonCommand="{Binding GoBackCommand}"/>
 
                 <Grid
                     Grid.Row="1"
@@ -325,7 +326,8 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BorderColor="{DynamicResource IndicationColor_i1}"
                         BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        Style="{DynamicResource BorderButtonStyle_i1}" />
+                        Style="{DynamicResource BorderButtonStyle_i1}"
+                        xct:TouchEffect.Command="{Binding PrintCommand}" />
 
                     <StackLayout
                         Orientation="Horizontal"

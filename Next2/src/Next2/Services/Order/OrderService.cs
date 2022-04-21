@@ -1,7 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
+using Next2.Services.Bonuses;
 using Next2.Services.Mock;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,16 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
+            IBonusesService bonusesService,
             IMapper mapper)
         {
             _mockService = mockService;
+            _bonusService = bonusesService;
             _mapper = mapper;
 
             CurrentOrder.Seats = new ();
@@ -38,6 +42,32 @@ namespace Next2.Services.Order
         #endregion
 
         #region -- IOrderService implementation --
+
+        public async Task<AOResult<TaxModel>> GetTaxAsync()
+        {
+            var result = new AOResult<TaxModel>();
+
+            try
+            {
+                var taxMock = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
+                var tax = new TaxModel() { Id = taxMock.Id, Name = taxMock.Name, Value = taxMock.Value };
+
+                if (tax is not null)
+                {
+                    result.SetSuccess(tax);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetTaxAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
 
         public async Task<AOResult<int>> GetNewOrderIdAsync()
         {
@@ -188,14 +218,21 @@ namespace Next2.Services.Order
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
-                    var tableBindableModels = _mapper.Map<IEnumerable<TableModel>, ObservableCollection<TableBindableModel>>(availableTables.Result);
+                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
 
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
 
+                    var tax = await GetTaxAsync();
+
+                    if (tax.IsSuccess)
+                    {
+                        CurrentOrder.Tax = tax.Result;
+                    }
+
                     CurrentOrder.Id = orderId.Result;
                     CurrentOrder.OrderNumber = orderId.Result;
-                    CurrentOrder.OrderStatus = "Open";
+                    CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
@@ -219,26 +256,105 @@ namespace Next2.Services.Order
         public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
         {
             var result = new AOResult();
+            bool success = true;
 
             try
             {
                 if (CurrentSeat is null)
                 {
-                    var seat = new SeatBindableModel();
-                    seat.Id = 1;
-                    seat.SeatNumber = 1;
-                    seat.Sets = new();
-                    seat.Checked = true;
-                    seat.IsFirstSeat = true;
+                    var seat = new SeatBindableModel
+                    {
+                        Id = 1,
+                        SeatNumber = 1,
+                        Sets = new(),
+                        Checked = true,
+                        IsFirstSeat = true,
+                    };
 
                     CurrentOrder.Seats.Add(seat);
 
                     CurrentSeat = seat;
                 }
 
+                var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+
+                if (resultProducts is not null)
+                {
+                    set.Products = new();
+
+                    foreach (var product in resultProducts)
+                    {
+                        var newProduct = new ProductBindableModel()
+                        {
+                            Id = product.Id,
+                            ReplacementProducts = new(),
+                            SelectedIngredients = new(),
+                            Title = product.Title,
+                            ImagePath = product.ImagePath,
+                            ProductPrice = product.ProductPrice,
+                            IngredientsPrice = product.IngredientsPrice,
+                            TotalPrice = product.TotalPrice,
+                            Comment = product.Comment,
+                        };
+
+                        var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
+
+                        if (resultOptionsProduct is not null)
+                        {
+                            newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
+                            newProduct.Options = new(resultOptionsProduct);
+                        }
+                        else
+                        {
+                            newProduct.SelectedOption = new();
+                            newProduct.Options = new();
+                        }
+
+                        var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
+
+                        foreach (var replacementProduct in resultReplacementProducts)
+                        {
+                            var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
+                            newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
+                        }
+
+                        newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
+
+                        if (newProduct.SelectedProduct is null)
+                        {
+                            newProduct.SelectedProduct = product;
+                        }
+
+                        var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
+
+                        if (selectedIngredients is not null)
+                        {
+                            newProduct.SelectedIngredients = new(selectedIngredients);
+                        }
+
+                        set.Products.Add(newProduct);
+                    }
+                }
+                else
+                {
+                    success = false;
+                }
+
+                if (!success)
+                {
+                    result.SetFailure();
+                }
+
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
-                CurrentOrder.Total += set.Portion.Price;
+
+                CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+
+                if (CurrentOrder.Bonus is not null)
+                {
+                    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+                }
 
                 result.SetSuccess();
             }
@@ -366,22 +482,64 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(int customerId)
+        public async Task<AOResult> AddSeatAsync(SeatModel seat)
         {
-            var result = new AOResult<IEnumerable<RewardModel>>();
+            var result = new AOResult();
 
             try
             {
-                var rewards = await _mockService.GetAsync<RewardModel>(x => x.CustomerId == customerId);
-
-                if (rewards is not null && rewards.Any())
+                if (seat is not null)
                 {
-                    result.SetSuccess(rewards);
+                    var seatId = await _mockService.AddAsync(seat);
+                    if (seatId >= 0)
+                    {
+                        result.SetSuccess();
+                    }
+                    else
+                    {
+                        result.SetFailure();
+                    }
+                }
+                else
+                {
+                    result.SetFailure();
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetCustomersRewards)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AddSeatAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> AddOrderAsync(OrderModel order)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                if (order is not null)
+                {
+                    var orderId = await _mockService.AddAsync(order);
+
+                    if (orderId >= 0)
+                    {
+                        result.SetSuccess();
+                    }
+                    else
+                    {
+                        result.SetFailure();
+                    }
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

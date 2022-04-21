@@ -1,4 +1,6 @@
-﻿using Next2.Models;
+﻿using Acr.UserDialogs;
+using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -61,12 +63,9 @@ namespace Next2.ViewModels.Mobile
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            if (parameters.ContainsKey(Constants.Navigations.CATEGORY))
+            if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out CategoryModel category))
             {
-                if (parameters.TryGetValue(Constants.Navigations.CATEGORY, out CategoryModel category))
-                {
-                    SelectedCategoriesItem = category;
-                }
+                SelectedCategoriesItem = category;
             }
         }
 
@@ -101,9 +100,11 @@ namespace Next2.ViewModels.Mobile
 
             if (portions.IsSuccess)
             {
-                var param = new DialogParameters();
-                param.Add(Constants.DialogParameterKeys.SET, set);
-                param.Add(Constants.DialogParameterKeys.PORTIONS, portions.Result);
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.SET, set },
+                    { Constants.DialogParameterKeys.PORTIONS, portions.Result },
+                };
 
                 await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
             }
@@ -111,15 +112,27 @@ namespace Next2.ViewModels.Mobile
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
-                {
-                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
-                }
-            }
+                await _orderService.AddSetInCurrentOrderAsync(set);
 
-            await _popupNavigation.PopAsync();
+                if (_popupNavigation.PopupStack.Any())
+                {
+                    await _popupNavigation.PopAsync();
+                }
+
+                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
+
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
         }
 
         private async Task LoadSetsAsync()

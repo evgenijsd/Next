@@ -9,7 +9,7 @@
         <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
         <TapGestureRecognizer Command="{Binding TapCommand, Source={RelativeSource AncestorType={x:Type controls:Toggle}}}"/>
     </StackLayout.GestureRecognizers>
-    
+
     <Grid
         HorizontalOptions="EndAndExpand"
         RowDefinitions="*"

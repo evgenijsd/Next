@@ -17,6 +17,8 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
+        public RewardBindabledModel Reward { get; set; }
+
         public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new();
 
         private ICommand _applyRewardCommand;
@@ -30,10 +32,19 @@ namespace Next2.ViewModels.Mobile
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
+            if (parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward) &&
+                parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
             {
+                Reward = reward;
                 Seats = seats;
             }
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            parameters.Add(Constants.Navigations.REWARD, Reward);
+
+            base.OnNavigatedFrom(parameters);
         }
 
         #endregion
@@ -44,6 +55,7 @@ namespace Next2.ViewModels.Mobile
         {
             var parameters = new NavigationParameters
             {
+                { Constants.Navigations.IS_REWARD_APPLIED, true },
                 { Constants.Navigations.SEATS, Seats },
             };
 

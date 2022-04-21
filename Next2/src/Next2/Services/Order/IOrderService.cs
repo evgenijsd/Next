@@ -11,6 +11,8 @@ namespace Next2.Services.Order
 
         SeatBindableModel? CurrentSeat { get; set; }
 
+        Task<AOResult<TaxModel>> GetTaxAsync();
+
         Task<AOResult<int>> GetNewOrderIdAsync();
 
         Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync();
@@ -36,7 +38,7 @@ namespace Next2.Services.Order
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
         Task<AOResult> DeleteSetFromCurrentSeat();
-
-        Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(int customerId);
+        Task<AOResult> AddSeatAsync(SeatModel seat);
+        Task<AOResult> AddOrderAsync(OrderModel order);
     }
 }

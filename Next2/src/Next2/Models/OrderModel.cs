@@ -7,7 +7,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public string? CustomerName { get; set; }
+        public CustomerModel? Customer { get; set; }
 
         public int TableNumber { get; set; }
 
@@ -17,8 +17,12 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
+        public EBonusType BonusType { get; set; } = EBonusType.None;
+
         public double Total { get; set; }
 
-        public double Tax { get; set; }
+        public double PriceTax { get; set; }
+
+        public EOrderPaymentStatus? PaymentStatus { get; set; }
     }
 }

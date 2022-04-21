@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:mobile="clr-namespace:Next2.Views.Mobile"
+    x:DataType="viewModels:PaymentViewModel"
+    x:Class="Next2.Views.Mobile.PaymentPage">
+  
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <StackLayout.Resources>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            </Style>
+            
+            <Style x:Key="BorderButtonStyle_i2_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="26"/>
+                <Setter Property="Padding" Value="10, 4, 10, 8"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
+            </Style>
+            
+            <Style x:Key="LineSpacingLabelStyle_i1_1" TargetType="controls:LineSpacingLabel" BasedOn="{StaticResource LineSpacingLabelStyle_i1}">
+                <Setter Property="WidthRequest" Value="230"/>
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
+            </Style>
+         </StackLayout.Resources>
+
+        <!-- CANCEL BUTTON -->
+        <StackLayout
+            Padding="20, 0"
+            Orientation="Horizontal"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <StackLayout
+                HeightRequest="66"
+                Spacing="18"
+                Orientation="Horizontal"
+                xct:TouchEffect.Command="{Binding BackCancelCommand}">
+
+                <ffimageloading:CachedImage
+                    HeightRequest="22"
+                    Source="ic_arrow_left_tail_40x40" />
+
+                <Label
+                    VerticalOptions="Center"
+                    FontFamily="Barlow-Bold"
+                    FontSize="{DynamicResource TSize_i6}"
+                    Text="{xct:Translate Payment}" />
+
+            </StackLayout>
+
+        </StackLayout>
+
+        <BoxView 
+            HeightRequest="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+        
+        <StackLayout Orientation="Horizontal">
+            
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
+                    <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
+                    <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
+                </DataTrigger>
+            </StackLayout.Triggers>
+            
+            <controls:CustomButton
+                HeightRequest="48"
+                FontSize="{DynamicResource TSize_i8}"
+                Text="{xct:Translate Rewards}"
+                IsSelected="True"
+                x:Name="rewardsTab"/>
+
+            <controls:CustomButton
+                FontSize="{DynamicResource TSize_i8}"
+                Text="{xct:Translate Complete}"
+                x:Name="completeTab"/>
+
+        </StackLayout>
+
+        <sc:StateContainer 
+            VerticalOptions="FillAndExpand"
+            State="{Binding PaymentStep}">
+            
+            <sc:StateContainer.Conditions>
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Rewards}">
+                    
+                    <mobile:RewardsView BindingContext="{Binding RewardsViewModel}"/>
+
+                </sc:StateCondition>
+                
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
+                    
+                    <!-- temporary -->
+                    <StackLayout>
+                        <Label 
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="Center"
+                            FontSize="20"
+                            TextColor="White"
+                            Text="Complete"/>
+                    </StackLayout>
+                    
+                </sc:StateCondition>
+            </sc:StateContainer.Conditions>
+            
+        </sc:StateContainer>
+
+    </StackLayout>
+    
+</views:BaseContentPage>

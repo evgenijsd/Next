@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:viewmodels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:tablet="clr-namespace:Next2.Views.Tablet"
+    x:DataType="viewmodels:PaymentViewModel"
+    x:Class="Next2.Views.Tablet.PaymentPage">
+    
+    <StackLayout Background="{DynamicResource TextAndBackgroundColor_i5}">
+        
+        <!-- CANCEL BUTTON, REWARDS TAB, COMPLETE TAB -->
+        <StackLayout 
+            Orientation="Horizontal"
+            Background="{DynamicResource TextAndBackgroundColor_i3}">
+    
+            <StackLayout.Triggers>
+                <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
+                    <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
+                    <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
+                </DataTrigger>
+            </StackLayout.Triggers>
+            
+            <!-- CANCEL/BACK BUTTON -->
+            <StackLayout 
+                Padding="60, 0, 0, 0"
+                Orientation="Horizontal"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+
+                <StackLayout
+                    HeightRequest="60"
+                    WidthRequest="140"
+                    Spacing="10"
+                    Orientation="Horizontal"
+                    xct:TouchEffect.Command="{Binding BackCancelCommand}">
+
+                    <ffimageloading:CachedImage
+                        HeightRequest="18"
+                        Source="ic_arrow_left_tail_40x40" />
+
+                    <Label
+                        VerticalOptions="Center"
+                        FontSize="{DynamicResource TSize_i8}"
+                        FontFamily="Barlow-Medium"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Text="{xct:Translate Cancel}">
+                        
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
+                                <Setter Property="Text" Value="{xct:Translate Back}"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                        
+                    </Label>
+                    
+                </StackLayout>
+                
+            </StackLayout>
+            
+            <BoxView
+                WidthRequest="1.5"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+            
+            <controls:CustomButton
+                FontSize="{DynamicResource TSize_i6}"
+                Text="{xct:Translate Rewards}"
+                IsSelected="True"
+                x:Name="rewardsTab"/>
+            
+            <BoxView
+                WidthRequest="1.5"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+
+            <controls:CustomButton
+                FontSize="{DynamicResource TSize_i6}"
+                Text="{xct:Translate Complete}"
+                x:Name="completeTab"/>
+
+        </StackLayout>
+        
+        <BoxView 
+            HeightRequest="3"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+        <sc:StateContainer 
+            VerticalOptions="FillAndExpand"
+            State="{Binding PaymentStep}">
+            
+            <sc:StateContainer.Conditions>
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Rewards}">
+                    
+                    <tablet:RewardsView BindingContext="{Binding RewardsViewModel}"/>
+
+                </sc:StateCondition>
+                
+                <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
+                    
+                    <tablet:PaymentCompleteView BindingContext="{Binding PaymentCompleteViewModel}"/>
+                    
+                </sc:StateCondition>
+            </sc:StateContainer.Conditions>
+            
+        </sc:StateContainer>
+        
+    </StackLayout>
+
+</views:BaseContentPage>

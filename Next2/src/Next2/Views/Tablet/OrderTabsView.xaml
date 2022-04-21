@@ -164,7 +164,8 @@
                         BorderColor="{DynamicResource IndicationColor_i1}"
                         BackgroundColor="{DynamicResource IndicationColor_i1}"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        WidthRequest="100" />
+                        WidthRequest="100" 
+                        xct:TouchEffect.Command="{Binding PrintCommand}"/>
 
                 </StackLayout>
 
@@ -297,12 +298,17 @@
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Orders}"
                             SelectedItem="{Binding SelectedOrder}"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            ThumbWidth="8"
-                            ScrollBarCornerRadius="10">
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                             <CollectionView.Effects>
+                                
                                 <effects:NoOverScrollEffect />
+
+                                <effects:ScrollBarColorEffect
+                                    ScrollBarThumbWidth="6"
+                                    ScrollBarCornerRadius="9"
+                                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
@@ -371,7 +377,19 @@
                                                 LineBreakMode="TailTruncation"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                 FontSize="{DynamicResource TSize_i8}"
-                                                FontFamily="Barlow-Regular" />
+                                                FontFamily="Barlow-Regular">
+                                                
+                                                <Label.Triggers>
+                                                    
+                                                    <DataTrigger 
+                                                        TargetType="Label"
+                                                        Binding="{Binding Name}"
+                                                        Value="''">
+                                                        <Setter Property="Text" Value="NoName"/>
+                                                    </DataTrigger>
+
+                                                </Label.Triggers>
+                                            </Label>
 
                                             <Label
                                                 Grid.Column="2"
