@@ -16,7 +16,8 @@
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:DataType="viewmodels:OrderRegistrationViewModel"
-    x:Class="Next2.Views.Mobile.OrderRegistrationPage">
+    x:Class="Next2.Views.Mobile.OrderRegistrationPage"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <Grid
         RowDefinitions="auto, auto, auto, auto, 65"

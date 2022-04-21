@@ -14,7 +14,8 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:next="clr-namespace:Next2"
     x:DataType="viewModels:BonusPageViewModel"
-    x:Class="Next2.Views.Mobile.BonusPage">
+    x:Class="Next2.Views.Mobile.BonusPage"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
     <ContentPage.Content>
 
