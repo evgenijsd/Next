@@ -1,6 +1,5 @@
 ﻿using Next2.Controls;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
@@ -24,46 +23,36 @@ namespace Next2.Behaviors
 
         #endregion
 
-        #region-- Private helpers --
+        #region -- Private helpers --
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is HideClipboardEntry entry && e.NewTextValue is not null)
             {
-                if (e.NewTextValue.Any())
+                try
                 {
-                    try
+                    entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(200));
+                }
+                catch (Exception)
+                {
+                    entry.IsValid = false;
+                }
+
+                string formattedText = e.NewTextValue;
+                var words = Regex.Matches(formattedText, Constants.Validators.WORD, RegexOptions.IgnoreCase);
+
+                foreach (var word in words)
+                {
+                    string wordToReplace = $"{word}";
+
+                    if (!Regex.IsMatch(wordToReplace, Constants.Validators.PASCAL_CASE))
                     {
-                        if (Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)))
-                        {
-                            string formattedText = e.NewTextValue;
-
-                            foreach (var matchesWord in Regex.Matches(formattedText, @"[a-z]+", RegexOptions.IgnoreCase))
-                            {
-                                string word = $"{matchesWord}";
-
-                                if (!Regex.IsMatch(word, Constants.Validators.PASCAL_CASE))
-                                {
-                                    string newWord = ToPascalCase(word);
-
-                                    formattedText = Regex.Replace(formattedText, word, newWord);
-                                }
-                            }
-
-                            entry.Text = formattedText;
-                        }
-                        else
-                        {
-                            entry.Text = e.OldTextValue;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        entry.Text = e.OldTextValue;
+                        string pascalWord = ToPascalCase(wordToReplace);
+                        formattedText = Regex.Replace(formattedText, wordToReplace, pascalWord);
                     }
                 }
 
-                entry.IsValid = entry.Text.Any();
+                entry.Text = formattedText;
             }
         }
 

@@ -80,7 +80,8 @@
         {
             public const string TEXT = @"[^\w\s]";
             public const string NAME = @"[^a-zA-Z\s]";
-            public const string CUSTOMER_NAME = @"^\b([A-Za-z-,.']+\d*[ ]?)+$";
+            public const string WORD = @"[a-z]+";
+            public const string CUSTOMER_NAME = @"^([A-Za-z]+(([,.]?[ ]?)|[-']?))+$";
             public const string PASCAL_CASE = @"\b[A-Z]{1}[a-z\d]*\b";
             public const string NUMBER = @"[\D]";
             public const string PHONE = @"^\d{10}$";

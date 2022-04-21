@@ -152,41 +152,32 @@
                                                 <Label
                                                     HorizontalOptions="StartAndExpand"
                                                     Style="{StaticResource LabelStyle}"
-                                                    Text="{xct:Translate CustomerName}" />
+                                                    Text="{xct:Translate CustomerName}"/>
 
                                                 <Label
                                                     HorizontalOptions="End"
                                                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                                     Style="{StaticResource LabelStyle}"
-                                                    Text="{xct:Translate Required}" />
+                                                    Text="{xct:Translate Required}"/>
                                                 
                                             </StackLayout>
 
-                                            <Frame Style="{StaticResource EntryFrameStyle}">
+                                            <controls:GuardEntry
+                                                IsEnabled="{Binding IsEntriesEnabled}"
+                                                MaxLength="160"
+                                                Keyboard="Text"
+                                                Placeholder="{xct:Translate TypeUserName}"
+                                                ErrorText="{xct:Translate IncorrectName}"
+                                                IsValid="{Binding IsValidName}"
+                                                Text="{Binding Name}"
+>
+                                                <controls:GuardEntry.Behavior>
+                                                    <behaviors:NameValidatorBehavior/>
+                                                </controls:GuardEntry.Behavior>
 
-                                                <controls:HideClipboardEntry
-                                                    Margin="12, 0"
-                                                    MaxLength="100"
-                                                    Placeholder="{xct:Translate TypeUserName}"
-                                                    Style="{StaticResource EntryPlaceholderStyle}"
-                                                    Text="{Binding Name}" 
-                                                    IsValid="{Binding IsValidName}"
-                                                    x:Name="nameEntry">
-                                                                                                        
-                                                    <controls:HideClipboardEntry.Behaviors>
-                                                        <behaviors:NameValidatorBehavior/>
-                                                    </controls:HideClipboardEntry.Behaviors>
-                                                    
-                                                </controls:HideClipboardEntry>
-                                                
-                                            </Frame>
+                                            </controls:GuardEntry>
 
                                         </StackLayout>
-
-                                        <Label
-                                            Style="{DynamicResource MessageLabelStyle}"
-                                            Text="{xct:Translate IncorrectName}"
-                                            x:Name="nameWarningLabel"/>
 
                                         <StackLayout Orientation="Horizontal">
 
@@ -203,33 +194,21 @@
 
                                         </StackLayout>
 
-                                        <Frame 
-                                            Style="{StaticResource EntryFrameStyle}"
-                                            x:Name="phoneFrame" >
+                                        <controls:GuardEntry
+                                            IsEnabled="{Binding IsEntriesEnabled}"
+                                            MaxLength="10"
+                                            Keyboard="Numeric"
+                                            Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
+                                            ErrorText="{xct:Translate IncorrectNumber}"
+                                            IsValid="{Binding IsValidPhone}"
+                                            Text="{Binding Phone}">
                                             
-                                            <controls:HideClipboardEntry
-                                                Margin="12, 0"
-                                                Keyboard="Numeric"
-                                                MaxLength="10"
-                                                Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
-                                                Style="{StaticResource EntryPlaceholderStyle}"
-                                                Text="{Binding Phone}"
-                                                IsValid="{Binding IsValidPhone}"
-                                                x:Name="phoneEntry">
+                                            <controls:GuardEntry.Behavior>
+                                                <behaviors:PhoneValidatorBehavior/>
+                                            </controls:GuardEntry.Behavior>
 
-                                                <controls:HideClipboardEntry.Behaviors>
-                                                    <behaviors:PhoneValidatorBehavior/>
-                                                </controls:HideClipboardEntry.Behaviors>
-                                                
-                                            </controls:HideClipboardEntry>
-
-                                        </Frame>
-
-                                        <Label
-                                            Style="{DynamicResource MessageLabelStyle}"
-                                            Text="{xct:Translate IncorrectNumber}"
-                                            x:Name="phoneWarningLabel"/>
-
+                                        </controls:GuardEntry>
+                                        
                                         <StackLayout Orientation="Horizontal">
 
                                             <Label
@@ -245,31 +224,21 @@
 
                                         </StackLayout>
 
-                                        <Frame 
-                                            Style="{StaticResource EntryFrameStyle}"
-                                            x:Name="mailFrame" >
+                                        <controls:GuardEntry
+                                            IsEnabled="{Binding IsEntriesEnabled}"
+                                            MaxLength="254"
+                                            Keyboard="Email"
+                                            Placeholder="{xct:Translate TypeEmail}"
+                                            ErrorText="{xct:Translate IncorrectEmail}"
+                                            IsValid="{Binding IsValidEmail}"
+                                            Text="{Binding Email}">
 
-                                            <controls:HideClipboardEntry
-                                                Margin="12, 0"
-                                                Style="{StaticResource EntryPlaceholderStyle}"
-                                                Placeholder="{xct:Translate TypeEmail}"
-                                                Text="{Binding Email}"
-                                                IsValid="{Binding IsValidEmail}"
-                                                x:Name="mailEntry">
+                                            <controls:GuardEntry.Behavior>
+                                                <behaviors:EmailValidatorBehavior />
+                                            </controls:GuardEntry.Behavior>
 
-                                                <controls:HideClipboardEntry.Behaviors>
-                                                    <behaviors:EmailValidatorBehavior />
-                                                </controls:HideClipboardEntry.Behaviors>
-
-                                            </controls:HideClipboardEntry>
-
-                                        </Frame>
-
-                                        <Label
-                                            Style="{DynamicResource MessageLabelStyle}"
-                                            Text="{xct:Translate IncorrectEmail}"
-                                            x:Name="mailWarningLabel"/>
-
+                                        </controls:GuardEntry>
+       
                                     </StackLayout>
                                 </ScrollView.Content>
                                 

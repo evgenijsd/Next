@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Controls.GuardEntry">
+
+    <StackLayout.Resources>
+        <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
+            <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+        </Style>
+        
+        <Style x:Key="EntryFrameStyle" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="HasShadow" Value="False" />
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+            <Setter Property="WidthRequest" Value="592" />
+            <Setter Property="HeightRequest" Value="42" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+        </Style>
+        
+        <Style x:Key="MessageLabelStyle" TargetType="Label">
+            <Setter Property="Opacity" Value="0"/>
+            <Setter Property="Margin" Value="12, 0" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
+            <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
+        </Style>
+    </StackLayout.Resources>
+
+    <Frame 
+        Style="{StaticResource EntryFrameStyle}"
+        x:Name="borderEntry">
+
+        <controls:HideClipboardEntry
+            Margin="12, 0"
+            MaxLength="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=MaxLength}"
+            Keyboard="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Keyboard}"
+            Style="{StaticResource EntryPlaceholderStyle}"
+            Placeholder="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Placeholder}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text}"
+            IsValid="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsValid}"
+            IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsEnabled}"
+            x:Name="entry">
+
+            <controls:HideClipboardEntry.Triggers>
+                <MultiTrigger TargetType="controls:HideClipboardEntry">
+                                                        
+                    <MultiTrigger.Conditions>
+                        <PropertyCondition Property="IsFocused" Value="False"/>
+                        <PropertyCondition Property="IsValid" Value="False"/>
+                        <BindingCondition  Binding="{Binding 
+                            Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text, 
+                            Converter={xct:IsNotNullOrEmptyConverter}}" Value="True"/>
+                    </MultiTrigger.Conditions>
+                                                        
+                    <MultiTrigger.Setters>
+                        <Setter TargetName="borderEntry" Property="Frame.BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+                        <Setter TargetName="errorLabel" Property="Label.Opacity" Value="1"/>
+                    </MultiTrigger.Setters>
+                                                        
+                </MultiTrigger>
+            </controls:HideClipboardEntry.Triggers>
+        </controls:HideClipboardEntry>
+
+    </Frame>
+    
+    <Label
+        Style="{DynamicResource MessageLabelStyle}"
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=ErrorText}"
+        x:Name="errorLabel" />
+
+</StackLayout>

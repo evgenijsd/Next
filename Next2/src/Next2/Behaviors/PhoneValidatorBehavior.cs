@@ -34,11 +34,6 @@ namespace Next2.Behaviors
             }
         }
 
-        private string ToPascalCase(string word)
-        {
-            return word[0].ToString().ToUpper() + word[1..].ToLower();
-        }
-
         #endregion
     }
 }

@@ -49,6 +49,8 @@ namespace Next2.ViewModels.Dialogs
 
         public bool CanAddNewCustomer => IsValidName && IsValidPhone && IsValidEmail && SelectedDate is not null;
 
+        public bool IsEntriesEnabled { get; set; } = true;
+
         public EClientAdditionStep Step { get; set; } = EClientAdditionStep.Info;
 
         public Action<IDialogParameters> RequestClose;
@@ -66,6 +68,16 @@ namespace Next2.ViewModels.Dialogs
         public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(Step))
+            {
+                IsEntriesEnabled = Step == EClientAdditionStep.Info;
+            }
+        }
 
         #region -- Private helpers --
 
