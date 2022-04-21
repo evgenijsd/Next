@@ -10,9 +10,25 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:DataType="dialogs:EmployeeTimeClockViewModel">
 
+    <rg:PopupPage.Resources>
+        <Style x:Key="buttonFrameStyle" TargetType="Frame">
+            <Setter Property="Grid.Row" Value="2" />
+            <Setter Property="CornerRadius" Value="{OnPlatform Android=5, iOS=8}" />
+            <Setter Property="HasShadow" Value="False" />
+            <Setter Property="HeightRequest" Value="38" />
+            <Setter Property="WidthRequest" Value="157" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+        <Style x:Key="buttonLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+    </rg:PopupPage.Resources>
+
     <Frame
-        BackgroundColor="#34374C"
-        BorderColor="#424861"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
         HeightRequest="530"
         HorizontalOptions="CenterAndExpand"
@@ -27,14 +43,14 @@
                 FontFamily="Barlow-SemiBold"
                 FontSize="18"
                 Text="Employee Time Clock"
-                TextColor="white"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalTextAlignment="Center">
                 <Label.Triggers />
             </Label>
 
             <BoxView
                 Grid.Row="0"
-                BackgroundColor="#424861"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="3"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand" />
@@ -58,13 +74,13 @@
                             FontFamily="Barlow-Medium"
                             FontSize="16"
                             Text="You successfully checked in at"
-                            TextColor="#FEFEFD" />
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
                         <Label
                             Margin="18,4,0,0"
                             FontFamily="Barlow-Regular"
                             FontSize="22"
                             Text="12:12:12"
-                            TextColor="#3CD47D" />
+                            TextColor="{DynamicResource IndicationColor_i1}" />
                         <ffimageloading:CachedImage
                             HeightRequest="222"
                             Source="pic_checked"
@@ -80,13 +96,13 @@
                             FontFamily="Barlow-Medium"
                             FontSize="16"
                             Text="You successfully checked out at"
-                            TextColor="#FEFEFD" />
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
                         <Label
                             Margin="18,4,0,0"
                             FontFamily="Barlow-Regular"
                             FontSize="22"
                             Text="12:12:12"
-                            TextColor="#3CD47D" />
+                            TextColor="{DynamicResource IndicationColor_i1}" />
                         <ffimageloading:CachedImage
                             HeightRequest="222"
                             Source="pic_checked"
@@ -101,43 +117,31 @@
 
             <BoxView
                 Grid.Row="1"
-                BackgroundColor="#424861"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="3"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand" />
 
-            <!--  Buttons  -->
+            <!--  cancel button  -->
             <Frame
-                Grid.Row="2"
                 Margin="18,0,0,0"
-                BackgroundColor="#34374C"
-                BorderColor="#F45E49"
-                CornerRadius="5"
-                HasShadow="False"
-                HeightRequest="38"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BorderColor="{DynamicResource AppColor_i1}"
                 HorizontalOptions="StartAndExpand"
-                VerticalOptions="Center"
-                WidthRequest="157">
+                Style="{StaticResource buttonFrameStyle}">
                 <Label
-                    FontFamily="Barlow-SemiBold"
-                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource buttonLabelStyle}"
                     Text="Cancel"
-                    TextColor="White"
-                    VerticalTextAlignment="Center" />
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
             </Frame>
-            
+
+            <!--  apply button  -->
             <Frame
-                Grid.Row="2"
                 Margin="0,0,18,0"
-                BackgroundColor="#3CD47D"
-                CornerRadius="5"
-                HasShadow="False"
-                HeightRequest="38"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
                 HorizontalOptions="EndAndExpand"
-                IsVisible="true"
                 Opacity="1"
-                VerticalOptions="Center"
-                WidthRequest="157">
+                Style="{StaticResource buttonFrameStyle}">
                 <Frame.Triggers>
                     <DataTrigger
                         Binding="{Binding Source={x:Reference numeric_keyboard}, Path=ScreenKeyboard.Length}"
@@ -153,11 +157,9 @@
                     </DataTrigger>
                 </Frame.Triggers>
                 <Label
-                    FontFamily="Barlow-SemiBold"
-                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource buttonLabelStyle}"
                     Text="Apply"
-                    TextColor="#34374C"
-                    VerticalTextAlignment="Center" />
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
             </Frame>
 
         </Grid>
