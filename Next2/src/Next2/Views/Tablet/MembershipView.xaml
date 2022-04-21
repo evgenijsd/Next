@@ -8,6 +8,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:DataType="tablet:MembershipViewModel"
     x:Class="Next2.Views.Tablet.MembershipView">
 
@@ -42,50 +44,86 @@
         <!--  SEARCH BUTTON  -->
         <Grid
             Grid.Row="1"
-            Margin="40,25,40,20"
-            ColumnDefinitions="0.45*, 0.55*"
+            Margin="40,35,40,20"
+            ColumnDefinitions="0.37*, 0.63*"
             RowDefinitions="*">
 
-            <Frame
-                Grid.Row="0"
-                Padding="12,10"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            <controls:SearchButton
                 CornerRadius="5"
-                VerticalOptions="Start">
+                Text="{Binding SearchText}"
+                Placeholder="{xct:Translate SearchByNameOrPhone}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                BackColor="Transparent"
+                BorderColor="{DynamicResource AppColor_i1}"
+                CommandSearch="{Binding SearchCommand}"
+                CommandClear="{Binding ClearSearchCommand}">
 
-                <StackLayout Orientation="Horizontal">
+                <controls:SearchButton.Triggers>
 
-                    <Label
-                        Padding="0,0,0,2"
-                        FontFamily="Barlow-Medium"
-                        FontSize="{DynamicResource TSize_i7}"
-                        Text="{xct:Translate SearchByNameOrPhone}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i7}"
-                        VerticalOptions="Center" />
+                    <DataTrigger
+                        TargetType="controls:SearchButton"
+                        Binding="{Binding SearchText}"
+                        Value="">
+                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                        <Setter Property="ImageSource" Value="ic_search_24x24" />
+                        <Setter Property="CommandClear" Value="{Binding SearchCommand}" />
+                    </DataTrigger>
 
-                    <Image
-                        HorizontalOptions="EndAndExpand"
-                        Source="ic_search_24x24"
-                        VerticalOptions="Center" />
-
-                </StackLayout>
-
-            </Frame>
-
+                </controls:SearchButton.Triggers>
+            </controls:SearchButton>
         </Grid>
 
         <!--  TABLE  -->
+        <yummy:PancakeView
+            Grid.Row="2"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
+            Margin="40,0,40,20"
+            CornerRadius="{OnPlatform Android=6, iOS=8}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="false">
+
+            <yummy:PancakeView.Triggers>
+
+                <DataTrigger
+                    TargetType="yummy:PancakeView"
+                    Binding="{Binding DisplayMembers.Count}"
+                    Value="0">
+                    <Setter Property="IsVisible" Value="true" />
+                </DataTrigger>
+
+            </yummy:PancakeView.Triggers>
+
+            <ffimageloading:CachedImage
+                Source="pic_nothing_found"
+                HeightRequest="250"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+
+        </yummy:PancakeView>
+
         <Frame
             Grid.Row="2"
-            Margin="40,0,40,50"
+            Margin="40,0,40,20"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
             CornerRadius="{OnPlatform Android=6, iOS=8}"
-            IsClippedToBounds="True"
             VerticalOptions="Start">
 
-             <!--  TABLE HEADER  -->
+            <Frame.Triggers>
+
+                <DataTrigger
+                    TargetType="Frame"
+                    Binding="{Binding AnyMembersLoaded}"
+                    Value="false">
+                    <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                </DataTrigger>
+
+            </Frame.Triggers>
+
+            <!--  TABLE HEADER  -->
             <StackLayout>
+                
                 <Grid
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*"
@@ -145,16 +183,18 @@
                     Style="{DynamicResource SeparatorStyle_i1}"
                     Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                <!--  TABLE CONTENT  -->
+                <!--  TABLE CONTENT  -->                
                 <RefreshView
                     Command="{Binding RefreshMembersCommand}"
                     IsRefreshing="{Binding IsMembersRefreshing}">
 
                     <controls:CustomScrollBarCollectionView
+                        HeightRequest="{Binding DisplayMembers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
-                        ItemsSource="{Binding Members}">
+                        ItemsSource="{Binding DisplayMembers}">
 
                         <CollectionView.Effects>
+                            
                             <effects:NoOverScrollEffect />
 
                             <effects:ScrollBarColorEffect
@@ -162,6 +202,7 @@
                                 ScrollBarCornerRadius="9"
                                 ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                 ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+                            
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
@@ -202,7 +243,6 @@
                                     </Grid>
 
                                     <BoxView
-                                        Grid.Row="1"
                                         Style="{DynamicResource SeparatorStyle_i1}"
                                         Color="{DynamicResource TextAndBackgroundColor_i5}" />
 
@@ -213,6 +253,7 @@
                     </controls:CustomScrollBarCollectionView>
 
                 </RefreshView>
+                
             </StackLayout>
 
         </Frame>

@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -112,17 +113,10 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            if (!IsSearching)
-            {
-                _heightPage = HeightPage;
-                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
+            _heightPage = HeightPage;
+            HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-                await LoadDataAsync();
-            }
-            else
-            {
-                IsSearching = false;
-            }
+            await LoadDataAsync();
         }
 
         public override void OnDisappearing()
@@ -130,6 +124,8 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            IsSearching = false;
+            IsNotingFound = false;
             SelectedOrder = null;
         }
 
@@ -296,11 +292,13 @@ namespace Next2.ViewModels
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
                 Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
+                var placeholder = IsOrderTabsSelected ? Strings.TableNumberOrOrder : Strings.NameOrOrder;
 
                 var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
                 ClearSearchAsync();
                 IsSearching = true;

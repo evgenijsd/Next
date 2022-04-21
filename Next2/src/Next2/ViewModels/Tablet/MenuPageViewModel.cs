@@ -211,10 +211,8 @@ namespace Next2.ViewModels.Tablet
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null)
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result))
             {
-                bool result = dialogResult.ContainsKey(Constants.DialogParameterKeys.ACCEPT);
-
                 if (result)
                 {
                     await _orderService.CreateNewOrderAsync();
@@ -223,9 +221,9 @@ namespace Next2.ViewModels.Tablet
                     await _popupNavigation.PopAsync();
 
                     var navigationParameters = new NavigationParameters
-                {
-                    { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
-                };
+                    {
+                        { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
+                    };
 
                     await _navigationService.GoBackToRootAsync(navigationParameters);
                 }

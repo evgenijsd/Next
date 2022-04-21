@@ -176,6 +176,7 @@
     
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
-    <converters:ListHeightConverter x:Key="listHeightConverter"/>
+    <converters:ListHeightConverter x:Key="listHeightConverter" />
+    <converters:IsNumberValidConverter x:Key="isNumberValidConverter" />
 
 </ResourceDictionary>
