@@ -523,14 +523,19 @@ namespace Next2.ViewModels
                 }
 
                 var param = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
-                { Constants.DialogParameterKeys.SEATS, seats },
-            };
+                {
+                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                    { Constants.DialogParameterKeys.SEATS, seats },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
+                };
 
                 PopupPage removeOrderDialog = App.IsTablet
-                    ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                    : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                    ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                    : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
                 await _popupNavigation.PushAsync(removeOrderDialog);
             }

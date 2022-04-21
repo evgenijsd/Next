@@ -394,11 +394,16 @@ namespace Next2.ViewModels
                     {
                         { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
                         { Constants.DialogParameterKeys.SEATS,  seats },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
                     };
 
                     PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
                     await _popupNavigation.PushAsync(deleteSeatDialog);
                 }
@@ -458,9 +463,49 @@ namespace Next2.ViewModels
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
         }
 
-        private Task OnPrintCommandAsync()
+        private async Task OnPrintCommandAsync()
         {
-            return Task.CompletedTask;
+            if (SelectedOrder is not null)
+            {
+                var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+
+                if (seatsResult.IsSuccess)
+                {
+                    var seats = seatsResult.Result;
+
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
+                        { Constants.DialogParameterKeys.SEATS,  seats },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] }, // // Application.Current.Resources["TSize_i5"]
+                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
+                    };
+
+                    PopupPage deleteSeatDialog = App.IsTablet
+                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
+
+                    await _popupNavigation.PushAsync(deleteSeatDialog);
+                }
+            }
+        }
+
+        private async void ClosePrintOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
+            {
+                if (isOrderPrintingAccepted && SelectedOrder is not null)
+                {
+                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                }
+            }
+            else
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            }
         }
 
         private void SetLastSavedOrderId(int orderId)
