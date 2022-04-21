@@ -1,6 +1,4 @@
 ﻿using Next2.Helpers;
-using Next2.Models;
-using Next2.Services.Order;
 using Prism.Events;
 using Prism.Navigation;
 using System;
@@ -8,7 +6,6 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -32,6 +29,8 @@ namespace Next2.ViewModels
 
         public string SearchLine { get; set; } = string.Empty;
 
+        public string Placeholder { get; set; } = string.Empty;
+
         private ICommand _GoBackCommand;
         public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
@@ -49,6 +48,11 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
             {
                 SearchLine = searchLine ?? string.Empty;
+            }
+
+            if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
+            {
+                Placeholder = placeholder;
             }
         }
 
