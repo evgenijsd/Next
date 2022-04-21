@@ -299,6 +299,12 @@ namespace Next2.ViewModels
                     product.IngredientsPrice -= toggleIngredient.Price;
                     product.TotalPrice -= toggleIngredient.Price;
                 }
+
+                var productToBeRemoved = product.DetailedSelectedIngredientModels.FirstOrDefault(x => x.Id == ingridient.IngredientId);
+
+                var indexOfRemovalProduct = product.DetailedSelectedIngredientModels.IndexOf(productToBeRemoved);
+
+                product.DetailedSelectedIngredientModels.Remove(productToBeRemoved);
             }
 
             return Task.CompletedTask;
