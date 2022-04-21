@@ -293,7 +293,7 @@ namespace Next2.Services.Order
                             ImagePath = product.ImagePath,
                             ProductPrice = product.ProductPrice,
                             IngredientsPrice = product.IngredientsPrice,
-                            TotalPrice = product.TotalPrice,
+                            TotalPrice = product.ProductPrice,
                             Comment = product.Comment,
                         };
 
@@ -330,10 +330,18 @@ namespace Next2.Services.Order
                         if (selectedIngredients is not null)
                         {
                             newProduct.SelectedIngredients = new(selectedIngredients);
+                            newProduct.DefaultSelectedIngredients = new(selectedIngredients);
                         }
 
                         set.Products.Add(newProduct);
+
+                        set.IngredientsPrice += newProduct.IngredientsPrice;
+                        set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
                     }
+
+                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice + set.Portion.Price - set.Portions.OrderByDescending(x => x.Price).LastOrDefault().Price;
+
+                    CurrentOrder.Total += set.TotalPrice;
                 }
                 else
                 {

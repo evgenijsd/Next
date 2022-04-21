@@ -667,7 +667,6 @@
 
                                 <!--CANCEL-->
                                 <controls:CustomNavigationbar 
-                                    Grid.Row="0"
                                     HeightRequest="50" 
                                     HeightImage="20" 
                                     Padding="15, 0, 0, 0"
@@ -751,9 +750,8 @@
 
                                 <Grid 
                                     Grid.Row="1"
-                                    RowDefinitions="auto, auto, auto, auto, auto, *"
-                                    Margin="30, 0, 30, 0"
-                                    x:DataType="viewModels:NewOrderViewModel">
+                                    RowDefinitions="auto, auto, auto, *"
+                                    Margin="30, 0, 30, 0">
 
                                     <!-- Row 1 Image & Title-->
 
@@ -798,7 +796,7 @@
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.TotalPrice, StringFormat='$ {0:F2}'}"
                                                 Margin="0, 5, 0, 0"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-SemiBold"
@@ -855,203 +853,20 @@
                                                 Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
                                                 FontFamily="Barlow-SemiBold"
                                                 FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                                TextColor="{DynamicResource IndicationColor_i1}"/>
 
                                         </StackLayout>
 
                                     </Grid>
 
-                                    <!-- Row 3 Inventory Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
-
-                                    <Grid
-                                        Grid.Row="2"
-                                        RowDefinitions="auto, auto"
-                                        IsVisible="False"
-                                        ColumnDefinitions="0.50*, 0.50*">
-
-                                        <BoxView 
-                                            Grid.ColumnSpan="2"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                            HeightRequest="1"
-                                            VerticalOptions="Start"/>
-
-                                        <Label 
-                                            Grid.Row="0"
-                                            Margin="0, 10, 0, 0"
-                                            VerticalOptions="Start"
-                                            Text="{xct:Translate Inventory}" 
-                                            FontFamily="Barlow-SemiBold"
-                                            FontSize="{DynamicResource TSize_i6}"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
-
-                                        <StackLayout 
-                                            Grid.Column="0"
-                                            Grid.Row="1"
-                                            VerticalOptions="Start"
-                                            Orientation="Vertical">
-
-                                            <Label 
-                                                Text="Test product 1"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                            <Label 
-                                                Text="Test product 2"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                            <Label 
-                                                Text="Test product 3"
-                                                Margin="0, 5, 0, 10"
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                        </StackLayout>
-
-                                        <StackLayout 
-                                            Grid.Column="1"
-                                            Grid.Row="1"
-                                            HorizontalOptions="EndAndExpand"
-                                            Orientation="Vertical">
-
-                                            <Label 
-                                                Text="$ 12.50"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-SemiBold"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                            <Label 
-                                                Text="$ 12.50"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-SemiBold"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                            <Label 
-                                                Text="$ 1.00"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-SemiBold"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                        </StackLayout>
-
-                                    </Grid>
-
-                                    <!-- Row 4 Replace Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
-
-                                    <Grid
-                                        Grid.Row="3"
-                                        RowDefinitions="auto, auto"
-                                        IsVisible="False"
-                                        RowSpacing="0"
-                                        ColumnDefinitions="0.50*, 0.50*">
-
-                                        <BoxView 
-                                            Grid.Row="0"
-                                            Grid.ColumnSpan="2"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                            HeightRequest="1"
-                                            VerticalOptions="Start"/>
-
-                                        <Label
-                                            Grid.Row="0"
-                                            VerticalOptions="Start"
-                                            Margin="0, 10, 0, 0"
-                                            Text="{xct:Translate Replace}" 
-                                            FontFamily="Barlow-SemiBold"
-                                            FontSize="{DynamicResource TSize_i6}"
-                                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
-
-
-                                        <StackLayout 
-                                            Grid.Column="0"
-                                            Grid.Row="1"
-                                            VerticalOptions="Start"
-                                            Orientation="Vertical">
-
-                                            <Label 
-                                                Text="Lettuce"
-                                                VerticalOptions="Start"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                            <Label 
-                                                Text="Jalapeno Mayo"
-                                                Margin="0, 5, 0, 10"
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                        </StackLayout>
-
-                                        <StackLayout 
-                                            Grid.Column="1"
-                                            Grid.Row="1"
-                                            HorizontalOptions="EndAndExpand"
-                                            Orientation="Vertical">
-
-                                            <Label 
-                                                Text="$ 1.00"
-                                                FontFamily="Barlow-SemiBold"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                            <Label 
-                                                Text="$ 0.50"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-SemiBold"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                        </StackLayout>
-
-                                    </Grid>
-
-                                    <!-- Row 5 Option Prepearing for the incomming task (REVOME TEST PROPERTY WHEN MODIFICATIONS PAGE WILL BE DONE)-->
-
-                                    <Grid
-                                        Grid.Row="4"
-                                        RowSpacing="0"
-                                        IsVisible="False">
-
-                                        <StackLayout>
-
-                                            <BoxView 
-                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                                HeightRequest="1"
-                                                VerticalOptions="Start"/>
-
-                                            <Label 
-                                                Text="{xct:Translate Option}"
-                                                Margin="0, 10, 0, 0"
-                                                FontFamily="Barlow-SemiBold"
-                                                FontSize="{DynamicResource TSize_i6}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
-
-                                            <Label 
-                                                Text="Rare"
-                                                Margin="0, 5, 0, 0"
-                                                FontFamily="Barlow-Medium"
-                                                FontSize="{DynamicResource TSize_i5}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                        </StackLayout>
-
-                                    </Grid>
+                                    <!-- Row 3 Inventory & Replacement & Option -->
+                                        
+                                    <templates:ProductItemTemplate Grid.Row="2" 
+                                                                   ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}"/>
 
                                     <!-- Row 6 Footer-->
 
-                                    <Grid
-                                    Grid.Row="5" />
+                                    <Grid Grid.Row="3" />
 
                                 </Grid>
 
@@ -2172,7 +1987,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.WaitingForPayment}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.WaitingForPayment}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -2180,7 +1995,7 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderPaymentStatus.InProgress}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.InProgress}"/>
 
 
                 <buttons:BorderButton

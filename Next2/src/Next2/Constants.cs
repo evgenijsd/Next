@@ -74,6 +74,7 @@
             public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
             public const string DELETE_SET = "DELETE_SET";
             public const string ORDER_ID = "ORDER_ID";
+            public const string SET_MODIFIED = "SET_MODIFIED";
         }
 
         public static class Validators

@@ -231,6 +231,31 @@ namespace Next2.Services.Menu
             return result;
         }
 
+        public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync()
+        {
+            var result = new AOResult<IEnumerable<IngredientModel>>();
+
+            try
+            {
+                var resultData = await _mockService.GetAllAsync<IngredientModel>();
+
+                if (resultData is not null)
+                {
+                    result.SetSuccess(resultData);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

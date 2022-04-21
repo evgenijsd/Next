@@ -167,14 +167,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
@@ -211,6 +211,11 @@ namespace Next2.ViewModels
                 var mapper = new Mapper(config);
 
                 Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
+
+                for (int i = 0; i < Orders.Count; i++)
+                {
+                    Orders[i].Name = string.IsNullOrWhiteSpace(Orders[i].Name) ? CreateRandomCustomerName() : Orders[i].Name;
+                }
 
                 if (!string.IsNullOrEmpty(SearchText))
                 {
@@ -465,12 +470,27 @@ namespace Next2.ViewModels
 
         private void SetOrderStatus(Enum orderStatus)
         {
-            IsOrderTabsSelected = orderStatus is EOrderPaymentStatus.WaitingForPayment;
+            IsOrderTabsSelected = orderStatus is EOrderStatus.WaitingForPayment;
         }
 
         private async Task OnGoBackCommand()
         {
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
+        }
+
+        private string CreateRandomCustomerName()
+        {
+            string[] names = { "Bob", "Tom", "Sam" };
+
+            string[] surnames = { "White", "Black", "Red" };
+
+            Random random = new();
+
+            string name = names[random.Next(3)];
+
+            string surname = surnames[random.Next(3)];
+
+            return name + " " + surname;
         }
 
         #endregion
