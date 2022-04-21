@@ -162,6 +162,9 @@ namespace Next2.ViewModels
                 case EPaymentItems.Cash:
                     _navigationService.NavigateAsync(nameof(InputCashPage));
                     break;
+                case EPaymentItems.Card:
+                    _navigationService.NavigateAsync(nameof(WaitingSwipeCardPage));
+                    break;
             }
         }
 

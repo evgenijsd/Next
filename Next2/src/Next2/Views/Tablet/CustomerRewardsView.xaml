@@ -182,7 +182,7 @@
                             <Label
                                 FontSize="{DynamicResource TSize_i4_5}"
                                 FontFamily="Barlow-Bold"
-                                Text="Card" />
+                                Text="Card"/>
 
                             <Label
                                 HorizontalOptions="EndAndExpand"
@@ -213,7 +213,7 @@
 
                         <BoxView
                             HeightRequest="1.5"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
                         
                         <sc:StateContainer
                             State="{Binding CardPaymentStatus}"
@@ -237,6 +237,7 @@
 
                                         <Label
                                             Text="Swipe the card to pay&#10;for the order."
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                             FontFamily="Barlow-Regular"
                                             FontSize="{DynamicResource TSize_i4}"
                                             HorizontalTextAlignment="Center"

@@ -30,6 +30,7 @@
 
         <Label
             Text="Leave your signature&#10;to complete the payment."
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="Barlow-Regular"
             FontSize="{DynamicResource TSize_i4}"
             HorizontalTextAlignment="Center"
