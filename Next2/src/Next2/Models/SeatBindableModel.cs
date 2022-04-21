@@ -17,7 +17,7 @@ namespace Next2.Models
             Id = seat.Id;
             SeatNumber = seat.SeatNumber;
             Checked = seat.Checked;
-            SelectedItem = null;
+            SelectedItem = seat.SelectedItem;
             IsFirstSeat = seat.IsFirstSeat;
             SetSelectionCommand = seat.SetSelectionCommand;
             SeatSelectionCommand = seat.SeatSelectionCommand;
@@ -32,9 +32,14 @@ namespace Next2.Models
 
             if (seat.SelectedItem is not null)
             {
-                var tmpSet = Sets.FirstOrDefault(row => row.Id == seat.SelectedItem.Id);
-
-                SelectedItem = Sets[Sets.IndexOf(tmpSet)];
+                foreach (var set in seat.Sets)
+                {
+                    if (set.Id == seat.SelectedItem.Id && set.Portion == seat.SelectedItem.Portion && set.TotalPrice == seat.SelectedItem.TotalPrice && set.Title == seat.SelectedItem.Title)
+                    {
+                        var tmpSet = seat.Sets.IndexOf(set);
+                        SelectedItem = Sets[tmpSet];
+                    }
+                }
             }
         }
 

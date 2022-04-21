@@ -13,30 +13,31 @@ using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Contracts;
 using Xamarin.Forms;
 using Next2.Views.Mobile;
+using Next2.Services.Menu;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
     public class EditPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IMenuService _menuService;
         private readonly IPopupNavigation _popupNavigation;
-        private readonly int _indexOfSeat;
+        private int _indexOfSeat;
 
         public EditPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IPopupNavigation popupNavigation)
+            IPopupNavigation popupNavigation,
+            IMenuService menuService)
           : base(navigationService)
         {
             _popupNavigation = popupNavigation;
 
             _orderService = orderService;
 
-            var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
-
-            _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-
-            SelectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            _menuService = menuService;
         }
 
         #region -- Public properties --
@@ -51,6 +52,26 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
+
+        #endregion
+
+        #region -- Overrides --
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
+            _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
+
+            SelectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+
+            if (SelectedSet is not null)
+            {
+                await InitEditSetDetailsAsync(SelectedSet);
+            }
+        }
 
         #endregion
 
@@ -114,6 +135,62 @@ namespace Next2.ViewModels.Mobile
             }
         }
 
+        private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
+        {
+            var result = await _menuService.GetIngredientsAsync();
+
+            if (result.IsSuccess)
+            {
+                List<IngredientModel> allIngredientModels = new(result.Result);
+
+                if (allIngredientModels is not null && SelectedSet is not null)
+                {
+                    foreach (var product in SelectedSet.Products)
+                    {
+                        ObservableCollection<IngredientBindableModel> tempListIngredients = new();
+                        List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
+                        {
+                            Id = row.Id,
+                            Title = row.Title,
+                            Price = row.Price,
+                            IsToggled = true,
+                            ImagePath = row.ImagePath,
+                        }));
+
+                        foreach (var ingredient in setOfIngredients)
+                        {
+                            tempListIngredients.Add(ingredient);
+                        }
+
+                        if (product.DefaultSelectedIngredients.Count > 0)
+                        {
+                            foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+                            {
+                                var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+
+                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+
+                                if (!isDefaultIngredientExist)
+                                {
+                                    tempListIngredients.Add(new IngredientBindableModel()
+                                    {
+                                        Title = defaultIngredientModel.Title,
+                                        Price = 0,
+                                        IsToggled = false,
+                                        IsDefault = true,
+                                    });
+                                }
+                            }
+                        }
+
+                        product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
+                    }
+
+                    SelectedSet = new(SelectedSet);
+                }
+            }
+        }
         #endregion
+
     }
 }

@@ -1,5 +1,6 @@
 using Next2.Enums;
 using Prism.Mvvm;
+using System;
 
 namespace Next2.Models
 {
@@ -11,7 +12,7 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
 
         public string? OrderStatus { get; set; }
 

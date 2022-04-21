@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
+using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Services.UserService;
 using Next2.ViewModels.Mobile;
@@ -14,9 +15,11 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -37,6 +40,7 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IMenuService _menuService;
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
@@ -46,8 +50,9 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
-        private EOrderPaymentStatus _orderPaymentStatus;
+        private EOrderStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
+        private bool _isAnyUpDateForCurrentSet = true;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -56,7 +61,8 @@ namespace Next2.ViewModels
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IMenuService menuService)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
@@ -65,8 +71,9 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _userService = userService;
             _authenticationService = authenticationService;
+            _menuService = menuService;
 
-            _orderPaymentStatus = EOrderPaymentStatus.None;
+            _orderPaymentStatus = EOrderStatus.None;
 
             CurrentState = LayoutState.Loading;
 
@@ -123,10 +130,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderPaymentStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -144,10 +151,12 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (!App.IsTablet)
             {
+                CurrentOrder = _orderService.CurrentOrder;
+
                 foreach (var seat in CurrentOrder.Seats)
                 {
                     seat.SelectedItem = null;
@@ -162,6 +171,11 @@ namespace Next2.ViewModels
                 }
             }
 
+            if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
+            {
+                _isAnyUpDateForCurrentSet = true;
+            }
+
             if (CurrentOrder.Tax.Value == 0)
             {
                 IsOrderWithTax = false;
@@ -174,7 +188,7 @@ namespace Next2.ViewModels
 
             InitOrderTypes();
             await RefreshTablesAsync();
-            RefreshCurrentOrder();
+            await RefreshCurrentOrderAsync();
         }
 
         protected override async void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -229,7 +243,7 @@ namespace Next2.ViewModels
             }));
         }
 
-        public void RefreshCurrentOrder()
+        public async Task RefreshCurrentOrderAsync()
         {
             IsOrderSavedNotificationVisible = false;
 
@@ -238,6 +252,13 @@ namespace Next2.ViewModels
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
             _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
+
+            SelectedSet = _seatWithSelectedSet?.SelectedItem;
+
+            if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
+            {
+                await InitEditSetDetailsAsync(SelectedSet);
+            }
 
             _isAnySetChosen = CurrentOrder.Seats.Any(x => x.Sets.Any());
 
@@ -388,7 +409,7 @@ namespace Next2.ViewModels
                     if (deleteSetsResult.IsSuccess)
                     {
                         RecalculateOrderPriceBySeat(removalSeat);
-                        RefreshCurrentOrder();
+                        RefreshCurrentOrderAsync();
 
                         NumberOfSeats = CurrentOrder.Seats.Count;
 
@@ -416,7 +437,7 @@ namespace Next2.ViewModels
 
                                 SelectedSet = _firstSeat.Sets.FirstOrDefault();
 
-                                RefreshCurrentOrder();
+                                RefreshCurrentOrderAsync();
                             }
                         }
                     }
@@ -449,7 +470,7 @@ namespace Next2.ViewModels
                                 SelectedSet = destinationSeat.SelectedItem = destinationSeat.Sets.FirstOrDefault();
                             }
 
-                            RefreshCurrentOrder();
+                            RefreshCurrentOrderAsync();
                         }
                     }
                 }
@@ -578,7 +599,7 @@ namespace Next2.ViewModels
                     CurrentState = LayoutState.Loading;
                 }
 
-                RefreshCurrentOrder();
+                RefreshCurrentOrderAsync();
             }
         }
 
@@ -596,8 +617,41 @@ namespace Next2.ViewModels
 
                 SelectedSet = seat.SelectedItem;
 
+                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
+                {
+                    if (singleSeat.SeatNumber != seat.SeatNumber)
+                    {
+                        singleSeat.SelectedItem = null;
+                    }
+                    else
+                    {
+                        singleSeat.SelectedItem = seat.SelectedItem;
+                    }
+                }
+
+                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
+                {
+                    if (singleSeat.SeatNumber != seat.SeatNumber)
+                    {
+                        singleSeat.SelectedItem = null;
+                    }
+                    else
+                    {
+                        var seatIndex = _orderService.CurrentOrder.Seats.IndexOf(singleSeat);
+                        _orderService.CurrentOrder.Seats[seatIndex].SelectedItem = seat.SelectedItem;
+                    }
+                }
+
+                if (_isAnyUpDateForCurrentSet)
+                {
+                    await InitEditSetDetailsAsync(SelectedSet);
+                }
+
                 if (App.IsTablet)
                 {
+                    _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
+                    _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
+
                     IsSideMenuVisible = false;
                     CurrentState = LayoutState.Success;
                 }
@@ -666,7 +720,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOrderCommandAsync(EOrderPaymentStatus commandParameter)
+        private async Task OnOrderCommandAsync(EOrderStatus commandParameter)
         {
             _orderPaymentStatus = commandParameter;
 
@@ -695,6 +749,8 @@ namespace Next2.ViewModels
                     };
 
                     var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
+
+                    await RefreshTablesAsync();
 
                     if (!isSuccessSeatResult.IsSuccess)
                     {
@@ -727,7 +783,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnTabCommandAsync(EOrderPaymentStatus commandParameter)
+        private async Task OnTabCommandAsync(EOrderStatus commandParameter)
         {
             var parameters = new DialogParameters
             {
@@ -738,7 +794,9 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
             };
 
-            PopupPage confirmDialog = new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
+            PopupPage confirmDialog = App.IsTablet ?
+                new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync) :
+                new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
             await _popupNavigation.PushAsync(confirmDialog);
         }
@@ -746,9 +804,9 @@ namespace Next2.ViewModels
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderPaymentStatus commandParameter))
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderStatus commandParameter))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderPaymentStatus.InProgress)
+                if (isMovedOrderAccepted && commandParameter == EOrderStatus.InProgress)
                 {
                     await OnOrderCommandAsync(commandParameter);
                 }
@@ -794,7 +852,7 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
-                        RefreshCurrentOrder();
+                        RefreshCurrentOrderAsync();
 
                         if (CurrentState == LayoutState.Success)
                         {
@@ -842,7 +900,7 @@ namespace Next2.ViewModels
 
         private Task OnHideOrderNotificationCommnadAsync()
         {
-            RefreshCurrentOrder();
+            RefreshCurrentOrderAsync();
 
             return Task.CompletedTask;
         }
@@ -854,8 +912,6 @@ namespace Next2.ViewModels
                 IsSideMenuVisible = true;
                 CurrentState = LayoutState.Loading;
 
-                RefreshCurrentOrder();
-
                 MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.OrderTabs), Constants.Navigations.SWITCH_PAGE);
             }
             else
@@ -865,6 +921,8 @@ namespace Next2.ViewModels
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
             _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
+
+            RefreshCurrentOrderAsync();
         }
 
         private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
@@ -892,6 +950,64 @@ namespace Next2.ViewModels
 
                 CurrentOrder.Total -= amoutToSubtract;
                 CurrentOrder.SubTotal -= amoutToSubtract;
+            }
+        }
+
+        private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
+        {
+            var result = await _menuService.GetIngredientsAsync();
+
+            if (result.IsSuccess)
+            {
+                List<IngredientModel> allIngredientModels = new(result.Result);
+
+                if (allIngredientModels is not null && SelectedSet is not null)
+                {
+                    foreach (var product in SelectedSet.Products)
+                    {
+                        ObservableCollection<IngredientBindableModel> tempListIngredients = new();
+                        List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
+                        {
+                            Id = row.Id,
+                            Title = row.Title,
+                            Price = row.Price,
+                            IsToggled = true,
+                            ImagePath = row.ImagePath,
+                        }));
+
+                        foreach (var ingredient in setOfIngredients)
+                        {
+                            tempListIngredients.Add(ingredient);
+                        }
+
+                        if (product.DefaultSelectedIngredients.Count > 0)
+                        {
+                            foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+                            {
+                                var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+
+                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+
+                                if (!isDefaultIngredientExist)
+                                {
+                                    tempListIngredients.Add(new IngredientBindableModel()
+                                    {
+                                        Title = defaultIngredientModel.Title,
+                                        Price = 0,
+                                        IsToggled = false,
+                                        IsDefault = true,
+                                    });
+                                }
+                            }
+                        }
+
+                        product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
+                    }
+
+                    _isAnyUpDateForCurrentSet = false;
+
+                    SelectedSet = new(SelectedSet);
+                }
             }
         }
 

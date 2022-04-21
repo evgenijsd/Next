@@ -4,11 +4,10 @@ using System.Text;
 
 namespace Next2.Enums
 {
-    public enum EOrderPaymentStatus
+    public enum EOrderStatus
     {
-        InProgress,
         WaitingForPayment,
-        Completed,
+        InProgress,
         None,
     }
 }
