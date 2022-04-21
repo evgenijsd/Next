@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     x:DataType="dialogs:EmployeeTimeClockViewModel">
 
     <Frame
@@ -15,19 +17,103 @@
         HorizontalOptions="CenterAndExpand"
         VerticalOptions="CenterAndExpand"
         WidthRequest="363">
+
         <Grid Padding="0" RowDefinitions="0.14*,0.84*,0.16*">
+
+            <Label
+                Grid.Row="0"
+                Margin="18,0,0,0"
+                FontFamily="Barlow-SemiBold"
+                FontSize="18"
+                Text="Employee Time Clock"
+                TextColor="white"
+                VerticalTextAlignment="Center">
+                <Label.Triggers />
+            </Label>
+
             <BoxView
                 Grid.Row="0"
                 BackgroundColor="#424861"
                 HeightRequest="3"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand" />
+
+            <sc:StateContainer Grid.Row="1" State="{Binding State}">
+                
+                <sc:StateCondition State="Undefinite">
+                    <templates:CustomNumericKeyboardTemplate x:Name="numeric_keyboard"
+                        Grid.Row="1"
+                        Margin="18,50,18,0" PlaceHolder="Type Employee ID"
+                        ScreenKeyboard="{Binding ScreenKeyboard}"
+                        VerticalOptions="StartAndExpand" />
+                </sc:StateCondition>
+                
+                <sc:StateCondition State="CheckedIn">
+                    <StackLayout>
+                    </StackLayout>
+                </sc:StateCondition>
+
+                <sc:StateCondition State="CheckedOut">
+                    <StackLayout>
+                    </StackLayout>
+                </sc:StateCondition>
+
+            </sc:StateContainer>
+
+
+
             <BoxView
                 Grid.Row="1"
                 BackgroundColor="#424861"
                 HeightRequest="3"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="EndAndExpand" />
+
+            <Frame
+                Grid.Row="2"
+                Margin="18,0,0,0"
+                BackgroundColor="#34374C"
+                BorderColor="#F45E49"
+                CornerRadius="5"
+                HasShadow="False"
+                HeightRequest="38"
+                HorizontalOptions="StartAndExpand"
+                VerticalOptions="Center"
+                WidthRequest="157">
+                <Label
+                    FontFamily="Barlow-SemiBold"
+                    HorizontalTextAlignment="Center"
+                    Text="Cancel"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+            </Frame>
+            <Frame
+                Grid.Row="2"
+                Margin="0,0,18,0"
+                BackgroundColor="#3CD47D"
+                CornerRadius="5"
+                HasShadow="False"
+                HeightRequest="38"
+                HorizontalOptions="EndAndExpand"
+                IsVisible="true"
+                Opacity="1"
+                VerticalOptions="Center"
+                WidthRequest="157">
+                <Frame.Triggers>
+                    <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference numeric_keyboard}, Path=ScreenKeyboard.Length}" Value="0">
+                        <Setter Property="Opacity" Value="0.32"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Frame" Binding="{Binding Source={x:Reference numeric_keyboard}, Path=ScreenKeyboard}" Value="Type Employee ID">
+                        <Setter Property="Opacity" Value="0.32"/>
+                    </DataTrigger>
+                </Frame.Triggers>
+                <Label
+                    FontFamily="Barlow-SemiBold"
+                    HorizontalTextAlignment="Center"
+                    Text="Apply"
+                    TextColor="#34374C"
+                    VerticalTextAlignment="Center" />
+            </Frame>
 
         </Grid>
     </Frame>

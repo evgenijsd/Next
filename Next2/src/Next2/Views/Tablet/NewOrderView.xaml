@@ -205,7 +205,11 @@
 
                             <ffimageloading:CachedImage
                                 Source="ic_time_circle_24x24"
-                                HorizontalOptions="EndAndExpand"/>
+                                HorizontalOptions="EndAndExpand">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
 
                             <Label
                                 Text="{Binding CurrentDateTime, StringFormat='{}{0:h:mm:ss tt}'}"
@@ -215,7 +219,11 @@
                                 FontFamily="Barlow-Medium"
                                 Margin="5, 0, 0, 0"
                                 HorizontalTextAlignment="Center"
-                                WidthRequest="100"/>
+                                WidthRequest="100">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
 
                             <ffimageloading:CachedImage
                                 Source="ic_calendar_24x24"

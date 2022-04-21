@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Next2.Enums;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -15,6 +16,8 @@ namespace Next2.ViewModels.Dialogs
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
             DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
+            State = EEmployeeRegisterState.Undefinite;
+            ScreenKeyboard = string.Empty;
         }
 
         #region --Public Properties--
@@ -26,6 +29,10 @@ namespace Next2.ViewModels.Dialogs
         public DelegateCommand AcceptCommand { get; set; }
 
         public DelegateCommand DeclineCommand { get; }
+
+        public string ScreenKeyboard { get; set; }
+
+        public EEmployeeRegisterState State { get; set; }
 
         #endregion
 
