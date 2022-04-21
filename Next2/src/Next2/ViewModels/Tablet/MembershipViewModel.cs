@@ -122,11 +122,6 @@ namespace Next2.ViewModels.Tablet
 
             var result = _mapper.Map<ObservableCollection<MemberBindableModel>>(members.OrderBy(comparer));
 
-            foreach (var member in result)
-            {
-                member.TapCommand = MembershipEditCommand;
-            }
-
             return result;
         }
 
@@ -138,7 +133,7 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                var result = _mapper.Map<List<MemberBindableModel>>(_allMembers);
+                var result = _mapper.Map<List<MemberBindableModel>>(membersResult.Result);
 
                 foreach (var member in result)
                 {
@@ -185,7 +180,7 @@ namespace Next2.ViewModels.Tablet
                 {
                     { Constants.Navigations.SEARCH, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
-                    { Constants.Navigations.PLACEHOLDER, Strings.NameOrPhone },
+                    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
 
                 ClearSearch();
