@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Services.Authentication;
+using Next2.Services.Log;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -12,13 +13,13 @@ namespace Next2.ViewModels.Dialogs
 {
     public class EmployeeTimeClockViewModel : BindableBase
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly ILogService _logServise;
         public EmployeeTimeClockViewModel(
-            IAuthenticationService authenticationService,
+            ILogService logService,
             DialogParameters param,
             Action<IDialogParameters> requestClose)
         {
-            _authenticationService = authenticationService;
+            _logServise = logService;
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
@@ -63,14 +64,14 @@ namespace Next2.ViewModels.Dialogs
             }
             else if (int.TryParse(ScreenKeyboard, out int employeeId))
             {
-                var result = await _authenticationService.CheckUserExists(employeeId);
+                //var result = await _authenticationService.CheckUserExists(employeeId);
 
-                if (result.IsSuccess)
-                {
-                    // Code will be here
-                    State = EEmployeeRegisterState.CheckedIn;
-                    DateTime = DateTime.Now;
-                }
+                //if (result.IsSuccess)
+                //{
+                //    // Code will be here
+                //    State = EEmployeeRegisterState.CheckedIn;
+                //    DateTime = DateTime.Now;
+                //}
             }
             else
             {

@@ -34,6 +34,7 @@ namespace Next2.Services.Mock
         private IList<IngredientCategoryModel> _ingredientCategories;
         private IList<IngredientModel> _ingredients;
         private IList<IngredientOfProductModel> _ingredientsOfProductModel;
+        private IList<WorkLogRecordModel> _workLogBook;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -182,6 +183,7 @@ namespace Next2.Services.Mock
                 InitOptionsProductAsync(),
                 InitIngredientCategoriesAsync(),
                 InitIngredientsAsync(),
+                InitWorkLogBookAsync(),
                 InitIngredientsOfProductAsync());
 
             _base = new Dictionary<Type, object>
@@ -225,6 +227,11 @@ namespace Next2.Services.Mock
 
             _initCompletionSource.TrySetResult(true);
         }
+
+        private Task InitWorkLogBookAsync() => Task.Run(() =>
+        {
+            _workLogBook = new List<WorkLogRecordModel>();
+        });
 
         private Task InitTaxAsync() => Task.Run(() =>
         {
