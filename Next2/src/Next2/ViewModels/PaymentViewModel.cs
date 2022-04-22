@@ -42,7 +42,9 @@ namespace Next2.ViewModels
                 NavigateAsync,
                 GoToPaymentStep);
 
-            PaymentCompleteViewModel = new (navigationService);
+            PaymentCompleteViewModel = new (
+                navigationService,
+                Order);
         }
 
         #region -- Public properties --
