@@ -85,8 +85,8 @@
 
                 <StackLayout
                     Grid.Row="1"
-                    Margin="24,0,24,0"
-                    Spacing="0">
+                    Margin="24,0,24,0">
+                    
                     <StackLayout Style="{StaticResource HeadLayoutStyle}">
 
                         <Label

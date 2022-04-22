@@ -18,7 +18,7 @@ namespace Next2.Services
                     Points = 221,
                     Rewards = 4,
                     GiftCardCount = 8,
-                    GiftCardTotal = 30.02,
+                    GiftCardTotal = 30.02f,
                 },
                 new CustomerModel()
                 {
@@ -40,7 +40,7 @@ namespace Next2.Services
                     Points = 108,
                     Rewards = 2,
                     GiftCardCount = 5,
-                    GiftCardTotal = 12.5,
+                    GiftCardTotal = 12.5f,
                 },
                 new CustomerModel()
                 {
@@ -51,7 +51,7 @@ namespace Next2.Services
                     Points = 451,
                     Rewards = 0,
                     GiftCardCount = 17,
-                    GiftCardTotal = 50.02,
+                    GiftCardTotal = 50.02f,
                 },
                 new CustomerModel()
                 {
@@ -73,7 +73,7 @@ namespace Next2.Services
                     Points = 34,
                     Rewards = 0,
                     GiftCardCount = 2,
-                    GiftCardTotal = 10.02,
+                    GiftCardTotal = 10.02f,
                 },
                 new CustomerModel()
                 {
@@ -95,7 +95,7 @@ namespace Next2.Services
                     Points = 123,
                     Rewards = 0,
                     GiftCardCount = 3,
-                    GiftCardTotal = 12.99,
+                    GiftCardTotal = 12.99f,
                 },
                 new CustomerModel()
                 {
@@ -106,7 +106,7 @@ namespace Next2.Services
                     Points = 221,
                     Rewards = 0,
                     GiftCardCount = 8,
-                    GiftCardTotal = 30.02,
+                    GiftCardTotal = 30.02f,
                 },
                 new CustomerModel()
                 {
@@ -128,7 +128,7 @@ namespace Next2.Services
                     Points = 108,
                     Rewards = 0,
                     GiftCardCount = 5,
-                    GiftCardTotal = 12.5,
+                    GiftCardTotal = 12.5f,
                 },
                 new CustomerModel()
                 {
@@ -139,7 +139,7 @@ namespace Next2.Services
                     Points = 451,
                     Rewards = 0,
                     GiftCardCount = 17,
-                    GiftCardTotal = 50.02,
+                    GiftCardTotal = 50.02f,
                 },
                 new CustomerModel()
                 {
@@ -161,7 +161,7 @@ namespace Next2.Services
                     Points = 34,
                     Rewards = 0,
                     GiftCardCount = 2,
-                    GiftCardTotal = 10.02,
+                    GiftCardTotal = 10.02f,
                 },
                 new CustomerModel()
                 {
@@ -183,7 +183,7 @@ namespace Next2.Services
                     Points = 123,
                     Rewards = 0,
                     GiftCardCount = 3,
-                    GiftCardTotal = 12.99,
+                    GiftCardTotal = 12.99f,
                 },
                 new CustomerModel()
                 {
@@ -194,7 +194,7 @@ namespace Next2.Services
                     Points = 221,
                     Rewards = 0,
                     GiftCardCount = 8,
-                    GiftCardTotal = 30.02,
+                    GiftCardTotal = 30.02f,
                 },
                 new CustomerModel()
                 {
@@ -216,7 +216,7 @@ namespace Next2.Services
                     Points = 108,
                     Rewards = 0,
                     GiftCardCount = 5,
-                    GiftCardTotal = 12.5,
+                    GiftCardTotal = 12.5f,
                 },
                 new CustomerModel()
                 {
@@ -227,7 +227,7 @@ namespace Next2.Services
                     Points = 451,
                     Rewards = 0,
                     GiftCardCount = 17,
-                    GiftCardTotal = 50.02,
+                    GiftCardTotal = 50.02f,
                 },
                 new CustomerModel()
                 {
@@ -249,7 +249,7 @@ namespace Next2.Services
                     Points = 34,
                     Rewards = 0,
                     GiftCardCount = 2,
-                    GiftCardTotal = 10.02,
+                    GiftCardTotal = 10.02f,
                 },
                 new CustomerModel()
                 {
@@ -271,7 +271,7 @@ namespace Next2.Services
                     Points = 123,
                     Rewards = 0,
                     GiftCardCount = 3,
-                    GiftCardTotal = 12.99,
+                    GiftCardTotal = 12.99f,
                 },
             };
         }

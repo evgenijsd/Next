@@ -4,9 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Mobile.PaymentCompleteView"
@@ -93,8 +95,7 @@
             VerticalOptions="End"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-            <xct:Expander
-                IsExpanded="{Binding IsExpandedSummary}">
+            <xct:Expander IsExpanded="{Binding IsExpandedSummary}">
 
                 <xct:Expander.Header>
 
@@ -109,7 +110,7 @@
                             Margin="15, 7">
 
                             <Label
-                                Text="Summary"
+                                Text="{xct:Translate Summary}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i4}"
                                 FontFamily="Barlow-Bold"/>
@@ -144,60 +145,103 @@
 
                 </xct:Expander.Header>
 
-                <StackLayout
-                    Padding="15, 10">
+                <StackLayout Padding="15, 10">
 
-                    <StackLayout
-                        Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Text="Subtotal"
+                            Text="{xct:Translate Subtotal}"
                             Style="{StaticResource SummaryItem}"/>
 
                         <Label
-                            Text="{Binding Order.Subtotal, StringFormat='$ {0:F2}'}"
                             Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                            HorizontalOptions="EndAndExpand">
 
-                    </StackLayout>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
 
-                    <StackLayout
-                        Orientation="Horizontal">
-
-                        <Label
-                            Text="Coupon"
-                            Style="{StaticResource SummaryItem}"/>
-
-                        <Label
-                            Text="{Binding Order.Coupon, StringFormat='$ {0:F2}'}"
-                            Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                        </Label>
 
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
 
-                        <Label
-                            Text="Tax"
-                            Style="{StaticResource SummaryItem}"/>
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.BonusType, Converter={xct:EnumToIntConverter}}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
 
                         <Label
-                            Text="{Binding Order.Tax, StringFormat='$ {0:F2}'}"
                             Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                            Text="{xct:Translate Coupon}">
+
+                            <Label.Triggers>
+
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding Order.BonusType}"
+                                    Value="{x:Static enum:EBonusType.Discount}">
+
+                                    <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+
+                        </Label>
+
+                        <Label
+                            Style="{StaticResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Order.Bonus.Name}" />
 
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
 
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.PriceTax}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+
                         <Label
-                            Text="Tip"
+                            Text="{xct:Translate Tax}"
                             Style="{StaticResource SummaryItem}"/>
 
                         <Label
-                            Text="{Binding Order.Tip, StringFormat='$ {0:F2}'}"
                             Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
 
                     </StackLayout>
 
@@ -207,41 +251,72 @@
                         Margin="0, 10"/>
 
                     <StackLayout Orientation="Horizontal">
+                        
+                        <StackLayout.Triggers>
 
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.Cash}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+                        
                         <Label
-                            Text="Gift Cards"
+                            Text="{xct:Translate Cash}"
                             Style="{StaticResource SummaryItem}"/>
 
                         <Label
-                            Text="{Binding Order.GiftCards, StringFormat='$ {0:F2}'}"
                             Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                            HorizontalOptions="EndAndExpand">
+                            
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
 
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
 
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.Change}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+                        
                         <Label
-                            Text="Cash"
+                            Text="{xct:Translate Change}"
                             Style="{StaticResource SummaryItem}"/>
 
                         <Label
-                            Text="{Binding Order.Cash, StringFormat='$ {0:F2}'}"
                             Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                            HorizontalOptions="EndAndExpand">
 
-                    </StackLayout>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
 
-                    <StackLayout Orientation="Horizontal">
-
-                        <Label
-                            Text="Change"
-                            Style="{StaticResource SummaryItem}"/>
-
-                        <Label
-                            Text="{Binding Order.Change, StringFormat='$ {0:F2}'}"
-                            Style="{StaticResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"/>
+                        </Label>
 
                     </StackLayout>
 
@@ -254,25 +329,34 @@
                 Padding="15, 5">
 
                 <Label
-                    Text="Total"
+                    Text="{xct:Translate Total}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalTextAlignment="Center"
                     FontSize="{DynamicResource TSize_i4}"
                     FontFamily="Barlow-Regular"/>
 
                 <Label
-                    Text="{Binding Order.Total, StringFormat='$ {0:F2}'}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalTextAlignment="Center"
                     HorizontalOptions="EndAndExpand"
                     FontSize="{DynamicResource TSize_i4}"
-                    FontFamily="Barlow-Regular"/>
+                    FontFamily="Barlow-Regular">
+
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Order.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                </Label>
 
             </StackLayout>
 
             <buttons:BorderButton
                 Grid.Column="1"
-                Text="Complete"
+                Text="{xct:Translate Complete}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"

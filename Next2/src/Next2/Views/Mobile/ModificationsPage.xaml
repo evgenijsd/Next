@@ -153,7 +153,7 @@
 
                         <CollectionView.EmptyView>
 
-                            <StackLayout Spacing="0">
+                            <StackLayout>
 
                                 <ffimageloading:CachedImage
                                     HorizontalOptions="Center"
@@ -206,7 +206,7 @@
 
             <sc:StateCondition State="Inventory">
 
-                <StackLayout Spacing="0">
+                <StackLayout>
 
                     <StackLayout Orientation="Horizontal">
 

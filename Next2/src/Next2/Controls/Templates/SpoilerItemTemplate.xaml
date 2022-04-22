@@ -54,8 +54,7 @@
 
     <StackLayout
         Orientation="Horizontal"
-        HorizontalOptions="EndAndExpand"
-        Spacing="0">
+        HorizontalOptions="EndAndExpand">
 
         <Frame
             BorderColor="{DynamicResource AppColor_i1}"

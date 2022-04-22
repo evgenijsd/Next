@@ -523,4 +523,10 @@
   <data name="NameOrPhone" xml:space="preserve">
     <value>Name or Phone</value>
   </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
 </root>

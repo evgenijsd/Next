@@ -23,6 +23,6 @@ namespace Next2.Models
 
         public int GiftCardCount { get; set; }
 
-        public double GiftCardTotal { get; set; }
+        public float GiftCardTotal { get; set; }
     }
 }

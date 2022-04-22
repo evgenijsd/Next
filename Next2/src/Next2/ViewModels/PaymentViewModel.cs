@@ -31,6 +31,12 @@ namespace Next2.ViewModels
         {
             _popupNavigation = popupNavigation;
 
+            Order.BonusType = orderService.CurrentOrder.BonusType;
+            Order.Bonus = orderService.CurrentOrder.Bonus;
+            Order.Subtotal = orderService.CurrentOrder.SubTotal;
+            Order.PriceTax = orderService.CurrentOrder.PriceTax;
+            Order.Total = orderService.CurrentOrder.Total;
+
             RewardsViewModel = new (
                 navigationService,
                 popupNavigation,
