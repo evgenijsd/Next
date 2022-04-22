@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Next2.Views.Mobile
+namespace Next2.Views.Tablet
 {
     public partial class TipsPage : BaseContentPage
     {

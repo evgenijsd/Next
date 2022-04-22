@@ -108,6 +108,16 @@
                             FontSize="20"
                             TextColor="White"
                             Text="Complete"/>
+
+                        <buttons:BorderButton
+                            Grid.Column="1"
+                            Text="{xct:Translate Tips}"
+                            FontSize="{DynamicResource TSize_i7}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            BorderColor="{DynamicResource IndicationColor_i3}"
+                            BackgroundColor="{DynamicResource IndicationColor_i3}"
+                            Style="{DynamicResource BorderButtonStyle_i1}"
+                            Command="{Binding OpenTipsCommand}"/>
                     </StackLayout>
                     
                 </sc:StateCondition>

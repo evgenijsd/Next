@@ -9,7 +9,6 @@ using Xamarin.Forms.Xaml;
 
 namespace Next2.Views.Tablet
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RewardsView : ContentView
     {
         public RewardsView()

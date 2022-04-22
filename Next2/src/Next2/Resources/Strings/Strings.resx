@@ -523,4 +523,7 @@
   <data name="NameOrPhone" xml:space="preserve">
     <value>Name or Phone</value>
   </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
 </root>

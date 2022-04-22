@@ -2,17 +2,32 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PaymentCompleteView"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     x:DataType="viewmodels:PaymentCompleteViewModel">
     
-    <StackLayout>
+    <StackLayout Orientation="Horizontal">
         <Label
             VerticalOptions="CenterAndExpand"
-            HorizontalOptions="Center"
+            HorizontalOptions="CenterAndExpand"
             FontSize="20"
             TextColor="White"
             Text="Complete" />
+
+        <buttons:BorderButton
+            Grid.Column="1"
+            Text="{xct:Translate Tips}"
+            HeightRequest="50"
+            MinimumHeightRequest="50"
+            WidthRequest="100"
+            FontSize="{DynamicResource TSize_i7}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            BorderColor="{DynamicResource IndicationColor_i3}"
+            BackgroundColor="{DynamicResource IndicationColor_i3}"
+            Style="{DynamicResource BorderButtonStyle_i1}"
+            Command="{Binding OpenTipsCommand}"/>
     </StackLayout>
 
 </ContentView>

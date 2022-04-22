@@ -87,6 +87,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.TipsPage, TipsViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
@@ -120,6 +121,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.TipsPage, TipsViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();

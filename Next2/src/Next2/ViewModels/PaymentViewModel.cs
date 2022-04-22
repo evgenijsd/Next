@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -57,6 +58,14 @@ namespace Next2.ViewModels
 
         private ICommand _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _OpenTipsCommand;
+        public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
+
+        private async Task OnOpenTipsCommandAsync()
+        {
+            await _navigationService.NavigateAsync(nameof(TipsPage));
+        }
 
         #endregion
 

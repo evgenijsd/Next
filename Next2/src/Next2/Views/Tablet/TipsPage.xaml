@@ -2,7 +2,7 @@
 <views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:Next2.Views"
-    x:Class="Next2.Views.Mobile.TipsPage">
+    x:Class="Next2.Views.Tablet.TipsPage">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to Xamarin.Forms!"
