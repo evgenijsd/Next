@@ -2,6 +2,7 @@
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Resources.Strings;
+using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Tablet;
@@ -29,6 +30,8 @@ namespace Next2.ViewModels.Tablet
 
         private readonly IOrderService _orderService;
 
+        private readonly IAuthenticationService _authenticationService;
+
         private bool _order;
 
         public NewOrderViewModel(
@@ -36,12 +39,14 @@ namespace Next2.ViewModels.Tablet
             IMenuService menuService,
             IPopupNavigation popupNavigation,
             OrderRegistrationViewModel orderRegistrationViewModel,
+            IAuthenticationService authenticationService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
             _orderService = orderService;
+            _authenticationService = authenticationService;
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
             _orderService = orderService;
@@ -240,11 +245,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnEmployeeTimeClockPopupCallCommand()
         {
-            var param = new DialogParameters
-                {
-                };
-
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(param, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
+            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(_authenticationService, new DialogParameters { }, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
         }
 
         #endregion

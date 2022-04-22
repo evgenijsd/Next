@@ -1,4 +1,5 @@
 ﻿using Next2.Enums;
+using Next2.Services.Authentication;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -11,10 +12,13 @@ namespace Next2.ViewModels.Dialogs
 {
     public class EmployeeTimeClockViewModel : BindableBase
     {
+        private readonly IAuthenticationService _authenticationService;
         public EmployeeTimeClockViewModel(
+            IAuthenticationService authenticationService,
             DialogParameters param,
             Action<IDialogParameters> requestClose)
         {
+            _authenticationService = authenticationService;
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
             AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
@@ -51,12 +55,27 @@ namespace Next2.ViewModels.Dialogs
 
         #region --Private Helpers--
 
-        private Task OnApplyButtonCommand()
+        private async Task OnApplyButtonCommand()
         {
-            DateTime = DateTime.Now;
-            State = EEmployeeRegisterState.CheckedIn;
-          //  AcceptCommand.Execute();
-            return Task.CompletedTask;
+            if (ScreenKeyboard.Length != 6)
+            {
+                IsErrorNotificationVisible = true;
+            }
+            else if (int.TryParse(ScreenKeyboard, out int employeeId))
+            {
+                var result = await _authenticationService.CheckUserExists(employeeId);
+
+                if (result.IsSuccess)
+                {
+                    // Code will be here
+                    State = EEmployeeRegisterState.CheckedIn;
+                    DateTime = DateTime.Now;
+                }
+            }
+            else
+            {
+                IsErrorNotificationVisible = true;
+            }
         }
 
         private Task OnCancelButtonCommand()
