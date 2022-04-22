@@ -244,7 +244,7 @@ namespace Next2.ViewModels.Tablet
                 {
                 };
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(param, null));
+            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(param, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
         }
 
         #endregion

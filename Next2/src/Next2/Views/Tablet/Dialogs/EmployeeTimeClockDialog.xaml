@@ -11,6 +11,7 @@
     x:DataType="dialogs:EmployeeTimeClockViewModel">
 
     <rg:PopupPage.Resources>
+
         <Style x:Key="buttonFrameStyle" TargetType="Frame">
             <Setter Property="Grid.Row" Value="2" />
             <Setter Property="CornerRadius" Value="{OnPlatform Android=5, iOS=8}" />
@@ -19,11 +20,41 @@
             <Setter Property="WidthRequest" Value="157" />
             <Setter Property="VerticalOptions" Value="Center" />
         </Style>
+
         <Style x:Key="buttonLabelStyle" TargetType="Label">
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="HorizontalTextAlignment" Value="Center" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
         </Style>
+
+        <Style x:Key="timeLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-Regular" />
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="Margin" Value="18,4,0,0" />
+            <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}" />
+        </Style>
+
+        <Style x:Key="imageStyle" TargetType="ffimageloading:CachedImage">
+            <Setter Property="HeightRequest" Value="222" />
+            <Setter Property="Source" Value="pic_checked" />
+            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            <Setter Property="WidthRequest" Value="222" />
+        </Style>
+
+        <Style x:Key="separatorStyle" TargetType="BoxView">
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+            <Setter Property="HeightRequest" Value="3" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="VerticalOptions" Value="EndAndExpand" />
+        </Style>
+
+        <Style x:Key="checkLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="18,18,0,0" />
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+        </Style>
+
     </rg:PopupPage.Resources>
 
     <Frame
@@ -44,24 +75,22 @@
                 FontSize="18"
                 Text="Employee Time Clock"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                VerticalTextAlignment="Center">
-                <Label.Triggers />
-            </Label>
+                VerticalTextAlignment="Center" />
 
-            <BoxView
-                Grid.Row="0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                HeightRequest="3"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="EndAndExpand" />
+            <BoxView Grid.Row="0" Style="{StaticResource separatorStyle}" />
 
-            <sc:StateContainer Grid.Row="1" State="{Binding State}">
+            <!--  Body  -->
+            <sc:StateContainer
+                x:Name="state_container"
+                Grid.Row="1"
+                State="{Binding State}">
 
                 <sc:StateCondition State="Undefinite">
                     <templates:CustomNumericKeyboardTemplate
                         x:Name="numeric_keyboard"
                         Grid.Row="1"
                         Margin="18,50,18,0"
+                        IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
                         PlaceHolder="Type Employee ID"
                         ScreenKeyboard="{Binding ScreenKeyboard}"
                         VerticalOptions="StartAndExpand" />
@@ -69,58 +98,30 @@
 
                 <sc:StateCondition State="CheckedIn">
                     <StackLayout Grid.Row="1">
-                        <Label
-                            Margin="18,18,0,0"
-                            FontFamily="Barlow-Medium"
-                            FontSize="16"
-                            Text="You successfully checked in at"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-                        <Label
-                            Margin="18,4,0,0"
-                            FontFamily="Barlow-Regular"
-                            FontSize="22"
-                            Text="12:12:12"
-                            TextColor="{DynamicResource IndicationColor_i1}" />
-                        <ffimageloading:CachedImage
-                            HeightRequest="222"
-                            Source="pic_checked"
-                            VerticalOptions="CenterAndExpand"
-                            WidthRequest="222" />
+
+                        <Label Style="{StaticResource checkLabelStyle}" Text="You successfully checked in at" />
+
+                        <Label Style="{StaticResource timeLabelStyle}" Text="{Binding DateTime, StringFormat='{}{0:h:mm:ss}'}" />
+
+                        <ffimageloading:CachedImage Style="{StaticResource imageStyle}" />
+
                     </StackLayout>
                 </sc:StateCondition>
 
                 <sc:StateCondition State="CheckedOut">
                     <StackLayout Grid.Row="1">
-                        <Label
-                            Margin="18,18,0,0"
-                            FontFamily="Barlow-Medium"
-                            FontSize="16"
-                            Text="You successfully checked out at"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-                        <Label
-                            Margin="18,4,0,0"
-                            FontFamily="Barlow-Regular"
-                            FontSize="22"
-                            Text="12:12:12"
-                            TextColor="{DynamicResource IndicationColor_i1}" />
-                        <ffimageloading:CachedImage
-                            HeightRequest="222"
-                            Source="pic_checked"
-                            VerticalOptions="CenterAndExpand"
-                            WidthRequest="222" />
+
+                        <Label Style="{StaticResource checkLabelStyle}" Text="You successfully checked out at" />
+
+                        <Label Style="{StaticResource timeLabelStyle}" Text="{Binding DateTime, StringFormat='{}{0:h:mm:ss}'}" />
+
+                        <ffimageloading:CachedImage Style="{StaticResource imageStyle}" />
+
                     </StackLayout>
                 </sc:StateCondition>
-
             </sc:StateContainer>
 
-
-
-            <BoxView
-                Grid.Row="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                HeightRequest="3"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="EndAndExpand" />
+            <BoxView Grid.Row="1" Style="{StaticResource separatorStyle}" />
 
             <!--  cancel button  -->
             <Frame
@@ -129,10 +130,25 @@
                 BorderColor="{DynamicResource AppColor_i1}"
                 HorizontalOptions="StartAndExpand"
                 Style="{StaticResource buttonFrameStyle}">
+
                 <Label
                     Style="{StaticResource buttonLabelStyle}"
                     Text="Cancel"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                <Frame.Triggers>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        TargetType="Frame"
+                        Value="CheckedIn">
+                        <Setter Property="WidthRequest" Value="327" />
+                    </DataTrigger>
+                </Frame.Triggers>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CancelButtonCommand}" />
+                </Frame.GestureRecognizers>
+
             </Frame>
 
             <!--  apply button  -->
@@ -142,6 +158,12 @@
                 HorizontalOptions="EndAndExpand"
                 Opacity="1"
                 Style="{StaticResource buttonFrameStyle}">
+
+                <Label
+                    Style="{StaticResource buttonLabelStyle}"
+                    Text="Apply"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
                 <Frame.Triggers>
                     <DataTrigger
                         Binding="{Binding Source={x:Reference numeric_keyboard}, Path=ScreenKeyboard.Length}"
@@ -155,11 +177,18 @@
                         Value="Type Employee ID">
                         <Setter Property="Opacity" Value="0.32" />
                     </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        TargetType="Frame"
+                        Value="CheckedIn">
+                        <Setter Property="IsVisible" Value="false" />
+                    </DataTrigger>
                 </Frame.Triggers>
-                <Label
-                    Style="{StaticResource buttonLabelStyle}"
-                    Text="Apply"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ApplyButtonCommand}" />
+                </Frame.GestureRecognizers>
+
             </Frame>
 
         </Grid>

@@ -3,6 +3,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Dialogs
 {
@@ -33,6 +36,34 @@ namespace Next2.ViewModels.Dialogs
         public string ScreenKeyboard { get; set; }
 
         public EEmployeeRegisterState State { get; set; }
+
+        public bool IsErrorNotificationVisible { get; set; }
+
+        public DateTime DateTime { get; set; }
+
+        private ICommand _applyButtonCommand;
+        public ICommand ApplyButtonCommand => _applyButtonCommand ??= new AsyncCommand(OnApplyButtonCommand, allowsMultipleExecutions: false);
+
+        private ICommand _cancelButtonCommand;
+        public ICommand CancelButtonCommand => _cancelButtonCommand ??= new AsyncCommand(OnCancelButtonCommand, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region --Private Helpers--
+
+        private Task OnApplyButtonCommand()
+        {
+            DateTime = DateTime.Now;
+            State = EEmployeeRegisterState.CheckedIn;
+          //  AcceptCommand.Execute();
+            return Task.CompletedTask;
+        }
+
+        private Task OnCancelButtonCommand()
+        {
+            CloseCommand.Execute();
+            return Task.CompletedTask;
+        }
 
         #endregion
 
