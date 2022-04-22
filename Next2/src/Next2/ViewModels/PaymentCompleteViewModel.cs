@@ -36,6 +36,9 @@ namespace Next2.ViewModels
 
         public bool IsExpandedSummary { get; set; } = true;
 
+        private ICommand _tapExpandCommand;
+        public ICommand TapExpandCommand => _tapExpandCommand = new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Private helpers --
@@ -75,6 +78,13 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
+        private Task OnTapExpandCommandAsync()
+        {
+            IsExpandedSummary = !IsExpandedSummary;
+
+            return Task.CompletedTask;
+        }
+
         private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
         {
             string path = string.Empty;
@@ -84,10 +94,22 @@ namespace Next2.ViewModels
             {
                 case EPaymentItems.Cash:
                     path = nameof(InputCashPage);
-                    navigationParams = new NavigationParameters()
+
+                    if (Order.Cash == 0)
                     {
-                        { Constants.Navigations.TOTAL_SUM, Order.Total },
-                    };
+                        navigationParams = new NavigationParameters()
+                        {
+                            { Constants.Navigations.TOTAL_SUM, Order.Total },
+                        };
+                    }
+                    else
+                    {
+                        navigationParams = new NavigationParameters()
+                        {
+                            { Constants.Navigations.TOTAL_SUM, Order.Cash + Order.Change },
+                        };
+                    }
+
                     break;
                 case EPaymentItems.Card:
                     path = nameof(WaitingSwipeCardPage);

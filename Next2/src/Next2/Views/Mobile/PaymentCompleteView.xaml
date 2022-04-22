@@ -95,9 +95,9 @@
             VerticalOptions="End"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-            <xct:Expander IsExpanded="{Binding IsExpandedSummary}">
+            <StackLayout>
 
-                <xct:Expander.Header>
+                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">
 
                     <StackLayout>
 
@@ -143,9 +143,11 @@
 
                     </StackLayout>
 
-                </xct:Expander.Header>
+                </StackLayout>
 
-                <StackLayout Padding="15, 10">
+                <StackLayout
+                    Padding="15, 10"
+                    IsVisible="{Binding IsExpandedSummary}">
 
                     <StackLayout Orientation="Horizontal">
 
@@ -322,7 +324,7 @@
 
                 </StackLayout>
 
-            </xct:Expander>
+            </StackLayout>
 
             <StackLayout
                 Orientation="Horizontal"
