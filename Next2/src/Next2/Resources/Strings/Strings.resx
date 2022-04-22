@@ -529,4 +529,7 @@
   <data name="Change" xml:space="preserve">
     <value>Change</value>
   </data>
+  <data name="EnterAmount" xml:space="preserve">
+    <value>Enter The Amount</value>
+  </data>
 </root>

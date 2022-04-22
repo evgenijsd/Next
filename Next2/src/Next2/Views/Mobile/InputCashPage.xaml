@@ -3,6 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:views="clr-namespace:Next2.Views"
@@ -18,7 +20,7 @@
             HeightImage="30"
             FontSize="{DynamicResource TSize_i3}"
             FontFamily="Barlow-Bold"
-            LeftButtonCommand="{prism:GoBack}"/>
+            LeftButtonCommand="{Binding GoBackCommand}"/>
 
         <Label
             Grid.Row="1"
@@ -28,7 +30,7 @@
             <Label.FormattedText>
                 <FormattedString>
                     <Span
-                        Text="Change"
+                        Text="{xct:Translate Change}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i4}"
                         FontFamily="Barlow-Regular"/>
@@ -36,7 +38,15 @@
                     <Span Text=" " />
 
                     <Span
-                        Text="$ 12.00"
+                        Text="{xct:Translate CurrencySign}"
+                        TextColor="{DynamicResource IndicationColor_i1}"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Bold"/>
+                    
+                    <Span Text=" " />
+                    
+                    <Span
+                        Text="{Binding Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"
                         TextColor="{DynamicResource IndicationColor_i1}"
                         FontSize="{DynamicResource TSize_i4}"
                         FontFamily="Barlow-Bold"/>
@@ -49,10 +59,11 @@
         <templates:CustomNumericKeyboardTemplate
             Grid.Row="2"
             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
-            PlaceHolder="Enter The Amount"
+            PlaceHolder="{xct:Translate EnterAmount}"
             IsTextRightToLeft="True"
             IsNumericMode="True"
-            ValueFormat="$ {0:#,0.#0}"
+            Value="{Binding InputValue}"
+            ValueFormat="{x:Static local:Constants.CASH_FORMAT}"
             MaxLength="9"
             Margin="20, 0"/>
 

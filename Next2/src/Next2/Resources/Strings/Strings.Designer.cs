@@ -421,6 +421,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter The Amount.
+        /// </summary>
+        internal static string EnterAmount {
+            get {
+                return ResourceManager.GetString("EnterAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expand.
         /// </summary>
         internal static string Expand {

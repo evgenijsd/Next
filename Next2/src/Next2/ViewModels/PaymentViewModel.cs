@@ -74,7 +74,29 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            RewardsViewModel.OnNavigatedTo(parameters);
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
+            {
+                if (float.TryParse(inputValue, out float sum))
+                {
+                    sum /= 100;
+
+                    if (Order.Total > sum)
+                    {
+                        Order.Cash = sum;
+                        Order.Total -= sum;
+                    }
+                    else
+                    {
+                        Order.Change = sum - Order.Total;
+                        Order.Cash = Order.Total;
+                        Order.Total = 0;
+                    }
+                }
+            }
+            else
+            {
+                RewardsViewModel.OnNavigatedTo(parameters);
+            }
         }
 
         #endregion

@@ -78,18 +78,23 @@ namespace Next2.ViewModels
         private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
         {
             string path = string.Empty;
+            NavigationParameters navigationParams = new();
 
             switch (item.PayemenType)
             {
                 case EPaymentItems.Cash:
                     path = nameof(InputCashPage);
+                    navigationParams = new NavigationParameters()
+                    {
+                        { Constants.Navigations.TOTAL_SUM, Order.Total },
+                    };
                     break;
                 case EPaymentItems.Card:
                     path = nameof(WaitingSwipeCardPage);
                     break;
             }
 
-            await _navigationService.NavigateAsync(path);
+            await _navigationService.NavigateAsync(path, navigationParams);
         }
 
         #endregion
