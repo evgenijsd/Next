@@ -1,5 +1,6 @@
 ﻿using Next2.Controls;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
@@ -27,32 +28,45 @@ namespace Next2.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is HideClipboardEntry entry && e.NewTextValue is not null)
+            if (sender is HideClipboardEntry entry)
             {
-                try
+                if (!string.IsNullOrEmpty(e.NewTextValue))
                 {
-                    entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(200));
-                }
-                catch (Exception)
-                {
-                    entry.IsValid = false;
-                }
+                    bool isCorrectText = false;
 
-                string formattedText = e.NewTextValue;
-                var words = Regex.Matches(formattedText, Constants.Validators.WORD, RegexOptions.IgnoreCase);
-
-                foreach (var word in words)
-                {
-                    string wordToReplace = $"{word}";
-
-                    if (!Regex.IsMatch(wordToReplace, Constants.Validators.PASCAL_CASE))
+                    try
                     {
-                        string pascalWord = ToPascalCase(wordToReplace);
-                        formattedText = Regex.Replace(formattedText, wordToReplace, pascalWord);
+                        isCorrectText = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(200));
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    if (isCorrectText)
+                    {
+                        string formattedText = e.NewTextValue;
+                        var words = Regex.Matches(formattedText, Constants.Validators.WORD, RegexOptions.IgnoreCase);
+
+                        foreach (var word in words)
+                        {
+                            string wordToReplace = $"{word}";
+
+                            if (!Regex.IsMatch(wordToReplace, Constants.Validators.PASCAL_CASE))
+                            {
+                                string wordInPascalCase = ToPascalCase(wordToReplace);
+                                formattedText = Regex.Replace(formattedText, wordToReplace, wordInPascalCase);
+                            }
+                        }
+
+                        entry.Text = formattedText;
+                    }
+                    else
+                    {
+                        entry.Text = e.OldTextValue;
                     }
                 }
 
-                entry.Text = formattedText;
+                entry.IsValid = !string.IsNullOrEmpty(entry.Text);
             }
         }
 
