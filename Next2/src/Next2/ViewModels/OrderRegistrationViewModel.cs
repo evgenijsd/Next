@@ -891,7 +891,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
         }
 
         private Task OnPayCommandAsync()

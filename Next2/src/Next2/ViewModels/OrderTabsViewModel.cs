@@ -435,7 +435,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
@@ -456,11 +456,11 @@ namespace Next2.ViewModels
                         SelectedOrder = null;
                     }
 
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                    await _popupNavigation.PopAsync();
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
         }
 
         private async Task OnPrintCommandAsync()
@@ -499,12 +499,12 @@ namespace Next2.ViewModels
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                    await _popupNavigation.PopAsync();
                 }
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
