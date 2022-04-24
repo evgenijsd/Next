@@ -3,12 +3,14 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    x:Class="Next2.Views.Mobile.WaitingSignaturePage">
+    x:Class="Next2.Views.Mobile.WaitingSignaturePage"
+    x:DataType="mobile:WaitingSignaturePageViewModel">
 
     <Grid
         RowDefinitions="60, *, 90"
@@ -16,7 +18,7 @@
 
         <controls:CustomNavigationbar
             Grid.Row="0"
-            Title="Cash"
+            Title="{xct:Translate Card}"
             HeightImage="30"
             FontSize="{DynamicResource TSize_i3}"
             FontFamily="Barlow-Bold"
@@ -34,22 +36,26 @@
 
                 <controls:DrawPanel
                     Grid.Row="0"
-                    VerticalOptions="FillAndExpand"/>
+                    VerticalOptions="FillAndExpand"
+                    IsCleared="{Binding IsCleared}"
+                    Bitmap="{Binding BitmapSignature}"/>
 
                 <Frame
                     Grid.Row="0"
                     HorizontalOptions="EndAndExpand"
                     VerticalOptions="EndAndExpand"
-                    Margin="32"
+                    Margin="20"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
                     CornerRadius="10"
-                    Padding="80, 20">
+                    Padding="60, 15"
+                    IsVisible="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                    xct:TouchEffect.Command="{Binding ClearDrawPanelCommand}">
 
                     <StackLayout Orientation="Horizontal">
 
                         <Label
-                            Text="Clear"
+                            Text="{xct:Translate Clear}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i5}"
                             FontFamily="Barlow-SemiBold"
@@ -75,7 +81,9 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <buttons:BorderButton
-                Text="Complete"
+                xct:TouchEffect.Command="{Binding TapPaymentCompleteCommand}"
+                IsEnabled="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                Text="{xct:Translate Complete}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"
@@ -83,7 +91,17 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 CornerRadius="4"
                 Padding="0, 10"
-                Margin="15"/>
+                Margin="15">
+
+                <buttons:BorderButton.Triggers>
+
+                    <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsCleared}" Value="True">
+                        <Setter Property="Opacity" Value="0.32"/>
+                    </DataTrigger>
+                    
+                </buttons:BorderButton.Triggers>
+                
+            </buttons:BorderButton>
 
         </StackLayout>
 

@@ -532,4 +532,28 @@
   <data name="EnterAmount" xml:space="preserve">
     <value>Enter The Amount</value>
   </data>
+  <data name="SignatureReceipt" xml:space="preserve">
+    <value>Signature on Receipt</value>
+  </data>
+  <data name="Card" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="SwipeCardPay" xml:space="preserve">
+    <value>Swipe the card to pay
+for the order.</value>
+  </data>
+  <data name="LeaveYourSignature" xml:space="preserve">
+    <value>Leave your signature
+to complete the payment.</value>
+  </data>
+  <data name="PaymentComplete" xml:space="preserve">
+    <value>Payment complete!</value>
+  </data>
+  <data name="ThankYouVisiting" xml:space="preserve">
+    <value>Thank you for visiting.  A receipt has been printed for you.</value>
+  </data>
+  <data name="ThankYouVisitingEnter" xml:space="preserve">
+    <value>Thank you for visiting.
+A receipt has been printed for you.</value>
+  </data>
 </root>

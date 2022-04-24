@@ -46,12 +46,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty BitmapProperty = BindableProperty.Create(
             propertyName: nameof(Bitmap),
-            returnType: typeof(SKBitmap),
-            declaringType: typeof(DrawPanel));
+            returnType: typeof(byte[]),
+            declaringType: typeof(DrawPanel),
+            defaultBindingMode: BindingMode.TwoWay);
 
-        public SKBitmap Bitmap
+        public byte[] Bitmap
         {
-            get => (SKBitmap)GetValue(BitmapProperty);
+            get => (byte[])GetValue(BitmapProperty);
             set => SetValue(BitmapProperty, value);
         }
 
@@ -177,7 +178,7 @@ namespace Next2.Controls
 
             canvasView.InvalidateSurface();
 
-            Bitmap = _bitmap;
+            Bitmap = _bitmap.Bytes;
         }
 
         private void Clear()
@@ -189,7 +190,7 @@ namespace Next2.Controls
 
             canvasView.InvalidateSurface();
 
-            Bitmap = _bitmap;
+            Bitmap = _bitmap.Bytes;
         }
 
         #endregion

@@ -77,6 +77,8 @@
             public const string DELETE_SET = "DELETE_SET";
             public const string ORDER_ID = "ORDER_ID";
             public const string TOTAL_SUM = "TOTAL_SUM";
+            public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
+            public const string SIGNATURE = "SIGNATURE";
         }
 
         public static class Validators

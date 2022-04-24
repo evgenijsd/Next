@@ -104,9 +104,13 @@ namespace Next2.ViewModels
                     }
                     else
                     {
+                        Order.Total += Order.Cash;
+                        Order.Cash = 0;
+                        Order.Change = 0;
+
                         navigationParams = new NavigationParameters()
                         {
-                            { Constants.Navigations.TOTAL_SUM, Order.Cash + Order.Change },
+                            { Constants.Navigations.TOTAL_SUM, Order.Total },
                         };
                     }
 

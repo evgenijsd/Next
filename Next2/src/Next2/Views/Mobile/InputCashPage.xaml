@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    x:Class="Next2.Views.Mobile.InputCashPage">
+    x:Class="Next2.Views.Mobile.InputCashPage"
+    x:DataType="mobile:InputCashPageViewModel">
 
     <Grid
         RowDefinitions="60, 90, 480"

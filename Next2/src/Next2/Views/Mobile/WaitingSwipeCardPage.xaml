@@ -7,16 +7,18 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    x:Class="Next2.Views.Mobile.WaitingSwipeCardPage">
+    x:Class="Next2.Views.Mobile.WaitingSwipeCardPage"
+    x:DataType="mobile:WaitingSwipeCardPageViewModel">
 
     <Grid
-        RowDefinitions="60, *, 120"
+        RowDefinitions="60, *, 130"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <controls:CustomNavigationbar
             Grid.Row="0"
-            Title="Cash"
+            Title="{xct:Translate Card}"
             HeightImage="30"
             FontSize="{DynamicResource TSize_i3}"
             FontFamily="Barlow-Bold"
@@ -38,13 +40,14 @@
                     VerticalOptions="EndAndExpand"/>
 
                 <Label
-                    Text="Swipe the card to pay&#10;for the order."
+                    Text="{xct:Translate SwipeCardPay}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontFamily="Barlow-Regular"
-                    FontSize="{DynamicResource TSize_i4}"
+                    FontSize="{DynamicResource TSize_i5}"
                     HorizontalTextAlignment="Center"
                     HorizontalOptions="Center"
-                    VerticalOptions="StartAndExpand"/>
+                    VerticalOptions="StartAndExpand"
+                    Margin="0, 0, 0, 30"/>
 
             </StackLayout>
 
@@ -56,29 +59,40 @@
 
             <StackLayout
                 Orientation="Horizontal"
-                Padding="15, 5, 15, 0">
+                Padding="15, 5"
+                VerticalOptions="EndAndExpand">
 
+                <ffimageloading:CachedImage
+                    Source="ic_check_box_unhecked_24x24.png"
+                    xct:TouchEffect.Command="{Binding TapCheckBoxSignatureReceiptCommand}">
+
+                    <ffimageloading:CachedImage.Triggers>
+
+                        <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding NeedSignatureReceipt}" Value="True">
+
+                            <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
+
+                        </DataTrigger>
+                        
+                    </ffimageloading:CachedImage.Triggers>
+                    
+                </ffimageloading:CachedImage>
+                
                 <Label
-                    Text="Total"
+                    Text="{xct:Translate SignatureReceipt}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i4}"
-                    FontFamily="Barlow-Regular"/>
-
-                <Label
-                    Text="$ 25"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    VerticalTextAlignment="Center"
-                    HorizontalOptions="EndAndExpand"
-                    FontSize="{DynamicResource TSize_i4}"
-                    FontFamily="Barlow-Regular"/>
+                    FontSize="{DynamicResource TSize_i5}"
+                    FontFamily="Barlow-Regular"
+                    Margin="10, 0, 0, 0"/>
 
             </StackLayout>
 
             <buttons:BorderButton
-                Text="Complete"
+                Text="{xct:Translate Complete}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
+                Opacity="0.32"
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"

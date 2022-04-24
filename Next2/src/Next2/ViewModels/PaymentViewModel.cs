@@ -93,6 +93,15 @@ namespace Next2.ViewModels
                     }
                 }
             }
+            else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+            {
+                //PopupPage confirmDialog = App.IsTablet
+                //    ? new Views.Tablet.Dialogs.PaymentCompleteDialog(null)
+                //    : new Views.Mobile.Dialogs.PaymentCompleteDialog(null);
+                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
+
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
             else
             {
                 RewardsViewModel.OnNavigatedTo(parameters);
@@ -151,6 +160,11 @@ namespace Next2.ViewModels
                     await _navigationService.GoBackAsync();
                 }
             }
+        }
+
+        private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
+        {
+            await _navigationService.GoBackAsync();
         }
 
         #endregion
