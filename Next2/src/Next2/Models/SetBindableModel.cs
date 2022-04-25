@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.Forms.Internals;
 
 namespace Next2.Models
 {
@@ -17,6 +18,10 @@ namespace Next2.Models
             SubcategoryId = set.SubcategoryId;
             Title = set.Title;
             Price = set.Price;
+            ProductsPrice = set.ProductsPrice;
+            IngredientsPrice = set.IngredientsPrice;
+            TotalPrice = set.TotalPrice;
+            PriceBonus = set.PriceBonus;
             ImagePath = set.ImagePath;
             Portion = new();
             Portions = new();
@@ -45,9 +50,13 @@ namespace Next2.Models
 
         public float Price { get; set; }
 
-        public float PriceBonus { get; set; } = 0f;
+        public float ProductsPrice { get; set; }
 
-        public string? Comment { get; set; }
+        public float IngredientsPrice { get; set; }
+
+        public float TotalPrice { get; set; }
+
+        public float PriceBonus { get; set; } = 0f;
 
         public string ImagePath { get; set; }
 

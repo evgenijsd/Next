@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Membership;
+using Next2.Views.Tablet;
+using Prism.Events;
 using Next2.Views.Tablet.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -16,6 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using System.ComponentModel;
 
 namespace Next2.ViewModels.Tablet
 {
@@ -23,29 +27,39 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly IPopupNavigation _popupNavigation;
 
         private MemberModel _member;
+        private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
             IMapper mapper,
             INavigationService navigationService,
+            IEventAggregator eventAggregator,
             IMembershipService membershipService,
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
             _mapper = mapper;
+            _eventAggregator = eventAggregator;
             _membershipService = membershipService;
             _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
 
-        public ObservableCollection<MemberBindableModel> Members { get; set; } = new ();
+        public ObservableCollection<MemberBindableModel> DisplayMembers { get; set; } = new();
+
+        public bool AnyMembersLoaded { get; set; } = false;
 
         public bool IsMembersRefreshing { get; set; }
 
         public EMemberSorting MemberSorting { get; set; }
+
+        public string SearchText { get; set; } = string.Empty;
+
+        public string SearchPlaceholder { get; set; }
 
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
@@ -56,40 +70,64 @@ namespace Next2.ViewModels.Tablet
         private ICommand _MembershipEditCommand;
         public ICommand MembershipEditCommand => _MembershipEditCommand ??= new AsyncCommand<MemberBindableModel?>(OnMembershipEditCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _searchCommand;
+        public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _clearSearchCommand;
+        public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
 
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(DisplayMembers))
+            {
+                AnyMembersLoaded = _allMembers.Any();
+            }
+        }
+
         public override async void OnAppearing()
         {
+            base.OnAppearing();
+
             MemberSorting = EMemberSorting.ByMembershipStartTime;
 
             await RefreshMembersAsync();
-
-            base.OnAppearing();
         }
 
         public override void OnDisappearing()
         {
-            Members.Clear();
-
             base.OnDisappearing();
+
+            ClearSearch();
         }
 
         #endregion
 
         #region -- Private helpers --
 
-        private IEnumerable<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
+        private ObservableCollection<MemberBindableModel> GetSortedMembers(IEnumerable<MemberBindableModel> members)
         {
             Func<MemberBindableModel, object> comparer = MemberSorting switch
             {
                 EMemberSorting.ByMembershipStartTime => x => x.MembershipStartTime,
                 EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
-                _ => x => x.CustomerName,
+                EMemberSorting.ByCustomerName => x => x.CustomerName,
+                _ => throw new NotImplementedException(),
             };
 
-            return members.OrderBy(comparer);
+            var result = _mapper.Map<ObservableCollection<MemberBindableModel>>(members.OrderBy(comparer));
+
+            foreach (var member in result)
+            {
+                member.TapCommand = MembershipEditCommand;
+            }
+
+            return result;
         }
 
         private async Task RefreshMembersAsync()
@@ -100,16 +138,16 @@ namespace Next2.ViewModels.Tablet
 
             if (membersResult.IsSuccess)
             {
-                var memberBindableModels = _mapper.Map<ObservableCollection<MemberBindableModel>>(membersResult.Result);
+                var result = _mapper.Map<List<MemberBindableModel>>(_allMembers);
 
-                var sortedmemberBindableModels = GetSortedMembers(memberBindableModels);
-
-                Members = new (sortedmemberBindableModels);
-
-                foreach (var member in Members)
+                foreach (var member in result)
                 {
                     member.TapCommand = MembershipEditCommand;
                 }
+
+                _allMembers = result;
+
+                DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
 
                 IsMembersRefreshing = false;
             }
@@ -124,18 +162,67 @@ namespace Next2.ViewModels.Tablet
         {
             if (MemberSorting == memberSorting)
             {
-                Members = new (Members.Reverse());
+                DisplayMembers = new(DisplayMembers.Reverse());
             }
             else
             {
                 MemberSorting = memberSorting;
 
-                var sortedMembers = GetSortedMembers(Members);
-
-                Members = new (sortedMembers);
+                DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnSearchCommandAsync()
+        {
+            if (DisplayMembers.Any() || !string.IsNullOrEmpty(SearchText))
+            {
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
+
+                Func<string, string> searchValidator = _membershipService.ApplyNameFilter;
+                var parameters = new NavigationParameters()
+                {
+                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, Strings.NameOrPhone },
+                };
+
+                ClearSearch();
+
+                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            }
+        }
+
+        private void OnSearchEvent(string searchLine)
+        {
+            SearchText = searchLine;
+
+            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
+
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
+        }
+
+        private List<MemberBindableModel> SearchMembers(string searchLine)
+        {
+            bool containsName(MemberBindableModel x) => x.CustomerName.ToLower().Contains(searchLine.ToLower());
+            bool containsPhone(MemberBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+
+            return _allMembers.Where(x => containsName(x) || containsPhone(x)).ToList();
+        }
+
+        private Task OnClearSearchCommandAsync()
+        {
+            ClearSearch();
+
+            return Task.CompletedTask;
+        }
+
+        private void ClearSearch()
+        {
+            SearchText = string.Empty;
+
+            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
         }
 
         private async Task OnMembershipEditCommandAsync(MemberBindableModel? member)
@@ -176,7 +263,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted) && isMembershipDisableAccepted)
             {
-                await _membershipService.SaveMemberAsync(_member);
+                await _membershipService.UpdateMemberAsync(_member);
 
                 await RefreshMembersAsync();
             }

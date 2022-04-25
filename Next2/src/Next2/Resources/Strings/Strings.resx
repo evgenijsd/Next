@@ -520,6 +520,9 @@
   <data name="MembershipUpdate" xml:space="preserve">
     <value>This membership will be update.</value>
   </data>
+  <data name="NameOrPhone" xml:space="preserve">
+    <value>Name or Phone</value>
+  </data>
   <data name="EmployeeTimeClock" xml:space="preserve">
     <value>Employee Time Clock</value>
   </data>

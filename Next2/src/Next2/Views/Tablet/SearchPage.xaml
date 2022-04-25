@@ -33,7 +33,7 @@
                 <controls:CustomEntry
                     x:Name="searchEntry"
                     Text="{Binding SearchLine}"
-                    Placeholder="{xct:Translate TableNumberOrOrder}"
+                    Placeholder="{Binding Placeholder}"
                     FontSize="{DynamicResource TSize_i4}"
                     FontFamily="Barlow-Regular"
                     ReturnCommand="{Binding GoBackCommand}"
