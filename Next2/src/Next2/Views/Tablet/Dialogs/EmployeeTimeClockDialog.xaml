@@ -143,6 +143,12 @@
                         Value="CheckedIn">
                         <Setter Property="WidthRequest" Value="327" />
                     </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        TargetType="Frame"
+                        Value="CheckedOut">
+                        <Setter Property="WidthRequest" Value="327" />
+                    </DataTrigger>
                 </Frame.Triggers>
 
                 <Frame.GestureRecognizers>
@@ -181,6 +187,12 @@
                         Binding="{Binding Source={x:Reference state_container}, Path=State}"
                         TargetType="Frame"
                         Value="CheckedIn">
+                        <Setter Property="IsVisible" Value="false" />
+                    </DataTrigger>
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        TargetType="Frame"
+                        Value="CheckedOut">
                         <Setter Property="IsVisible" Value="false" />
                     </DataTrigger>
                 </Frame.Triggers>

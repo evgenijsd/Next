@@ -1,4 +1,5 @@
 ﻿using Next2.Enums;
+using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Log;
 using Prism.Commands;
@@ -64,14 +65,21 @@ namespace Next2.ViewModels.Dialogs
             }
             else if (int.TryParse(ScreenKeyboard, out int employeeId))
             {
-                //var result = await _authenticationService.CheckUserExists(employeeId);
-
-                //if (result.IsSuccess)
-                //{
-                //    // Code will be here
-                //    State = EEmployeeRegisterState.CheckedIn;
-                //    DateTime = DateTime.Now;
-                //}
+                var record = new WorkLogRecordModel
+                {
+                    Timestamp = DateTime.Now,
+                    EmployeeId = employeeId,
+                };
+                var state = await _logServise.InsertRecord(record);
+                if (state.IsSuccess)
+                {
+                    DateTime = record.Timestamp;
+                    State = state.Result;
+                }
+                else
+                {
+                    IsErrorNotificationVisible = true;
+                }
             }
             else
             {

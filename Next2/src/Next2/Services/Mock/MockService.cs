@@ -209,6 +209,7 @@ namespace Next2.Services.Mock
                 { typeof(ReplacementProductModel), _replacementProducts },
                 { typeof(ProductModel), _products },
                 { typeof(OptionModel), _optionsProduct },
+                { typeof(WorkLogRecordModel), _workLogBook },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -223,6 +224,7 @@ namespace Next2.Services.Mock
                 { typeof(TableModel), GetMaxId(_tables) },
                 { typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
+                { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
             };
 
             _initCompletionSource.TrySetResult(true);
