@@ -6,6 +6,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Next2.ViewModels
 
         private ICommand _tapPaymentOptionCommand;
 
-        private ICommand _tapTipsOptionCommand;
+        private ICommand _tapTipsValuesCommand;
 
         public PaymentCompleteViewModel(
             INavigationService navigationService,
@@ -34,7 +35,7 @@ namespace Next2.ViewModels
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
-            _tapTipsOptionCommand = new AsyncCommand<TipsItem>(OnTapTipsOptionCommandAsync, allowsMultipleExecutions: false);
+            _tapTipsValuesCommand = new AsyncCommand<TipsItem>(OnTapTipsValuesCommandAsync, allowsMultipleExecutions: false);
 
             Task.Run(InitPaymentOptionsAsync);
 
@@ -49,7 +50,7 @@ namespace Next2.ViewModels
 
         public PaymentItem SelectedPaymentOption { get; set; } = new();
 
-        public TipsItem? SelectedTipsValue { get; set; }
+        public TipsItem SelectedTipsValue { get; set; } = new();
 
         public bool IsCleared { get; set; } = true;
 
@@ -58,6 +59,8 @@ namespace Next2.ViewModels
         public byte[] BitmapSignature { get; set; }
 
         public string InputValue { get; set; }
+
+        public string InputTips { get; set; }
 
         public ECardPaymentStatus CardPaymentStatus { get; set; }
 
@@ -108,6 +111,25 @@ namespace Next2.ViewModels
                     }
                 }
             }
+
+            if (args.PropertyName == nameof(SelectedTipsValue))
+            {
+                InputTips = string.Empty;
+            }
+
+            if (args.PropertyName == nameof(InputTips))
+            {
+                if (float.TryParse(InputTips, out float tip))
+                {
+                    Order.Tip = tip / 100;
+                }
+                else
+                {
+                    Order.Tip = 0;
+                }
+
+                RecalculationTotal();
+            }
         }
 
         #endregion
@@ -149,48 +171,59 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
+        private float GetSubtotalWithBonus() => Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
+
+        private void RecalculationTotal()
+        {
+            float subtotalWithBonus = GetSubtotalWithBonus();
+            Order.PriceTax = (Order.Tip + subtotalWithBonus) * Order.Tax.Value;
+            Order.Total = subtotalWithBonus + Order.Tip + Order.PriceTax;
+        }
+
         private Task InitTipsValuesAsync()
         {
-            float subtotalWithBonus = Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
-
             TipsValuesItems = new()
             {
                 new()
                 {
-                    TipsType = ETipsItems.NoTip,
                     Text = "No Tip",
                     PercentTips = 0f,
-                    TapCommand = _tapTipsOptionCommand,
+                    TapCommand = _tapTipsValuesCommand,
                 },
                 new()
                 {
-                    TipsType = ETipsItems.PercentTen,
-                    Text = $"10% {subtotalWithBonus * 0.1f}",
                     PercentTips = 0.1f,
-                    TapCommand = _tapTipsOptionCommand,
+                    TapCommand = _tapTipsValuesCommand,
                 },
                 new()
                 {
-                    TipsType = ETipsItems.PercentFifteen,
-                    Text = $"15% {subtotalWithBonus * 0.15f}",
                     PercentTips = 0.15f,
-                    TapCommand = _tapTipsOptionCommand,
+                    TapCommand = _tapTipsValuesCommand,
                 },
                 new()
                 {
-                    TipsType = ETipsItems.PercentTwenty,
-                    Text = $"20% {subtotalWithBonus * 0.2f}",
                     PercentTips = 0.2f,
-                    TapCommand = _tapTipsOptionCommand,
+                    TapCommand = _tapTipsValuesCommand,
                 },
                 new()
                 {
-                    TipsType = ETipsItems.Other,
                     Text = "Other",
                     PercentTips = 1f,
-                    TapCommand = _tapTipsOptionCommand,
+                    TapCommand = _tapTipsValuesCommand,
                 },
             };
+
+            SelectedTipsValue = TipsValuesItems[0];
+
+            foreach (var tip in TipsValuesItems)
+            {
+                if (Math.Abs(tip.PercentTips) < 1 && tip.PercentTips % 1 > 0)
+                {
+                    var percent = 100 * tip.PercentTips;
+                    float value = tip.PercentTips * GetSubtotalWithBonus();
+                    tip.Text = $"{percent}% ($ {value:F2})";
+                }
+            }
 
             return Task.CompletedTask;
         }
@@ -202,12 +235,19 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapTipsOptionCommandAsync(TipsItem? item)
+        private Task OnTapTipsValuesCommandAsync(TipsItem item)
         {
+            if (item.PercentTips < 1)
+            {
+                Order.Tip = item.PercentTips * GetSubtotalWithBonus();
+            }
+
+            RecalculationTotal();
+
             return Task.CompletedTask;
         }
 
-        private async Task OnTapPaymentOptionCommandAsync(PaymentItem? item)
+        private async Task OnTapPaymentOptionCommandAsync(PaymentItem item)
         {
             string path = string.Empty;
             NavigationParameters navigationParams = new();

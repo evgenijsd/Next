@@ -121,6 +121,7 @@
                         </CollectionView>
 
                         <templates:CustomNumericKeyboardTemplate
+                            IsEnabled="False"
                             Margin="0,95,0,0"
                             Grid.Column="1"
                             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
@@ -130,10 +131,27 @@
                             IsTextRightToLeft="True"
                             IsNumericMode="True"
                             ValueFormat="$ {0:#,0.#0}"
-                            Value="{Binding InputValue}"
+                            Value="{Binding InputTips}"
                             MaxLength="9"
                             HeightRequest="340"
-                            WidthRequest="360" />
+                            WidthRequest="360">
+
+                            <templates:CustomNumericKeyboardTemplate.Triggers>
+
+                                <DataTrigger
+                                    TargetType="templates:CustomNumericKeyboardTemplate"
+                                    Binding="{Binding SelectedTipsValue.PercentTips}"
+                                    Value="1">
+
+                                    <Setter
+                                        Property="IsEnabled"
+                                        Value="True" />
+
+                                </DataTrigger>
+
+                            </templates:CustomNumericKeyboardTemplate.Triggers>
+                            
+                        </templates:CustomNumericKeyboardTemplate>
 
                     </Grid>
 
@@ -560,6 +578,41 @@
                         Style="{DynamicResource SummaryItem}"
                         HorizontalOptions="EndAndExpand"
                         Text="{Binding Order.Bonus.Name}" />
+
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding Order.Tip}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Text="{xct:Translate Tip}"
+                        Style="{DynamicResource SummaryItem}" />
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
 
                 </StackLayout>
 

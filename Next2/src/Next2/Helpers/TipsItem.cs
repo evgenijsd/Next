@@ -10,9 +10,7 @@ namespace Next2.Helpers
 {
     public class TipsItem : BindableBase, ITappable
     {
-        public ETipsItems TipsType { get; set; }
-
-        public string Text { get; set; }
+        public string Text { get; set; } = string.Empty;
 
         public float PercentTips { get; set; }
 
