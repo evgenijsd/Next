@@ -194,8 +194,8 @@
     <Compile Update="Views\Mobile\Dialogs\CustomerInfoDialog.xaml.cs">
       <DependentUpon>CustomerInfoDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Mobile\Dialogs\DeleteOrderDialog.xaml.cs">
-      <DependentUpon>DeleteOrderDialog.xaml</DependentUpon>
+    <Compile Update="Views\Mobile\Dialogs\OrderDetailDialog.xaml.cs">
+      <DependentUpon>OrderDetailDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\DeleteSeatDialog.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -224,8 +224,8 @@
     <Compile Update="Views\Tablet\CustomersView.xaml.cs">
       <DependentUpon>CustomersView.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Tablet\Dialogs\DeleteOrderDialog.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
+    <Compile Update="Views\Tablet\Dialogs\OrderDetailDialog.xaml.cs">
+      <DependentUpon>OrderDetailDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
