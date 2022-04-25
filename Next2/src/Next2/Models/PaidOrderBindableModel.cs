@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Enums;
+using Next2.Interfaces;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 
@@ -16,11 +17,17 @@ namespace Next2.Models
 
         public ObservableCollection<SeatWithFreeSetsBindableModel> Seats { get; set; } = new ();
 
+        public EBonusType BonusType { get; set; }
+
+        public BonusBindableModel Bonus { get; set; } = new();
+
+        public float SubtotalWithBonus { get; set; } = 0f;
+
         public float Subtotal { get; set; }
 
-        public float Coupon { get; set; }
+        public float PriceTax { get; set; }
 
-        public float Tax { get; set; }
+        public TaxModel Tax { get; set; } = new();
 
         public float Tip { get; set; }
 

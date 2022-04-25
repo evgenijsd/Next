@@ -32,6 +32,14 @@ namespace Next2.ViewModels
         {
             _popupNavigation = popupNavigation;
 
+            Order.BonusType = orderService.CurrentOrder.BonusType;
+            Order.Bonus = orderService.CurrentOrder.Bonus;
+            Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
+            Order.Subtotal = orderService.CurrentOrder.SubTotal;
+            Order.PriceTax = orderService.CurrentOrder.PriceTax;
+            Order.Tax = orderService.CurrentOrder.Tax;
+            Order.Total = orderService.CurrentOrder.Total;
+
             RewardsViewModel = new (
                 navigationService,
                 popupNavigation,
@@ -43,7 +51,10 @@ namespace Next2.ViewModels
                 NavigateAsync,
                 GoToPaymentStep);
 
-            PaymentCompleteViewModel = new (navigationService);
+            PaymentCompleteViewModel = new (
+                navigationService,
+                popupNavigation,
+                Order);
         }
 
         #region -- Public properties --
@@ -75,7 +86,35 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            RewardsViewModel.OnNavigatedTo(parameters);
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
+            {
+                if (float.TryParse(inputValue, out float sum))
+                {
+                    sum /= 100;
+
+                    if (Order.Total > sum)
+                    {
+                        Order.Cash = sum;
+                        Order.Total -= sum;
+                    }
+                    else
+                    {
+                        Order.Change = sum - Order.Total;
+                        Order.Cash = Order.Total;
+                        Order.Total = 0;
+                    }
+                }
+            }
+            else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+            {
+                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
+
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
+            else
+            {
+                RewardsViewModel.OnNavigatedTo(parameters);
+            }
         }
 
         #endregion
@@ -130,6 +169,11 @@ namespace Next2.ViewModels
                     await _navigationService.GoBackAsync();
                 }
             }
+        }
+
+        private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
+        {
+            await _navigationService.GoBackAsync();
         }
 
         #endregion

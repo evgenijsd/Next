@@ -3,31 +3,722 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enum="clr-namespace:Next2.Enums"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PaymentCompleteView"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     x:DataType="viewmodels:PaymentCompleteViewModel">
-    
-    <StackLayout Orientation="Horizontal">
-        <Label
-            VerticalOptions="CenterAndExpand"
-            HorizontalOptions="CenterAndExpand"
-            FontSize="20"
-            TextColor="White"
-            Text="Complete" />
 
-        <buttons:BorderButton
+    <Grid
+        ColumnDefinitions="0.67*, 0.33*"
+        VerticalOptions="FillAndExpand">
+
+        <sc:StateContainer
+            State="{Binding SelectedPaymentOption.PayemenType}"
+            Grid.Row="0">
+
+            <sc:StateCondition State="Tips">
+
+                <StackLayout>
+
+                    <Label
+                        Margin="28, 16, 28, 14"
+                        FontSize="{DynamicResource TSize_i4_5}"
+                        FontFamily="Barlow-Bold"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        Text="{xct:Translate Tips}" />
+
+                    <BoxView
+                        HeightRequest="1.5"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                    <Grid ColumnDefinitions="0.37*,0.63*" VerticalOptions="FillAndExpand">
+
+                        <CollectionView
+                            Grid.Column="0"
+                            Margin="35, 95, 0, 0"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedTipsValue}"
+                            ItemsSource="{Binding TipsValuesItems}">
+
+                            <CollectionView.ItemsLayout>
+
+                                <GridItemsLayout
+                                    Orientation="Vertical"
+                                    Span="1"
+                                    VerticalItemSpacing="10"
+                                    HorizontalItemSpacing="0" />
+
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.Effects>
+                                <effects:NoOverScrollEffect />
+                            </CollectionView.Effects>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate
+                                    x:DataType="helpers:TipsItem">
+
+                                    <Frame
+                                        Padding="0, 12"
+                                        HasShadow="False"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                        BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                                        xct:TouchEffect.Command="{Binding TapCommand}"
+                                        xct:TouchEffect.CommandParameter="{Binding .}">
+
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+
+                                                <VisualState Name="Selected">
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                        <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                                <VisualState Name="Normal">
+
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+
+                                        <StackLayout
+                                            Orientation="Horizontal">
+
+                                            <Label
+                                                Text="{Binding Text}"
+                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                VerticalTextAlignment="Center"
+                                                HorizontalTextAlignment="Center"
+                                                FontSize="{DynamicResource TSize_i7}"
+                                                FontFamily="Barlow-Medium"
+                                                HorizontalOptions="FillAndExpand" />
+
+                                        </StackLayout>
+
+                                    </Frame>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                        <templates:CustomNumericKeyboardTemplate
+                            Margin="0,95,0,0"
+                            Grid.Column="1"
+                            BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
+                            PlaceHolder="{xct:Translate EnterAmount}"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Start"
+                            IsTextRightToLeft="True"
+                            IsNumericMode="True"
+                            ValueFormat="$ {0:#,0.#0}"
+                            Value="{Binding InputValue}"
+                            MaxLength="9"
+                            HeightRequest="340"
+                            WidthRequest="360" />
+
+                    </Grid>
+
+
+                </StackLayout>
+                
+            </sc:StateCondition>
+
+            <sc:StateCondition State="GiftCards">
+
+                <StackLayout>
+
+                    <Label
+                        Text="{xct:Translate GiftCards}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"/>
+
+                </StackLayout>
+                
+            </sc:StateCondition>
+            
+            <sc:StateCondition State="Cash">
+
+                <StackLayout>
+
+                    <StackLayout
+                        Margin="28, 16, 28, 14"
+                        Orientation="Horizontal">
+
+                        <Label
+                            FontSize="{DynamicResource TSize_i4_5}"
+                            FontFamily="Barlow-Bold"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            Text="{xct:Translate Cash}" />
+
+                        <Label
+                            HorizontalOptions="EndAndExpand"
+                            VerticalOptions="Center">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span
+                                        Text="{xct:Translate Change}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource TSize_i4}"
+                                        FontFamily="Barlow-Regular"/>
+
+                                    <Span
+                                        Text="   $ "
+                                        TextColor="{DynamicResource IndicationColor_i1}"
+                                        FontSize="{DynamicResource TSize_i4}"
+                                        FontFamily="Barlow-Bold"/>
+
+                                    <Span
+                                        Text="{Binding Order.Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"
+                                        TextColor="{DynamicResource IndicationColor_i1}"
+                                        FontSize="{DynamicResource TSize_i4}"
+                                        FontFamily="Barlow-Bold"/>
+
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
+                    <BoxView
+                        HeightRequest="1.5"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                    <templates:CustomNumericKeyboardTemplate
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand"
+                        BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
+                        PlaceHolder="{xct:Translate EnterAmount}"
+                        IsTextRightToLeft="True"
+                        IsNumericMode="True"
+                        ValueFormat="$ {0:#,0.#0}"
+                        Value="{Binding InputValue}"
+                        MaxLength="9"
+                        WidthRequest="400"
+                        HeightRequest="480"/>
+
+                </StackLayout>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Card">
+
+                <StackLayout>
+
+                    <StackLayout
+                        Margin="28, 16, 28, 14"
+                        Orientation="Horizontal">
+
+                        <Label
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i4_5}"
+                            FontFamily="Barlow-Bold"
+                            Text="{xct:Translate Card}"/>
+
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Padding="15, 5"
+                            VerticalOptions="EndAndExpand"
+                            HorizontalOptions="EndAndExpand">
+
+                            <StackLayout.Triggers>
+
+                                <DataTrigger TargetType="StackLayout" Binding="{Binding CardPaymentStatus}" Value="WaitingSignature">
+
+                                    <Setter Property="IsVisible" Value="False"/>
+                                    
+                                </DataTrigger>
+                                
+                            </StackLayout.Triggers>
+
+                            <ffimageloading:CachedImage
+                                Source="ic_check_box_unhecked_24x24.png"
+                                xct:TouchEffect.Command="{Binding TapCheckBoxSignatureReceiptCommand}">
+
+                                <ffimageloading:CachedImage.Triggers>
+
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding NeedSignatureReceipt}" Value="True">
+
+                                        <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
+
+                                    </DataTrigger>
+
+                                </ffimageloading:CachedImage.Triggers>
+
+                            </ffimageloading:CachedImage>
+
+                            <Label
+                                Text="{xct:Translate SignatureReceipt}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                VerticalTextAlignment="Center"
+                                FontSize="{DynamicResource TSize_i5}"
+                                FontFamily="Barlow-Regular"
+                                Margin="10, 0, 0, 0"/>
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+                    <BoxView
+                        HeightRequest="1.5"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"/>
+
+                    <sc:StateContainer
+                        State="{Binding CardPaymentStatus}"
+                        VerticalOptions="FillAndExpand">
+
+                        <sc:StateCondition State="WaitingSwipeCard">
+
+                            <Frame
+                                Margin="30"
+                                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                CornerRadius="10"
+                                BackgroundColor="Transparent"
+                                xct:TouchEffect.Command="{Binding ChangeCardPaymentStatusCommand}">
+
+                                <StackLayout>
+
+                                    <ffimageloading:CachedImage
+                                        Source="pic_payment_swipe.png"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="EndAndExpand"/>
+
+                                    <Label
+                                        Text="{xct:Translate SwipeCardPay}"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontFamily="Barlow-Regular"
+                                        FontSize="{DynamicResource TSize_i4}"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="StartAndExpand"/>
+
+                                </StackLayout>
+
+                            </Frame>
+
+                        </sc:StateCondition>
+
+                        <sc:StateCondition State="WaitingSignature">
+
+                            <Grid VerticalOptions="FillAndExpand">
+
+                                <Frame
+                                    Grid.Row="0"
+                                    Margin="30"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    CornerRadius="10"
+                                    BackgroundColor="Transparent">
+
+                                    <Grid>
+
+                                        <controls:DrawPanel
+                                            Grid.Row="0"
+                                            IsCleared="{Binding IsCleared}"
+                                            Bitmap="{Binding BitmapSignature}"
+                                            VerticalOptions="FillAndExpand"/>
+
+                                        <Frame
+                                            Grid.Row="0"
+                                            IsVisible="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                                            HorizontalOptions="EndAndExpand"
+                                            VerticalOptions="EndAndExpand"
+                                            Margin="32"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                                            BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                            CornerRadius="10"
+                                            Padding="80, 20"
+                                            xct:TouchEffect.Command="{Binding ClearDrawPanelCommand}">
+
+                                            <StackLayout Orientation="Horizontal">
+
+                                                <Label
+                                                    Text="{xct:Translate Clear}"
+                                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                    FontSize="{DynamicResource TSize_i5}"
+                                                    FontFamily="Barlow-SemiBold"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"/>
+
+                                                <ffimageloading:CachedImage
+                                                    Margin="10, 0, 0, 0"
+                                                    Source="ic_close_square_24x24.png"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"/>
+
+                                            </StackLayout>
+
+                                        </Frame>
+
+                                    </Grid>
+
+                                </Frame>
+
+                            </Grid>
+
+                        </sc:StateCondition>
+
+                    </sc:StateContainer>
+
+                </StackLayout>
+
+            </sc:StateCondition>
+
+        </sc:StateContainer>
+
+        <StackLayout
             Grid.Column="1"
-            Text="{xct:Translate Tips}"
-            HeightRequest="50"
-            MinimumHeightRequest="50"
-            WidthRequest="100"
-            FontSize="{DynamicResource TSize_i7}"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            BorderColor="{DynamicResource IndicationColor_i3}"
-            BackgroundColor="{DynamicResource IndicationColor_i3}"
-            Style="{DynamicResource BorderButtonStyle_i1}"
-            Command="{Binding OpenTipsCommand}"/>
-    </StackLayout>
+            Background="{DynamicResource TextAndBackgroundColor_i4}">
+
+            <Label
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="{DynamicResource TSize_i6}"
+                Text="{xct:Translate Payment}"
+                Padding="18, 15, 18, 0"/>
+
+            <CollectionView
+                VerticalOptions="Start"
+                Margin="18, 15, 18, 0"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedPaymentOption}"
+                ItemsSource="{Binding PaymentOptionsItems}">
+
+                <CollectionView.ItemsLayout>
+
+                    <GridItemsLayout
+                        Orientation="Vertical"
+                        Span="1"
+                        VerticalItemSpacing="8"
+                        HorizontalItemSpacing="0"/>
+
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.Effects>
+                    <effects:NoOverScrollEffect/>
+                </CollectionView.Effects>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="helpers:PaymentItem">
+
+                        <Frame
+                            Padding="0, 15"
+                            HasShadow="False"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                            CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                            xct:TouchEffect.Command="{Binding TapCommand}"
+                            xct:TouchEffect.CommandParameter="{Binding .}">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+
+                                    <VisualState Name="Selected">
+
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                    <VisualState Name="Normal">
+
+                                        <VisualState.Setters>
+                                            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <StackLayout Orientation="Horizontal">
+
+                                <Label
+                                    Text="{Binding Text}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                    VerticalTextAlignment="Center"
+                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontFamily="Barlow-Medium"
+                                    Margin="15, 0, 0, 0"
+                                    HorizontalOptions="FillAndExpand"/>
+
+                                <ffimageloading:CachedImage 
+                                    Source="ic_arrow_right_40x40"
+                                    HeightRequest="24"
+                                    HorizontalOptions="End"
+                                    Margin="0, 0, 15, 0"/>
+
+                            </StackLayout>
+
+                        </Frame>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <StackLayout>
+
+                <BoxView
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    HeightRequest="1"/>
+
+                <Label
+                    Text="{xct:Translate Summary}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontSize="{DynamicResource TSize_i4}"
+                    FontFamily="Barlow-Bold"
+                    Margin="15, 7"/>
+
+                <BoxView
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+                    HeightRequest="1"/>
+
+            </StackLayout>
+
+            <StackLayout
+                Padding="15, 10, 15, 0"
+                IsVisible="{Binding IsExpandedSummary}">
+
+                <StackLayout Orientation="Horizontal">
+
+                    <Label
+                        Text="{xct:Translate Subtotal}"
+                        Style="{DynamicResource SummaryItem}"/>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding Order.BonusType, Converter={xct:EnumToIntConverter}}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        Text="{xct:Translate Coupon}">
+
+                        <Label.Triggers>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding Order.BonusType}"
+                                Value="{x:Static enum:EBonusType.Discount}">
+
+                                <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+
+                    </Label>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding Order.Bonus.Name}" />
+
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding Order.PriceTax}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Text="{xct:Translate Tax}"
+                        Style="{DynamicResource SummaryItem}"/>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+
+                <BoxView
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    HeightRequest="1"
+                    Margin="0, 10"/>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding Order.Cash}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Text="{xct:Translate Cash}"
+                        Style="{DynamicResource SummaryItem}"/>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding Order.Change}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Text="{xct:Translate Change}"
+                        Style="{DynamicResource SummaryItem}"/>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+
+            </StackLayout>
+
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="15, 5">
+
+                <Label
+                    Text="{xct:Translate Total}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i4}"
+                    FontFamily="Barlow-Regular"/>
+
+                <Label
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="EndAndExpand"
+                    FontSize="{DynamicResource TSize_i4}"
+                    FontFamily="Barlow-Regular">
+
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Order.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                </Label>
+
+            </StackLayout>
+
+            <buttons:BorderButton
+                Text="Complete"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                CornerRadius="4"
+                Padding="0, 10"
+                Margin="15"/>
+
+
+        </StackLayout>
+
+    </Grid>
 
 </ContentView>
