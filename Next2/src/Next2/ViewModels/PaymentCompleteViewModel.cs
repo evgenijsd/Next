@@ -3,7 +3,11 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -12,13 +16,18 @@ namespace Next2.ViewModels
 {
     public class PaymentCompleteViewModel : BaseViewModel
     {
+        private readonly IPopupNavigation _popupNavigation;
+
         private ICommand _tapPaymentOptionCommand;
 
         public PaymentCompleteViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
+            _popupNavigation = popupNavigation;
+
             Order = order;
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
@@ -32,12 +41,62 @@ namespace Next2.ViewModels
 
         public PaymentItem SelectedPaymentOption { get; set; } = new();
 
+        public bool IsCleared { get; set; } = true;
+
+        public bool NeedSignatureReceipt { get; set; }
+
+        public string InputValue { get; set; }
+
+        public ECardPaymentStatus CardPaymentStatus { get; set; }
+
         public PaidOrderBindableModel Order { get; set; }
 
         public bool IsExpandedSummary { get; set; } = true;
 
         private ICommand _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand = new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _changeCardPaymentStatusCommand;
+        public ICommand ChangeCardPaymentStatusCommand => _changeCardPaymentStatusCommand ??= new AsyncCommand(OnChangeCardPaymentStatusCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _clearDrawPanelCommand;
+        public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new AsyncCommand(OnClearDrawPanelCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _tapCheckBoxSignatureReceiptCommand;
+        public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new AsyncCommand(OnTapCheckBoxSignatureReceiptCommandAsync, allowsMultipleExecutions: false);
+
+        #endregion
+
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if(args.PropertyName == nameof(InputValue))
+            {
+                Order.Total += Order.Cash;
+                Order.Cash = 0;
+                Order.Change = 0;
+
+                if (float.TryParse(InputValue, out float sum))
+                {
+                    sum /= 100;
+
+                    if (Order.Total > sum)
+                    {
+                        Order.Cash = sum;
+                        Order.Total -= sum;
+                    }
+                    else
+                    {
+                        Order.Change = sum - Order.Total;
+                        Order.Cash = Order.Total;
+                        Order.Total = 0;
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -93,34 +152,71 @@ namespace Next2.ViewModels
             switch (item.PayemenType)
             {
                 case EPaymentItems.Cash:
-                    path = nameof(InputCashPage);
-
-                    if (Order.Cash == 0)
+                    if (!App.IsTablet)
                     {
-                        navigationParams = new NavigationParameters()
-                        {
-                            { Constants.Navigations.TOTAL_SUM, Order.Total },
-                        };
-                    }
-                    else
-                    {
-                        Order.Total += Order.Cash;
-                        Order.Cash = 0;
-                        Order.Change = 0;
+                        path = nameof(InputCashPage);
 
-                        navigationParams = new NavigationParameters()
+                        if (Order.Cash == 0)
                         {
-                            { Constants.Navigations.TOTAL_SUM, Order.Total },
-                        };
+                            navigationParams = new NavigationParameters()
+                            {
+                                { Constants.Navigations.TOTAL_SUM, Order.Total },
+                            };
+                        }
+                        else
+                        {
+                            Order.Total += Order.Cash;
+                            Order.Cash = 0;
+                            Order.Change = 0;
+
+                            navigationParams = new NavigationParameters()
+                            {
+                                { Constants.Navigations.TOTAL_SUM, Order.Total },
+                            };
+                        }
                     }
 
                     break;
                 case EPaymentItems.Card:
                     path = nameof(WaitingSwipeCardPage);
+                    IsCleared = true;
                     break;
             }
 
-            await _navigationService.NavigateAsync(path, navigationParams);
+            if (!App.IsTablet)
+            {
+                await _navigationService.NavigateAsync(path, navigationParams);
+            }
+        }
+
+        private async Task OnChangeCardPaymentStatusCommandAsync()
+        {
+            if (NeedSignatureReceipt)
+            {
+                PopupPage confirmDialog = new Views.Tablet.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
+
+                await _popupNavigation.PushAsync(confirmDialog);
+            }
+            else
+            {
+                CardPaymentStatus = ECardPaymentStatus.WaitingSignature;
+            }
+        }
+
+        private async Task OnClearDrawPanelCommandAsync()
+        {
+            IsCleared = true;
+        }
+
+        private Task OnTapCheckBoxSignatureReceiptCommandAsync()
+        {
+            NeedSignatureReceipt = !NeedSignatureReceipt;
+            return Task.CompletedTask;
+        }
+
+        private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
+        {
+            await _navigationService.GoBackAsync();
         }
 
         #endregion

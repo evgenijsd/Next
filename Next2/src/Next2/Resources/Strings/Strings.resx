@@ -550,10 +550,13 @@ to complete the payment.</value>
     <value>Payment complete!</value>
   </data>
   <data name="ThankYouVisiting" xml:space="preserve">
-    <value>Thank you for visiting.  A receipt has been printed for you.</value>
+    <value>Thank you for visiting. A receipt has been printed for you.</value>
   </data>
   <data name="ThankYouVisitingEnter" xml:space="preserve">
     <value>Thank you for visiting.
 A receipt has been printed for you.</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
   </data>
 </root>
