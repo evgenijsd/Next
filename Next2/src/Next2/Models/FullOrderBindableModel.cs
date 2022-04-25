@@ -23,6 +23,7 @@ namespace Next2.Models
             OrderType = order.OrderType;
             SubTotal = order.SubTotal;
             Tax = order.Tax;
+            PriceTax = order.PriceTax;
             Total = order.Total;
             Seats = new();
 
@@ -34,24 +35,29 @@ namespace Next2.Models
 
         public void UpdateTotalSum()
         {
-            Total = 0;
+            SubTotal = 0;
 
             foreach (var seat in Seats)
             {
                 foreach (var set in seat.Sets)
                 {
-                    set.Price = set.Portion.Price;
-
-                    Total += set.Price;
+                    set.IngredientsPrice = 0;
+                    set.ProductsPrice = 0;
 
                     foreach (var product in set.Products)
                     {
-                        Total += product.IngredientsPrice;
+                        set.IngredientsPrice += product.IngredientsPrice;
+                        set.ProductsPrice += product.SelectedProduct.ProductPrice;
                     }
+
+                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice + set.Portion.Price - set.Portions.OrderByDescending(x => x.Price).LastOrDefault().Price;
+
+                    SubTotal += set.TotalPrice;
                 }
             }
 
-            SubTotal = Total - PriceTax;
+            PriceTax = SubTotal * Tax.Value;
+            Total = SubTotal + PriceTax;
         }
 
         public int Id { get; set; }
@@ -84,6 +90,6 @@ namespace Next2.Models
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
-        public EOrderPaymentStatus? PaymentStatus;
+        public EOrderStatus? PaymentStatus;
     }
 }

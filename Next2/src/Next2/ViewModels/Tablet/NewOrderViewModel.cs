@@ -46,7 +46,7 @@ namespace Next2.ViewModels.Tablet
 
             _orderService = orderService;
 
-            orderRegistrationViewModel.RefreshCurrentOrder();
+            orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
 
         #region -- Public properties --
@@ -157,7 +157,7 @@ namespace Next2.ViewModels.Tablet
                             await _popupNavigation.PopAsync();
                         }
 
-                        OrderRegistrationViewModel.RefreshCurrentOrder();
+                        OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
                         var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                         {

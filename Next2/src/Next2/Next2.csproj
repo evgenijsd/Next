@@ -151,6 +151,9 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\Templates\ProductItemTemplate.xaml.cs">
+      <DependentUpon>ProductItemTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\Templates\Mobile\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
@@ -165,6 +168,9 @@
     </Compile>
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\MovedOrderToOrderTabsDialog.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Resources\Strings\Strings.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -291,6 +297,9 @@
     <EmbeddedResource Update="Controls\Spoiler.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Templates\ProductItemTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -346,7 +355,7 @@
     <EmbeddedResource Update="Views\Mobile\BonusPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Mobile\Dialogs\AddSetToOrderDialog.xaml">
+    <EmbeddedResource Update="Views\Mobile\Dialogs\MovedSetToOrderTabsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\EditPage.xaml">
