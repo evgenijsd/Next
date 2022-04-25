@@ -121,6 +121,8 @@
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
+            public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
+            public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
         }
 
         public static class PaymentOrderStatus

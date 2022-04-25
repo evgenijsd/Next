@@ -36,10 +36,14 @@
                     <Label 
                         Margin="0, 10, 0, 0"
                         VerticalOptions="Start"
+                        IsVisible="{Binding DetailedSelectedIngredientModels, Converter={xct:ListIsNotNullOrEmptyConverter}}"
                         Text="{xct:Translate Inventory}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i9}"
                         FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeTitle}" 
-                        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}"/> 
+                        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}"/>
+
+
+
 
                     <StackLayout
                         BindableLayout.ItemsSource="{Binding DetailedSelectedIngredientModels}"
@@ -108,35 +112,26 @@
 
                     </StackLayout>
 
-                    <BoxView Style="{DynamicResource SeparatorThinnyStyle}"/>
-
-                    <Label 
-                        Margin="0, 10, 0, 0"
-                        VerticalOptions="Start"
-                        Text="{xct:Translate Replace}"
-                        FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeTitle}" 
-                        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}" 
-                        TextColor="{DynamicResource TextAndBackgroundColor_i9}">
-                        
-                        <Label.Triggers>
-                            
-                            <DataTrigger 
-                                TargetType="Label"
-                                Binding="{Binding ReplacementProducts}"
-                                Value="null">
-                                
-                                <Setter Property="IsVisible" Value="False"/>
-                                
-                            </DataTrigger>
-                                         
-                        </Label.Triggers>
-                    </Label>
-
                     <Grid 
                         Margin="0, 0, 0, 10" 
                         Grid.Row="1"
+                        IsVisible="{Binding ReplacementProducts, Converter={xct:ListIsNotNullOrEmptyConverter}}"
                         ColumnDefinitions="0.50*, 0.50*"
                         RowDefinitions="auto, auto">
+
+                        <BoxView
+                            Grid.ColumnSpan="2"
+                            Style="{DynamicResource SeparatorThinnyStyle}"/>
+
+                        <Label 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0, 10, 0, 0"
+                            VerticalOptions="Start"
+                            Text="{xct:Translate Replace}"
+                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeTitle}" 
+                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}" 
+                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
 
                         <StackLayout 
                             Grid.Column="0"

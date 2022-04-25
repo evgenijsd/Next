@@ -523,14 +523,19 @@ namespace Next2.ViewModels
                 }
 
                 var param = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
-                { Constants.DialogParameterKeys.SEATS, seats },
-            };
+                {
+                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                    { Constants.DialogParameterKeys.SEATS, seats },
+                    { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                    { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                    { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
+                };
 
                 PopupPage removeOrderDialog = App.IsTablet
-                    ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                    : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                    ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                    : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
                 await _popupNavigation.PushAsync(removeOrderDialog);
             }
@@ -886,7 +891,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
         }
 
         private Task OnPayCommandAsync()
@@ -955,59 +960,66 @@ namespace Next2.ViewModels
 
         private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
         {
-            var result = await _menuService.GetIngredientsAsync();
-
-            if (result.IsSuccess)
+            if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
             {
-                List<IngredientModel> allIngredientModels = new(result.Result);
+                var result = await _menuService.GetIngredientsAsync();
 
-                if (allIngredientModels is not null && SelectedSet is not null)
+                if (result.IsSuccess)
                 {
-                    foreach (var product in SelectedSet.Products)
+                    List<IngredientModel> allIngredientModels = new(result.Result);
+
+                    if (allIngredientModels is not null && SelectedSet is not null)
                     {
-                        ObservableCollection<IngredientBindableModel> tempListIngredients = new();
-                        List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
+                        foreach (var product in SelectedSet.Products)
                         {
-                            Id = row.Id,
-                            Title = row.Title,
-                            Price = row.Price,
-                            IsToggled = true,
-                            ImagePath = row.ImagePath,
-                        }));
-
-                        foreach (var ingredient in setOfIngredients)
-                        {
-                            tempListIngredients.Add(ingredient);
-                        }
-
-                        if (product.DefaultSelectedIngredients.Count > 0)
-                        {
-                            foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+                            ObservableCollection<IngredientBindableModel> tempListIngredients = new();
+                            List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
                             {
-                                var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+                                Id = row.Id,
+                                Title = row.Title,
+                                Price = row.Price,
+                                IsToggled = true,
+                                ImagePath = row.ImagePath,
+                            }));
 
-                                var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+                            foreach (var ingredient in setOfIngredients)
+                            {
+                                tempListIngredients.Add(ingredient);
+                            }
 
-                                if (!isDefaultIngredientExist)
+                            if (product.DefaultSelectedIngredients.Count > 0)
+                            {
+                                foreach (var defaultIngredient in product.DefaultSelectedIngredients)
                                 {
-                                    tempListIngredients.Add(new IngredientBindableModel()
+                                    var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+
+                                    var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+
+                                    if (!isDefaultIngredientExist)
                                     {
-                                        Title = defaultIngredientModel.Title,
-                                        Price = 0,
-                                        IsToggled = false,
-                                        IsDefault = true,
-                                    });
+                                        tempListIngredients.Add(new IngredientBindableModel()
+                                        {
+                                            Title = defaultIngredientModel.Title,
+                                            Price = 0,
+                                            IsToggled = false,
+                                            IsDefault = true,
+                                        });
+                                    }
                                 }
                             }
+
+                            product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
                         }
 
-                        product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
+                        _isAnyUpDateForCurrentSet = false;
+
+                        SelectedSet = new(SelectedSet);
                     }
-
-                    _isAnyUpDateForCurrentSet = false;
-
-                    SelectedSet = new(SelectedSet);
                 }
+            }
+            else
+            {
+                SelectedSet = new(SelectedSet);
             }
         }
 
