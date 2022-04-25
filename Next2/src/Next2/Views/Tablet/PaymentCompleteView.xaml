@@ -231,6 +231,7 @@
                                         <controls:DrawPanel
                                             Grid.Row="0"
                                             IsCleared="{Binding IsCleared}"
+                                            Bitmap="{Binding BitmapSignature}"
                                             VerticalOptions="FillAndExpand"/>
 
                                         <Frame
@@ -372,7 +373,7 @@
 
             </CollectionView>
 
-            <StackLayout Spacing="0">
+            <StackLayout>
 
                 <BoxView
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"

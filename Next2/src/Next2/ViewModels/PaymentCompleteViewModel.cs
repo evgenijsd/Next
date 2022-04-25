@@ -45,6 +45,8 @@ namespace Next2.ViewModels
 
         public bool NeedSignatureReceipt { get; set; }
 
+        public byte[] BitmapSignature { get; set; }
+
         public string InputValue { get; set; }
 
         public ECardPaymentStatus CardPaymentStatus { get; set; }
