@@ -3,13 +3,173 @@
     x:Class="Next2.Views.Mobile.Dialogs.FinishPaymentDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label
-                HorizontalOptions="CenterAndExpand"
-                Text="Welcome to Xamarin.Forms!MOBILE" TextColor="White" FontSize="Header"
-                VerticalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+
+    <rg:PopupPage.Resources>
+        <Style x:Key="separatorStyle" TargetType="BoxView">
+            <Setter Property="BackgroundColor" Value="#424861" />
+            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="VerticalOptions" Value="End" />
+        </Style>
+        <Style x:Key="buttonStyle" TargetType="Frame">
+            <Setter Property="WidthRequest" Value="126" />
+            <Setter Property="HeightRequest" Value="38" />
+            <Setter Property="BackgroundColor" Value="#2E3143" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="HasShadow" Value="False" />
+        </Style>
+        <Style x:Key="buttonTextStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="TextColor" Value="#FEFEFD" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+    </rg:PopupPage.Resources>
+
+
+    <pcView:PancakeView
+        Margin="18"
+        BackgroundColor="#2E3143"
+        Border="{pcView:BorderMarkup Color=#424861,
+                                     Thickness={OnPlatform Android=3,
+                                                           iOS=3}}"
+        CornerRadius="6"
+        HeightRequest="785"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand"
+        WidthRequest="492">
+
+        <Grid RowDefinitions="0.1*,0.27*,0.43*,0.2*">
+
+            <Frame BackgroundColor="#34374C" HasShadow="False">
+                <Label
+                    Grid.Row="0"
+                    Margin="18,0,0,0"
+                    FontFamily="Barlow-SemiBold"
+                    FontSize="22"
+                    HorizontalOptions="Start"
+                    Text="Payment complete"
+                    TextColor="#FEFEFD"
+                    VerticalOptions="Center" />
+            </Frame>
+
+            <BoxView
+                Grid.Row="0"
+                BackgroundColor="#212430"
+                Style="{StaticResource separatorStyle}" />
+
+            <StackLayout
+                Grid.Row="1"
+                Margin="18,0,0,0"
+                HorizontalOptions="Start"
+                Orientation="Vertical"
+                Spacing="14"
+                VerticalOptions="Center">
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="1"
+                Margin="0,0,18,0"
+                HorizontalOptions="End"
+                Orientation="Vertical"
+                Spacing="14"
+                VerticalOptions="Center">
+                <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+                <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+                <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+                <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+            </StackLayout>
+
+            <BoxView
+                Grid.Row="1"
+                Margin="18,0,18,0"
+                Style="{StaticResource separatorStyle}" />
+
+            <StackLayout
+                Grid.Row="2"
+                Margin="18,14,0,0"
+                HorizontalOptions="Start"
+                Orientation="Vertical"
+                Spacing="14">
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+                <Label
+                    FontFamily="Barlow-Regular"
+                    FontSize="18"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="2"
+                Margin="0,14,18,0"
+                HorizontalOptions="End"
+                Orientation="Vertical"
+                Spacing="14">
+                <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+                <Label
+                    FontFamily="Barlow-Regular"
+                    FontSize="18"
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="Text" />
+            </StackLayout>
+
+            <BoxView Grid.Row="2" Style="{StaticResource separatorStyle}" />
+
+            <!--  Buttons  -->
+            <StackLayout
+                Grid.Row="3"
+                Margin="18,16,18,0"
+                Orientation="Horizontal"
+                Spacing="12"
+                VerticalOptions="StartAndExpand">
+                <Frame BorderColor="#F59249" Style="{StaticResource buttonStyle}">
+                    <Label Style="{StaticResource buttonTextStyle}" Text="Email" />
+                </Frame>
+                <Frame BorderColor="#7B61FF" Style="{StaticResource buttonStyle}">
+                    <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+                </Frame>
+                <Frame BorderColor="#F45E49" Style="{StaticResource buttonStyle}">
+                    <Label Style="{StaticResource buttonTextStyle}" Text="Print" />
+                </Frame>
+
+            </StackLayout>
+
+            <Frame
+                Grid.Row="3"
+                Margin="18,0,18,16"
+                BackgroundColor="#3CD47D"
+                Style="{StaticResource buttonStyle}"
+                VerticalOptions="EndAndExpand">
+                <Label
+                    Style="{StaticResource buttonTextStyle}"
+                    Text="No Receipt"
+                    TextColor="#34374C" />
+            </Frame>
+
+        </Grid>
+
+    </pcView:PancakeView>
 </rg:PopupPage>
