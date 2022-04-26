@@ -117,18 +117,11 @@ namespace Next2.ViewModels
             }
         }
 
-        public override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
-
         public override void OnDisappearing()
         {
             base.OnDisappearing();
 
             EmployeeId = string.Empty;
-            //timerUpdateTime.Stop();
-            //timerUpdateTime.Dispose();
         }
 
         #endregion

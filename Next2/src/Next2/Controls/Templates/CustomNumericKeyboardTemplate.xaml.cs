@@ -180,9 +180,10 @@ namespace Next2.Controls.Templates
 
             if (propertyName == nameof(IsUserLogIn))
             {
-                ScreenKeyboard = PlaceHolder;
-                Value = PlaceHolder;
                 _numericValue = 0;
+                Value = PlaceHolder;
+                ScreenKeyboard = PlaceHolder;
+
                 IsKeyBoardTyped = false;
             }
         }
@@ -195,57 +196,36 @@ namespace Next2.Controls.Templates
         {
             if (sender is string str && str is not null)
             {
-                if (IsKeyBoardTyped)
-                {
-                    if (Value.Length < MaxLength)
-                    {
-                        if (IsNumericMode)
-                        {
-                            double tmp;
-
-                            if (double.TryParse(str, out tmp))
-                            {
-                                _numericValue *= 10;
-                                _numericValue += tmp / 100;
-
-                                ScreenKeyboard = string.Format(ValueFormat, _numericValue);
-                                Value += str;
-                            }
-                        }
-                        else
-                        {
-                            Value += str;
-                            ScreenKeyboard = string.Format(ValueFormat, Value);
-                        }
-                    }
-                }
-                else
+                if (!IsKeyBoardTyped)
                 {
                     IsKeyBoardTyped = true;
 
+                    _numericValue = 0;
+                    Value = string.Empty;
+                }
+
+                if (Value.Length < MaxLength)
+                {
                     if (IsNumericMode)
                     {
-                        double tmp;
+                        if (double.TryParse(str, out double tmp))
+                        {
+                            _numericValue *= 10;
+                            _numericValue += tmp / 100;
 
-                        if (double.TryParse(str, out tmp))
-                        {
-                            _numericValue = tmp / 100;
-                            ScreenKeyboard = string.Format(ValueFormat, _numericValue);
-                            Value = str;
-                        }
-                        else
-                        {
-                            Value = string.Empty;
-                            ScreenKeyboard = string.Format(ValueFormat, Value);
-                            _numericValue = 0;
+                            if (_numericValue > 0)
+                            {
+                                Value += str;
+                            }
                         }
                     }
                     else
                     {
-                        Value = str;
-                        ScreenKeyboard = string.Format(ValueFormat, Value);
+                        Value += str;
                     }
                 }
+
+                ScreenKeyboard = IsNumericMode ? string.Format(ValueFormat, _numericValue) : string.Format(ValueFormat, Value);
             }
         }
 

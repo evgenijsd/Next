@@ -17,7 +17,7 @@
 
         <controls:CustomNavigationbar
             Grid.Row="0"
-            Title="Cash"
+            Title="{xct:Translate Cash}"
             HeightImage="30"
             FontSize="{DynamicResource TSize_i3}"
             FontFamily="Barlow-Bold"

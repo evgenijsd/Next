@@ -21,7 +21,7 @@
         VerticalOptions="FillAndExpand">
 
         <sc:StateContainer
-            State="{Binding SelectedPaymentOption.PayemenType}"
+            State="{Binding SelectedPaymentOption.PaymentType}"
             Grid.Row="0">
 
             <sc:StateCondition State="Tips">
@@ -63,8 +63,7 @@
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate
-                                    x:DataType="helpers:TipsItem">
+                                <DataTemplate x:DataType="helpers:TipsItem">
 
                                     <Frame
                                         Padding="0, 12"
@@ -581,7 +580,6 @@
                 <StackLayout Orientation="Horizontal">
 
                     <StackLayout.Triggers>
-
                         <DataTrigger
                             TargetType="StackLayout"
                             Binding="{Binding Order.Tip}"
@@ -590,7 +588,6 @@
                             <Setter Property="IsVisible" Value="False" />
 
                         </DataTrigger>
-
                     </StackLayout.Triggers>
 
                     <Label
@@ -599,27 +596,27 @@
 
                     <Label
                         Style="{DynamicResource SummaryItem}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding SelectedTipsValue.Text}">
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            </FormattedString>                            
+                        </Label.FormattedText>
 
                         <Label.Triggers>
                             <DataTrigger
                                 TargetType="Label"
-                                Binding="{Binding SelectedTipsValue.Text}"
-                                Value="Other">
+                                Binding="{Binding SelectedTipsValue.PercentTips, Converter={StaticResource isTipValueNotIntroduceConverter}}"
+                                Value="true">
 
-                                <Setter Property="Text">
-                                    <Setter.Value>
-                                        <FormattedString>
-                                            <Span Text="{xct:Translate CurrencySign}" />
-                                            <Span Text=" " />
-                                            <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                                        </FormattedString>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter Property="FormattedText" Value="{Binding SelectedTipsValue.Text}" />
 
                             </DataTrigger>
                         </Label.Triggers>
+
                     </Label>
 
                 </StackLayout>
@@ -767,7 +764,7 @@
             </StackLayout>
 
             <buttons:BorderButton
-                Text="Complete"
+                Text="{xct:Translate Complete}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"

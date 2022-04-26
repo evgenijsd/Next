@@ -7,7 +7,7 @@ namespace Next2.Helpers
 {
     public class PaymentItem : BindableBase, ITappable
     {
-        public EPaymentItems PayemenType { get; set; }
+        public EPaymentItems PaymentType { get; set; }
 
         public string Text { get; set; }
 

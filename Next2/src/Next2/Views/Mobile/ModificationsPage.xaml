@@ -10,6 +10,7 @@
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -546,7 +547,7 @@
 
                                     <controls:Spoiler.ItemTemplate>
 
-                                        <DataTemplate x:DataType="models:ItemSpoilerModel">
+                                        <DataTemplate x:DataType="helpers:SpoilerItem">
                                             <templates:SpoilerItemTemplate HeightRequest="59"/>
                                         </DataTemplate>
 
