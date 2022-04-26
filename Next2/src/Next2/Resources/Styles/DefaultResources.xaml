@@ -172,7 +172,15 @@
                     
         </Setter>
     </Style>
-    
+
+    <Style x:Key="SummaryItem" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="Barlow-Medium" />
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+        <Setter Property="Margin" Value="0, 2" />
+    </Style>
+
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />

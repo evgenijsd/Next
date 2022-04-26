@@ -42,7 +42,6 @@
                 Grid.Row="0"
                 HorizontalOptions="FillAndExpand"
                 Orientation="Horizontal"
-                Spacing="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                 <ffimageloading:CachedImage

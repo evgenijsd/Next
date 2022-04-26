@@ -127,7 +127,7 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.INPUT_TEXT, out string text))
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
                 var products = _currentSet.Products;
                 var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
@@ -487,7 +487,7 @@ namespace Next2.ViewModels
 
                         var navigationParameters = new NavigationParameters()
                         {
-                            { Constants.Navigations.INPUT_TEXT, _currentSet.Products[indexProduct].Comment },
+                            { Constants.Navigations.INPUT_VALUE, _currentSet.Products[indexProduct].Comment },
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 

@@ -14,6 +14,7 @@ namespace Next2.Models
         public float Value { get; set; }
 
         public EBonusValueType Type { get; set; }
+
         public ICommand? TapCommand { get; set; }
     }
 }

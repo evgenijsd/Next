@@ -14,8 +14,7 @@
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
 
     <StackLayout 
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" 
-        Spacing="0" 
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         Padding="0">
 
         <Label 
@@ -49,7 +48,6 @@
             
             <StackLayout 
                 Grid.Column="0"
-                Spacing="0"
                 HorizontalOptions="FillAndExpand"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
                 
@@ -71,7 +69,6 @@
 
             <StackLayout 
                 Grid.Column="1"
-                Spacing="0"
                 HorizontalOptions="FillAndExpand"
                 BackgroundColor="{DynamicResource AppColor_i4}">
                 
