@@ -559,4 +559,13 @@ A receipt has been printed for you.</value>
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>
   </data>
+  <data name="NoReceipt" xml:space="preserve">
+    <value>No Receipt</value>
+  </data>
+  <data name="PaymentComplete2" xml:space="preserve">
+    <value>Payment complete</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
 </root>

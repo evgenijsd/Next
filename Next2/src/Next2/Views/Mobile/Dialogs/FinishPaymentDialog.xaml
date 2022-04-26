@@ -3,28 +3,29 @@
     x:Class="Next2.Views.Mobile.Dialogs.FinishPaymentDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup">
 
 
     <rg:PopupPage.Resources>
         <Style x:Key="separatorStyle" TargetType="BoxView">
-            <Setter Property="BackgroundColor" Value="#424861" />
-            <Setter Property="HeightRequest" Value="1" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+            <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=1}" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             <Setter Property="VerticalOptions" Value="End" />
         </Style>
         <Style x:Key="buttonStyle" TargetType="Frame">
             <Setter Property="WidthRequest" Value="126" />
             <Setter Property="HeightRequest" Value="38" />
-            <Setter Property="BackgroundColor" Value="#2E3143" />
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
             <Setter Property="CornerRadius" Value="4" />
             <Setter Property="HasShadow" Value="False" />
         </Style>
         <Style x:Key="buttonTextStyle" TargetType="Label">
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="16" />
-            <Setter Property="TextColor" Value="#FEFEFD" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="HorizontalTextAlignment" Value="Center" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
         </Style>
@@ -33,8 +34,8 @@
 
     <pcView:PancakeView
         Margin="18"
-        BackgroundColor="#2E3143"
-        Border="{pcView:BorderMarkup Color=#424861,
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2},
                                      Thickness={OnPlatform Android=3,
                                                            iOS=3}}"
         CornerRadius="6"
@@ -45,21 +46,21 @@
 
         <Grid RowDefinitions="0.1*,0.27*,0.43*,0.2*">
 
-            <Frame BackgroundColor="#34374C" HasShadow="False">
+            <Frame BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" HasShadow="False">
                 <Label
                     Grid.Row="0"
                     Margin="18,0,0,0"
                     FontFamily="Barlow-SemiBold"
                     FontSize="22"
                     HorizontalOptions="Start"
-                    Text="Payment complete"
-                    TextColor="#FEFEFD"
+                    Text="{xct:Translate PaymentComplete2}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalOptions="Center" />
             </Frame>
 
             <BoxView
                 Grid.Row="0"
-                BackgroundColor="#212430"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                 Style="{StaticResource separatorStyle}" />
 
             <StackLayout
@@ -145,14 +146,14 @@
                 Orientation="Horizontal"
                 Spacing="12"
                 VerticalOptions="StartAndExpand">
-                <Frame BorderColor="#F59249" Style="{StaticResource buttonStyle}">
-                    <Label Style="{StaticResource buttonTextStyle}" Text="Email" />
+                <Frame BorderColor="{DynamicResource IndicationColor_i5}" Style="{StaticResource buttonStyle}">
+                    <Label Style="{StaticResource buttonTextStyle}" Text="{xct:Translate Email}"  />
                 </Frame>
-                <Frame BorderColor="#7B61FF" Style="{StaticResource buttonStyle}">
-                    <Label Style="{StaticResource buttonTextStyle}" Text="Text" />
+                <Frame BorderColor="{DynamicResource IndicationColor_i7}" Style="{StaticResource buttonStyle}">
+                    <Label Style="{StaticResource buttonTextStyle}" Text="{xct:Translate Text}" />
                 </Frame>
-                <Frame BorderColor="#F45E49" Style="{StaticResource buttonStyle}">
-                    <Label Style="{StaticResource buttonTextStyle}" Text="Print" />
+                <Frame BorderColor="{DynamicResource AppColor_i1}" Style="{StaticResource buttonStyle}">
+                    <Label Style="{StaticResource buttonTextStyle}" Text="{xct:Translate Print}" />
                 </Frame>
 
             </StackLayout>
@@ -160,13 +161,13 @@
             <Frame
                 Grid.Row="3"
                 Margin="18,0,18,16"
-                BackgroundColor="#3CD47D"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
                 Style="{StaticResource buttonStyle}"
                 VerticalOptions="EndAndExpand">
                 <Label
                     Style="{StaticResource buttonTextStyle}"
-                    Text="No Receipt"
-                    TextColor="#34374C" />
+                    Text="{xct:Translate NoReceipt}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
             </Frame>
 
         </Grid>
