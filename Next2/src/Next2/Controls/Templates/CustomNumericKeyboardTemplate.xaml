@@ -1,65 +1,83 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView 
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:controls="clr-namespace:Next2.Controls" 
-    x:DataType="viewModels:LoginPageViewModel"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
-    
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    x:Class="Next2.Controls.Templates.CustomNumericKeyboardTemplate">
+
     <ContentView.Content>
 
-        <Grid 
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="60, 250">
+        <Grid RowDefinitions="60, *">
 
-            <controls:CustomFrame 
-                    Grid.Row="0"
-                    Margin="0, 0, 0, 15"
-                    CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                    Padding="4"
-                    BorderWidth="3"
-                    HasShadow="False"
-                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+            <controls:CustomFrame
+                Grid.Row="0"
+                Margin="0, 0, 0, 15"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                Padding="4"
+                BorderWidth="3"
+                HasShadow="False"
+                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}">
 
-                    <StackLayout 
-                        Orientation="Horizontal"
-                        Padding="0">
-                        
-                        <Label 
-                            x:Name="employeeId"
-                            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}" 
-                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"
-                            VerticalTextAlignment="Center"
-                            Margin="10, 0, 0, 0"
-                            FontSize="{DynamicResource TSize_i6}"
-                            FontFamily="Barlow-Regular">
+                <controls:CustomFrame.Triggers>
+
+                    <DataTrigger
+                        TargetType="controls:CustomFrame"
+                        Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"                                        
+                        Value="True">
+
+                        <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+
+                    </DataTrigger>
+
+                </controls:CustomFrame.Triggers>
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Padding="0">
+
+                    <Label
+                        Text="{Binding PlaceHolder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                        VerticalTextAlignment="Center"
+                        Margin="10, 0, 0, 0"
+                        FontSize="{DynamicResource TSize_i6}"
+                        FontFamily="Barlow-Regular">
 
                         <Label.Triggers>
 
-                            <DataTrigger 
-                                    TargetType="Label"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
-                                    Value="True">
+                            <MultiTrigger TargetType="Label">
+
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsTextRightToLeft}" Value="True" />
+                                    <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}" Value="True" />
+                                </MultiTrigger.Conditions>
+
+                                <Setter Property="Margin" Value="10, 0, 10, 0"/>
+                                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+
+                            </MultiTrigger>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}"                           
+                                Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-
-                                <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ScreenKeyboard}"/>
+                                <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"/>
 
                             </DataTrigger>
 
-                            <DataTrigger 
-                                    TargetType="Label"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLogIn}"                           
-                                    Value="True">
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsUserLogIn}"               
+                                Value="True">
 
                                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i9}"/>
-
                                 <Setter Property="Text" Value="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=PlaceHolder}"/>
 
                             </DataTrigger>
@@ -68,110 +86,105 @@
 
                     </Label>
 
-                        <ffimageloading:CachedImage 
-                            Source="ic_danger_circle"
-                            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"  
-                            Margin="0, 8, 5, 8"
-                            HorizontalOptions="EndAndExpand"/>
-                    
-                    </StackLayout>
-                    
-                    <controls:CustomFrame.Triggers>
-                    
-                        <DataTrigger 
-                            TargetType="controls:CustomFrame"
-                            Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"                                        
-                            Value="True">
-                    
-                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
-                    
-                        </DataTrigger>
-                    
-                    </controls:CustomFrame.Triggers>
+                    <ffimageloading:CachedImage
+                        Source="ic_danger_circle"
+                        IsVisible="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsErrorNotificationVisible}"  
+                        Margin="0, 8, 5, 8"
+                        HorizontalOptions="EndAndExpand"/>
 
-                </controls:CustomFrame>
+                </StackLayout>
 
-            <ContentView Grid.Row="1">
+            </controls:CustomFrame>
 
-                <Grid 
-                    ColumnSpacing="10"
-                    RowDefinitions="*, *, *, *"
-                    RowSpacing="10"
-                    ColumnDefinitions="*, *, *">
+            <Grid
+                Grid.Row="1"
+                ColumnSpacing="10"
+                RowDefinitions="*, *, *, *"
+                RowSpacing="10"
+                ColumnDefinitions="*, *, *">
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Title="1"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Title="1"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Title="2"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Title="2"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Title="3"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Title="3"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Title="4"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Title="4"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Title="5"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Title="5"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Title="6"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Title="6"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Title="7"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Title="7"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Title="8"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Title="8"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        Title="9"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Title="9"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Title="0"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
+                <buttons:NumericKeyboardButton
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Title="0"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonTapCommand}"/>
 
-                    <buttons:NumericKeyboardButton                       
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Title="Clear"
-                        TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTapCommand}"/>
+                <buttons:NumericKeyboardButton                       
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Title="{xct:Translate Clear}"
+                    BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                    TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTapCommand}"/>
 
-                </Grid>
-
-            </ContentView>
+            </Grid>
 
         </Grid>
-        
+
     </ContentView.Content>
-    
+
 </ContentView>

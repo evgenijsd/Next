@@ -99,16 +99,8 @@
                 </sc:StateCondition>
                 
                 <sc:StateCondition State="{Static enums:EPaymentSteps.Complete}">
-                    
-                    <!-- temporary -->
-                    <StackLayout>
-                        <Label 
-                            VerticalOptions="CenterAndExpand"
-                            HorizontalOptions="Center"
-                            FontSize="20"
-                            TextColor="White"
-                            Text="Complete"/>
-                    </StackLayout>
+
+                    <mobile:PaymentCompleteView BindingContext="{Binding PaymentCompleteViewModel}"/>
                     
                 </sc:StateCondition>
             </sc:StateContainer.Conditions>

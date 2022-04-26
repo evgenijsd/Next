@@ -12,9 +12,7 @@
     x:DataType="viewModels:SettingsViewModel" 
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-    <StackLayout
-        Spacing="0" 
-        Padding="0">
+    <StackLayout Padding="0">
 
         <controls:CustomNavigationbar
             Title="{xct:Translate Settings}"
@@ -106,7 +104,6 @@
         <StackLayout 
             VerticalOptions="EndAndExpand"
             HeightRequest="70"
-            Spacing="0" 
             Padding="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 

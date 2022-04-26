@@ -2,19 +2,358 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enum="clr-namespace:Next2.Enums"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Mobile.PaymentCompleteView"
     x:DataType="viewmodels:PaymentCompleteViewModel">
-    
-    <StackLayout>
-        
-        <Label
-            VerticalOptions="CenterAndExpand"
-            HorizontalOptions="Center"
-            FontSize="20"
-            TextColor="White"
-            Text="Complete" />
-        
-    </StackLayout>
+
+    <Grid BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <CollectionView
+            Grid.Row="0"
+            Margin="12, 10, 12, 16"
+            VerticalOptions="Start"
+            ItemsSource="{Binding PaymentOptionsItems}">
+
+            <CollectionView.ItemsLayout>
+
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    Span="1"
+                    VerticalItemSpacing="8"
+                    HorizontalItemSpacing="0"/>
+
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.Effects>
+                <effects:NoOverScrollEffect/>
+            </CollectionView.Effects>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="helpers:PaymentItem">
+
+                    <controls:CustomFrame
+                        Padding="0, 15"
+                        BorderWidth="1"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                        BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        xct:TouchEffect.Command="{Binding TapCommand}"
+                        xct:TouchEffect.CommandParameter="{Binding .}">
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label
+                                Text="{Binding Text}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                VerticalTextAlignment="Center"
+                                FontSize="{DynamicResource TSize_i7}"
+                                FontFamily="Barlow-Medium"
+                                Margin="15, 0, 0, 0"
+                                HorizontalOptions="FillAndExpand"/>
+
+                            <ffimageloading:CachedImage 
+                                Source="ic_arrow_right_40x40"
+                                HeightRequest="24"
+                                HorizontalOptions="End"
+                                Margin="0, 0, 15, 0"/>
+
+                        </StackLayout>
+
+                    </controls:CustomFrame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <StackLayout
+            Grid.Row="0"
+            VerticalOptions="End"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <StackLayout>
+
+                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">
+
+                    <StackLayout>
+
+                        <BoxView
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                            HeightRequest="1"/>
+
+                        <StackLayout
+                            Orientation="Horizontal"
+                            Margin="15, 7">
+
+                            <Label
+                                Text="{xct:Translate Summary}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                FontSize="{DynamicResource TSize_i4}"
+                                FontFamily="Barlow-Bold"/>
+
+                            <ffimageloading:CachedImage
+                                Source="ic_arrow_up_24x24.png"
+                                HorizontalOptions="EndAndExpand"
+                                VerticalOptions="Center">
+
+                                <ffimageloading:CachedImage.Triggers>
+
+                                    <DataTrigger
+                                        TargetType="ffimageloading:CachedImage"
+                                        Binding="{Binding IsExpandedSummary}"
+                                        Value="False">
+
+                                        <Setter Property="Source" Value="ic_arrow_down_24x24.png"/>
+
+                                    </DataTrigger>
+
+                                </ffimageloading:CachedImage.Triggers>
+
+                            </ffimageloading:CachedImage>
+
+                        </StackLayout>
+
+                        <BoxView
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+                            HeightRequest="1"/>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout
+                    Padding="15, 10"
+                    IsVisible="{Binding IsExpandedSummary}">
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <Label
+                            Text="{xct:Translate Subtotal}"
+                            Style="{DynamicResource SummaryItem}"/>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.BonusType, Converter={xct:EnumToIntConverter}}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            Text="{xct:Translate Coupon}">
+
+                            <Label.Triggers>
+
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding Order.BonusType}"
+                                    Value="{x:Static enum:EBonusType.Discount}">
+
+                                    <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+
+                        </Label>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Order.Bonus.Name}" />
+
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.PriceTax}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+
+                        <Label
+                            Text="{xct:Translate Tax}"
+                            Style="{DynamicResource SummaryItem}"/>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
+                    <BoxView
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                        HeightRequest="1"
+                        Margin="0, 10"/>
+
+                    <StackLayout Orientation="Horizontal">
+                        
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.Cash}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+                        
+                        <Label
+                            Text="{xct:Translate Cash}"
+                            Style="{DynamicResource SummaryItem}"/>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand">
+                            
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <StackLayout.Triggers>
+
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.Change}"
+                                Value="0">
+
+                                <Setter Property="IsVisible" Value="False" />
+
+                            </DataTrigger>
+
+                        </StackLayout.Triggers>
+                        
+                        <Label
+                            Text="{xct:Translate Change}"
+                            Style="{DynamicResource SummaryItem}"/>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </StackLayout>
+
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="15, 5">
+
+                <Label
+                    Text="{xct:Translate Total}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    FontSize="{DynamicResource TSize_i4}"
+                    FontFamily="Barlow-Regular"/>
+
+                <Label
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    VerticalTextAlignment="Center"
+                    HorizontalOptions="EndAndExpand"
+                    FontSize="{DynamicResource TSize_i4}"
+                    FontFamily="Barlow-Regular">
+
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Order.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                </Label>
+
+            </StackLayout>
+
+            <buttons:BorderButton
+                Grid.Column="1"
+                Text="{xct:Translate Complete}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                CornerRadius="4"
+                Padding="0, 10"
+                Margin="15"/>
+
+        </StackLayout>
+
+    </Grid>
 
 </ContentView>

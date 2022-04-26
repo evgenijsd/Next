@@ -19,9 +19,9 @@ namespace Next2.Models
 
         public EBonusType BonusType { get; set; } = EBonusType.None;
 
-        public double Total { get; set; }
+        public float Total { get; set; }
 
-        public double PriceTax { get; set; }
+        public float PriceTax { get; set; }
 
         public EOrderStatus? PaymentStatus;
     }

@@ -13,7 +13,6 @@
 
     <StackLayout 
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-        Spacing="0" 
         Padding="0">
 
         <controls:CustomNavigationbar
@@ -23,7 +22,6 @@
         
         <StackLayout 
             Orientation="Vertical"
-            Spacing="0" 
             Padding="0"
             VerticalOptions="StartAndExpand">
 

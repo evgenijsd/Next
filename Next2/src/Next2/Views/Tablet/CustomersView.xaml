@@ -379,7 +379,7 @@
                     <Label
                         FontSize="{DynamicResource TSize_i8}"
                         HorizontalOptions="Center"
-                        Text="Select"
+                        Text="{xct:Translate Select}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Center"/>
 

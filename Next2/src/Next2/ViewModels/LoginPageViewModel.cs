@@ -83,6 +83,47 @@ namespace Next2.ViewModels
             }
         }
 
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
+            {
+                IsCheckAdminID = true;
+            }
+
+            if (_authenticationService.AuthorizedUserId >= 0 && !IsCheckAdminID)
+            {
+                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
+            }
+            else
+            {
+                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
+                {
+                    if (_inputtedEmployeeId.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
+                    {
+                        await CheckEmployeeExists();
+                        EmployeeId = _inputtedEmployeeId;
+                    }
+                    else
+                    {
+                        IsEmployeeExists = false;
+                        EmployeeId = _inputtedEmployeeId;
+                    }
+                }
+                else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
+                {
+                    IsUserLogIn = !IsUserLogIn;
+                    IsEmployeeExists = false;
+                }
+            }
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            EmployeeId = string.Empty;
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -198,68 +239,11 @@ namespace Next2.ViewModels
             return result;
         }
 
-        #endregion
-
-        #region -- Overrides --
-
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
-            {
-                IsCheckAdminID = true;
-            }
-
-            if (_authenticationService.AuthorizedUserId >= 0 && !IsCheckAdminID)
-            {
-                await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
-            }
-            else
-            {
-                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
-                {
-                    if (_inputtedEmployeeId.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
-                    {
-                        await CheckEmployeeExists();
-                        EmployeeId = _inputtedEmployeeId;
-                    }
-                    else
-                    {
-                        IsEmployeeExists = false;
-                        EmployeeId = _inputtedEmployeeId;
-                    }
-                }
-                else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
-                {
-                    IsUserLogIn = !IsUserLogIn;
-                    IsEmployeeExists = false;
-                }
-            }
-        }
-
-        public override void OnAppearing()
-        {
-            base.OnAppearing();
-        }
-
-        #endregion
-
-        #region -- Private helpers --
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             CurrentDateTime = DateTime.Now;
         }
 
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            EmployeeId = string.Empty;
-            //timerUpdateTime.Stop();
-            //timerUpdateTime.Dispose();
-        }
-
         #endregion
-
     }
 }

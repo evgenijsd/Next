@@ -2,7 +2,7 @@
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Next2.Controls.Templates" 
+    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
     x:DataType="viewModels:LoginPageViewModel"
@@ -53,9 +53,10 @@
                         VerticalOptions="EndAndExpand"
                         Color="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-                    <controls:CustomNumericKeyboardTemplate
+                    <templates:CustomNumericKeyboardTemplate
                         Margin="20, 10, 20, 0"
                         VerticalOptions="EndAndExpand"
+                        BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                         ScreenKeyboard="{Binding EmployeeId}"
                         PlaceHolder="{xct:Translate TypeEmployeeId}"
                         IsUserLogIn="{Binding IsUserLogIn}"
