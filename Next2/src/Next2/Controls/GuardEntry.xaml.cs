@@ -36,6 +36,19 @@ namespace Next2.Controls
             set => SetValue(MaxLengthProperty, value);
         }
 
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
+            propertyName: nameof(CornerRadius),
+            returnType: typeof(float),
+            defaultValue: 3.0f,
+            declaringType: typeof(GuardEntry),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public float CornerRadius
+        {
+            get => (float)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
+        }
+
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
@@ -46,6 +59,19 @@ namespace Next2.Controls
         {
             get => (string)GetValue(TextProperty);
             set => SetValue(TextProperty, value);
+        }
+
+        public static readonly BindableProperty TextSizeProperty = BindableProperty.Create(
+            propertyName: nameof(TextSize),
+            returnType: typeof(double),
+            defaultValue: 14.0d,
+            declaringType: typeof(GuardEntry),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public double TextSize
+        {
+            get => (double)GetValue(TextSizeProperty);
+            set => SetValue(TextSizeProperty, value);
         }
 
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(

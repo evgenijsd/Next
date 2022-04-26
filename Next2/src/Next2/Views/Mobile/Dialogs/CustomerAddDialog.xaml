@@ -23,35 +23,11 @@
         <ContentView.Resources>
             <ResourceDictionary>
 
-                <Style x:Key="EntryFrameStyle" TargetType="Frame">
-                    <Setter Property="CornerRadius" Value="3" />
-                    <Setter Property="HasShadow" Value="False" />
-                    <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
-                    <Setter Property="WidthRequest" Value="592" />
-                    <Setter Property="HeightRequest" Value="42" />
-                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                    <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-                </Style>
-
-                <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
-                    <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
-                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-                    <Setter Property="FontFamily" Value="Barlow-Medium" />
-                </Style>
-
                 <Style x:Key="LabelStyle" TargetType="Label">
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                     <Setter Property="FontFamily" Value="Barlow-Regular" />
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                     <Setter Property="Margin" Value="0, 8, 0, 8" />
-                </Style>
-
-                <Style x:Key="MessageLabelStyle" TargetType="Label">
-                    <Setter Property="Opacity" Value="0"/>
-                    <Setter Property="Margin" Value="12, 0" />
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                 </Style>
 
             </ResourceDictionary>
@@ -145,7 +121,7 @@
                                 <ScrollView.Content>
                                     <StackLayout Spacing="1">
 
-                                        <StackLayout x:Name="nameEntryBlock">
+                                        <StackLayout>
 
                                             <StackLayout Orientation="Horizontal">
                                                 

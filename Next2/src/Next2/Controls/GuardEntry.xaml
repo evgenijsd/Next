@@ -2,46 +2,25 @@
 <StackLayout
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"  
     xmlns:controls="clr-namespace:Next2.Controls"
     x:Class="Next2.Controls.GuardEntry">
 
-    <StackLayout.Resources>
-        <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
-            <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
-            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
-            <Setter Property="FontFamily" Value="Barlow-Medium" />
-        </Style>
-        
-        <Style x:Key="EntryFrameStyle" TargetType="Frame">
-            <Setter Property="CornerRadius" Value="3" />
-            <Setter Property="HasShadow" Value="False" />
-            <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
-            <Setter Property="WidthRequest" Value="592" />
-            <Setter Property="HeightRequest" Value="42" />
-            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-        </Style>
-        
-        <Style x:Key="MessageLabelStyle" TargetType="Label">
-            <Setter Property="Opacity" Value="0"/>
-            <Setter Property="Margin" Value="12, 0" />
-            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-            <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
-        </Style>
-    </StackLayout.Resources>
-
     <Frame 
-        Style="{StaticResource EntryFrameStyle}"
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=CornerRadius}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         x:Name="borderEntry">
 
         <controls:HideClipboardEntry
-            Margin="12, 0"
+            Margin="{OnIdiom Phone='12', Tablet='12, 8'}"
             MaxLength="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=MaxLength}"
             Keyboard="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Keyboard}"
-            Style="{StaticResource EntryPlaceholderStyle}"
+            FontFamily="Barlow-Medium"
+            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=TextSize}"
+            PlaceholderColor="{DynamicResource TextAndBackgroundColor_i9}"
             Placeholder="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Placeholder}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             Text="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text}"
             IsValid="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsValid}"
             IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsEnabled}"
@@ -53,9 +32,7 @@
                     <MultiTrigger.Conditions>
                         <PropertyCondition Property="IsFocused" Value="False"/>
                         <PropertyCondition Property="IsValid" Value="False"/>
-                        <BindingCondition  Binding="{Binding 
-                            Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text, 
-                            Converter={xct:IsNotNullOrEmptyConverter}}" Value="True"/>
+                        <BindingCondition  Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True"/>
                     </MultiTrigger.Conditions>
                                                         
                     <MultiTrigger.Setters>
@@ -70,8 +47,11 @@
     </Frame>
     
     <Label
-        Style="{DynamicResource MessageLabelStyle}"
+        Margin="12, 0"
+        Opacity="0"
+        FontSize="{DynamicResource TSize_i9}"
+        TextColor="{DynamicResource IndicationColor_i3}"
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=ErrorText}"
         x:Name="errorLabel" />
-
+    
 </StackLayout>

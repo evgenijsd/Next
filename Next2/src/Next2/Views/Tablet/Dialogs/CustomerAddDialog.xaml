@@ -20,24 +20,12 @@
 
         <ContentView.Resources>
             <ResourceDictionary>
-
-                <Style x:Key="EntryFrameStyle" TargetType="Frame">
-                    <Setter Property="CornerRadius" Value="5" />
-                    <Setter Property="HasShadow" Value="False" />
-                    <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
-                    <Setter Property="WidthRequest" Value="592" />
-                    <Setter Property="HeightRequest" Value="32" />
-                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                    <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                
+                <Style TargetType="controls:GuardEntry">
+                    <Setter Property="TextSize" Value="{DynamicResource TSize_i9}"/>
+                    <Setter Property="CornerRadius" Value="5"/>
                 </Style>
-
-                <Style x:Key="EntryPlaceholderStyle" TargetType="Entry">
-                    <Setter Property="PlaceholderColor" Value="{DynamicResource TextAndBackgroundColor_i9}" />
-                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
-                    <Setter Property="FontFamily" Value="Barlow-Medium" />
-                </Style>
-
+                
                 <Style x:Key="LabelStyle" TargetType="Label">
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
                     <Setter Property="FontFamily" Value="Barlow-Medium" />
@@ -105,10 +93,9 @@
                                         FontFamily="Barlow-Medium"
                                         FontSize="{DynamicResource TSize_i8}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
-                                        Text="{xct:Translate CustomerInfo}"
-                                        x:Name="headEntryLabel" />
+                                        Text="{xct:Translate CustomerInfo}"/>
                                     
-                                    <StackLayout x:Name="nameEntryBlock">
+                                    <StackLayout>
 
                                         <StackLayout Orientation="Horizontal">
                                             
@@ -119,7 +106,7 @@
 
                                             <Label
                                                 HorizontalOptions="End"
-                                                Opacity="0.32"
+                                                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                                 FontFamily="Barlow-Medium"
                                                 FontSize="{DynamicResource TSize_i9}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
@@ -127,35 +114,24 @@
                                             
                                         </StackLayout>
 
-                                        <Frame Style="{StaticResource EntryFrameStyle}">
-
-                                            <controls:HideClipboardEntry
-                                                Margin="12, 0"
-                                                MaxLength="100"
-                                                Placeholder="{xct:Translate TypeUserName}"
-                                                Style="{StaticResource EntryPlaceholderStyle}"
-                                                Text="{Binding Name}" 
-                                                x:Name="nameEntry">
-                                                
-                                                <controls:HideClipboardEntry.Behaviors>
-                                                    <behaviors:NameValidatorBehavior/>
-                                                </controls:HideClipboardEntry.Behaviors>
-                                                
-                                            </controls:HideClipboardEntry>
+                                        <controls:GuardEntry
+                                            IsEnabled="{Binding IsEntriesEnabled}"
+                                            MaxLength="160"
+                                            Keyboard="Text"
+                                            Placeholder="{xct:Translate TypeUserName}"
+                                            ErrorText="{xct:Translate IncorrectName}"
+                                            IsValid="{Binding IsValidName}"
+                                            Text="{Binding Name}">
                                             
-                                        </Frame>
+                                            <controls:GuardEntry.Behavior>
+                                                <behaviors:NameValidatorBehavior />
+                                            </controls:GuardEntry.Behavior>
 
-                                        <Label
-                                            VerticalOptions="Start"
-                                            HorizontalOptions="StartAndExpand"
-                                            Margin="12, 0, 0, 0"
-                                            FontSize="{DynamicResource TSize_i9}"
-                                            Text="{xct:Translate IncorrectName}"
-                                            x:Name="nameWarningLabel" />
+                                        </controls:GuardEntry>
 
                                     </StackLayout>
 
-                                    <StackLayout x:Name="phoneEntryBlock">
+                                    <StackLayout>
                                         <StackLayout Orientation="Horizontal">
 
                                             <Label
@@ -165,7 +141,7 @@
 
                                             <Label
                                                 HorizontalOptions="End"
-                                                Opacity="0.32"
+                                                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                                 FontFamily="Barlow-Medium"
                                                 FontSize="{DynamicResource TSize_i9}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -173,30 +149,22 @@
 
                                         </StackLayout>
 
-                                        <Frame 
-                                            Style="{StaticResource EntryFrameStyle}"
-                                            x:Name="phoneFrame">
+                                        <controls:GuardEntry
+                                            Spacing="0"
+                                            IsEnabled="{Binding IsEntriesEnabled}"
+                                            MaxLength="10"
+                                            Keyboard="Numeric"
+                                            Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
+                                            ErrorText="{xct:Translate IncorrectNumber}"
+                                            IsValid="{Binding IsValidPhone}"
+                                            Text="{Binding Phone}">
 
-                                            <controls:HideClipboardEntry
-                                                Margin="12, 0, 0, 0"
-                                                Keyboard="Numeric"
-                                                MaxLength="10"
-                                                Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
-                                                Style="{StaticResource EntryPlaceholderStyle}"
-                                                Unfocused="OnPhoneEntryUnfocused"
-                                                Text="{Binding Phone}"
-                                                x:Name="phoneEntry" />
+                                            <controls:GuardEntry.Behavior>
+                                                <behaviors:PhoneValidatorBehavior />
+                                            </controls:GuardEntry.Behavior>
 
-                                        </Frame>
+                                        </controls:GuardEntry>
 
-                                        <Label
-                                            HorizontalOptions="StartAndExpand"
-                                            VerticalOptions="Start" 
-                                            Margin="12, 0"
-                                            FontSize="{DynamicResource TSize_i9}"
-                                            Text="{xct:Translate IncorrectNumber}"
-                                            x:Name="phoneWarningLabel" />
-                                        
                                     </StackLayout>
 
                                     <StackLayout Orientation="Horizontal">
@@ -208,7 +176,7 @@
 
                                         <Label
                                             HorizontalOptions="End"
-                                            Opacity="0.32"
+                                            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                                             FontFamily="Barlow-Medium"
                                             FontSize="{DynamicResource TSize_i9}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
@@ -216,33 +184,21 @@
 
                                     </StackLayout>
 
-                                    <Frame
-                                        Style="{StaticResource EntryFrameStyle}"
-                                        x:Name="mailFrame">
+                                    <controls:GuardEntry
+                                        IsEnabled="{Binding IsEntriesEnabled}"
+                                        MaxLength="254"
+                                        Keyboard="Email"
+                                        Placeholder="{xct:Translate TypeEmail}"
+                                        ErrorText="{xct:Translate IncorrectEmail}"
+                                        IsValid="{Binding IsValidEmail}"
+                                        Text="{Binding Email}">
 
-                                        <controls:HideClipboardEntry
-                                            Margin="12, 0"
-                                            Style="{StaticResource EntryPlaceholderStyle}"
-                                            Placeholder="{xct:Translate TypeEmail}"
-                                            Text="{Binding Email}"
-                                            x:Name="mailEntry">
+                                        <controls:GuardEntry.Behavior>
+                                            <behaviors:EmailValidatorBehavior />
+                                        </controls:GuardEntry.Behavior>
 
-                                            <controls:HideClipboardEntry.Behaviors>
-                                                <behaviors:EmailValidatorBehavior />
-                                            </controls:HideClipboardEntry.Behaviors>
-
-                                        </controls:HideClipboardEntry>
-
-                                    </Frame>
-
-                                    <Label
-                                        HorizontalOptions="StartAndExpand"
-                                        VerticalOptions="StartAndExpand"
-                                        Margin="12, 0"
-                                        FontSize="{DynamicResource TSize_i9}"
-                                        Text="{xct:Translate IncorrectEmail}"
-                                        x:Name="mailWarningLabel" />
-
+                                    </controls:GuardEntry>
+                                    
                                 </StackLayout>
                             </ScrollView.Content>
                         </ScrollView>
@@ -297,8 +253,16 @@
                             HeightRequest="52"
                             CornerRadius="5"
                             BorderColor="{DynamicResource IndicationColor_i1}"
-                            BackgroundColor="{DynamicResource IndicationColor_i1}">
-
+                            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                            BackgroundColor="{DynamicResource IndicationColor_i1}"
+                            IsEnabled="{Binding CanAddNewCustomer}">
+ 
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding CanAddNewCustomer}" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            
                             <Label
                                 VerticalTextAlignment="Center" 
                                 HorizontalTextAlignment="Center"

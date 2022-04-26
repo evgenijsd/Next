@@ -28,38 +28,41 @@ namespace Next2.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is HideClipboardEntry entry && !string.IsNullOrEmpty(e.NewTextValue))
+            if (sender is HideClipboardEntry entry)
             {
-                bool isNameCorrect = false;
+                if (!string.IsNullOrEmpty(e.NewTextValue))
+                {
+                    bool isNameCorrect = false;
 
-                try
-                {
-                    isNameCorrect = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(70));
-                }
-                catch (Exception)
-                {
-                }
-
-                if (!isNameCorrect)
-                {
-                    entry.Text = e.OldTextValue;
-                }
-                else
-                {
-                    var wordsWithIncorrectRegister = Regex.Matches(e.NewTextValue, Constants.Validators.WORD, RegexOptions.IgnoreCase)
-                        .Where(x => !Regex.IsMatch(x.ToString(), Constants.Validators.PASCAL_CASE));
-
-                    if (wordsWithIncorrectRegister.Any())
+                    try
                     {
-                        string nameWithCorrectedCase = e.NewTextValue;
+                        isNameCorrect = Regex.IsMatch(e.NewTextValue, Constants.Validators.CUSTOMER_NAME, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(70));
+                    }
+                    catch (Exception)
+                    {
+                    }
 
-                        foreach (var word in wordsWithIncorrectRegister)
+                    if (!isNameCorrect)
+                    {
+                        entry.Text = e.OldTextValue;
+                    }
+                    else
+                    {
+                        var wordsWithIncorrectRegister = Regex.Matches(e.NewTextValue, Constants.Validators.WORD, RegexOptions.IgnoreCase)
+                            .Where(x => !Regex.IsMatch(x.ToString(), Constants.Validators.PASCAL_CASE));
+
+                        if (wordsWithIncorrectRegister.Any())
                         {
-                            string wordToReplace = $"{word}";
-                            nameWithCorrectedCase = Regex.Replace(nameWithCorrectedCase, wordToReplace, ToPascalCase(wordToReplace));
-                        }
+                            string nameWithCorrectedCase = e.NewTextValue;
 
-                        entry.Text = nameWithCorrectedCase;
+                            foreach (var word in wordsWithIncorrectRegister)
+                            {
+                                string wordToReplace = $"{word}";
+                                nameWithCorrectedCase = Regex.Replace(nameWithCorrectedCase, wordToReplace, ToPascalCase(wordToReplace));
+                            }
+
+                            entry.Text = nameWithCorrectedCase;
+                        }
                     }
                 }
 
