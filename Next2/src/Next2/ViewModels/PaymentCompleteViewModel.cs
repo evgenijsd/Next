@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -23,6 +24,8 @@ namespace Next2.ViewModels
 
         private ICommand _tapTipsValuesCommand;
 
+        private float _subtotalWithBonus;
+
         public PaymentCompleteViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
@@ -32,6 +35,8 @@ namespace Next2.ViewModels
             _popupNavigation = popupNavigation;
 
             Order = order;
+
+            _subtotalWithBonus = Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
@@ -53,6 +58,8 @@ namespace Next2.ViewModels
         public TipsItem SelectedTipsValue { get; set; } = new();
 
         public bool IsCleared { get; set; } = true;
+
+        public bool IsClearedTip { get; set; } = true;
 
         public bool NeedSignatureReceipt { get; set; }
 
@@ -112,11 +119,6 @@ namespace Next2.ViewModels
                 }
             }
 
-            if (args.PropertyName == nameof(SelectedTipsValue))
-            {
-                InputTips = string.Empty;
-            }
-
             if (args.PropertyName == nameof(InputTips))
             {
                 if (float.TryParse(InputTips, out float tip))
@@ -128,7 +130,7 @@ namespace Next2.ViewModels
                     Order.Tip = 0;
                 }
 
-                RecalculationTotal();
+                RecalculateTotal();
             }
         }
 
@@ -171,11 +173,9 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private float GetSubtotalWithBonus() => Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
-
-        private void RecalculationTotal()
+        private void RecalculateTotal()
         {
-            float subtotalWithBonus = GetSubtotalWithBonus();
+            float subtotalWithBonus = _subtotalWithBonus;
             Order.PriceTax = (Order.Tip + subtotalWithBonus) * Order.Tax.Value;
             Order.Total = subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
@@ -220,8 +220,9 @@ namespace Next2.ViewModels
                 if (Math.Abs(tip.PercentTips) < 1 && tip.PercentTips % 1 > 0)
                 {
                     var percent = 100 * tip.PercentTips;
-                    float value = tip.PercentTips * GetSubtotalWithBonus();
-                    tip.Text = $"{percent}% ($ {value:F2})";
+                    float value = tip.PercentTips * _subtotalWithBonus;
+                    tip.Text = LocalizationResourceManager.Current["CurrentSign"];
+                    tip.Text = $"{percent}% ({tip.Text} {value:F2})";
                 }
             }
 
@@ -237,12 +238,18 @@ namespace Next2.ViewModels
 
         private Task OnTapTipsValuesCommandAsync(TipsItem item)
         {
+            IsClearedTip = !IsClearedTip;
+
             if (item.PercentTips < 1)
             {
-                Order.Tip = item.PercentTips * GetSubtotalWithBonus();
+                Order.Tip = item.PercentTips * _subtotalWithBonus;
+            }
+            else
+            {
+                Order.Tip = 0;
             }
 
-            RecalculationTotal();
+            RecalculateTotal();
 
             return Task.CompletedTask;
         }
@@ -335,14 +342,6 @@ namespace Next2.ViewModels
         private async Task OnClearDrawPanelCommandAsync()
         {
             IsCleared = true;
-        }
-
-        private ICommand _OpenTipsCommand;
-        public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
-
-        private async Task OnOpenTipsCommandAsync()
-        {
-            await _navigationService.NavigateAsync(nameof(TipsPage));
         }
 
         private Task OnTapCheckBoxSignatureReceiptCommandAsync()

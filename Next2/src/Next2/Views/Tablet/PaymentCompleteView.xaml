@@ -132,23 +132,20 @@
                             IsNumericMode="True"
                             ValueFormat="$ {0:#,0.#0}"
                             Value="{Binding InputTips}"
+                            IsUserLogIn="{Binding IsClearedTip}"
                             MaxLength="9"
                             HeightRequest="340"
                             WidthRequest="360">
 
                             <templates:CustomNumericKeyboardTemplate.Triggers>
-
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
                                     Binding="{Binding SelectedTipsValue.PercentTips}"
                                     Value="1">
 
-                                    <Setter
-                                        Property="IsEnabled"
-                                        Value="True" />
+                                    <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
-
                             </templates:CustomNumericKeyboardTemplate.Triggers>
                             
                         </templates:CustomNumericKeyboardTemplate>
@@ -602,16 +599,27 @@
 
                     <Label
                         Style="{DynamicResource SummaryItem}"
-                        HorizontalOptions="EndAndExpand">
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding SelectedTipsValue.Text}">
 
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="{xct:Translate CurrencySign}" />
-                                <Span Text=" " />
-                                <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                            </FormattedString>
-                        </Label.FormattedText>
+                        <Label.Triggers>
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding SelectedTipsValue.Text}"
+                                Value="Other">
 
+                                <Setter Property="Text">
+                                    <Setter.Value>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                        </FormattedString>
+                                    </Setter.Value>
+                                </Setter>
+
+                            </DataTrigger>
+                        </Label.Triggers>
                     </Label>
 
                 </StackLayout>
