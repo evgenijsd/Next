@@ -3,6 +3,7 @@ using SkiaSharp;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -20,7 +21,7 @@ namespace Next2.ViewModels.Mobile
         public bool IsCleared { get; set; } = true;
 
         private ICommand _clearDrawPanelCommand;
-        public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new AsyncCommand(OnClearDrawPanelCommandAsync, allowsMultipleExecutions: false);
+        public ICommand ClearDrawPanelCommand => _clearDrawPanelCommand ??= new Command(() => IsCleared = true);
 
         private ICommand _tapPaymentCompleteCommand;
         public ICommand TapPaymentCompleteCommand => _tapPaymentCompleteCommand ??= new AsyncCommand(OnTapPaymentCompleteCommandAsync, allowsMultipleExecutions: false);
@@ -28,11 +29,6 @@ namespace Next2.ViewModels.Mobile
         #endregion
 
         #region -- Private methods --
-
-        private async Task OnClearDrawPanelCommandAsync()
-        {
-            IsCleared = true;
-        }
 
         private async Task OnTapPaymentCompleteCommandAsync()
         {

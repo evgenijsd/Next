@@ -21,7 +21,7 @@
         VerticalOptions="FillAndExpand">
 
         <sc:StateContainer
-            State="{Binding SelectedPaymentOption.PayemenType}"
+            State="{Binding SelectedPaymentOption.PaymentType}"
             Grid.Row="0">
 
             <sc:StateCondition State="Tips">
@@ -602,7 +602,7 @@
             </StackLayout>
 
             <buttons:BorderButton
-                Text="Complete"
+                Text="{xct:Translate Complete}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"

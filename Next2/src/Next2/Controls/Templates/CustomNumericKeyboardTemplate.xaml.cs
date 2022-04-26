@@ -180,9 +180,10 @@ namespace Next2.Controls.Templates
 
             if (propertyName == nameof(IsUserLogIn))
             {
-                ScreenKeyboard = PlaceHolder;
-                Value = PlaceHolder;
                 _numericValue = 0;
+                Value = PlaceHolder;
+                ScreenKeyboard = PlaceHolder;
+
                 IsKeyBoardTyped = false;
             }
         }
@@ -201,7 +202,6 @@ namespace Next2.Controls.Templates
 
                     _numericValue = 0;
                     Value = string.Empty;
-                    ScreenKeyboard = string.Format(ValueFormat, Value);
                 }
 
                 if (Value.Length < MaxLength)
@@ -213,22 +213,19 @@ namespace Next2.Controls.Templates
                             _numericValue *= 10;
                             _numericValue += tmp / 100;
 
-                            ScreenKeyboard = string.Format(ValueFormat, _numericValue);
-                            Value += str;
-                        }
-                        else
-                        {
-                            Value = string.Empty;
-                            ScreenKeyboard = string.Format(ValueFormat, Value);
-                            _numericValue = 0;
+                            if (_numericValue > 0)
+                            {
+                                Value += str;
+                            }
                         }
                     }
                     else
                     {
                         Value += str;
-                        ScreenKeyboard = string.Format(ValueFormat, Value);
                     }
                 }
+
+                ScreenKeyboard = IsNumericMode ? string.Format(ValueFormat, _numericValue) : string.Format(ValueFormat, Value);
             }
         }
 

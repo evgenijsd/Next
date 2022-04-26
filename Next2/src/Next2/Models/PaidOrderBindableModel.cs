@@ -19,7 +19,7 @@ namespace Next2.Models
 
         public EBonusType BonusType { get; set; }
 
-        public BonusBindableModel Bonus { get; set; } = new();
+        public BonusBindableModel? Bonus { get; set; }
 
         public float Subtotal { get; set; }
 
@@ -29,7 +29,28 @@ namespace Next2.Models
 
         public float GiftCards { get; set; }
 
-        public float Cash { get; set; }
+        private float _cash;
+        public float Cash
+        {
+            get => _cash;
+            set
+            {
+                Total += _cash;
+                Change = 0;
+
+                if (Total > value)
+                {
+                    _cash = value;
+                    Total -= value;
+                }
+                else
+                {
+                    Change = value - Total;
+                    _cash = Total;
+                    Total = 0;
+                }
+            }
+        }
 
         public float Change { get; set; }
 
