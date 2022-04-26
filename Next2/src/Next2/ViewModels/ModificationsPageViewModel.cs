@@ -207,6 +207,7 @@ namespace Next2.ViewModels
             if (ingridients.IsSuccess)
             {
                 product.SelectedIngredients = new(ingridients.Result);
+                product.DefaultSelectedIngredients = new(ingridients.Result);
             }
         }
 
@@ -278,19 +279,30 @@ namespace Next2.ViewModels
             {
                 product.SelectedIngredients.Add(new IngredientOfProductModel()
                 {
+                    Id = toggleIngredient.Id,
                     IngredientId = toggleIngredient.Id,
                     ProductId = product.Id,
                 });
 
-                product.IngredientsPrice += toggleIngredient.Price;
-                product.TotalPrice += toggleIngredient.Price;
+                if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
+                {
+                    product.IngredientsPrice += toggleIngredient.Price;
+                    product.TotalPrice += toggleIngredient.Price;
+                }
             }
             else
             {
                 product.SelectedIngredients.Remove(ingridient);
 
-                product.IngredientsPrice -= toggleIngredient.Price;
-                product.TotalPrice -= toggleIngredient.Price;
+                if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
+                {
+                    product.IngredientsPrice -= toggleIngredient.Price;
+                    product.TotalPrice -= toggleIngredient.Price;
+                }
+
+                var productToBeRemoved = product.DetailedSelectedIngredientModels.FirstOrDefault(x => x.Id == ingridient.IngredientId);
+
+                product.DetailedSelectedIngredientModels.Remove(productToBeRemoved);
             }
 
             return Task.CompletedTask;
@@ -521,18 +533,26 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnSaveCommandAsync()
+        private async Task OnSaveCommandAsync()
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
-            var parameters = new NavigationParameters
+            if (App.IsTablet)
             {
-                { Constants.Navigations.REFRESH_ORDER, true },
-            };
+                var parameters = new NavigationParameters
+                {
+                    { Constants.Navigations.REFRESH_ORDER, true },
+                    { Constants.Navigations.SET_MODIFIED, true },
+                };
 
-            return _navigationService.GoBackAsync(parameters);
+                await _navigationService.GoBackAsync(parameters);
+            }
+            else
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         #endregion

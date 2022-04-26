@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -112,17 +113,10 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            if (!IsSearching)
-            {
-                _heightPage = HeightPage;
-                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
+            _heightPage = HeightPage;
+            HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
 
-                await LoadDataAsync();
-            }
-            else
-            {
-                IsSearching = false;
-            }
+            await LoadDataAsync();
         }
 
         public override void OnDisappearing()
@@ -130,6 +124,8 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             SearchText = string.Empty;
+            IsSearching = false;
+            IsNotingFound = false;
             SelectedOrder = null;
         }
 
@@ -171,14 +167,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderPaymentStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
@@ -215,6 +211,11 @@ namespace Next2.ViewModels
                 var mapper = new Mapper(config);
 
                 Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
+
+                for (int i = 0; i < Orders.Count; i++)
+                {
+                    Orders[i].Name = string.IsNullOrWhiteSpace(Orders[i].Name) ? CreateRandomCustomerName() : Orders[i].Name;
+                }
 
                 if (!string.IsNullOrEmpty(SearchText))
                 {
@@ -291,11 +292,13 @@ namespace Next2.ViewModels
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
                 Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
+                var placeholder = IsOrderTabsSelected ? Strings.TableNumberOrOrder : Strings.NameOrOrder;
 
                 var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
                 ClearSearchAsync();
                 IsSearching = true;
@@ -391,11 +394,16 @@ namespace Next2.ViewModels
                     {
                         { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
                         { Constants.DialogParameterKeys.SEATS,  seats },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
                     };
 
                     PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.DeleteOrderDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
                     await _popupNavigation.PushAsync(deleteSeatDialog);
                 }
@@ -427,7 +435,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                await _popupNavigation.PopAsync();
             }
         }
 
@@ -448,16 +456,56 @@ namespace Next2.ViewModels
                         SelectedOrder = null;
                     }
 
-                    await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+                    await _popupNavigation.PopAsync();
                 }
             }
 
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync();
+            await _popupNavigation.PopAsync();
         }
 
-        private Task OnPrintCommandAsync()
+        private async Task OnPrintCommandAsync()
         {
-            return Task.CompletedTask;
+            if (SelectedOrder is not null)
+            {
+                var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+
+                if (seatsResult.IsSuccess)
+                {
+                    var seats = seatsResult.Result;
+
+                    var param = new DialogParameters
+                    {
+                        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
+                        { Constants.DialogParameterKeys.SEATS,  seats },
+                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
+                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] }, // // Application.Current.Resources["TSize_i5"]
+                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
+                    };
+
+                    PopupPage deleteSeatDialog = App.IsTablet
+                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
+                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
+
+                    await _popupNavigation.PushAsync(deleteSeatDialog);
+                }
+            }
+        }
+
+        private async void ClosePrintOrderDialogCallbackAsync(IDialogParameters parameters)
+        {
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderPrintingAccepted))
+            {
+                if (isOrderPrintingAccepted && SelectedOrder is not null)
+                {
+                    await _popupNavigation.PopAsync();
+                }
+            }
+            else
+            {
+                await _popupNavigation.PopAsync();
+            }
         }
 
         private void SetLastSavedOrderId(int orderId)
@@ -467,12 +515,27 @@ namespace Next2.ViewModels
 
         private void SetOrderStatus(Enum orderStatus)
         {
-            IsOrderTabsSelected = orderStatus is EOrderPaymentStatus.WaitingForPayment;
+            IsOrderTabsSelected = orderStatus is EOrderStatus.WaitingForPayment;
         }
 
         private async Task OnGoBackCommand()
         {
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
+        }
+
+        private string CreateRandomCustomerName()
+        {
+            string[] names = { "Bob", "Tom", "Sam" };
+
+            string[] surnames = { "White", "Black", "Red" };
+
+            Random random = new();
+
+            string name = names[random.Next(3)];
+
+            string surname = surnames[random.Next(3)];
+
+            return name + " " + surname;
         }
 
         #endregion

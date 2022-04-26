@@ -74,6 +74,7 @@
             public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
             public const string DELETE_SET = "DELETE_SET";
             public const string ORDER_ID = "ORDER_ID";
+            public const string SET_MODIFIED = "SET_MODIFIED";
         }
 
         public static class Validators
@@ -119,6 +120,8 @@
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
+            public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
+            public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
         }
 
         public static class PaymentOrderStatus

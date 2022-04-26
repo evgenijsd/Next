@@ -9,9 +9,9 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
-    public class DeleteOrderViewModel : BindableBase
+    public class OrderDetailDialogViewModel : BindableBase
     {
-        public DeleteOrderViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public OrderDetailDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             LoadPageData(param);
             RequestClose = requestClose;
@@ -23,7 +23,17 @@ namespace Next2.ViewModels.Dialogs
 
         public int OrderNumber { get; set; }
 
-        public ObservableCollection<SeatModel> Seats { get; set; } = new ();
+        public string Title { get; set; }
+
+        public string CancellationText { get; set; }
+
+        public string ConfirmationText { get; set; }
+
+        public Color OkButtonBackgroundColor { get; set; }
+
+        public Color OkButtonTextColor { get; set; }
+
+        public ObservableCollection<SeatModel> Seats { get; set; } = new();
 
         public bool IsOrderDetailsDisplayed { get; set; }
 
@@ -51,8 +61,33 @@ namespace Next2.ViewModels.Dialogs
 
                     if (seats is not null)
                     {
-                        Seats = new (seats);
+                        Seats = new(seats);
                     }
+                }
+
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.TITLE, out string title))
+                {
+                    Title = title;
+                }
+
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, out string cancellationText))
+                {
+                    CancellationText = cancellationText;
+                }
+
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT, out string confirmationText))
+                {
+                    ConfirmationText = confirmationText;
+                }
+
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, out Color okButtonBackGroundcolor))
+                {
+                    OkButtonBackgroundColor = okButtonBackGroundcolor;
+                }
+
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, out Color okButtonTextColor))
+                {
+                    OkButtonTextColor = okButtonTextColor;
                 }
             }
         }

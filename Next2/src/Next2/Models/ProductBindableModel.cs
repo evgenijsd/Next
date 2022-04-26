@@ -18,6 +18,8 @@ namespace Next2.Models
             Options = new();
             ReplacementProducts = new();
             SelectedIngredients = new();
+            DefaultSelectedIngredients = new();
+            DetailedSelectedIngredientModels = new();
             Title = product.Title;
             ImagePath = product.ImagePath;
             ProductPrice = product.ProductPrice;
@@ -57,6 +59,16 @@ namespace Next2.Models
             {
                 SelectedProduct = new(product.SelectedProduct);
             }
+
+            foreach (var ingredient in product.DefaultSelectedIngredients)
+            {
+                DefaultSelectedIngredients.Add(new IngredientOfProductModel(ingredient));
+            }
+
+            foreach (var detailedIngredientModel in product.DetailedSelectedIngredientModels)
+            {
+                DetailedSelectedIngredientModels.Add(new IngredientBindableModel(detailedIngredientModel));
+            }
         }
 
         public int Id { get; set; }
@@ -70,6 +82,10 @@ namespace Next2.Models
         public ObservableCollection<ProductModel> ReplacementProducts { get; set; } = new();
 
         public ObservableCollection<IngredientOfProductModel> SelectedIngredients { get; set; } = new();
+
+        public ObservableCollection<IngredientOfProductModel> DefaultSelectedIngredients { get; set; } = new();
+
+        public ObservableCollection<IngredientBindableModel> DetailedSelectedIngredientModels { get; set; } = new();
 
         public string Title { get; set; }
 

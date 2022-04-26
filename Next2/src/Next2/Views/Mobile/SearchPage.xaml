@@ -31,7 +31,7 @@
                 <controls:HideClipboardEntry
                     x:Name="searchEntry"
                     Text="{Binding SearchLine}"
-                    Placeholder="{xct:Translate TableNumberOrOrder}"
+                    Placeholder="{Binding Placeholder}"
                     FontSize="{DynamicResource TSize_i5}"
                     FontFamily="Barlow-Regular"
                     ReturnType="Done"

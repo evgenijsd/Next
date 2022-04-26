@@ -109,6 +109,7 @@
                                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 FontFamily="Barlow-SemiBold"
                                 BackgroundColor="{DynamicResource IndicationColor_i2}"
+                                IsEnabled="False"
                                 Command="{Binding RemoveTaxCommand}">
 
                                 <buttons:BorderButton.Triggers>
@@ -116,7 +117,7 @@
                                     <MultiTrigger TargetType="buttons:BorderButton">
                                         <MultiTrigger.Conditions>
                                             <BindingCondition Binding="{Binding IsCheckAdminID}" Value="true" />
-                                            <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="true" />
+                                            <BindingCondition Binding="{Binding EmployeeId, Converter={StaticResource isNumberValidConverter}}" Value="true" />
                                         </MultiTrigger.Conditions>
                                         <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
                                         <Setter Property="IsEnabled" Value="true"/>

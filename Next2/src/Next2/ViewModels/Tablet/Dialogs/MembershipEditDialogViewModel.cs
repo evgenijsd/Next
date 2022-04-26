@@ -69,8 +69,10 @@ namespace Next2.ViewModels.Dialogs
                     break;
 
                 case EMembershipEditType.Save:
-                    Member.MembershipStartTime = SelectedDate ?? Member.MembershipStartTime;
-                    Member.MembershipEndTime = SelectedEndDate ?? Member.MembershipEndTime;
+                    TimeSpan time = new(1, 0, 0);
+                    Member.MembershipStartTime = (SelectedDate ?? Member.MembershipStartTime) + time;
+                    time = new(23, 0, 0);
+                    Member.MembershipEndTime = (SelectedEndDate ?? Member.MembershipEndTime) + time;
 
                     if (Member.MembershipStartTime > Member.MembershipEndTime)
                     {
