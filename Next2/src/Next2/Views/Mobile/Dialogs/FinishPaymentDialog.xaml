@@ -8,7 +8,7 @@
         <StackLayout>
             <Label
                 HorizontalOptions="CenterAndExpand"
-                Text="Welcome to Xamarin.Forms!"
+                Text="Welcome to Xamarin.Forms!MOBILE" TextColor="White" FontSize="Header"
                 VerticalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>

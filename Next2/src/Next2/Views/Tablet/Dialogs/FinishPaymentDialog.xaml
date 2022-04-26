@@ -5,7 +5,7 @@
              x:Class="Next2.Views.Tablet.Dialogs.FinishPaymentDialog">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label Text="Welcome to Xamarin.Forms! TABLET" TextColor="White" FontSize="Header"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>

@@ -6,6 +6,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -66,6 +67,9 @@ namespace Next2.ViewModels
 
         private ICommand _tapCheckBoxSignatureReceiptCommand;
         public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new AsyncCommand(OnTapCheckBoxSignatureReceiptCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _finishPaymentDialogCallCommand;
+        public ICommand FinishPaymentDialogCallCommand => _finishPaymentDialogCallCommand ??= new AsyncCommand(OnFinishPaymentDialogCallCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -219,6 +223,18 @@ namespace Next2.ViewModels
         private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private async Task OnFinishPaymentDialogCallCommand()
+        {
+            if (App.IsTablet)
+            {
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.FinishPaymentDialog(new DialogParameters { }, null));
+            }
+            else
+            {
+                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.FinishPaymentDialog(new DialogParameters { }, null));
+            }
         }
 
         #endregion

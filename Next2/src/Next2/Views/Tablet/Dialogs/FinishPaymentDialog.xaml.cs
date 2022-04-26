@@ -7,10 +7,10 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class FinishPaymentDialog : PopupPage
     {
-        public FinishPaymentDialog(Action<IDialogParameters> requestClose)
+        public FinishPaymentDialog(DialogParameters dialogParameters, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            BindingContext = new FinishPaymentDialogViewModel(requestClose);
+            BindingContext = new FinishPaymentDialogViewModel(dialogParameters, requestClose);
         }
     }
 }

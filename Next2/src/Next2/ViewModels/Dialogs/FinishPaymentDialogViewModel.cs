@@ -8,7 +8,7 @@ namespace Next2.ViewModels.Dialogs
 {
     public class FinishPaymentDialogViewModel : BindableBase
     {
-        public FinishPaymentDialogViewModel(Action<IDialogParameters> requestClose)
+        public FinishPaymentDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
             OkCommand = new Command(() => RequestClose(null));
