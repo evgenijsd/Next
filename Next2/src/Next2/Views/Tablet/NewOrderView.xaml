@@ -493,8 +493,7 @@
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
                             ItemsSource="{Binding SetsItems}"
-                            VerticalScrollBarVisibility="Always"
-                            SelectionMode="Single">
+                            VerticalScrollBarVisibility="Always">
 
                             <CollectionView.ItemsLayout>
 
@@ -555,13 +554,13 @@
                                     ScrollBarCornerRadius="9"
                                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                     ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                                
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:SetItemTemplate
                                         x:DataType="models:SetModel"
-                                        HeightRequest="327"
                                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
                                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
@@ -609,8 +608,7 @@
                                 <GridItemsLayout
                                     Orientation="Vertical"
                                     Span="5"
-                                    VerticalItemSpacing="0"
-                                    HorizontalItemSpacing="0"/>
+                                    HorizontalItemSpacing="2"/>
 
                             </CollectionView.ItemsLayout>
 

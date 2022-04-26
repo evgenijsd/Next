@@ -88,8 +88,7 @@
             Margin="15, 10, 15, 0"
             VerticalOptions="FillAndExpand"
             ItemsSource="{Binding SetsItems}"
-            VerticalScrollBarVisibility="Never"
-            SelectionMode="Single">
+            VerticalScrollBarVisibility="Never">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>

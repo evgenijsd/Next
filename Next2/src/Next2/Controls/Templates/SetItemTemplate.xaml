@@ -2,94 +2,97 @@
 <Frame
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SetItemTemplate"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-    BorderColor="{DynamicResource TextAndBackgroundColor_i6}"
-    HasShadow="False"
-    CornerRadius="0"
-    Padding="1"
-    HeightRequest="319"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+    BorderColor="Transparent"
+    CornerRadius="10"
+    Padding="12"
     x:DataType="models:SetModel">
 
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup Name="AdaptiveHeight">
+    <StackLayout>
 
-            <VisualState Name="moreiPadMiniColumn">
+        <pkView:PancakeView CornerRadius="8">
 
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601" />
-                </VisualState.StateTriggers>
+            <ffimageloading:CachedImage
+                HeightRequest="120"
+                Aspect="AspectFill"
+                Source="{Binding ImagePath}">
 
-                <VisualState.Setters>
-                    <Setter Property="HeightRequest" Value="327"/>
-                </VisualState.Setters>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="OrientationState">
 
-            </VisualState>
+                        <VisualState Name="Landscape">
 
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
+                            <VisualState.StateTriggers>
+                                <OrientationStateTrigger Orientation="Landscape"/>
+                            </VisualState.StateTriggers>
 
-    <Frame
-        HasShadow="False"
-        CornerRadius="10"
-        BorderColor="Transparent"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-        Padding="15">
+                            <VisualState.Setters>
+                                <Setter Property="HeightRequest" Value="150" />
+                            </VisualState.Setters>
 
-        <StackLayout>
+                        </VisualState>
 
-            <pkView:PancakeView CornerRadius="10">
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
 
-                <ffimageloading:CachedImage
-                    HeightRequest="120"
-                    Aspect="AspectFill"
-                    Source="{Binding ImagePath}">
+            </ffimageloading:CachedImage>
 
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup Name="OrientationState">
+        </pkView:PancakeView>
 
-                            <VisualState Name="Landscape">
+        <Label
+            Text="{Binding Title}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontSize="{DynamicResource TSize_i7}"
+            FontFamily="Barlow-Medium"
+            LineBreakMode="TailTruncation"
+            MaxLines="2"
+            LineHeight="1.1"
+            Margin="0, 15, 0 ,0"
+            HeightRequest="40"/>
 
-                                <VisualState.StateTriggers>
-                                    <OrientationStateTrigger Orientation="Landscape"/>
-                                </VisualState.StateTriggers>
+        <Label
+            VerticalOptions="EndAndExpand"
+            Margin="0, 12, 0, 0"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontSize="{DynamicResource TSize_i6}"
+            FontFamily="Barlow-SemiBold">
 
-                                <VisualState.Setters>
-                                    <Setter Property="HeightRequest" Value="182" />
-                                </VisualState.Setters>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="{xct:Translate CurrencySign}" />
+                    <Span Text=" " />
+                    <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                </FormattedString>
+            </Label.FormattedText>
 
-                            </VisualState>
+            <VisualStateManager.VisualStateGroups>
 
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="ColorState">
 
-                </ffimageloading:CachedImage>
+                    <VisualState Name="Mobile">
 
-            </pkView:PancakeView>
+                        <VisualState.StateTriggers>
+                            <OrientationStateTrigger Orientation="Portrait"/>
+                        </VisualState.StateTriggers>
 
-            <Label
-                Text="{Binding Title}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i6}"
-                FontFamily="Barlow-Medium"
-                LineBreakMode="TailTruncation"
-                MaxLines="2"
-                LineHeight="1.1"
-                Margin="0, 24, 0 ,0"/>
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{DynamicResource AppColor_i1}" />
+                        </VisualState.Setters>
 
-            <Label
-                VerticalOptions="EndAndExpand"
-                Margin="0, 0, 0, 8"
-                Text="{Binding Price, StringFormat='$ {0:F2}'}"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i5}"
-                FontFamily="Barlow-SemiBold"/>
+                    </VisualState>
+                    
+                </VisualStateGroup>
+                
+            </VisualStateManager.VisualStateGroups>
+            
+        </Label>
 
-        </StackLayout>
-
-    </Frame>
+    </StackLayout>
 
 </Frame>
