@@ -195,43 +195,26 @@ namespace Next2.Controls.Templates
         {
             if (sender is string str && str is not null)
             {
-                if (IsKeyBoardTyped)
-                {
-                    if (Value.Length < MaxLength)
-                    {
-                        if (IsNumericMode)
-                        {
-                            double tmp;
-
-                            if (double.TryParse(str, out tmp))
-                            {
-                                _numericValue *= 10;
-                                _numericValue += tmp / 100;
-
-                                ScreenKeyboard = string.Format(ValueFormat, _numericValue);
-                                Value += str;
-                            }
-                        }
-                        else
-                        {
-                            Value += str;
-                            ScreenKeyboard = string.Format(ValueFormat, Value);
-                        }
-                    }
-                }
-                else
+                if (!IsKeyBoardTyped)
                 {
                     IsKeyBoardTyped = true;
 
+                    _numericValue = 0;
+                    Value = string.Empty;
+                    ScreenKeyboard = string.Format(ValueFormat, Value);
+                }
+
+                if (Value.Length < MaxLength)
+                {
                     if (IsNumericMode)
                     {
-                        double tmp;
-
-                        if (double.TryParse(str, out tmp))
+                        if (double.TryParse(str, out double tmp))
                         {
-                            _numericValue = tmp / 100;
+                            _numericValue *= 10;
+                            _numericValue += tmp / 100;
+
                             ScreenKeyboard = string.Format(ValueFormat, _numericValue);
-                            Value = str;
+                            Value += str;
                         }
                         else
                         {
@@ -242,7 +225,7 @@ namespace Next2.Controls.Templates
                     }
                     else
                     {
-                        Value = str;
+                        Value += str;
                         ScreenKeyboard = string.Format(ValueFormat, Value);
                     }
                 }
