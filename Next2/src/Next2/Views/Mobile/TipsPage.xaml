@@ -1,13 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:views="clr-namespace:Next2.Views"
-    x:Class="Next2.Views.Mobile.TipsPage">
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
+    x:DataType="mobile:TipsPageViewModel"
+    x:Class="Next2.Views.Mobile.TipsPage"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" >
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid
+            RowDefinitions="70,*"
+            RowSpacing="0">
+
+            <controls:CustomNavigationbar
+                Grid.Row="0"
+                Title="{xct:Translate Tips}"
+                HeightImage="24"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-Bold"
+                LeftButtonCommand="{prism:GoBack}" />
+
+            <BoxView
+                Grid.Row="1"
+                HeightRequest="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+
+        </Grid>
     </ContentPage.Content>
+
 </views:BaseContentPage>
