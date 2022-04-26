@@ -9,12 +9,12 @@ using Next2.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(HideClipboardEntry), typeof(HideClipboardEntryRenderer))]
+[assembly: ExportRenderer(typeof(NoActionMenuEntry), typeof(NoActionMenuEntryRenderer))]
 namespace Next2.Droid.Renderers
 {
-    public class HideClipboardEntryRenderer : EntryRenderer
+    public class NoActionMenuEntryRenderer : EntryRenderer
     {
-        public HideClipboardEntryRenderer(Context context)
+        public NoActionMenuEntryRenderer(Context context)
             : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)

@@ -9,15 +9,13 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
     public class CustomerAddViewModel : BindableBase
     {
         private readonly ICustomersService _customersService;
-        //private readonly Color _acceptanceColorOnMobile = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-        //private readonly Color _acceptanceColorOnTablet = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
+
         public CustomerAddViewModel(
             DialogParameters param,
             Action<IDialogParameters> requestClose,
@@ -69,6 +67,8 @@ namespace Next2.ViewModels.Dialogs
 
         #endregion
 
+        #region -- Overrides --
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
@@ -78,6 +78,8 @@ namespace Next2.ViewModels.Dialogs
                 IsEntriesEnabled = Step == EClientAdditionStep.Info;
             }
         }
+
+        #endregion
 
         #region -- Private helpers --
 

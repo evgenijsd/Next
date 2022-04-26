@@ -30,7 +30,7 @@
                 Padding="30,40,30,20"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
-                <controls:HideClipboardEntry
+                <controls:NoActionMenuEntry
                     x:Name="searchEntry"
                     Text="{Binding SearchLine}"
                     Placeholder="{Binding Placeholder}"
@@ -43,25 +43,25 @@
                     MaxLength="100"
                     PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}">
 
-                    <controls:HideClipboardEntry.Triggers>
+                    <controls:NoActionMenuEntry.Triggers>
                         
                         <DataTrigger
-                            TargetType="controls:HideClipboardEntry" 
+                            TargetType="controls:NoActionMenuEntry" 
                             Binding="{Binding SearchLine}" 
                             Value="">
                             <Setter Property="Opacity" Value="0.32" />
                         </DataTrigger>
 
                         <DataTrigger
-                            TargetType="controls:HideClipboardEntry"
+                            TargetType="controls:NoActionMenuEntry"
                             Binding="{Binding IsOrderTabsSelected}"
                             Value="False">
                             <Setter Property="Placeholder" Value="{xct:Translate NameOrOrder}" />
                         </DataTrigger>
 
-                    </controls:HideClipboardEntry.Triggers>
+                    </controls:NoActionMenuEntry.Triggers>
                     
-                </controls:HideClipboardEntry>
+                </controls:NoActionMenuEntry>
                 
             </StackLayout>
 

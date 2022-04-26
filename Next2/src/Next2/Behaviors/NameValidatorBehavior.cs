@@ -6,17 +6,17 @@ using Xamarin.Forms;
 
 namespace Next2.Behaviors
 {
-    public class NameValidatorBehavior : Behavior<HideClipboardEntry>
+    public class NameValidatorBehavior : Behavior<NoActionMenuEntry>
     {
         #region -- Overrides --
 
-        protected override void OnAttachedTo(HideClipboardEntry bindable)
+        protected override void OnAttachedTo(NoActionMenuEntry bindable)
         {
             bindable.TextChanged += OnTextChanged;
             base.OnAttachedTo(bindable);
         }
 
-        protected override void OnDetachingFrom(HideClipboardEntry bindable)
+        protected override void OnDetachingFrom(NoActionMenuEntry bindable)
         {
             bindable.TextChanged -= OnTextChanged;
             base.OnDetachingFrom(bindable);
@@ -28,7 +28,7 @@ namespace Next2.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is HideClipboardEntry entry)
+            if (sender is NoActionMenuEntry entry)
             {
                 if (!string.IsNullOrEmpty(e.NewTextValue))
                 {

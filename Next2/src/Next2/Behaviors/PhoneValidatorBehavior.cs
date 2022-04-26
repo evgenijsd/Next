@@ -6,17 +6,17 @@ using Xamarin.Forms;
 
 namespace Next2.Behaviors
 {
-    public class PhoneValidatorBehavior : Behavior<HideClipboardEntry>
+    public class PhoneValidatorBehavior : Behavior<NoActionMenuEntry>
     {
         #region -- Overrides --
 
-        protected override void OnAttachedTo(HideClipboardEntry bindable)
+        protected override void OnAttachedTo(NoActionMenuEntry bindable)
         {
             bindable.TextChanged += OnTextChanged;
             base.OnAttachedTo(bindable);
         }
 
-        protected override void OnDetachingFrom(HideClipboardEntry bindable)
+        protected override void OnDetachingFrom(NoActionMenuEntry bindable)
         {
             bindable.TextChanged -= OnTextChanged;
             base.OnDetachingFrom(bindable);
@@ -28,7 +28,7 @@ namespace Next2.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is HideClipboardEntry entry && e.NewTextValue is not null)
+            if (sender is NoActionMenuEntry entry && e.NewTextValue is not null)
             {
                 entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.PHONE, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }

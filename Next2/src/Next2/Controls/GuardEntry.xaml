@@ -12,7 +12,7 @@
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         x:Name="borderEntry">
 
-        <controls:HideClipboardEntry
+        <controls:NoActionMenuEntry
             Margin="{OnIdiom Phone='12', Tablet='12, 8'}"
             MaxLength="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=MaxLength}"
             Keyboard="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Keyboard}"
@@ -26,8 +26,8 @@
             IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsEnabled}"
             x:Name="entry">
 
-            <controls:HideClipboardEntry.Triggers>
-                <MultiTrigger TargetType="controls:HideClipboardEntry">
+            <controls:NoActionMenuEntry.Triggers>
+                <MultiTrigger TargetType="controls:NoActionMenuEntry">
                                                         
                     <MultiTrigger.Conditions>
                         <PropertyCondition Property="IsFocused" Value="False"/>
@@ -41,8 +41,8 @@
                     </MultiTrigger.Setters>
                                                         
                 </MultiTrigger>
-            </controls:HideClipboardEntry.Triggers>
-        </controls:HideClipboardEntry>
+            </controls:NoActionMenuEntry.Triggers>
+        </controls:NoActionMenuEntry>
 
     </Frame>
     

@@ -7,10 +7,10 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(HideClipboardEntry), typeof(HideClipboardEntryRenderer))]
+[assembly: ExportRenderer(typeof(NoActionMenuEntry), typeof(NoActionMenuEntryRenderer))]
 namespace Next2.iOS.Renderers
 {
-    public class HideClipboardEntryRenderer : EntryRenderer
+    public class NoActionMenuEntryRenderer : EntryRenderer
     {
         /// <inheritdoc/>
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)

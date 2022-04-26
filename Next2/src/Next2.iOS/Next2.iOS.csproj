@@ -136,7 +136,7 @@
     <Compile Include="Effects\NoOverScrollEffect.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Renderers\CustomEntryRenderer.cs" />
+    <Compile Include="Renderers\NoActionMenuEntryRenderer.cs" />
     <Compile Include="Renderers\CustomFrameRenderer.cs" />
     <Compile Include="Renderers\LineSpacingLabelRenderer.cs" />
     <Compile Include="Renderers\CustomScrollBarCollectionViewRenderer.cs" />

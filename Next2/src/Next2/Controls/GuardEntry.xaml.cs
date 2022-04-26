@@ -112,13 +112,13 @@ namespace Next2.Controls
 
         public static readonly BindableProperty BehaviorProperty = BindableProperty.Create(
             propertyName: nameof(Behavior),
-            returnType: typeof(Behavior<HideClipboardEntry>),
+            returnType: typeof(Behavior<NoActionMenuEntry>),
             declaringType: typeof(GuardEntry),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public Behavior<HideClipboardEntry> Behavior
+        public Behavior<NoActionMenuEntry> Behavior
         {
-            get => (Behavior<HideClipboardEntry>)GetValue(BehaviorProperty);
+            get => (Behavior<NoActionMenuEntry>)GetValue(BehaviorProperty);
             set => SetValue(BehaviorProperty, value);
         }
 

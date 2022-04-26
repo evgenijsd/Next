@@ -29,7 +29,7 @@
                 Padding="0"
                 VerticalOptions="StartAndExpand">
 
-                <controls:HideClipboardEntry 
+                <controls:NoActionMenuEntry 
                     x:Name="customEntry"
                     ReturnType="Done"
                     ReturnCommand="{Binding GoBackCommand}"
