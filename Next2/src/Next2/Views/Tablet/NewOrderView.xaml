@@ -499,7 +499,6 @@
 
                                 <GridItemsLayout
                                     Orientation="Vertical"
-                                    VerticalItemSpacing="5"
                                     HorizontalItemSpacing="5"
                                     Span="2"/>
 
@@ -531,7 +530,6 @@
 
                                                 <GridItemsLayout
                                                     Orientation="Vertical"
-                                                    VerticalItemSpacing="5"
                                                     HorizontalItemSpacing="5"
                                                     Span="3"/>
 
