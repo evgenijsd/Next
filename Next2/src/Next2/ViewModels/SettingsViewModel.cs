@@ -68,7 +68,7 @@ namespace Next2.ViewModels
         {
             if (dialogResult is not null)
             {
-                bool result = dialogResult.ContainsKey(Constants.DialogParameterKeys.ACCEPT);
+                bool result = (bool)dialogResult?[Constants.DialogParameterKeys.ACCEPT];
 
                 if (result)
                 {
