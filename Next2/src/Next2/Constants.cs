@@ -2,13 +2,18 @@
 {
     public static class Constants
     {
-        public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-
-        public const string PRICE_FORMAT = "{0:0.00}";
-
-        public const string CASH_FORMAT = "$ {0:#,0.#0}";
-
         public const string DEFAULT_CULTURE = "en-US";
+
+        public static class Formats
+        {
+            public const string PRICE_FORMAT = "{0:0.00}";
+
+            public const string CASH_FORMAT = "$ {0:#,0.#0}";
+
+            public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
+
+            public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
+        }
 
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";

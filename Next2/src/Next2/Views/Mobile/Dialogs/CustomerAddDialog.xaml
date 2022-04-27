@@ -2,6 +2,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
     xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
@@ -180,7 +181,7 @@
                                             IsEnabled="{Binding IsEntriesEnabled}"
                                             MaxLength="10"
                                             Keyboard="Numeric"
-                                            Placeholder="(_ _ _)_ _ _&#x2012;_ _ _ _"
+                                            Placeholder="{Static local:Constants+Formats.PHONE_MASK}"
                                             ErrorText="{xct:Translate IncorrectNumber}"
                                             IsValid="{Binding IsValidPhone}"
                                             Text="{Binding Phone}">
