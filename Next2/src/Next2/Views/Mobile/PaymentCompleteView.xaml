@@ -147,7 +147,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -223,7 +223,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding Order.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding Order.PriceTax, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -263,7 +263,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -298,7 +298,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -332,7 +332,7 @@
                         <FormattedString>
                             <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text=" " />
-                            <Span Text="{Binding Order.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            <Span Text="{Binding Order.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                         </FormattedString>
                     </Label.FormattedText>
 
