@@ -40,7 +40,7 @@
                     Padding="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource AppColor_i3}"
-                    CornerRadius="9"
+                    CornerRadius="13"
                     HasShadow="False"
                     HorizontalOptions="Start">
 
