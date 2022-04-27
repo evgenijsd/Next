@@ -23,7 +23,7 @@ namespace Next2.ViewModels
 
         private ICommand _tapPaymentOptionCommand;
 
-        private ICommand _tapTipsValuesCommand;
+        private ICommand _tapTipItemCommand;
 
         private float _subtotalWithBonus;
 
@@ -41,7 +41,7 @@ namespace Next2.ViewModels
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
-            _tapTipsValuesCommand = new AsyncCommand<TipsItem>(OnTapTipsValuesCommandAsync, allowsMultipleExecutions: false);
+            _tapTipItemCommand = new AsyncCommand<TipItem>(OnTapTipsValuesCommandAsync, allowsMultipleExecutions: false);
 
             Task.Run(InitPaymentOptionsAsync);
 
@@ -52,11 +52,11 @@ namespace Next2.ViewModels
 
         public ObservableCollection<PaymentItem> PaymentOptionsItems { get; set; } = new();
 
-        public ObservableCollection<TipsItem> TipsValuesItems { get; set; } = new();
+        public ObservableCollection<TipItem> TipValueItems { get; set; } = new();
 
         public PaymentItem SelectedPaymentOption { get; set; } = new();
 
-        public TipsItem SelectedTipsValue { get; set; } = new();
+        public TipItem SelectedTipItem { get; set; } = new();
 
         public bool IsCleared { get; set; } = true;
 
@@ -164,52 +164,52 @@ namespace Next2.ViewModels
 
         private void RecalculateTotal()
         {
-            float subtotalWithBonus = _subtotalWithBonus;
-            Order.PriceTax = (Order.Tip + subtotalWithBonus) * Order.Tax.Value;
-            Order.Total = subtotalWithBonus + Order.Tip + Order.PriceTax;
+            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
 
         private Task InitTipsValuesAsync()
         {
-            TipsValuesItems = new()
+            TipValueItems = new()
             {
                 new()
                 {
-                    Text = "No Tip",
-                    PercentTips = 0f,
+                    Text = LocalizationResourceManager.Current["NoTip"],
+                    PercentTip = 0f,
                 },
                 new()
                 {
-                    PercentTips = 0.1f,
+                    PercentTip = 0.1f,
                 },
                 new()
                 {
-                    PercentTips = 0.15f,
+                    PercentTip = 0.15f,
                 },
                 new()
                 {
-                    PercentTips = 0.2f,
+                    PercentTip = 0.2f,
                 },
                 new()
                 {
-                    Text = "Other",
-                    PercentTips = 1f,
+                    Text = LocalizationResourceManager.Current["Other"],
+                    PercentTip = 1f,
+                    Value = 0f,
                 },
             };
 
-            SelectedTipsValue = TipsValuesItems[0];
+            SelectedTipItem = TipValueItems[0];
             var sign = LocalizationResourceManager.Current["CurrencySign"];
 
-            foreach (var tip in TipsValuesItems)
+            foreach (var tip in TipValueItems)
             {
-                if (Math.Abs(tip.PercentTips) < 1 && tip.PercentTips % 1 > 0)
+                if (Math.Abs(tip.PercentTip) < 1 && tip.PercentTip % 1 > 0)
                 {
-                    var percent = 100 * tip.PercentTips;
-                    float value = tip.PercentTips * _subtotalWithBonus;
-                    tip.Text = $"{percent}% ({sign} {value:F2})";
+                    var percent = 100 * tip.PercentTip;
+                    tip.Value = tip.PercentTip * _subtotalWithBonus;
+                    tip.Text = $"{percent}% ({sign} {tip.Value:F2})";
                 }
 
-                tip.TapCommand = _tapTipsValuesCommand;
+                tip.TapCommand = _tapTipItemCommand;
             }
 
             return Task.CompletedTask;
@@ -222,12 +222,12 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapTipsValuesCommandAsync(TipsItem item)
+        private Task OnTapTipsValuesCommandAsync(TipItem item)
         {
-            if (item.PercentTips < 1)
+            if (item.PercentTip < 1)
             {
                 IsClearedTip = true;
-                Order.Tip = item.PercentTips * _subtotalWithBonus;
+                Order.Tip = item.Value;
             }
             else
             {
@@ -269,24 +269,10 @@ namespace Next2.ViewModels
                     {
                         path = nameof(TipsPage);
 
-                        /*if (Order.Cash == 0)
+                        navigationParams = new NavigationParameters()
                         {
-                            navigationParams = new NavigationParameters()
-                            {
-                                { Constants.Navigations.TOTAL_SUM, Order.Total },
-                            };
-                        }
-                        else
-                        {
-                            Order.Total += Order.Cash;
-                            Order.Cash = 0;
-                            Order.Change = 0;
-
-                            navigationParams = new NavigationParameters()
-                            {
-                                { Constants.Navigations.TOTAL_SUM, Order.Total },
-                            };
-                        }*/
+                            { Constants.Navigations.TIP_ITEMS, TipValueItems },
+                        };
                     }
 
                     break;

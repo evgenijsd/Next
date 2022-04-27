@@ -8,11 +8,13 @@ using System.Windows.Input;
 
 namespace Next2.Helpers
 {
-    public class TipsItem : BindableBase, ITappable
+    public class TipItem : BindableBase, ITappable
     {
         public string Text { get; set; } = string.Empty;
 
-        public float PercentTips { get; set; }
+        public float PercentTip { get; set; }
+
+        public float Value { get; set; } = 0f;
 
         public ICommand TapCommand { get; set; }
     }

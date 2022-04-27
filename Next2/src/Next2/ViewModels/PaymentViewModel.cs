@@ -21,6 +21,8 @@ namespace Next2.ViewModels
     {
         private readonly IPopupNavigation _popupNavigation;
 
+        private float _subtotalWithBonus;
+
         public PaymentViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
@@ -39,6 +41,8 @@ namespace Next2.ViewModels
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
             Order.Tax = orderService.CurrentOrder.Tax;
             Order.Total = orderService.CurrentOrder.Total;
+
+            _subtotalWithBonus = Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
 
             RewardsViewModel = new (
                 navigationService,
@@ -86,7 +90,13 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out TipItem tipItem))
+            {
+                Order.Tip = tipItem.Value;
+
+                RecalculateTotal();
+            }
+            else if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
             {
                 if (float.TryParse(inputValue, out float sum))
                 {
@@ -162,6 +172,12 @@ namespace Next2.ViewModels
         private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private void RecalculateTotal()
+        {
+            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
 
         #endregion

@@ -169,6 +169,9 @@
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\TipValueDialog.xaml.cs">
+      <DependentUpon>TipValueDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\Dialogs\MovedOrderToOrderTabsDialog.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
@@ -481,9 +484,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\SearchPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\TipsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

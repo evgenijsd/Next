@@ -80,6 +80,8 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string SIGNATURE = "SIGNATURE";
             public const string SET_MODIFIED = "SET_MODIFIED";
+            public const string TIP_VALUE = "TIP_VALUE";
+            public const string TIP_ITEMS = "TIP_ITEMS";
         }
 
         public static class Validators
@@ -123,6 +125,7 @@
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
+            public const string TIP_VALUE = "TIP_VALUE";
         }
 
         public static class PaymentOrderStatus

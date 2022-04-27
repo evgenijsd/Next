@@ -45,8 +45,8 @@
                             Grid.Column="0"
                             Margin="35, 95, 0, 0"
                             SelectionMode="Single"
-                            SelectedItem="{Binding SelectedTipsValue}"
-                            ItemsSource="{Binding TipsValuesItems}">
+                            SelectedItem="{Binding SelectedTipItem}"
+                            ItemsSource="{Binding TipValueItems}">
 
                             <CollectionView.ItemsLayout>
 
@@ -63,7 +63,7 @@
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="helpers:TipsItem">
+                                <DataTemplate x:DataType="helpers:TipItem">
 
                                     <Frame
                                         Padding="0, 12"
@@ -139,7 +139,7 @@
                             <templates:CustomNumericKeyboardTemplate.Triggers>
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
-                                    Binding="{Binding SelectedTipsValue.PercentTips}"
+                                    Binding="{Binding SelectedTipItem.PercentTips}"
                                     Value="1">
 
                                     <Setter Property="IsEnabled" Value="True" />
@@ -609,10 +609,10 @@
                         <Label.Triggers>
                             <DataTrigger
                                 TargetType="Label"
-                                Binding="{Binding SelectedTipsValue.PercentTips, Converter={StaticResource isTipValueNotIntroduceConverter}}"
+                                Binding="{Binding SelectedTipItem.PercentTips, Converter={StaticResource isTipValueNotIntroduceConverter}}"
                                 Value="true">
 
-                                <Setter Property="FormattedText" Value="{Binding SelectedTipsValue.Text}" />
+                                <Setter Property="FormattedText" Value="{Binding SelectedTipItem.Text}" />
 
                             </DataTrigger>
                         </Label.Triggers>

@@ -196,6 +196,29 @@
 
                     </StackLayout>
 
+                    <StackLayout
+                        Orientation="Horizontal">
+
+                        <Label
+                            Text="{xct:Translate Tip}"
+                            Style="{DynamicResource SummaryItem}" />
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
                     <StackLayout Orientation="Horizontal">
 
                         <StackLayout.Triggers>
