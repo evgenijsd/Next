@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -82,6 +83,9 @@ namespace Next2.Controls
 
         public Day SelectedDay { get; set; }
 
+        private ICommand _selectYearCommand;
+        public ICommand SelectYearCommand => _selectYearCommand ??= new Command(OnSelectYearCommand);
+
         #endregion
 
         #region -- Overrides --
@@ -112,6 +116,8 @@ namespace Next2.Controls
         #endregion
 
         #region -- Private helpers --
+
+        private void OnSelectYearCommand() => dropdownFrame.IsVisible = false;
 
         private void OnYearDropDownTapped(object sender, EventArgs arg)
         {

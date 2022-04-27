@@ -123,7 +123,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behaviors\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="Resources\Styles\" />
@@ -135,6 +134,9 @@
     </Compile>
     <Compile Update="Controls\CalendarTab.xaml.cs">
       <DependentUpon>CalendarTab2.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\GuardEntry.xaml.cs">
+      <DependentUpon>GuardEntry.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\CustomStepper.xaml.cs">
       <DependentUpon>CustomStepper.xaml</DependentUpon>
@@ -268,6 +270,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CalendarTab.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\GuardEntry.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\CustomStepper.xaml">
