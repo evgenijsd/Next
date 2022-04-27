@@ -22,13 +22,12 @@
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
-        <StackLayout Spacing="0">
+        <StackLayout>
 
             <StackLayout
                 VerticalOptions="Start"
                 Padding="24"
-                Orientation="Horizontal"
-                Spacing="0">
+                Orientation="Horizontal">
 
                 <StackLayout>
 

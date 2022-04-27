@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views"
+    x:Class="Next2.Views.Mobile.WaitingSignaturePage"
+    x:DataType="mobile:WaitingSignaturePageViewModel">
+
+    <Grid
+        RowDefinitions="60, *, 90"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <controls:CustomNavigationbar
+            Grid.Row="0"
+            Title="{xct:Translate Card}"
+            HeightImage="30"
+            FontSize="{DynamicResource TSize_i3}"
+            FontFamily="Barlow-Bold"
+            LeftButtonCommand="{prism:GoBack}"/>
+
+        <Frame
+            Grid.Row="1"
+            Margin="30"
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+            CornerRadius="10"
+            BackgroundColor="Transparent"
+            VerticalOptions="FillAndExpand">
+
+            <Grid>
+
+                <controls:DrawPanel
+                    Grid.Row="0"
+                    VerticalOptions="FillAndExpand"
+                    IsCleared="{Binding IsCleared}"
+                    Bitmap="{Binding BitmapSignature}"/>
+
+                <Frame
+                    Grid.Row="0"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="EndAndExpand"
+                    Margin="20"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                    BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    CornerRadius="10"
+                    Padding="60, 15"
+                    IsVisible="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                    xct:TouchEffect.Command="{Binding ClearDrawPanelCommand}">
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <Label
+                            Text="{xct:Translate Clear}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i5}"
+                            FontFamily="Barlow-SemiBold"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+
+                        <ffimageloading:CachedImage
+                            Margin="10, 0, 0, 0"
+                            Source="ic_close_square_24x24.png"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+
+                    </StackLayout>
+
+                </Frame>
+
+            </Grid>
+
+        </Frame>
+
+        <StackLayout
+            Grid.Row="2"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <buttons:BorderButton
+                xct:TouchEffect.Command="{Binding TapPaymentCompleteCommand}"
+                IsEnabled="{Binding IsCleared, Converter={xct:InvertedBoolConverter}}"
+                Text="{xct:Translate Complete}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                FontSize="{DynamicResource TSize_i5}"
+                FontFamily="Barlow-SemiBold"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                BorderColor="{DynamicResource IndicationColor_i1}"
+                CornerRadius="4"
+                Padding="0, 10"
+                Margin="15">
+
+                <buttons:BorderButton.Triggers>
+
+                    <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsCleared}" Value="True">
+                        <Setter Property="Opacity" Value="0.32"/>
+                    </DataTrigger>
+                    
+                </buttons:BorderButton.Triggers>
+                
+            </buttons:BorderButton>
+
+        </StackLayout>
+
+    </Grid>
+
+</views:BaseContentPage>

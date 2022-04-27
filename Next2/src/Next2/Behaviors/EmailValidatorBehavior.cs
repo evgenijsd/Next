@@ -5,17 +5,17 @@ using Xamarin.Forms;
 
 namespace Next2.Behaviors
 {
-    public class EmailValidatorBehavior : Behavior<CustomEntry>
+    public class EmailValidatorBehavior : Behavior<NoActionMenuEntry>
     {
         #region -- Overrides --
 
-        protected override void OnAttachedTo(CustomEntry bindable)
+        protected override void OnAttachedTo(NoActionMenuEntry bindable)
         {
             bindable.TextChanged += HandleTextChanged;
             base.OnAttachedTo(bindable);
         }
 
-        protected override void OnDetachingFrom(CustomEntry bindable)
+        protected override void OnDetachingFrom(NoActionMenuEntry bindable)
         {
             bindable.TextChanged -= HandleTextChanged;
             base.OnDetachingFrom(bindable);
@@ -27,7 +27,7 @@ namespace Next2.Behaviors
 
         private void HandleTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is CustomEntry entry && e.NewTextValue is not null)
+            if (sender is NoActionMenuEntry entry && e.NewTextValue is not null)
             {
                 entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.EMAIL, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
             }

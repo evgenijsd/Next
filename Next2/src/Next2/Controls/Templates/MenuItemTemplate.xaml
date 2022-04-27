@@ -7,7 +7,6 @@
     x:Class="Next2.Controls.Templates.MenuItemTemplate"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     WidthRequest="78"
-    Spacing="0"
     Padding="0, 1">
 
     <VisualStateManager.VisualStateGroups>

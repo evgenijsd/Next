@@ -80,13 +80,13 @@ namespace Next2.Models
 
         public TaxModel Tax { get; set; } = new();
 
-        public double SubTotal { get; set; }
+        public float SubTotal { get; set; }
 
-        public double PriceWithBonus { get; set; } = 0f;
+        public float PriceWithBonus { get; set; } = 0f;
 
-        public double PriceTax { get; set; }
+        public float PriceTax { get; set; }
 
-        public double Total { get; set; }
+        public float Total { get; set; }
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 

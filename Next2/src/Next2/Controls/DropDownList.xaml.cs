@@ -1,4 +1,5 @@
 using Next2.Enums;
+using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -210,6 +211,9 @@ namespace Next2.Controls
 
         public double ListHeight { get; private set; }
 
+        private ICommand _selectItemCommand;
+        public ICommand SelectItemCommand => _selectItemCommand ??= new Command(OnSelectItemCommand);
+
         private ICommand _expandListCommand;
         public ICommand ExpandListCommand => _expandListCommand ??= new Command(OnExpandListCommand);
 
@@ -266,6 +270,8 @@ namespace Next2.Controls
         }
 
         #region -- Private helpers --
+
+        private void OnSelectItemCommand() => IsExpanded = false;
 
         private void OnExpandListCommand()
         {

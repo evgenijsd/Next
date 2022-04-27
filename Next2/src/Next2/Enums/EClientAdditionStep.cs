@@ -1,6 +1,6 @@
 ﻿namespace Next2.Enums
 {
-    public enum EClientAdditionPageTab
+    public enum EClientAdditionStep
     {
         Birthday,
         Info,

@@ -35,7 +35,7 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Navigations.INPUT_TEXT, out string text))
+            if (parameters.TryGetValue(Navigations.INPUT_VALUE, out string text))
             {
                 Text = text;
                 _oldText = text;
@@ -55,7 +55,7 @@ namespace Next2.ViewModels
         {
             var param = new NavigationParameters
             {
-                { nameof(Navigations.INPUT_TEXT), _oldText },
+                { nameof(Navigations.INPUT_VALUE), _oldText },
             };
 
             await _navigationService.GoBackAsync(param);
@@ -65,7 +65,7 @@ namespace Next2.ViewModels
         {
             var param = new NavigationParameters
             {
-                { nameof(Navigations.INPUT_TEXT), Text },
+                { nameof(Navigations.INPUT_VALUE), Text },
             };
 
             await _navigationService.GoBackAsync(param);

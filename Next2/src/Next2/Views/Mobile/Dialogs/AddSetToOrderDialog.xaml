@@ -21,7 +21,7 @@
         HorizontalOptions="Center"
         VerticalOptions="Center">
 
-        <StackLayout Spacing="0">
+        <StackLayout>
 
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
@@ -43,8 +43,7 @@
             <StackLayout
                 VerticalOptions="Start"
                 Padding="24"
-                Orientation="Horizontal"
-                Spacing="0">
+                Orientation="Horizontal">
 
                 <StackLayout>
 

@@ -501,14 +501,12 @@
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
                             ItemsSource="{Binding SetsItems}"
-                            VerticalScrollBarVisibility="Always"
-                            SelectionMode="Single">
+                            VerticalScrollBarVisibility="Always">
 
                             <CollectionView.ItemsLayout>
 
                                 <GridItemsLayout
                                     Orientation="Vertical"
-                                    VerticalItemSpacing="5"
                                     HorizontalItemSpacing="5"
                                     Span="2"/>
 
@@ -540,7 +538,6 @@
 
                                                 <GridItemsLayout
                                                     Orientation="Vertical"
-                                                    VerticalItemSpacing="5"
                                                     HorizontalItemSpacing="5"
                                                     Span="3"/>
 
@@ -563,13 +560,13 @@
                                     ScrollBarCornerRadius="9"
                                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                     ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                                
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:SetItemTemplate
                                         x:DataType="models:SetModel"
-                                        HeightRequest="327"
                                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
                                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
@@ -617,8 +614,7 @@
                                 <GridItemsLayout
                                     Orientation="Vertical"
                                     Span="5"
-                                    VerticalItemSpacing="0"
-                                    HorizontalItemSpacing="0"/>
+                                    HorizontalItemSpacing="2"/>
 
                             </CollectionView.ItemsLayout>
 
@@ -1197,7 +1193,9 @@
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
-                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <StackLayout 
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
@@ -1288,7 +1286,9 @@
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
-                        <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                        <StackLayout 
+                            Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
@@ -1682,7 +1682,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1851,7 +1851,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.PriceTax, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1932,7 +1932,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 

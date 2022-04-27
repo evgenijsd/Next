@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:local="[local ]clr-namespace:Next2"
+    xmlns:local="clr-namespace:Next2"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
@@ -90,9 +90,10 @@
                 <sc:StateCondition State="Undefined">
 
                     <templates:CustomNumericKeyboardTemplate
-                        x:Name="numeric_keyboard"
+                        x:Name="numeric_keyboard" 
+                        BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                         Grid.Row="1"
-                        Margin="18,50,18,0"
+                        Margin="18, 50, 18, 24"
                         IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
                         PlaceHolder="{xct:Translate TypeEmployeeId}"
                         ScreenKeyboard="{Binding EmployeeId}"
@@ -106,7 +107,7 @@
 
                         <Label Style="{DynamicResource checkLabelStyle}" Text="{xct:Translate SuccessfullyCheckedIn}" />
 
-                        <Label Style="{DynamicResource timeLabelStyle}" Text="{Binding DateTime, StringFormat={x:Static local:Constants.DATE_FORMAT}}" />
+                        <Label Style="{DynamicResource timeLabelStyle}" Text="{Binding DateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT}}" />
 
                         <ffimageloading:CachedImage Style="{DynamicResource imageStyle}" />
 
@@ -120,7 +121,7 @@
 
                         <Label Style="{DynamicResource checkLabelStyle}" Text="{xct:Translate SuccessfullyCheckedOut}" />
 
-                        <Label Style="{DynamicResource timeLabelStyle}" Text="{Binding DateTime, StringFormat={x:Static local:Constants.DATE_FORMAT}}" />
+                        <Label Style="{DynamicResource timeLabelStyle}" Text="{Binding DateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT}}" />
 
                         <ffimageloading:CachedImage Style="{DynamicResource imageStyle}" />
 

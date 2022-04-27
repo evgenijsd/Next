@@ -21,7 +21,7 @@ namespace Next2.Models
 
         public int Points { get; set; }
 
-        public double GiftCardTotal { get; set; }
+        public float GiftCardTotal { get; set; }
 
         public ImageSource CheckboxImage { get; set; }
 

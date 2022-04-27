@@ -9,7 +9,6 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SeatItemTemplate"
-    Spacing="0"
     x:DataType="models:SeatBindableModel">
 
     <BoxView
@@ -32,7 +31,6 @@
     </BoxView>
 
     <StackLayout
-        Spacing="0"
         Orientation="Horizontal"
         Margin="0, 0, 0, 16">
 
@@ -95,9 +93,7 @@
             xct:TouchEffect.Command="{Binding RemoveOrderCommand}"
             xct:TouchEffect.CommandParameter="{Binding .}">
 
-            <StackLayout
-                Orientation="Horizontal"
-                Spacing="0">
+            <StackLayout Orientation="Horizontal">
 
                 <ffimageloading:CachedImage
                     HorizontalOptions="EndAndExpand"
@@ -136,7 +132,6 @@
             <DataTemplate x:DataType="models:SetBindableModel">
 
                 <StackLayout
-                    Spacing="0"
                     Padding="0, 0, 0, 7"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
@@ -169,9 +164,7 @@
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         CornerRadius="8">
 
-                        <StackLayout
-                            Spacing="0"
-                            Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal">
 
                             <pancakeview:PancakeView
                                 HeightRequest="56"
@@ -189,7 +182,6 @@
                             </pancakeview:PancakeView>
 
                             <StackLayout
-                                Spacing="0"
                                 VerticalOptions="Center"
                                 Margin="0, 16, 16, 16">
 

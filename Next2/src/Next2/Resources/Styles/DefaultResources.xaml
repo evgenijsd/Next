@@ -99,8 +99,7 @@
         <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="Padding" Value="8"/>
     </Style>
-
-        
+   
     <Style x:Key="BorderButtonStyle_i3" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i2}">
         <Setter Property="Padding" Value="10"/>
         <Setter Property="CornerRadius" Value="7"/>
@@ -173,7 +172,15 @@
                     
         </Setter>
     </Style>
-    
+
+    <Style x:Key="SummaryItem" TargetType="Label">
+        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="Barlow-Medium" />
+        <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+        <Setter Property="Margin" Value="0, 2" />
+    </Style>
+
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />

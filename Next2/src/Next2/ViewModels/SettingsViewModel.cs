@@ -77,9 +77,9 @@ namespace Next2.ViewModels
                     await _popupNavigation.PopAsync();
 
                     var navigationParameters = new NavigationParameters
-                {
-                    { nameof(result), result },
-                };
+                    {
+                        { nameof(result), result },
+                    };
 
                     await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
                 }

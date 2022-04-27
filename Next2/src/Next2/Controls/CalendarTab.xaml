@@ -224,7 +224,8 @@
                             CornerRadius="0"
                             HeightRequest="32"
                             WidthRequest="120"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CalendarTab}}, Path=SelectYearCommand}">
 
                             <Label
                                 HorizontalTextAlignment="Center"

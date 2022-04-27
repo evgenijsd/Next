@@ -188,8 +188,7 @@
 
                         <StackLayout
                             Grid.Column="1"
-                            Orientation="Horizontal"
-                            Spacing="0">
+                            Orientation="Horizontal">
 
                             <Label
                                 Margin="20,15,0,0"
