@@ -1,6 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Models;
-using Next2.Services.Authentication;
 using Next2.Services.Log;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -23,10 +22,8 @@ namespace Next2.ViewModels.Dialogs
             _logServise = logService;
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
-            AcceptCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, true } }));
-            DeclineCommand = new DelegateCommand(() => RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.ACCEPT, false } }));
-            State = EEmployeeRegisterState.Undefinite;
-            ScreenKeyboard = string.Empty;
+            State = EEmployeeRegisterState.Undefined;
+            EmployeeId = string.Empty;
         }
 
         #region --Public Properties--
@@ -35,11 +32,7 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand CloseCommand { get; }
 
-        public DelegateCommand AcceptCommand { get; set; }
-
-        public DelegateCommand DeclineCommand { get; }
-
-        public string ScreenKeyboard { get; set; }
+        public string EmployeeId { get; set; }
 
         public EEmployeeRegisterState State { get; set; }
 
@@ -47,30 +40,31 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime DateTime { get; set; }
 
-        private ICommand _applyButtonCommand;
-        public ICommand ApplyButtonCommand => _applyButtonCommand ??= new AsyncCommand(OnApplyButtonCommand, allowsMultipleExecutions: false);
+        private ICommand _applyCommand;
+        public ICommand ApplyCommand => _applyCommand ??= new AsyncCommand(OnApplyCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _cancelButtonCommand;
-        public ICommand CancelButtonCommand => _cancelButtonCommand ??= new AsyncCommand(OnCancelButtonCommand, allowsMultipleExecutions: false);
+        private ICommand _cancelCommand;
+        public ICommand CancelCommand => _cancelCommand ??= new AsyncCommand(OnCancelCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region --Private Helpers--
 
-        private async Task OnApplyButtonCommand()
+        private async Task OnApplyCommandAsync()
         {
-            if (ScreenKeyboard.Length != 6)
+            if (EmployeeId.Length != Constants.Limits.EMPLOYEE_ID_LENGTH || !int.TryParse(EmployeeId, out int employeeId))
             {
                 IsErrorNotificationVisible = true;
             }
-            else if (int.TryParse(ScreenKeyboard, out int employeeId))
+            else
             {
                 var record = new WorkLogRecordModel
                 {
                     Timestamp = DateTime.Now,
                     EmployeeId = employeeId,
                 };
-                var state = await _logServise.InsertRecord(record);
+                var state = await _logServise.InsertRecordAsync(record);
+
                 if (state.IsSuccess)
                 {
                     DateTime = record.Timestamp;
@@ -81,13 +75,9 @@ namespace Next2.ViewModels.Dialogs
                     IsErrorNotificationVisible = true;
                 }
             }
-            else
-            {
-                IsErrorNotificationVisible = true;
-            }
         }
 
-        private Task OnCancelButtonCommand()
+        private Task OnCancelCommandAsync()
         {
             CloseCommand.Execute();
             return Task.CompletedTask;

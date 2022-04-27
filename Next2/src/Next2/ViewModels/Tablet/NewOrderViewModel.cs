@@ -78,7 +78,7 @@ namespace Next2.ViewModels.Tablet
         public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _employeeTimeClockPopupCallCommand;
-        public ICommand EmployeeTimeClockPopupCallCommand => _employeeTimeClockPopupCallCommand ??= new AsyncCommand(OnEmployeeTimeClockPopupCallCommand, allowsMultipleExecutions: false);
+        public ICommand EmployeeTimeClockPopupCallCommand => _employeeTimeClockPopupCallCommand ??= new AsyncCommand(OnEmployeeTimeClockPopupCallCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -241,9 +241,11 @@ namespace Next2.ViewModels.Tablet
             await _navigationService.NavigateAsync(nameof(ExpandPage));
         }
 
-        private async Task OnEmployeeTimeClockPopupCallCommand()
+        private Task OnEmployeeTimeClockPopupCallCommandAsync()
         {
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(_logService, new DialogParameters { }, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
+            return _popupNavigation
+                .PushAsync(new Views.Tablet.Dialogs
+                .EmployeeTimeClockDialog(_logService, new DialogParameters { }, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
         }
 
         #endregion

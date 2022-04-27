@@ -10,6 +10,6 @@ namespace Next2.Services.Log
 {
     public interface ILogService
     {
-        Task<AOResult<EEmployeeRegisterState>> InsertRecord(WorkLogRecordModel record);
+        Task<AOResult<EEmployeeRegisterState>> InsertRecordAsync(WorkLogRecordModel record);
     }
 }

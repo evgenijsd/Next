@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="[local ]clr-namespace:Next2"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
@@ -30,8 +31,8 @@
 
         <Style x:Key="timeLabelStyle" TargetType="Label">
             <Setter Property="FontFamily" Value="Barlow-Regular" />
-            <Setter Property="FontSize" Value="22" />
-            <Setter Property="Margin" Value="18,4,0,0" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}" />
+            <Setter Property="Margin" Value="18, 4, 0, 0" />
             <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}" />
         </Style>
 
@@ -50,9 +51,9 @@
         </Style>
 
         <Style x:Key="checkLabelStyle" TargetType="Label">
-            <Setter Property="Margin" Value="18,18,0,0" />
+            <Setter Property="Margin" Value="18, 18, 0, 0" />
             <Setter Property="FontFamily" Value="Barlow-Medium" />
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
         </Style>
 
@@ -67,18 +68,18 @@
         VerticalOptions="CenterAndExpand"
         WidthRequest="363">
 
-        <Grid Padding="0" RowDefinitions="0.14*,0.84*,0.16*">
+        <Grid Padding="0" RowDefinitions="0.14*, 0.84*, 0.16*">
 
             <Label
                 Grid.Row="0"
                 Margin="18,0,0,0"
                 FontFamily="Barlow-SemiBold"
-                FontSize="18"
+                FontSize="{DynamicResource TSize_i6}"
                 Text="{xct:Translate EmployeeTimeClock}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalTextAlignment="Center" />
 
-            <BoxView Grid.Row="0" Style="{StaticResource separatorStyle}" />
+            <BoxView Grid.Row="0" Style="{DynamicResource separatorStyle}" />
 
             <!--  Body  -->
             <sc:StateContainer
@@ -86,43 +87,50 @@
                 Grid.Row="1"
                 State="{Binding State}">
 
-                <sc:StateCondition State="Undefinite">
+                <sc:StateCondition State="Undefined">
+
                     <templates:CustomNumericKeyboardTemplate
                         x:Name="numeric_keyboard"
                         Grid.Row="1"
                         Margin="18,50,18,0"
                         IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
                         PlaceHolder="{xct:Translate TypeEmployeeId}"
-                        ScreenKeyboard="{Binding ScreenKeyboard}"
+                        ScreenKeyboard="{Binding EmployeeId}"
                         VerticalOptions="StartAndExpand" />
+
                 </sc:StateCondition>
 
                 <sc:StateCondition State="CheckedIn">
+
                     <StackLayout Grid.Row="1">
 
-                        <Label Style="{StaticResource checkLabelStyle}" Text="{xct:Translate SuccessfullyCheckedIn}" />
+                        <Label Style="{DynamicResource checkLabelStyle}" Text="{xct:Translate SuccessfullyCheckedIn}" />
 
-                        <Label Style="{StaticResource timeLabelStyle}" Text="{Binding DateTime, StringFormat='{}{0:h:mm:ss}'}" />
+                        <Label Style="{DynamicResource timeLabelStyle}" Text="{Binding DateTime, StringFormat={x:Static local:Constants.DATE_FORMAT}}" />
 
-                        <ffimageloading:CachedImage Style="{StaticResource imageStyle}" />
+                        <ffimageloading:CachedImage Style="{DynamicResource imageStyle}" />
 
                     </StackLayout>
+
                 </sc:StateCondition>
 
                 <sc:StateCondition State="CheckedOut">
+
                     <StackLayout Grid.Row="1">
 
-                        <Label Style="{StaticResource checkLabelStyle}" Text="{xct:Translate SuccessfullyCheckedOut}" />
+                        <Label Style="{DynamicResource checkLabelStyle}" Text="{xct:Translate SuccessfullyCheckedOut}" />
 
-                        <Label Style="{StaticResource timeLabelStyle}" Text="{Binding DateTime, StringFormat='{}{0:h:mm:ss}'}" />
+                        <Label Style="{DynamicResource timeLabelStyle}" Text="{Binding DateTime, StringFormat={x:Static local:Constants.DATE_FORMAT}}" />
 
-                        <ffimageloading:CachedImage Style="{StaticResource imageStyle}" />
+                        <ffimageloading:CachedImage Style="{DynamicResource imageStyle}" />
 
                     </StackLayout>
+
                 </sc:StateCondition>
+
             </sc:StateContainer>
 
-            <BoxView Grid.Row="1" Style="{StaticResource separatorStyle}" />
+            <BoxView Grid.Row="1" Style="{DynamicResource separatorStyle}" />
 
             <!--  cancel button  -->
             <Frame
@@ -130,30 +138,33 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 BorderColor="{DynamicResource AppColor_i1}"
                 HorizontalOptions="StartAndExpand"
-                Style="{StaticResource buttonFrameStyle}">
+                Style="{DynamicResource buttonFrameStyle}">
 
                 <Label
-                    Style="{StaticResource buttonLabelStyle}"
+                    Style="{DynamicResource buttonLabelStyle}"
                     Text="{xct:Translate Cancel}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                 <Frame.Triggers>
+
                     <DataTrigger
                         Binding="{Binding Source={x:Reference state_container}, Path=State}"
                         TargetType="Frame"
                         Value="CheckedIn">
                         <Setter Property="WidthRequest" Value="327" />
                     </DataTrigger>
+
                     <DataTrigger
                         Binding="{Binding Source={x:Reference state_container}, Path=State}"
                         TargetType="Frame"
                         Value="CheckedOut">
                         <Setter Property="WidthRequest" Value="327" />
                     </DataTrigger>
+
                 </Frame.Triggers>
 
                 <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CancelButtonCommand}" />
+                    <TapGestureRecognizer Command="{Binding CancelCommand}" />
                 </Frame.GestureRecognizers>
 
             </Frame>
@@ -164,34 +175,38 @@
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 HorizontalOptions="EndAndExpand"
                 Opacity="1"
-                Style="{StaticResource buttonFrameStyle}">
+                Style="{DynamicResource buttonFrameStyle}">
 
                 <Label
-                    Style="{StaticResource buttonLabelStyle}"
+                    Style="{DynamicResource buttonLabelStyle}"
                     Text="{xct:Translate Apply}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                 <Frame.Triggers>
+
                     <DataTrigger
-                        Binding="{Binding Source={x:Reference numeric_keyboard}, Path=ScreenKeyboard.Length}"
+                        Binding="{Binding EmployeeId.Length}"
                         TargetType="Frame"
                         Value="0">
-                        <Setter Property="Opacity" Value="0.32" />
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                     </DataTrigger>
+
                     <DataTrigger
-                        Binding="{Binding Source={x:Reference numeric_keyboard}, Path=ScreenKeyboard}"
+                        Binding="{Binding EmployeeId.Length}"
                         TargetType="Frame"
-                        Value="{xct:Translate TypeEmployeeId}">
-                        <Setter Property="Opacity" Value="0.32" />
+                        Value="16">
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                     </DataTrigger>
+
                     <DataTrigger
-                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        Binding="{Binding State}"
                         TargetType="Frame"
                         Value="CheckedIn">
                         <Setter Property="IsVisible" Value="false" />
                     </DataTrigger>
+
                     <DataTrigger
-                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        Binding="{Binding State}"
                         TargetType="Frame"
                         Value="CheckedOut">
                         <Setter Property="IsVisible" Value="false" />
@@ -199,7 +214,7 @@
                 </Frame.Triggers>
 
                 <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ApplyButtonCommand}" />
+                    <TapGestureRecognizer Command="{Binding ApplyCommand}" />
                 </Frame.GestureRecognizers>
 
             </Frame>
