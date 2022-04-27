@@ -40,7 +40,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Grid.Column="1"
             Grid.RowSpan="2"
-            RowDefinitions="0.3*,0.7*, 2, 60">
+            RowDefinitions="0.3*, 0.7*, 2, 60">
             
             <Label 
                 Text="{xct:Translate EmployeeId}"
@@ -53,7 +53,9 @@
             
             <templates:CustomNumericKeyboardTemplate
                 Grid.Row="1"
-                Margin="30, 0, 30, 0"
+                Margin="30, 0"
+                HeightRequest="310"
+                MinimumHeightRequest="310"
                 BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                 ScreenKeyboard="{Binding EmployeeId}"
                 PlaceHolder="{xct:Translate TypeEmployeeId}"
