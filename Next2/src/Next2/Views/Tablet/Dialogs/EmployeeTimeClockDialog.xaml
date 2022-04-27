@@ -152,6 +152,7 @@
                         TargetType="Frame"
                         Value="CheckedIn">
                         <Setter Property="WidthRequest" Value="327" />
+
                     </DataTrigger>
 
                     <DataTrigger
@@ -159,6 +160,7 @@
                         TargetType="Frame"
                         Value="CheckedOut">
                         <Setter Property="WidthRequest" Value="327" />
+
                     </DataTrigger>
 
                 </Frame.Triggers>
@@ -189,6 +191,7 @@
                         TargetType="Frame"
                         Value="0">
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
                     </DataTrigger>
 
                     <DataTrigger
@@ -196,6 +199,7 @@
                         TargetType="Frame"
                         Value="16">
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
                     </DataTrigger>
 
                     <DataTrigger
@@ -203,6 +207,7 @@
                         TargetType="Frame"
                         Value="CheckedIn">
                         <Setter Property="IsVisible" Value="false" />
+
                     </DataTrigger>
 
                     <DataTrigger
@@ -210,6 +215,7 @@
                         TargetType="Frame"
                         Value="CheckedOut">
                         <Setter Property="IsVisible" Value="false" />
+
                     </DataTrigger>
                 </Frame.Triggers>
 
