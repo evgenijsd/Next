@@ -87,6 +87,7 @@
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
+    <None Remove="ViewModels\Mobile\Dialogs\TipValueDialogViewModel.cs~RF220074b2.TMP" />
   </ItemGroup>
 
   <ItemGroup>

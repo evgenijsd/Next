@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
@@ -63,7 +64,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapTipsValuesCommandAsync(TipItem? item)
         {
-            if (item?.PercentTip == 1)
+            if (item?.TipType == Enums.ETipItems.Other)
             {
                 PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
 
@@ -78,6 +79,7 @@ namespace Next2.ViewModels.Mobile
             if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE, out float value))
             {
                 SelectedTipItem.Value = value;
+                SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value}";
             }
         }
 

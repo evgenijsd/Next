@@ -98,9 +98,7 @@
                                             </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
 
-                                        <StackLayout
-                                            Orientation="Horizontal">
-
+                                        <StackLayout Orientation="Horizontal">
                                             <Label
                                                 Text="{Binding Text}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -108,8 +106,20 @@
                                                 HorizontalTextAlignment="Center"
                                                 FontSize="{DynamicResource TSize_i7}"
                                                 FontFamily="Barlow-Medium"
-                                                HorizontalOptions="FillAndExpand" />
+                                                HorizontalOptions="FillAndExpand">
 
+                                                <Label.Triggers>
+                                                    <DataTrigger
+                                                        TargetType="Label"
+                                                        Binding="{Binding TipType}"
+                                                        Value="{Static enum:ETipItems.Other}">
+
+                                                        <Setter Property="Text" Value="{xct:Translate Other}" />
+
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+
+                                            </Label>
                                         </StackLayout>
 
                                     </Frame>
@@ -139,8 +149,8 @@
                             <templates:CustomNumericKeyboardTemplate.Triggers>
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
-                                    Binding="{Binding SelectedTipItem.PercentTips}"
-                                    Value="1">
+                                    Binding="{Binding SelectedTipItem.TipType}"
+                                    Value="{Static enum:ETipItems.Other}">
 
                                     <Setter Property="IsEnabled" Value="True" />
 
@@ -596,28 +606,8 @@
 
                     <Label
                         Style="{DynamicResource SummaryItem}"
-                        HorizontalOptions="EndAndExpand">
-
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="{xct:Translate CurrencySign}" />
-                                <Span Text=" " />
-                                <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                            </FormattedString>                            
-                        </Label.FormattedText>
-
-                        <Label.Triggers>
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding SelectedTipItem.PercentTips, Converter={StaticResource isTipValueNotIntroduceConverter}}"
-                                Value="true">
-
-                                <Setter Property="FormattedText" Value="{Binding SelectedTipItem.Text}" />
-
-                            </DataTrigger>
-                        </Label.Triggers>
-
-                    </Label>
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding SelectedTipItem.Text}" />
 
                 </StackLayout>
 

@@ -186,6 +186,6 @@
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />
     <converters:IsNumberValidConverter x:Key="isNumberValidConverter" />
-    <converters:IsTipValueNotIntroduceConverter x:Key="isTipValueNotIntroduceConverter" />
+    <converters:FloatToBoolConverter x:Key="floatToBoolConverter" />
 
 </ResourceDictionary>

@@ -71,6 +71,8 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel PaymentCompleteViewModel { get; set; }
 
+        public TipItem SelectedTipItem { get; set; } = new();
+
         private ICommand _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
 
@@ -93,6 +95,7 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out TipItem tipItem))
             {
                 Order.Tip = tipItem.Value;
+                PaymentCompleteViewModel.SelectedTipItem = tipItem;
 
                 RecalculateTotal();
             }

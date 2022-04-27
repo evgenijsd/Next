@@ -35,7 +35,9 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnCloseCommandAsync()
         {
-            RequestClose(new DialogParameters());
+            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, 0f } };
+
+            RequestClose(dialogParameters);
 
             return Task.CompletedTask;
         }

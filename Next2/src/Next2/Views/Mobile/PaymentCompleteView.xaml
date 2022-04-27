@@ -198,6 +198,19 @@
 
                     <StackLayout
                         Orientation="Horizontal">
+                        
+                        <StackLayout.Triggers>
+                            <DataTrigger
+                                TargetType="StackLayout"
+                                Binding="{Binding Order.Tip}"
+                                Value="0">
+
+                                <Setter
+                                    Property="IsVisible"
+                                    Value="False" />
+
+                            </DataTrigger>
+                        </StackLayout.Triggers>
 
                         <Label
                             Text="{xct:Translate Tip}"
@@ -205,17 +218,8 @@
 
                         <Label
                             Style="{DynamicResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand">
-
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="{xct:Translate CurrencySign}" />
-                                    <Span Text=" " />
-                                    <Span Text="{Binding Order.Tip, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
-                                </FormattedString>
-                            </Label.FormattedText>
-
-                        </Label>
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding SelectedTipItem.Text}" />
 
                     </StackLayout>
 

@@ -113,6 +113,7 @@ namespace Next2.ViewModels
                 if (float.TryParse(InputTips, out float tip))
                 {
                     Order.Tip = tip / 100;
+                    SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip}";
                 }
                 else
                 {
@@ -174,25 +175,29 @@ namespace Next2.ViewModels
             {
                 new()
                 {
+                    TipType = ETipItems.NoTip,
                     Text = LocalizationResourceManager.Current["NoTip"],
                     PercentTip = 0f,
                 },
                 new()
                 {
+                    TipType = ETipItems.Percent,
                     PercentTip = 0.1f,
                 },
                 new()
                 {
+                    TipType = ETipItems.Percent,
                     PercentTip = 0.15f,
                 },
                 new()
                 {
+                    TipType = ETipItems.Percent,
                     PercentTip = 0.2f,
                 },
                 new()
                 {
+                    TipType = ETipItems.Other,
                     Text = LocalizationResourceManager.Current["Other"],
-                    PercentTip = 1f,
                     Value = 0f,
                 },
             };
@@ -202,7 +207,7 @@ namespace Next2.ViewModels
 
             foreach (var tip in TipValueItems)
             {
-                if (Math.Abs(tip.PercentTip) < 1 && tip.PercentTip % 1 > 0)
+                if (tip.TipType == ETipItems.Percent)
                 {
                     var percent = 100 * tip.PercentTip;
                     tip.Value = tip.PercentTip * _subtotalWithBonus;
@@ -224,7 +229,7 @@ namespace Next2.ViewModels
 
         private Task OnTapTipsValuesCommandAsync(TipItem item)
         {
-            if (item.PercentTip < 1)
+            if (item.TipType != ETipItems.Other)
             {
                 IsClearedTip = true;
                 Order.Tip = item.Value;
