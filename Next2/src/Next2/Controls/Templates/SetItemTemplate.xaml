@@ -15,7 +15,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         BorderColor="Transparent"
         CornerRadius="10"
-        Padding="12">
+        Padding="13, 13, 13, 20">
         
         <StackLayout>
 
@@ -70,7 +70,7 @@
                     <FormattedString>
                         <Span Text="{xct:Translate CurrencySign}" />
                         <Span Text=" " />
-                        <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                        <Span Text="{Binding Price, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                     </FormattedString>
                 </Label.FormattedText>
 
