@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Controls.Templates.ToggleItemTemplate"
+    Orientation="Horizontal"
+    Padding="0, 8">
+
+    <pkView:PancakeView
+        CornerRadius="10"
+        Margin="0, 0, 10, 0"
+        IsVisible="{Binding IsVisibleImage, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}">
+        
+        <ffimageloading:CachedImage
+            Aspect="AspectFill"
+            HeightRequest="50"
+            WidthRequest="50"
+            Source="{Binding ImagePath, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
+        
+    </pkView:PancakeView>
+
+    <StackLayout>
+
+        <Label
+            Text="{Binding Title, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+            TextColor="{DynamicResource IndicationColor_i3}"
+            FontSize="{DynamicResource TSize_i5}"
+            FontFamily="Barlow-SemiBold">
+
+            <Label.Triggers>
+
+                <DataTrigger
+                    TargetType="Label"
+                    Binding="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+                    Value="True">
+
+                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}"/>
+
+                </DataTrigger>
+
+            </Label.Triggers>
+
+        </Label>
+
+        <Label
+            Text="{Binding Subtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontSize="{DynamicResource TSize_i7}"
+            FontFamily="Barlow-Medium"
+            IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
+
+    </StackLayout>
+
+    <controls:Toggle
+        ChangingToggleCommand="{Binding ChangingToggle}"
+        ChangingToggleCommandParameter="{Binding .}"
+        VerticalOptions="Start"
+        HorizontalOptions="EndAndExpand"
+        IsToggled="{Binding IsToggle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+        CanTurnOff="{Binding CanTurnOff, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
+        ThumbColor="{DynamicResource IndicationColor_i3}"
+        OnColor="{DynamicResource IndicationColor_i4}">
+
+        <controls:Toggle.Triggers>
+
+            <Trigger TargetType="controls:Toggle" Property="IsToggled" Value="True">
+
+                <Setter Property="ThumbColor" Value="{DynamicResource IndicationColor_i1}"/>
+                <Setter Property="OnColor" Value="{DynamicResource IndicationColor_i2}"/>
+
+            </Trigger>
+
+        </controls:Toggle.Triggers>
+
+    </controls:Toggle>
+
+</StackLayout>

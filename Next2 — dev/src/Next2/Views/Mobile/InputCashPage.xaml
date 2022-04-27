@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views"
+    x:Class="Next2.Views.Mobile.InputCashPage"
+    x:DataType="mobile:InputCashPageViewModel">
+
+    <Grid
+        RowDefinitions="60, 90, 480"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <controls:CustomNavigationbar
+            Grid.Row="0"
+            Title="{xct:Translate Cash}"
+            HeightImage="30"
+            FontSize="{DynamicResource TSize_i3}"
+            FontFamily="Barlow-Bold"
+            LeftButtonCommand="{Binding GoBackCommand}"/>
+
+        <Label
+            Grid.Row="1"
+            Margin="20, 0, 20, 0"
+            VerticalTextAlignment="Center">
+
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span
+                        Text="{xct:Translate Change}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Regular"/>
+
+                    <Span Text=" " />
+
+                    <Span
+                        Text="{xct:Translate CurrencySign}"
+                        TextColor="{DynamicResource IndicationColor_i1}"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Bold"/>
+                    
+                    <Span Text=" " />
+                    
+                    <Span
+                        Text="{Binding Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"
+                        TextColor="{DynamicResource IndicationColor_i1}"
+                        FontSize="{DynamicResource TSize_i4}"
+                        FontFamily="Barlow-Bold"/>
+
+                </FormattedString>
+            </Label.FormattedText>
+
+        </Label>
+
+        <templates:CustomNumericKeyboardTemplate
+            Grid.Row="2"
+            BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
+            PlaceHolder="{xct:Translate EnterAmount}"
+            IsTextRightToLeft="True"
+            IsNumericMode="True"
+            Value="{Binding InputValue}"
+            ValueFormat="{x:Static local:Constants.CASH_FORMAT}"
+            MaxLength="9"
+            Margin="20, 0"/>
+
+    </Grid>
+    
+</views:BaseContentPage>

@@ -8,7 +8,6 @@
     IsClippedToBounds="True"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
     x:Name="stackLayout"
-    Spacing="0"
     Padding="0">
 
     <VisualStateManager.VisualStateGroups>

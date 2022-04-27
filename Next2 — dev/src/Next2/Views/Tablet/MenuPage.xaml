@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    x:Class="Next2.Views.Tablet.MenuPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="viewModels:MenuPageViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+    <Grid
+        ColumnSpacing="0"
+        ColumnDefinitions="100, *">
+
+        <Grid.Triggers>
+            <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="false">
+
+                <Setter Property="ColumnDefinitions" Value="0, *"/>
+            </DataTrigger>
+        </Grid.Triggers>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="AdaptiveSideMenu">
+
+                <VisualState Name="moreiPadMini">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1134" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="ColumnDefinitions" Value="110, *" />
+                    </VisualState.Setters>
+
+                </VisualState>
+
+                <VisualState Name="moreiPadPro11">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1195" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="ColumnDefinitions" Value="130, *" />
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <!--SIDE MENU-->
+        
+        <Grid
+            Grid.Row="0"
+            Grid.Column="0"
+            RowDefinitions="105, *, 80"
+            RowSpacing="0"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="AdaptiveSideMenu">
+
+                    <VisualState Name="allMini">
+
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowHeight="601" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="RowDefinitions" Value="105, *, 100" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                    <VisualState Name="moreiPadMini">
+
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="1134" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="RowDefinitions" Value="105, *, 110" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                    <VisualState Name="moreiPadPro11">
+
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="1195" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="RowDefinitions" Value="105, *, 130" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <ffimageloading:CachedImage
+                Grid.Row="0"
+                Grid.Column="0"
+                Source="pic_logo_small.png"
+                Margin="11, 11, 11, 0">
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="AdaptiveLogoMargin">
+
+                        <VisualState Name="allMini">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="601" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="12, 12, 12, 0" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="moreiPadMini6th">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="13, 13, 13, 0" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="moreiPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="1195" MinWindowHeight="601"/>
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="16, 16, 16, 0" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+
+            </ffimageloading:CachedImage>
+
+            <CollectionView
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="11, 11, 11, 0"
+                ItemsSource="{Binding MenuItems}"
+                SelectedItem="{Binding SelectedMenuItem}"
+                SelectionMode="Single">
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="AdaptiveSideMenuPadding">
+
+                        <VisualState Name="allMini">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowHeight="601" />
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="12.4, 12.4, 12.4, 0" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="moreiPadMini6th">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="1134" MinWindowHeight="601"/>
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="13.4, 13.4, 13.4, 0" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                        <VisualState Name="moreiPadPro11">
+
+                            <VisualState.StateTriggers>
+                                <AdaptiveTrigger MinWindowWidth="1195" MinWindowHeight="601"/>
+                            </VisualState.StateTriggers>
+
+                            <VisualState.Setters>
+                                <Setter Property="Margin" Value="16, 16, 16, 0" />
+                            </VisualState.Setters>
+
+                        </VisualState>
+
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                
+                <CollectionView.ItemsLayout>
+
+                    <GridItemsLayout
+                        Orientation="Horizontal"
+                        Span="7"
+                        VerticalItemSpacing="0"
+                        HorizontalItemSpacing="0"/>
+
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.Effects>
+                    <effects:NoOverScrollEffect/>
+                </CollectionView.Effects>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MenuItemBindableModel">
+
+                        <templates:MenuItemTemplate
+                            ImagePath="{Binding ImagePath}"
+                            Text="{Binding Title}"
+                            FontSize="{DynamicResource TSize_i9}"
+                            FontFamily="Barlow-Medium"/>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+            <templates:MenuItemTemplate
+                Grid.Row="2"
+                Grid.Column="0"
+                ImagePath="ic_logout_30x30.png"
+                Text="{xct:Translate LogOut}"
+                FontSize="{DynamicResource TSize_i8}"
+                FontFamily="Barlow-SemiBold"
+                Margin="10, 0"
+                Padding="0, 15">
+
+                <templates:MenuItemTemplate.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogOutCommand}"/>
+                </templates:MenuItemTemplate.GestureRecognizers>
+
+            </templates:MenuItemTemplate>
+
+        </Grid>
+
+        <!--  TABS PAGES  -->
+
+        <sc:StateContainer
+            Grid.Row="0"
+            Grid.Column="1"
+            State="{Binding SelectedMenuItem.State}">
+
+            <sc:StateCondition State="NewOrder">
+
+                <viewsTablet:NewOrderView BindingContext="{Binding NewOrderViewModel}" />
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="HoldItems">
+
+                <viewsTablet:HoldItemsView BindingContext="{Binding HoldItemsViewModel}" />
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="OrderTabs">
+
+                <viewsTablet:OrderTabsView BindingContext="{Binding OrderTabsViewModel}" />
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Reservations">
+
+                <views:ReservationsView BindingContext="{Binding ReservationsViewModel}" />
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Membership">
+
+                <viewsTablet:MembershipView BindingContext="{Binding MembershipViewModel}"/>
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Customers">
+
+                <viewsTablet:CustomersView BindingContext="{Binding CustomersViewModel}" />
+
+            </sc:StateCondition>
+
+            <sc:StateCondition State="Settings">
+
+                <views:SettingsView BindingContext="{Binding SettingsViewModel}" />
+
+            </sc:StateCondition>
+
+        </sc:StateContainer>
+
+    </Grid>
+
+</views:BaseContentPage>

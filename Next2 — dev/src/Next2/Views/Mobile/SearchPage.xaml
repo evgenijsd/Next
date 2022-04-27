@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Next2.Views.Mobile.SearchPage"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    x:DataType="viewModels:SearchPageViewModel"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    Appearing="BaseContentPage_Appearing"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+    <ContentPage.Content>
+
+        <Grid
+            RowSpacing="0"
+            RowDefinitions="65,*">
+
+            <controls:CustomNavigationbar
+                Title="{xct:Translate Search}"
+                Padding="5,0,0,0"
+                HeightImage="24"
+                FontSize="{DynamicResource TSize_i5}"
+                LeftButtonCommand="{Binding GoBackCommand}" />
+            
+            <StackLayout Grid.Row="1"
+                Padding="20,15,20,15"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
+
+                <controls:CustomEntry
+                    x:Name="searchEntry"
+                    Text="{Binding SearchLine}"
+                    Placeholder="{Binding Placeholder}"
+                    FontSize="{DynamicResource TSize_i5}"
+                    FontFamily="Barlow-Regular"
+                    ReturnType="Done"
+                    ReturnCommand="{Binding GoBackCommand}" 
+                    MaxLength="100"
+                    ReturnCommandParameter="{Binding SearchLine}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}">
+
+                    <controls:CustomEntry.Triggers>
+
+                        <DataTrigger
+                            TargetType="controls:CustomEntry"
+                            Binding="{Binding SearchLine}"
+                            Value="">
+                            <Setter Property="Opacity" Value="0.32" />
+                        </DataTrigger>
+
+                        <DataTrigger
+                            TargetType="controls:CustomEntry"
+                            Binding="{Binding IsOrderTabsSelected}"
+                            Value="False">
+                            <Setter Property="Placeholder" Value="{xct:Translate NameOrOrder}" />
+                        </DataTrigger>
+
+                    </controls:CustomEntry.Triggers>
+                    
+                </controls:CustomEntry>
+                
+            </StackLayout>
+
+        </Grid>
+        
+    </ContentPage.Content>
+
+</views:BaseContentPage>

@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
+    x:Class="Next2.Controls.StepperCarousel"
+    MinimumHeightRequest="116"
+    VerticalOptions="Start"
+    Spacing="15"
+    Orientation="Horizontal"
+    x:Name="stepperCarousel">
+
+    <Frame
+        HeightRequest="100"
+        HasShadow="False"
+        Padding="5"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        CornerRadius="5"
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapLeftButtonCommand}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                <VisualState Name="minHeight">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="601" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="HeightRequest" Value="116" />
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <ffimageloading:CachedImage Source="ic_arrow_left_24x24.png"/>
+
+    </Frame>
+
+    <CollectionView
+        HorizontalOptions="StartAndExpand"
+        HeightRequest="100"
+        x:Name="collectionView"
+        VerticalScrollBarVisibility="Never"
+        HorizontalScrollBarVisibility="Never"
+        SelectionMode="Single"
+        ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
+        SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
+        Scrolled="collectionView_Scrolled">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                <VisualState Name="minHeight">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="601" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="HeightRequest" Value="116" />
+                        <Setter Property="ItemsLayout">
+
+                            <GridItemsLayout
+                                Orientation="Horizontal"
+                                Span="2"
+                                SnapPointsType="Mandatory" 
+                                SnapPointsAlignment="Start"
+                                VerticalItemSpacing="8"
+                                HorizontalItemSpacing="8"/>
+
+                        </Setter>
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <CollectionView.ItemsLayout>
+
+            <GridItemsLayout
+                Orientation="Horizontal"
+                Span="2"
+                SnapPointsType="Mandatory" 
+                SnapPointsAlignment="Start"
+                VerticalItemSpacing="4"
+                HorizontalItemSpacing="4"/>
+
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.Effects>
+            <effects:NoOverScrollEffect/>
+        </CollectionView.Effects>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:CategoryModel">
+
+                <templates:CategoryItemTemplate
+                    Text="{Binding Title}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    FontFamily="Barlow-Medium"
+                    HeightRequest="54"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>
+
+    <Frame
+        HeightRequest="100"
+        HasShadow="False"
+        Padding="5"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        CornerRadius="5"
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapRightButtonCommand}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="AdaptiveStepperCarousel">
+
+                <VisualState Name="minHeight">
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="601" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Property="HeightRequest" Value="116" />
+                    </VisualState.Setters>
+
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <ffimageloading:CachedImage Source="ic_arrow_right_24x24.png"/>
+
+    </Frame>
+
+</StackLayout>
