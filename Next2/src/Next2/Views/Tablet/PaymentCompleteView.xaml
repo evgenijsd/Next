@@ -332,6 +332,7 @@
 
                                         <VisualState.Setters>
                                             <Setter Property="BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                         </VisualState.Setters>
 
                                     </VisualState>
@@ -340,6 +341,7 @@
 
                                         <VisualState.Setters>
                                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                         </VisualState.Setters>
 
                                     </VisualState>
