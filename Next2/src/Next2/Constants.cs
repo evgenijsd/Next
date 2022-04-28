@@ -121,6 +121,11 @@
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
+            public const string PAID_ORDER_BINDABLE_MODEL = "PAID_ORDER_BINDABLE_MODEL";
+            public const string SEND_EMAIL = "SEND_EMAIL";
+            public const string PRINT = "PRINT";
+            public const string TEXT = "TEXT";
+            public const string NO_RECEIPT = "NO_RECEIPT";
         }
 
         public static class PaymentOrderStatus

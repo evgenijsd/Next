@@ -227,13 +227,18 @@ namespace Next2.ViewModels
 
         private async Task OnFinishPaymentDialogCallCommand()
         {
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
+            };
+
             if (App.IsTablet)
             {
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.FinishPaymentDialog(new DialogParameters { }, null));
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.FinishPaymentDialog(param, null));
             }
             else
             {
-                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.FinishPaymentDialog(new DialogParameters { }, null));
+                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.FinishPaymentDialog(param, null));
             }
         }
 

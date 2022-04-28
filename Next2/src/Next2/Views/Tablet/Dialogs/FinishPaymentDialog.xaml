@@ -50,7 +50,7 @@
         WidthRequest="576">
 
         <Grid RowDefinitions="0.13*,0.26*,0.45*,0.16*">
-            
+
             <Label
                 Grid.Row="0"
                 Margin="18,0,0,0"
@@ -60,7 +60,7 @@
                 Text="{xct:Translate PaymentComplete2}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalOptions="Center" />
-            
+
             <BoxView Grid.Row="0" Style="{StaticResource separatorStyle}" />
 
             <StackLayout
@@ -70,27 +70,27 @@
                 Orientation="Vertical"
                 Spacing="4"
                 VerticalOptions="Center">
-                
+
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{StaticResource labelStyle}"
                     Text="{xct:Translate Subtotal}" />
-                
+
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{StaticResource labelStyle}"
                     Text="{xct:Translate Coupon}" />
-                
+
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{StaticResource labelStyle}"
                     Text="{xct:Translate Tax}" />
-                
+
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{StaticResource labelStyle}"
                     Text="{xct:Translate Tip}" />
-                
+
             </StackLayout>
 
             <StackLayout
@@ -100,15 +100,15 @@
                 Orientation="Vertical"
                 Spacing="4"
                 VerticalOptions="Center">
-                
+
                 <Label Style="{StaticResource labelStyle}" Text="Text" />
-                
+
                 <Label Style="{StaticResource labelStyle}" Text="Text" />
-                
+
                 <Label Style="{StaticResource labelStyle}" Text="Text" />
-                
+
                 <Label Style="{StaticResource labelStyle}" Text="Text" />
-                
+
             </StackLayout>
 
             <BoxView Grid.Row="1" Style="{StaticResource separatorStyle}" />
@@ -119,18 +119,18 @@
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="9">
-                
+
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{StaticResource labelStyle}"
                     Text="{xct:Translate GiftCards}" />
-                
+
                 <Label
                     FontFamily="Barlow-Regular"
                     FontSize="18"
                     Style="{StaticResource labelStyle}"
                     Text="{xct:Translate Total}" />
-                
+
             </StackLayout>
 
             <StackLayout
@@ -139,15 +139,15 @@
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="9">
-                
+
                 <Label Style="{StaticResource labelStyle}" Text="text" />
-                
+
                 <Label
                     FontFamily="Barlow-Regular"
                     FontSize="18"
                     Style="{StaticResource labelStyle}"
                     Text="text" />
-                
+
             </StackLayout>
 
             <BoxView Grid.Row="2" Style="{StaticResource separatorStyle}" />
@@ -155,30 +155,30 @@
             <!--  Buttons  -->
             <StackLayout
                 Grid.Row="3"
-                Margin="18,0,18,0"
+                Margin="14,0,14,0"
                 Orientation="Horizontal"
-                Spacing="18"
+                Spacing="14"
                 VerticalOptions="CenterAndExpand">
-                
+
                 <Frame BorderColor="{DynamicResource IndicationColor_i5}" Style="{StaticResource buttonStyle}">
                     <Label Style="{StaticResource buttonTextStyle}" Text="{xct:Translate Email}" />
                 </Frame>
-                
+
                 <Frame BorderColor="{DynamicResource IndicationColor_i7}" Style="{StaticResource buttonStyle}">
                     <Label Style="{StaticResource buttonTextStyle}" Text="{xct:Translate Text}" />
                 </Frame>
-                
+
                 <Frame BorderColor="{DynamicResource AppColor_i1}" Style="{StaticResource buttonStyle}">
                     <Label Style="{StaticResource buttonTextStyle}" Text="{xct:Translate Print}" />
                 </Frame>
-                
+
                 <Frame BackgroundColor="{DynamicResource IndicationColor_i1}" Style="{StaticResource buttonStyle}">
                     <Label
                         Style="{StaticResource buttonTextStyle}"
                         Text="{xct:Translate NoReceipt}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
                 </Frame>
-                
+
             </StackLayout>
         </Grid>
 
