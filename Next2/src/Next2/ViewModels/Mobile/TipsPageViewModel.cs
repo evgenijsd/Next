@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,6 +21,7 @@ namespace Next2.ViewModels.Mobile
         private readonly IPopupNavigation _popupNavigation;
 
         private ICommand _tapTipsItemCommand;
+        private ObservableCollection<TipItem> _tipValueItems { get; set; } = new();
 
         public TipsPageViewModel(
             INavigationService navigationService,
@@ -32,7 +34,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public ObservableCollection<TipItem> TipValueItems { get; set; } = new();
+        public ObservableCollection<TipItem> TipDisplayItems { get; set; } = new();
 
         public TipItem SelectedTipItem { get; set; } = new();
 
@@ -47,14 +49,18 @@ namespace Next2.ViewModels.Mobile
         {
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
             {
-                TipValueItems = tipItems;
+                _tipValueItems = tipItems;
 
-                foreach (var item in TipValueItems)
+                foreach (var item in _tipValueItems)
                 {
                     item.TapCommand = _tapTipsItemCommand;
+                    if (item.TipType != Enums.ETipItems.NoTip)
+                    {
+                        TipDisplayItems.Add(item);
+                    }
                 }
 
-                SelectedTipItem = TipValueItems[0];
+                SelectedTipItem = _tipValueItems[0];
             }
         }
 
