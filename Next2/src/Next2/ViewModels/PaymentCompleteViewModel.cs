@@ -41,11 +41,11 @@ namespace Next2.ViewModels
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
-            _tapTipItemCommand = new AsyncCommand<TipItem>(OnTapTipsValuesCommandAsync, allowsMultipleExecutions: false);
+            _tapTipItemCommand = new AsyncCommand<TipItem>(OnTapTipsItemCommandAsync, allowsMultipleExecutions: false);
 
             Task.Run(InitPaymentOptionsAsync);
 
-            Task.Run(InitTipsValuesAsync);
+            Task.Run(InitTipsItemsAsync);
         }
 
         #region -- Public properties --
@@ -68,7 +68,7 @@ namespace Next2.ViewModels
 
         public string InputValue { get; set; }
 
-        public string InputTips { get; set; }
+        public string InputTip { get; set; }
 
         public ECardPaymentStatus CardPaymentStatus { get; set; }
 
@@ -108,9 +108,9 @@ namespace Next2.ViewModels
                 }
             }
 
-            if (args.PropertyName == nameof(InputTips))
+            if (args.PropertyName == nameof(InputTip))
             {
-                if (float.TryParse(InputTips, out float tip))
+                if (float.TryParse(InputTip, out float tip))
                 {
                     Order.Tip = tip / 100;
                     SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip}";
@@ -135,25 +135,25 @@ namespace Next2.ViewModels
                 new()
                 {
                     PaymentType = EPaymentItems.Tips,
-                    Text = "Tips",
+                    Text = LocalizationResourceManager.Current["Tips"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
                 new()
                 {
                     PaymentType = EPaymentItems.GiftCards,
-                    Text = "Gift Cards",
+                    Text = LocalizationResourceManager.Current["GiftCards"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
                 new()
                 {
                     PaymentType = EPaymentItems.Cash,
-                    Text = "Cash",
+                    Text = LocalizationResourceManager.Current["Cash"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
                 new()
                 {
                     PaymentType = EPaymentItems.Card,
-                    Text = "Card",
+                    Text = LocalizationResourceManager.Current["Card"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
             };
@@ -169,7 +169,7 @@ namespace Next2.ViewModels
             Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
 
-        private Task InitTipsValuesAsync()
+        private Task InitTipsItemsAsync()
         {
             TipValueItems = new()
             {
@@ -227,9 +227,9 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapTipsValuesCommandAsync(TipItem item)
+        private Task OnTapTipsItemCommandAsync(TipItem? item)
         {
-            if (item.TipType != ETipItems.Other)
+            if (item is TipItem && item.TipType != ETipItems.Other)
             {
                 IsClearedTip = true;
                 Order.Tip = item.Value;

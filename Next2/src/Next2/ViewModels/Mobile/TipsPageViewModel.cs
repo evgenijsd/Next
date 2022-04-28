@@ -1,4 +1,5 @@
-﻿using Next2.Helpers;
+﻿using Next2.Enums;
+using Next2.Helpers;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -20,7 +21,6 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IPopupNavigation _popupNavigation;
 
-        private ICommand _tapTipsItemCommand;
         private ObservableCollection<TipItem> _tipValueItems { get; set; } = new();
 
         public TipsPageViewModel(
@@ -28,7 +28,6 @@ namespace Next2.ViewModels.Mobile
             IPopupNavigation popupNavigation)
             : base(navigationService)
         {
-            _tapTipsItemCommand = new AsyncCommand<TipItem>(OnTapTipsValuesCommandAsync, allowsMultipleExecutions: false);
             _popupNavigation = popupNavigation;
         }
 
@@ -37,6 +36,9 @@ namespace Next2.ViewModels.Mobile
         public ObservableCollection<TipItem> TipDisplayItems { get; set; } = new();
 
         public TipItem SelectedTipItem { get; set; } = new();
+
+        private ICommand _tapTipItemCommand;
+        public ICommand TapTipItemCommand => _tapTipItemCommand = new AsyncCommand<object>(OnTapTipItemCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -53,8 +55,8 @@ namespace Next2.ViewModels.Mobile
 
                 foreach (var item in _tipValueItems)
                 {
-                    item.TapCommand = _tapTipsItemCommand;
-                    if (item.TipType != Enums.ETipItems.NoTip)
+                    item.TapCommand = TapTipItemCommand;
+                    if (item.TipType != ETipItems.NoTip)
                     {
                         TipDisplayItems.Add(item);
                     }
@@ -68,13 +70,18 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private methods --
 
-        private async Task OnTapTipsValuesCommandAsync(TipItem? item)
+        private async Task OnTapTipItemCommandAsync(object? sender)
         {
-            if (item?.TipType == Enums.ETipItems.Other)
+            if (sender is TipItem item && item.TipType == ETipItems.Other)
             {
                 PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
 
                 await _popupNavigation.PushAsync(popupPage);
+            }
+
+            if (sender is ETipItems eTip && eTip == ETipItems.NoTip)
+            {
+                SelectedTipItem = _tipValueItems[0];
             }
         }
 
