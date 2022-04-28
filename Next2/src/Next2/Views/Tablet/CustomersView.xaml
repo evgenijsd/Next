@@ -74,7 +74,43 @@
 
                 <StackLayout>
 
-                    <StackLayout
+                    <Grid
+                        Margin="24,12,0,0"
+                        ColumnDefinitions="0.37*, 0.63*"
+                        RowDefinitions="*">
+
+                        <controls:SearchButton
+                            CornerRadius="5"
+                            Text="{Binding SearchText}"
+                            Placeholder="{xct:Translate SearchByNameOrPhone}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            BackColor="Transparent"
+                            BorderColor="{DynamicResource AppColor_i1}"
+                            CommandSearch="{Binding SearchCommand}"
+                            CommandClear="{Binding ClearSearchCommand}">
+
+                            <controls:SearchButton.Triggers>
+
+                                <DataTrigger
+                                    TargetType="controls:SearchButton"
+                                    Binding="{Binding SearchText}"
+                                    Value="">
+                                    <Setter
+                                        Property="BorderColor"
+                                        Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                                    <Setter
+                                        Property="ImageSource"
+                                        Value="ic_search_24x24" />
+                                    <Setter
+                                        Property="CommandClear"
+                                        Value="{Binding SearchCommand}" />
+                                </DataTrigger>
+
+                            </controls:SearchButton.Triggers>
+                        </controls:SearchButton>
+                    </Grid>
+
+                    <!--StackLayout
                         Padding="0,0,0,0"
                         HeightRequest="108"
                         Orientation="Horizontal">
@@ -121,7 +157,6 @@
 
                         </Frame>
 
-                        <!--  Info Button  -->
                         <Frame
                             Margin="0,12,12,0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
@@ -149,7 +184,6 @@
 
                         </Frame>
 
-                        <!--  add buttom  -->
                         <Frame
                             Margin="0,12,24,0"
                             Padding="0"
@@ -165,7 +199,7 @@
 
                         </Frame>
 
-                    </StackLayout>
+                    </StackLayout-->
 
                     <!--  Table header  -->
                     <yummy:PancakeView
