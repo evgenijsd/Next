@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Next2.Enums
 {
-    public enum ETipItems
+    public enum ETipType
     {
         NoTip,
         Percent,

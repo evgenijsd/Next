@@ -10,13 +10,13 @@ namespace Next2.Helpers
 {
     public class TipItem : BindableBase, ITappable
     {
-        public ETipItems TipType { get; set; }
+        public ETipType TipType { get; set; }
 
         public string Text { get; set; } = string.Empty;
 
         public float PercentTip { get; set; }
 
-        public float Value { get; set; } = 0f;
+        public float Value { get; set; }
 
         public ICommand TapCommand { get; set; }
     }

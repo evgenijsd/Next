@@ -42,7 +42,9 @@ namespace Next2.ViewModels
             Order.Tax = orderService.CurrentOrder.Tax;
             Order.Total = orderService.CurrentOrder.Total;
 
-            _subtotalWithBonus = Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
+            _subtotalWithBonus = Order.BonusType == EBonusType.None
+                ? Order.Subtotal
+                : Order.SubtotalWithBonus;
 
             RewardsViewModel = new (
                 navigationService,
@@ -71,17 +73,15 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel PaymentCompleteViewModel { get; set; }
 
-        public TipItem SelectedTipItem { get; set; } = new();
-
         private ICommand _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _OpenTipsCommand;
         public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
 
-        private async Task OnOpenTipsCommandAsync()
+        private Task OnOpenTipsCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(TipsPage));
+            return _navigationService.NavigateAsync(nameof(TipsPage));
         }
 
         #endregion

@@ -39,7 +39,8 @@
                         HeightRequest="1.5"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
-                    <Grid ColumnDefinitions="0.37*,0.63*" VerticalOptions="FillAndExpand">
+                    <Grid ColumnDefinitions="0.37*, 0.63*" 
+                          VerticalOptions="FillAndExpand">
 
                         <CollectionView
                             Grid.Column="0"
@@ -67,7 +68,6 @@
 
                                     <Frame
                                         Padding="0, 12"
-                                        HasShadow="False"
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
                                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
@@ -112,7 +112,7 @@
                                                     <DataTrigger
                                                         TargetType="Label"
                                                         Binding="{Binding TipType}"
-                                                        Value="{Static enum:ETipItems.Other}">
+                                                        Value="{Static enum:ETipType.Other}">
 
                                                         <Setter Property="Text" Value="{xct:Translate Other}" />
 
@@ -131,7 +131,7 @@
 
                         <templates:CustomNumericKeyboardTemplate
                             IsEnabled="False"
-                            Margin="0,95,0,0"
+                            Margin="0, 95, 0, 0"
                             Grid.Column="1"
                             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
                             PlaceHolder="{xct:Translate EnterAmount}"
@@ -139,10 +139,10 @@
                             VerticalOptions="Start"
                             IsTextRightToLeft="True"
                             IsNumericMode="True"
-                            ValueFormat="$ {0:#,0.#0}"
+                            ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
                             Value="{Binding InputTip}"
                             IsUserLogIn="{Binding IsClearedTip}"
-                            MaxLength="9"
+                            MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
                             HeightRequest="340"
                             WidthRequest="360">
 
@@ -151,7 +151,7 @@
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
                                     Binding="{Binding SelectedTipItem.TipType}"
-                                    Value="{Static enum:ETipItems.Other}">
+                                    Value="{Static enum:ETipType.Other}">
 
                                     <Setter Property="IsEnabled" Value="True" />
 
@@ -238,9 +238,9 @@
                         PlaceHolder="{xct:Translate EnterAmount}"
                         IsTextRightToLeft="True"
                         IsNumericMode="True"
-                        ValueFormat="$ {0:#,0.#0}"
+                        ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
                         Value="{Binding InputValue}"
-                        MaxLength="9"
+                        MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
                         WidthRequest="400"
                         HeightRequest="480"/>
 
@@ -448,7 +448,6 @@
 
                         <Frame
                             Padding="0, 15"
-                            HasShadow="False"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
                             CornerRadius="{OnPlatform Android='5', iOS='8'}"
@@ -591,18 +590,9 @@
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
-
-                    <StackLayout.Triggers>
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding Order.Tip}"
-                            Value="0">
-
-                            <Setter Property="IsVisible" Value="False" />
-
-                        </DataTrigger>
-                    </StackLayout.Triggers>
+                <StackLayout
+                    Orientation="Horizontal"
+                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
 
                     <Label
                         Text="{xct:Translate Tip}"

@@ -197,20 +197,8 @@
                     </StackLayout>
 
                     <StackLayout
-                        Orientation="Horizontal">
-                        
-                        <StackLayout.Triggers>
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.Tip}"
-                                Value="0">
-
-                                <Setter
-                                    Property="IsVisible"
-                                    Value="False" />
-
-                            </DataTrigger>
-                        </StackLayout.Triggers>
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
 
                         <Label
                             Text="{xct:Translate Tip}"

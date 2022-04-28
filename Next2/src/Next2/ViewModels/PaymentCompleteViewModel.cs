@@ -9,6 +9,7 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -37,7 +38,9 @@ namespace Next2.ViewModels
 
             Order = order;
 
-            _subtotalWithBonus = Order.BonusType == EBonusType.None ? Order.Subtotal : Order.SubtotalWithBonus;
+            _subtotalWithBonus = Order.BonusType == EBonusType.None
+                ? Order.Subtotal
+                : Order.SubtotalWithBonus;
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
@@ -54,9 +57,9 @@ namespace Next2.ViewModels
 
         public ObservableCollection<TipItem> TipValueItems { get; set; } = new();
 
-        public PaymentItem SelectedPaymentOption { get; set; } = new();
+        public PaymentItem SelectedPaymentOption { get; set; }
 
-        public TipItem SelectedTipItem { get; set; } = new();
+        public TipItem SelectedTipItem { get; set; }
 
         public bool IsCleared { get; set; } = true;
 
@@ -175,39 +178,39 @@ namespace Next2.ViewModels
             {
                 new()
                 {
-                    TipType = ETipItems.NoTip,
+                    TipType = ETipType.NoTip,
                     Text = LocalizationResourceManager.Current["NoTip"],
                     PercentTip = 0f,
                 },
                 new()
                 {
-                    TipType = ETipItems.Percent,
+                    TipType = ETipType.Percent,
                     PercentTip = 0.1f,
                 },
                 new()
                 {
-                    TipType = ETipItems.Percent,
+                    TipType = ETipType.Percent,
                     PercentTip = 0.15f,
                 },
                 new()
                 {
-                    TipType = ETipItems.Percent,
+                    TipType = ETipType.Percent,
                     PercentTip = 0.2f,
                 },
                 new()
                 {
-                    TipType = ETipItems.Other,
+                    TipType = ETipType.Other,
                     Text = LocalizationResourceManager.Current["Other"],
                     Value = 0f,
                 },
             };
 
-            SelectedTipItem = TipValueItems[0];
+            SelectedTipItem = TipValueItems.FirstOrDefault();
             var sign = LocalizationResourceManager.Current["CurrencySign"];
 
             foreach (var tip in TipValueItems)
             {
-                if (tip.TipType == ETipItems.Percent)
+                if (tip.TipType == ETipType.Percent)
                 {
                     var percent = 100 * tip.PercentTip;
                     tip.Value = tip.PercentTip * _subtotalWithBonus;
@@ -229,7 +232,7 @@ namespace Next2.ViewModels
 
         private Task OnTapTipsItemCommandAsync(TipItem? item)
         {
-            if (item is TipItem && item.TipType != ETipItems.Other)
+            if (item is not null && item.TipType != ETipType.Other)
             {
                 IsClearedTip = true;
                 Order.Tip = item.Value;

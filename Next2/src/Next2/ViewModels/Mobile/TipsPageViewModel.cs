@@ -21,7 +21,7 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IPopupNavigation _popupNavigation;
 
-        private ObservableCollection<TipItem> _tipValueItems { get; set; } = new();
+        private TipItem _noTipItem;
 
         public TipsPageViewModel(
             INavigationService navigationService,
@@ -35,7 +35,7 @@ namespace Next2.ViewModels.Mobile
 
         public ObservableCollection<TipItem> TipDisplayItems { get; set; } = new();
 
-        public TipItem SelectedTipItem { get; set; } = new();
+        public TipItem SelectedTipItem { get; set; }
 
         private ICommand _tapTipItemCommand;
         public ICommand TapTipItemCommand => _tapTipItemCommand = new AsyncCommand<object>(OnTapTipItemCommandAsync, allowsMultipleExecutions: false);
@@ -51,18 +51,20 @@ namespace Next2.ViewModels.Mobile
         {
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
             {
-                _tipValueItems = tipItems;
-
-                foreach (var item in _tipValueItems)
+                foreach (var item in tipItems)
                 {
                     item.TapCommand = TapTipItemCommand;
-                    if (item.TipType != ETipItems.NoTip)
+                    if (item.TipType != ETipType.NoTip)
                     {
                         TipDisplayItems.Add(item);
                     }
+                    else
+                    {
+                        _noTipItem = item;
+                    }
                 }
 
-                SelectedTipItem = _tipValueItems[0];
+                SelectedTipItem = _noTipItem;
             }
         }
 
@@ -72,16 +74,16 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapTipItemCommandAsync(object? sender)
         {
-            if (sender is TipItem item && item.TipType == ETipItems.Other)
+            if (sender is TipItem item && item.TipType == ETipType.Other)
             {
                 PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
 
                 await _popupNavigation.PushAsync(popupPage);
             }
 
-            if (sender is ETipItems eTip && eTip == ETipItems.NoTip)
+            if (sender is ETipType eTip && eTip == ETipType.NoTip)
             {
-                SelectedTipItem = _tipValueItems[0];
+                SelectedTipItem = _noTipItem;
             }
         }
 
@@ -89,20 +91,20 @@ namespace Next2.ViewModels.Mobile
         {
             await _popupNavigation.PopAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE, out float value))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out float value))
             {
                 SelectedTipItem.Value = value;
                 SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value}";
             }
         }
 
-        private async Task OnGoBackCommandAsync()
+        private Task OnGoBackCommandAsync()
         {
             var parameters = new NavigationParameters()
             {
                 { Constants.Navigations.TIP_VALUE, SelectedTipItem },
             };
-            await _navigationService.GoBackAsync(parameters);
+            return _navigationService.GoBackAsync(parameters);
         }
 
         #endregion

@@ -30,15 +30,14 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnGetTipValueCommandAsync()
         {
-            float tipValue;
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, 0f } };
+            float tipValue = 0;
 
             if (float.TryParse(InputTip, out float tip))
             {
                 tipValue = tip / 100;
-                dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, tipValue } };
             }
 
+            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE_DIALOG, tipValue } };
             RequestClose(dialogParameters);
 
             return Task.CompletedTask;

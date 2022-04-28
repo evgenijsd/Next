@@ -42,6 +42,7 @@
             public const int MAX_YEAR = 2100;
             public const int DAYS_IN_CALENDAR = 42;
             public const float TAX_PERCENTAGE = 20;
+            public const int MAXIMUM_DISCHARGE_NUMBER = 9;
         }
 
         public static class LayoutOrderTabs
@@ -134,7 +135,7 @@
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
-            public const string TIP_VALUE = "TIP_VALUE";
+            public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
         }
 
         public static class PaymentOrderStatus
