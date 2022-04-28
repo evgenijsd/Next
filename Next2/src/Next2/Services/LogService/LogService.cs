@@ -13,6 +13,7 @@ namespace Next2.Services.Log
     {
         private readonly IMockService _mockService;
         private readonly IAuthenticationService _authenticationService;
+
         public LogService(
             IMockService mockService,
             IAuthenticationService authenticationService)
@@ -39,7 +40,7 @@ namespace Next2.Services.Log
                         record.State = EEmployeeRegisterState.CheckedIn;
                         int id = await _mockService.AddAsync(record);
 
-                        if (id == record.EmployeeId)
+                        if (id > 0)
                         {
                             isResultSuccess = true;
                             resultState = record.State;
@@ -60,9 +61,7 @@ namespace Next2.Services.Log
                                 resultState = record.State;
                             }
                         }
-                        else
-
-                        if (lastRecord.State == EEmployeeRegisterState.CheckedIn)
+                        else if (lastRecord.State == EEmployeeRegisterState.CheckedIn)
                         {
                             record.State = EEmployeeRegisterState.CheckedOut;
                             var id = await _mockService.AddAsync(record);
@@ -73,9 +72,7 @@ namespace Next2.Services.Log
                                 resultState = record.State;
                             }
                         }
-                        else
-
-                        if (lastRecord.State == EEmployeeRegisterState.CheckedOut)
+                        else if (lastRecord.State == EEmployeeRegisterState.CheckedOut)
                         {
                             record.State = EEmployeeRegisterState.CheckedIn;
                             var id = await _mockService.AddAsync(record);

@@ -16,7 +16,6 @@ namespace Next2.ViewModels.Dialogs
         private readonly ILogService _logServise;
         public EmployeeTimeClockViewModel(
             ILogService logService,
-            DialogParameters param,
             Action<IDialogParameters> requestClose)
         {
             _logServise = logService;

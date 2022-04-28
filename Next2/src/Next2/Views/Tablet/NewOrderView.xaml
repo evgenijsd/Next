@@ -212,7 +212,7 @@
                             </ffimageloading:CachedImage>
 
                             <Label
-                                Text="{Binding CurrentDateTime, StringFormat='{}{0:h:mm:ss tt}'}"
+                                Text="{Binding CurrentDateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_T}}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 VerticalTextAlignment="Center"
                                 Style="{StaticResource labeltSize_i6}"
@@ -230,7 +230,7 @@
                                 Margin="20, 0, 0, 0"/>
 
                             <Label
-                                Text="{Binding CurrentDateTime, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
+                                Text="{Binding CurrentDateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_D}}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 VerticalTextAlignment="Center"
                                 Style="{StaticResource labeltSize_i6}"

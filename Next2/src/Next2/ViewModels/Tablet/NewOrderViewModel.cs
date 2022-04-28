@@ -23,11 +23,8 @@ namespace Next2.ViewModels.Tablet
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMenuService _menuService;
-
         private readonly IPopupNavigation _popupNavigation;
-
         private readonly IOrderService _orderService;
-
         private readonly ILogService _logService;
 
         private bool _order;
@@ -245,7 +242,7 @@ namespace Next2.ViewModels.Tablet
         {
             return _popupNavigation
                 .PushAsync(new Views.Tablet.Dialogs
-                .EmployeeTimeClockDialog(_logService, new DialogParameters { }, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
+                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
         }
 
         #endregion
