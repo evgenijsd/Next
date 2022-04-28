@@ -203,7 +203,8 @@
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="  " />
-                                        <Span Text="{Binding SelectedTipItem.Value, StringFormat={x:Static local:Constants.CASH_FORMAT}}" />
+                                        <Span
+                                            Text="{Binding SelectedTipItem.Value, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}" />
                                     </FormattedString>
                                 </Label.FormattedText>
 
