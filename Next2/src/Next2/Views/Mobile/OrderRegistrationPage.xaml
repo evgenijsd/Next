@@ -114,7 +114,9 @@
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
-                    <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                    <StackLayout 
+                        Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
                         <StackLayout
                             HeightRequest="30"
@@ -184,7 +186,9 @@
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
-                    <StackLayout Style="{DynamicResource StackLayoutTemplateStyle_i1}">
+                    <StackLayout 
+                        Style="{DynamicResource StackLayoutTemplateStyle_i1}"
+                        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=SelectItemCommand}">
 
                         <StackLayout
                             HeightRequest="30"
@@ -382,7 +386,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.SubTotal, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.SubTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 
@@ -448,7 +452,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.PriceTax, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.PriceTax, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 
@@ -472,7 +476,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.Total, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 

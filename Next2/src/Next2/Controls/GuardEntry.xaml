@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"  
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Controls.GuardEntry">
+
+    <Frame 
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=CornerRadius}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        x:Name="borderEntry">
+
+        <controls:NoActionMenuEntry
+            Margin="{OnIdiom Phone='12', Tablet='12, 8'}"
+            MaxLength="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=MaxLength}"
+            Keyboard="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Keyboard}"
+            FontFamily="Barlow-Medium"
+            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=TextSize}"
+            PlaceholderColor="{DynamicResource TextAndBackgroundColor_i9}"
+            Placeholder="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Placeholder}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text}"
+            IsValid="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsValid}"
+            IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=IsEnabled}"
+            x:Name="entry">
+
+            <controls:NoActionMenuEntry.Triggers>
+                <MultiTrigger TargetType="controls:NoActionMenuEntry">
+                                                        
+                    <MultiTrigger.Conditions>
+                        <PropertyCondition Property="IsFocused" Value="False"/>
+                        <PropertyCondition Property="IsValid" Value="False"/>
+                        <BindingCondition  Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True"/>
+                    </MultiTrigger.Conditions>
+                                                        
+                    <MultiTrigger.Setters>
+                        <Setter TargetName="borderEntry" Property="Frame.BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+                        <Setter TargetName="errorLabel" Property="Label.Opacity" Value="1"/>
+                    </MultiTrigger.Setters>
+                                                        
+                </MultiTrigger>
+            </controls:NoActionMenuEntry.Triggers>
+        </controls:NoActionMenuEntry>
+
+    </Frame>
+    
+    <Label
+        Margin="12, 0"
+        Opacity="0"
+        FontSize="{DynamicResource TSize_i9}"
+        TextColor="{DynamicResource IndicationColor_i3}"
+        Text="{Binding Source={RelativeSource AncestorType={x:Type controls:GuardEntry}}, Path=ErrorText}"
+        x:Name="errorLabel" />
+    
+</StackLayout>

@@ -14,7 +14,7 @@ namespace Next2.Converters
             {
                 if (parameter == null)
                 {
-                    parameter = Constants.LONG_DATE_FORMAT;
+                    parameter = Constants.Formats.LONG_DATE_FORMAT;
                 }
 
                 try
