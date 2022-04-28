@@ -29,7 +29,7 @@ namespace Next2.Models
 
         public TaxModel Tax { get; set; } = new();
 
-        public float Tip { get; set; } = 0;
+        public float Tip { get; set; }
 
         public float GiftCards { get; set; }
 
