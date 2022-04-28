@@ -3,7 +3,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
@@ -14,23 +16,26 @@ namespace Next2.ViewModels.Dialogs
         {
             SetupParameters(param);
             RequestClose = requestClose;
-            EmailCommand = new DelegateCommand(() => RequestClose(new DialogParameters { { Constants.DialogParameterKeys.SEND_EMAIL, true } }));
-            TextCommand = new DelegateCommand(() => RequestClose(new DialogParameters { { Constants.DialogParameterKeys.TEXT, true } }));
-            PrintCommand = new DelegateCommand(() => RequestClose(new DialogParameters { { Constants.DialogParameterKeys.PRINT, true } }));
-            NoReceiptCommand = new DelegateCommand(() => requestClose(new DialogParameters { { Constants.DialogParameterKeys.NO_RECEIPT, true } }));
+            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters { { Constants.DialogParameterKeys.PAYMENT_COMPLETE, true } }));
         }
 
         #region -- Public properties --
 
         public Action<IDialogParameters> RequestClose;
 
-        public DelegateCommand EmailCommand { get; }
+        public DelegateCommand CloseCommand { get; }
 
-        public DelegateCommand TextCommand { get; }
+        private ICommand _emailCommand;
+        public ICommand EmailCommand => _emailCommand ??= new AsyncCommand(OnEmailCommandAsync, allowsMultipleExecutions: false);
 
-        public DelegateCommand PrintCommand { get; }
+        private ICommand _textCommand;
+        public ICommand TextCommand => _textCommand ??= new AsyncCommand(OnTextCommandAsync, allowsMultipleExecutions: false);
 
-        public DelegateCommand NoReceiptCommand { get; }
+        private ICommand _printCommand;
+        public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _noReceiptCommand;
+        public ICommand NoReceiptCommand => _noReceiptCommand ??= new AsyncCommand(NoReceiptCommandAsync, allowsMultipleExecutions: false);
 
         public PaidOrderBindableModel Order { get; set; }
 
@@ -44,6 +49,26 @@ namespace Next2.ViewModels.Dialogs
             {
                 Order = order;
             }
+        }
+
+        private Task OnEmailCommandAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task OnTextCommandAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task OnPrintCommandAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task NoReceiptCommandAsync()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
