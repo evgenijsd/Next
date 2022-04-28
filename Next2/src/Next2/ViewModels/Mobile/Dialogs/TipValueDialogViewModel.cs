@@ -9,8 +9,7 @@ namespace Next2.ViewModels.Dialogs
 {
     public class TipValueDialogViewModel : BindableBase
     {
-        public TipValueDialogViewModel(
-            Action<IDialogParameters> requestClose)
+        public TipValueDialogViewModel(Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
         }

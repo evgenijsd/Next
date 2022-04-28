@@ -80,8 +80,7 @@ namespace Next2.ViewModels.Mobile
 
                 await _popupNavigation.PushAsync(popupPage);
             }
-
-            if (sender is ETipType eTip && eTip == ETipType.NoTip)
+            else if (sender is ETipType eTip && eTip == ETipType.NoTip)
             {
                 SelectedTipItem = _noTipItem;
             }

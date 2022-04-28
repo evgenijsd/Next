@@ -39,8 +39,9 @@
                         HeightRequest="1.5"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
-                    <Grid ColumnDefinitions="0.37*, 0.63*" 
-                          VerticalOptions="FillAndExpand">
+                    <Grid 
+                        ColumnDefinitions="0.37*, 0.63*"
+                        VerticalOptions="FillAndExpand">
 
                         <CollectionView
                             Grid.Column="0"

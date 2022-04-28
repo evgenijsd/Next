@@ -223,13 +223,6 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapExpandCommandAsync()
-        {
-            IsExpandedSummary = !IsExpandedSummary;
-
-            return Task.CompletedTask;
-        }
-
         private Task OnTapTipsItemCommandAsync(TipItem? item)
         {
             if (item is not null && item.TipType != ETipType.Other)
