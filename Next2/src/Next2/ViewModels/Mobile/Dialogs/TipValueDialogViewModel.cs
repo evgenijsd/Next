@@ -21,41 +21,23 @@ namespace Next2.ViewModels.Dialogs
 
         public Action<IDialogParameters> RequestClose;
 
-        private ICommand _closeCommand;
-
-        public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
-
         private ICommand _getTipValueCommand;
-
         public ICommand GetTipValueCommand => _getTipValueCommand ??= new AsyncCommand(OnGetTipValueCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region --Private helpers--
 
-        private Task OnCloseCommandAsync()
-        {
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, 0f } };
-
-            RequestClose(dialogParameters);
-
-            return Task.CompletedTask;
-        }
-
         private Task OnGetTipValueCommandAsync()
         {
             float tipValue;
+            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, 0f } };
 
             if (float.TryParse(InputTip, out float tip))
             {
                 tipValue = tip / 100;
+                dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, tipValue } };
             }
-            else
-            {
-                tipValue = 0;
-            }
-
-            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.TIP_VALUE, tipValue } };
 
             RequestClose(dialogParameters);
 

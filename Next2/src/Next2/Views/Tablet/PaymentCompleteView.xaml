@@ -140,13 +140,14 @@
                             IsTextRightToLeft="True"
                             IsNumericMode="True"
                             ValueFormat="$ {0:#,0.#0}"
-                            Value="{Binding InputTips}"
+                            Value="{Binding InputTip}"
                             IsUserLogIn="{Binding IsClearedTip}"
                             MaxLength="9"
                             HeightRequest="340"
                             WidthRequest="360">
 
                             <templates:CustomNumericKeyboardTemplate.Triggers>
+                                
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
                                     Binding="{Binding SelectedTipItem.TipType}"
@@ -155,6 +156,7 @@
                                     <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
+                                
                             </templates:CustomNumericKeyboardTemplate.Triggers>
                             
                         </templates:CustomNumericKeyboardTemplate>
