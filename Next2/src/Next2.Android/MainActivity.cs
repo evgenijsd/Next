@@ -20,8 +20,11 @@ namespace Next2.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            Window.AddFlags(WindowManagerFlags.Fullscreen);
-            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+            if(Device.Idiom == TargetIdiom.Tablet)
+            {
+                Window.AddFlags(WindowManagerFlags.Fullscreen);
+                Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+            }
 
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
