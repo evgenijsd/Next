@@ -6,6 +6,7 @@ using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -24,7 +25,7 @@ namespace Next2.ViewModels.Mobile
         public ICommand ChangeCardPaymentStatusCommand => _changeCardPaymentStatusCommand ??= new AsyncCommand(OnChangeCardPaymentStatusCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tapCheckBoxSignatureReceiptCommand;
-        public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new AsyncCommand(OnTapCheckBoxSignatureReceiptCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new Command(() => NeedSignatureReceipt = !NeedSignatureReceipt);
 
         #endregion
 
@@ -43,12 +44,6 @@ namespace Next2.ViewModels.Mobile
         #endregion
 
         #region -- Private helpers --
-
-        private Task OnTapCheckBoxSignatureReceiptCommandAsync()
-        {
-            NeedSignatureReceipt = !NeedSignatureReceipt;
-            return Task.CompletedTask;
-        }
 
         private async Task OnChangeCardPaymentStatusCommandAsync()
         {

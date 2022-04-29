@@ -939,7 +939,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
-                    Title = "A Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy",
                     Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
@@ -948,7 +948,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 4,
-                    Title = "B Pulled Pork Sammy Meal",
+                    Title = "B Pulled Pork Sammy",
                     Price = 35,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
@@ -2008,11 +2008,11 @@ namespace Next2.Services.Mock
                     Phone = "732-902-8298",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 13 2019 / 02:12 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Apr 20 2021 / 02:12 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2022,11 +2022,11 @@ namespace Next2.Services.Mock
                     Phone = "599-663-3931",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 21 2020 / 05:11 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "May 30 2022 / 05:11 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2036,11 +2036,11 @@ namespace Next2.Services.Mock
                     Phone = "090-540-7412",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 29 2021 / 09:30 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 01 2022 / 07:35 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2050,11 +2050,11 @@ namespace Next2.Services.Mock
                     Phone = "301-472-3355",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 29 2021 / 09:22 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 19 2021 / 09:22 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2064,11 +2064,11 @@ namespace Next2.Services.Mock
                     Phone = "503-778-7600",
                     MembershipStartTime = DateTime.ParseExact(
                         "Sep 29 2021 / 11:00 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Dec 20 2021 / 11:00 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2078,11 +2078,11 @@ namespace Next2.Services.Mock
                     Phone = "672-533-7711",
                     MembershipStartTime = DateTime.ParseExact(
                         "Aug 28 2021 / 01:50 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Nov 28 2021 / 01:50 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2092,11 +2092,11 @@ namespace Next2.Services.Mock
                     Phone = "688-905-0586",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 10 2021 / 03:00 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 29 2021 / 03:00 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2106,11 +2106,11 @@ namespace Next2.Services.Mock
                     Phone = "174-449-2766",
                     MembershipStartTime = DateTime.ParseExact(
                         "Jul 01 2021 / 08:48 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Aug 20 2021 / 08:48 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2120,11 +2120,11 @@ namespace Next2.Services.Mock
                     Phone = "962-399-9765",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 20 2021 / 10:34 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 27 2021 / 10:34 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2134,11 +2134,11 @@ namespace Next2.Services.Mock
                     Phone = "500-803-7621",
                     MembershipStartTime = DateTime.ParseExact(
                         "Apr 29 2021 / 11:48 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Jul 29 2021 / 11:48 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2148,11 +2148,11 @@ namespace Next2.Services.Mock
                     Phone = "576-273-4018",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 20 2021 / 10:00 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Oct 15 2021 / 10:00 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2162,11 +2162,11 @@ namespace Next2.Services.Mock
                     Phone = "601-611-1754",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 29 2021 / 11:12 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Jul 19 2021 / 11:12 AM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2176,11 +2176,11 @@ namespace Next2.Services.Mock
                     Phone = "142-826-7912",
                     MembershipStartTime = DateTime.ParseExact(
                         "Apr 29 2021 / 02:40 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Jul 29 2021 / 02:40 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
                 new MemberModel
@@ -2190,11 +2190,11 @@ namespace Next2.Services.Mock
                     Phone = "210-626-0640",
                     MembershipStartTime = DateTime.ParseExact(
                         "Mar 01 2021 / 06:48 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                     MembershipEndTime = DateTime.ParseExact(
                         "Mar 21 2021 / 06:48 PM",
-                        Constants.LONG_DATE_FORMAT,
+                        Constants.Formats.LONG_DATE_FORMAT,
                         cultureInfo),
                 },
             };

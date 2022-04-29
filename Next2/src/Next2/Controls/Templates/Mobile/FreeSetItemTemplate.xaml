@@ -34,7 +34,7 @@
                         <FormattedString>
                             <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text=" " />
-                            <Span Text="{Binding Price, StringFormat={x:Static local:Constants.PRICE_FORMAT}}" />
+                            <Span Text="{Binding Price, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
@@ -53,7 +53,7 @@
                     <FormattedString>
                         <Span Text="{xct:Translate CurrencySign}" />
                         <Span Text=" " />
-                        <Span Text="{Binding Price, StringFormat={Static local:Constants.PRICE_FORMAT}}" />
+                        <Span Text="{Binding Price, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                     </FormattedString>
                 </Label.FormattedText>
                                                                                 

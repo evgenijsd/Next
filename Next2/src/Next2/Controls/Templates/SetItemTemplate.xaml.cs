@@ -2,7 +2,7 @@
 
 namespace Next2.Controls.Templates
 {
-    public partial class SetItemTemplate : Frame
+    public partial class SetItemTemplate : StackLayout
     {
         public SetItemTemplate()
         {

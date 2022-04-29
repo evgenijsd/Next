@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using Next2.Enums;
+using Next2.Models;
 using Next2.Services.CustomersService;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -8,15 +9,12 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
     public class CustomerAddViewModel : BindableBase
     {
         private readonly ICustomersService _customersService;
-        private readonly Color _acceptanceColorOnMobile = (Color)App.Current.Resources["TextAndBackgroundColor_i4"];
-        private readonly Color _acceptanceColorOnTablet = (Color)App.Current.Resources["TextAndBackgroundColor_i3"];
 
         public CustomerAddViewModel(
             DialogParameters param,
@@ -41,9 +39,17 @@ namespace Next2.ViewModels.Dialogs
 
         public DateTime? SelectedDate { get; set; } = null;
 
-        public double DoneButtonOpacity { get; set; } = 0.32;
+        public bool IsValidName { get; set; }
 
-        public Color WarningTextColor { get; set; }
+        public bool IsValidPhone { get; set; }
+
+        public bool IsValidEmail { get; set; }
+
+        public bool CanAddNewCustomer => IsValidName && IsValidPhone && IsValidEmail && SelectedDate is not null;
+
+        public bool IsEntriesEnabled { get; set; } = true;
+
+        public EClientAdditionStep Step { get; set; } = EClientAdditionStep.Info;
 
         public Action<IDialogParameters> RequestClose;
 
@@ -53,34 +59,29 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand DeclineCommand { get; }
 
+        private ICommand _goToStepCommand;
+        public ICommand GoToStepCommand => _goToStepCommand ??= new AsyncCommand<EClientAdditionStep>(OnGoToStepCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _addNewCustomerCommand;
-        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync);
+        public ICommand AddNewCustomerCommand => _addNewCustomerCommand ??= new AsyncCommand(OnAddNewCustomerCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
+
+        #region -- Overrides --
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName
-                is nameof(SelectedDate)
-                or nameof(Name)
-                or nameof(Phone)
-                or nameof(Email))
+            if (args.PropertyName is nameof(Step))
             {
-                DoneButtonOpacity = CanAddNewCustomer
-                    ? 1
-                    : 0.32;
+                IsEntriesEnabled = Step == EClientAdditionStep.Info;
             }
         }
 
-        #region -- Private helpers --
+        #endregion
 
-        private bool CanAddNewCustomer => (WarningTextColor == _acceptanceColorOnTablet || WarningTextColor == _acceptanceColorOnMobile)
-            && SelectedDate is not null
-            && !string.IsNullOrEmpty(Email)
-            && !string.IsNullOrEmpty(Name)
-            && !string.IsNullOrEmpty(Phone);
+        #region -- Private helpers --
 
         private async Task OnAddNewCustomerCommandAsync()
         {
@@ -109,6 +110,12 @@ namespace Next2.ViewModels.Dialogs
 
                 AcceptCommand.Execute();
             }
+        }
+
+        private Task OnGoToStepCommandAsync(EClientAdditionStep step)
+        {
+            Step = step;
+            return Task.CompletedTask;
         }
 
         #endregion

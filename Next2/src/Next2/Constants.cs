@@ -2,13 +2,18 @@
 {
     public static class Constants
     {
-        public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-
-        public const string PRICE_FORMAT = "{0:0.00}";
-
-        public const string CASH_FORMAT = "$ {0:#,0.#0}";
-
         public const string DEFAULT_CULTURE = "en-US";
+
+        public static class Formats
+        {
+            public const string PRICE_FORMAT = "{0:0.00}";
+
+            public const string CASH_FORMAT = "$ {0:#,0.#0}";
+
+            public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
+
+            public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
+        }
 
 #if RELEASE
         public const string BASE_URL = "dfdfdffd";
@@ -86,7 +91,11 @@
         {
             public const string TEXT = @"[^\w\s]";
             public const string NAME = @"[^a-zA-Z\s]";
+            public const string WORD = @"[a-z]+";
+            public const string CUSTOMER_NAME = @"^([a-z]+(([,.]? ?)|[-']?))+$";
+            public const string PASCAL_CASE = @"\b[A-Z]{1}[a-z\d]*\b";
             public const string NUMBER = @"[\D]";
+            public const string PHONE = @"^\d{10}$";
             public const string CHECK_NUMBER = @"^[\d]";
             public const string EMAIL = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
@@ -121,6 +130,8 @@
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
+            public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
+            public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
             public const string PAID_ORDER_BINDABLE_MODEL = "PAID_ORDER_BINDABLE_MODEL";
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
         }

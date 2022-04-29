@@ -10,9 +10,9 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:DataType="viewmodels:DeleteOrderViewModel"
-    x:Class="Next2.Views.Tablet.Dialogs.DeleteOrderDialog">
-    
+    x:DataType="viewmodels:OrderDetailDialogViewModel"
+    x:Class="Next2.Views.Tablet.Dialogs.OrderDetailDialog">
+
     <rg:PopupPage.Resources>
         <Style TargetType="Label">
             <Setter Property="VerticalOptions" Value="Center"/>
@@ -21,7 +21,7 @@
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         </Style>
     </rg:PopupPage.Resources>
-    
+
     <pcView:PancakeView     
         HorizontalOptions="Center"
         VerticalOptions="Center"
@@ -35,7 +35,7 @@
         xct:ShadowEffect.Radius="16">
 
         <StackLayout VerticalOptions="FillAndExpand">
-                
+
             <!-- HEADER -->
             <StackLayout>
                 <StackLayout
@@ -43,66 +43,66 @@
                     Orientation="Horizontal"    
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     xct:TouchEffect.Command="{Binding ShowHideOrderDetailsCommand}">
-                    
+
                     <Label FontSize="{DynamicResource TSize_i6}">
-                
+
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="{xct:Translate Remove}"/>
+                                <Span Text="{Binding Title}"/>
                                 <Span Text=" "/>
                                 <Span Text="{xct:Translate Order}"/>
                                 <Span Text="{Binding OrderNumber, StringFormat=' #{0}'}"/>
                             </FormattedString>
                         </Label.FormattedText>
-                
+
                     </Label>
-                    
+
                     <ffimageloading:CachedImage
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="CenterAndExpand"
                         HeightRequest="20"
                         WidthRequest="20"
                         Source="ic_arrow_down_32x32">
-                        
+
                         <ffimageloading:CachedImage.Triggers>
                             <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsOrderDetailsDisplayed}" Value="True">
-                                
+
                                 <Setter Property="Source" Value="ic_arrow_up_32x32"/>
-                                
+
                             </DataTrigger>
                         </ffimageloading:CachedImage.Triggers>
-                        
+
                     </ffimageloading:CachedImage>
-                        
+
                 </StackLayout>
 
                 <BoxView 
                     IsVisible="{Binding IsOrderDetailsDisplayed}"
                     HeightRequest="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
-            </StackLayout>       
-            
+            </StackLayout>
+
             <!-- SET LIST -->
             <CollectionView 
                 IsVisible="{Binding IsOrderDetailsDisplayed}"
                 ItemsSource="{Binding Seats}">
-                
+
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>
                 </CollectionView.Effects>
-                
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:SeatModel">
-                        
+
                         <StackLayout 
                             Padding="20, 18, 20, 0"
                             Spacing="14">
-                            
+
                             <Label
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i9}"
                                 Text="{Binding SeatNumber}">
-                                
+
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="{xct:Translate Seat}"/>
@@ -110,9 +110,9 @@
                                         <Span Text="{Binding SeatNumber}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
-                                
+
                             </Label>
-                            
+
                             <CollectionView
                                 HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
                                 ItemsSource="{Binding Sets}">
@@ -124,7 +124,7 @@
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:SetModel">
 
-                                       <StackLayout>
+                                        <StackLayout>
                                             <pcView:PancakeView
                                                 CornerRadius="8"
                                                 Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2}, Thickness=2}"
@@ -159,14 +159,14 @@
                                                             Text="{Binding Title}" />
 
                                                         <Label Text="{Binding Price, StringFormat='$ {0:F2}'}" />
-                                                        
+
                                                     </StackLayout>
 
                                                 </StackLayout>
 
                                             </pcView:PancakeView>
 
-                                           <BoxView HeightRequest="6"/>     
+                                            <BoxView HeightRequest="6"/>
                                         </StackLayout>
 
                                     </DataTemplate>
@@ -181,9 +181,9 @@
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-                
+
             </CollectionView>
-            
+
             <!-- BUTTONS: CANCEL, REMOVE -->
             <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
@@ -201,23 +201,24 @@
                         Style="{DynamicResource BorderButtonStyle_i3}"
                         CornerRadius="6"
                         BorderColor="{DynamicResource AppColor_i1}"
-                        Text="{xct:Translate Cancel}"
+                        Text="{Binding CancellationText}"
                         xct:TouchEffect.Command="{Binding CancelCommand}" />
 
                     <buttons:BorderButton
                         Grid.Column="1"
                         Style="{DynamicResource BorderButtonStyle_i3}"
                         CornerRadius="6"
-                        Background="{DynamicResource IndicationColor_i3}"
-                        Text="{xct:Translate Remove}"
-                        xct:TouchEffect.Command="{Binding DeleteOrderCommand}" />
+                        Background="{Binding OkButtonBackgroundColor}"
+                        Text="{Binding ConfirmationText}"
+                        TextColor="{Binding OkButtonTextColor}"
+                        xct:TouchEffect.Command="{Binding DeleteOrderCommand}"/>
 
                 </Grid>
 
             </StackLayout>
 
         </StackLayout>
-            
+
     </pcView:PancakeView>
 
 </rg:PopupPage>

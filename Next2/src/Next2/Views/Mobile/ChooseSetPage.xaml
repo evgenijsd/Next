@@ -88,8 +88,7 @@
             Margin="15, 10, 15, 0"
             VerticalOptions="FillAndExpand"
             ItemsSource="{Binding SetsItems}"
-            VerticalScrollBarVisibility="Never"
-            SelectionMode="Single">
+            VerticalScrollBarVisibility="Never">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
@@ -100,7 +99,7 @@
                 <GridItemsLayout
                     Orientation="Vertical"
                     Span="2"
-                    VerticalItemSpacing="8"
+                    VerticalItemSpacing="3"
                     HorizontalItemSpacing="8"/>
 
             </CollectionView.ItemsLayout>
@@ -125,7 +124,8 @@
             ItemsSource="{Binding SubcategoriesItems}"
             SelectedItem="{Binding SelectedSubcategoriesItem}"
             VerticalScrollBarVisibility="Never"
-            SelectionMode="Single">
+            SelectionMode="Single"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
@@ -136,8 +136,7 @@
                 <GridItemsLayout
                     Orientation="Vertical"
                     Span="4"
-                    VerticalItemSpacing="1"
-                    HorizontalItemSpacing="0"/>
+                    HorizontalItemSpacing="1"/>
 
             </CollectionView.ItemsLayout>
 
@@ -145,7 +144,7 @@
                 <DataTemplate x:DataType="models:SubcategoryModel">
 
                     <templates:SubCategoryItemTemplate
-                        HeightRequest="60"
+                        HeightRequest="54"
                         Text="{Binding Title}"
                         FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-Medium"/>

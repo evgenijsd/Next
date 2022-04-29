@@ -9,12 +9,12 @@ using Next2.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(CustomEntry), typeof(CustomEntryRenderer))]
+[assembly: ExportRenderer(typeof(NoActionMenuEntry), typeof(NoActionMenuEntryRenderer))]
 namespace Next2.Droid.Renderers
 {
-    public class CustomEntryRenderer : EntryRenderer
+    public class NoActionMenuEntryRenderer : EntryRenderer
     {
-        public CustomEntryRenderer(Context context)
+        public NoActionMenuEntryRenderer(Context context)
             : base(context) { }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
@@ -44,6 +44,7 @@ namespace Next2.Droid.Renderers
             if (Control != null)
             {
                 Control.CustomSelectionActionModeCallback = new Callback();
+                Control.CustomInsertionActionModeCallback = new Callback();
                 Control.LongClickable = false;
             }
         }

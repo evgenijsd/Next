@@ -17,7 +17,7 @@
 
         <controls:CustomNavigationbar
             Grid.Row="0"
-            Title="Cash"
+            Title="{xct:Translate Cash}"
             HeightImage="30"
             FontSize="{DynamicResource TSize_i3}"
             FontFamily="Barlow-Bold"
@@ -47,7 +47,7 @@
                     <Span Text=" " />
                     
                     <Span
-                        Text="{Binding Change, StringFormat={x:Static local:Constants.PRICE_FORMAT}}"
+                        Text="{Binding Change, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}"
                         TextColor="{DynamicResource IndicationColor_i1}"
                         FontSize="{DynamicResource TSize_i4}"
                         FontFamily="Barlow-Bold"/>
@@ -64,7 +64,7 @@
             IsTextRightToLeft="True"
             IsNumericMode="True"
             Value="{Binding InputValue}"
-            ValueFormat="{x:Static local:Constants.CASH_FORMAT}"
+            ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
             MaxLength="9"
             Margin="20, 0"/>
 

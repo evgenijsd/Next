@@ -79,19 +79,7 @@ namespace Next2.ViewModels
             {
                 if (float.TryParse(inputValue, out float sum))
                 {
-                    sum /= 100;
-
-                    if (Order.Total > sum)
-                    {
-                        Order.Cash = sum;
-                        Order.Total -= sum;
-                    }
-                    else
-                    {
-                        Order.Change = sum - Order.Total;
-                        Order.Cash = Order.Total;
-                        Order.Total = 0;
-                    }
+                    Order.Cash = sum / 100;
                 }
             }
             else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
