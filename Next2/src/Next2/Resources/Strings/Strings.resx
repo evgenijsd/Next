@@ -571,4 +571,13 @@ A receipt has been printed for you.</value>
   <data name="Other" xml:space="preserve">
     <value>Other</value>
   </data>
+  <data name="EmployeeTimeClock" xml:space="preserve">
+    <value>Employee Time Clock</value>
+  </data>
+  <data name="SuccessfullyCheckedIn" xml:space="preserve">
+    <value>You successfully checked in at</value>
+  </data>
+  <data name="SuccessfullyCheckedOut" xml:space="preserve">
+    <value>You successfully checked out at</value>
+  </data>
 </root>

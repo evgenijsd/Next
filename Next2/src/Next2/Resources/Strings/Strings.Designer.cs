@@ -421,6 +421,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Time Clock.
+        /// </summary>
+        internal static string EmployeeTimeClock {
+            get {
+                return ResourceManager.GetString("EmployeeTimeClock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Date.
         /// </summary>
         internal static string EndDate {
@@ -1175,6 +1184,24 @@ namespace Next2.Resources.Strings {
         internal static string SuccessfullyAddedToOrder {
             get {
                 return ResourceManager.GetString("SuccessfullyAddedToOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You successfully checked in at.
+        /// </summary>
+        internal static string SuccessfullyCheckedIn {
+            get {
+                return ResourceManager.GetString("SuccessfullyCheckedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You successfully checked out at.
+        /// </summary>
+        internal static string SuccessfullyCheckedOut {
+            get {
+                return ResourceManager.GetString("SuccessfullyCheckedOut", resourceCulture);
             }
         }
         
