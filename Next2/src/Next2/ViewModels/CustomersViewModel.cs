@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -15,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -23,6 +25,7 @@ namespace Next2.ViewModels
     public class CustomersViewModel : BaseViewModel
     {
         private readonly IMapper _mapper;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
@@ -32,6 +35,7 @@ namespace Next2.ViewModels
 
         public CustomersViewModel(
             IMapper mapper,
+            IEventAggregator eventAggregator,
             INavigationService navigationService,
             ICustomersService customersService,
             IOrderService orderService,
@@ -39,6 +43,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _mapper = mapper;
+            _eventAggregator = eventAggregator;
             _customersService = customersService;
             _orderService = orderService;
             _popupNavigation = popupNavigation;
@@ -69,6 +74,12 @@ namespace Next2.ViewModels
         private ICommand _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _searchCommand;
+        public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _clearSearchCommand;
+        public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -78,8 +89,10 @@ namespace Next2.ViewModels
             await RefreshAsync();
         }
 
-        public override async void OnDisappearing()
+        public override void OnDisappearing()
         {
+            ClearSearch();
+
             DisplayCustomers = new();
             SelectedCustomer = null;
         }
@@ -107,6 +120,7 @@ namespace Next2.ViewModels
 
                 if (customers.Any())
                 {
+                    _allCustomers = customers.ToList();
                     DisplayCustomers = customers;
 
                     SelectCurrentCustomer();
@@ -209,7 +223,7 @@ namespace Next2.ViewModels
         {
             if (_sortCriterion == criterion)
             {
-                DisplayCustomers = new (DisplayCustomers.Reverse());
+                DisplayCustomers = new(DisplayCustomers.Reverse());
             }
             else
             {
@@ -223,10 +237,62 @@ namespace Next2.ViewModels
                     _ => throw new NotImplementedException(),
                 };
 
-                DisplayCustomers = new (DisplayCustomers.OrderBy(comparer));
+                DisplayCustomers = new(DisplayCustomers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnSearchCommandAsync()
+        {
+            if (DisplayCustomers.Any() || !string.IsNullOrEmpty(SearchText))
+            {
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
+
+                Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+                var parameters = new NavigationParameters()
+                {
+                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
+                };
+
+                ClearSearch();
+
+                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            }
+        }
+
+        private void OnSearchEvent(string searchLine)
+        {
+            SearchText = searchLine;
+
+            DisplayCustomers = new(SearchCustomers(SearchText));
+
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
+        }
+
+        private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
+        {
+            var search = searchLine.ToLower();
+            bool containsName(CustomerBindableModel x) => x.Name.ToLower().Contains(search);
+            bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+
+            return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
+        }
+
+        private Task OnClearSearchCommandAsync()
+        {
+            ClearSearch();
+
+            return Task.CompletedTask;
+        }
+
+        private void ClearSearch()
+        {
+            SearchText = string.Empty;
+
+            DisplayCustomers = SearchCustomers(SearchText);
         }
 
         #endregion

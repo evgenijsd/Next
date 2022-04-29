@@ -74,10 +74,10 @@
 
                 <StackLayout>
 
-                    <!--Grid
-                        Margin="24,12,0,0"
-                        ColumnDefinitions="0.37*, 0.63*"
-                        RowDefinitions="*">
+                    <Grid
+                        HeightRequest="62"
+                        Margin="24,24,24,17"
+                        ColumnDefinitions="0.35*, 0.65*">
 
                         <controls:SearchButton
                             CornerRadius="5"
@@ -108,98 +108,65 @@
 
                             </controls:SearchButton.Triggers>
                         </controls:SearchButton>
-                    </Grid-->
 
-                    <StackLayout
-                        Padding="0,0,0,0"
-                        HeightRequest="108"
-                        Orientation="Horizontal">
-
-                        <Frame
-                            Margin="24,12,0,0"
-                            Padding="0"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                            CornerRadius="4"
-                            HasShadow="False"
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="Center">
-
+                        <StackLayout
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalOptions="End">
                             <Frame
-                                Margin="2"
-                                Padding="0"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                                BorderColor="{DynamicResource TextAndBackgroundColor_i5}"
-                                CornerRadius="4"
-                                HasShadow="False"
-                                HeightRequest="32">
-                                <StackLayout Orientation="Horizontal">
+                                BorderColor="{DynamicResource IndicationColor_i7}"
+                                HeightRequest="40"
+                                Opacity="1"
+                                Style="{StaticResource ButtonFrameStyle}"
+                                VerticalOptions="Center"
+                                WidthRequest="110"
+                                MinimumWidthRequest="110">
 
-                                    <Label
-                                        Margin="12,0,160,0"
-                                        FontFamily="Barlow-Medium"
-                                        FontSize="{DynamicResource TSize_i8}"
-                                        Text="{xct:Translate SearchByNameOrPhone}"
-                                        TextColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                        VerticalOptions="Center" />
+                                <Label
+                                    Style="{StaticResource ButtonTextStyle}"
+                                    Text="{xct:Translate Info}" />
 
-                                    <Image
-                                        Margin="0,0,12,0"
-                                        HeightRequest="20"
-                                        HorizontalOptions="EndAndExpand"
-                                        Source="ic_search_24x24"
-                                        VerticalOptions="Center"
-                                        WidthRequest="20" />
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding ShowInfoCommand}"
+                                        CommandParameter="{Binding SelectedItem, Source={x:Reference collectiomView}}" />
+                                </Frame.GestureRecognizers>
 
-                                </StackLayout>
+                                <Frame.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
+                                        TargetType="Frame"
+                                        Value="null">
+                                        <Setter
+                                            Property="Opacity"
+                                            Value="0.32" />
+                                    </DataTrigger>
+                                </Frame.Triggers>
 
                             </Frame>
 
-                        </Frame>
+                            <Frame
+                                BackgroundColor="{DynamicResource AppColor_i1}"
+                                HeightRequest="40"
+                                Margin="15,0,0,0"
+                                Style="{StaticResource ButtonFrameStyle}"
+                                VerticalOptions="Center"
+                                WidthRequest="120"
+                                MinimumWidthRequest="120">
+                                <Label
+                                    Style="{StaticResource ButtonTextStyle}"
+                                    Text="{xct:Translate AddNew}" />
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding AddNewCustomerCommand}" />
+                                </Frame.GestureRecognizers>
 
-                        <Frame
-                            Margin="0,12,12,0"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                            BorderColor="{DynamicResource IndicationColor_i7}"
-                            HeightRequest="38"
-                            Opacity="1"
-                            Style="{StaticResource ButtonFrameStyle}"
-                            VerticalOptions="Center"
-                            WidthRequest="100">
+                            </Frame>
 
-                            <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
+                        </StackLayout>
 
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" CommandParameter="{Binding SelectedItem, Source={x:Reference collectiomView}}" />
-                            </Frame.GestureRecognizers>
-
-                            <Frame.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
-                                    TargetType="Frame"
-                                    Value="null">
-                                    <Setter Property="Opacity" Value="0.32" />
-                                </DataTrigger>
-                            </Frame.Triggers>
-
-                        </Frame>
-
-                        <Frame
-                            Margin="0,12,24,0"
-                            Padding="0"
-                            BackgroundColor="{DynamicResource AppColor_i1}"
-                            HeightRequest="38"
-                            Style="{StaticResource ButtonFrameStyle}"
-                            VerticalOptions="Center"
-                            WidthRequest="110">
-                            <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate AddNew}" />
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding AddNewCustomerCommand}" />
-                            </Frame.GestureRecognizers>
-
-                        </Frame>
-
-                    </StackLayout>
+                    </Grid>
 
                     <!--  Table header  -->
                     <yummy:PancakeView
