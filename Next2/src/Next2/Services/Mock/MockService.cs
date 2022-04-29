@@ -34,6 +34,7 @@ namespace Next2.Services.Mock
         private IList<IngredientCategoryModel> _ingredientCategories;
         private IList<IngredientModel> _ingredients;
         private IList<IngredientOfProductModel> _ingredientsOfProductModel;
+        private IList<WorkLogRecordModel> _workLogBook;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -182,6 +183,7 @@ namespace Next2.Services.Mock
                 InitOptionsProductAsync(),
                 InitIngredientCategoriesAsync(),
                 InitIngredientsAsync(),
+                InitWorkLogBookAsync(),
                 InitIngredientsOfProductAsync());
 
             _base = new Dictionary<Type, object>
@@ -207,6 +209,7 @@ namespace Next2.Services.Mock
                 { typeof(ReplacementProductModel), _replacementProducts },
                 { typeof(ProductModel), _products },
                 { typeof(OptionModel), _optionsProduct },
+                { typeof(WorkLogRecordModel), _workLogBook },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -221,10 +224,16 @@ namespace Next2.Services.Mock
                 { typeof(TableModel), GetMaxId(_tables) },
                 { typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
+                { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
             };
 
             _initCompletionSource.TrySetResult(true);
         }
+
+        private Task InitWorkLogBookAsync() => Task.Run(() =>
+        {
+            _workLogBook = new List<WorkLogRecordModel>();
+        });
 
         private Task InitTaxAsync() => Task.Run(() =>
         {
@@ -939,7 +948,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 3,
-                    Title = "A Pulled Pork Sammy Meal",
+                    Title = "A Pulled Pork Sammy",
                     Price = 25,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },
@@ -948,7 +957,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SubcategoryId = 1,
                     DefaultPortionId = portionId += 4,
-                    Title = "B Pulled Pork Sammy Meal",
+                    Title = "B Pulled Pork Sammy",
                     Price = 35,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
                 },

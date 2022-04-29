@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rg:PopupPage
+    x:Class="Next2.Views.Tablet.Dialogs.EmployeeTimeClockDialog"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:DataType="dialogs:EmployeeTimeClockViewModel">
+
+    <rg:PopupPage.Resources>
+
+        <Style x:Key="buttonFrameStyle" TargetType="Frame">
+            <Setter Property="Grid.Row" Value="2" />
+            <Setter Property="CornerRadius" Value="{OnPlatform Android=5, iOS=8}" />
+            <Setter Property="HasShadow" Value="False" />
+            <Setter Property="HeightRequest" Value="38" />
+            <Setter Property="WidthRequest" Value="157" />
+            <Setter Property="VerticalOptions" Value="Center" />
+        </Style>
+
+        <Style x:Key="buttonLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="timeLabelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-Regular" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i4_5}" />
+            <Setter Property="Margin" Value="18, 4, 0, 0" />
+            <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i1}" />
+        </Style>
+
+        <Style x:Key="imageStyle" TargetType="ffimageloading:CachedImage">
+            <Setter Property="HeightRequest" Value="222" />
+            <Setter Property="Source" Value="pic_checked" />
+            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            <Setter Property="WidthRequest" Value="222" />
+        </Style>
+
+        <Style x:Key="separatorStyle" TargetType="BoxView">
+            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+            <Setter Property="HeightRequest" Value="3" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="VerticalOptions" Value="EndAndExpand" />
+        </Style>
+
+        <Style x:Key="checkLabelStyle" TargetType="Label">
+            <Setter Property="Margin" Value="18, 18, 0, 0" />
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+        </Style>
+
+    </rg:PopupPage.Resources>
+
+    <Frame
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+        CornerRadius="5"
+        HeightRequest="530"
+        HorizontalOptions="CenterAndExpand"
+        VerticalOptions="CenterAndExpand"
+        WidthRequest="363">
+
+        <Grid 
+            Padding="0" 
+            RowDefinitions="0.14*, 0.84*, 0.16*">
+
+            <Label
+                Grid.Row="0"
+                Margin="18, 0, 0, 0"
+                FontFamily="Barlow-SemiBold"
+                FontSize="{DynamicResource TSize_i6}"
+                Text="{xct:Translate EmployeeTimeClock}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                VerticalTextAlignment="Center" />
+
+            <BoxView 
+                Grid.Row="0"
+                Style="{DynamicResource separatorStyle}" />
+
+            <!--  Body  -->
+            <sc:StateContainer
+                x:Name="state_container"
+                Grid.Row="1"
+                State="{Binding State}">
+
+                <sc:StateCondition State="Undefined">
+
+                    <StackLayout  
+                        Grid.Row="1"  
+                        Spacing="18" 
+                        VerticalOptions="FillAndExpand"
+                        Margin="18, 18, 18, 24">
+
+                        <Label 
+                            Text="{xct:Translate EmployeeId}" 
+                            FontFamily="Barlow-Medium"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+                            FontSize="{DynamicResource TSize_i8}"/>
+
+                        <templates:CustomNumericKeyboardTemplate 
+                            BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
+                            IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
+                            PlaceHolder="{xct:Translate TypeEmployeeId}"
+                            ScreenKeyboard="{Binding EmployeeId}"
+                            VerticalOptions="FillAndExpand" />
+                        
+                    </StackLayout>
+
+                    
+
+                </sc:StateCondition>
+
+                <sc:StateCondition State="CheckedIn">
+
+                    <StackLayout Grid.Row="1">
+
+                        <Label 
+                            Style="{DynamicResource checkLabelStyle}" 
+                            Text="{xct:Translate SuccessfullyCheckedIn}" />
+
+                        <Label 
+                            Style="{DynamicResource timeLabelStyle}" 
+                            Text="{Binding DateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT}}" />
+
+                        <ffimageloading:CachedImage Style="{DynamicResource imageStyle}" />
+
+                    </StackLayout>
+
+                </sc:StateCondition>
+
+                <sc:StateCondition State="CheckedOut">
+
+                    <StackLayout Grid.Row="1">
+
+                        <Label 
+                            Style="{DynamicResource checkLabelStyle}" 
+                            Text="{xct:Translate SuccessfullyCheckedOut}" />
+
+                        <Label 
+                            Style="{DynamicResource timeLabelStyle}" 
+                            Text="{Binding DateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT}}" />
+
+                        <ffimageloading:CachedImage Style="{DynamicResource imageStyle}" />
+
+                    </StackLayout>
+
+                </sc:StateCondition>
+
+            </sc:StateContainer>
+
+            <BoxView 
+                Grid.Row="1" 
+                Style="{DynamicResource separatorStyle}" />
+
+            <!--  cancel button  -->
+            <Frame
+                Margin="18, 0, 0, 0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                BorderColor="{DynamicResource AppColor_i1}"
+                HorizontalOptions="StartAndExpand"
+                Style="{DynamicResource buttonFrameStyle}">
+
+                <Label
+                    Style="{DynamicResource buttonLabelStyle}"
+                    Text="{xct:Translate Cancel}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                <Frame.Triggers>
+
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        TargetType="Frame"
+                        Value="CheckedIn">
+                        
+                        <Setter Property="WidthRequest" Value="327" />
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        Binding="{Binding Source={x:Reference state_container}, Path=State}"
+                        TargetType="Frame"
+                        Value="CheckedOut">
+                        
+                        <Setter Property="WidthRequest" Value="327" />
+
+                    </DataTrigger>
+
+                </Frame.Triggers>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CancelCommand}" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+            <!--  apply button  -->
+            <Frame
+                Margin="0, 0, 18, 0"
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                HorizontalOptions="EndAndExpand"
+                Opacity="1"
+                Style="{DynamicResource buttonFrameStyle}">
+
+                <Label
+                    Style="{DynamicResource buttonLabelStyle}"
+                    Text="{xct:Translate Apply}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                <Frame.Triggers>
+
+                    <DataTrigger
+                        Binding="{Binding EmployeeId.Length}"
+                        TargetType="Frame"
+                        Value="0">
+                        
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        Binding="{Binding EmployeeId.Length}"
+                        TargetType="Frame"
+                        Value="16">
+                        
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        Binding="{Binding State}"
+                        TargetType="Frame"
+                        Value="CheckedIn">
+                        
+                        <Setter Property="IsVisible" Value="false" />
+
+                    </DataTrigger>
+
+                    <DataTrigger
+                        Binding="{Binding State}"
+                        TargetType="Frame"
+                        Value="CheckedOut">
+                        
+                        <Setter Property="IsVisible" Value="false" />
+
+                    </DataTrigger>
+                    
+                </Frame.Triggers>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ApplyCommand}" />
+                </Frame.GestureRecognizers>
+
+            </Frame>
+
+        </Grid>
+    </Frame>
+</rg:PopupPage>

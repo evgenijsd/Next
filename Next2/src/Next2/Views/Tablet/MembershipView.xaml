@@ -44,7 +44,7 @@
         <!--  SEARCH BUTTON  -->
         <Grid
             Grid.Row="1"
-            Margin="40,35,40,20"
+            Margin="40, 35, 40, 20"
             ColumnDefinitions="0.37*, 0.63*"
             RowDefinitions="*">
 
@@ -78,7 +78,7 @@
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
             Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
-            Margin="40,0,40,20"
+            Margin="40, 0, 40, 20"
             CornerRadius="{OnPlatform Android=6, iOS=8}"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
@@ -95,31 +95,33 @@
 
             </yummy:PancakeView.Triggers>
 
-            <ffimageloading:CachedImage
-                Source="pic_nothing_found"
-                HeightRequest="250"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
+            <StackLayout>
+                <ffimageloading:CachedImage
+                    Source="pic_nothing_found"
+                    HeightRequest="250"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center" />
+            </StackLayout>
 
         </yummy:PancakeView>
 
-        <Frame
+        <yummy:PancakeView
             Grid.Row="2"
-            Margin="40,0,40,20"
+            Margin="40, 0, 40, 20"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
             CornerRadius="{OnPlatform Android=6, iOS=8}"
             VerticalOptions="Start">
 
-            <Frame.Triggers>
+            <yummy:PancakeView.Triggers>
 
                 <DataTrigger
-                    TargetType="Frame"
+                    TargetType="yummy:PancakeView"
                     Binding="{Binding AnyMembersLoaded}"
                     Value="false">
                     <Setter Property="VerticalOptions" Value="FillAndExpand" />
                 </DataTrigger>
 
-            </Frame.Triggers>
+            </yummy:PancakeView.Triggers>
 
             <!--  TABLE HEADER  -->
             <StackLayout>
@@ -256,7 +258,7 @@
                 
             </StackLayout>
 
-        </Frame>
+        </yummy:PancakeView>
 
     </Grid>
 

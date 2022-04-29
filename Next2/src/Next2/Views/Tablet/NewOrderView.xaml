@@ -205,24 +205,32 @@
 
                             <ffimageloading:CachedImage
                                 Source="ic_time_circle_24x24"
-                                HorizontalOptions="EndAndExpand"/>
+                                HorizontalOptions="EndAndExpand">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
 
                             <Label
-                                Text="{Binding CurrentDateTime, StringFormat='{}{0:h:mm:ss tt}'}"
+                                Text="{Binding CurrentDateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_T}}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 VerticalTextAlignment="Center"
                                 Style="{StaticResource labeltSize_i6}"
                                 FontFamily="Barlow-Medium"
                                 Margin="5, 0, 0, 0"
                                 HorizontalTextAlignment="Center"
-                                WidthRequest="100"/>
+                                WidthRequest="100">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
 
                             <ffimageloading:CachedImage
                                 Source="ic_calendar_24x24"
                                 Margin="20, 0, 0, 0"/>
 
                             <Label
-                                Text="{Binding CurrentDateTime, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
+                                Text="{Binding CurrentDateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_D}}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 VerticalTextAlignment="Center"
                                 Style="{StaticResource labeltSize_i6}"
@@ -493,14 +501,12 @@
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
                             ItemsSource="{Binding SetsItems}"
-                            VerticalScrollBarVisibility="Always"
-                            SelectionMode="Single">
+                            VerticalScrollBarVisibility="Always">
 
                             <CollectionView.ItemsLayout>
 
                                 <GridItemsLayout
                                     Orientation="Vertical"
-                                    VerticalItemSpacing="5"
                                     HorizontalItemSpacing="5"
                                     Span="2"/>
 
@@ -532,7 +538,6 @@
 
                                                 <GridItemsLayout
                                                     Orientation="Vertical"
-                                                    VerticalItemSpacing="5"
                                                     HorizontalItemSpacing="5"
                                                     Span="3"/>
 
@@ -555,13 +560,13 @@
                                     ScrollBarCornerRadius="9"
                                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                     ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                                
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:SetItemTemplate
                                         x:DataType="models:SetModel"
-                                        HeightRequest="327"
                                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
                                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
@@ -609,8 +614,7 @@
                                 <GridItemsLayout
                                     Orientation="Vertical"
                                     Span="5"
-                                    VerticalItemSpacing="0"
-                                    HorizontalItemSpacing="0"/>
+                                    HorizontalItemSpacing="2"/>
 
                             </CollectionView.ItemsLayout>
 
