@@ -74,7 +74,7 @@
 
                 <StackLayout>
 
-                    <Grid
+                    <!--Grid
                         Margin="24,12,0,0"
                         ColumnDefinitions="0.37*, 0.63*"
                         RowDefinitions="*">
@@ -108,9 +108,9 @@
 
                             </controls:SearchButton.Triggers>
                         </controls:SearchButton>
-                    </Grid>
+                    </Grid-->
 
-                    <!--StackLayout
+                    <StackLayout
                         Padding="0,0,0,0"
                         HeightRequest="108"
                         Orientation="Horizontal">
@@ -199,7 +199,7 @@
 
                         </Frame>
 
-                    </StackLayout-->
+                    </StackLayout>
 
                     <!--  Table header  -->
                     <yummy:PancakeView
@@ -276,7 +276,7 @@
                                 x:Name="collectiomView"
                                 Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                ItemsSource="{Binding Customers}"
+                                ItemsSource="{Binding DisplayCustomers}"
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                                 <CollectionView.Effects>

@@ -138,7 +138,7 @@
                             <CollectionView
                                 VerticalScrollBarVisibility="Never"
                                 SelectionMode="Single"
-                                ItemsSource="{Binding Customers}"
+                                ItemsSource="{Binding DisplayCustomers}"
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}">
 

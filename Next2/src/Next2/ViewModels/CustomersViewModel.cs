@@ -28,6 +28,8 @@ namespace Next2.ViewModels
         private readonly IPopupNavigation _popupNavigation;
         private ECustomersSorting _sortCriterion;
 
+        private List<CustomerBindableModel> _allCustomers = new();
+
         public CustomersViewModel(
             IMapper mapper,
             INavigationService navigationService,
@@ -44,7 +46,9 @@ namespace Next2.ViewModels
 
         #region -- Public Properties --
 
-        public ObservableCollection<CustomerBindableModel> Customers { get; set; }
+        public string SearchText { get; set; } = string.Empty;
+
+        public ObservableCollection<CustomerBindableModel> DisplayCustomers { get; set; }
 
         public bool IsRefreshing { get; set; }
 
@@ -76,7 +80,7 @@ namespace Next2.ViewModels
 
         public override async void OnDisappearing()
         {
-            Customers = new();
+            DisplayCustomers = new();
             SelectedCustomer = null;
         }
 
@@ -103,7 +107,7 @@ namespace Next2.ViewModels
 
                 if (customers.Any())
                 {
-                    Customers = customers;
+                    DisplayCustomers = customers;
 
                     SelectCurrentCustomer();
                 }
@@ -118,7 +122,7 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                SelectedCustomer = Customers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                SelectedCustomer = DisplayCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }
         }
 
@@ -196,8 +200,8 @@ namespace Next2.ViewModels
             {
                 await RefreshAsync();
 
-                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
-                Customers.Move(index, 0);
+                int index = DisplayCustomers.IndexOf(DisplayCustomers.FirstOrDefault(x => x.Id == customerId));
+                DisplayCustomers.Move(index, 0);
             }
         }
 
@@ -205,7 +209,7 @@ namespace Next2.ViewModels
         {
             if (_sortCriterion == criterion)
             {
-                Customers = new (Customers.Reverse());
+                DisplayCustomers = new (DisplayCustomers.Reverse());
             }
             else
             {
@@ -219,7 +223,7 @@ namespace Next2.ViewModels
                     _ => throw new NotImplementedException(),
                 };
 
-                Customers = new (Customers.OrderBy(comparer));
+                DisplayCustomers = new (DisplayCustomers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;
