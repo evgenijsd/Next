@@ -6,6 +6,12 @@
 
         public static class Formats
         {
+            public const string DATE_FORMAT = "{0:h:mm:ss}";
+
+            public const string DATE_FORMAT_T = "{0:h:mm:ss tt}";
+
+            public const string DATE_FORMAT_D = "{0:dddd, d MMMM yyyy}";
+
             public const string PRICE_FORMAT = "{0:0.00}";
 
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
@@ -42,6 +48,7 @@
             public const int MAX_YEAR = 2100;
             public const int DAYS_IN_CALENDAR = 42;
             public const float TAX_PERCENTAGE = 20;
+            public const int EMPLOYEE_ID_LENGTH = 6;
         }
 
         public static class LayoutOrderTabs
