@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -20,6 +21,8 @@ namespace Next2.ViewModels
     {
         private readonly IPopupNavigation _popupNavigation;
 
+        private float _subtotalWithBonus;
+
         public PaymentViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
@@ -33,9 +36,15 @@ namespace Next2.ViewModels
 
             Order.BonusType = orderService.CurrentOrder.BonusType;
             Order.Bonus = orderService.CurrentOrder.Bonus;
+            Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
             Order.Subtotal = orderService.CurrentOrder.SubTotal;
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
+            Order.Tax = orderService.CurrentOrder.Tax;
             Order.Total = orderService.CurrentOrder.Total;
+
+            _subtotalWithBonus = Order.BonusType == EBonusType.None
+                ? Order.Subtotal
+                : Order.SubtotalWithBonus;
 
             RewardsViewModel = new (
                 navigationService,
@@ -67,6 +76,14 @@ namespace Next2.ViewModels
         private ICommand _backCancelCommand;
         public ICommand BackCancelCommand => _backCancelCommand ??= new AsyncCommand(OnBackCancelCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _OpenTipsCommand;
+        public ICommand OpenTipsCommand => _OpenTipsCommand ??= new AsyncCommand(OnOpenTipsCommandAsync, allowsMultipleExecutions: false);
+
+        private Task OnOpenTipsCommandAsync()
+        {
+            return _navigationService.NavigateAsync(nameof(TipsPage));
+        }
+
         #endregion
 
         #region -- Overrides --
@@ -75,7 +92,14 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out TipItem tipItem))
+            {
+                Order.Tip = tipItem.Value;
+                PaymentCompleteViewModel.SelectedTipItem = tipItem;
+
+                RecalculateTotal();
+            }
+            else if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
             {
                 if (float.TryParse(inputValue, out float sum))
                 {
@@ -151,6 +175,12 @@ namespace Next2.ViewModels
         private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private void RecalculateTotal()
+        {
+            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
 
         #endregion

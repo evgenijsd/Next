@@ -24,6 +24,6 @@ namespace Next2.Models
 
         public float Total { get; set; }
 
-        public float Tax { get; set; }
+        public float PriceTax { get; set; }
     }
 }

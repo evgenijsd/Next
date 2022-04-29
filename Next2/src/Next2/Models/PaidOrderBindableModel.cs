@@ -21,9 +21,13 @@ namespace Next2.Models
 
         public BonusBindableModel? Bonus { get; set; }
 
+        public float SubtotalWithBonus { get; set; }
+
         public float Subtotal { get; set; }
 
         public float PriceTax { get; set; }
+
+        public TaxModel Tax { get; set; } = new();
 
         public float Tip { get; set; }
 

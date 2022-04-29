@@ -2,6 +2,7 @@
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Resources.Strings;
+using Next2.Services.Log;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Tablet;
@@ -16,18 +17,15 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
 {
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMenuService _menuService;
-
         private readonly IPopupNavigation _popupNavigation;
-
         private readonly IOrderService _orderService;
+        private readonly ILogService _logService;
 
         private bool _order;
 
@@ -36,12 +34,14 @@ namespace Next2.ViewModels.Tablet
             IMenuService menuService,
             IPopupNavigation popupNavigation,
             OrderRegistrationViewModel orderRegistrationViewModel,
+            ILogService logService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;
             _orderService = orderService;
+            _logService = logService;
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
             _orderService = orderService;
@@ -73,6 +73,9 @@ namespace Next2.ViewModels.Tablet
 
         private ICommand _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand ??= new AsyncCommand(OnTapExpandCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _employeeTimeClockPopupCallCommand;
+        public ICommand EmployeeTimeClockPopupCallCommand => _employeeTimeClockPopupCallCommand ??= new AsyncCommand(OnEmployeeTimeClockPopupCallCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -233,6 +236,13 @@ namespace Next2.ViewModels.Tablet
         private async Task OnTapExpandCommandAsync()
         {
             await _navigationService.NavigateAsync(nameof(ExpandPage));
+        }
+
+        private Task OnEmployeeTimeClockPopupCallCommandAsync()
+        {
+            return _popupNavigation
+                .PushAsync(new Views.Tablet.Dialogs
+                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
         }
 
         #endregion
