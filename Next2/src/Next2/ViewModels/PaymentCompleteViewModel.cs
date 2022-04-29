@@ -6,10 +6,13 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -21,6 +24,10 @@ namespace Next2.ViewModels
 
         private ICommand _tapPaymentOptionCommand;
 
+        private ICommand _tapTipItemCommand;
+
+        private float _subtotalWithBonus;
+
         public PaymentCompleteViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
@@ -31,24 +38,40 @@ namespace Next2.ViewModels
 
             Order = order;
 
+            _subtotalWithBonus = Order.BonusType == EBonusType.None
+                ? Order.Subtotal
+                : Order.SubtotalWithBonus;
+
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
+            _tapTipItemCommand = new AsyncCommand<TipItem>(OnTapTipsItemCommandAsync, allowsMultipleExecutions: false);
+
             Task.Run(InitPaymentOptionsAsync);
+
+            Task.Run(InitTipsItemsAsync);
         }
 
         #region -- Public properties --
 
         public ObservableCollection<PaymentItem> PaymentOptionsItems { get; set; } = new();
 
-        public PaymentItem SelectedPaymentOption { get; set; } = new();
+        public ObservableCollection<TipItem> TipValueItems { get; set; } = new();
+
+        public PaymentItem SelectedPaymentOption { get; set; }
+
+        public TipItem SelectedTipItem { get; set; }
 
         public bool IsCleared { get; set; } = true;
+
+        public bool IsClearedTip { get; set; } = true;
 
         public bool NeedSignatureReceipt { get; set; }
 
         public byte[] BitmapSignature { get; set; }
 
         public string InputValue { get; set; }
+
+        public string InputTip { get; set; }
 
         public ECardPaymentStatus CardPaymentStatus { get; set; }
 
@@ -87,6 +110,21 @@ namespace Next2.ViewModels
                     Order.Cash = 0;
                 }
             }
+
+            if (args.PropertyName == nameof(InputTip))
+            {
+                if (float.TryParse(InputTip, out float tip))
+                {
+                    Order.Tip = tip / 100;
+                    SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip}";
+                }
+                else
+                {
+                    Order.Tip = 0;
+                }
+
+                RecalculateTotal();
+            }
         }
 
         #endregion
@@ -100,30 +138,105 @@ namespace Next2.ViewModels
                 new()
                 {
                     PaymentType = EPaymentItems.Tips,
-                    Text = "Tips",
+                    Text = LocalizationResourceManager.Current["Tips"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
                 new()
                 {
                     PaymentType = EPaymentItems.GiftCards,
-                    Text = "Gift Cards",
+                    Text = LocalizationResourceManager.Current["GiftCards"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
                 new()
                 {
                     PaymentType = EPaymentItems.Cash,
-                    Text = "Cash",
+                    Text = LocalizationResourceManager.Current["Cash"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
                 new()
                 {
                     PaymentType = EPaymentItems.Card,
-                    Text = "Card",
+                    Text = LocalizationResourceManager.Current["Card"],
                     TapCommand = _tapPaymentOptionCommand,
                 },
             };
 
             SelectedPaymentOption = PaymentOptionsItems[3];
+
+            return Task.CompletedTask;
+        }
+
+        private void RecalculateTotal()
+        {
+            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
+        }
+
+        private Task InitTipsItemsAsync()
+        {
+            TipValueItems = new()
+            {
+                new()
+                {
+                    TipType = ETipType.NoTip,
+                    Text = LocalizationResourceManager.Current["NoTip"],
+                    PercentTip = 0f,
+                },
+                new()
+                {
+                    TipType = ETipType.Percent,
+                    PercentTip = 0.1f,
+                },
+                new()
+                {
+                    TipType = ETipType.Percent,
+                    PercentTip = 0.15f,
+                },
+                new()
+                {
+                    TipType = ETipType.Percent,
+                    PercentTip = 0.2f,
+                },
+                new()
+                {
+                    TipType = ETipType.Other,
+                    Text = LocalizationResourceManager.Current["Other"],
+                    Value = 0f,
+                },
+            };
+
+            SelectedTipItem = TipValueItems.FirstOrDefault();
+            var sign = LocalizationResourceManager.Current["CurrencySign"];
+
+            foreach (var tip in TipValueItems)
+            {
+                if (tip.TipType == ETipType.Percent)
+                {
+                    var percent = 100 * tip.PercentTip;
+                    tip.Value = tip.PercentTip * _subtotalWithBonus;
+                    tip.Text = $"{percent}% ({sign} {tip.Value:F2})";
+                }
+
+                tip.TapCommand = _tapTipItemCommand;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnTapTipsItemCommandAsync(TipItem? item)
+        {
+            if (item is not null && item.TipType != ETipType.Other)
+            {
+                IsClearedTip = true;
+                Order.Tip = item.Value;
+            }
+            else
+            {
+                IsClearedTip = false;
+                Order.Tip = 0;
+            }
+
+            RecalculateTotal();
 
             return Task.CompletedTask;
         }
@@ -151,6 +264,18 @@ namespace Next2.ViewModels
                 case EPaymentItems.Card:
                     path = nameof(WaitingSwipeCardPage);
                     IsCleared = true;
+                    break;
+                case EPaymentItems.Tips:
+                    if (!App.IsTablet)
+                    {
+                        path = nameof(TipsPage);
+
+                        navigationParams = new NavigationParameters()
+                        {
+                            { Constants.Navigations.TIP_ITEMS, TipValueItems },
+                        };
+                    }
+
                     break;
             }
 

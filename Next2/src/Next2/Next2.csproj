@@ -87,6 +87,7 @@
     <None Remove="Resources\Fonts\Barlow-Medium.ttf" />
     <None Remove="Resources\Fonts\Barlow-Regular.ttf" />
     <None Remove="Resources\Fonts\Barlow-SemiBold.ttf" />
+    <None Remove="ViewModels\Mobile\Dialogs\TipValueDialogViewModel.cs~RF220074b2.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -170,6 +171,9 @@
     </Compile>
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\TipValueDialog.xaml.cs">
+      <DependentUpon>TipValueDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\MovedOrderToOrderTabsDialog.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -376,6 +380,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\RewardsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\TipsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\WaitingSignaturePage.xaml">
