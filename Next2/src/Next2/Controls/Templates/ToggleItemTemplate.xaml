@@ -23,7 +23,7 @@
         
     </pkView:PancakeView>
 
-    <StackLayout>
+    <StackLayout HorizontalOptions="StartAndExpand">
 
         <Label
             Text="{Binding Title, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
