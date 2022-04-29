@@ -20,12 +20,6 @@ namespace Next2.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            if(Device.Idiom == TargetIdiom.Tablet)
-            {
-                Window.AddFlags(WindowManagerFlags.Fullscreen);
-                Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
-            }
-
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
@@ -36,6 +30,12 @@ namespace Next2.Droid
             Rg.Plugins.Popup.Popup.Init(this);
 
             RequestedOrientation = Device.Idiom == TargetIdiom.Tablet ? ScreenOrientation.Landscape : ScreenOrientation.Portrait;
+
+            if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                Window.AddFlags(WindowManagerFlags.Fullscreen);
+                Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+            }
 
             LoadApplication(new App());
         }

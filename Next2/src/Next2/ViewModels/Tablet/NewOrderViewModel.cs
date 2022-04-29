@@ -95,8 +95,12 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            SelectedCategoriesItem = null;
             SelectedSubcategoriesItem = null;
+            SelectedCategoriesItem = null;
+
+            SetsItems = new();
+            SubcategoriesItems = new();
+            CategoriesItems = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
