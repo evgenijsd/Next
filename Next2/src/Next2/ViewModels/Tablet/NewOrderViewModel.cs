@@ -55,7 +55,7 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
-        public CategoryModel SelectedCategoriesItem { get; set; }
+        public CategoryModel? SelectedCategoriesItem { get; set; }
 
         public ObservableCollection<SetModel> SetsItems { get; set; }
 
@@ -63,7 +63,7 @@ namespace Next2.ViewModels.Tablet
 
         public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
-        public SubcategoryModel SelectedSubcategoriesItem { get; set; }
+        public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapSetCommand;
         public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
@@ -95,8 +95,12 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnDisappearing();
 
-            SelectedCategoriesItem = new ();
-            SelectedSubcategoriesItem = new ();
+            SelectedSubcategoriesItem = null;
+            SelectedCategoriesItem = null;
+
+            SetsItems = new();
+            SubcategoriesItems = new();
+            CategoriesItems = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -194,7 +198,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task LoadSetsAsync()
         {
-            if (IsInternetConnected)
+            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
             {
                 var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
 
@@ -214,7 +218,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task LoadSubcategoriesAsync()
         {
-            if (IsInternetConnected)
+            if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
                 var resultSubcategories = await _menuService.GetSubcategoriesAsync(SelectedCategoriesItem.Id);
 

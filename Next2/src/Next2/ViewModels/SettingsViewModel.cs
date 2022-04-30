@@ -68,9 +68,7 @@ namespace Next2.ViewModels
         {
             if (dialogResult is not null)
             {
-                bool result = dialogResult.ContainsKey(Constants.DialogParameterKeys.ACCEPT);
-
-                if (result)
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
                 {
                     _authenticationService.LogOut();
 

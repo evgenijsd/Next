@@ -8,7 +8,7 @@
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.ToggleItemTemplate"
     Orientation="Horizontal"
-    Padding="0, 8">
+    Padding="0, 10">
 
     <pkView:PancakeView
         CornerRadius="10"
@@ -23,7 +23,7 @@
         
     </pkView:PancakeView>
 
-    <StackLayout>
+    <StackLayout HorizontalOptions="StartAndExpand">
 
         <Label
             Text="{Binding Title, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
@@ -49,9 +49,30 @@
         <Label
             Text="{Binding Subtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontSize="{DynamicResource TSize_i7}"
+            FontSize="{DynamicResource TSize_i8}"
             FontFamily="Barlow-Medium"
-            IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}"/>
+            Margin="0, 5, 0, 0"
+            IsVisible="{Binding IsVisibleSubtitle, Source={RelativeSource AncestorType={x:Type templates:ToggleItemTemplate}}}">
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="OrientationState">
+
+                    <VisualState Name="Landscape">
+
+                        <VisualState.StateTriggers>
+                            <OrientationStateTrigger Orientation="Landscape"/>
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Property="FontSize" Value="{DynamicResource TSize_i6}" />
+                        </VisualState.Setters>
+
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+        </Label>
 
     </StackLayout>
 
