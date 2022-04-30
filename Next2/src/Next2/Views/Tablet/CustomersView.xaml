@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:DataType="viewModels:CustomersViewModel">
 
@@ -66,8 +67,6 @@
             <!--  body  -->
             <Frame
                 Grid.Row="1"
-                Margin="0,0,0,0"
-                Padding="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 CornerRadius="0"
                 HasShadow="False">
@@ -75,7 +74,8 @@
                 <StackLayout>
 
                     <Grid
-                        HeightRequest="62"
+                        HeightRequest="40"
+                        MinimumHeightRequest="40"
                         Margin="24,24,24,17"
                         ColumnDefinitions="0.35*, 0.65*">
 
@@ -169,193 +169,284 @@
                     </Grid>
 
                     <!--  Table header  -->
-                    <yummy:PancakeView
-                        Margin="24,0,24,0"
-                        Padding="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        CornerRadius="4,4,0,0"
-                        HeightRequest="72">
+                    <Grid 
+                        VerticalOptions="FillAndExpand"
+                        RowDefinitions="*">
 
-                        <Grid
-                            ColumnDefinitions="65,0.16*,0.161*,0.161*,0.161*,0.164*"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Center">
+                        <yummy:PancakeView
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
+                            Margin="24, 0, 24, 20"
+                            IsVisible="false"
+                            CornerRadius="{OnPlatform Android=6, iOS=8}"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
 
-                            <Label
-                                Grid.Column="0"
-                                IsVisible="false"
-                                Style="{StaticResource ViewCellLabelStyle}" />
+                            <yummy:PancakeView.Triggers>
 
-                            <StackLayout Grid.Column="1" Orientation="Horizontal">
-                                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate CustomerName}" />
+                                <DataTrigger
+                                    TargetType="yummy:PancakeView"
+                                    Binding="{Binding DisplayCustomers.Count}"
+                                    Value="0">
+                                    <Setter
+                                        Property="IsVisible"
+                                        Value="true" />
+                                </DataTrigger>
 
-                                <Image Source="ic_sort_primary_24x24" />
+                            </yummy:PancakeView.Triggers>
 
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ECustomersSorting.ByName}" />
-                                </StackLayout.GestureRecognizers>
-
+                            <StackLayout>
+                                <ffimageloading:CachedImage
+                                    Source="pic_nothing_found"
+                                    HeightRequest="250"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="Center" />
                             </StackLayout>
 
-                            <StackLayout Grid.Column="2" Orientation="Horizontal">
-                                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate Points}" />
+                        </yummy:PancakeView>
+                        
+                        <StackLayout>
 
-                                <Image
-                                    x:Name="sortPointsImage"
-                                    IsVisible="true"
-                                    Source="ic_sort_primary_24x24" />
+                            <yummy:PancakeView
+                                Margin="24,0,24,0"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                CornerRadius="8,8,0,0"
+                                HeightRequest="45"
+                                MinimumHeightRequest="45">
 
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SortCommand}" CommandParameter="{x:Static enums:ECustomersSorting.ByPoints}" />
-                                </StackLayout.GestureRecognizers>
+                                <Grid
+                                    ColumnDefinitions="65,0.16*,0.161*,0.161*,0.161*,0.164*"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center">
 
-                            </StackLayout>
+                                    <Label
+                                        Grid.Column="0"
+                                        IsVisible="false"
+                                        Style="{StaticResource ViewCellLabelStyle}" />
 
-                            <Label
-                                Grid.Column="3"
-                                Style="{StaticResource ViewCellLabelStyle}"
-                                Text="{xct:Translate Rewards}" />
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Style="{StaticResource ViewCellLabelStyle}"
+                                            Text="{xct:Translate CustomerName}" />
 
-                            <Label
-                                Grid.Column="4"
-                                Style="{StaticResource ViewCellLabelStyle}"
-                                Text="{xct:Translate GiftCardCount}" />
+                                        <Image
+                                            Source="ic_sort_primary_24x24" />
 
-                            <Label
-                                Grid.Column="5"
-                                Style="{StaticResource ViewCellLabelStyle}"
-                                Text="{xct:Translate GiftCardTotal}" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SortCommand}"
+                                                CommandParameter="{x:Static enums:ECustomersSorting.ByName}" />
+                                        </StackLayout.GestureRecognizers>
 
-                        </Grid>
+                                    </StackLayout>
 
-                    </yummy:PancakeView>
+                                    <StackLayout
+                                        Grid.Column="2"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Style="{StaticResource ViewCellLabelStyle}"
+                                            Text="{xct:Translate Points}" />
 
-                    <!--  Table content  -->
-                    <yummy:PancakeView
-                        Margin="24,0,24,21"
-                        Padding="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        CornerRadius="0,0,4,4">
+                                        <Image
+                                            x:Name="sortPointsImage"
+                                            IsVisible="true"
+                                            Source="ic_sort_primary_24x24" />
 
-                        <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding SortCommand}"
+                                                CommandParameter="{x:Static enums:ECustomersSorting.ByPoints}" />
+                                        </StackLayout.GestureRecognizers>
 
-                            <controls:CustomScrollBarCollectionView
-                                x:Name="collectiomView"
-                                Style="{DynamicResource CustomScrollBarCollectionView_i1}"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                ItemsSource="{Binding DisplayCustomers}"
-                                SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
+                                    </StackLayout>
 
-                                <CollectionView.Effects>
-                                    
-                                    <effects:NoOverScrollEffect/>
-                                    
-                                    <effects:ScrollBarColorEffect
-                                        ScrollBarThumbWidth="6"
-                                        ScrollBarCornerRadius="9"
-                                        ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                                        ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
-                                </CollectionView.Effects>
+                                    <Label
+                                        Grid.Column="3"
+                                        Style="{StaticResource ViewCellLabelStyle}"
+                                        Text="{xct:Translate Rewards}" />
 
-                                <CollectionView.ItemTemplate>
+                                    <Label
+                                        Grid.Column="4"
+                                        Style="{StaticResource ViewCellLabelStyle}"
+                                        Text="{xct:Translate GiftCardCount}" />
 
-                                    <DataTemplate x:DataType="models:CustomerBindableModel">
+                                    <Label
+                                        Grid.Column="5"
+                                        Style="{StaticResource ViewCellLabelStyle}"
+                                        Text="{xct:Translate GiftCardTotal}" />
 
-                                        <Grid ColumnDefinitions="0.325*,*" HeightRequest="45">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="{OnPlatform Android=1.5, iOS=2}" />
-                                            </Grid.RowDefinitions>
+                                </Grid>
 
-                                            <Grid.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding SelectItemCommand}" CommandParameter="{Binding .}" />
-                                            </Grid.GestureRecognizers>
+                            </yummy:PancakeView>
 
-                                            <Image
-                                                x:Name="checkbox"
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                Margin="16,0,0,0"
-                                                HeightRequest="20"
-                                                HorizontalOptions="Start"
-                                                Source="ic_check_box_unhecked_24x24"
-                                                WidthRequest="20" />
+                            <!--  Table content  -->
+                            <yummy:PancakeView
+                                Margin="24, 0, 24, 21"
+                                HeightRequest="{Binding DisplayCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                CornerRadius="0, 0, 8, 8"
+                                VerticalOptions="Start">
 
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="1"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
-                                                Text="{Binding Name}" />
+                                <yummy:PancakeView.Triggers>
 
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="2"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
-                                                Text="{Binding Points, StringFormat='{0:D} pt'}" />
+                                    <DataTrigger
+                                        TargetType="yummy:PancakeView"
+                                        Binding="{Binding AnyCustomersLoaded}"
+                                        Value="false">
+                                        
+                                        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                                        
+                                    </DataTrigger>
 
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="3"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
-                                                Text="{Binding Rewards}" />
+                                </yummy:PancakeView.Triggers>
 
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="4"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
-                                                Text="{Binding GiftCardCount}" />
+                                <RefreshView
+                                    Command="{Binding RefreshCommand}"
+                                    IsRefreshing="{Binding IsRefreshing}">
 
-                                            <Label
-                                                Grid.Row="0"
-                                                Grid.Column="5"
-                                                LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
-                                                Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
+                                    <controls:CustomScrollBarCollectionView
+                                        x:Name="collectiomView"
+                                        Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+                                        ItemsSource="{Binding DisplayCustomers}"
+                                        SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
-                                            <BoxView
-                                                Grid.Row="1"
-                                                Grid.ColumnSpan="6"
-                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                        <CollectionView.Effects>
 
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup Name="CommonStates">
+                                            <effects:NoOverScrollEffect />
 
-                                                    <VisualState Name="Selected">
+                                            <effects:ScrollBarColorEffect
+                                                ScrollBarThumbWidth="6"
+                                                ScrollBarCornerRadius="9"
+                                                ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+                                        </CollectionView.Effects>
 
-                                                        <VisualState.Setters>
-                                                            <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_checked_white" />
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                                        </VisualState.Setters>
+                                        <CollectionView.ItemTemplate>
 
-                                                    </VisualState>
+                                            <DataTemplate
+                                                x:DataType="models:CustomerBindableModel">
 
-                                                    <VisualState Name="Normal">
+                                                <Grid
+                                                    ColumnDefinitions="0.325*,*"
+                                                    HeightRequest="45">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition
+                                                            Height="*" />
+                                                        <RowDefinition
+                                                            Height="{OnPlatform Android=1.5, iOS=2}" />
+                                                    </Grid.RowDefinitions>
 
-                                                        <VisualState.Setters>
-                                                            <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_unhecked_24x24" />
-                                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                                        </VisualState.Setters>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding SelectItemCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Grid.GestureRecognizers>
 
-                                                    </VisualState>
+                                                    <Image
+                                                        x:Name="checkbox"
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Margin="16,0,0,0"
+                                                        HeightRequest="20"
+                                                        HorizontalOptions="Start"
+                                                        Source="ic_check_box_unhecked_24x24"
+                                                        WidthRequest="20" />
 
-                                                </VisualStateGroup>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        LineBreakMode="TailTruncation"
+                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Text="{Binding Name}" />
 
-                                            </VisualStateManager.VisualStateGroups>
-                                        </Grid>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        LineBreakMode="TailTruncation"
+                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Text="{Binding Points, StringFormat='{0:D} pt'}" />
 
-                                    </DataTemplate>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="3"
+                                                        LineBreakMode="TailTruncation"
+                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Text="{Binding Rewards}" />
 
-                                </CollectionView.ItemTemplate>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="4"
+                                                        LineBreakMode="TailTruncation"
+                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Text="{Binding GiftCardCount}" />
 
-                            </controls:CustomScrollBarCollectionView>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="5"
+                                                        LineBreakMode="TailTruncation"
+                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
 
-                        </RefreshView>
+                                                    <BoxView
+                                                        Grid.Row="1"
+                                                        Grid.ColumnSpan="6"
+                                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                    </yummy:PancakeView>
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup
+                                                            Name="CommonStates">
+
+                                                            <VisualState
+                                                                Name="Selected">
+
+                                                                <VisualState.Setters>
+                                                                    <Setter
+                                                                        TargetName="checkbox"
+                                                                        Property="Image.Source"
+                                                                        Value="ic_check_box_checked_white" />
+                                                                    <Setter
+                                                                        Property="BackgroundColor"
+                                                                        Value="{DynamicResource AppColor_i4}" />
+                                                                </VisualState.Setters>
+
+                                                            </VisualState>
+
+                                                            <VisualState
+                                                                Name="Normal">
+
+                                                                <VisualState.Setters>
+                                                                    <Setter
+                                                                        TargetName="checkbox"
+                                                                        Property="Image.Source"
+                                                                        Value="ic_check_box_unhecked_24x24" />
+                                                                    <Setter
+                                                                        Property="BackgroundColor"
+                                                                        Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                                </VisualState.Setters>
+
+                                                            </VisualState>
+
+                                                        </VisualStateGroup>
+
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </Grid>
+
+                                            </DataTemplate>
+
+                                        </CollectionView.ItemTemplate>
+
+                                    </controls:CustomScrollBarCollectionView>
+
+                                </RefreshView>
+
+                            </yummy:PancakeView>
+
+                        </StackLayout>
+
+                    </Grid>
 
                 </StackLayout>
 

@@ -93,7 +93,7 @@ namespace Next2.ViewModels.Mobile
             if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out float value))
             {
                 SelectedTipItem.Value = value;
-                SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value}";
+                SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value:F2}";
             }
         }
 

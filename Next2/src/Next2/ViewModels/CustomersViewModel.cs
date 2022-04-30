@@ -13,6 +13,7 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -53,7 +54,9 @@ namespace Next2.ViewModels
 
         public string SearchText { get; set; } = string.Empty;
 
-        public ObservableCollection<CustomerBindableModel> DisplayCustomers { get; set; }
+        public ObservableCollection<CustomerBindableModel> DisplayCustomers { get; set; } = new();
+
+        public bool AnyCustomersLoaded { get; set; } = false;
 
         public bool IsRefreshing { get; set; }
 
@@ -93,8 +96,19 @@ namespace Next2.ViewModels
         {
             ClearSearch();
 
-            DisplayCustomers = new();
+            //DisplayCustomers = new();
             SelectedCustomer = null;
+            AnyCustomersLoaded = false;
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(DisplayCustomers))
+            {
+                AnyCustomersLoaded = _allCustomers.Any();
+            }
         }
 
         #endregion
@@ -109,8 +123,7 @@ namespace Next2.ViewModels
 
             if (customersAoresult.IsSuccess)
             {
-                var result = customersAoresult.Result.OrderBy(x => x.Name);
-                var customers = _mapper.Map<IEnumerable<CustomerModel>, ObservableCollection<CustomerBindableModel>>(result);
+                var customers = _mapper.Map<List<CustomerBindableModel>>(customersAoresult.Result.OrderBy(x => x.Name));
 
                 foreach (var item in customers)
                 {
@@ -120,8 +133,8 @@ namespace Next2.ViewModels
 
                 if (customers.Any())
                 {
-                    _allCustomers = customers.ToList();
-                    DisplayCustomers = customers;
+                    _allCustomers = customers;
+                    DisplayCustomers = SearchCustomers(SearchText);
 
                     SelectCurrentCustomer();
                 }
@@ -267,7 +280,7 @@ namespace Next2.ViewModels
         {
             SearchText = searchLine;
 
-            DisplayCustomers = new(SearchCustomers(SearchText));
+            DisplayCustomers = SearchCustomers(SearchText);
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }

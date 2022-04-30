@@ -102,6 +102,7 @@ namespace Next2.ViewModels.Tablet
             base.OnDisappearing();
 
             ClearSearch();
+            AnyMembersLoaded = false;
         }
 
         #endregion

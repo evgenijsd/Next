@@ -116,7 +116,7 @@ namespace Next2.ViewModels
                 if (float.TryParse(InputTip, out float tip))
                 {
                     Order.Tip = tip / 100;
-                    SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip}";
+                    SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip:F2}";
                 }
                 else
                 {
@@ -125,6 +125,20 @@ namespace Next2.ViewModels
 
                 RecalculateTotal();
             }
+        }
+
+        #endregion
+
+        #region -- Public helpers --
+
+        public void RecalculateTotal()
+        {
+            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
+            Order.Total = Order.Total - Order.Cash;
+            var cash = Order.Cash + Order.Change;
+            Order.Cash = 0;
+            Order.Cash = cash;
         }
 
         #endregion
@@ -164,12 +178,6 @@ namespace Next2.ViewModels
             SelectedPaymentOption = PaymentOptionsItems[3];
 
             return Task.CompletedTask;
-        }
-
-        private void RecalculateTotal()
-        {
-            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
-            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
 
         private Task InitTipsItemsAsync()
