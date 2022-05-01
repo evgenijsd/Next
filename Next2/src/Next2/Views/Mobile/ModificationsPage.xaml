@@ -17,7 +17,9 @@
     x:DataType="viewmodels:ModificationsPageViewModel"
     x:Class="Next2.Views.Mobile.ModificationsPage">
 
-    <Grid RowDefinitions="72, 1, *, 1, 99">
+    <Grid
+        RowDefinitions="72, 1, *, 1, 75"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <StackLayout
             Grid.Column="0"
@@ -87,11 +89,12 @@
 
                             <DataTemplate x:DataType="models:PortionModel">
 
-                                <Frame
+                                <controls:CustomFrame
+                                    BorderWidth="1"
                                     Padding="16, 4"
                                     CornerRadius="8"
                                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
@@ -100,7 +103,7 @@
                                         Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
                                         BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
-                                </Frame>
+                                </controls:CustomFrame>
 
                             </DataTemplate>
 
@@ -415,7 +418,7 @@
             Grid.Column="0"
             Grid.Row="4"
             ColumnSpacing="10"
-            Padding="24">
+            Padding="15">
 
             <buttons:BorderButton
                 Grid.Column="0"
@@ -425,9 +428,8 @@
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 BorderColor="{DynamicResource AppColor_i1}"
-                HeightRequest="40"
-                Padding="0"
                 CornerRadius="4"
+                Padding="0"
                 Command="{prism:GoBack}"/>
 
             <buttons:BorderButton
@@ -438,9 +440,8 @@
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
-                HeightRequest="40"
-                Padding="0"
                 CornerRadius="4"
+                Padding="0"
                 Command="{Binding SaveCommand}"/>
 
         </Grid>

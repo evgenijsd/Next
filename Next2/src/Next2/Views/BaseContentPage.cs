@@ -12,6 +12,11 @@ namespace Next2.Views
         {
             On<iOS>().SetUseSafeArea(true);
             Xamarin.Forms.NavigationPage.SetHasNavigationBar(this, false);
+
+            if (!App.IsTablet)
+            {
+                On<iOS>().SetPrefersStatusBarHidden(StatusBarHiddenMode.False);
+            }
         }
 
         #region -- Overrides --
