@@ -161,14 +161,6 @@ namespace Next2.ViewModels
                 {
                     seat.SelectedItem = null;
                 }
-
-                if (parameters.ContainsKey(Constants.Navigations.DELETE_SET))
-                {
-                    MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
-                    {
-                        RecalculateOrderPriceBySet(arg);
-                    });
-                }
             }
 
             if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
@@ -408,7 +400,6 @@ namespace Next2.ViewModels
 
                     if (deleteSetsResult.IsSuccess)
                     {
-                        RecalculateOrderPriceBySeat(removalSeat);
                         RefreshCurrentOrderAsync();
 
                         NumberOfSeats = CurrentOrder.Seats.Count;
@@ -850,11 +841,6 @@ namespace Next2.ViewModels
                 {
                     var result = await _orderService.DeleteSetFromCurrentSeat();
 
-                    if (SelectedSet is not null)
-                    {
-                        RecalculateOrderPriceBySet(SelectedSet);
-                    }
-
                     if (result.IsSuccess)
                     {
                         RefreshCurrentOrderAsync();
@@ -928,34 +914,6 @@ namespace Next2.ViewModels
             _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
 
             RefreshCurrentOrderAsync();
-        }
-
-        private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
-        {
-            var amoutToSubtract = selectedSet.Portion.Price;
-            CurrentOrder.Total -= amoutToSubtract;
-            CurrentOrder.SubTotal -= amoutToSubtract;
-
-            if (!App.IsTablet)
-            {
-                MessagingCenter.Unsubscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET);
-            }
-        }
-
-        private void RecalculateOrderPriceBySeat(SeatBindableModel seat)
-        {
-            float amoutToSubtract = 0;
-
-            if (seat.Sets.Any())
-            {
-                foreach (var set in seat.Sets)
-                {
-                    amoutToSubtract += set.Portion.Price;
-                }
-
-                CurrentOrder.Total -= amoutToSubtract;
-                CurrentOrder.SubTotal -= amoutToSubtract;
-            }
         }
 
         private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)

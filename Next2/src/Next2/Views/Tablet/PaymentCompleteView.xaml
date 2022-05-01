@@ -173,14 +173,170 @@
 
                 <StackLayout>
 
-                    <Label
-                        Text="{xct:Translate GiftCards}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"/>
+                    <Grid
+                        RowDefinitions="auto, 50"
+                        RowSpacing="0"
+                        ColumnSpacing="0"
+                        ColumnDefinitions="0.50*, 0.50*">
+
+                        <StackLayout 
+                            Orientation="Horizontal"
+                            Margin="28, 16, 28, 14">
+
+                            <Label 
+                                Text="{xct:Translate GiftCards}"
+                                FontFamily="Barlow-Bold"
+                                VerticalOptions="Center"
+                                Margin="0, 0, 0, 0"
+                                FontSize="{DynamicResource TSize_i4_5}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                            <Label
+                                 Text="{xct:Translate Number}"
+                                FontFamily="Barlow-Regular"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"
+                                Margin="0, 0, 0, 0"
+                                FontSize="{DynamicResource TSize_i5}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                            <Label
+                                Text="{Binding Order.CurrentGiftCardNumber}"
+                                FontFamily="Barlow-SemiBold"
+                                VerticalOptions="Center"
+                                HorizontalOptions="End"
+                                Margin="16, 0, 40, 0"
+                                FontSize="{DynamicResource TSize_i5}"
+                                TextColor="{DynamicResource AppColor_i1}"/>
+                        </StackLayout>
+
+                        <StackLayout 
+                            Grid.Column="1"
+                            Margin="28, 16, 28, 14"
+                            Orientation="Horizontal">
+
+                            <Label
+                                Text="{xct:Translate Total}"
+                                FontFamily="Barlow-Regular"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start"
+                                FontSize="{DynamicResource TSize_i5}"
+                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                            <Label 
+                                FontFamily="Barlow-SemiBold"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Start"
+                                Margin="16, 0, 0, 0"
+                                FontSize="{DynamicResource TSize_i5}"
+                                TextColor="{DynamicResource IndicationColor_i5}">
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{xct:Translate CurrencySign}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Order.RemainingGiftCardTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Frame
+                                Margin="0, 0, 28, 0"
+                                CornerRadius="4"
+                                WidthRequest="130"
+                                VerticalOptions="Center"
+                                Padding="0"
+                                HorizontalOptions="EndAndExpand"
+                                BackgroundColor="Transparent"
+                                BorderColor="{DynamicResource IndicationColor_i1}">
+
+                                <StackLayout 
+                                    Orientation="Horizontal"
+                                    HorizontalOptions="Center">
+
+                                    <ffimageloading:CachedImage 
+                                        Source="ic_plus"
+                                        Margin="0, 8, 10, 5"/>
+
+                                    <Label
+                                        Margin="0, 5, 0, 5"
+                                        Text="{xct:Translate AddNew}"
+                                        FontFamily="Barlow-SemiBold"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"
+                                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                        FontSize="{DynamicResource TSize_i7}"/>
+
+                                </StackLayout>
+
+                            </Frame>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddGiftCardCommand}"/>
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <BoxView
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Style="{DynamicResource SeparatorStyle_i1}"
+                            HeightRequest="1.5"
+                            VerticalOptions="StartAndExpand"/>
+
+                        <Frame
+                            Grid.Row="1"
+                            IsVisible="{Binding IsInsufficientGiftCardFounds}"
+                            Grid.ColumnSpan="2"
+                            Margin="0, 10, 0, 0"
+                            HorizontalOptions="Center"
+                            WidthRequest="452"
+                            HeightRequest="59"
+                            CornerRadius="4"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            BorderColor="{DynamicResource IndicationColor_i5}">
+
+                            <StackLayout Orientation="Horizontal">
+
+                                <ffimageloading:CachedImage
+                                    Source="ic_danger_triangle"
+                                    HeightRequest="24"
+                                    WidthRequest="24"
+                                    VerticalOptions="Center"
+                                    Margin="15, 0, 10, 0"/>
+
+                                <Label 
+                                    Text="{xct:Translate YouDontHaveFundsOnGiftCards}"
+                                    FontFamily="Barlow-Medium"
+                                    VerticalOptions="Center"
+                                    FontSize="{DynamicResource TSize_i7}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+                            </StackLayout>
+
+                        </Frame>
+
+                    </Grid>
+
+                    <templates:CustomNumericKeyboardTemplate
+                        x:Name="keyBoard"
+                        Grid.Row="1"
+                        Margin="0, 0, 0, 28"
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand"
+                        BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
+                        PlaceHolder="{xct:Translate EnterAmount}"
+                        IsTextRightToLeft="True"
+                        IsNumericMode="True"
+                        ValueFormat="$ {0:#,0.#0}"
+                        Value="{Binding InputGiftCardFounds}"
+                        MaxLength="9"
+                        WidthRequest="400"
+                        HeightRequest="480"/>
 
                 </StackLayout>
-                
+
             </sc:StateCondition>
             
             <sc:StateCondition State="Cash">
@@ -674,6 +830,41 @@
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
                                 <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <StackLayout.Triggers>
+
+                        <DataTrigger
+                            TargetType="StackLayout"
+                            Binding="{Binding Order.GiftCard}"
+                            Value="0">
+
+                            <Setter Property="IsVisible" Value="False" />
+
+                        </DataTrigger>
+
+                    </StackLayout.Triggers>
+
+                    <Label
+                        Text="{xct:Translate GiftCards}"
+                        Style="{DynamicResource SummaryItem}"/>
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{xct:Translate CurrencySign}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding Order.GiftCard, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 

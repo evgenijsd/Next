@@ -120,8 +120,6 @@ namespace Next2.ViewModels.Mobile
                             { nameof(Constants.Navigations.DELETE_SET), Constants.Navigations.DELETE_SET },
                         };
                         await _navigationService.GoBackAsync(navigationParameters);
-
-                        MessagingCenter.Send(this, Constants.Navigations.SELECTED_SET, SelectedSet);
                     }
                 }
                 else

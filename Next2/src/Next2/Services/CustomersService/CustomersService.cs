@@ -67,6 +67,111 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
+        public async Task<AOResult> AddGiftCardToCustomer(CustomerModel customer, GiftCardModel giftCard)
+        {
+            var result = new AOResult();
+            try
+            {
+                if (!customer.GiftCards.Contains(giftCard))
+                {
+                    giftCard.IsRegistered = true;
+                    customer.GiftCards.Add(giftCard);
+                    customer.GiftCardTotal = customer.GiftCards.Sum(row => row.Founds);
+                    customer.GiftCardCount = customer.GiftCards.Count();
+                    customer.IsUpdatedCustomer = true;
+                }
+
+                var upDatedCustomer = await _mockService.UpdateAsync(customer);
+
+                if (upDatedCustomer is not null)
+                {
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddGiftCardToCustomer)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> RemoveGiftCardFromUnregisteredGiftCardsDateBase(GiftCardModel giftCard)
+        {
+            var result = new AOResult();
+            try
+            {
+                var isGiftCardRemoved = await _mockService.RemoveAsync(giftCard);
+
+                if (isGiftCardRemoved)
+                {
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(RemoveGiftCardFromUnregisteredGiftCardsDateBase)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<GiftCardModel>> IsGiftCardExists(int giftCardNumber)
+        {
+            var result = new AOResult<GiftCardModel>();
+            try
+            {
+                var giftCard = await _mockService.FindAsync<GiftCardModel>(x => x.GiftCardNumber == giftCardNumber);
+
+                if (giftCard is not null)
+                {
+                    result.SetSuccess(giftCard);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(IsGiftCardExists)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<CustomerModel>> GetSingleCustomer(CustomerModel customer)
+        {
+            var result = new AOResult<CustomerModel>();
+            try
+            {
+                var customerModel = await _mockService.FindAsync<CustomerModel>(x => x.Id == customer.Id);
+
+                if (customerModel is not null)
+                {
+                    result.SetSuccess(customerModel);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetSingleCustomer)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

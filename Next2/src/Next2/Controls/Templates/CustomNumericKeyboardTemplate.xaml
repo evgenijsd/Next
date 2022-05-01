@@ -96,6 +96,35 @@
 
             </controls:CustomFrame>
 
+            <controls:CustomFrame
+                Grid.Row="0"
+                Margin="0, 0, 0, 15"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                Padding="4"
+                BorderWidth="3"
+                IsVisible="{Binding IsErrorPlaceHolderVisible, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                HasShadow="False"
+                BorderColor="{DynamicResource IndicationColor_i5}"
+                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}">
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    HorizontalOptions="Center"
+                    Padding="0">
+
+                    <Label
+                        Text="{Binding ErrorPlaceHolder, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
+                        LineBreakMode="NoWrap"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        VerticalTextAlignment="Center"
+                        Margin="10, 0, 10, 0"
+                        FontSize="{DynamicResource TSize_i6}"
+                        FontFamily="Barlow-Regular"/>
+
+                </StackLayout>
+
+            </controls:CustomFrame>
+
             <Grid
                 Grid.Row="1"
                 ColumnSpacing="10"

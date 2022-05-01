@@ -1,6 +1,8 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Services.CustomersService;
+using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -21,6 +23,8 @@ namespace Next2.ViewModels
     public class PaymentCompleteViewModel : BaseViewModel
     {
         private readonly IPopupNavigation _popupNavigation;
+        private readonly ICustomersService _customersService;
+        private readonly IOrderService _orderService;
 
         private ICommand _tapPaymentOptionCommand;
 
@@ -31,16 +35,28 @@ namespace Next2.ViewModels
         public PaymentCompleteViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
+            ICustomersService customersService,
+            IOrderService orderService,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
+            _customersService = customersService;
+            _orderService = orderService;
 
             Order = order;
 
             _subtotalWithBonus = Order.BonusType == EBonusType.None
                 ? Order.Subtotal
                 : Order.SubtotalWithBonus;
+
+            if (Order.Customer is not null && Order.Customer.GiftCards.Any())
+            {
+                var firstGiftCard = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault();
+                Order.CurrentGiftCardFounds = firstGiftCard.Founds;
+                Order.CurrentGiftCardNumber = firstGiftCard.GiftCardNumber;
+                Order.RemainingGiftCardTotal = firstGiftCard.Founds;
+            }
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
 
@@ -73,11 +89,15 @@ namespace Next2.ViewModels
 
         public string InputTip { get; set; }
 
+        public string InputGiftCardFounds { get; set; }
+
         public ECardPaymentStatus CardPaymentStatus { get; set; }
 
         public PaidOrderBindableModel Order { get; set; }
 
         public bool IsExpandedSummary { get; set; } = true;
+
+        public bool IsInsufficientGiftCardFounds { get; set; }
 
         private ICommand _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand = new Command(() => IsExpandedSummary = !IsExpandedSummary);
@@ -90,6 +110,9 @@ namespace Next2.ViewModels
 
         private ICommand _tapCheckBoxSignatureReceiptCommand;
         public ICommand TapCheckBoxSignatureReceiptCommand => _tapCheckBoxSignatureReceiptCommand ??= new Command(() => NeedSignatureReceipt = !NeedSignatureReceipt);
+
+        private ICommand _addGiftCardCommand;
+        public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -108,6 +131,54 @@ namespace Next2.ViewModels
                 else
                 {
                     Order.Cash = 0;
+                }
+            }
+
+            if (args.PropertyName == nameof(InputGiftCardFounds))
+            {
+                if (Order.Customer is not null && Order.Customer.GiftCards.Any())
+                {
+                    Order.Total += Order.GiftCard;
+                    Order.GiftCard = 0;
+                    Order.RemainingGiftCardTotal = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault().Founds;
+                    Order.Change = 0;
+                    IsInsufficientGiftCardFounds = false;
+
+                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    {
+                        sum /= 100;
+                        if (Order.CurrentGiftCardFounds > sum)
+                        {
+                            if (Order.Total > sum)
+                            {
+                                Order.GiftCard = sum;
+                                Order.RemainingGiftCardTotal -= sum;
+                                Order.Total -= sum;
+                            }
+                            else
+                            {
+                                Order.Change = sum - Order.Total;
+                                Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds - Order.Total;
+                                Order.GiftCard = sum;
+                                Order.Total = 0;
+                            }
+                        }
+                        else
+                        {
+                            IsInsufficientGiftCardFounds = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    {
+                        IsInsufficientGiftCardFounds = true;
+                    }
+                    else
+                    {
+                        IsInsufficientGiftCardFounds = false;
+                    }
                 }
             }
 
@@ -277,6 +348,21 @@ namespace Next2.ViewModels
                     }
 
                     break;
+                case EPaymentItems.GiftCards:
+                    if (!App.IsTablet)
+                    {
+                        if (Order.GiftCard > 0)
+                        {
+                            Order.Total += Order.GiftCard;
+                            Order.GiftCard = 0;
+                            Order.Change = 0;
+                        }
+
+                        path = nameof(InputGiftCardPage);
+                    }
+
+                    IsCleared = true;
+                    break;
             }
 
             if (!App.IsTablet)
@@ -302,6 +388,38 @@ namespace Next2.ViewModels
         private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private async Task OnAddGiftCardCommandAsync()
+        {
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.MARGIN, new Thickness(400, 50, 400, 0) },
+            };
+            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(param, GiftCardViewDialogCallBack, _orderService, _customersService);
+            await _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
+        {
+            await _popupNavigation.PopAsync();
+
+            if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
+            {
+                var upDatedCustomer = _orderService.CurrentOrder.Customer;
+
+                if (upDatedCustomer is not null)
+                {
+                    Order.Customer = new CustomerModel(upDatedCustomer);
+                    if (Order.Customer.GiftCards.Any())
+                    {
+                        var firstGiftCard = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault();
+                        Order.CurrentGiftCardFounds = firstGiftCard.Founds;
+                        Order.CurrentGiftCardNumber = firstGiftCard.GiftCardNumber;
+                        Order.RemainingGiftCardTotal = Order.CurrentGiftCardNumber;
+                    }
+                }
+            }
         }
 
         #endregion

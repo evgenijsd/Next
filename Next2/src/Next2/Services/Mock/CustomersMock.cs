@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Next2.Services.Mock;
 using System.Collections.Generic;
 
 namespace Next2.Services
@@ -17,8 +18,25 @@ namespace Next2.Services
                     Phone = "456-112-5298",
                     Points = 221,
                     Rewards = 4,
-                    GiftCardCount = 8,
-                    GiftCardTotal = 30.02f,
+                    GiftCardCount = 2,
+                    GiftCardTotal = 60.50f,
+                    GiftCards = new List<GiftCardModel>
+                    {
+                        new GiftCardModel()
+                        {
+                            Id = 1,
+                            Founds = 20f,
+                            GiftCardNumber = 100,
+                            IsRegistered = true,
+                        },
+                        new GiftCardModel()
+                        {
+                            Id = 2,
+                            Founds = 40.50f,
+                            GiftCardNumber = 101,
+                            IsRegistered = true,
+                        },
+                    },
                 },
                 new CustomerModel()
                 {
@@ -28,8 +46,25 @@ namespace Next2.Services
                     Phone = "772-303-1228",
                     Points = 22,
                     Rewards = 3,
-                    GiftCardCount = 1,
-                    GiftCardTotal = 1,
+                    GiftCardCount = 2,
+                    GiftCardTotal = 66f,
+                    GiftCards = new List<GiftCardModel>
+                    {
+                        new GiftCardModel()
+                        {
+                            Id = 3,
+                            Founds = 25.50f,
+                            GiftCardNumber = 103,
+                            IsRegistered = true,
+                        },
+                        new GiftCardModel()
+                        {
+                            Id = 4,
+                            Founds = 40.50f,
+                            GiftCardNumber = 104,
+                            IsRegistered = true,
+                        },
+                    },
                 },
                 new CustomerModel()
                 {
@@ -39,8 +74,25 @@ namespace Next2.Services
                     Phone = "713-901-8114",
                     Points = 108,
                     Rewards = 2,
-                    GiftCardCount = 5,
-                    GiftCardTotal = 12.5f,
+                    GiftCardCount = 2,
+                    GiftCardTotal = 106f,
+                    GiftCards = new List<GiftCardModel>
+                    {
+                        new GiftCardModel()
+                        {
+                            Id = 5,
+                            Founds = 65.50f,
+                            GiftCardNumber = 105,
+                            IsRegistered = true,
+                        },
+                        new GiftCardModel()
+                        {
+                            Id = 6,
+                            Founds = 40.50f,
+                            GiftCardNumber = 106,
+                            IsRegistered = true,
+                        },
+                    },
                 },
                 new CustomerModel()
                 {
@@ -52,6 +104,16 @@ namespace Next2.Services
                     Rewards = 0,
                     GiftCardCount = 17,
                     GiftCardTotal = 50.02f,
+                    GiftCards = new List<GiftCardModel>
+                    {
+                        new GiftCardModel()
+                        {
+                            Id = 7,
+                            Founds = 30f,
+                            GiftCardNumber = 107,
+                            IsRegistered = true,
+                        },
+                    },
                 },
                 new CustomerModel()
                 {
@@ -61,8 +123,8 @@ namespace Next2.Services
                     Phone = "732-902-8298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 4,
-                    GiftCardTotal = 5,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
                 },
                 new CustomerModel()
                 {
@@ -72,8 +134,9 @@ namespace Next2.Services
                     Phone = "444-912-6298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 10.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -83,8 +146,9 @@ namespace Next2.Services
                     Phone = "452-955-8228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 9,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -94,8 +158,9 @@ namespace Next2.Services
                     Phone = "332-456-2363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardCount = 3,
-                    GiftCardTotal = 12.99f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -105,8 +170,9 @@ namespace Next2.Services
                     Phone = "732-902-8298",
                     Points = 221,
                     Rewards = 0,
-                    GiftCardCount = 8,
-                    GiftCardTotal = 30.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -116,8 +182,9 @@ namespace Next2.Services
                     Phone = "732-302-8538",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 1,
-                    GiftCardTotal = 1,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -127,8 +194,9 @@ namespace Next2.Services
                     Phone = "733-901-8244",
                     Points = 108,
                     Rewards = 0,
-                    GiftCardCount = 5,
-                    GiftCardTotal = 12.5f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -138,8 +206,9 @@ namespace Next2.Services
                     Phone = "709-502-5598",
                     Points = 451,
                     Rewards = 0,
-                    GiftCardCount = 17,
-                    GiftCardTotal = 50.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -149,8 +218,9 @@ namespace Next2.Services
                     Phone = "732-902-8298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 4,
-                    GiftCardTotal = 5,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -160,8 +230,9 @@ namespace Next2.Services
                     Phone = "444-912-6298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 10.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -171,8 +242,9 @@ namespace Next2.Services
                     Phone = "452-955-8228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 9,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -182,8 +254,9 @@ namespace Next2.Services
                     Phone = "332-456-2363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardCount = 3,
-                    GiftCardTotal = 12.99f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -193,8 +266,9 @@ namespace Next2.Services
                     Phone = "732-902-8298",
                     Points = 221,
                     Rewards = 0,
-                    GiftCardCount = 8,
-                    GiftCardTotal = 30.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -204,8 +278,9 @@ namespace Next2.Services
                     Phone = "732-302-8538",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 1,
-                    GiftCardTotal = 1,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -215,8 +290,9 @@ namespace Next2.Services
                     Phone = "733-901-8244",
                     Points = 108,
                     Rewards = 0,
-                    GiftCardCount = 5,
-                    GiftCardTotal = 12.5f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -226,8 +302,9 @@ namespace Next2.Services
                     Phone = "709-502-5598",
                     Points = 451,
                     Rewards = 0,
-                    GiftCardCount = 17,
-                    GiftCardTotal = 50.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -237,8 +314,9 @@ namespace Next2.Services
                     Phone = "732-902-8298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 4,
-                    GiftCardTotal = 5,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -248,8 +326,9 @@ namespace Next2.Services
                     Phone = "444-912-6298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 10.02f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -259,8 +338,9 @@ namespace Next2.Services
                     Phone = "452-955-8228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 9,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
                 new CustomerModel()
                 {
@@ -270,8 +350,9 @@ namespace Next2.Services
                     Phone = "332-456-2363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardCount = 3,
-                    GiftCardTotal = 12.99f,
+                    GiftCardCount = 0,
+                    GiftCardTotal = 0,
+                    GiftCards = new(),
                 },
             };
         }

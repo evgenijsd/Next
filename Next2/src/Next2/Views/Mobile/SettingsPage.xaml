@@ -45,19 +45,13 @@
                     FontFamily="Barlow-Medium"
                     Margin="15, 0, 0, 0"
                     HorizontalOptions="FillAndExpand"/>
-                
-                <ContentView 
-                    HeightRequest="55" 
-                    xct:TouchEffect.Command="{Binding .}">
-
-                    <ffimageloading:CachedImage 
-                        Source="ic_arrow_right_40x40"
-                        HeightRequest="24"
-                        HorizontalOptions="End"
-                        Margin="0, 0, 18, 0"/>
+               
+                <ffimageloading:CachedImage 
+                    Source="ic_arrow_right_40x40"
+                    HeightRequest="24"
+                    HorizontalOptions="End"
+                    Margin="0, 0, 18, 0"/>
                     
-                </ContentView>
-          
             </StackLayout>
             
         </controls:CustomFrame>
@@ -85,17 +79,11 @@
                     Margin="15, 0, 0, 0"
                     HorizontalOptions="FillAndExpand"/>
 
-                <ContentView 
-                    HeightRequest="55" 
-                    xct:TouchEffect.Command="{Binding .}">
-
-                    <ffimageloading:CachedImage 
-                        Source="ic_arrow_right_40x40"
-                        HeightRequest="24"
-                        HorizontalOptions="End"
-                        Margin="0, 0, 18, 0"/>
-
-                </ContentView>
+                <ffimageloading:CachedImage 
+                    Source="ic_arrow_right_40x40"
+                    HeightRequest="24"
+                    HorizontalOptions="End"
+                    Margin="0, 0, 18, 0"/>
 
             </StackLayout>
 

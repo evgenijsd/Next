@@ -10,6 +10,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -20,6 +21,7 @@ namespace Next2.ViewModels
     public class PaymentViewModel : BaseViewModel
     {
         private readonly IPopupNavigation _popupNavigation;
+        private readonly IOrderService _orderService;
 
         private float _subtotalWithBonus;
 
@@ -33,6 +35,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
+            _orderService = orderService;
 
             Order.BonusType = orderService.CurrentOrder.BonusType;
             Order.Bonus = orderService.CurrentOrder.Bonus;
@@ -41,10 +44,17 @@ namespace Next2.ViewModels
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
             Order.Tax = orderService.CurrentOrder.Tax;
             Order.Total = orderService.CurrentOrder.Total;
+            Order.Customer = orderService.CurrentOrder.Customer;
 
             _subtotalWithBonus = Order.BonusType == EBonusType.None
                 ? Order.Subtotal
                 : Order.SubtotalWithBonus;
+
+            if (Order.Customer is not null && Order.Customer.GiftCards.Any())
+            {
+                Order.CurrentGiftCardFounds = Order.Customer.GiftCards.FirstOrDefault(row => row.Founds > 0).Founds;
+                Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds;
+            }
 
             RewardsViewModel = new (
                 navigationService,
@@ -60,6 +70,8 @@ namespace Next2.ViewModels
             PaymentCompleteViewModel = new (
                 navigationService,
                 popupNavigation,
+                customerService,
+                orderService,
                 Order);
         }
 
@@ -104,6 +116,51 @@ namespace Next2.ViewModels
                 if (float.TryParse(inputValue, out float sum))
                 {
                     Order.Cash = sum / 100;
+                }
+            }
+            else if (parameters.TryGetValue(Constants.Navigations.GIFT_CARD_NUMBER, out int numberGiftCard)
+                     && parameters.TryGetValue(Constants.Navigations.GIFT_CARD_FOUNDS, out string inputAmountValue))
+            {
+                if (parameters.ContainsKey(Constants.Navigations.GIFT_CARD_ADDED)
+                    && _orderService.CurrentOrder.Customer is not null)
+                {
+                    _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
+                    Order.BonusType = _orderService.CurrentOrder.BonusType;
+                    Order.Customer = _orderService.CurrentOrder.Customer;
+                    Order.Bonus = _orderService.CurrentOrder.Bonus;
+                    Order.Subtotal = _orderService.CurrentOrder.SubTotal;
+                    Order.PriceTax = _orderService.CurrentOrder.PriceTax;
+                    Order.Total = _orderService.CurrentOrder.Total;
+                    Order.CurrentGiftCardFounds = Order.Customer.GiftCards.FirstOrDefault(row => row.Founds > 0).Founds;
+                    Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds;
+                }
+
+                if (Order.Customer is not null && Order.Customer.GiftCards.Any())
+                {
+                    Order.Total += Order.GiftCard;
+                    Order.GiftCard = 0;
+                    Order.Change = 0;
+
+                    if (float.TryParse(inputAmountValue, out float sum))
+                    {
+                        sum /= 100;
+                        if (Order.CurrentGiftCardFounds > sum)
+                        {
+                            if (Order.Total > sum)
+                            {
+                                Order.GiftCard = sum;
+                                Order.RemainingGiftCardTotal -= sum;
+                                Order.Total -= sum;
+                            }
+                            else
+                            {
+                                Order.Change = sum - Order.Total;
+                                Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds - Order.Total;
+                                Order.GiftCard = sum;
+                                Order.Total = 0;
+                            }
+                        }
+                    }
                 }
             }
             else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))

@@ -35,6 +35,7 @@ namespace Next2.Services.Mock
         private IList<IngredientModel> _ingredients;
         private IList<IngredientOfProductModel> _ingredientsOfProductModel;
         private IList<WorkLogRecordModel> _workLogBook;
+        private IList<GiftCardModel> _giftCards;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -184,7 +185,8 @@ namespace Next2.Services.Mock
                 InitIngredientCategoriesAsync(),
                 InitIngredientsAsync(),
                 InitWorkLogBookAsync(),
-                InitIngredientsOfProductAsync());
+                InitIngredientsOfProductAsync(),
+                InitGiftCardsAsync());
 
             _base = new Dictionary<Type, object>
             {
@@ -210,6 +212,7 @@ namespace Next2.Services.Mock
                 { typeof(ProductModel), _products },
                 { typeof(OptionModel), _optionsProduct },
                 { typeof(WorkLogRecordModel), _workLogBook },
+                { typeof(GiftCardModel), _giftCards },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -225,6 +228,7 @@ namespace Next2.Services.Mock
                 { typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
+                { typeof(GiftCardModel), GetMaxId(_giftCards) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -4977,6 +4981,156 @@ namespace Next2.Services.Mock
                     ProductId = productId++,
                     Title = "Medium",
                 },
+            };
+        });
+
+        private Task InitGiftCardsAsync() => Task.Run(() =>
+        {
+            int id = 7;
+            int giftCardNumber = 107;
+
+            _giftCards = new List<GiftCardModel>
+            {
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 25.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 65.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 25.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 55.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 15.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 25f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 85.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 15f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 5.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 7.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 65f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 95.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 85f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 25.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 15.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 65f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 25.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 615.50f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 225f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
+                 new()
+                 {
+                     Id = id++,
+                     Founds = 80f,
+                     GiftCardNumber = giftCardNumber++,
+                     IsRegistered = false,
+                 },
             };
         });
 

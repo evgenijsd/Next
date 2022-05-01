@@ -580,4 +580,16 @@ A receipt has been printed for you.</value>
   <data name="SuccessfullyCheckedOut" xml:space="preserve">
     <value>You successfully checked out at</value>
   </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="YouDontHaveFundsOnGiftCards" xml:space="preserve">
+    <value>You don't have enough funds on your cards</value>
+  </data>
+  <data name="AddGiftCard" xml:space="preserve">
+    <value>Add Gift Card</value>
+  </data>
+  <data name="TypeGiftCardNumber" xml:space="preserve">
+    <value>Type Gift Card Number</value>
+  </data>
 </root>

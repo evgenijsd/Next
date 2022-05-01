@@ -152,6 +152,30 @@ namespace Next2.Controls.Templates
             set => SetValue(IsErrorNotificationVisibleProperty, value);
         }
 
+        public static readonly BindableProperty ErrorPlaceHolderProperty = BindableProperty.Create(
+            propertyName: nameof(ErrorPlaceHolder),
+            returnType: typeof(string),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public string ErrorPlaceHolder
+        {
+            get => (string)GetValue(ErrorPlaceHolderProperty);
+            set => SetValue(ErrorPlaceHolderProperty, value);
+        }
+
+        public static readonly BindableProperty IsErrorPlaceHolderVisibleProperty = BindableProperty.Create(
+            propertyName: nameof(IsErrorPlaceHolderVisible),
+            returnType: typeof(bool),
+            declaringType: typeof(CustomNumericKeyboardTemplate),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsErrorPlaceHolderVisible
+        {
+            get => (bool)GetValue(IsErrorPlaceHolderVisibleProperty);
+            set => SetValue(IsErrorPlaceHolderVisibleProperty, value);
+        }
+
         private ICommand _buttonTapCommand;
         public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
 
