@@ -60,10 +60,8 @@ namespace Next2.Models
 
         public float Total { get; set;  }
 
-        public float CurrentGiftCardFounds { get; set; }
+        public float GiftCardsTotalFounds { get; set; }
 
-        public float CurrentGiftCardNumber { get; set; }
-
-        public float RemainingGiftCardTotal { get; set; }
+        public float RemainingGiftCardsTotalFounds { get; set; }
     }
 }

@@ -45,7 +45,7 @@
                         <Span Text="   " />
 
                         <Span
-                            Text="{Binding GiftCardNumber}"
+                            Text="{Binding Customer.GiftCardCount}"
                             TextColor="{DynamicResource IndicationColor_i5}"
                             FontSize="{DynamicResource TSize_i4}"
                             FontFamily="Barlow-Bold"/>

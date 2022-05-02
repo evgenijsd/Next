@@ -392,7 +392,6 @@
 
             <buttons:BorderButton
                 Grid.Column="1"
-                Text="{xct:Translate Complete}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                 FontSize="{DynamicResource TSize_i5}"
                 FontFamily="Barlow-SemiBold"

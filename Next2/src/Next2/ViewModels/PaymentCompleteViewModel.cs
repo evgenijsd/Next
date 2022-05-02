@@ -9,6 +9,7 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -52,10 +53,8 @@ namespace Next2.ViewModels
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                var firstGiftCard = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault();
-                Order.CurrentGiftCardFounds = firstGiftCard.Founds;
-                Order.CurrentGiftCardNumber = firstGiftCard.GiftCardNumber;
-                Order.RemainingGiftCardTotal = firstGiftCard.Founds;
+                Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
+                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
             }
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
@@ -140,23 +139,23 @@ namespace Next2.ViewModels
                 {
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
-                    Order.RemainingGiftCardTotal = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault().Founds;
+                    Order.RemainingGiftCardsTotalFounds = Order.Customer.GiftCardTotal;
                     IsInsufficientGiftCardFounds = false;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         sum /= 100;
-                        if (Order.CurrentGiftCardFounds > sum)
+                        if (Order.GiftCardsTotalFounds >= sum)
                         {
-                            if (Order.Total > sum)
+                            if (Order.Total >= sum)
                             {
                                 Order.GiftCard = sum;
-                                Order.RemainingGiftCardTotal -= sum;
+                                Order.RemainingGiftCardsTotalFounds -= sum;
                                 Order.Total -= sum;
                             }
                             else
                             {
-                                Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds - Order.Total;
+                                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds - Order.Total;
                                 Order.GiftCard = Order.Total;
                                 Order.Total = 0;
                             }
@@ -410,10 +409,8 @@ namespace Next2.ViewModels
                     Order.Customer = new CustomerModel(upDatedCustomer);
                     if (Order.Customer.GiftCards.Any())
                     {
-                        var firstGiftCard = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault();
-                        Order.CurrentGiftCardFounds = firstGiftCard.Founds;
-                        Order.CurrentGiftCardNumber = firstGiftCard.GiftCardNumber;
-                        Order.RemainingGiftCardTotal = Order.CurrentGiftCardNumber;
+                        Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
+                        Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
                     }
                 }
             }

@@ -37,10 +37,7 @@ namespace Next2.ViewModels.Mobile
             Customer = _orderService.CurrentOrder.Customer;
             if (Customer is not null && Customer.GiftCards.Any())
             {
-                var firstGiftCard = Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault();
-                GiftCardTotaFounds = firstGiftCard.Founds;
-                RemainingGiftCardTotal = GiftCardTotaFounds;
-                GiftCardNumber = firstGiftCard.GiftCardNumber;
+                RemainingGiftCardTotal = Customer.GiftCardTotal;
             }
         }
 
@@ -48,11 +45,7 @@ namespace Next2.ViewModels.Mobile
 
         public string InputGiftCardFounds { get; set; }
 
-        public int GiftCardNumber { get; set; }
-
         public float RemainingGiftCardTotal { get; set; }
-
-        public float GiftCardTotaFounds { get; set; }
 
         public bool IsInSufficientGiftCardFounds { get; set; }
 
@@ -80,15 +73,15 @@ namespace Next2.ViewModels.Mobile
             {
                 if (Customer is not null && Customer.GiftCards.Any())
                 {
-                    RemainingGiftCardTotal = Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault().Founds;
+                    RemainingGiftCardTotal = Customer.GiftCardTotal;
                     IsInSufficientGiftCardFounds = false;
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         sum /= 100;
 
-                        if (GiftCardTotaFounds > sum)
+                        if (Customer.GiftCardTotal >= sum)
                         {
-                            RemainingGiftCardTotal = GiftCardTotaFounds - sum;
+                            RemainingGiftCardTotal = Customer.GiftCardTotal - sum;
                         }
                         else
                         {
@@ -99,22 +92,12 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    RemainingGiftCardTotal = GiftCardTotaFounds;
+                    RemainingGiftCardTotal = 0;
 
                     IsInSufficientGiftCardFounds = false;
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
-                        sum /= 100;
-
-                        if (GiftCardTotaFounds > sum)
-                        {
-                            RemainingGiftCardTotal = GiftCardTotaFounds - sum;
-                        }
-                        else
-                        {
-                            IsInSufficientGiftCardFounds = true;
-                            RemainingGiftCardTotal = 0;
-                        }
+                        IsInSufficientGiftCardFounds = RemainingGiftCardTotal < sum;
                     }
                 }
             }
@@ -137,13 +120,13 @@ namespace Next2.ViewModels.Mobile
         private async void TipViewDialogCallBack(IDialogParameters parameters)
         {
             await _popupNavigation.PopAsync();
-            Customer = _orderService.CurrentOrder.Customer;
-            if (Customer is not null && parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
+            if (_orderService.CurrentOrder.Customer is not null)
             {
-                var firstGiftCard = Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault();
-                GiftCardTotaFounds = firstGiftCard.Founds;
-                RemainingGiftCardTotal = GiftCardTotaFounds;
-                GiftCardNumber = firstGiftCard.GiftCardNumber;
+                Customer = new(_orderService.CurrentOrder.Customer);
+                if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
+                {
+                    RemainingGiftCardTotal = Customer.GiftCardTotal;
+                }
             }
         }
 
@@ -159,14 +142,12 @@ namespace Next2.ViewModels.Mobile
                     {
                         { Constants.Navigations.GIFT_CARD_FOUNDS, InputGiftCardFounds },
                         { Constants.Navigations.GIFT_CARD_ADDED, true },
-                        { Constants.Navigations.GIFT_CARD_NUMBER, GiftCardNumber },
                     };
                 }
                 else
                 {
                     navigationParam = new NavigationParameters()
                     {
-                        { Constants.Navigations.GIFT_CARD_NUMBER, GiftCardNumber },
                         { Constants.Navigations.GIFT_CARD_FOUNDS, InputGiftCardFounds },
                     };
                 }

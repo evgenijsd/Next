@@ -10,6 +10,7 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -52,8 +53,8 @@ namespace Next2.ViewModels
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                Order.CurrentGiftCardFounds = Order.Customer.GiftCards.FirstOrDefault(row => row.Founds > 0).Founds;
-                Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds;
+                Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
+                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
             }
 
             RewardsViewModel = new (
@@ -118,8 +119,7 @@ namespace Next2.ViewModels
                     Order.Cash = sum / 100;
                 }
             }
-            else if (parameters.TryGetValue(Constants.Navigations.GIFT_CARD_NUMBER, out int numberGiftCard)
-                     && parameters.TryGetValue(Constants.Navigations.GIFT_CARD_FOUNDS, out string inputAmountValue))
+            else if (parameters.TryGetValue(Constants.Navigations.GIFT_CARD_FOUNDS, out string inputAmountValue))
             {
                 if (parameters.ContainsKey(Constants.Navigations.GIFT_CARD_ADDED)
                     && _orderService.CurrentOrder.Customer is not null)
@@ -131,8 +131,8 @@ namespace Next2.ViewModels
                     Order.Subtotal = _orderService.CurrentOrder.SubTotal;
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.Total;
-                    Order.CurrentGiftCardFounds = Order.Customer.GiftCards.FirstOrDefault(row => row.Founds > 0).Founds;
-                    Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds;
+                    Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
+                    Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
                 }
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
@@ -143,17 +143,17 @@ namespace Next2.ViewModels
                     if (float.TryParse(inputAmountValue, out float sum))
                     {
                         sum /= 100;
-                        if (Order.CurrentGiftCardFounds > sum)
+                        if (Order.GiftCardsTotalFounds >= sum)
                         {
                             if (Order.Total > sum)
                             {
                                 Order.GiftCard = sum;
-                                Order.RemainingGiftCardTotal -= sum;
+                                Order.RemainingGiftCardsTotalFounds -= sum;
                                 Order.Total -= sum;
                             }
                             else
                             {
-                                Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds - Order.Total;
+                                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds - Order.Total;
                                 Order.GiftCard = Order.Total;
                                 Order.Total = 0;
                             }
@@ -236,6 +236,33 @@ namespace Next2.ViewModels
         {
             Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
             Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
+        }
+
+        private void RecalculateGiftCardFounds(ref List<GiftCardModel> giftCards)
+        {
+            float tempFounds = Order.GiftCard;
+
+            foreach (var giftCard in giftCards)
+            {
+                while (tempFounds > 0)
+                {
+                    if (giftCard.Founds > tempFounds)
+                    {
+                        giftCard.Founds = giftCard.Founds - tempFounds;
+                        tempFounds = 0;
+                    }
+                    else if (giftCard.Founds < tempFounds)
+                    {
+                        tempFounds -= giftCard.Founds;
+                        giftCard.Founds = 0;
+                    }
+                    else if (giftCard.Founds == tempFounds)
+                    {
+                        giftCard.Founds = 0;
+                        tempFounds = 0;
+                    }
+                }
+            }
         }
 
         #endregion
