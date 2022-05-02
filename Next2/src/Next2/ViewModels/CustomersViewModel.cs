@@ -287,8 +287,7 @@ namespace Next2.ViewModels
 
         private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
         {
-            var search = searchLine.ToLower();
-            bool containsName(CustomerBindableModel x) => x.Name.Contains(search, StringComparison.OrdinalIgnoreCase);
+            bool containsName(CustomerBindableModel x) => x.Name.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
             bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
 
             return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
