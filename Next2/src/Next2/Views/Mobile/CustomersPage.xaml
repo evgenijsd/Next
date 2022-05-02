@@ -125,7 +125,7 @@
                         HeightRequest="50"
                         MinimumHeightRequest="50"
                         CornerRadius="12, 12, 0, 0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                        BackgroundColor="{StaticResource TextAndBackgroundColor_i3}">
 
                         <Grid ColumnSpacing="0">
 
@@ -154,7 +154,7 @@
                         Margin="24, 0"
                         HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                         CornerRadius="0, 0, 12, 12"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Start">
 
                         <yummy:PancakeView.Triggers>

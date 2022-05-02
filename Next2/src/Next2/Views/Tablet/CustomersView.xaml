@@ -177,7 +177,7 @@
 
                         <yummy:PancakeView
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                            Border="{yummy:BorderMarkup Thickness=3, Color={DynamicResource TextAndBackgroundColor_i3}}"
+                            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
                             Margin="24, 0, 24, 20"
                             IsVisible="false"
                             CornerRadius="{OnPlatform Android=6, iOS=8}"
@@ -211,7 +211,7 @@
 
                             <yummy:PancakeView
                                 Margin="24, 0"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
                                 CornerRadius="8, 8, 0, 0"
                                 HeightRequest="45"
                                 MinimumHeightRequest="45">
