@@ -11,7 +11,6 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     x:DataType="dialogs:FinishPaymentDialogViewModel">
 
-
     <rg:PopupPage.Resources>
 
         <Style
