@@ -12,39 +12,52 @@
     x:DataType="dialogs:FinishPaymentDialogViewModel">
 
     <rg:PopupPage.Resources>
-        <Style x:Key="separatorStyle" TargetType="BoxView">
+
+        <Style
+            x:Key="separatorStyle"
+            TargetType="BoxView">
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
             <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=1}" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             <Setter Property="VerticalOptions" Value="End" />
         </Style>
-        <Style x:Key="buttonStyle" TargetType="Frame">
+
+        <Style
+            x:Key="buttonStyle"
+            TargetType="Frame">
             <Setter Property="WidthRequest" Value="126" />
             <Setter Property="HeightRequest" Value="38" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
             <Setter Property="CornerRadius" Value="6" />
             <Setter Property="HasShadow" Value="False" />
         </Style>
-        <Style x:Key="labelStyle" TargetType="Label">
+
+        <Style
+            x:Key="labelStyle"
+            TargetType="Label">
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="HorizontalTextAlignment" Value="Start" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
         </Style>
-        <Style x:Key="buttonTextStyle" TargetType="Label">
+
+        <Style
+            x:Key="buttonTextStyle"
+            TargetType="Label">
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="HorizontalTextAlignment" Value="Center" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
         </Style>
+
     </rg:PopupPage.Resources>
 
 
     <pcView:PancakeView
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-        Border="{pcView:BorderMarkup Color={StaticResource TextAndBackgroundColor_i2},
+        Border="{pcView:BorderMarkup Color={DynamicResource TextAndBackgroundColor_i2},
                                      Thickness={OnPlatform Android=4,
                                                            iOS=4}}"
         CornerRadius="6"
@@ -57,7 +70,7 @@
 
             <Label
                 Grid.Row="0"
-                Margin="18, 0, 0, 0"
+                Margin="18,0,0,0"
                 FontFamily="Barlow-SemiBold"
                 FontSize="{DynamicResource TSize_i5}"
                 HorizontalOptions="Start"
@@ -65,13 +78,13 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 VerticalOptions="Center" />
 
-            <BoxView 
-                Grid.Row="0" 
-                Style="{StaticResource separatorStyle}" />
+            <BoxView
+                Grid.Row="0"
+                Style="{DynamicResource separatorStyle}" />
 
             <StackLayout
                 Grid.Row="1"
-                Margin="18, 0, 0, 0"
+                Margin="18,0,0,0"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="4"
@@ -79,7 +92,7 @@
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{StaticResource labelStyle}"
+                    Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate Subtotal}" />
 
                 <Label
@@ -104,47 +117,51 @@
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{StaticResource labelStyle}"
+                    Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate Tax}" />
 
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{StaticResource labelStyle}"
+                    Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate Tip}" />
 
             </StackLayout>
 
             <StackLayout
                 Grid.Row="1"
-                Margin="0, 0, 18, 0"
+                Margin="0,0,18,0"
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="4"
                 VerticalOptions="Center">
 
-                <Label 
-                    HorizontalOptions="EndAndExpand" 
-                    Style="{StaticResource labelStyle}">
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource labelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
+
                             <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text=" " />
                             <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+
                         </FormattedString>
                     </Label.FormattedText>
 
                 </Label>
 
-                <Label 
-                    HorizontalOptions="EndAndExpand" 
-                    Style="{StaticResource labelStyle}">
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource labelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
+
                             <Span Text="- " />
                             <Span Text="{Binding Order.Bonus.Name}" />
+
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -163,16 +180,18 @@
 
                 </Label>
 
-                <Label 
-                    HorizontalOptions="EndAndExpand" 
-                    Style="{StaticResource labelStyle}">
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource labelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
+
                             <Span Text="+ " />
                             <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text=" " />
                             <Span Text="{Binding Order.PriceTax, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -191,15 +210,17 @@
 
                 </Label>
 
-                <Label 
-                    HorizontalOptions="EndAndExpand" 
-                    Style="{StaticResource labelStyle}">
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource labelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
+
                             <Span Text="+ " />
                             <Span Text="{Binding Order.Tip}" />
                             <Span Text="%" />
+
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -220,46 +241,48 @@
 
             </StackLayout>
 
-            <BoxView 
+            <BoxView
                 Grid.Row="1"
-                Style="{StaticResource separatorStyle}" />
+                Style="{DynamicResource separatorStyle}" />
 
             <StackLayout
                 Grid.Row="2"
-                Margin="18, 4, 0, 0"
+                Margin="18,4,0,0"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="9">
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{StaticResource labelStyle}"
+                    Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate GiftCards}" />
 
                 <Label
                     FontFamily="Barlow-Regular"
                     FontSize="{DynamicResource TSize_i6}"
-                    Style="{StaticResource labelStyle}"
+                    Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate Total}" />
 
             </StackLayout>
 
             <StackLayout
                 Grid.Row="2"
-                Margin="0, 4, 18, 0"
+                Margin="0,4,18,0"
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="9">
 
                 <Label
-                    HorizontalOptions="EndAndExpand" 
-                    Style="{StaticResource labelStyle}">
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource labelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
+
                             <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text="+ " />
                             <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -282,13 +305,15 @@
                     FontFamily="Barlow-Regular"
                     FontSize="{DynamicResource TSize_i6}"
                     HorizontalOptions="EndAndExpand"
-                    Style="{StaticResource labelStyle}">
+                    Style="{DynamicResource labelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
+
                             <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text=" " />
                             <Span Text="{Binding Order.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -296,24 +321,24 @@
 
             </StackLayout>
 
-            <BoxView 
-                Grid.Row="2" 
-                Style="{StaticResource separatorStyle}" />
+            <BoxView
+                Grid.Row="2"
+                Style="{DynamicResource separatorStyle}" />
 
             <!--  Buttons  -->
             <StackLayout
                 Grid.Row="3"
-                Margin="14, 0, 14, 0"
+                Margin="14,0,14,0"
                 Orientation="Horizontal"
                 Spacing="14"
                 VerticalOptions="CenterAndExpand">
 
-                <Frame 
-                    BorderColor="{DynamicResource IndicationColor_i5}" 
-                    Style="{StaticResource buttonStyle}">
-                    
+                <Frame
+                    BorderColor="{DynamicResource IndicationColor_i5}"
+                    Style="{DynamicResource buttonStyle}">
+
                     <Label
-                        Style="{StaticResource buttonTextStyle}"
+                        Style="{DynamicResource buttonTextStyle}"
                         Text="{xct:Translate Email}" />
 
                     <Frame.GestureRecognizers>
@@ -322,12 +347,12 @@
 
                 </Frame>
 
-                <Frame 
+                <Frame
                     BorderColor="{DynamicResource IndicationColor_i7}"
-                    Style="{StaticResource buttonStyle}">
-                    
-                    <Label 
-                        Style="{StaticResource buttonTextStyle}" 
+                    Style="{DynamicResource buttonStyle}">
+
+                    <Label
+                        Style="{DynamicResource buttonTextStyle}"
                         Text="{xct:Translate Text}" />
 
                     <Frame.GestureRecognizers>
@@ -336,12 +361,12 @@
 
                 </Frame>
 
-                <Frame 
-                    BorderColor="{DynamicResource AppColor_i1}" 
-                    Style="{StaticResource buttonStyle}">
-                    
-                    <Label 
-                        Style="{StaticResource buttonTextStyle}"
+                <Frame
+                    BorderColor="{DynamicResource AppColor_i1}"
+                    Style="{DynamicResource buttonStyle}">
+
+                    <Label
+                        Style="{DynamicResource buttonTextStyle}"
                         Text="{xct:Translate Print}" />
 
                     <Frame.GestureRecognizers>
@@ -350,12 +375,12 @@
 
                 </Frame>
 
-                <Frame 
+                <Frame
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
-                    Style="{StaticResource buttonStyle}">
-                    
+                    Style="{DynamicResource buttonStyle}">
+
                     <Label
-                        Style="{StaticResource buttonTextStyle}"
+                        Style="{DynamicResource buttonTextStyle}"
                         Text="{xct:Translate NoReceipt}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
@@ -366,7 +391,9 @@
                 </Frame>
 
             </StackLayout>
+
         </Grid>
 
     </pcView:PancakeView>
+
 </rg:PopupPage>
