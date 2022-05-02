@@ -111,7 +111,7 @@ namespace Next2.ViewModels.Mobile
         {
             var param = new DialogParameters
             {
-                { Constants.DialogParameterKeys.MARGIN, new Thickness(0) },
+                { Constants.DialogParameterKeys.MARGIN, new Thickness(20) },
             };
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(param, TipViewDialogCallBack, _orderService, _customersService);
             await _popupNavigation.PushAsync(popupPage);

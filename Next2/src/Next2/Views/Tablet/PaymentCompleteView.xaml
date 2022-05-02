@@ -269,11 +269,11 @@
 
                                 </StackLayout>
 
-                            </Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AddGiftCardCommand}"/>
+                                </Frame.GestureRecognizers>
 
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding AddGiftCardCommand}"/>
-                            </StackLayout.GestureRecognizers>
+                            </Frame>
 
                         </StackLayout>
 
