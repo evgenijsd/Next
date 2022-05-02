@@ -8,7 +8,7 @@
     x:DataType="controls:CustomButton"
     HorizontalOptions="FillAndExpand"
     VerticalOptions="FillAndExpand"
-    RowDefinitions="*,3"
+    RowDefinitions="*, 3"
     x:Class="Next2.Controls.CustomButton">
 
     <Grid.GestureRecognizers>

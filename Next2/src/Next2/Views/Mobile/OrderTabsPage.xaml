@@ -115,7 +115,7 @@
                             VerticalOptions="Start"
                             HeightRequest="35"
                             MinimumHeightRequest="35"
-                            ColumnDefinitions="*">
+                            ColumnDefinitions="*, *, *">
 
                             <Label
                                 Grid.Column="0"
@@ -234,7 +234,7 @@
 
                                             <Grid
                                                 Grid.Row="1"
-                                                ColumnDefinitions="*">
+                                                ColumnDefinitions="*, *, *">
 
                                                 <Label
                                                     Grid.Column="0"

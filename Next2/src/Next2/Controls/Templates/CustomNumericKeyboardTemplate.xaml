@@ -99,9 +99,9 @@
             <Grid
                 Grid.Row="1"
                 ColumnSpacing="10"
-                RowDefinitions="*"
+                RowDefinitions="*, *, *, *"
                 RowSpacing="10"
-                ColumnDefinitions="*">
+                ColumnDefinitions="*, *, *">
 
                 <buttons:NumericKeyboardButton
                     Grid.Row="0"
