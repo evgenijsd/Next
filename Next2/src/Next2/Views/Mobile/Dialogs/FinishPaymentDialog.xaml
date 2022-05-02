@@ -76,7 +76,7 @@
 
                 <Label
                     Grid.Row="0"
-                    Margin="18,0,0,0"
+                    Margin="18, 0, 0, 0"
                     FontFamily="Barlow-SemiBold"
                     FontSize="{DynamicResource TSize_i5}"
                     HorizontalOptions="Start"
@@ -93,7 +93,7 @@
 
             <StackLayout
                 Grid.Row="1"
-                Margin="18,0,0,0"
+                Margin="18, 0, 0, 0"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="14"
@@ -139,7 +139,7 @@
 
             <StackLayout
                 Grid.Row="1"
-                Margin="0,0,18,0"
+                Margin="0, 0, 18, 0"
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="14"
@@ -253,12 +253,12 @@
 
             <BoxView
                 Grid.Row="1"
-                Margin="18,0,18,0"
+                Margin="18, 0, 18, 0"
                 Style="{DynamicResource separatorStyle}" />
 
             <StackLayout
                 Grid.Row="2"
-                Margin="18,14,0,0"
+                Margin="18, 14, 0, 0"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="14">
@@ -278,7 +278,7 @@
 
             <StackLayout
                 Grid.Row="2"
-                Margin="0,14,18,0"
+                Margin="0, 14, 18, 0"
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="14">
@@ -339,7 +339,7 @@
             <!--  Buttons  -->
             <StackLayout
                 Grid.Row="3"
-                Margin="18,16,18,0"
+                Margin="18, 16, 18, 0"
                 Orientation="Horizontal"
                 Spacing="12"
                 VerticalOptions="StartAndExpand">
@@ -390,7 +390,7 @@
 
             <Frame
                 Grid.Row="3"
-                Margin="18,0,18,16"
+                Margin="18, 0, 18, 16"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 Style="{DynamicResource buttonStyle}"
                 VerticalOptions="EndAndExpand">

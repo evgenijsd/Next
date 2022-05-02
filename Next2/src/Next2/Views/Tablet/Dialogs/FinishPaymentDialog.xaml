@@ -70,7 +70,7 @@
 
             <Label
                 Grid.Row="0"
-                Margin="18,0,0,0"
+                Margin="18, 0, 0, 0"
                 FontFamily="Barlow-SemiBold"
                 FontSize="{DynamicResource TSize_i5}"
                 HorizontalOptions="Start"
@@ -84,7 +84,7 @@
 
             <StackLayout
                 Grid.Row="1"
-                Margin="18,0,0,0"
+                Margin="18, 0, 0, 0"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="4"
@@ -130,7 +130,7 @@
 
             <StackLayout
                 Grid.Row="1"
-                Margin="0,0,18,0"
+                Margin="0, 0, 18, 0"
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="4"
@@ -247,7 +247,7 @@
 
             <StackLayout
                 Grid.Row="2"
-                Margin="18,4,0,0"
+                Margin="18, 4, 0, 0"
                 HorizontalOptions="Start"
                 Orientation="Vertical"
                 Spacing="9">
@@ -267,7 +267,7 @@
 
             <StackLayout
                 Grid.Row="2"
-                Margin="0,4,18,0"
+                Margin="0, 4, 18, 0"
                 HorizontalOptions="End"
                 Orientation="Vertical"
                 Spacing="9">
@@ -328,7 +328,7 @@
             <!--  Buttons  -->
             <StackLayout
                 Grid.Row="3"
-                Margin="14,0,14,0"
+                Margin="14, 0, 14, 0"
                 Orientation="Horizontal"
                 Spacing="14"
                 VerticalOptions="CenterAndExpand">
