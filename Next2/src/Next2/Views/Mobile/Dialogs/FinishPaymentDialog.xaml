@@ -123,7 +123,6 @@
                     Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate Tax}" />
 
-
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource labelStyle}"
@@ -233,7 +232,6 @@
 
                         </DataTrigger>
                     </Label.Triggers>
-
 
                 </Label>
 
