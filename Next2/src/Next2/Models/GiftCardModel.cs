@@ -11,7 +11,7 @@ namespace Next2.Models
 
         public int GiftCardNumber { get; set; }
 
-        public float Founds { get; set; }
+        public float GiftCardFounds { get; set; }
 
         public bool IsRegistered { get; set; }
     }

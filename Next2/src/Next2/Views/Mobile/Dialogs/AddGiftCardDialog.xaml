@@ -15,7 +15,6 @@
     <Frame
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-        Margin="{Binding Thickness}"
         CornerRadius="10">
 
         <StackLayout>
@@ -76,6 +75,10 @@
             </Grid>
 
         </StackLayout>
+
+        <Frame.Margin>
+            <OnIdiom x:TypeArguments="Thickness" Phone="20" Tablet="400, 50, 400, 50"/>
+        </Frame.Margin>
 
     </Frame>
     

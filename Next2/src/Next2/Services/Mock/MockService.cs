@@ -4994,140 +4994,140 @@ namespace Next2.Services.Mock
                  new()
                  {
                      Id = id++,
-                     Founds = 25.50f,
+                     GiftCardFounds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 65.50f,
+                     GiftCardFounds = 65.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 25.50f,
+                     GiftCardFounds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 55.50f,
+                     GiftCardFounds = 55.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 15.50f,
+                     GiftCardFounds = 15.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 25f,
+                     GiftCardFounds = 25f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 85.50f,
+                     GiftCardFounds = 85.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 15f,
+                     GiftCardFounds = 15f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 5.50f,
+                     GiftCardFounds = 5.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 7.50f,
+                     GiftCardFounds = 7.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 65f,
+                     GiftCardFounds = 65f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 95.50f,
+                     GiftCardFounds = 95.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 85f,
+                     GiftCardFounds = 85f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 25.50f,
+                     GiftCardFounds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 15.50f,
+                     GiftCardFounds = 15.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 65f,
+                     GiftCardFounds = 65f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 25.50f,
+                     GiftCardFounds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 615.50f,
+                     GiftCardFounds = 615.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 225f,
+                     GiftCardFounds = 225f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     Founds = 80f,
+                     GiftCardFounds = 80f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },

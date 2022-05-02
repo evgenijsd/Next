@@ -246,19 +246,19 @@ namespace Next2.ViewModels
             {
                 while (tempFounds > 0)
                 {
-                    if (giftCard.Founds > tempFounds)
+                    if (giftCard.GiftCardFounds > tempFounds)
                     {
-                        giftCard.Founds = giftCard.Founds - tempFounds;
+                        giftCard.GiftCardFounds = giftCard.GiftCardFounds - tempFounds;
                         tempFounds = 0;
                     }
-                    else if (giftCard.Founds < tempFounds)
+                    else if (giftCard.GiftCardFounds < tempFounds)
                     {
-                        tempFounds -= giftCard.Founds;
-                        giftCard.Founds = 0;
+                        tempFounds -= giftCard.GiftCardFounds;
+                        giftCard.GiftCardFounds = 0;
                     }
-                    else if (giftCard.Founds == tempFounds)
+                    else if (giftCard.GiftCardFounds == tempFounds)
                     {
-                        giftCard.Founds = 0;
+                        giftCard.GiftCardFounds = 0;
                         tempFounds = 0;
                     }
                 }

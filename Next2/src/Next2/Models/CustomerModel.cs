@@ -23,7 +23,7 @@ namespace Next2.Models
             GiftCards = customerModel.GiftCards;
             GiftCardCount = customerModel.GiftCardCount;
             GiftCardTotal = customerModel.GiftCardTotal;
-            IsOneSessionCustomer = customerModel.IsOneSessionCustomer;
+            IsNotRegistratedCustomer = customerModel.IsNotRegistratedCustomer;
             IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
         }
 
@@ -47,7 +47,7 @@ namespace Next2.Models
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 
-        public bool IsOneSessionCustomer { get; set; }
+        public bool IsNotRegistratedCustomer { get; set; }
 
         public bool IsUpdatedCustomer { get; set; }
     }

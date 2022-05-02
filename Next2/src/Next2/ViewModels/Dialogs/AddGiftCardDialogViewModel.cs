@@ -16,13 +16,12 @@ namespace Next2.ViewModels.Dialogs
     {
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
+
         public AddGiftCardDialogViewModel(
-            DialogParameters param,
-            Action<IDialogParameters> requestClose,
             IOrderService orderService,
-            ICustomersService customersService)
+            ICustomersService customersService,
+            Action<IDialogParameters> requestClose)
         {
-            LoadPageData(param);
             _orderService = orderService;
             _customersService = customersService;
             Customer = _orderService.CurrentOrder.Customer;
@@ -31,7 +30,6 @@ namespace Next2.ViewModels.Dialogs
 
         #region -- Public properties --
 
-        public Thickness Thickness { get; set; }
         public string InputGiftCardNumber { get; set; } = string.Empty;
 
         public CustomerModel? Customer { get; set; }
@@ -41,25 +39,14 @@ namespace Next2.ViewModels.Dialogs
         public Action<IDialogParameters> RequestClose;
 
         private ICommand _closeCommand;
-
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _getGiftcardAmountCommand;
-
         public ICommand GiftcardAmountCommand => _getGiftcardAmountCommand ??= new AsyncCommand(OnGetGiftcardAmountCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
         #region --Private helpers--
-
-        private void LoadPageData(IDialogParameters dialogParameters)
-        {
-            if (dialogParameters is not null
-                && dialogParameters.TryGetValue(Constants.DialogParameterKeys.MARGIN, out Thickness thickness))
-            {
-                Thickness = thickness;
-            }
-        }
 
         private Task OnCloseCommandAsync()
         {
@@ -72,7 +59,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
             {
-                var giftCardModel = await _customersService.IsGiftCardExists(giftCardNumber);
+                var giftCardModel = await _customersService.IsGiftCardExistsAsync(giftCardNumber);
 
                 if (giftCardModel.IsSuccess)
                 {
@@ -80,41 +67,35 @@ namespace Next2.ViewModels.Dialogs
 
                     var giftCard = giftCardModel.Result;
 
-                    if (Customer is not null && !Customer.IsOneSessionCustomer)
+                    if (Customer is not null && !Customer.IsNotRegistratedCustomer)
                     {
-                        var isCustomerUpdated = await _customersService.AddGiftCardToCustomer(Customer, giftCard);
+                        var isCustomerUpdated = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
 
                         if (isCustomerUpdated.IsSuccess)
                         {
-                            await _customersService.RemoveGiftCardFromUnregisteredGiftCardsDateBase(giftCard);
-                            var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
-
-                            RequestClose(dialogParameters);
+                            await _customersService.ActivateGiftCardAsync(giftCard);
                         }
                     }
                     else
                     {
                         var tempCustomerModel = new CustomerModel()
                         {
-                            GiftCardTotal = giftCard.Founds,
+                            GiftCardTotal = giftCard.GiftCardFounds,
                             GiftCardCount = 1,
                             IsUpdatedCustomer = true,
-                            IsOneSessionCustomer = true,
+                            IsNotRegistratedCustomer = true,
                         };
 
                         tempCustomerModel.GiftCards.Add(giftCard);
 
                         _orderService.CurrentOrder.Customer = tempCustomerModel;
 
-                        await _customersService.RemoveGiftCardFromUnregisteredGiftCardsDateBase(giftCardModel.Result);
-
-                        var dialogParameters = new DialogParameters
-                        {
-                            { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true },
-                        };
-
-                        RequestClose(dialogParameters);
+                        await _customersService.ActivateGiftCardAsync(giftCard);
                     }
+
+                    var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+
+                    RequestClose(dialogParameters);
                 }
                 else
                 {

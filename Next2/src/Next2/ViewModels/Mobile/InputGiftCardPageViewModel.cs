@@ -35,6 +35,7 @@ namespace Next2.ViewModels.Mobile
             _customersService = customersService;
 
             Customer = _orderService.CurrentOrder.Customer;
+
             if (Customer is not null && Customer.GiftCards.Any())
             {
                 RemainingGiftCardTotal = Customer.GiftCardTotal;
@@ -65,19 +66,21 @@ namespace Next2.ViewModels.Mobile
         #endregion
 
         #region -- Overrides --
+
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
 
             if (args.PropertyName == nameof(InputGiftCardFounds))
             {
-                if (Customer is not null && Customer.GiftCards.Any())
+                if (float.TryParse(InputGiftCardFounds, out float sum))
                 {
-                    RemainingGiftCardTotal = Customer.GiftCardTotal;
-                    IsInSufficientGiftCardFounds = false;
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    sum /= 100;
+
+                    if (Customer is not null && Customer.GiftCards.Any())
                     {
-                        sum /= 100;
+                        RemainingGiftCardTotal = Customer.GiftCardTotal;
+                        IsInSufficientGiftCardFounds = false;
 
                         if (Customer.GiftCardTotal >= sum)
                         {
@@ -89,17 +92,22 @@ namespace Next2.ViewModels.Mobile
                             RemainingGiftCardTotal = 0;
                         }
                     }
-                }
-                else
-                {
-                    RemainingGiftCardTotal = 0;
-
-                    IsInSufficientGiftCardFounds = false;
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    else
                     {
-                        IsInSufficientGiftCardFounds = RemainingGiftCardTotal < sum;
+                        RemainingGiftCardTotal = 0;
+
+                        IsInSufficientGiftCardFounds = false;
+
+                        if (float.TryParse(InputGiftCardFounds, out float sum))
+                        {
+                            IsInSufficientGiftCardFounds = RemainingGiftCardTotal < sum;
+                        }
                     }
                 }
+
+                RemainingGiftCardTotal = 0;
+
+                IsInSufficientGiftCardFounds = false;
             }
         }
 
@@ -107,22 +115,21 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private methods --
 
-        private async Task OnAddGiftCardCommandAsync()
+        private Task OnAddGiftCardCommandAsync()
         {
-            var param = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.MARGIN, new Thickness(20) },
-            };
-            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(param, TipViewDialogCallBack, _orderService, _customersService);
-            await _popupNavigation.PushAsync(popupPage);
+            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, TipViewDialogCallBack);
+
+            return _popupNavigation.PushAsync(popupPage);
         }
 
         private async void TipViewDialogCallBack(IDialogParameters parameters)
         {
             await _popupNavigation.PopAsync();
+
             if (_orderService.CurrentOrder.Customer is not null)
             {
                 Customer = new(_orderService.CurrentOrder.Customer);
+
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {
                     RemainingGiftCardTotal = Customer.GiftCardTotal;

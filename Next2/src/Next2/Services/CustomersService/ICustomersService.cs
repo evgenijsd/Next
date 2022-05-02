@@ -12,12 +12,10 @@ namespace Next2.Services.CustomersService
 
         Task<AOResult<int>> AddNewCustomerAsync(CustomerModel customer);
 
-        Task<AOResult<GiftCardModel>> IsGiftCardExists(int giftCardNumber);
+        Task<AOResult<GiftCardModel>> IsGiftCardExistsAsync(int giftCardNumber);
 
-        Task<AOResult> RemoveGiftCardFromUnregisteredGiftCardsDateBase(GiftCardModel giftCard);
+        Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
 
-        Task<AOResult> AddGiftCardToCustomer(CustomerModel customer, GiftCardModel giftCard);
-
-        Task<AOResult<CustomerModel>> GetSingleCustomer(CustomerModel customer);
+        Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard);
     }
 }

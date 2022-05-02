@@ -137,10 +137,10 @@ namespace Next2.ViewModels
             {
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
                 {
+                    IsInsufficientGiftCardFounds = false;
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardsTotalFounds = Order.Customer.GiftCardTotal;
-                    IsInsufficientGiftCardFounds = false;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
@@ -388,11 +388,7 @@ namespace Next2.ViewModels
 
         private async Task OnAddGiftCardCommandAsync()
         {
-            var param = new DialogParameters
-            {
-                { Constants.DialogParameterKeys.MARGIN, new Thickness(400, 50, 400, 0) },
-            };
-            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(param, GiftCardViewDialogCallBack, _orderService, _customersService);
+            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
             await _popupNavigation.PushAsync(popupPage);
         }
 

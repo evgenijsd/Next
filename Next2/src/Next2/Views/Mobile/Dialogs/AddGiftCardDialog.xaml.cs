@@ -11,14 +11,13 @@ namespace Next2.Views.Mobile.Dialogs
     public partial class AddGiftCardDialog : PopupPage
     {
         public AddGiftCardDialog(
-            DialogParameters param,
-            Action<IDialogParameters> requestClose,
             IOrderService orderService,
-            ICustomersService customersService)
+            ICustomersService customersService,
+            Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
 
-            BindingContext = new AddGiftCardDialogViewModel(param, requestClose, orderService, customersService);
+            BindingContext = new AddGiftCardDialogViewModel(orderService, customersService, requestClose);
         }
     }
 }

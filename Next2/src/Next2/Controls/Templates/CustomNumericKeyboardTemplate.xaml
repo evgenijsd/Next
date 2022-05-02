@@ -117,7 +117,7 @@
                         LineBreakMode="NoWrap"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         VerticalTextAlignment="Center"
-                        Margin="10, 0, 10, 0"
+                        Margin="10, 0"
                         FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-Regular"/>
 
