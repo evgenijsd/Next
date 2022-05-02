@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:local="clr-namespace:Next2"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -349,7 +350,7 @@
                                                             CommandParameter="{Binding .}" />
                                                     </Grid.GestureRecognizers>
 
-                                                    <Image
+                                                    <ffimageloading:CachedImage
                                                         x:Name="checkbox"
                                                         Grid.Row="0"
                                                         Grid.Column="0"
@@ -371,7 +372,7 @@
                                                         Grid.Column="2"
                                                         LineBreakMode="TailTruncation"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Text="{Binding Points, StringFormat='{0:D} pt'}" />
+                                                        Text="{Binding Points, StringFormat={Static local:Constants+Formats.POINT_FORMAT}}" />
 
                                                     <Label
                                                         Grid.Row="0"
@@ -391,8 +392,17 @@
                                                         Grid.Row="0"
                                                         Grid.Column="5"
                                                         LineBreakMode="TailTruncation"
-                                                        Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
+                                                        Style="{DynamicResource ViewCellLabelStyle}" >
+
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding GiftCardTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                        
+                                                    </Label>
 
                                                     <BoxView
                                                         Grid.Row="1"
@@ -405,7 +415,7 @@
                                                             <VisualState Name="Selected">
 
                                                                 <VisualState.Setters>
-                                                                    <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_checked_white" />
+                                                                    <Setter TargetName="checkbox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
                                                                     <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
                                                                 </VisualState.Setters>
 
@@ -414,7 +424,7 @@
                                                             <VisualState Name="Normal">
 
                                                                 <VisualState.Setters>
-                                                                    <Setter TargetName="checkbox" Property="Image.Source" Value="ic_check_box_unhecked_24x24" />
+                                                                    <Setter TargetName="checkbox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24" />
                                                                     <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                                 </VisualState.Setters>
 
@@ -447,7 +457,7 @@
 
                 <!--  select button  -->
                 <Frame
-                    Margin="30, 18, 30, 18"
+                    Margin="30, 18"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="6"
                     Opacity="1"
