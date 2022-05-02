@@ -106,7 +106,7 @@
             Value="{Binding InputGiftCardFounds}"
             IsErrorPlaceHolderVisible="{Binding IsErrorNotificationVisible}"
             ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
-            MaxLength="9"
+            MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
             Margin="20, 0, 20, 15"/>
 
         <Grid 
