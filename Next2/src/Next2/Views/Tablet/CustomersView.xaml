@@ -139,7 +139,7 @@
                                         TargetType="Frame"
                                         Value="null">
                                         
-                                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
+                                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                                         
                                     </DataTrigger>
                                     
@@ -188,7 +188,7 @@
 
                                 <DataTrigger
                                     TargetType="yummy:PancakeView"
-                                    Binding="{Binding DisplaedCustomers.Count}"
+                                    Binding="{Binding DisplayedCustomers.Count}"
                                     Value="0">
                                     
                                     <Setter Property="IsVisible" Value="true" />
@@ -291,7 +291,7 @@
                             <!--  Table content  -->
                             <yummy:PancakeView
                                 Margin="24, 0, 24, 21"
-                                HeightRequest="{Binding DisplaedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                                HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 CornerRadius="0, 0, 8, 8"
                                 VerticalOptions="Start">
@@ -317,7 +317,7 @@
                                         x:Name="collectiomView"
                                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                        ItemsSource="{Binding DisplaedCustomers}"
+                                        ItemsSource="{Binding DisplayedCustomers}"
                                         SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                                         <CollectionView.Effects>
@@ -443,13 +443,11 @@
 
             <Frame
                 Grid.Row="2"
-                Padding="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" >
 
                 <!--  select button  -->
                 <Frame
                     Margin="30, 18, 30, 18"
-                    Padding="0"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="6"
                     Opacity="1"
@@ -469,7 +467,7 @@
                             TargetType="Frame"
                             Value="null">
                             
-                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                             
                         </DataTrigger>
 

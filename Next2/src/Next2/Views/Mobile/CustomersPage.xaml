@@ -112,7 +112,7 @@
                         <MultiTrigger TargetType="StackLayout">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
-                                <BindingCondition Binding="{Binding DisplaedCustomers.Count}" Value="0" />
+                                <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             </MultiTrigger.Conditions>
                             <Setter Property="IsVisible" Value="false" />
                         </MultiTrigger>
@@ -152,7 +152,7 @@
                     <!--  Table content  -->
                     <yummy:PancakeView
                         Margin="24, 0"
-                        HeightRequest="{Binding DisplaedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                        HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                         CornerRadius="0, 0, 12, 12"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Start">
@@ -177,7 +177,7 @@
                             <CollectionView
                                 VerticalScrollBarVisibility="Never"
                                 SelectionMode="Single"
-                                ItemsSource="{Binding DisplaedCustomers}"
+                                ItemsSource="{Binding DisplayedCustomers}"
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}">
 
@@ -269,7 +269,7 @@
                         <MultiTrigger TargetType="StackLayout">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
-                                <BindingCondition Binding="{Binding DisplaedCustomers.Count}" Value="0" />
+                                <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             </MultiTrigger.Conditions>
                             <Setter Property="IsVisible" Value="true" />
                         </MultiTrigger>

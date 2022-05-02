@@ -54,9 +54,9 @@ namespace Next2.ViewModels
 
         public string SearchText { get; set; } = string.Empty;
 
-        public ObservableCollection<CustomerBindableModel> DisplaedCustomers { get; set; } = new();
+        public ObservableCollection<CustomerBindableModel> DisplayedCustomers { get; set; } = new();
 
-        public bool AnyCustomersLoaded { get; set; } = false;
+        public bool AnyCustomersLoaded { get; set; }
 
         public bool IsRefreshing { get; set; }
 
@@ -104,7 +104,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplaedCustomers))
+            if (args.PropertyName is nameof(DisplayedCustomers))
             {
                 AnyCustomersLoaded = _allCustomers.Any();
             }
@@ -133,7 +133,7 @@ namespace Next2.ViewModels
                 if (customers.Any())
                 {
                     _allCustomers = customers;
-                    DisplaedCustomers = SearchCustomers(SearchText);
+                    DisplayedCustomers = SearchCustomers(SearchText);
 
                     SelectCurrentCustomer();
                 }
@@ -148,7 +148,7 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                SelectedCustomer = DisplaedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }
         }
 
@@ -226,8 +226,8 @@ namespace Next2.ViewModels
             {
                 await RefreshAsync();
 
-                int index = DisplaedCustomers.IndexOf(DisplaedCustomers.FirstOrDefault(x => x.Id == customerId));
-                DisplaedCustomers.Move(index, 0);
+                int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
+                DisplayedCustomers.Move(index, 0);
             }
         }
 
@@ -235,7 +235,7 @@ namespace Next2.ViewModels
         {
             if (_sortCriterion == criterion)
             {
-                DisplaedCustomers = new(DisplaedCustomers.Reverse());
+                DisplayedCustomers = new(DisplayedCustomers.Reverse());
             }
             else
             {
@@ -249,7 +249,7 @@ namespace Next2.ViewModels
                     _ => throw new NotImplementedException(),
                 };
 
-                DisplaedCustomers = new(DisplaedCustomers.OrderBy(comparer));
+                DisplayedCustomers = new(DisplayedCustomers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;
@@ -257,7 +257,7 @@ namespace Next2.ViewModels
 
         private async Task OnSearchCommandAsync()
         {
-            if (DisplaedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
+            if (DisplayedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
 
@@ -280,7 +280,7 @@ namespace Next2.ViewModels
         {
             SearchText = searchLine;
 
-            DisplaedCustomers = SearchCustomers(SearchText);
+            DisplayedCustomers = SearchCustomers(SearchText);
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }
@@ -305,7 +305,7 @@ namespace Next2.ViewModels
         {
             SearchText = string.Empty;
 
-            DisplaedCustomers = SearchCustomers(SearchText);
+            DisplayedCustomers = SearchCustomers(SearchText);
         }
 
         #endregion
