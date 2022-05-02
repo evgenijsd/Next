@@ -813,7 +813,7 @@
 
                                     <Grid
                                         Grid.Row="1"
-                                        RowDefinitions="auto"
+                                        RowDefinitions="auto, auto"
                                         ColumnDefinitions="0.50*, 0.50*">
 
                                         <BoxView 
@@ -883,7 +883,7 @@
                             Grid.Row="1"
                             VerticalOptions="EndAndExpand"
                             ColumnDefinitions="0.35*, 0.29*, 0.35*"
-                            RowDefinitions="auto"
+                            RowDefinitions="auto, auto"
                             ColumnSpacing="12">
 
                             <BoxView
