@@ -14,6 +14,8 @@
 
             public const string PRICE_FORMAT = "{0:0.00}";
 
+            public const string POINT_FORMAT = "{0:D} pt";
+
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
 
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";

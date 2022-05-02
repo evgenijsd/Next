@@ -5,6 +5,7 @@ using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -12,9 +13,11 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -23,13 +26,17 @@ namespace Next2.ViewModels
     public class CustomersViewModel : BaseViewModel
     {
         private readonly IMapper _mapper;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
         private ECustomersSorting _sortCriterion;
 
+        private List<CustomerBindableModel> _allCustomers = new();
+
         public CustomersViewModel(
             IMapper mapper,
+            IEventAggregator eventAggregator,
             INavigationService navigationService,
             ICustomersService customersService,
             IOrderService orderService,
@@ -37,6 +44,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _mapper = mapper;
+            _eventAggregator = eventAggregator;
             _customersService = customersService;
             _orderService = orderService;
             _popupNavigation = popupNavigation;
@@ -44,7 +52,11 @@ namespace Next2.ViewModels
 
         #region -- Public Properties --
 
-        public ObservableCollection<CustomerBindableModel> Customers { get; set; }
+        public string SearchText { get; set; } = string.Empty;
+
+        public ObservableCollection<CustomerBindableModel> DisplayedCustomers { get; set; } = new();
+
+        public bool AnyCustomersLoaded { get; set; }
 
         public bool IsRefreshing { get; set; }
 
@@ -65,6 +77,12 @@ namespace Next2.ViewModels
         private ICommand _addCustomerToOrderCommand;
         public ICommand AddCustomerToOrderCommand => _addCustomerToOrderCommand ??= new AsyncCommand(OnAddCustomerToOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _searchCommand;
+        public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _clearSearchCommand;
+        public ICommand ClearSearchCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -74,10 +92,22 @@ namespace Next2.ViewModels
             await RefreshAsync();
         }
 
-        public override async void OnDisappearing()
+        public override void OnDisappearing()
         {
-            Customers = new();
+            ClearSearch();
+
             SelectedCustomer = null;
+            AnyCustomersLoaded = false;
+        }
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName is nameof(DisplayedCustomers))
+            {
+                AnyCustomersLoaded = _allCustomers.Any();
+            }
         }
 
         #endregion
@@ -92,8 +122,7 @@ namespace Next2.ViewModels
 
             if (customersAoresult.IsSuccess)
             {
-                var result = customersAoresult.Result.OrderBy(x => x.Name);
-                var customers = _mapper.Map<IEnumerable<CustomerModel>, ObservableCollection<CustomerBindableModel>>(result);
+                var customers = _mapper.Map<List<CustomerBindableModel>>(customersAoresult.Result.OrderBy(x => x.Name));
 
                 foreach (var item in customers)
                 {
@@ -103,7 +132,8 @@ namespace Next2.ViewModels
 
                 if (customers.Any())
                 {
-                    Customers = customers;
+                    _allCustomers = customers;
+                    DisplayedCustomers = SearchCustomers(SearchText);
 
                     SelectCurrentCustomer();
                 }
@@ -118,7 +148,7 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                SelectedCustomer = Customers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }
         }
 
@@ -196,8 +226,8 @@ namespace Next2.ViewModels
             {
                 await RefreshAsync();
 
-                int index = Customers.IndexOf(Customers.FirstOrDefault(x => x.Id == customerId));
-                Customers.Move(index, 0);
+                int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
+                DisplayedCustomers.Move(index, 0);
             }
         }
 
@@ -205,7 +235,7 @@ namespace Next2.ViewModels
         {
             if (_sortCriterion == criterion)
             {
-                Customers = new (Customers.Reverse());
+                DisplayedCustomers = new(DisplayedCustomers.Reverse());
             }
             else
             {
@@ -219,10 +249,62 @@ namespace Next2.ViewModels
                     _ => throw new NotImplementedException(),
                 };
 
-                Customers = new (Customers.OrderBy(comparer));
+                DisplayedCustomers = new(DisplayedCustomers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task OnSearchCommandAsync()
+        {
+            if (DisplayedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
+            {
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
+
+                Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+
+                var parameters = new NavigationParameters()
+                {
+                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.FUNC, searchValidator },
+                    { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
+                };
+
+                ClearSearch();
+
+                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+            }
+        }
+
+        private void OnSearchEvent(string searchLine)
+        {
+            SearchText = searchLine;
+
+            DisplayedCustomers = SearchCustomers(SearchText);
+
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
+        }
+
+        private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
+        {
+            bool containsName(CustomerBindableModel x) => x.Name.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
+            bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+
+            return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
+        }
+
+        private Task OnClearSearchCommandAsync()
+        {
+            ClearSearch();
+
+            return Task.CompletedTask;
+        }
+
+        private void ClearSearch()
+        {
+            SearchText = string.Empty;
+
+            DisplayedCustomers = SearchCustomers(SearchText);
         }
 
         #endregion
