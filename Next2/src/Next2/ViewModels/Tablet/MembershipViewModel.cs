@@ -59,8 +59,6 @@ namespace Next2.ViewModels.Tablet
 
         public string SearchText { get; set; } = string.Empty;
 
-        public string SearchPlaceholder { get; set; }
-
         private ICommand _refreshMembersCommand;
         public ICommand RefreshMembersCommand => _refreshMembersCommand ??= new AsyncCommand(OnRefreshMembersCommandAsync, allowsMultipleExecutions: false);
 
@@ -104,6 +102,7 @@ namespace Next2.ViewModels.Tablet
             base.OnDisappearing();
 
             ClearSearch();
+            AnyMembersLoaded = false;
         }
 
         #endregion
