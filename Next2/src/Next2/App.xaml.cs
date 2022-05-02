@@ -31,6 +31,7 @@ using Next2.Views.Tablet;
 using Next2.ViewModels.Mobile;
 using Next2.Services.Rewards;
 using Next2.Services.Bonuses;
+using Next2.Services.Log;
 
 namespace Next2
 {
@@ -68,6 +69,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
+            containerRegistry.RegisterSingleton<ILogService, LogService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -101,6 +103,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.EmployeeTimeClockDialog, EmployeeTimeClockViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
             else
@@ -121,6 +124,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.OrderWithRewardsPage, OrderWithRewardsViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.TipsPage, TipsPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.InputCashPage, InputCashPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSwipeCardPage, WaitingSwipeCardPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();

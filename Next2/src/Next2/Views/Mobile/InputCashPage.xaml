@@ -65,7 +65,7 @@
             IsNumericMode="True"
             Value="{Binding InputValue}"
             ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
-            MaxLength="9"
+            MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
             Margin="20, 0"/>
 
     </Grid>

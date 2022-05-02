@@ -6,6 +6,12 @@
 
         public static class Formats
         {
+            public const string DATE_FORMAT = "{0:h:mm:ss}";
+
+            public const string DATE_FORMAT_T = "{0:h:mm:ss tt}";
+
+            public const string DATE_FORMAT_D = "{0:dddd, d MMMM yyyy}";
+
             public const string PRICE_FORMAT = "{0:0.00}";
 
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
@@ -42,6 +48,8 @@
             public const int MAX_YEAR = 2100;
             public const int DAYS_IN_CALENDAR = 42;
             public const float TAX_PERCENTAGE = 20;
+            public const int MAXIMUM_DISCHARGE_NUMBER = 9;
+            public const int EMPLOYEE_ID_LENGTH = 6;
         }
 
         public static class LayoutOrderTabs
@@ -85,6 +93,8 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string SIGNATURE = "SIGNATURE";
             public const string SET_MODIFIED = "SET_MODIFIED";
+            public const string TIP_VALUE = "TIP_VALUE";
+            public const string TIP_ITEMS = "TIP_ITEMS";
         }
 
         public static class Validators
@@ -132,6 +142,7 @@
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
+            public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
             public const string PAID_ORDER_BINDABLE_MODEL = "PAID_ORDER_BINDABLE_MODEL";
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
         }
