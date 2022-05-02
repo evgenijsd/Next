@@ -65,7 +65,5 @@ namespace Next2.Models
         public float CurrentGiftCardNumber { get; set; }
 
         public float RemainingGiftCardTotal { get; set; }
-
-        public bool IsInsufficientGiftCardFounds { get; set; }
     }
 }

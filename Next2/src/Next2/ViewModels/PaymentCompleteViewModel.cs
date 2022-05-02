@@ -141,7 +141,6 @@ namespace Next2.ViewModels
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardTotal = Order.Customer.GiftCards.Where(row => row.Founds > 0).FirstOrDefault().Founds;
-                    Order.Change = 0;
                     IsInsufficientGiftCardFounds = false;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
@@ -157,9 +156,8 @@ namespace Next2.ViewModels
                             }
                             else
                             {
-                                Order.Change = sum - Order.Total;
                                 Order.RemainingGiftCardTotal = Order.CurrentGiftCardFounds - Order.Total;
-                                Order.GiftCard = sum;
+                                Order.GiftCard = Order.Total;
                                 Order.Total = 0;
                             }
                         }
@@ -355,7 +353,6 @@ namespace Next2.ViewModels
                         {
                             Order.Total += Order.GiftCard;
                             Order.GiftCard = 0;
-                            Order.Change = 0;
                         }
 
                         path = nameof(InputGiftCardPage);
