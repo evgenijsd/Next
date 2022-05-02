@@ -31,7 +31,7 @@ namespace Next2.Models
 
         public float Tip { get; set; }
 
-        public float GiftCards { get; set; }
+        public float GiftCard { get; set; }
 
         private float _cash;
         public float Cash
