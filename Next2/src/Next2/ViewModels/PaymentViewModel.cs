@@ -97,7 +97,7 @@ namespace Next2.ViewModels
                 Order.Tip = tipItem.Value;
                 PaymentCompleteViewModel.SelectedTipItem = tipItem;
 
-                RecalculateTotal();
+                PaymentCompleteViewModel.RecalculateTotal();
             }
             else if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
             {
@@ -175,12 +175,6 @@ namespace Next2.ViewModels
         private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
         {
             await _navigationService.GoBackAsync();
-        }
-
-        private void RecalculateTotal()
-        {
-            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
-            Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
         }
 
         #endregion
