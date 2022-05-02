@@ -24,8 +24,7 @@
             Height="{Binding HeightPage}"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-            <Grid
-                RowSpacing="0">
+            <Grid>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="65" />
@@ -42,11 +41,10 @@
 
                 <Grid
                     Grid.Row="1"
-                    Margin="0,2,0,0"
+                    Margin="0, 2, 0, 0"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"
-                    ColumnSpacing="0"
-                    ColumnDefinitions="*,*">
+                    ColumnDefinitions="*, *">
 
                     <controls:CustomButton
                         Text="{xct:Translate Orders}"
@@ -72,7 +70,7 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
                     BorderColor="{DynamicResource AppColor_i1}"
-                    Margin="17,20,17,20"
+                    Margin="17, 20"
                     CommandSearch="{Binding SearchCommand}"
                     CommandClear="{Binding ClearSearchCommand}">
 
@@ -82,15 +80,19 @@
                             TargetType="controls:SearchButton"
                             Binding="{Binding SearchText}"
                             Value="">
+                            
                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                             <Setter Property="ImageSource" Value="ic_search_24x24" />
+                            
                         </DataTrigger>
 
                         <DataTrigger
                             TargetType="controls:SearchButton"
                             Binding="{Binding IsOrderTabsSelected}"
                             Value="True">
+                            
                             <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
+                            
                         </DataTrigger>
 
                     </controls:SearchButton.Triggers>
@@ -102,18 +104,18 @@
                     Grid.Row="3"
                     CornerRadius="10"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Margin="17,0,17,0"
+                    Margin="17, 0"
                     IsVisible="{Binding IsNotingFound, Converter={xct:InvertedBoolConverter}}">
 
                     <StackLayout>
 
                         <!-- TABLE -->
                         <Grid
-                            Margin="20,15,0,0"
+                            Margin="20, 15, 0, 0"
                             VerticalOptions="Start"
                             HeightRequest="35"
                             MinimumHeightRequest="35"
-                            ColumnDefinitions="*,*,*">
+                            ColumnDefinitions="*">
 
                             <Label
                                 Grid.Column="0"
@@ -130,6 +132,7 @@
                                     <TapGestureRecognizer
                                         Command="{Binding OrderTabSortingChangeCommand}"
                                         CommandParameter="{x:Static enums:EOrderTabSorting.ByCustomerName}" />
+                                    
                                 </Label.GestureRecognizers>
 
                                 <Label.Triggers>
@@ -137,7 +140,9 @@
                                         TargetType="Label"
                                         Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
                                         Value="False">
+                                        
                                         <Setter Property="Text" Value="{xct:Translate CustomerName}" />
+                                        
                                     </DataTrigger>
 
                                 </Label.Triggers>
@@ -158,7 +163,8 @@
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding OrderTabSortingChangeCommand}"
-                                        CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}" />
+                                        CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}"/>
+                                    
                                 </Label.GestureRecognizers>
 
                             </Label>
@@ -204,13 +210,11 @@
                                         <Grid
                                             HorizontalOptions="Fill"
                                             VerticalOptions="Start"
-                                            RowSpacing="0"
-                                            RowDefinitions="2,48">
+                                            RowDefinitions="2, 48">
 
                                             <VisualStateManager.VisualStateGroups>
 
-                                                <VisualStateGroup
-                                                    Name="CommonStates">
+                                                <VisualStateGroup Name="CommonStates">
 
                                                     <VisualState Name="Normal">
                                                         <VisualState.Setters>
@@ -230,12 +234,12 @@
 
                                             <Grid
                                                 Grid.Row="1"
-                                                ColumnDefinitions="*,*,*">
+                                                ColumnDefinitions="*">
 
                                                 <Label
                                                     Grid.Column="0"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Margin="20,13,0,0"
+                                                    Margin="20, 13, 0, 0"
                                                     Text="{Binding Name}"
                                                     HeightRequest="{DynamicResource TSize_i8}"
                                                     LineBreakMode="TailTruncation"
@@ -246,7 +250,7 @@
                                                 <Label
                                                     Grid.Column="1"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Margin="15,13,0,0"
+                                                    Margin="15, 13, 0, 0"
                                                     Text="{Binding OrderNumber}"
                                                     FontFamily="Barlow-Regular"
                                                     FontSize="{DynamicResource TSize_i8}"
@@ -256,21 +260,23 @@
                                                     Grid.Column="2"
                                                     Text="{Binding Total, StringFormat='$ {0:F2}'}"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Margin="10,13,0,0"
+                                                    Margin="10, 13, 0, 0"
                                                     FontFamily="Barlow-Regular"
                                                     FontSize="{DynamicResource TSize_i8}"
                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, 
-                                                        Path=TapSelectCommand}"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=TapSelectCommand}"
                                                         CommandParameter="{Binding .}" />
+                                                    
                                                 </Grid.GestureRecognizers>
 
                                             </Grid>
 
-                                            <BoxView Grid.Row="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                            <BoxView
+                                                Grid.Row="0"
+                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                         </Grid>
 
@@ -297,7 +303,7 @@
                         HeightRequest="230"
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="CenterAndExpand"
-                        Margin="0,0,0,100"/>
+                        Margin="0, 0, 0, 100"/>
 
                 </StackLayout>
 
@@ -315,7 +321,7 @@
                     VerticalOptions="StartAndExpand" />
 
                 <StackLayout
-                    Margin="20,15,20,15"
+                    Margin="20, 15"
                     Spacing="20">
 
                     <buttons:BorderButton

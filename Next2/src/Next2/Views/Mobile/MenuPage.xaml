@@ -13,18 +13,14 @@
     x:DataType="viewModels:MenuPageViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-    <Grid
-        ColumnSpacing="0"
-        RowDefinitions="*, 80"
-        RowSpacing="0">
+    <Grid RowDefinitions="*, 80">
 
         <!--  CATEGORIES  -->
 
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="90, *"
-            RowSpacing="0">
+            RowDefinitions="90, *">
 
             <!--  HEAD PANEL  -->
 
@@ -35,13 +31,11 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Orientation="Horizontal">
 
-
                 <Frame
                     Padding="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource AppColor_i3}"
                     CornerRadius="13"
-                    HasShadow="False"
                     HorizontalOptions="Start">
 
                     <ffimageloading:CachedImage
@@ -55,7 +49,7 @@
                 </Frame>
 
                 <Label
-                    Margin="20,0,0,0"
+                    Margin="20, 0, 0, 0"
                     FontAttributes="Bold"
                     FontSize="{DynamicResource TSize_i5}"
                     HorizontalOptions="StartAndExpand"
@@ -69,7 +63,6 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                     CornerRadius="5"
-                    HasShadow="False"
                     HorizontalOptions="End"
                     IsClippedToBounds="True">
 
@@ -112,11 +105,11 @@
             <StackLayout
                 Grid.Row="1"
                 Grid.Column="0"
-                Padding="20,0,0,0"
+                Padding="20, 0, 0, 0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
                 <Label
-                    Padding="0,15"
+                    Padding="0, 15"
                     FontSize="{DynamicResource TSize_i5}"
                     Style="{DynamicResource BaseContent_i2}"
                     Text="{xct:Translate Categories}"
@@ -124,7 +117,7 @@
                     VerticalTextAlignment="Center" />
 
                 <CollectionView
-                    Margin="0,0,20,0"
+                    Margin="0, 0, 20, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                     HorizontalScrollBarVisibility="Never"
                     ItemsSource="{Binding CategoriesItems}"
@@ -153,7 +146,6 @@
                                 xct:TouchEffect.CommandParameter="{Binding .}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 CornerRadius="5"
-                                HasShadow="False"
                                 HeightRequest="55"
                                 WidthRequest="162">
 
@@ -189,7 +181,7 @@
             <BoxView HeightRequest="1" Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <CollectionView
-                Margin="10,6,10,6"
+                Margin="10, 6"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 SelectionMode="Single">

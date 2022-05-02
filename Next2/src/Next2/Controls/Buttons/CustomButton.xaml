@@ -8,7 +8,6 @@
     x:DataType="controls:CustomButton"
     HorizontalOptions="FillAndExpand"
     VerticalOptions="FillAndExpand"
-    RowSpacing="0"
     RowDefinitions="*,3"
     x:Class="Next2.Controls.CustomButton">
 
@@ -29,7 +28,9 @@
                 TargetType="yummy:PancakeView"
                 Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsSelected}"
                 Value="False">
+                
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                
             </DataTrigger>
 
         </yummy:PancakeView.Triggers>
@@ -46,7 +47,9 @@
                 TargetType="BoxView"
                 Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomButton}}, Path=IsSelected}"
                 Value="False">
-                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
+                
             </DataTrigger>
 
         </BoxView.Triggers>

@@ -16,7 +16,6 @@
         VerticalTextAlignment="Center"/>
 
     <Frame
-        HasShadow="False"
         CornerRadius="5"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"

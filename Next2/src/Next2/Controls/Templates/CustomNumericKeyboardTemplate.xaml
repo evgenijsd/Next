@@ -57,7 +57,7 @@
                                     <BindingCondition Binding="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=IsKeyBoardTyped}" Value="True" />
                                 </MultiTrigger.Conditions>
 
-                                <Setter Property="Margin" Value="10, 0, 10, 0"/>
+                                <Setter Property="Margin" Value="10, 0"/>
                                 <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
 
                             </MultiTrigger>
@@ -99,9 +99,9 @@
             <Grid
                 Grid.Row="1"
                 ColumnSpacing="10"
-                RowDefinitions="*, *, *, *"
+                RowDefinitions="*"
                 RowSpacing="10"
-                ColumnDefinitions="*, *, *">
+                ColumnDefinitions="*">
 
                 <buttons:NumericKeyboardButton
                     Grid.Row="0"

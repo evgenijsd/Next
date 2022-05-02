@@ -46,16 +46,18 @@
 
         <Grid
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="0.09*,0.79*,0.1*"
+            RowDefinitions="0.09*, 0.79*, 0.1*"
             RowSpacing="2">
 
             <!--  header  -->
 
-            <BoxView Grid.Row="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+            <BoxView
+                Grid.Row="0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
             <Label
                 Grid.Row="0"
-                Margin="30,0,0,0"
+                Margin="30, 0, 0, 0"
                 FontFamily="Barlow-Bold"
                 FontSize="{DynamicResource TSize_i4_5}"
                 HorizontalOptions="Start"
@@ -66,26 +68,24 @@
             <!--  body  -->
             <Frame
                 Grid.Row="1"
-                Margin="0,0,0,0"
+                Margin="0"
                 Padding="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                CornerRadius="0"
-                HasShadow="False">
+                CornerRadius="0">
 
                 <StackLayout>
 
                     <StackLayout
-                        Padding="0,0,0,0"
+                        Padding="0"
                         HeightRequest="108"
                         Orientation="Horizontal">
 
                         <Frame
-                            Margin="24,12,0,0"
+                            Margin="24, 12, 0, 0"
                             Padding="0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                             CornerRadius="4"
-                            HasShadow="False"
                             HorizontalOptions="StartAndExpand"
                             VerticalOptions="Center">
 
@@ -95,12 +95,12 @@
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                                 BorderColor="{DynamicResource TextAndBackgroundColor_i5}"
                                 CornerRadius="4"
-                                HasShadow="False"
                                 HeightRequest="32">
+                                
                                 <StackLayout Orientation="Horizontal">
 
                                     <Label
-                                        Margin="12,0,160,0"
+                                        Margin="12, 0, 160, 0"
                                         FontFamily="Barlow-Medium"
                                         FontSize="{DynamicResource TSize_i8}"
                                         Text="{xct:Translate SearchByNameOrPhone}"
@@ -108,7 +108,7 @@
                                         VerticalOptions="Center" />
 
                                     <Image
-                                        Margin="0,0,12,0"
+                                        Margin="0, 0, 12, 0"
                                         HeightRequest="20"
                                         HorizontalOptions="EndAndExpand"
                                         Source="ic_search_24x24"
@@ -123,7 +123,7 @@
 
                         <!--  Info Button  -->
                         <Frame
-                            Margin="0,12,12,0"
+                            Margin="0, 12, 12, 0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             BorderColor="{DynamicResource IndicationColor_i7}"
                             HeightRequest="38"
@@ -132,7 +132,9 @@
                             VerticalOptions="Center"
                             WidthRequest="100">
 
-                            <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate Info}" />
+                            <Label
+                                Style="{StaticResource ButtonTextStyle}"
+                                Text="{xct:Translate Info}" />
 
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ShowInfoCommand}" CommandParameter="{Binding SelectedItem, Source={x:Reference collectiomView}}" />
@@ -143,7 +145,9 @@
                                     Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
                                     TargetType="Frame"
                                     Value="null">
+                                    
                                     <Setter Property="Opacity" Value="0.32" />
+                                    
                                 </DataTrigger>
                             </Frame.Triggers>
 
@@ -151,14 +155,18 @@
 
                         <!--  add buttom  -->
                         <Frame
-                            Margin="0,12,24,0"
+                            Margin="0, 12, 24, 0"
                             Padding="0"
                             BackgroundColor="{DynamicResource AppColor_i1}"
                             HeightRequest="38"
                             Style="{StaticResource ButtonFrameStyle}"
                             VerticalOptions="Center"
                             WidthRequest="110">
-                            <Label Style="{StaticResource ButtonTextStyle}" Text="{xct:Translate AddNew}" />
+                            
+                            <Label
+                                Style="{StaticResource ButtonTextStyle}"
+                                Text="{xct:Translate AddNew}" />
+                            
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding AddNewCustomerCommand}" />
                             </Frame.GestureRecognizers>
@@ -169,14 +177,14 @@
 
                     <!--  Table header  -->
                     <yummy:PancakeView
-                        Margin="24,0,24,0"
+                        Margin="24, 0"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        CornerRadius="4,4,0,0"
+                        CornerRadius="4, 4, 0, 0"
                         HeightRequest="72">
 
                         <Grid
-                            ColumnDefinitions="65,0.16*,0.161*,0.161*,0.161*,0.164*"
+                            ColumnDefinitions="65, 0.16*, 0.161*, 0.161*, 0.161*, 0.164*"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Center">
 
@@ -185,8 +193,13 @@
                                 IsVisible="false"
                                 Style="{StaticResource ViewCellLabelStyle}" />
 
-                            <StackLayout Grid.Column="1" Orientation="Horizontal">
-                                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate CustomerName}" />
+                            <StackLayout
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                                
+                                <Label
+                                    Style="{StaticResource ViewCellLabelStyle}"
+                                    Text="{xct:Translate CustomerName}" />
 
                                 <Image Source="ic_sort_primary_24x24" />
 
@@ -196,8 +209,13 @@
 
                             </StackLayout>
 
-                            <StackLayout Grid.Column="2" Orientation="Horizontal">
-                                <Label Style="{StaticResource ViewCellLabelStyle}" Text="{xct:Translate Points}" />
+                            <StackLayout
+                                Grid.Column="2"
+                                Orientation="Horizontal">
+                                
+                                <Label
+                                    Style="{StaticResource ViewCellLabelStyle}"
+                                    Text="{xct:Translate Points}" />
 
                                 <Image
                                     x:Name="sortPointsImage"
@@ -231,12 +249,14 @@
 
                     <!--  Table content  -->
                     <yummy:PancakeView
-                        Margin="24,0,24,21"
+                        Margin="24, 0, 24, 21"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        CornerRadius="0,0,4,4">
+                        CornerRadius="0, 0, 4, 4">
 
-                        <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+                        <RefreshView
+                            Command="{Binding RefreshCommand}"
+                            IsRefreshing="{Binding IsRefreshing}">
 
                             <controls:CustomScrollBarCollectionView
                                 x:Name="collectiomView"
@@ -254,13 +274,17 @@
                                         ScrollBarCornerRadius="9"
                                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                                    
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
 
                                     <DataTemplate x:DataType="models:CustomerBindableModel">
 
-                                        <Grid ColumnDefinitions="0.325*,*" HeightRequest="45">
+                                        <Grid
+                                            ColumnDefinitions="0.325*, *"
+                                            HeightRequest="45">
+                                            
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="{OnPlatform Android=1.5, iOS=2}" />
@@ -274,7 +298,7 @@
                                                 x:Name="checkbox"
                                                 Grid.Row="0"
                                                 Grid.Column="0"
-                                                Margin="16,0,0,0"
+                                                Margin="16, 0, 0, 0"
                                                 HeightRequest="20"
                                                 HorizontalOptions="Start"
                                                 Source="ic_check_box_unhecked_24x24"
@@ -363,16 +387,14 @@
             <Frame
                 Grid.Row="2"
                 Padding="0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                HasShadow="False">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
                 <!--  select button  -->
                 <Frame
-                    Margin="30,18,30,18"
+                    Margin="30, 18"
                     Padding="0"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="6"
-                    HasShadow="False"
                     Opacity="1"
                     xct:TouchEffect.Command="{Binding AddCustomerToOrderCommand}">
 
@@ -389,7 +411,9 @@
                             Binding="{Binding SelectedCustomer, TargetNullValue='null'}"
                             TargetType="Frame"
                             Value="null">
+                            
                             <Setter Property="Opacity" Value="0.32" />
+                            
                         </DataTrigger>
 
                     </Frame.Triggers>

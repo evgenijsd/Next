@@ -63,8 +63,7 @@
                 Grid.Row="1"
                 Margin="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                CornerRadius="0"
-                HasShadow="False">
+                CornerRadius="0">
 
                 <StackLayout>
 
@@ -72,7 +71,6 @@
                         Margin="24"
                         HeightRequest="51"
                         CornerRadius="4"
-                        HasShadow="False"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
@@ -104,7 +102,7 @@
                         CornerRadius="12, 12, 0, 0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
                         
-                        <Grid ColumnSpacing="0">
+                        <Grid>
 
                             <Label
                                 Grid.Column="0"
@@ -128,7 +126,6 @@
                     <!--  Table content  -->
                     <Frame
                         Margin="24, 0"
-                        HasShadow="False"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                         <RefreshView 
@@ -219,20 +216,20 @@
                 Grid.Row="2"
                 VerticalOptions="FillAndExpand">
 
-                <BoxView BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" HeightRequest="1" />
+                <BoxView
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                    HeightRequest="1" />
 
                 <Frame
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
                     Padding="20, 14"
-                    HasShadow="False"
                     CornerRadius="0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                     <!--  add button  -->
                     <Frame
                         CornerRadius="4"
-                        HasShadow="False"
                         BackgroundColor="{DynamicResource AppColor_i1}">
 
                         <Label
