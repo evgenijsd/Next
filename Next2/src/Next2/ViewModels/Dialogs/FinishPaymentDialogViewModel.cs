@@ -12,7 +12,9 @@ namespace Next2.ViewModels.Dialogs
 {
     public class FinishPaymentDialogViewModel : BindableBase
     {
-        public FinishPaymentDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public FinishPaymentDialogViewModel(
+            DialogParameters param,
+            Action<IDialogParameters> requestClose)
         {
             SetupParameters(param);
             RequestClose = requestClose;
@@ -25,6 +27,8 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand CloseCommand { get; }
 
+        public PaidOrderBindableModel Order { get; set; }
+
         private ICommand _emailCommand;
         public ICommand EmailCommand => _emailCommand ??= new AsyncCommand(OnEmailCommandAsync, allowsMultipleExecutions: false);
 
@@ -36,8 +40,6 @@ namespace Next2.ViewModels.Dialogs
 
         private ICommand _noReceiptCommand;
         public ICommand NoReceiptCommand => _noReceiptCommand ??= new AsyncCommand(NoReceiptCommandAsync, allowsMultipleExecutions: false);
-
-        public PaidOrderBindableModel Order { get; set; }
 
         #endregion
 

@@ -314,14 +314,12 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
             };
 
-            if (App.IsTablet)
-            {
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.FinishPaymentDialog(param, (IDialogParameters par) => _popupNavigation.PopAsync()));
-            }
-            else
-            {
-                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.FinishPaymentDialog(param, (IDialogParameters par) => _popupNavigation.PopAsync()));
-            }
+            void callback(IDialogParameters par) => _popupNavigation.PopAsync();
+            PopupPage popupPage = App.IsTablet ?
+                new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback) :
+                new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+
+            await _popupNavigation.PushAsync(popupPage);
         }
 
         #endregion

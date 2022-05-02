@@ -29,7 +29,6 @@
             <Setter Property="HeightRequest" Value="38" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
             <Setter Property="CornerRadius" Value="6" />
-            <Setter Property="HasShadow" Value="False" />
         </Style>
 
         <Style
@@ -53,7 +52,6 @@
         </Style>
 
     </rg:PopupPage.Resources>
-
 
     <pcView:PancakeView
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -101,7 +99,6 @@
                     Text="{xct:Translate Coupon}">
 
                     <Label.Triggers>
-
                         <DataTrigger
                             Binding="{Binding Order.BonusType}"
                             TargetType="Label"
@@ -110,7 +107,6 @@
                             <Setter Property="Text" Value="{xct:Translate Discount}" />
 
                         </DataTrigger>
-
                     </Label.Triggers>
 
                 </Label>
@@ -166,7 +162,6 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-
                         <DataTrigger
                             Binding="{Binding Order.Bonus.Name.Length}"
                             TargetType="Label"
@@ -175,7 +170,6 @@
                             <Setter Property="Text" Value="0" />
 
                         </DataTrigger>
-
                     </Label.Triggers>
 
                 </Label>
@@ -196,7 +190,6 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-
                         <DataTrigger
                             Binding="{Binding Order.PriceTax}"
                             TargetType="Label"
@@ -205,7 +198,6 @@
                             <Setter Property="Text" Value="0" />
 
                         </DataTrigger>
-
                     </Label.Triggers>
 
                 </Label>
@@ -225,7 +217,6 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-
                         <DataTrigger
                             Binding="{Binding Order.Tip}"
                             TargetType="Label"
@@ -234,7 +225,6 @@
                             <Setter Property="Text" Value="0" />
 
                         </DataTrigger>
-
                     </Label.Triggers>
 
                 </Label>
@@ -287,7 +277,6 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-
                         <DataTrigger
                             Binding="{Binding Order.Change}"
                             TargetType="Label"
@@ -296,7 +285,6 @@
                             <Setter Property="Text" Value="0" />
 
                         </DataTrigger>
-
                     </Label.Triggers>
 
                 </Label>
