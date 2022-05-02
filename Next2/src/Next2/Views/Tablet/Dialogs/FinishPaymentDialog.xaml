@@ -55,9 +55,7 @@
 
     <pcView:PancakeView
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-        Border="{pcView:BorderMarkup Color={DynamicResource TextAndBackgroundColor_i2},
-                                     Thickness={OnPlatform Android=4,
-                                                           iOS=4}}"
+        Border="{pcView:BorderMarkup Color={DynamicResource TextAndBackgroundColor_i2}, Thickness={OnPlatform Android=4, iOS=4}}"
         CornerRadius="6"
         HeightRequest="471"
         HorizontalOptions="CenterAndExpand"
@@ -115,7 +113,6 @@
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource labelStyle}"
                     Text="{xct:Translate Tax}" />
-
 
                 <Label
                     FontFamily="Barlow-Medium"
@@ -316,7 +313,7 @@
             <!--  Buttons  -->
             <StackLayout
                 Grid.Row="3"
-                Margin="14, 0, 14, 0"
+                Margin="14, 0"
                 Orientation="Horizontal"
                 Spacing="14"
                 VerticalOptions="CenterAndExpand">
