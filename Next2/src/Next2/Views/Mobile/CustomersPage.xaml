@@ -72,7 +72,7 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     BackColor="Transparent"
                     BorderColor="{DynamicResource AppColor_i1}"
-                    Margin="24,20,24,20"
+                    Margin="24, 20"
                     HeightRequest="40"
                     MinimumHeightRequest="40"
                     CommandSearch="{Binding SearchCommand}"
@@ -112,7 +112,7 @@
                         <MultiTrigger TargetType="StackLayout">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
-                                <BindingCondition Binding="{Binding DisplayCustomers.Count}" Value="0" />
+                                <BindingCondition Binding="{Binding DisplaedCustomers.Count}" Value="0" />
                             </MultiTrigger.Conditions>
                             <Setter Property="IsVisible" Value="false" />
                         </MultiTrigger>
@@ -152,7 +152,7 @@
                     <!--  Table content  -->
                     <yummy:PancakeView
                         Margin="24, 0"
-                        HeightRequest="{Binding DisplayCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                        HeightRequest="{Binding DisplaedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                         CornerRadius="0, 0, 12, 12"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                         VerticalOptions="Start">
@@ -177,7 +177,7 @@
                             <CollectionView
                                 VerticalScrollBarVisibility="Never"
                                 SelectionMode="Single"
-                                ItemsSource="{Binding DisplayCustomers}"
+                                ItemsSource="{Binding DisplaedCustomers}"
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}">
 
@@ -269,7 +269,7 @@
                         <MultiTrigger TargetType="StackLayout">
                             <MultiTrigger.Conditions>
                                 <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
-                                <BindingCondition Binding="{Binding DisplayCustomers.Count}" Value="0" />
+                                <BindingCondition Binding="{Binding DisplaedCustomers.Count}" Value="0" />
                             </MultiTrigger.Conditions>
                             <Setter Property="IsVisible" Value="true" />
                         </MultiTrigger>
@@ -281,7 +281,7 @@
                         HeightRequest="230"
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="CenterAndExpand"
-                        Margin="0,0,0,100" />
+                        Margin="0, 0, 0, 100" />
 
                 </StackLayout>
 
@@ -299,14 +299,12 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand"
                     Padding="20, 14"
-                    HasShadow="False"
                     CornerRadius="0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                     <!--  add button  -->
                     <Frame
                         CornerRadius="4"
-                        HasShadow="False"
                         BackgroundColor="{DynamicResource AppColor_i1}">
 
                         <Label

@@ -69,8 +69,7 @@
             <Frame
                 Grid.Row="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                CornerRadius="0"
-                HasShadow="False">
+                CornerRadius="0" >
 
                 <StackLayout>
                     <Grid
@@ -140,7 +139,7 @@
                                         TargetType="Frame"
                                         Value="null">
                                         
-                                        <Setter Property="Opacity" Value="0.32" />
+                                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                                         
                                     </DataTrigger>
                                     
@@ -189,7 +188,7 @@
 
                                 <DataTrigger
                                     TargetType="yummy:PancakeView"
-                                    Binding="{Binding DisplayCustomers.Count}"
+                                    Binding="{Binding DisplaedCustomers.Count}"
                                     Value="0">
                                     
                                     <Setter Property="IsVisible" Value="true" />
@@ -211,7 +210,7 @@
                         <StackLayout>
 
                             <yummy:PancakeView
-                                Margin="24, 0, 24, 0"
+                                Margin="24, 0"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 CornerRadius="8, 8, 0, 0"
                                 HeightRequest="45"
@@ -235,8 +234,7 @@
                                             Style="{StaticResource ViewCellLabelStyle}"
                                             Text="{xct:Translate CustomerName}" />
 
-                                        <Image
-                                            Source="ic_sort_primary_24x24" />
+                                        <Image Source="ic_sort_primary_24x24" />
 
                                         <StackLayout.GestureRecognizers>
                                             
@@ -293,7 +291,7 @@
                             <!--  Table content  -->
                             <yummy:PancakeView
                                 Margin="24, 0, 24, 21"
-                                HeightRequest="{Binding DisplayCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                                HeightRequest="{Binding DisplaedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 CornerRadius="0, 0, 8, 8"
                                 VerticalOptions="Start">
@@ -319,7 +317,7 @@
                                         x:Name="collectiomView"
                                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                        ItemsSource="{Binding DisplayCustomers}"
+                                        ItemsSource="{Binding DisplaedCustomers}"
                                         SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
                                         <CollectionView.Effects>
@@ -446,8 +444,7 @@
             <Frame
                 Grid.Row="2"
                 Padding="0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                HasShadow="False">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" >
 
                 <!--  select button  -->
                 <Frame
@@ -455,7 +452,6 @@
                     Padding="0"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     CornerRadius="6"
-                    HasShadow="False"
                     Opacity="1"
                     xct:TouchEffect.Command="{Binding AddCustomerToOrderCommand}">
 
@@ -473,7 +469,7 @@
                             TargetType="Frame"
                             Value="null">
                             
-                            <Setter Property="Opacity" Value="0.32" />
+                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                             
                         </DataTrigger>
 

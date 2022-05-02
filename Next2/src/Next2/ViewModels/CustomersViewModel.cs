@@ -54,7 +54,7 @@ namespace Next2.ViewModels
 
         public string SearchText { get; set; } = string.Empty;
 
-        public ObservableCollection<CustomerBindableModel> DisplayCustomers { get; set; } = new();
+        public ObservableCollection<CustomerBindableModel> DisplaedCustomers { get; set; } = new();
 
         public bool AnyCustomersLoaded { get; set; } = false;
 
@@ -96,7 +96,6 @@ namespace Next2.ViewModels
         {
             ClearSearch();
 
-            //DisplayCustomers = new();
             SelectedCustomer = null;
             AnyCustomersLoaded = false;
         }
@@ -105,7 +104,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(DisplayCustomers))
+            if (args.PropertyName is nameof(DisplaedCustomers))
             {
                 AnyCustomersLoaded = _allCustomers.Any();
             }
@@ -134,7 +133,7 @@ namespace Next2.ViewModels
                 if (customers.Any())
                 {
                     _allCustomers = customers;
-                    DisplayCustomers = SearchCustomers(SearchText);
+                    DisplaedCustomers = SearchCustomers(SearchText);
 
                     SelectCurrentCustomer();
                 }
@@ -149,7 +148,7 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                SelectedCustomer = DisplayCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                SelectedCustomer = DisplaedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }
         }
 
@@ -227,8 +226,8 @@ namespace Next2.ViewModels
             {
                 await RefreshAsync();
 
-                int index = DisplayCustomers.IndexOf(DisplayCustomers.FirstOrDefault(x => x.Id == customerId));
-                DisplayCustomers.Move(index, 0);
+                int index = DisplaedCustomers.IndexOf(DisplaedCustomers.FirstOrDefault(x => x.Id == customerId));
+                DisplaedCustomers.Move(index, 0);
             }
         }
 
@@ -236,7 +235,7 @@ namespace Next2.ViewModels
         {
             if (_sortCriterion == criterion)
             {
-                DisplayCustomers = new(DisplayCustomers.Reverse());
+                DisplaedCustomers = new(DisplaedCustomers.Reverse());
             }
             else
             {
@@ -250,7 +249,7 @@ namespace Next2.ViewModels
                     _ => throw new NotImplementedException(),
                 };
 
-                DisplayCustomers = new(DisplayCustomers.OrderBy(comparer));
+                DisplaedCustomers = new(DisplaedCustomers.OrderBy(comparer));
             }
 
             return Task.CompletedTask;
@@ -258,11 +257,12 @@ namespace Next2.ViewModels
 
         private async Task OnSearchCommandAsync()
         {
-            if (DisplayCustomers.Any() || !string.IsNullOrEmpty(SearchText))
+            if (DisplaedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
 
                 Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+
                 var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH, SearchText },
@@ -280,7 +280,7 @@ namespace Next2.ViewModels
         {
             SearchText = searchLine;
 
-            DisplayCustomers = SearchCustomers(SearchText);
+            DisplaedCustomers = SearchCustomers(SearchText);
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }
@@ -288,7 +288,7 @@ namespace Next2.ViewModels
         private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
         {
             var search = searchLine.ToLower();
-            bool containsName(CustomerBindableModel x) => x.Name.ToLower().Contains(search);
+            bool containsName(CustomerBindableModel x) => x.Name.Contains(search, StringComparison.OrdinalIgnoreCase);
             bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
 
             return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
@@ -305,7 +305,7 @@ namespace Next2.ViewModels
         {
             SearchText = string.Empty;
 
-            DisplayCustomers = SearchCustomers(SearchText);
+            DisplaedCustomers = SearchCustomers(SearchText);
         }
 
         #endregion
