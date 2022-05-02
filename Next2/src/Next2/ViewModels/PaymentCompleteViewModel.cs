@@ -316,11 +316,11 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.FinishPaymentDialog(param, null));
+                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.FinishPaymentDialog(param, (IDialogParameters par) => _popupNavigation.PopAsync()));
             }
             else
             {
-                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.FinishPaymentDialog(param, null));
+                await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.FinishPaymentDialog(param, (IDialogParameters par) => _popupNavigation.PopAsync()));
             }
         }
 
