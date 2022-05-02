@@ -53,22 +53,26 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnEmailCommandAsync()
         {
-            throw new NotImplementedException();
+            CloseCommand.Execute();
+            return Task.CompletedTask;
         }
 
         private Task OnTextCommandAsync()
         {
-            throw new NotImplementedException();
+            CloseCommand.Execute();
+            return Task.CompletedTask;
         }
 
         private Task OnPrintCommandAsync()
         {
-            throw new NotImplementedException();
+            CloseCommand.Execute();
+            return Task.CompletedTask;
         }
 
         private Task NoReceiptCommandAsync()
         {
-            throw new NotImplementedException();
+            CloseCommand.Execute();
+            return Task.CompletedTask;
         }
 
         #endregion
