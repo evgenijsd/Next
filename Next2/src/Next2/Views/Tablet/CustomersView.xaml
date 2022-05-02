@@ -115,13 +115,13 @@
                                 BorderColor="{DynamicResource IndicationColor_i7}"
                                 HeightRequest="40"
                                 Opacity="1"
-                                Style="{StaticResource ButtonFrameStyle}"
+                                Style="{DynamicResource ButtonFrameStyle}"
                                 VerticalOptions="Center"
                                 WidthRequest="110"
                                 MinimumWidthRequest="110">
 
                                 <Label
-                                    Style="{StaticResource ButtonTextStyle}"
+                                    Style="{DynamicResource ButtonTextStyle}"
                                     Text="{xct:Translate Info}" />
 
                                 <Frame.GestureRecognizers>
@@ -151,13 +151,13 @@
                                 BackgroundColor="{DynamicResource AppColor_i1}"
                                 HeightRequest="40"
                                 Margin="15, 0, 0, 0"
-                                Style="{StaticResource ButtonFrameStyle}"
+                                Style="{DynamicResource ButtonFrameStyle}"
                                 VerticalOptions="Center"
                                 WidthRequest="120"
                                 MinimumWidthRequest="120">
                                 
                                 <Label
-                                    Style="{StaticResource ButtonTextStyle}"
+                                    Style="{DynamicResource ButtonTextStyle}"
                                     Text="{xct:Translate AddNew}" />
                                 
                                 <Frame.GestureRecognizers>
@@ -177,7 +177,7 @@
 
                         <yummy:PancakeView
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
+                            Border="{yummy:BorderMarkup Thickness=3, Color={DynamicResource TextAndBackgroundColor_i3}}"
                             Margin="24, 0, 24, 20"
                             IsVisible="false"
                             CornerRadius="{OnPlatform Android=6, iOS=8}"
@@ -224,14 +224,14 @@
                                     <Label
                                         Grid.Column="0"
                                         IsVisible="false"
-                                        Style="{StaticResource ViewCellLabelStyle}" />
+                                        Style="{DynamicResource ViewCellLabelStyle}" />
 
                                     <StackLayout
                                         Grid.Column="1"
                                         Orientation="Horizontal">
                                         
                                         <Label
-                                            Style="{StaticResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource ViewCellLabelStyle}"
                                             Text="{xct:Translate CustomerName}" />
 
                                         <Image Source="ic_sort_primary_24x24" />
@@ -251,7 +251,7 @@
                                         Orientation="Horizontal">
                                         
                                         <Label
-                                            Style="{StaticResource ViewCellLabelStyle}"
+                                            Style="{DynamicResource ViewCellLabelStyle}"
                                             Text="{xct:Translate Points}" />
 
                                         <Image
@@ -271,17 +271,17 @@
 
                                     <Label
                                         Grid.Column="3"
-                                        Style="{StaticResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource ViewCellLabelStyle}"
                                         Text="{xct:Translate Rewards}" />
 
                                     <Label
                                         Grid.Column="4"
-                                        Style="{StaticResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource ViewCellLabelStyle}"
                                         Text="{xct:Translate GiftCardCount}" />
 
                                     <Label
                                         Grid.Column="5"
-                                        Style="{StaticResource ViewCellLabelStyle}"
+                                        Style="{DynamicResource ViewCellLabelStyle}"
                                         Text="{xct:Translate GiftCardTotal}" />
 
                                 </Grid>
@@ -363,35 +363,35 @@
                                                         Grid.Row="0"
                                                         Grid.Column="1"
                                                         LineBreakMode="TailTruncation"
-                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Style="{DynamicResource ViewCellLabelStyle}"
                                                         Text="{Binding Name}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="2"
                                                         LineBreakMode="TailTruncation"
-                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Style="{DynamicResource ViewCellLabelStyle}"
                                                         Text="{Binding Points, StringFormat='{0:D} pt'}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="3"
                                                         LineBreakMode="TailTruncation"
-                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Style="{DynamicResource ViewCellLabelStyle}"
                                                         Text="{Binding Rewards}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="4"
                                                         LineBreakMode="TailTruncation"
-                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Style="{DynamicResource ViewCellLabelStyle}"
                                                         Text="{Binding GiftCardCount}" />
 
                                                     <Label
                                                         Grid.Row="0"
                                                         Grid.Column="5"
                                                         LineBreakMode="TailTruncation"
-                                                        Style="{StaticResource ViewCellLabelStyle}"
+                                                        Style="{DynamicResource ViewCellLabelStyle}"
                                                         Text="{Binding GiftCardTotal, StringFormat='$ {0:F2}'}" />
 
                                                     <BoxView

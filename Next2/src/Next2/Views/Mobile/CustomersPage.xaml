@@ -131,18 +131,18 @@
 
                             <Label
                                 Grid.Column="0"
-                                Style="{StaticResource HeaderLabelStyle}"
+                                Style="{DynamicResource HeaderLabelStyle}"
                                 Text="{xct:Translate CustomerName}" />
 
                             <Label
                                 Grid.Column="1"
-                                Style="{StaticResource HeaderLabelStyle}"
+                                Style="{DynamicResource HeaderLabelStyle}"
                                 Text="{xct:Translate Phone}" />
 
                             <Label
                                 Grid.Column="2"
                                 Margin="0, 0, 15, 0"
-                                Style="{StaticResource HeaderLabelStyle}"
+                                Style="{DynamicResource HeaderLabelStyle}"
                                 Text="{xct:Translate Email}" />
 
                         </Grid>
@@ -200,14 +200,14 @@
                                                 Grid.Row="0"
                                                 Grid.Column="0"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
+                                                Style="{DynamicResource ViewCellLabelStyle}"
                                                 Text="{Binding Name}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
+                                                Style="{DynamicResource ViewCellLabelStyle}"
                                                 Text="{Binding Phone}" />
 
                                             <Label
@@ -215,7 +215,7 @@
                                                 Grid.Column="2"
                                                 Margin="0, 0, 15, 0"
                                                 LineBreakMode="TailTruncation"
-                                                Style="{StaticResource ViewCellLabelStyle}"
+                                                Style="{DynamicResource ViewCellLabelStyle}"
                                                 Text="{Binding Email}" />
 
                                             <BoxView
