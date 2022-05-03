@@ -22,7 +22,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapLeftButtonCommand}">
+        xct:TouchEffect.Command="{Binding ScrollRightCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="AdaptiveStepperCarousel">
@@ -124,7 +124,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
         CornerRadius="5"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=TapRightButtonCommand}">
+        xct:TouchEffect.Command="{Binding ScrollLeftCommand, Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}}">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="AdaptiveStepperCarousel">

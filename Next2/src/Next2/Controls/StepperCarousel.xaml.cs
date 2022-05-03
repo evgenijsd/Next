@@ -1,8 +1,8 @@
 ﻿using Next2.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -10,6 +10,7 @@ namespace Next2.Controls
     public partial class StepperCarousel : StackLayout
     {
         private int _firstVisibleItemIndex;
+        private int _countVisibleItems;
 
         private double _viewItemWidth;
 
@@ -44,17 +45,17 @@ namespace Next2.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
-        private ICommand _tapLeftButtonCommand;
-        public ICommand TapLeftButtonCommand => _tapLeftButtonCommand ??= new Command(OnTapLeftButtonCommand);
+        private ICommand _scrollRightCommand;
+        public ICommand ScrollRightCommand => _scrollRightCommand ??= new Command(OnScrollRightCommand);
 
-        private ICommand _tapRightButtonCommand;
-        public ICommand TapRightButtonCommand => _tapRightButtonCommand ??= new Command(OnTapRightButtonCommand);
+        private ICommand _scrollLeftCommand;
+        public ICommand ScrollLeftCommand => _scrollLeftCommand ??= new Command(OnScrollLeftCommand);
 
         #endregion
 
         #region --Private methods--
 
-        private void OnTapLeftButtonCommand()
+        private void OnScrollRightCommand()
         {
             if (_firstVisibleItemIndex > 1)
             {
@@ -62,21 +63,29 @@ namespace Next2.Controls
             }
         }
 
-        private void OnTapRightButtonCommand()
+        private void OnScrollLeftCommand()
         {
-            collectionView.ScrollTo(_firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
+            if (ItemsSource.Count() - _firstVisibleItemIndex - _countVisibleItems > 1)
+            {
+                collectionView.ScrollTo(_firstVisibleItemIndex + 2, -1, ScrollToPosition.Start, true);
+            }
         }
 
         private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            if (_viewItemWidth == 0f && sender is CollectionView collectionView)
+            if (_viewItemWidth == 0f && collectionView.ItemTemplate.CreateContent() is View view)
             {
-                var template = collectionView.ItemTemplate;
-                var view = (View)template.CreateContent();
                 _viewItemWidth = view.WidthRequest;
+
+                _countVisibleItems = (int)((collectionView.Width / _viewItemWidth) * 2);
             }
 
             _firstVisibleItemIndex = (int)(e.HorizontalOffset / _viewItemWidth) * 2;
+
+            if (ItemsSource.Count() - _firstVisibleItemIndex - _countVisibleItems < 1)
+            {
+                collectionView.ScrollTo(_firstVisibleItemIndex, -1, ScrollToPosition.Start, true);
+            }
         }
 
         #endregion
