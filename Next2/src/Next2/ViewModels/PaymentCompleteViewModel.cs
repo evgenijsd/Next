@@ -406,11 +406,11 @@ namespace Next2.ViewModels
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
             {
-                var upDatedCustomer = _orderService.CurrentOrder.Customer;
+                var updatedCustomer = _orderService.CurrentOrder.Customer;
 
-                if (upDatedCustomer is not null)
+                if (updatedCustomer is not null)
                 {
-                    Order.Customer = new CustomerModel(upDatedCustomer);
+                    Order.Customer = new CustomerModel(updatedCustomer);
                     if (Order.Customer.GiftCards.Any())
                     {
                         Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;

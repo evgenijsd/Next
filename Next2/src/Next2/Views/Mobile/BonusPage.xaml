@@ -212,7 +212,7 @@
             </Grid>
 
             <Grid
-                RowDefinitions="70,*,75"
+                RowDefinitions="70, *, 75"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                 <controls:CustomNavigationbar

@@ -160,6 +160,7 @@ namespace Next2.ViewModels.Mobile
                 await Task.Delay(2000);
                 IsErrorNotificationVisible = !IsErrorNotificationVisible;
             });
+
             return Task.CompletedTask;
         }
 

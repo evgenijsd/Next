@@ -41,8 +41,8 @@ namespace Next2.ViewModels.Dialogs
         private ICommand _closeCommand;
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _getGiftcardAmountCommand;
-        public ICommand GiftcardAmountCommand => _getGiftcardAmountCommand ??= new AsyncCommand(OnGetGiftcardAmountCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _getGiftСardAmountCommand;
+        public ICommand GiftСardAmountCommand => _getGiftСardAmountCommand ??= new AsyncCommand(OnGetGiftcardAmountCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -59,7 +59,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
             {
-                var giftCardModel = await _customersService.IsGiftCardExistsAsync(giftCardNumber);
+                var giftCardModel = await _customersService.GetGiftCardByNumberAsync(giftCardNumber);
 
                 if (giftCardModel.IsSuccess)
                 {

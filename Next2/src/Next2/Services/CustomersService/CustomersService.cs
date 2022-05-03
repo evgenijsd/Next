@@ -80,14 +80,7 @@ namespace Next2.Services.CustomersService
                     customer.GiftCardCount = customer.GiftCards.Count();
                     customer.IsUpdatedCustomer = true;
 
-                    if (customer.GiftCards.Contains(giftCard))
-                    {
-                        result.SetSuccess();
-                    }
-                    else
-                    {
-                        result.SetFailure();
-                    }
+                    result.SetSuccess();
                 }
                 else
                 {
@@ -126,7 +119,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<GiftCardModel>> IsGiftCardExistsAsync(int giftCardNumber)
+        public async Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber)
         {
             var result = new AOResult<GiftCardModel>();
             try
@@ -144,7 +137,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(IsGiftCardExistsAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetGiftCardByNumberAsync)}: exception", "Some issues", ex);
             }
 
             return result;

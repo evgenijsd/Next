@@ -253,7 +253,6 @@
                                 CornerRadius="4"
                                 WidthRequest="130"
                                 VerticalOptions="Center"
-                                Padding="0"
                                 HorizontalOptions="EndAndExpand"
                                 BackgroundColor="Transparent"
                                 BorderColor="{DynamicResource IndicationColor_i1}">
@@ -336,7 +335,7 @@
                             PlaceHolder="{xct:Translate EnterAmount}"
                             IsTextRightToLeft="True"
                             IsNumericMode="True"
-                            ValueFormat="$ {0:#,0.#0}"
+                            ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
                             Value="{Binding InputGiftCardFounds}"
                             MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
                             WidthRequest="400"
