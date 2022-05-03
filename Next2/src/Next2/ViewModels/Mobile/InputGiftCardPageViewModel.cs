@@ -98,9 +98,9 @@ namespace Next2.ViewModels.Mobile
 
                         IsInSufficientGiftCardFounds = false;
 
-                        if (float.TryParse(InputGiftCardFounds, out float sum))
+                        if (float.TryParse(InputGiftCardFounds, out float value))
                         {
-                            IsInSufficientGiftCardFounds = RemainingGiftCardTotal < sum;
+                            IsInSufficientGiftCardFounds = RemainingGiftCardTotal < value;
                         }
                     }
                 }
@@ -143,20 +143,11 @@ namespace Next2.ViewModels.Mobile
 
             if (Customer is not null)
             {
+                navigationParam.Add(Constants.Navigations.GIFT_CARD_FOUNDS, InputGiftCardFounds);
+
                 if (Customer.IsUpdatedCustomer)
                 {
-                    navigationParam = new NavigationParameters()
-                    {
-                        { Constants.Navigations.GIFT_CARD_FOUNDS, InputGiftCardFounds },
-                        { Constants.Navigations.GIFT_CARD_ADDED, true },
-                    };
-                }
-                else
-                {
-                    navigationParam = new NavigationParameters()
-                    {
-                        { Constants.Navigations.GIFT_CARD_FOUNDS, InputGiftCardFounds },
-                    };
+                    navigationParam.Add(Constants.Navigations.GIFT_CARD_ADDED, true);
                 }
             }
 

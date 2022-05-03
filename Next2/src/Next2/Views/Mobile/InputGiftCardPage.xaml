@@ -14,7 +14,6 @@
 
     <Grid
         RowDefinitions="60, 90, *, 60"
-        RowSpacing="0"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <controls:CustomNavigationbar
@@ -27,7 +26,7 @@
 
         <StackLayout 
             Grid.Row="1"
-            Margin="20, 0, 20, 0"
+            Margin="20, 0"
             Orientation="Horizontal">
 
             <Label 
@@ -85,13 +84,14 @@
             </Label>
 
             <ffimageloading:CachedImage 
-                    Source="ic_danger_triangle"
-                    HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding IsInSufficientGiftCardFounds}">
+                Source="ic_danger_triangle"
+                HorizontalOptions="EndAndExpand"
+                IsVisible="{Binding IsInSufficientGiftCardFounds}">
                 
                 <ffimageloading:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding DisplayErrorNotification}"/>
                 </ffimageloading:CachedImage.GestureRecognizers>
+                
             </ffimageloading:CachedImage>
 
         </StackLayout>
@@ -114,8 +114,7 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <Frame
-                Margin="15, 10, 15, 10"
-                Padding="0"
+                Margin="15, 10"
                 CornerRadius="{OnPlatform Android='5', iOS='8'}"
                 BackgroundColor="{DynamicResource IndicationColor_i1}">
                 

@@ -251,20 +251,9 @@
                         HeightRequest="1"
                         Margin="0, 10"/>
 
-                    <StackLayout Orientation="Horizontal">
-
-                        <StackLayout.Triggers>
-
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.GiftCard}"
-                                Value="0">
-
-                                <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
-                        </StackLayout.Triggers>
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.GiftCard, Converter={StaticResource floatToBoolConverter}}">
 
                         <Label
                             Text="{xct:Translate GiftCards}"

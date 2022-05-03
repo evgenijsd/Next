@@ -175,8 +175,6 @@
 
                     <Grid
                         RowDefinitions="auto, 50"
-                        RowSpacing="0"
-                        ColumnSpacing="0"
                         ColumnDefinitions="0.50*, 0.50*">
 
                         <StackLayout 
@@ -187,16 +185,40 @@
                                 Text="{xct:Translate GiftCards}"
                                 FontFamily="Barlow-Bold"
                                 VerticalOptions="Center"
-                                Margin="0, 0, 0, 0"
                                 FontSize="{DynamicResource TSize_i4_5}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
-                            <Label
+                            <Label 
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"
+                                Margin="0, 0, 40, 0">
+                                
+                                    <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span 
+                                            Text="{xct:Translate Number}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i5}"/>
+
+                                        <Span Text="   " />
+
+                                        <Span 
+                                            Text="{Binding Order.Customer.GiftCardCount}"
+                                            TextColor="{DynamicResource AppColor_i1}"
+                                            FontFamily="Barlow-SemiBold"
+                                            FontSize="{DynamicResource TSize_i5}"/>
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                
+                            </Label>
+
+                            <!--<Label
                                 Text="{xct:Translate Number}"
                                 FontFamily="Barlow-Regular"
                                 VerticalOptions="Center"
                                 HorizontalOptions="EndAndExpand"
-                                Margin="0, 0, 0, 0"
                                 FontSize="{DynamicResource TSize_i5}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
@@ -207,7 +229,7 @@
                                 HorizontalOptions="End"
                                 Margin="16, 0, 40, 0"
                                 FontSize="{DynamicResource TSize_i5}"
-                                TextColor="{DynamicResource AppColor_i1}"/>
+                                TextColor="{DynamicResource AppColor_i1}"/>-->
                         </StackLayout>
 
                         <StackLayout 
@@ -259,7 +281,7 @@
                                         Margin="0, 8, 10, 5"/>
 
                                     <Label
-                                        Margin="0, 5, 0, 5"
+                                        Margin="0, 5"
                                         Text="{xct:Translate AddNew}"
                                         FontFamily="Barlow-SemiBold"
                                         HorizontalTextAlignment="Center"
@@ -838,20 +860,9 @@
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
-
-                    <StackLayout.Triggers>
-
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding Order.GiftCard}"
-                            Value="0">
-
-                            <Setter Property="IsVisible" Value="False" />
-
-                        </DataTrigger>
-
-                    </StackLayout.Triggers>
+                <StackLayout 
+                    Orientation="Horizontal"
+                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource floatToBoolConverter}}">
 
                     <Label
                         Text="{xct:Translate GiftCards}"

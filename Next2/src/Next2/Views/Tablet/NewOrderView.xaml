@@ -99,7 +99,6 @@
     </ContentView.Resources>
 
     <Grid
-        ColumnSpacing="0"
         ColumnDefinitions="*, 375">
 
         <VisualStateManager.VisualStateGroups>
@@ -664,8 +663,7 @@
 
                         <Grid 
                             Grid.Row="0"
-                            RowDefinitions="auto, *"
-                            RowSpacing="0">
+                            RowDefinitions="auto, *">
 
                             <StackLayout Grid.Row="0">
 

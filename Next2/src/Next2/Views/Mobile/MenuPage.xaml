@@ -14,17 +14,14 @@
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <Grid
-        ColumnSpacing="0"
-        RowDefinitions="*, 80"
-        RowSpacing="0">
+        RowDefinitions="*, 80">
 
         <!--  CATEGORIES  -->
 
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="90, *"
-            RowSpacing="0">
+            RowDefinitions="90, *">
 
             <!--  HEAD PANEL  -->
 

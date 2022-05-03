@@ -23,7 +23,6 @@
 
             <Grid
                 RowDefinitions="70,*"
-                RowSpacing="0"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">
 
                 <controls:CustomNavigationbar
@@ -214,7 +213,6 @@
 
             <Grid
                 RowDefinitions="70,*,75"
-                RowSpacing="0"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                 <controls:CustomNavigationbar

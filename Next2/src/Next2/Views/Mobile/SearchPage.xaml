@@ -14,7 +14,6 @@
     <ContentPage.Content>
 
         <Grid
-            RowSpacing="0"
             RowDefinitions="65,*">
 
             <controls:CustomNavigationbar

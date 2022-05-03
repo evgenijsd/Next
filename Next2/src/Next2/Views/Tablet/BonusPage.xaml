@@ -18,8 +18,7 @@
     <ContentPage.Content>
 
         <Grid
-            RowDefinitions="70,*"
-            RowSpacing="0">
+            RowDefinitions="70,*">
 
             <controls:CustomNavigationbar
                 Grid.Row="0"
@@ -38,7 +37,6 @@
             <Grid
                 Grid.Row="1"
                 ColumnDefinitions="0.66*,0.34*"
-                ColumnSpacing="0"
                 VerticalOptions="FillAndExpand">
 
                 <StackLayout>

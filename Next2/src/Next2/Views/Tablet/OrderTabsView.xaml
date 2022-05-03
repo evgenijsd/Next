@@ -21,8 +21,7 @@
 
         <Grid
             HorizontalOptions="Fill"
-            VerticalOptions="Fill"
-            RowSpacing="0">
+            VerticalOptions="Fill">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="75" />
@@ -35,7 +34,6 @@
                 Grid.Row="0"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
-                ColumnSpacing="0"
                 ColumnDefinitions="520,*">
 
                 <Label
@@ -317,7 +315,6 @@
                                     <Grid
                                         HorizontalOptions="Fill"
                                         VerticalOptions="Fill"
-                                        RowSpacing="0"
                                         RowDefinitions="48,2">
 
                                         <VisualStateManager.VisualStateGroups>

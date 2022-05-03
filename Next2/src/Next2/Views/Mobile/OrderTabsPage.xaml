@@ -24,8 +24,7 @@
             Height="{Binding HeightPage}"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
-            <Grid
-                RowSpacing="0">
+            <Grid>
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="65" />
@@ -45,7 +44,6 @@
                     Margin="0,2,0,0"
                     HorizontalOptions="Fill"
                     VerticalOptions="Fill"
-                    ColumnSpacing="0"
                     ColumnDefinitions="*,*">
 
                     <controls:CustomButton
@@ -204,7 +202,6 @@
                                         <Grid
                                             HorizontalOptions="Fill"
                                             VerticalOptions="Start"
-                                            RowSpacing="0"
                                             RowDefinitions="2,48">
 
                                             <VisualStateManager.VisualStateGroups>

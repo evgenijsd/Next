@@ -11,7 +11,6 @@
     x:DataType="viewModels:LoginPageViewModel">
 
     <Grid 
-        RowSpacing="0"
         ColumnSpacing="2"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
         ColumnDefinitions="*, 0.45*"
