@@ -135,12 +135,13 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(InputGiftCardFounds))
             {
+                IsInsufficientGiftCardFounds = false;
+
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
                 {
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardsTotalFounds = Order.Customer.GiftCardTotal;
-                    IsInsufficientGiftCardFounds = false;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
@@ -171,10 +172,6 @@ namespace Next2.ViewModels
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         IsInsufficientGiftCardFounds = true;
-                    }
-                    else
-                    {
-                        IsInsufficientGiftCardFounds = false;
                     }
                 }
             }
@@ -388,7 +385,10 @@ namespace Next2.ViewModels
 
         private async Task OnAddGiftCardCommandAsync()
         {
+            IsInsufficientGiftCardFounds = false;
+
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
+
             await _popupNavigation.PushAsync(popupPage);
         }
 
