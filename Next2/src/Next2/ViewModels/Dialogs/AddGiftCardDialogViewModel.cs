@@ -80,7 +80,7 @@ namespace Next2.ViewModels.Dialogs
                     {
                         var tempCustomerModel = new CustomerModel()
                         {
-                            GiftCardTotal = giftCard.GiftCardFounds,
+                            GiftCardTotal = giftCard.GiftCardFunds,
                             GiftCardCount = 1,
                             IsUpdatedCustomer = true,
                             IsNotRegistratedCustomer = true,

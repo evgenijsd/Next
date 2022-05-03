@@ -76,7 +76,7 @@ namespace Next2.Services.CustomersService
                 {
                     giftCard.IsRegistered = true;
                     customer.GiftCards.Add(giftCard);
-                    customer.GiftCardTotal = customer.GiftCards.Sum(row => row.GiftCardFounds);
+                    customer.GiftCardTotal = customer.GiftCards.Sum(row => row.GiftCardFunds);
                     customer.GiftCardCount = customer.GiftCards.Count();
                     customer.IsUpdatedCustomer = true;
 

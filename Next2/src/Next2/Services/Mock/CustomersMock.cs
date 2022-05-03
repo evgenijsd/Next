@@ -25,14 +25,14 @@ namespace Next2.Services
                         new GiftCardModel()
                         {
                             Id = 1,
-                            GiftCardFounds = 20f,
+                            GiftCardFunds = 20f,
                             GiftCardNumber = 100,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 2,
-                            GiftCardFounds = 40.50f,
+                            GiftCardFunds = 40.50f,
                             GiftCardNumber = 101,
                             IsRegistered = true,
                         },
@@ -53,14 +53,14 @@ namespace Next2.Services
                         new GiftCardModel()
                         {
                             Id = 3,
-                            GiftCardFounds = 25.50f,
+                            GiftCardFunds = 25.50f,
                             GiftCardNumber = 103,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 4,
-                            GiftCardFounds = 40.50f,
+                            GiftCardFunds = 40.50f,
                             GiftCardNumber = 104,
                             IsRegistered = true,
                         },
@@ -81,14 +81,14 @@ namespace Next2.Services
                         new GiftCardModel()
                         {
                             Id = 5,
-                            GiftCardFounds = 65.50f,
+                            GiftCardFunds = 65.50f,
                             GiftCardNumber = 105,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 6,
-                            GiftCardFounds = 40.50f,
+                            GiftCardFunds = 40.50f,
                             GiftCardNumber = 106,
                             IsRegistered = true,
                         },
@@ -109,7 +109,7 @@ namespace Next2.Services
                         new GiftCardModel()
                         {
                             Id = 7,
-                            GiftCardFounds = 30f,
+                            GiftCardFunds = 30f,
                             GiftCardNumber = 107,
                             IsRegistered = true,
                         },

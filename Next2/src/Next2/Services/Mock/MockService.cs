@@ -4994,140 +4994,140 @@ namespace Next2.Services.Mock
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 25.50f,
+                     GiftCardFunds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 65.50f,
+                     GiftCardFunds = 65.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 25.50f,
+                     GiftCardFunds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 55.50f,
+                     GiftCardFunds = 55.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 15.50f,
+                     GiftCardFunds = 15.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 25f,
+                     GiftCardFunds = 25f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 85.50f,
+                     GiftCardFunds = 85.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 15f,
+                     GiftCardFunds = 15f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 5.50f,
+                     GiftCardFunds = 5.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 7.50f,
+                     GiftCardFunds = 7.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 65f,
+                     GiftCardFunds = 65f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 95.50f,
+                     GiftCardFunds = 95.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 85f,
+                     GiftCardFunds = 85f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 25.50f,
+                     GiftCardFunds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 15.50f,
+                     GiftCardFunds = 15.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 65f,
+                     GiftCardFunds = 65f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 25.50f,
+                     GiftCardFunds = 25.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 615.50f,
+                     GiftCardFunds = 615.50f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 225f,
+                     GiftCardFunds = 225f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },
                  new()
                  {
                      Id = id++,
-                     GiftCardFounds = 80f,
+                     GiftCardFunds = 80f,
                      GiftCardNumber = giftCardNumber++,
                      IsRegistered = false,
                  },

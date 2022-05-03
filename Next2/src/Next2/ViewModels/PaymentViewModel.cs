@@ -53,8 +53,8 @@ namespace Next2.ViewModels
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
-                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
+                Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
             }
 
             RewardsViewModel = new (
@@ -131,8 +131,8 @@ namespace Next2.ViewModels
                     Order.Subtotal = _orderService.CurrentOrder.SubTotal;
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.Total;
-                    Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
-                    Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
+                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                 }
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
@@ -143,17 +143,17 @@ namespace Next2.ViewModels
                     if (float.TryParse(inputAmountValue, out float sum))
                     {
                         sum /= 100;
-                        if (Order.GiftCardsTotalFounds >= sum)
+                        if (Order.GiftCardsTotalFunds >= sum)
                         {
                             if (Order.Total > sum)
                             {
                                 Order.GiftCard = sum;
-                                Order.RemainingGiftCardsTotalFounds -= sum;
+                                Order.RemainingGiftCardsTotalFunds -= sum;
                                 Order.Total -= sum;
                             }
                             else
                             {
-                                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds - Order.Total;
+                                Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds - Order.Total;
                                 Order.GiftCard = Order.Total;
                                 Order.Total = 0;
                             }
@@ -240,19 +240,19 @@ namespace Next2.ViewModels
             {
                 while (tempFounds > 0)
                 {
-                    if (giftCard.GiftCardFounds > tempFounds)
+                    if (giftCard.GiftCardFunds > tempFounds)
                     {
-                        giftCard.GiftCardFounds = giftCard.GiftCardFounds - tempFounds;
+                        giftCard.GiftCardFunds = giftCard.GiftCardFunds - tempFounds;
                         tempFounds = 0;
                     }
-                    else if (giftCard.GiftCardFounds < tempFounds)
+                    else if (giftCard.GiftCardFunds < tempFounds)
                     {
-                        tempFounds -= giftCard.GiftCardFounds;
-                        giftCard.GiftCardFounds = 0;
+                        tempFounds -= giftCard.GiftCardFunds;
+                        giftCard.GiftCardFunds = 0;
                     }
-                    else if (giftCard.GiftCardFounds == tempFounds)
+                    else if (giftCard.GiftCardFunds == tempFounds)
                     {
-                        giftCard.GiftCardFounds = 0;
+                        giftCard.GiftCardFunds = 0;
                         tempFounds = 0;
                     }
                 }

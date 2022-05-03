@@ -53,8 +53,8 @@ namespace Next2.ViewModels
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
-                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
+                Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
             }
 
             _tapPaymentOptionCommand = new AsyncCommand<PaymentItem>(OnTapPaymentOptionCommandAsync, allowsMultipleExecutions: false);
@@ -96,7 +96,7 @@ namespace Next2.ViewModels
 
         public bool IsExpandedSummary { get; set; } = true;
 
-        public bool IsInsufficientGiftCardFounds { get; set; }
+        public bool IsInsufficientGiftCardFunds { get; set; }
 
         private ICommand _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand = new Command(() => IsExpandedSummary = !IsExpandedSummary);
@@ -135,35 +135,35 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(InputGiftCardFounds))
             {
-                IsInsufficientGiftCardFounds = false;
+                IsInsufficientGiftCardFunds = false;
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
                 {
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
-                    Order.RemainingGiftCardsTotalFounds = Order.Customer.GiftCardTotal;
+                    Order.RemainingGiftCardsTotalFunds = Order.Customer.GiftCardTotal;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         sum /= 100;
-                        if (Order.GiftCardsTotalFounds >= sum)
+                        if (Order.GiftCardsTotalFunds >= sum)
                         {
                             if (Order.Total >= sum)
                             {
                                 Order.GiftCard = sum;
-                                Order.RemainingGiftCardsTotalFounds -= sum;
+                                Order.RemainingGiftCardsTotalFunds -= sum;
                                 Order.Total -= sum;
                             }
                             else
                             {
-                                Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds - Order.Total;
+                                Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds - Order.Total;
                                 Order.GiftCard = Order.Total;
                                 Order.Total = 0;
                             }
                         }
                         else
                         {
-                            IsInsufficientGiftCardFounds = true;
+                            IsInsufficientGiftCardFunds = true;
                         }
                     }
                 }
@@ -171,7 +171,7 @@ namespace Next2.ViewModels
                 {
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
-                        IsInsufficientGiftCardFounds = true;
+                        IsInsufficientGiftCardFunds = true;
                     }
                 }
             }
@@ -393,7 +393,7 @@ namespace Next2.ViewModels
 
         private async Task OnAddGiftCardCommandAsync()
         {
-            IsInsufficientGiftCardFounds = false;
+            IsInsufficientGiftCardFunds = false;
 
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
 
@@ -413,8 +413,8 @@ namespace Next2.ViewModels
                     Order.Customer = new CustomerModel(upDatedCustomer);
                     if (Order.Customer.GiftCards.Any())
                     {
-                        Order.GiftCardsTotalFounds = Order.Customer.GiftCardTotal;
-                        Order.RemainingGiftCardsTotalFounds = Order.GiftCardsTotalFounds;
+                        Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                     }
                 }
             }

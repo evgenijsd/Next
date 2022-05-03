@@ -48,7 +48,7 @@ namespace Next2.ViewModels.Mobile
 
         public float RemainingGiftCardTotal { get; set; }
 
-        public bool IsInSufficientGiftCardFounds { get; set; }
+        public bool IsInSufficientGiftCardFunds { get; set; }
 
         public bool IsErrorNotificationVisible { get; set; }
 
@@ -73,7 +73,7 @@ namespace Next2.ViewModels.Mobile
 
             if (args.PropertyName == nameof(InputGiftCardFounds))
             {
-                IsInSufficientGiftCardFounds = false;
+                IsInSufficientGiftCardFunds = false;
 
                 if (Customer is not null && Customer.GiftCards.Any())
                 {
@@ -89,7 +89,7 @@ namespace Next2.ViewModels.Mobile
                         }
                         else
                         {
-                            IsInSufficientGiftCardFounds = true;
+                            IsInSufficientGiftCardFunds = true;
                             RemainingGiftCardTotal = 0;
                         }
                     }
@@ -100,7 +100,7 @@ namespace Next2.ViewModels.Mobile
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
-                        IsInSufficientGiftCardFounds = RemainingGiftCardTotal < sum;
+                        IsInSufficientGiftCardFunds = RemainingGiftCardTotal < sum;
                     }
                 }
             }
@@ -112,7 +112,7 @@ namespace Next2.ViewModels.Mobile
 
         private Task OnAddGiftCardCommandAsync()
         {
-            IsInSufficientGiftCardFounds = false;
+            IsInSufficientGiftCardFunds = false;
 
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, TipViewDialogCallBack);
 
