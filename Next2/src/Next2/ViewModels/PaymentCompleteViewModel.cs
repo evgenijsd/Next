@@ -137,10 +137,10 @@ namespace Next2.ViewModels
             {
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
                 {
-                    IsInsufficientGiftCardFounds = false;
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardsTotalFounds = Order.Customer.GiftCardTotal;
+                    IsInsufficientGiftCardFounds = false;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {

@@ -29,28 +29,30 @@
             Margin="20, 0"
             Orientation="Horizontal">
 
-            <Label 
+            <Label
+                Text="{xct:Translate Number}"
+                FontFamily="Barlow-Regular"
                 VerticalOptions="Center"
-                Margin="0, 0, 20, 0">
+                FontSize="{DynamicResource TSize_i4}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span
-                            Text="{xct:Translate Number}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i4}"
-                            FontFamily="Barlow-Regular"/>
+            <Label
+                FontFamily="Barlow-Bold"
+                VerticalOptions="Center"
+                Margin="10, 0, 20, 0"
+                FontSize="{DynamicResource TSize_i4}"
+                TextColor="{DynamicResource IndicationColor_i5}">
 
-                        <Span Text="   " />
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">
+                        <Setter Property="Text" Value="0"/>
+                    </DataTrigger>
 
-                        <Span
-                            Text="{Binding Customer.GiftCardCount}"
-                            TextColor="{DynamicResource IndicationColor_i5}"
-                            FontSize="{DynamicResource TSize_i4}"
-                            FontFamily="Barlow-Bold"/>
+                    <DataTrigger TargetType="Label" Binding="{Binding Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                        <Setter Property="Text" Value="{Binding Customer.GiftCardCount}"/>
+                    </DataTrigger>
+                </Label.Triggers>
 
-                    </FormattedString>
-                </Label.FormattedText>
             </Label>
 
             <Label VerticalOptions="Center">

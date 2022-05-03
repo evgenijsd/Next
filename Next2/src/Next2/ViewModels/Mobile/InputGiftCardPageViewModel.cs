@@ -73,14 +73,13 @@ namespace Next2.ViewModels.Mobile
 
             if (args.PropertyName == nameof(InputGiftCardFounds))
             {
-                if (float.TryParse(InputGiftCardFounds, out float sum))
+                if (Customer is not null && Customer.GiftCards.Any())
                 {
-                    sum /= 100;
-
-                    if (Customer is not null && Customer.GiftCards.Any())
+                    RemainingGiftCardTotal = Customer.GiftCardTotal;
+                    IsInSufficientGiftCardFounds = false;
+                    if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
-                        RemainingGiftCardTotal = Customer.GiftCardTotal;
-                        IsInSufficientGiftCardFounds = false;
+                        sum /= 100;
 
                         if (Customer.GiftCardTotal >= sum)
                         {
@@ -92,22 +91,17 @@ namespace Next2.ViewModels.Mobile
                             RemainingGiftCardTotal = 0;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    RemainingGiftCardTotal = 0;
+
+                    IsInSufficientGiftCardFounds = false;
+                    if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
-                        RemainingGiftCardTotal = 0;
-
-                        IsInSufficientGiftCardFounds = false;
-
-                        if (float.TryParse(InputGiftCardFounds, out float value))
-                        {
-                            IsInSufficientGiftCardFounds = RemainingGiftCardTotal < value;
-                        }
+                        IsInSufficientGiftCardFounds = RemainingGiftCardTotal < sum;
                     }
                 }
-
-                RemainingGiftCardTotal = 0;
-
-                IsInSufficientGiftCardFounds = false;
             }
         }
 

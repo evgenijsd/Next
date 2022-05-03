@@ -79,13 +79,15 @@ namespace Next2.Services.CustomersService
                     customer.GiftCardTotal = customer.GiftCards.Sum(row => row.GiftCardFounds);
                     customer.GiftCardCount = customer.GiftCards.Count();
                     customer.IsUpdatedCustomer = true;
-                }
 
-                var upDatedCustomer = await _mockService.UpdateAsync(customer); // check
-
-                if (upDatedCustomer is not null)
-                {
-                    result.SetSuccess();
+                    if (customer.GiftCards.Contains(giftCard))
+                    {
+                        result.SetSuccess();
+                    }
+                    else
+                    {
+                        result.SetFailure();
+                    }
                 }
                 else
                 {
@@ -94,7 +96,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddGiftCardToCustomerAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(AddGiftCardToCustomerAsync)}: exception", "The giftcard in-use", ex);
             }
 
             return result;
