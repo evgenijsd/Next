@@ -21,8 +21,11 @@ namespace Next2.Models
             CustomerName = order.CustomerName;
             OrderStatus = order.OrderStatus;
             OrderType = order.OrderType;
+            Bonus = order.Bonus;
+            BonusType = order.BonusType;
             SubTotal = order.SubTotal;
             Tax = order.Tax;
+            PriceWithBonus = order.PriceWithBonus;
             PriceTax = order.PriceTax;
             Total = order.Total;
             Seats = new();
