@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
+using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Services.UserService;
@@ -41,6 +42,7 @@ namespace Next2.ViewModels
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMenuService _menuService;
+        private readonly IBonusesService _bonusesService;
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
@@ -61,6 +63,7 @@ namespace Next2.ViewModels
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
+            IBonusesService bonusesService,
             IAuthenticationService authenticationService,
             IMenuService menuService)
             : base(navigationService)
@@ -72,6 +75,7 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
             _menuService = menuService;
+            _bonusesService = bonusesService;
 
             _orderPaymentStatus = EOrderStatus.None;
 
@@ -164,9 +168,16 @@ namespace Next2.ViewModels
 
                 if (parameters.ContainsKey(Constants.Navigations.DELETE_SET))
                 {
-                    MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
+                    MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, async (sender, arg) =>
                     {
                         RecalculateOrderPriceBySet(arg);
+
+                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+
+                        if (CurrentOrder.PriceWithBonus == CurrentOrder.SubTotal || CurrentOrder.PriceWithBonus == 0)
+                        {
+                            CurrentOrder.BonusType = EBonusType.None;
+                        }
                     });
                 }
             }
@@ -858,6 +869,13 @@ namespace Next2.ViewModels
                     if (result.IsSuccess)
                     {
                         RefreshCurrentOrderAsync();
+
+                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+
+                        if (CurrentOrder.PriceWithBonus == CurrentOrder.SubTotal || CurrentOrder.PriceWithBonus == 0)
+                        {
+                            CurrentOrder.BonusType = EBonusType.None;
+                        }
 
                         if (CurrentState == LayoutState.Success)
                         {
