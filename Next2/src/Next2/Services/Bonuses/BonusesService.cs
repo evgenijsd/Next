@@ -237,6 +237,11 @@ namespace Next2.Services.Bonuses
                         currentOrder.PriceWithBonus += set.PriceBonus;
                     }
 
+                    if (currentOrder.PriceWithBonus == currentOrder.SubTotal)
+                    {
+                        currentOrder.BonusType = EBonusType.None;
+                    }
+
                     currentOrder.PriceTax = currentOrder.PriceWithBonus * currentOrder.Tax.Value;
 
                     currentOrder.Total = currentOrder.PriceWithBonus + currentOrder.PriceTax;

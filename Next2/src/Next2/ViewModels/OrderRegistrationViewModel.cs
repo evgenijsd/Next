@@ -173,11 +173,6 @@ namespace Next2.ViewModels
                         RecalculateOrderPriceBySet(arg);
 
                         CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
-
-                        if (CurrentOrder.PriceWithBonus == CurrentOrder.SubTotal || CurrentOrder.PriceWithBonus == 0)
-                        {
-                            CurrentOrder.BonusType = EBonusType.None;
-                        }
                     });
                 }
             }
@@ -871,11 +866,6 @@ namespace Next2.ViewModels
                         RefreshCurrentOrderAsync();
 
                         CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
-
-                        if (CurrentOrder.PriceWithBonus == CurrentOrder.SubTotal || CurrentOrder.PriceWithBonus == 0)
-                        {
-                            CurrentOrder.BonusType = EBonusType.None;
-                        }
 
                         if (CurrentState == LayoutState.Success)
                         {
