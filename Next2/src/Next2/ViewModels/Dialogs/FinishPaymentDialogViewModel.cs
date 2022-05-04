@@ -39,7 +39,7 @@ namespace Next2.ViewModels.Dialogs
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _noReceiptCommand;
-        public ICommand NoReceiptCommand => _noReceiptCommand ??= new AsyncCommand(NoReceiptCommandAsync, allowsMultipleExecutions: false);
+        public ICommand NoReceiptCommand => _noReceiptCommand ??= new AsyncCommand(OnNoReceiptCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task NoReceiptCommandAsync()
+        private Task OnNoReceiptCommandAsync()
         {
             CloseCommand.Execute();
             return Task.CompletedTask;
