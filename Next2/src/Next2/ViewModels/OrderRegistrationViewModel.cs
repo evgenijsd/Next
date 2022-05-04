@@ -698,24 +698,28 @@ namespace Next2.ViewModels
         {
             var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            if (user.IsSuccess && (user.Result.UserType != EUserType.Admin))
+            if (user.IsSuccess)
             {
-                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+                if (user.Result.UserType != EUserType.Admin)
+                {
+                    _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-                if (App.IsTablet)
-                {
-                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(NewOrderView) } };
-                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
+                    if (App.IsTablet)
+                    {
+                        var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(NewOrderView) } };
+                        await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
+                    }
+                    else
+                    {
+                        var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(OrderRegistrationPage) } };
+                        await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                    }
                 }
-                else
+                else if (user.Result.UserType == EUserType.Admin)
                 {
-                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(OrderRegistrationPage) } };
-                    await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                    IsOrderWithTax = false;
+                    CurrentOrder.Tax.Value = 0;
                 }
-            }
-            else
-            {
-                IsOrderWithTax = false;
             }
         }
 
