@@ -25,9 +25,7 @@
             Margin="4, 0, 0, 0"
             FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}">
-
-        </Label>
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}"/>
 
         <Label 
             Text="{xct:Translate TypeEmployeeId}"
@@ -39,9 +37,7 @@
             Margin="4, 0, 0, 0"
             FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}">
-
-        </Label>
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}"/>
 
         <ffimageloading:CachedImage 
             Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=LeftImagePath}"

@@ -17,7 +17,6 @@
 
     <Frame
         HeightRequest="100"
-        HasShadow="False"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -47,9 +46,9 @@
     </Frame>
 
     <CollectionView
+        x:Name="collectionView"
         HorizontalOptions="StartAndExpand"
         HeightRequest="100"
-        x:Name="collectionView"
         VerticalScrollBarVisibility="Never"
         HorizontalScrollBarVisibility="Never"
         SelectionMode="Single"
@@ -119,7 +118,6 @@
 
     <Frame
         HeightRequest="100"
-        HasShadow="False"
         Padding="5"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"

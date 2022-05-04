@@ -2,6 +2,7 @@
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
+using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views;
@@ -19,6 +20,7 @@ namespace Next2.ViewModels
     public class ModificationsPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IBonusesService _bonusService;
         private readonly IMenuService _menuService;
 
         private int _indexOfSeat;
@@ -33,11 +35,13 @@ namespace Next2.ViewModels
         public ModificationsPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IMenuService menuService)
+            IMenuService menuService,
+            IBonusesService bonusService)
             : base(navigationService)
         {
             _orderService = orderService;
             _menuService = menuService;
+            _bonusService = bonusService;
 
             CurrentOrder = new(_orderService.CurrentOrder);
 
@@ -537,6 +541,7 @@ namespace Next2.ViewModels
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
+            CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
             if (App.IsTablet)

@@ -21,8 +21,11 @@ namespace Next2.Models
             CustomerName = order.CustomerName;
             OrderStatus = order.OrderStatus;
             OrderType = order.OrderType;
+            Bonus = order.Bonus;
+            BonusType = order.BonusType;
             SubTotal = order.SubTotal;
             Tax = order.Tax;
+            PriceWithBonus = order.PriceWithBonus;
             PriceTax = order.PriceTax;
             Total = order.Total;
             Seats = new();
@@ -50,7 +53,7 @@ namespace Next2.Models
                         set.ProductsPrice += product.SelectedProduct.ProductPrice;
                     }
 
-                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice + set.Portion.Price - set.Portions.OrderByDescending(x => x.Price).LastOrDefault().Price;
+                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
 
                     SubTotal += set.TotalPrice;
                 }

@@ -231,10 +231,15 @@ namespace Next2.Services.Bonuses
                         }
                         else
                         {
-                            set.PriceBonus = set.Portion.Price;
+                            set.PriceBonus = set.TotalPrice;
                         }
 
                         currentOrder.PriceWithBonus += set.PriceBonus;
+                    }
+
+                    if (currentOrder.PriceWithBonus == currentOrder.SubTotal)
+                    {
+                        currentOrder.BonusType = EBonusType.None;
                     }
 
                     currentOrder.PriceTax = currentOrder.PriceWithBonus * currentOrder.Tax.Value;
@@ -257,10 +262,10 @@ namespace Next2.Services.Bonuses
             switch (selectedBonus.Type)
             {
                 case EBonusValueType.Value:
-                    result = set.Portion.Price - selectedBonus.Value;
+                    result = set.TotalPrice - selectedBonus.Value;
                     break;
                 case EBonusValueType.Percent:
-                    result = set.Portion.Price - (selectedBonus.Value * set.Portion.Price);
+                    result = set.TotalPrice - (selectedBonus.Value * set.TotalPrice);
                     break;
                 case EBonusValueType.AbsoluteValue:
                     result = selectedBonus.Value;
