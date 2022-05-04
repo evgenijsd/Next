@@ -81,11 +81,6 @@ namespace Next2.Controls
             }
 
             _firstVisibleItemIndex = (int)(e.HorizontalOffset / _viewItemWidth) * 2;
-
-            if (ItemsSource.Count() - _firstVisibleItemIndex - _countVisibleItems < 1)
-            {
-                collectionView.ScrollTo(_firstVisibleItemIndex, -1, ScrollToPosition.Start, true);
-            }
         }
 
         #endregion
