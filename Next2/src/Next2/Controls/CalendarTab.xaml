@@ -124,6 +124,7 @@
                 VerticalItemSpacing="1" 
                 Orientation="Vertical"
                 Span="7"/>
+            
         </CollectionView.ItemsLayout>
 
         <CollectionView.Effects>
@@ -143,7 +144,6 @@
                         Margin="0"
                         HeightRequest="30"
                         WidthRequest="30"
-                        HasShadow="False"
                         CornerRadius="16"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i3}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -197,7 +197,7 @@
         WidthRequest="90"
         HasShadow="True"
         IsVisible="false"
-        xct:CornerRadiusEffect.CornerRadius="0,0,4,4"
+        xct:CornerRadiusEffect.CornerRadius="0, 0, 4, 4"
         x:Name="dropdownFrame">
 
         <StackLayout>

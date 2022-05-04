@@ -34,12 +34,12 @@
                 Grid.Row="0"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
-                ColumnDefinitions="520,*">
+                ColumnDefinitions="520, *">
 
                 <Label
                     Text="{xct:Translate OrderTabs}"
                     Grid.Column="0"
-                    Margin="30,0,0,0"
+                    Margin="30, 0, 0, 0"
                     VerticalOptions="CenterAndExpand"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     FontFamily="Barlow-Bold"
@@ -48,7 +48,7 @@
                 <controls:CustomButton
                     Text="{xct:Translate Orders}"
                     Grid.Column="0"
-                    CornerRadius="10,0,0,0"
+                    CornerRadius="10, 0, 0, 0"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="End"
@@ -59,7 +59,7 @@
                 <controls:CustomButton
                     Text="{xct:Translate Tabs}"
                     Grid.Column="1"
-                    CornerRadius="0,10,0,0"
+                    CornerRadius="0, 10, 0, 0"
                     HeightRequest="50"
                     WidthRequest="260"
                     HorizontalOptions="Start"
@@ -75,8 +75,8 @@
 
             <Grid
                 Grid.Row="2"
-                Margin="20,30,0,20"
-                ColumnDefinitions="325,*">
+                Margin="20, 30, 0, 20"
+                ColumnDefinitions="325, *">
 
                 <controls:SearchButton
                     Grid.Row="0"
@@ -95,15 +95,19 @@
                             TargetType="controls:SearchButton"
                             Binding="{Binding SearchText}"
                             Value="">
+                            
                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                             <Setter Property="ImageSource" Value="ic_search_24x24" />
+                            
                         </DataTrigger>
 
                         <DataTrigger
                             TargetType="controls:SearchButton"
                             Binding="{Binding IsOrderTabsSelected}"
                             Value="True">
+                            
                             <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
+                            
                         </DataTrigger>
 
                     </controls:SearchButton.Triggers>
@@ -114,7 +118,7 @@
                         Grid.Column="1"
                         Orientation="Horizontal"
                         Spacing="15"
-                        Margin="0,0,20,0">
+                        Margin="0, 0, 20, 0">
 
                         <StackLayout.Triggers>
                             <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
@@ -171,7 +175,7 @@
 
             <yummy:PancakeView
                 Grid.Row="3"
-                Margin="20,0,20,20"
+                Margin="20, 0, 20, 20"
                 CornerRadius="10"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
@@ -182,14 +186,14 @@
                         VerticalOptions="Start"
                         HeightRequest="50"
                         MinimumHeightRequest="50"
-                        ColumnDefinitions="50,*,*,*,*">
+                        ColumnDefinitions="50, *, *, *, *">
 
                         <StackLayout
                             Grid.Column="1"
                             Orientation="Horizontal">
 
                             <Label
-                                Margin="20,15,0,0"
+                                Margin="20, 15, 0, 0"
                                 Text="{xct:Translate TableNumber}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i8}"
@@ -201,7 +205,9 @@
                                         TargetType="Label"
                                         Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsOrderTabsSelected}"
                                         Value="False">
+                                        
                                         <Setter Property="Text" Value="{xct:Translate CustomerName}" />
+                                        
                                     </DataTrigger>
 
                                 </Label.Triggers>
@@ -218,6 +224,7 @@
                                 <TapGestureRecognizer
                                     Command="{Binding OrderTabSortingChangeCommand}"
                                     CommandParameter="{x:Static enums:EOrderTabSorting.ByCustomerName}" />
+                                
                             </StackLayout.GestureRecognizers>
 
                         </StackLayout>
@@ -228,7 +235,7 @@
 
                             <Label
                                 HorizontalOptions="Start"
-                                Margin="15,15,0,0"
+                                Margin="15, 15, 0, 0"
                                 Text="{xct:Translate OrderNumber}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                 FontSize="{DynamicResource TSize_i8}"
@@ -237,13 +244,14 @@
                             <ffimageloading:CachedImage
                                 Source="ic_sort_primary_24x24"
                                 HeightRequest="25"
-                                Margin="5,13,0,0"
+                                Margin="5, 13, 0, 0"
                                 VerticalOptions="Start" />
 
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding OrderTabSortingChangeCommand}"
-                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}" />
+                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}"/>
+                                
                             </StackLayout.GestureRecognizers>
 
                         </StackLayout>
@@ -251,7 +259,7 @@
                         <Label
                             Grid.Column="3"
                             HorizontalOptions="StartAndExpand"
-                            Margin="10,15,0,0"
+                            Margin="10, 15, 0, 0"
                             Text="{xct:Translate Total}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -260,7 +268,7 @@
                         <Label
                             Grid.Column="4"
                             HorizontalOptions="StartAndExpand"
-                            Margin="15,15,0,0"
+                            Margin="15, 15, 0, 0"
                             Text="{xct:Translate OrderStatus}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -269,7 +277,7 @@
                         <Label
                             Grid.Column="5"
                             HorizontalOptions="StartAndExpand"
-                            Margin="15,15,0,0"
+                            Margin="15, 15, 0, 0"
                             Text="{xct:Translate OrderType}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
@@ -278,7 +286,7 @@
                     </Grid>
 
                     <BoxView
-                        Margin="2,0,2,0"
+                        Margin="2, 0"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="Start"
                         HeightRequest="2"
@@ -305,7 +313,8 @@
                                     ScrollBarThumbWidth="6"
                                     ScrollBarCornerRadius="9"
                                     ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}" />
+                                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                                
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
@@ -315,18 +324,19 @@
                                     <Grid
                                         HorizontalOptions="Fill"
                                         VerticalOptions="Fill"
-                                        RowDefinitions="48,2">
+                                        RowDefinitions="48, 2">
+
 
                                         <VisualStateManager.VisualStateGroups>
 
                                             <VisualStateGroup Name="CommonStates">
                                                 
-                                                <VisualState
-                                                    Name="Normal">
+                                                <VisualState Name="Normal">
                                                     <VisualState.Setters>
                                                         <Setter
                                                             Property="BackgroundColor"
                                                             Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                        
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -335,14 +345,17 @@
                                                         <Setter
                                                             Property="BackgroundColor"
                                                             Value="{DynamicResource AppColor_i4}" />
+                                                        
                                                         <Setter
                                                             TargetName="orderStatusLabel"
                                                             Property="Label.TextColor"
                                                             Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                        
                                                         <Setter
                                                             TargetName="checkBoxImage"
                                                             Property="ffimageloading:CachedImage.Source"
                                                             Value="ic_check_box_checked_white" />
+                                                        
                                                     </VisualState.Setters>
                                                 </VisualState>
 
@@ -352,22 +365,21 @@
 
                                         <Grid
                                             Grid.Row="0"
-                                            ColumnDefinitions="50,*,*,*,*">
+                                            ColumnDefinitions="50, *, *, *, *">
 
                                             <ffimageloading:CachedImage
                                                 Source="ic_check_box_unchecked_white"
                                                 Grid.Column="0"
                                                 HeightRequest="25"
                                                 HorizontalOptions="CenterAndExpand"
-                                                Margin="20,0,0,0"
+                                                Margin="20, 0, 0, 0"
                                                 VerticalOptions="CenterAndExpand"
-                                                x:Name="checkBoxImage">
-                                            </ffimageloading:CachedImage>
+                                                x:Name="checkBoxImage"/>
 
                                             <Label
                                                 Grid.Column="1"
                                                 HorizontalOptions="FillAndExpand"
-                                                Margin="20,13,0,0"
+                                                Margin="20, 13, 0, 0"
                                                 Text="{Binding Name}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
                                                 LineBreakMode="TailTruncation"
@@ -381,7 +393,9 @@
                                                         TargetType="Label"
                                                         Binding="{Binding Name}"
                                                         Value="''">
+                                                        
                                                         <Setter Property="Text" Value="NoName"/>
+                                                        
                                                     </DataTrigger>
 
                                                 </Label.Triggers>
@@ -390,7 +404,7 @@
                                             <Label
                                                 Grid.Column="2"
                                                 HorizontalOptions="StartAndExpand"
-                                                Margin="15,13,0,0"
+                                                Margin="15, 13, 0, 0"
                                                 Text="{Binding OrderNumber}"
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
@@ -399,7 +413,7 @@
                                             <Label
                                                 Grid.Column="3"
                                                 HorizontalOptions="StartAndExpand"
-                                                Margin="10,13,0,0"
+                                                Margin="10, 13, 0, 0"
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -408,7 +422,7 @@
                                             <Label
                                                 Grid.Column="4"
                                                 HorizontalOptions="StartAndExpand"
-                                                Margin="15,13,0,0"
+                                                Margin="15, 13, 0, 0"
                                                 Text="{Binding OrderStatus}"
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
@@ -420,7 +434,9 @@
                                                         TargetType="Label"
                                                         Property="Text"
                                                         Value="{Static local:Constants+OrderStatus.CANCELLED}">
+                                                        
                                                         <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
+                                                        
                                                     </Trigger>
                                                 </Label.Triggers>
 
@@ -429,7 +445,7 @@
                                             <Label
                                                 Grid.Column="5"
                                                 HorizontalOptions="StartAndExpand"
-                                                Margin="15,13,0,0"
+                                                Margin="15, 13, 0, 0"
                                                 Text="{Binding OrderType}"
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
@@ -437,9 +453,9 @@
 
                                             <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, 
-                                                        Path=TapSelectCommand}"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=TapSelectCommand}"
                                                     CommandParameter="{Binding .}" />
+                                                
                                             </Grid.GestureRecognizers>
 
                                         </Grid>
@@ -460,8 +476,8 @@
 
                     <yummy:PancakeView
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                        CornerRadius="0,0,10,10"
-                        Margin="2,0,2,2"
+                        CornerRadius="0, 0, 10, 10"
+                        Margin="2, 0, 2, 2"
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
                         IsVisible="{Binding IsNotingFound}">
