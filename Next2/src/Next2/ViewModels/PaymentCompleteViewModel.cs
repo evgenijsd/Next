@@ -146,6 +146,7 @@ namespace Next2.ViewModels
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         sum /= 100;
+
                         if (Order.GiftCardsTotalFunds >= sum)
                         {
                             if (Order.Total >= sum)
@@ -171,7 +172,7 @@ namespace Next2.ViewModels
                 {
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
-                        IsInsufficientGiftCardFunds = true;
+                        IsInsufficientGiftCardFunds = sum > 0;
                     }
                 }
             }
@@ -411,6 +412,7 @@ namespace Next2.ViewModels
                 if (updatedCustomer is not null)
                 {
                     Order.Customer = new CustomerModel(updatedCustomer);
+
                     if (Order.Customer.GiftCards.Any())
                     {
                         Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;

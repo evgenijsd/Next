@@ -143,6 +143,7 @@ namespace Next2.ViewModels
                     if (float.TryParse(inputAmountValue, out float sum))
                     {
                         sum /= 100;
+
                         if (Order.GiftCardsTotalFunds >= sum)
                         {
                             if (Order.Total > sum)

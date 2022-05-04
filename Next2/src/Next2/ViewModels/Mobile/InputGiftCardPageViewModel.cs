@@ -74,6 +74,7 @@ namespace Next2.ViewModels.Mobile
             if (args.PropertyName == nameof(InputGiftCardFounds))
             {
                 IsInSufficientGiftCardFunds = false;
+                RemainingGiftCardTotal = 0;
 
                 if (Customer is not null && Customer.GiftCards.Any())
                 {
@@ -96,8 +97,6 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    RemainingGiftCardTotal = 0;
-
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         IsInSufficientGiftCardFunds = RemainingGiftCardTotal < sum;
