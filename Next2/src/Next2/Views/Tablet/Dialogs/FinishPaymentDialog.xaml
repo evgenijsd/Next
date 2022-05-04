@@ -267,7 +267,7 @@
                         <FormattedString>
 
                             <Span Text="{xct:Translate CurrencySign}" />
-                            <Span Text="+ " />
+                            <Span Text="- " />
                             <Span Text="{Binding Order.GiftCard, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
 
                         </FormattedString>
@@ -275,7 +275,7 @@
 
                     <Label.Triggers>
                         <DataTrigger
-                            Binding="{Binding Order.Change}"
+                            Binding="{Binding Order.GiftCard}"
                             TargetType="Label"
                             Value="0">
 
