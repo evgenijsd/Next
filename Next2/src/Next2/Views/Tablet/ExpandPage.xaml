@@ -62,8 +62,7 @@
 
     <!--Left Part-->
 
-    <StackLayout
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
+    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
         <!--Header-->
 
@@ -84,9 +83,7 @@
 
                     <ffimageloading:CachedImage 
                         Source="ic_arrow_left_tail_40x40"
-                        HeightRequest="30">
-
-                    </ffimageloading:CachedImage>
+                        HeightRequest="30"/>
 
                 </ContentView>
 
@@ -96,7 +93,6 @@
                     Style="{StaticResource labeltSize_i4}"
                     FontFamily="Barlow-SemiBold"
                     VerticalTextAlignment="Center"/>
-
 
             </StackLayout>
 
@@ -255,7 +251,6 @@
                 VerticalTextAlignment="Center"/>
 
             <Frame
-                HasShadow="False"
                 CornerRadius="5"
                 BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"

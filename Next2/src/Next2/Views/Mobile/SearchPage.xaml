@@ -13,9 +13,7 @@
 
     <ContentPage.Content>
 
-        <Grid
-            RowSpacing="0"
-            RowDefinitions="65,*">
+        <Grid RowDefinitions="65, *">
 
             <controls:CustomNavigationbar
                 Title="{xct:Translate Search}"
@@ -25,7 +23,7 @@
                 LeftButtonCommand="{Binding GoBackCommand}" />
             
             <StackLayout Grid.Row="1"
-                Padding="20,15,20,15"
+                Padding="20, 15"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
                 <controls:NoActionMenuEntry
@@ -47,14 +45,18 @@
                             TargetType="controls:NoActionMenuEntry"
                             Binding="{Binding SearchLine}"
                             Value="">
+                            
                             <Setter Property="Opacity" Value="0.32" />
+                            
                         </DataTrigger>
 
                         <DataTrigger
                             TargetType="controls:NoActionMenuEntry"
                             Binding="{Binding IsOrderTabsSelected}"
                             Value="False">
+                            
                             <Setter Property="Placeholder" Value="{xct:Translate NameOrOrder}" />
+                            
                         </DataTrigger>
 
                     </controls:NoActionMenuEntry.Triggers>
