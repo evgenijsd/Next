@@ -466,7 +466,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to GiftCard.
+        ///   Looks up a localized string similar to Gift Card.
         /// </summary>
         internal static string GiftCard {
             get {
@@ -773,7 +773,7 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NumberOf.
+        ///   Looks up a localized string similar to Number of.
         /// </summary>
         internal static string NumberOf {
             get {
