@@ -202,7 +202,7 @@
                                 HorizontalOptions="End"
                                 Margin="16, 0, 40, 0"
                                 FontSize="{DynamicResource TSize_i5}"
-                                TextColor="{DynamicResource IndicationColor_i5}">
+                                TextColor="{DynamicResource AppColor_i1}">
 
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">

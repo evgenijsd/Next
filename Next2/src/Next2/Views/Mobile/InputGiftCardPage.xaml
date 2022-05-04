@@ -41,7 +41,7 @@
                 VerticalOptions="Center"
                 Margin="10, 0, 20, 0"
                 FontSize="{DynamicResource TSize_i4}"
-                TextColor="{DynamicResource IndicationColor_i5}">
+                TextColor="{DynamicResource AppColor_i1}">
 
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">
