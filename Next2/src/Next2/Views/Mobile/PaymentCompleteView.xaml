@@ -251,6 +251,30 @@
                         HeightRequest="1"
                         Margin="0, 10"/>
 
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.GiftCard, Converter={StaticResource floatToBoolConverter}}">
+
+                        <Label
+                            Text="{xct:Translate GiftCards}"
+                            Style="{DynamicResource SummaryItem}"/>
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{xct:Translate CurrencySign}" />
+                                    <Span Text=" " />
+                                    <Span Text="{Binding Order.GiftCard, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+
+                        </Label>
+
+                    </StackLayout>
+
                     <StackLayout Orientation="Horizontal">
                         
                         <StackLayout.Triggers>

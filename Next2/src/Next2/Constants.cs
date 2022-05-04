@@ -97,6 +97,8 @@
             public const string SET_MODIFIED = "SET_MODIFIED";
             public const string TIP_VALUE = "TIP_VALUE";
             public const string TIP_ITEMS = "TIP_ITEMS";
+            public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
         }
 
         public static class Validators
@@ -145,6 +147,8 @@
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
             public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
+            public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
+            public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
         }
 
         public static class PaymentOrderStatus

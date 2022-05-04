@@ -20,7 +20,7 @@
     <ContentPage.Content>
 
         <Grid>
-
+            
             <Grid
                 RowDefinitions="70, *"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">

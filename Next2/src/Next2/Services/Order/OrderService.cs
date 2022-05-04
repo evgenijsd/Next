@@ -425,6 +425,10 @@ namespace Next2.Services.Order
 
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
+                    CurrentOrder.SubTotal -= seat.Sets.Sum(row => row.TotalPrice);
+                    CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+
                     result.SetSuccess();
                 }
             }
@@ -478,6 +482,9 @@ namespace Next2.Services.Order
                 if (setTobeRemoved is not null)
                 {
                     CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
+                    CurrentOrder.SubTotal -= setTobeRemoved.TotalPrice;
+                    CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
                 }
 
                 result.SetSuccess();

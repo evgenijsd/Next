@@ -7,6 +7,26 @@ namespace Next2.Models
 {
     public class CustomerModel : IBaseModel
     {
+        public CustomerModel()
+        {
+        }
+
+        public CustomerModel(CustomerModel customerModel)
+        {
+            Id = customerModel.Id;
+            Name = customerModel.Name;
+            Email = customerModel.Email;
+            Phone = customerModel.Phone;
+            Birthday = customerModel.Birthday;
+            Points = customerModel.Points;
+            Rewards = customerModel.Rewards;
+            GiftCards = customerModel.GiftCards;
+            GiftCardCount = customerModel.GiftCardCount;
+            GiftCardTotal = customerModel.GiftCardTotal;
+            IsNotRegistratedCustomer = customerModel.IsNotRegistratedCustomer;
+            IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; } = string.Empty;
@@ -24,5 +44,11 @@ namespace Next2.Models
         public int GiftCardCount { get; set; }
 
         public float GiftCardTotal { get; set; }
+
+        public List<GiftCardModel> GiftCards { get; set; } = new();
+
+        public bool IsNotRegistratedCustomer { get; set; }
+
+        public bool IsUpdatedCustomer { get; set; }
     }
 }

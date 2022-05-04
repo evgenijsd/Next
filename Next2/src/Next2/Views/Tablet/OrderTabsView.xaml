@@ -326,6 +326,7 @@
                                         VerticalOptions="Fill"
                                         RowDefinitions="48, 2">
 
+
                                         <VisualStateManager.VisualStateGroups>
 
                                             <VisualStateGroup Name="CommonStates">

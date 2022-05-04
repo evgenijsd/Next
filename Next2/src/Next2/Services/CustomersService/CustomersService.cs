@@ -67,6 +67,82 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
+        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard)
+        {
+            var result = new AOResult();
+            try
+            {
+                if (!customer.GiftCards.Contains(giftCard))
+                {
+                    giftCard.IsRegistered = true;
+                    customer.GiftCards.Add(giftCard);
+                    customer.GiftCardTotal = customer.GiftCards.Sum(row => row.GiftCardFunds);
+                    customer.GiftCardCount = customer.GiftCards.Count();
+                    customer.IsUpdatedCustomer = true;
+
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddGiftCardToCustomerAsync)}: exception", "The giftcard in-use", ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard)
+        {
+            var result = new AOResult();
+            try
+            {
+                var isGiftCardRemoved = await _mockService.RemoveAsync(giftCard);
+
+                if (isGiftCardRemoved)
+                {
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(ActivateGiftCardAsync)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber)
+        {
+            var result = new AOResult<GiftCardModel>();
+            try
+            {
+                var giftCard = await _mockService.FindAsync<GiftCardModel>(x => x.GiftCardNumber == giftCardNumber);
+
+                if (giftCard is not null)
+                {
+                    result.SetSuccess(giftCard);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetGiftCardByNumberAsync)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

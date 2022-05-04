@@ -127,6 +127,7 @@ namespace Next2.ViewModels
             IsSearching = false;
             IsNotingFound = false;
             SelectedOrder = null;
+            _lastSavedOrderId = 0;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
