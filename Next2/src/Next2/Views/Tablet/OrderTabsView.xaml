@@ -283,14 +283,16 @@
                             FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-SemiBold" />
 
+                        <BoxView
+                            Grid.ColumnSpan="6"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="EndAndExpand"
+                            HeightRequest="2"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
                     </Grid>
 
-                    <BoxView
-                        Margin="2, 0"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="Start"
-                        HeightRequest="2"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
 
                     <!-- TABLE CONTENT -->
                     <RefreshView

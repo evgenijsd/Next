@@ -201,7 +201,7 @@ namespace Next2.ViewModels
         {
             Order.PriceTax = _subtotalWithBonus * Order.Tax.Value;
             Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
-            Order.Total = Order.Total - Order.Cash;
+            Order.Total = Order.Total - Order.Cash - Order.GiftCard;
             var cash = Order.Cash + Order.Change;
             Order.Cash = 0;
             Order.Cash = cash;

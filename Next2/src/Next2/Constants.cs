@@ -99,6 +99,7 @@
             public const string TIP_ITEMS = "TIP_ITEMS";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
+            public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
         }
 
         public static class Validators
