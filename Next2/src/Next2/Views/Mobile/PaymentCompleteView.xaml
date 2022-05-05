@@ -80,9 +80,8 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <StackLayout>
-
-                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">
-
+                
+                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">                    
                     <StackLayout>
 
                         <BoxView
@@ -126,7 +125,6 @@
                             HeightRequest="1"/>
 
                     </StackLayout>
-
                 </StackLayout>
 
                 <StackLayout
