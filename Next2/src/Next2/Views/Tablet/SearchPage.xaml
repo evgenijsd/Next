@@ -12,7 +12,7 @@
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
     <ContentPage.Content>
-        
+
         <Grid RowDefinitions="65, *">
 
             <controls:CustomNavigationbar
