@@ -204,20 +204,17 @@
                                 </CollectionView.Effects>
                                 
                                 <CollectionView.ItemTemplate>
-
                                     <DataTemplate x:DataType="models:OrderBindableModel">
+                                            <Grid
+                                                RowDefinitions="0.98*, 0.02*"
+                                                HeightRequest="50"
+                                                MinimumHeightRequest="50">
 
-                                        <Grid
-                                            HorizontalOptions="Fill"
-                                            VerticalOptions="Start"
-                                            RowDefinitions="2, 48">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup Name="CommonStates">
 
-                                            <VisualStateManager.VisualStateGroups>
-
-                                                <VisualStateGroup Name="CommonStates">
-
-                                                    <VisualState Name="Normal">
-                                                        <VisualState.Setters>
+                                                        <VisualState Name="Normal">
+                                                            <VisualState.Setters>
                                                             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
@@ -228,18 +225,13 @@
                                                         </VisualState.Setters>
                                                     </VisualState>
 
-                                                </VisualStateGroup>
-
-                                            </VisualStateManager.VisualStateGroups>
-
-                                            <Grid
-                                                Grid.Row="1"
-                                                ColumnDefinitions="*, *, *">
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
 
                                                 <Label
                                                     Grid.Column="0"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Margin="20, 13, 0, 0"
+                                                    Margin="20, 15, 0, 0"
                                                     Text="{Binding Name}"
                                                     HeightRequest="{DynamicResource TSize_i8}"
                                                     LineBreakMode="TailTruncation"
@@ -250,7 +242,7 @@
                                                 <Label
                                                     Grid.Column="1"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Margin="15, 13, 0, 0"
+                                                    Margin="15, 15, 0, 0"
                                                     Text="{Binding OrderNumber}"
                                                     FontFamily="Barlow-Regular"
                                                     FontSize="{DynamicResource TSize_i8}"
@@ -260,10 +252,15 @@
                                                     Grid.Column="2"
                                                     Text="{Binding Total, StringFormat='$ {0:F2}'}"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Margin="10, 13, 0, 0"
+                                                    Margin="10, 15, 0, 0"
                                                     FontFamily="Barlow-Regular"
                                                     FontSize="{DynamicResource TSize_i8}"
                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                                                                            <BoxView
+                                                                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
                                                 <Grid.GestureRecognizers>
                                                     <TapGestureRecognizer
@@ -273,15 +270,7 @@
                                                 </Grid.GestureRecognizers>
 
                                             </Grid>
-
-                                            <BoxView
-                                                Grid.Row="0"
-                                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
-                                        </Grid>
-
                                     </DataTemplate>
-
                                 </CollectionView.ItemTemplate>
 
                             </CollectionView>
