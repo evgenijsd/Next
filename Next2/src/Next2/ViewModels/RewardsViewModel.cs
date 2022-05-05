@@ -81,9 +81,11 @@ namespace Next2.ViewModels
             if (!App.IsTablet)
             {
                 if (parameters.TryGetValue(Constants.Navigations.IS_REWARD_APPLIED, out bool isRewardApplied)
-                    && parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward))
+                    && parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward)
+                     && parameters.TryGetValue(Constants.Navigations.CONFIRMED_APPLY_REWARD, out bool isRewardConfirmedAppy))
                 {
                     reward.IsApplied = isRewardApplied;
+                    reward.IsConfirmedApply = isRewardConfirmedAppy;
 
                     if (isRewardApplied && parameters.TryGetValue(Constants.Navigations.SEATS, out ObservableCollection<SeatWithFreeSetsBindableModel> seats))
                     {
@@ -252,6 +254,7 @@ namespace Next2.ViewModels
                 else if (selectedReward.IsApplied)
                 {
                     selectedReward.IsApplied = false;
+                    selectedReward.IsConfirmedApply = false;
                     ApplyCancelRewardToSet(Order.Seats, selectedReward);
                     LockUnlockSimilarRewards(Order.Seats, selectedReward);
                 }

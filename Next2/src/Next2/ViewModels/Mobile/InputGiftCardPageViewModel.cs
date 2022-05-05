@@ -153,11 +153,10 @@ namespace Next2.ViewModels.Mobile
         private Task OnDisplayErrorNotificationCommandAsync()
         {
             IsErrorNotificationVisible = true;
-
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await Task.Delay(2000);
-                IsErrorNotificationVisible = !IsErrorNotificationVisible;
+                IsErrorNotificationVisible = false;
             });
 
             return Task.CompletedTask;
