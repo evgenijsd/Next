@@ -57,6 +57,7 @@ namespace Next2.ViewModels.Mobile
             {
                 { Constants.Navigations.IS_REWARD_APPLIED, true },
                 { Constants.Navigations.SEATS, Seats },
+                { Constants.Navigations.CONFIRMED_APPLY_REWARD, true },
             };
 
             return _navigationService.GoBackAsync(parameters);
