@@ -14,7 +14,7 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PaymentCompleteView"
-    x:DataType="viewmodels:PaymentCompleteViewModel">
+    x:DataType="viewmodels:PaymentCompleteViewModel" >
 
     <Grid
         ColumnDefinitions="0.67*, 0.33*"
@@ -110,6 +110,7 @@
                                                 HorizontalOptions="FillAndExpand">
 
                                                 <Label.Triggers>
+                                                    
                                                     <DataTrigger
                                                         TargetType="Label"
                                                         Binding="{Binding TipType}"
@@ -118,6 +119,7 @@
                                                         <Setter Property="Text" Value="{xct:Translate Other}" />
 
                                                     </DataTrigger>
+                                                    
                                                 </Label.Triggers>
 
                                             </Label>
@@ -205,6 +207,7 @@
                                 TextColor="{DynamicResource AppColor_i1}">
 
                                 <Label.Triggers>
+                                    
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">
                                         <Setter Property="Text" Value="0"/>
                                     </DataTrigger>
@@ -212,6 +215,7 @@
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                                         <Setter Property="Text" Value="{Binding Order.Customer.GiftCardCount}"/>
                                     </DataTrigger>
+                                    
                                 </Label.Triggers>
 
                             </Label>
@@ -435,7 +439,10 @@
 
                             <StackLayout.Triggers>
 
-                                <DataTrigger TargetType="StackLayout" Binding="{Binding CardPaymentStatus}" Value="WaitingSignature">
+                                <DataTrigger
+                                    TargetType="StackLayout"
+                                    Binding="{Binding CardPaymentStatus}"
+                                    Value="WaitingSignature">
 
                                     <Setter Property="IsVisible" Value="False"/>
                                     
@@ -449,7 +456,10 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding NeedSignatureReceipt}" Value="True">
+                                    <DataTrigger
+                                        TargetType="ffimageloading:CachedImage"
+                                        Binding="{Binding NeedSignatureReceipt}"
+                                        Value="True">
 
                                         <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
 
@@ -724,9 +734,7 @@
                             Binding="{Binding Order.BonusType, Converter={xct:EnumToIntConverter}}"
                             Value="0">
 
-                            <Setter
-                                Property="IsVisible"
-                                Value="False" />
+                            <Setter Property="IsVisible" Value="False" />
 
                         </DataTrigger>
 
@@ -743,9 +751,7 @@
                                 Binding="{Binding Order.BonusType}"
                                 Value="{x:Static enum:EBonusType.Discount}">
 
-                                <Setter
-                                    Property="Text"
-                                    Value="{xct:Translate Discount}" />
+                                <Setter Property="Text" Value="{xct:Translate Discount}" />
 
                             </DataTrigger>
 
