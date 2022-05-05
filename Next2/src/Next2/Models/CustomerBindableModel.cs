@@ -1,5 +1,6 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -22,6 +23,8 @@ namespace Next2.Models
         public int Points { get; set; }
 
         public float GiftCardTotal { get; set; }
+
+        public List<GiftCardModel> GiftCards { get; set; } = new();
 
         public ImageSource CheckboxImage { get; set; }
 

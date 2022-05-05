@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views" 
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Next2.Views.Mobile.InputGiftCardPage"
+    x:DataType="mobile:InputGiftCardPageViewModel">
+
+    <Grid
+        RowDefinitions="60, 90, *, 60"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+        <controls:CustomNavigationbar
+            Grid.Row="0"
+            Title="{xct:Translate GiftCards}"
+            HeightImage="30"
+            FontSize="{DynamicResource TSize_i3}"
+            FontFamily="Barlow-Bold"
+            LeftButtonCommand="{Binding GoBackCommand}"/>
+
+        <StackLayout 
+            Grid.Row="1"
+            Margin="20, 0"
+            Orientation="Horizontal">
+
+            <Label
+                Text="{xct:Translate Number}"
+                FontFamily="Barlow-Regular"
+                VerticalOptions="Center"
+                FontSize="{DynamicResource TSize_i4}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+
+            <Label
+                FontFamily="Barlow-Bold"
+                VerticalOptions="Center"
+                Margin="10, 0, 20, 0"
+                FontSize="{DynamicResource TSize_i4}"
+                TextColor="{DynamicResource AppColor_i1}">
+
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">
+                        <Setter Property="Text" Value="0"/>
+                    </DataTrigger>
+
+                    <DataTrigger TargetType="Label" Binding="{Binding Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                        <Setter Property="Text" Value="{Binding Customer.GiftCardCount}"/>
+                    </DataTrigger>
+                </Label.Triggers>
+
+            </Label>
+
+            <Label VerticalOptions="Center">
+
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span
+                            Text="{xct:Translate Total}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i4}"
+                            FontFamily="Barlow-Regular"/>
+
+                        <Span Text="   " />
+
+                        <Span
+                            Text="{xct:Translate CurrencySign}"
+                            TextColor="{DynamicResource IndicationColor_i5}"
+                            FontSize="{DynamicResource TSize_i4}"
+                            FontFamily="Barlow-Bold"/>
+
+                        <Span Text="  " />
+
+                        <Span
+                            Text="{Binding RemainingGiftCardTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}"
+                            TextColor="{DynamicResource IndicationColor_i5}"
+                            FontSize="{DynamicResource TSize_i4}"
+                            FontFamily="Barlow-Bold"/>
+
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <ffimageloading:CachedImage 
+                Source="ic_danger_triangle"
+                HorizontalOptions="EndAndExpand"
+                IsVisible="{Binding IsInSufficientGiftCardFunds}">
+                
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DisplayErrorNotification}"/>
+                </ffimageloading:CachedImage.GestureRecognizers>
+                
+            </ffimageloading:CachedImage>
+
+        </StackLayout>
+
+        <templates:CustomNumericKeyboardTemplate
+            Grid.Row="2"
+            BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
+            PlaceHolder="{xct:Translate EnterAmount}"
+            ErrorPlaceHolder="{xct:Translate YouDontHaveFundsOnGiftCards}" 
+            IsTextRightToLeft="True"
+            IsNumericMode="True"
+            Value="{Binding InputGiftCardFounds}"
+            IsErrorPlaceHolderVisible="{Binding IsErrorNotificationVisible}"
+            ValueFormat="{x:Static local:Constants+Formats.CASH_FORMAT}"
+            MaxLength="{x:Static local:Constants+Limits.MAXIMUM_DISCHARGE_NUMBER}"
+            Margin="20, 0, 20, 15"/>
+
+        <Grid 
+            Grid.Row="3"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+            <Frame
+                Margin="15, 10"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                BackgroundColor="{DynamicResource IndicationColor_i1}">
+                
+                <Label 
+                    Text="{xct:Translate AddNew}"
+                    FontSize="{DynamicResource TSize_i5}"
+                    FontFamily="Semi Bold"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"/>
+                
+            </Frame>
+
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddGiftCardCommand}" CommandParameter="107"/>
+            </Grid.GestureRecognizers>
+
+        </Grid>
+        
+    </Grid>
+
+</views:BaseContentPage>

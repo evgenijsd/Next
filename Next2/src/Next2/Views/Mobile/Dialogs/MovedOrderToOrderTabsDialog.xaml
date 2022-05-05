@@ -23,7 +23,7 @@
         CornerRadius="10"
         Border="{pancakeview:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i2}}"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-        xct:ShadowEffect.Color="Black"
+        xct:ShadowEffect.Color="{DynamicResource TextAndBackgroundColor_i6}"
         xct:ShadowEffect.Radius="16">
 
         <pancakeview:PancakeView.Resources>
@@ -59,6 +59,7 @@
             <controls:LineSpacingLabel
                 VerticalTextAlignment="Start"
                 HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
                 Padding="28, 0, 28, 40"
                 FontFamily="Barlow-Medium"
                 FontSize="{DynamicResource TSize_i5}"

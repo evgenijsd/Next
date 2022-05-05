@@ -16,9 +16,7 @@
     x:DataType="viewModels:MenuPageViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-    <Grid
-        ColumnSpacing="0"
-        ColumnDefinitions="100, *">
+    <Grid ColumnDefinitions="100, *">
 
         <Grid.Triggers>
             <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="false">
@@ -63,7 +61,6 @@
             Grid.Row="0"
             Grid.Column="0"
             RowDefinitions="105, *, 80"
-            RowSpacing="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <VisualStateManager.VisualStateGroups>

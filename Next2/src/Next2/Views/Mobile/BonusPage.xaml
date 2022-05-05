@@ -20,10 +20,9 @@
     <ContentPage.Content>
 
         <Grid>
-
+            
             <Grid
-                RowDefinitions="70,*"
-                RowSpacing="0"
+                RowDefinitions="70, *"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">
 
                 <controls:CustomNavigationbar
@@ -46,7 +45,7 @@
 
                     <StackLayout>
 
-                        <Grid Margin="20,25,20,0">
+                        <Grid Margin="20, 25, 20, 0">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
@@ -64,7 +63,7 @@
                                     FontSize="{DynamicResource TSize_i5}" />
 
                                 <ffimageloading:CachedImage
-                                    Margin="0,0,0,10"
+                                    Margin="0, 0, 0, 10"
                                     Source="ic_arrow_up_24x24.png"
                                     HeightRequest="25"
                                     HorizontalOptions="EndAndExpand">
@@ -121,12 +120,12 @@
                         </Grid>
 
                         <BoxView
-                            Margin="0,5,0,0"
+                            Margin="0, 5, 0, 0"
                             HeightRequest="1"
                             VerticalOptions="End"
                             Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
-                        <Grid Margin="20,15,20,0">
+                        <Grid Margin="20, 15, 20, 0">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40" />
@@ -138,13 +137,13 @@
 
                                 <Label
                                     Text="{xct:Translate Discounts}"
-                                    Margin="0,3,0,0"
+                                    Margin="0, 3, 0, 0"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontFamily="Barlow-SemiBold"
                                     FontSize="{DynamicResource TSize_i5}" />
 
                                 <ffimageloading:CachedImage
-                                    Margin="0,0,0,5"
+                                    Margin="0, 0, 0, 5"
                                     Source="ic_arrow_up_24x24"
                                     HeightRequest="25"
                                     HorizontalOptions="EndAndExpand">
@@ -180,8 +179,7 @@
 
                                 <CollectionView.ItemTemplate>
 
-                                    <DataTemplate
-                                        x:DataType="models:BonusBindableModel">
+                                    <DataTemplate x:DataType="models:BonusBindableModel">
 
                                         <templates:BonusItemTemplate
                                             Text="{Binding Name}"
@@ -201,7 +199,7 @@
                         </Grid>
 
                         <BoxView
-                            Margin="0,15,0,0"
+                            Margin="0, 15, 0, 0"
                             HeightRequest="1"
                             VerticalOptions="End"
                             Color="{DynamicResource TextAndBackgroundColor_i2}" />
@@ -213,8 +211,7 @@
             </Grid>
 
             <Grid
-                RowDefinitions="70,*,75"
-                RowSpacing="0"
+                RowDefinitions="70, *, 75"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                 <controls:CustomNavigationbar
@@ -231,20 +228,20 @@
                     Color="{DynamicResource TextAndBackgroundColor_i2}" />
 
                 <ScrollView
-                    Margin="20,17,20,0"
+                    Margin="20, 17, 20, 0"
                     Grid.Row="1" 
                     VerticalScrollBarVisibility="Never">
 
-                    <StackLayout
-                        BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
+                    <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
+                        
                         <BindableLayout.ItemTemplate>
                             
                             <DataTemplate x:DataType="models:SeatBindableModel">
 
-                                <StackLayout Margin="0,0,0,15">
+                                <StackLayout Margin="0, 0, 0, 15">
                                     
                                     <Label
-                                        Margin="0,0,0,20"
+                                        Margin="0, 0, 0, 20"
                                         Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                         Opacity="0.60"
@@ -256,6 +253,7 @@
                                         <StackLayout
                                             HorizontalOptions="FillAndExpand"
                                             BindableLayout.ItemsSource="{Binding Sets}">
+                                            
                                             <BindableLayout.ItemTemplate>
 
                                                 <DataTemplate x:DataType="models:SetBindableModel">
@@ -265,7 +263,7 @@
                                                         <StackLayout Orientation="Horizontal">
 
                                                             <Frame
-                                                                Margin="0,0,20,0"
+                                                                Margin="0, 0, 20, 0"
                                                                 CornerRadius="5">
 
                                                                 <ffimageloading:CachedImage
@@ -287,7 +285,7 @@
 
                                                                 <Label
                                                                     Text="{Binding Title}"
-                                                                    Margin="0,5,0,0"
+                                                                    Margin="0, 5, 0, 0"
                                                                     Opacity="0.6"
                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
@@ -312,7 +310,7 @@
 
                                                                 <Label
                                                                     Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
-                                                                    Margin="0,5,0,0"
+                                                                    Margin="0, 5, 0, 0"
                                                                     Opacity="0.6"
                                                                     HorizontalOptions="End"
                                                                     TextDecorations="Strikethrough"
@@ -323,16 +321,14 @@
 
                                                                     <Label.Triggers>
 
-                                                                        <DataTrigger
-                                                                            TargetType="Label"
-                                                                            Value="0">
+                                                                        <DataTrigger TargetType="Label" Value="0">
 
                                                                             <DataTrigger.Binding>
                                                                                 <MultiBinding 
                                                                                     Converter="{xct:MultiMathExpressionConverter}"
                                                                                     ConverterParameter="x0 - x1">
                                                                                     
-                                                                                    <Binding Path="Portion.Price" />
+                                                                                    <Binding Path="TotalPrice" />
                                                                                     <Binding Path="PriceBonus" />
                                                                                     
                                                                                 </MultiBinding>
@@ -351,7 +347,7 @@
                                                         </StackLayout>
 
                                                         <BoxView
-                                                            Margin="0,20,0,15"
+                                                            Margin="0, 20, 0, 15"
                                                             HeightRequest="2"
                                                             Color="{DynamicResource TextAndBackgroundColor_i3}" />
 
@@ -383,7 +379,7 @@
 
                     <buttons:BorderButton
                         HorizontalOptions="FillAndExpand"
-                        Margin="20,15,20,15"
+                        Margin="20, 15"
                         HeightRequest="35"
                         Text="{xct:Translate Apply}"
                         FontSize="{DynamicResource TSize_i5}"

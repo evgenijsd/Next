@@ -59,5 +59,9 @@ namespace Next2.Models
         public float Change { get; set; }
 
         public float Total { get; set;  }
+
+        public float GiftCardsTotalFunds { get; set; }
+
+        public float RemainingGiftCardsTotalFunds { get; set; }
     }
 }

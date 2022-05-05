@@ -126,6 +126,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.ModificationsPage, ModificationsPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.TipsPage, TipsPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.InputCashPage, InputCashPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.InputGiftCardPage, InputGiftCardPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSwipeCardPage, WaitingSwipeCardPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
 

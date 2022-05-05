@@ -7,19 +7,18 @@
     x:DataType="controls:CustomNavigationbar"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-    ColumnDefinitions="50,*"
-    ColumnSpacing="0"
+    ColumnDefinitions="50, *"
     HeightRequest="70"
     x:Class="Next2.Controls.CustomNavigationbar">
 
-    <StackLayout Grid.Column="0"
+    <StackLayout
+        Grid.Column="0"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=LeftButtonCommand}">
 
         <ffimageloading:CachedImage
             Source="ic_arrow_left_tail_40x40"
             HeightRequest="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=HeightImage}"
-            VerticalOptions="CenterAndExpand">
-        </ffimageloading:CachedImage>
+            VerticalOptions="CenterAndExpand"/>
 
     </StackLayout>
 

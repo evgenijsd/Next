@@ -70,7 +70,9 @@
                 RowDefinitions="0.101*, 0.779*, 0.119*"
                 RowSpacing="1.5">
 
-                <BoxView Grid.Row="0" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                <BoxView
+                    Grid.Row="0"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                 <Label
                     Grid.Row="0"
@@ -81,7 +83,9 @@
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalOptions="Center" />
 
-                <BoxView Grid.Row="1" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                <BoxView
+                    Grid.Row="1"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                 <StackLayout
                     Grid.Row="1"
@@ -141,8 +145,7 @@
                     <Frame
                         Margin="0, 23, 0, 24"
                         Padding="0"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                        HasShadow="False">
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
 
                         <Grid
                             ColumnSpacing="1.5"
@@ -216,7 +219,11 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Style="{StaticResource GridLayoutStyle}">
-                                <Label Style="{StaticResource GridTextStyle}" TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                                
+                                <Label
+                                    Style="{StaticResource GridTextStyle}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                                    
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{xct:Translate NumberOf}" />
@@ -224,6 +231,7 @@
                                             <Span Text="{xct:Translate GiftCards}" />
                                         </FormattedString>
                                     </Label.FormattedText>
+                                    
                                 </Label>
 
                                 <Label
@@ -246,7 +254,10 @@
                                 Grid.Column="1"
                                 Style="{StaticResource GridLayoutStyle}">
 
-                                <Label Style="{StaticResource GridTextStyle}" TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                                <Label
+                                    Style="{StaticResource GridTextStyle}"
+                                    TextColor="{DynamicResource TextAndBackgroundColor_i1}">
+                                    
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="{xct:Translate GiftCard}" />
@@ -254,6 +265,7 @@
                                             <Span Text="{xct:Translate Total}" />
                                         </FormattedString>
                                     </Label.FormattedText>
+                                    
                                 </Label>
 
                                 <Label
@@ -279,8 +291,9 @@
 
                 </StackLayout>
 
-
-                <BoxView Grid.Row="2" BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                <BoxView
+                    Grid.Row="2"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                 <StackLayout
                     Grid.Row="2"

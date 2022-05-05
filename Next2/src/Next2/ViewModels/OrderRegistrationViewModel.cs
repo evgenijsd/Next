@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
+using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Services.UserService;
@@ -41,6 +42,7 @@ namespace Next2.ViewModels
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMenuService _menuService;
+        private readonly IBonusesService _bonusesService;
 
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
@@ -61,6 +63,7 @@ namespace Next2.ViewModels
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
+            IBonusesService bonusesService,
             IAuthenticationService authenticationService,
             IMenuService menuService)
             : base(navigationService)
@@ -72,6 +75,7 @@ namespace Next2.ViewModels
             _userService = userService;
             _authenticationService = authenticationService;
             _menuService = menuService;
+            _bonusesService = bonusesService;
 
             _orderPaymentStatus = EOrderStatus.None;
 
@@ -160,14 +164,6 @@ namespace Next2.ViewModels
                 foreach (var seat in CurrentOrder.Seats)
                 {
                     seat.SelectedItem = null;
-                }
-
-                if (parameters.ContainsKey(Constants.Navigations.DELETE_SET))
-                {
-                    MessagingCenter.Subscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET, (sender, arg) =>
-                    {
-                        RecalculateOrderPriceBySet(arg);
-                    });
                 }
             }
 
@@ -408,7 +404,6 @@ namespace Next2.ViewModels
 
                     if (deleteSetsResult.IsSuccess)
                     {
-                        RecalculateOrderPriceBySeat(removalSeat);
                         RefreshCurrentOrderAsync();
 
                         NumberOfSeats = CurrentOrder.Seats.Count;
@@ -850,14 +845,11 @@ namespace Next2.ViewModels
                 {
                     var result = await _orderService.DeleteSetFromCurrentSeat();
 
-                    if (SelectedSet is not null)
-                    {
-                        RecalculateOrderPriceBySet(SelectedSet);
-                    }
-
                     if (result.IsSuccess)
                     {
                         RefreshCurrentOrderAsync();
+
+                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
 
                         if (CurrentState == LayoutState.Success)
                         {
@@ -928,34 +920,6 @@ namespace Next2.ViewModels
             _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
 
             RefreshCurrentOrderAsync();
-        }
-
-        private void RecalculateOrderPriceBySet(SetBindableModel selectedSet)
-        {
-            var amoutToSubtract = selectedSet.Portion.Price;
-            CurrentOrder.Total -= amoutToSubtract;
-            CurrentOrder.SubTotal -= amoutToSubtract;
-
-            if (!App.IsTablet)
-            {
-                MessagingCenter.Unsubscribe<EditPageViewModel, SetBindableModel>(this, Constants.Navigations.SELECTED_SET);
-            }
-        }
-
-        private void RecalculateOrderPriceBySeat(SeatBindableModel seat)
-        {
-            float amoutToSubtract = 0;
-
-            if (seat.Sets.Any())
-            {
-                foreach (var set in seat.Sets)
-                {
-                    amoutToSubtract += set.Portion.Price;
-                }
-
-                CurrentOrder.Total -= amoutToSubtract;
-                CurrentOrder.SubTotal -= amoutToSubtract;
-            }
         }
 
         private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)

@@ -339,7 +339,7 @@ namespace Next2.Services.Order
                         set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
                     }
 
-                    set.TotalPrice = set.ProductsPrice + set.IngredientsPrice + set.Portion.Price - set.Portions.OrderByDescending(x => x.Price).LastOrDefault().Price;
+                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
 
                     CurrentOrder.Total += set.TotalPrice;
                 }
@@ -359,7 +359,7 @@ namespace Next2.Services.Order
                 CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
                 CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
 
-                if (CurrentOrder.Bonus is not null)
+                if (CurrentOrder.BonusType != Enums.EBonusType.None)
                 {
                     CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
                 }
@@ -425,6 +425,10 @@ namespace Next2.Services.Order
 
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
+                    CurrentOrder.SubTotal -= seat.Sets.Sum(row => row.TotalPrice);
+                    CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+
                     result.SetSuccess();
                 }
             }
@@ -478,6 +482,9 @@ namespace Next2.Services.Order
                 if (setTobeRemoved is not null)
                 {
                     CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
+                    CurrentOrder.SubTotal -= setTobeRemoved.TotalPrice;
+                    CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
                 }
 
                 result.SetSuccess();

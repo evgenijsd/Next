@@ -82,6 +82,7 @@
                     Direction="Right"
                     Swiped="OnLeftMonthButtonTapped"
                     Threshold="24" />
+                
             </Label.GestureRecognizers>
 
         </Label>
@@ -102,7 +103,7 @@
     <!--  grid  -->
     <controls:CalendarGridCollectionView
         Grid.Row="2"
-        Margin="16,0,16,1"
+        Margin="16, 0, 16, 1"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         Month="{Binding SelectedMonth, Source={x:Reference calendar}}"
         Year="{Binding SelectedYear.YearValue, Source={x:Reference calendar}}"
@@ -116,6 +117,7 @@
                 Orientation="Vertical"
                 Span="7"
                 VerticalItemSpacing="0" />
+            
         </CollectionView.ItemsLayout>
 
         <CollectionView.Effects>
@@ -127,7 +129,7 @@
             <DataTemplate x:DataType="models:Day">
 
                 <StackLayout
-                    Padding="3,2.4,3,2.4" 
+                    Padding="3, 2.4, 3, 2.4" 
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
                     
                     <Frame
@@ -136,7 +138,6 @@
                         Margin="0"
                         HeightRequest="34"
                         WidthRequest="34"
-                        HasShadow="False"
                         CornerRadius="16"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
@@ -189,11 +190,11 @@
         Grid.RowSpan="3"
         HorizontalOptions="EndAndExpand"
         VerticalOptions="StartAndExpand"
-        Margin="0,30,0,0"
+        Margin="0, 30, 0, 0"
         HeightRequest="169"
         WidthRequest="90"
         IsVisible="false"
-        xct:CornerRadiusEffect.CornerRadius="0,0,4,4"
+        xct:CornerRadiusEffect.CornerRadius="0, 0, 4, 4"
         x:Name="dropdownFrame">
 
         <CollectionView

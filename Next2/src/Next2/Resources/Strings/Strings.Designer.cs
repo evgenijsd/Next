@@ -70,6 +70,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Gift Card.
+        /// </summary>
+        internal static string AddGiftCard {
+            get {
+                return ResourceManager.GetString("AddGiftCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Item.
         /// </summary>
         internal static string AddItem {
@@ -782,6 +791,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        internal static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NumberOf.
         /// </summary>
         internal static string NumberOf {
@@ -1424,6 +1442,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type Gift Card Number.
+        /// </summary>
+        internal static string TypeGiftCardNumber {
+            get {
+                return ResourceManager.GetString("TypeGiftCardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A-Z.
         /// </summary>
         internal static string TypeOrder {
@@ -1465,6 +1492,15 @@ namespace Next2.Resources.Strings {
         internal static string Welcome {
             get {
                 return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have enough funds on your cards.
+        /// </summary>
+        internal static string YouDontHaveFundsOnGiftCards {
+            get {
+                return ResourceManager.GetString("YouDontHaveFundsOnGiftCards", resourceCulture);
             }
         }
     }

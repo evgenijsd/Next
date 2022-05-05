@@ -97,6 +97,8 @@
             public const string SET_MODIFIED = "SET_MODIFIED";
             public const string TIP_VALUE = "TIP_VALUE";
             public const string TIP_ITEMS = "TIP_ITEMS";
+            public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
         }
 
         public static class Validators
@@ -147,6 +149,8 @@
             public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
             public const string PAID_ORDER_BINDABLE_MODEL = "PAID_ORDER_BINDABLE_MODEL";
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
+            public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
+            public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
         }
 
         public static class PaymentOrderStatus

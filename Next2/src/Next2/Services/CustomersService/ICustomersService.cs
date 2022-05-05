@@ -11,5 +11,11 @@ namespace Next2.Services.CustomersService
         Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null);
 
         Task<AOResult<int>> AddNewCustomerAsync(CustomerModel customer);
+
+        Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber);
+
+        Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
+
+        Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard);
     }
 }

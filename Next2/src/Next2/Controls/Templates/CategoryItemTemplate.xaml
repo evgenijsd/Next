@@ -85,7 +85,6 @@
         x:Name="frame"
         Padding="0"
         Margin="1"
-        HasShadow="False"
         HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
         BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
