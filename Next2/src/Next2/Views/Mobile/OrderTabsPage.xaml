@@ -50,8 +50,8 @@
                     Command="{Binding SelectOrdersCommand}" />
 
                 <controls:CustomButton
-                    Text="{xct:Translate Tabs}"
                     Grid.Column="1"
+                    Text="{xct:Translate Tabs}"                    
                     VerticalOptions="FillAndExpand"
                     IsSelected="{Binding IsOrderTabsSelected, Converter={xct:InvertedBoolConverter}}"
                     Command="{Binding SelectTabsCommand}" />
