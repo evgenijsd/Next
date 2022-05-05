@@ -155,8 +155,7 @@
 
                     </StackLayout>
 
-                    <StackLayout
-                        Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal">
 
                         <StackLayout.Triggers>
 
@@ -165,9 +164,7 @@
                                 Binding="{Binding Order.BonusType, Converter={xct:EnumToIntConverter}}"
                                 Value="0">
 
-                                <Setter
-                                    Property="IsVisible"
-                                    Value="False" />
+                                <Setter Property="IsVisible" Value="False" />
 
                             </DataTrigger>
 
@@ -184,9 +181,7 @@
                                     Binding="{Binding Order.BonusType}"
                                     Value="{x:Static enum:EBonusType.Discount}">
 
-                                    <Setter
-                                        Property="Text"
-                                        Value="{xct:Translate Discount}" />
+                                    <Setter Property="Text" Value="{xct:Translate Discount}" />
 
                                 </DataTrigger>
 

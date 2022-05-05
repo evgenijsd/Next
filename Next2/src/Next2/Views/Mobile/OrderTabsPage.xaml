@@ -201,8 +201,7 @@
                             </CollectionView.Effects>
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate
-                                    x:DataType="models:OrderBindableModel">
+                                <DataTemplate x:DataType="models:OrderBindableModel">
 
                                     <Grid
                                         RowDefinitions="0.98*, 0.02*"
