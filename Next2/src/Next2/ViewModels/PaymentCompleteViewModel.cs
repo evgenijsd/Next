@@ -402,12 +402,21 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
             };
 
-            void callback(IDialogParameters par) => _popupNavigation.PopAsync();
+            Action<IDialogParameters> callback = async (IDialogParameters par) =>
+            {
+                await MakePayment();
+                await _navigationService.NavigateAsync(nameof(MenuPage));
+            };
             PopupPage popupPage = App.IsTablet ?
                 new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback) :
                 new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
 
             await _popupNavigation.PushAsync(popupPage);
+        }
+
+        private async Task MakePayment()
+        {
+            await _orderService.CreateNewOrderAsync();
         }
 
         private async Task OnAddGiftCardCommandAsync()

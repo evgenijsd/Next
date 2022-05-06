@@ -265,9 +265,9 @@
 
                     <Label.FormattedText>
                         <FormattedString>
-
-                            <Span Text="{xct:Translate CurrencySign}" />
+                            
                             <Span Text="- " />
+                            <Span Text="{xct:Translate CurrencySign}" />
                             <Span Text="{Binding Order.GiftCard, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
 
                         </FormattedString>
