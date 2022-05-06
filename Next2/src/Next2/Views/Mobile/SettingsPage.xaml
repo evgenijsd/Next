@@ -3,14 +3,14 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:Next2.ViewModels" 
-    xmlns:prism="http://prismlibrary.com"
-    x:Class="Next2.Views.Mobile.SettingsPage"
+    xmlns:prism="http://prismlibrary.com"    
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
     xmlns:controls="clr-namespace:Next2.Controls" 
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    x:DataType="viewModels:SettingsViewModel" 
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"    
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+    x:DataType="viewModels:SettingsViewModel"
+    x:Class="Next2.Views.Mobile.SettingsPage" >
 
     <StackLayout>
 
@@ -56,7 +56,6 @@
             </StackLayout>
             
         </controls:CustomFrame>
-
 
         <controls:CustomFrame
             VerticalOptions="Start"
