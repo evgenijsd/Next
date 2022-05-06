@@ -113,6 +113,9 @@ namespace Next2.ViewModels
         private ICommand _addGiftCardCommand;
         public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _completeCommand;
+        public ICommand CompleteCommand => _completeCommand = new AsyncCommand(OnTapCompleteCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -417,9 +420,101 @@ namespace Next2.ViewModels
                     {
                         Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
                         Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+
+                        if (float.TryParse(InputGiftCardFounds, out float sum))
+                        {
+                            sum /= 100;
+
+                            if (Order.GiftCardsTotalFunds >= sum)
+                            {
+                                if (Order.Total >= sum)
+                                {
+                                    Order.GiftCard = sum;
+                                    Order.RemainingGiftCardsTotalFunds -= sum;
+                                    Order.Total -= sum;
+                                }
+                                else
+                                {
+                                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds - Order.Total;
+                                    Order.GiftCard = Order.Total;
+                                    Order.Total = 0;
+                                }
+                            }
+                            else
+                            {
+                                IsInsufficientGiftCardFunds = true;
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        private void RecalculateCustomerGiftCardFounds(ref List<GiftCardModel> giftCards)
+        {
+            float totalPrice = Order.GiftCard;
+
+            foreach (var giftCard in giftCards)
+            {
+                while (totalPrice != 0)
+                {
+                    if (giftCard.GiftCardFunds > totalPrice)
+                    {
+                        giftCard.GiftCardFunds = giftCard.GiftCardFunds - totalPrice;
+                        totalPrice = 0;
+                    }
+                    else if (giftCard.GiftCardFunds < totalPrice)
+                    {
+                        totalPrice -= giftCard.GiftCardFunds;
+                        giftCard.GiftCardFunds = 0;
+                    }
+                    else if (giftCard.GiftCardFunds == totalPrice)
+                    {
+                        giftCard.GiftCardFunds = 0;
+                        totalPrice = 0;
+                    }
+                }
+            }
+        }
+
+        private async Task OnTapCompleteCommandAsync()
+        {
+            if (Order.Customer is not null && Order.Customer.GiftCards.Any())
+            {
+                var giftCards = Order.Customer.GiftCards;
+
+                RecalculateCustomerGiftCardFounds(ref giftCards);
+
+                if (!Order.Customer.IsNotRegistratedCustomer)
+                {
+                    await _customersService.UpdateCustomerAsync(Order.Customer);
+                }
+                else
+                {
+                    foreach (var giftCardModel in giftCards)
+                    {
+                        if (giftCardModel.GiftCardFunds > 0)
+                        {
+                            await UpdateGiftCardAsync(giftCardModel);
+                            var updatedGiftCard = await _customersService.GetGiftCardByNumberAsync(giftCardModel.GiftCardNumber);
+                        }
+                        else
+                        {
+                            await ActivateGiftCardAsync(giftCardModel);
+                        }
+                    }
+                }
+            }
+        }
+
+        private async Task ActivateGiftCardAsync(GiftCardModel giftCardModel)
+        {
+            await _customersService.ActivateGiftCardAsync(giftCardModel);
+        }
+
+        private async Task UpdateGiftCardAsync(GiftCardModel giftCardModel)
+        {
+            await _customersService.UpdateGiftCardAsync(giftCardModel);
         }
 
         #endregion
