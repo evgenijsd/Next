@@ -88,9 +88,9 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
             {
-                _isChackAdminID = true;
+                _isCheckAdminID = true;
             }
-            else if (!_isChackAdminID)
+            else if (!_isCheckAdminID)
             {
                 IsCheckAdminID = false;
             }
