@@ -59,7 +59,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
             {
-                var dialogParameters = new DialogParameters();
+                var dialogParameters = new DialogParameters() { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
 
                 var giftCardModel = await _customersService.GetGiftCardByNumberAsync(giftCardNumber);
 
@@ -71,37 +71,20 @@ namespace Next2.ViewModels.Dialogs
 
                     if (Customer is not null)
                     {
-                        if (!Customer.IsNotRegistratedCustomer)
-                        {
-                            var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
+                        var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
 
-                            if (isGiftCardAdded.IsSuccess)
+                        if (isGiftCardAdded.IsSuccess)
+                        {
+                            if (!Customer.IsNotRegistratedCustomer)
                             {
                                 await _customersService.ActivateGiftCardAsync(giftCard);
-
-                                dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
-
-                                RequestClose(dialogParameters);
                             }
-                            else
-                            {
-                                IsGiftCardNotExists = true;
-                            }
+
+                            RequestClose(dialogParameters);
                         }
                         else
                         {
-                            var isCustomerUpdated = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
-
-                            if (isCustomerUpdated.IsSuccess)
-                            {
-                                dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
-
-                                RequestClose(dialogParameters);
-                            }
-                            else
-                            {
-                                IsGiftCardNotExists = true;
-                            }
+                            IsGiftCardNotExists = true;
                         }
                     }
                     else
@@ -117,8 +100,6 @@ namespace Next2.ViewModels.Dialogs
                         tempCustomerModel.GiftCards.Add(giftCard);
 
                         _orderService.CurrentOrder.Customer = tempCustomerModel;
-
-                        dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
 
                         RequestClose(dialogParameters);
                     }
