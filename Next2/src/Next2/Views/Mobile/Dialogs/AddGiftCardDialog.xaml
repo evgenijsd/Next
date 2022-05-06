@@ -76,7 +76,7 @@
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     Style="{DynamicResource BorderButtonStyle_i1}"
-                    Command="{Binding GiftСardAmountCommand}" />
+                    Command="{Binding AddGiftСardCommand}" />
                 
             </Grid>
 

@@ -387,6 +387,7 @@
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
+                Command="{Binding CompleteCommand}"
                 CornerRadius="4"
                 Padding="0, 10"
                 Margin="15"/>
