@@ -59,6 +59,8 @@ namespace Next2.ViewModels.Dialogs
         {
             if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
             {
+                var dialogParameters = new DialogParameters();
+
                 var giftCardModel = await _customersService.GetGiftCardByNumberAsync(giftCardNumber);
 
                 if (giftCardModel.IsSuccess)
@@ -77,7 +79,7 @@ namespace Next2.ViewModels.Dialogs
                             {
                                 await _customersService.ActivateGiftCardAsync(giftCard);
 
-                                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+                                dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
 
                                 RequestClose(dialogParameters);
                             }
@@ -92,7 +94,7 @@ namespace Next2.ViewModels.Dialogs
 
                             if (isCustomerUpdated.IsSuccess)
                             {
-                                var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+                                dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
 
                                 RequestClose(dialogParameters);
                             }
@@ -116,7 +118,7 @@ namespace Next2.ViewModels.Dialogs
 
                         _orderService.CurrentOrder.Customer = tempCustomerModel;
 
-                        var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+                        dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
 
                         RequestClose(dialogParameters);
                     }
