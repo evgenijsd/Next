@@ -25,6 +25,7 @@ namespace Next2.ViewModels
 
         private string _inputtedEmployeeId;
         private int _inputtedEmployeeIdToDigit;
+        private bool _isCheckAdminID;
 
         public LoginPageViewModel(
             INavigationService navigationService,
@@ -42,7 +43,7 @@ namespace Next2.ViewModels
 
         public bool IsEmployeeExists { get; set; }
 
-        public bool IsCheckAdminID { get; set; } = false;
+        public bool IsCheckAdminID { get; set; } = true;
 
         public bool IsNoAdmin { get; set; } = false;
 
@@ -87,7 +88,11 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
             {
-                IsCheckAdminID = true;
+                _isChackAdminID = true;
+            }
+            else if (!_isChackAdminID)
+            {
+                IsCheckAdminID = false;
             }
 
             if (_authenticationService.AuthorizedUserId >= 0 && !IsCheckAdminID)
