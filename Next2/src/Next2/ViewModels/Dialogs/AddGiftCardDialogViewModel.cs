@@ -42,7 +42,7 @@ namespace Next2.ViewModels.Dialogs
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _addGiftСardCommand;
-        public ICommand AddGiftСardCommand => _addGiftСardCommand ??= new AsyncCommand(OnTapAddGiftСardCommandAsync, allowsMultipleExecutions: false);
+        public ICommand AddGiftСardCommand => _addGiftСardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private async Task OnTapAddGiftСardCommandAsync()
+        private async Task OnAddGiftCardCommandAsync()
         {
             if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
             {

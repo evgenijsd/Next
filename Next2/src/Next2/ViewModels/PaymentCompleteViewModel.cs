@@ -460,7 +460,7 @@ namespace Next2.ViewModels
                 {
                     if (giftCard.GiftCardFunds > totalPrice)
                     {
-                        giftCard.GiftCardFunds = giftCard.GiftCardFunds - totalPrice;
+                        giftCard.GiftCardFunds -= totalPrice;
                         totalPrice = 0;
                     }
                     else if (giftCard.GiftCardFunds < totalPrice)
