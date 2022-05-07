@@ -23,6 +23,7 @@ namespace Next2.Services.CustomersService
         public async Task<AOResult<int>> AddNewCustomerAsync(CustomerModel customer)
         {
             var result = new AOResult<int>();
+
             try
             {
                 var response = await _mockService.AddAsync(customer);
@@ -70,6 +71,7 @@ namespace Next2.Services.CustomersService
         public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard)
         {
             var result = new AOResult();
+
             try
             {
                 if (!customer.GiftCards.Contains(giftCard))
@@ -98,6 +100,7 @@ namespace Next2.Services.CustomersService
         public async Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard)
         {
             var result = new AOResult();
+
             try
             {
                 var isGiftCardRemoved = await _mockService.RemoveAsync(giftCard);
@@ -122,6 +125,7 @@ namespace Next2.Services.CustomersService
         public async Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber)
         {
             var result = new AOResult<GiftCardModel>();
+
             try
             {
                 var giftCard = await _mockService.FindAsync<GiftCardModel>(x => x.GiftCardNumber == giftCardNumber);
@@ -146,6 +150,7 @@ namespace Next2.Services.CustomersService
         public async Task<AOResult> UpdateGiftCardAsync(GiftCardModel giftCard)
         {
             var result = new AOResult();
+
             try
             {
                 var giftCardId = await _mockService.UpdateAsync(giftCard);
