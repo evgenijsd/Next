@@ -11,6 +11,7 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:mobile="clr-namespace:Next2.Views.Mobile"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:DataType="viewModels:PaymentViewModel"
     x:Class="Next2.Views.Mobile.PaymentPage">
   
