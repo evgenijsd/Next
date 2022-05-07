@@ -113,8 +113,8 @@ namespace Next2.ViewModels
         private ICommand _addGiftCardCommand;
         public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _completeCommand;
-        public ICommand CompleteCommand => _completeCommand = new AsyncCommand(OnTapCompleteCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _finishPaymentCommand;
+        public ICommand FinishPaymentCommand => _finishPaymentCommand = new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -450,13 +450,13 @@ namespace Next2.ViewModels
             }
         }
 
-        private void RecalculateCustomerGiftCardFounds(ref List<GiftCardModel> giftCards)
+        private void RecalculateCustomerGiftCardFounds(CustomerModel customer)
         {
             float totalPrice = Order.GiftCard;
 
-            foreach (var giftCard in giftCards)
+            foreach (var giftCard in customer.GiftCards)
             {
-                while (totalPrice != 0)
+                if (totalPrice != 0)
                 {
                     if (giftCard.GiftCardFunds > totalPrice)
                     {
@@ -474,16 +474,18 @@ namespace Next2.ViewModels
                         totalPrice = 0;
                     }
                 }
+                else
+                {
+                    break;
+                }
             }
         }
 
-        private async Task OnTapCompleteCommandAsync()
+        private async Task OnFinishPaymentCommandAsync()
         {
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                var giftCards = Order.Customer.GiftCards;
-
-                RecalculateCustomerGiftCardFounds(ref giftCards);
+                RecalculateCustomerGiftCardFounds(Order.Customer);
 
                 if (!Order.Customer.IsNotRegistratedCustomer)
                 {
@@ -491,12 +493,11 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    foreach (var giftCardModel in giftCards)
+                    foreach (var giftCardModel in Order.Customer.GiftCards)
                     {
                         if (giftCardModel.GiftCardFunds > 0)
                         {
                             await UpdateGiftCardAsync(giftCardModel);
-                            var updatedGiftCard = await _customersService.GetGiftCardByNumberAsync(giftCardModel.GiftCardNumber);
                         }
                         else
                         {
@@ -507,14 +508,14 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task ActivateGiftCardAsync(GiftCardModel giftCardModel)
+        private Task ActivateGiftCardAsync(GiftCardModel giftCardModel)
         {
-            await _customersService.ActivateGiftCardAsync(giftCardModel);
+            return _customersService.ActivateGiftCardAsync(giftCardModel);
         }
 
-        private async Task UpdateGiftCardAsync(GiftCardModel giftCardModel)
+        private Task UpdateGiftCardAsync(GiftCardModel giftCardModel)
         {
-            await _customersService.UpdateGiftCardAsync(giftCardModel);
+            return _customersService.UpdateGiftCardAsync(giftCardModel);
         }
 
         #endregion

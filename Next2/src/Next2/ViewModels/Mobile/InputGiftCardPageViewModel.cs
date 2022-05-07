@@ -113,12 +113,12 @@ namespace Next2.ViewModels.Mobile
         {
             IsInSufficientGiftCardFunds = false;
 
-            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
+            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, AddGiftCardDialogCallback);
 
             return _popupNavigation.PushAsync(popupPage);
         }
 
-        private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
+        private async void AddGiftCardDialogCallback(IDialogParameters parameters)
         {
             await _popupNavigation.PopAsync();
 
