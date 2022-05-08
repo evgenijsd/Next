@@ -1,8 +1,6 @@
 using Next2.Enums;
 using Next2.Helpers;
-using Next2.Services;
 using Next2.Services.Authentication;
-using Next2.Services.Mock;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -12,7 +10,6 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels
@@ -42,8 +39,6 @@ namespace Next2.ViewModels
 
         public bool IsEmployeeExists { get; set; }
 
-        public bool IsCheckAdminID { get; set; } = false;
-
         public bool IsNoAdmin { get; set; } = false;
 
         public bool IsUserLogIn { get; set; }
@@ -62,9 +57,6 @@ namespace Next2.ViewModels
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand<object>(OnStartPageCommandAsync);
-
-        private ICommand _RemoveTaxCommand;
-        public ICommand RemoveTaxCommand => _RemoveTaxCommand ??= new AsyncCommand<object>(OnRemoveTaxCommandAsync);
 
         private ICommand _goToEmployeeIdPage;
         public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
@@ -85,20 +77,15 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.Navigations.ADMIN, out string page))
-            {
-                IsCheckAdminID = true;
-            }
-
-            if (_authenticationService.AuthorizedUserId >= 0 && !IsCheckAdminID)
+            if (_authenticationService.AuthorizedUserId >= 0)
             {
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
             else
             {
-                if (parameters.TryGetValue("EmployeeId", out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
+                if (parameters.TryGetValue(Constants.Navigations.EMPLOYEE_ID, out _inputtedEmployeeId) && !string.IsNullOrWhiteSpace(_inputtedEmployeeId))
                 {
-                    if (_inputtedEmployeeId.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
+                    if (_inputtedEmployeeId.Length == Constants.Limits.LOGIN_LENGTH && int.TryParse(_inputtedEmployeeId, out _inputtedEmployeeIdToDigit))
                     {
                         await CheckEmployeeExists();
                         EmployeeId = _inputtedEmployeeId;
@@ -109,7 +96,7 @@ namespace Next2.ViewModels
                         EmployeeId = _inputtedEmployeeId;
                     }
                 }
-                else if (parameters.TryGetValue("result", out bool isUserLoggedOut))
+                else if (parameters.TryGetValue(Constants.Navigations.RESULT, out bool isUserLoggedOut))
                 {
                     IsUserLogIn = !IsUserLogIn;
                     IsEmployeeExists = false;
@@ -151,7 +138,7 @@ namespace Next2.ViewModels
         {
             if (sender is string str && str is not null)
             {
-                if (str.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH)
+                if (str.Length == Constants.Limits.LOGIN_LENGTH)
                 {
                     int.TryParse(str, out _inputtedEmployeeIdToDigit);
 
@@ -182,61 +169,12 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnRemoveTaxCommandAsync(object? sender)
-        {
-            if (sender is string str && str is not null)
-            {
-                if (str.Length == Constants.Limits.LOGIN_PASSWORD_LENGTH)
-                {
-                    int.TryParse(str, out _inputtedEmployeeIdToDigit);
-
-                    await CheckEmployeeExists();
-
-                    if (IsEmployeeExists)
-                    {
-                        _authenticationService.Authorization();
-
-                        await _navigationService.GoBackAsync();
-
-                        IsUserLogIn = true;
-                    }
-                    else
-                    {
-                        IsErrorNotificationVisible = true;
-                    }
-                }
-                else
-                {
-                    IsErrorNotificationVisible = true;
-                }
-            }
-            else
-            {
-                if (App.IsTablet)
-                {
-                    int.TryParse(EmployeeId, out _inputtedEmployeeIdToDigit);
-                }
-
-                IsNoAdmin = await CheckEmployeeExists() != EUserType.Admin;
-
-                if (!IsNoAdmin)
-                {
-                    _eventAggregator.GetEvent<TaxRemovedEvent>().Publish(IsNoAdmin);
-                    await _navigationService.GoBackAsync();
-                }
-
-                IsErrorNotificationVisible = true;
-            }
-        }
-
         private async Task<EUserType> CheckEmployeeExists()
         {
             var user = await _authenticationService.CheckUserExists(_inputtedEmployeeIdToDigit);
             IsEmployeeExists = user.IsSuccess;
 
-            var result = IsEmployeeExists ? user.Result.UserType : EUserType.Guest;
-
-            return result;
+            return IsEmployeeExists ? user.Result.UserType : EUserType.Guest;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)

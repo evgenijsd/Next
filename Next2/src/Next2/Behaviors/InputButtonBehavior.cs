@@ -39,9 +39,10 @@ namespace Next2.Behaviors
 
         private void InputButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == InputButton.TextProperty.PropertyName && _inputButton.Text != string.Empty) || e.PropertyName == InputButton.IsNoAdminProperty.PropertyName)
+            if ((e.PropertyName == InputButton.TextProperty.PropertyName || e.PropertyName == InputButton.IsValidValueProperty.PropertyName)
+                && _inputButton.Text != string.Empty)
             {
-                if ((_inputButton.IsEmployeeExists == true || _inputButton.IsCheckAdminID) && !_inputButton.IsNoAdmin)
+                if (_inputButton.IsValidValue)
                 {
                     _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
                     _inputButton.IsLeftImageVisible = false;

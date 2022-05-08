@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
-using static Next2.Constants;
 
 namespace Next2.ViewModels
 {
@@ -50,8 +48,8 @@ namespace Next2.ViewModels
 
                 var navigationParameters = new NavigationParameters
                 {
-                    { nameof(EmployeeId), EmployeeId },
-                    { nameof(Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                    { Constants.Navigations.EMPLOYEE_ID, EmployeeId },
+                    { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
                 };
                 await _navigationService.GoBackAsync(navigationParameters);
             }
@@ -59,7 +57,7 @@ namespace Next2.ViewModels
             {
                 var navigationParameters = new NavigationParameters
                 {
-                    { nameof(Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
+                    { nameof(Constants.Navigations.REFRESH_ORDER), Constants.Navigations.REFRESH_ORDER },
                 };
                 await _navigationService.GoBackAsync(navigationParameters);
             }

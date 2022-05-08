@@ -2,21 +2,21 @@
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:behaviors="clr-namespace:Next2.Behaviors"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:Class="Next2.Views.Mobile.LoginPage"
-    x:DataType="viewModels:LoginPageViewModel"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:behaviors="clr-namespace:Next2.Behaviors" xmlns:prism="http://prismlibrary.com"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="Next2.Views.Mobile.TaxRemoveConfirmPage"
+    x:DataType="viewModels:TaxRemoveConfirmPageViewModel"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
 
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    <StackLayout>
 
-        <Label
-            Text="{xct:Translate Login}"
+        <Label 
+            Text="{xct:Translate EmployeeId}"
             FontSize="{DynamicResource TSize_i6}"
             HeightRequest="50"
             Margin="16, 0, 0, 0"
@@ -24,54 +24,6 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="Barlow-Bold"/>
-
-        <Grid
-            ColumnDefinitions="0.5*, 0.5*"
-            RowDefinitions="45"
-            ColumnSpacing="1"
-            Margin="0">
-            
-            <StackLayout
-                Grid.Column="0"
-                HorizontalOptions="FillAndExpand"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-                
-                <Label
-                    Text="{xct:Translate Employee}"
-                    HeightRequest="45"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i8}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontFamily="Barlow-SemiBold"/>
-
-                <BoxView
-                    HeightRequest="3"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
-
-            </StackLayout>
-
-            <StackLayout
-                Grid.Column="1"
-                HorizontalOptions="FillAndExpand"
-                BackgroundColor="{DynamicResource AppColor_i4}">
-
-                <Label
-                    Text="{xct:Translate Waiter}"
-                    HeightRequest="45"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    FontSize="{DynamicResource TSize_i8}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontFamily="Barlow-SemiBold"/>
-
-                <BoxView
-                    HeightRequest="3"
-                    BackgroundColor="{DynamicResource AppColor_i1}"/>
-
-            </StackLayout>
-
-        </Grid>
 
         <StackLayout
             Orientation="Vertical"
@@ -100,9 +52,9 @@
                 TextColor="{DynamicResource TextAndBackgroundColor_i9}"
                 FontSize="{DynamicResource TSize_i8}"
                 LeftImagePath="ic_danger_circle"
-                Text="{Binding EmployeeId, Mode=TwoWay}"
-                IsValidValue="{Binding IsEmployeeExists}"
-                TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
+                IsValidValue="{Binding IsAdminAccount}"
+                Text="{Binding EmployeeId}"
+                TapGestureRecognizerCommand="{Binding OpenEmployeeIdInputPage}">
 
                 <buttons:InputButton.Behaviors>
                     <behaviors:InputButtonBehavior/>
@@ -111,19 +63,34 @@
             </buttons:InputButton>
 
             <yummy:PancakeView
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" 
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                 HeightRequest="40" 
                 Margin="16, 5, 16, 0" 
-                IsVisible="{Binding IsNoAdmin}"
+                IsVisible="False"
                 CornerRadius="{OnPlatform Android='5', iOS='8'}">
-                
+
+                <yummy:PancakeView.Triggers>
+
+                    <MultiTrigger TargetType="yummy:PancakeView">
+                        
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding IsAdminAccount}" Value="False" />
+                            <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+                        </MultiTrigger.Conditions>
+                        
+                        <Setter Property="IsVisible" Value="True" />
+                        
+                    </MultiTrigger>
+
+                </yummy:PancakeView.Triggers>
+
                 <yummy:PancakeView.Shadow>
                     <yummy:DropShadow
                         Color="{DynamicResource TextAndBackgroundColor_i6}"
                         Offset="1,2" 
                         BlurRadius="{OnPlatform Android=3, iOS=4}"
                         Opacity="{OnPlatform Android=1, iOS=0.2}"/>
-                    
+
                 </yummy:PancakeView.Shadow>
 
                 <Label
@@ -143,12 +110,12 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 HeightRequest="65">
 
-                <StackLayout 
+                <StackLayout
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center"
                     HeightRequest="40">
 
-                    <buttons:BorderButton 
+                    <buttons:BorderButton
                         Margin="16, 0, 0, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
@@ -156,22 +123,22 @@
                         BorderWidth="1"
                         HeightRequest="65"
                         HasShadow="False"
-                        Text="{xct:Translate Clear}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i7}"
+                        Text="{xct:Translate Cancel}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i7}"
                         BorderColor="{DynamicResource IndicationColor_i4}"
                         FontFamily="Barlow-SemiBold"
-                        Command="{Binding ClearCommand}">
+                        Command="{prism:GoBack}">
 
                         <buttons:BorderButton.Behaviors>
                             <behaviors:BorderButtonBehavior Title="{Binding Text, Source={x:Reference employeeId}}"/>
                         </buttons:BorderButton.Behaviors>
 
                     </buttons:BorderButton>
-                    
+
                 </StackLayout>
 
-                <StackLayout 
+                <StackLayout
                     HorizontalOptions="FillAndExpand"
                     HeightRequest="40"
                     VerticalOptions="Center">
@@ -180,33 +147,21 @@
                         Margin="0, 0, 16, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="{Binding IsEmployeeExists}"
+                        IsEnabled="{Binding IsAdminAccount}"
                         BorderWidth="0"
                         HeightRequest="65"
                         HasShadow="False"
-                        Text="{xct:Translate Login}"
+                        Text="{xct:Translate Confirm}"
                         FontSize="{DynamicResource TSize_i7}"
                         BorderColor="Transparent"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                         FontFamily="Barlow-SemiBold"
                         BackgroundColor="{DynamicResource IndicationColor_i2}"
-                        Command="{Binding GoToStartPageCommand}">
+                        Command="{Binding RemoveTaxCommand}">
 
                         <buttons:BorderButton.Triggers>
 
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding IsEmployeeExists}"
-                                Value="True">
-
-                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
-
-                            </DataTrigger>
-
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                Value="True">
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAdminAccount}" Value="True">
 
                                 <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
                                 <Setter Property="IsEnabled" Value="True"/>
@@ -216,7 +171,7 @@
                         </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>
-                   
+
                 </StackLayout>
 
             </StackLayout>

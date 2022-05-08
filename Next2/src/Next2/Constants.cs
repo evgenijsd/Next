@@ -44,7 +44,7 @@
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
             public const int MAX_TABLE_SEATS = 10;
-            public const int LOGIN_PASSWORD_LENGTH = 6;
+            public const int LOGIN_LENGTH = 6;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2100;
@@ -100,6 +100,8 @@
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
+            public const string EMPLOYEE_ID = "EMPLOYEE_ID";
+            public const string RESULT = "RESULT";
         }
 
         public static class Validators
@@ -157,6 +159,12 @@
             public const string IN_PROGRESS = "In progress";
             public const string CANCELLED = "Cancelled";
             public const string PAYED = "Payed";
+        }
+
+        public static class API
+        {
+            public const string HOST_URL = "http://139.59.208.79";
+            public const int TOKEN_EXPIRATION_TIME = 12;
         }
     }
 }

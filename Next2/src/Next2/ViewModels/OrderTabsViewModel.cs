@@ -292,6 +292,7 @@ namespace Next2.ViewModels
             if (Orders.Any() || !string.IsNullOrEmpty(SearchText))
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
+
                 Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
                 var placeholder = IsOrderTabsSelected ? Strings.TableNumberOrOrder : Strings.NameOrOrder;
 
@@ -301,8 +302,10 @@ namespace Next2.ViewModels
                     { Constants.Navigations.FUNC, searchValidator },
                     { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
+
                 ClearSearchAsync();
                 IsSearching = true;
+
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
@@ -366,9 +369,7 @@ namespace Next2.ViewModels
             {
                 CurrentOrderTabSorting = newOrderTabSorting;
 
-                var sortedOrders = GetSortedOrders(Orders);
-
-                Orders = new (sortedOrders);
+                Orders = new (GetSortedOrders(Orders));
             }
 
             return Task.CompletedTask;
@@ -480,7 +481,7 @@ namespace Next2.ViewModels
                         { Constants.DialogParameterKeys.SEATS,  seats },
                         { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
                         { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] }, // // Application.Current.Resources["TSize_i5"]
+                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] },
                         { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
                         { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
                     };

@@ -76,7 +76,7 @@ namespace Next2.ViewModels
 
                     var navigationParameters = new NavigationParameters
                     {
-                        { nameof(result), result },
+                        { Constants.Navigations.RESULT, result },
                     };
 
                     await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
