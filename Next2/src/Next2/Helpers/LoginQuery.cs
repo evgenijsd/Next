@@ -2,6 +2,6 @@
 {
     public class LoginQuery
     {
-        public string EmployeeId { get; set; } = string.Empty;
+        public string employeeId { get; set; } = string.Empty;
     }
 }

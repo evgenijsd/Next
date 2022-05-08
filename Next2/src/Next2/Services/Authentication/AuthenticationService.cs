@@ -1,5 +1,7 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
@@ -75,7 +77,35 @@ namespace Next2.Services.Authentication
         public async Task<AOResult> AuthorizationUserAsync(string userId)
         {
             var result = new AOResult();
-            result.SetSuccess();
+
+            var employeeId = new LoginQuery()
+            {
+                employeeId = userId,
+            };
+
+            try
+            {
+                var response = await _restService.PostAsync<LoginQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/login", employeeId);
+
+                if (response.Success && int.TryParse(userId, out int id))
+                {
+                    _settingsManager.UserId = id;
+                    _settingsManager.IsAuthorizationComplete = true;
+                    _settingsManager.Token = response.Value.Tokens.AccessToken;
+                    _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
+                    _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AuthorizationUserAsync)}: exception", Strings.SomeIssues, ex);
+            }
 
             _settingsManager.UserId = 0;
 
