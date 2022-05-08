@@ -1,13 +1,6 @@
 ﻿using Next2.Controls.Buttons;
-using Next2.Resources.Strings;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Resources;
-using System.Text;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Next2.Behaviors
 {

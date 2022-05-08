@@ -6,7 +6,7 @@ namespace Next2.Services.SettingsService
     {
         int UserId { get; set; }
 
-        bool AuthComplete { get; set; }
+        bool IsAuthorizationComplete { get; set; }
 
         string? Token { get; set; }
 

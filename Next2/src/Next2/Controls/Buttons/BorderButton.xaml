@@ -10,8 +10,10 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons">
 
     <controls:CustomFrame.GestureRecognizers>
-        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Command}"
+        <TapGestureRecognizer
+            Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=Command}"
             CommandParameter="{Binding Source={RelativeSource AncestorType={x:Type buttons:BorderButton}}, Path=CommandParameter}"/>
+        
     </controls:CustomFrame.GestureRecognizers>
     
     <Label

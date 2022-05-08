@@ -57,8 +57,8 @@
                     VerticalOptions="EndAndExpand"
                     BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
                     ScreenKeyboard="{Binding EmployeeId}"
+                    Value="{Binding EmployeeId}"
                     PlaceHolder="{xct:Translate TypeEmployeeId}"
-                    IsUserLogIn="{Binding IsAdminAccount}"
                     IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"/>
 
                 <BoxView
@@ -113,7 +113,7 @@
 
                             <buttons:BorderButton.Triggers>
 
-                                <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAdminAccount}" Value="True">
+                                <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                                         
                                     <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
                                     <Setter Property="IsEnabled" Value="True"/>

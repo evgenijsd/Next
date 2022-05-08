@@ -94,14 +94,13 @@
                 FontFamily="Barlow-Regular"/>
 
             <buttons:InputButton
-                x:Name="employeeId"
                 HeightRequest="30"
                 Margin="16, 0"
                 TextColor="{DynamicResource TextAndBackgroundColor_i9}"
                 FontSize="{DynamicResource TSize_i8}"
                 LeftImagePath="ic_danger_circle"
-                Text="{Binding EmployeeId, Mode=TwoWay}"
-                IsValidValue="{Binding IsEmployeeExists}"
+                Text="{Binding EmployeeId}"
+                IsValidValue="{Binding IsErrorNotificationVisible, Converter={xct:InvertedBoolConverter}}"
                 TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
 
                 <buttons:InputButton.Behaviors>
@@ -113,17 +112,17 @@
             <yummy:PancakeView
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" 
                 HeightRequest="40" 
-                Margin="16, 5, 16, 0" 
-                IsVisible="{Binding IsNoAdmin}"
-                CornerRadius="{OnPlatform Android='5', iOS='8'}">
-                
+                Margin="16, 5, 16, 0"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                IsVisible="{Binding IsErrorNotificationVisible}">
+
                 <yummy:PancakeView.Shadow>
                     <yummy:DropShadow
                         Color="{DynamicResource TextAndBackgroundColor_i6}"
                         Offset="1,2" 
                         BlurRadius="{OnPlatform Android=3, iOS=4}"
                         Opacity="{OnPlatform Android=1, iOS=0.2}"/>
-                    
+
                 </yummy:PancakeView.Shadow>
 
                 <Label
@@ -147,12 +146,11 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center"
                     HeightRequest="40">
-
-                    <buttons:BorderButton 
+                    
+                    <buttons:BorderButton
                         Margin="16, 0, 0, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="False"
                         BorderWidth="1"
                         HeightRequest="65"
                         HasShadow="False"
@@ -161,11 +159,20 @@
                         FontSize="{DynamicResource TSize_i7}"
                         BorderColor="{DynamicResource IndicationColor_i4}"
                         FontFamily="Barlow-SemiBold"
-                        Command="{Binding ClearCommand}">
+                        IsEnabled="False"
+                        xct:TouchEffect.Command="{Binding ClearCommand}">
 
-                        <buttons:BorderButton.Behaviors>
-                            <behaviors:BorderButtonBehavior Title="{Binding Text, Source={x:Reference employeeId}}"/>
-                        </buttons:BorderButton.Behaviors>
+                        <buttons:BorderButton.Triggers>
+
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+                                
+                                <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i3}"/>
+                                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                                <Setter Property="IsEnabled" Value="True"/>
+
+                            </DataTrigger>
+                            
+                        </buttons:BorderButton.Triggers>
 
                     </buttons:BorderButton>
                     
@@ -180,7 +187,7 @@
                         Margin="0, 0, 16, 0"
                         CornerRadius="{OnPlatform Android='5', iOS='8'}"
                         Padding="4"
-                        IsEnabled="{Binding IsEmployeeExists}"
+                        IsEnabled="False"
                         BorderWidth="0"
                         HeightRequest="65"
                         HasShadow="False"
@@ -194,24 +201,17 @@
 
                         <buttons:BorderButton.Triggers>
 
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding IsEmployeeExists}"
-                                Value="True">
+                            <MultiTrigger TargetType="buttons:BorderButton">
 
-                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
-
-                            </DataTrigger>
-
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                Value="True">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding IsErrorNotificationVisible}" Value="False" />
+                                </MultiTrigger.Conditions>
 
                                 <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
                                 <Setter Property="IsEnabled" Value="True"/>
 
-                            </DataTrigger>
+                            </MultiTrigger>
 
                         </buttons:BorderButton.Triggers>
 

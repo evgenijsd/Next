@@ -179,7 +179,7 @@ namespace Next2.Services.Rest
                 }
             }
 
-            if (_settingsManager.AuthComplete)
+            if (_settingsManager.IsAuthorizationComplete)
             {
                 await RefreshTokenIfNeeded();
             }
@@ -239,7 +239,7 @@ namespace Next2.Services.Rest
             }
             else
             {
-                _settingsManager.AuthComplete = false;
+                _settingsManager.IsAuthorizationComplete = false;
                 _settingsManager.Token = string.Empty;
                 _settingsManager.RefreshToken = string.Empty;
                 _settingsManager.TokenExpirationDate = DateTime.Now;

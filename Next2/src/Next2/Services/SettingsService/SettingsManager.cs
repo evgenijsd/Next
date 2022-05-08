@@ -12,10 +12,10 @@ namespace Next2.Services.SettingsService
             set => Preferences.Set(nameof(UserId), value);
         }
 
-        public bool AuthComplete
+        public bool IsAuthorizationComplete
         {
-            get => Preferences.Get(nameof(AuthComplete), false);
-            set => Preferences.Set(nameof(AuthComplete), value);
+            get => Preferences.Get(nameof(IsAuthorizationComplete), false);
+            set => Preferences.Set(nameof(IsAuthorizationComplete), value);
         }
 
         public string? Token

@@ -1,12 +1,10 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Services.UserService;
+using Next2.Services.Mock;
+using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
 using System.Threading.Tasks;
-using Next2.Services.Mock;
-using Next2.Enums;
-using Next2.Services.Rest;
 
 namespace Next2.Services.Authentication
 {
@@ -15,7 +13,6 @@ namespace Next2.Services.Authentication
         private readonly IMockService _mockService;
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
-        private int currentUser;
 
         public AuthenticationService(
             IMockService mockService,
@@ -30,6 +27,12 @@ namespace Next2.Services.Authentication
         #region -- Public properties --
 
         public int AuthorizedUserId { get => _settingsManager.UserId; }
+
+        public bool IsAuthorizationComplete { get => _settingsManager.IsAuthorizationComplete; }
+
+        public string? Token { get => _settingsManager.Token; }
+
+        public string? RefreshToken { get => _settingsManager.RefreshToken; }
 
         #endregion
 
@@ -46,12 +49,10 @@ namespace Next2.Services.Authentication
                 if (user != null)
                 {
                     result.SetSuccess(user);
-                    currentUser = user.Id;
                 }
                 else
                 {
                     result.SetFailure();
-                    currentUser = -1;
                 }
             }
             catch (Exception ex)
@@ -62,22 +63,21 @@ namespace Next2.Services.Authentication
             return result;
         }
 
-        public void Authorization()
-        {
-            if (currentUser >= 0)
-            {
-                _settingsManager.UserId = currentUser;
-            }
-        }
-
         public void LogOut()
         {
             _settingsManager.UserId = -1;
+            _settingsManager.IsAuthorizationComplete = false;
+            _settingsManager.Token = string.Empty;
+            _settingsManager.RefreshToken = string.Empty;
+            _settingsManager.TokenExpirationDate = DateTime.Now;
         }
 
-        public async Task<AOResult> LoginAsync()
+        public async Task<AOResult> AuthorizationUserAsync(string userId)
         {
             var result = new AOResult();
+            result.SetSuccess();
+
+            _settingsManager.UserId = 0;
 
             return result;
         }

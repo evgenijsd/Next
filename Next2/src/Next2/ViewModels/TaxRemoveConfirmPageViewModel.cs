@@ -5,6 +5,7 @@ using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -50,6 +51,16 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (App.IsTablet && args.PropertyName == nameof(EmployeeId))
+            {
+                IsErrorNotificationVisible = false;
+            }
+        }
+
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             if (parameters.TryGetValue(Constants.Navigations.EMPLOYEE_ID, out string inputtedEmployeeId))
@@ -87,6 +98,11 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveTaxCommandAsync()
         {
+            if (App.IsTablet)
+            {
+                await CheckEmployeeId(EmployeeId);
+            }
+
             if (IsAdminAccount)
             {
                 _eventAggregator.GetEvent<TaxRemovedEvent>().Publish(!IsAdminAccount);
