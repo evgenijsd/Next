@@ -948,11 +948,10 @@
                 Margin="15">
                 
                 <buttons:BorderButton.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding FinishPaymentDialogCallCommand}"/>
+                    <TapGestureRecognizer Command="{Binding FinishPaymentCommand}"/>
                 </buttons:BorderButton.GestureRecognizers>
                 
             </buttons:BorderButton>
-
 
         </StackLayout>
 

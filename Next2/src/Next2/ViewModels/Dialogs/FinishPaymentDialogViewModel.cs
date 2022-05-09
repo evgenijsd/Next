@@ -1,4 +1,5 @@
-﻿using Next2.Models;
+﻿using Next2.Enums;
+using Next2.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -18,28 +19,18 @@ namespace Next2.ViewModels.Dialogs
         {
             SetupParameters(param);
             RequestClose = requestClose;
-            CloseCommand = new DelegateCommand(() => RequestClose(new DialogParameters { { Constants.DialogParameterKeys.PAYMENT_COMPLETE, true } }));
         }
 
         #region -- Public properties --
 
         public Action<IDialogParameters> RequestClose;
 
-        public DelegateCommand CloseCommand { get; }
+        public DelegateCommand CloseCommand { get; set; }
 
         public PaidOrderBindableModel Order { get; set; }
 
-        private ICommand _emailCommand;
-        public ICommand EmailCommand => _emailCommand ??= new AsyncCommand(OnEmailCommandAsync, allowsMultipleExecutions: false);
-
-        private ICommand _textCommand;
-        public ICommand TextCommand => _textCommand ??= new AsyncCommand(OnTextCommandAsync, allowsMultipleExecutions: false);
-
-        private ICommand _printCommand;
-        public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
-
-        private ICommand _noReceiptCommand;
-        public ICommand NoReceiptCommand => _noReceiptCommand ??= new AsyncCommand(OnNoReceiptCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _finishPaymentCommand;
+        public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand<EPaymentReceiptOptions>(OnFinishPaymentCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -53,27 +44,16 @@ namespace Next2.ViewModels.Dialogs
             }
         }
 
-        private Task OnEmailCommandAsync()
+        private Task OnFinishPaymentCommand(EPaymentReceiptOptions receiptOptions)
         {
-            CloseCommand.Execute();
-            return Task.CompletedTask;
-        }
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.PAYMENT_COMPLETE, receiptOptions },
+            };
 
-        private Task OnTextCommandAsync()
-        {
+            CloseCommand = new DelegateCommand(() => RequestClose(param));
             CloseCommand.Execute();
-            return Task.CompletedTask;
-        }
 
-        private Task OnPrintCommandAsync()
-        {
-            CloseCommand.Execute();
-            return Task.CompletedTask;
-        }
-
-        private Task OnNoReceiptCommandAsync()
-        {
-            CloseCommand.Execute();
             return Task.CompletedTask;
         }
 

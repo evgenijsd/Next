@@ -114,7 +114,7 @@ namespace Next2.ViewModels
         public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _finishPaymentDialogCallCommand;
-        public ICommand FinishPaymentDialogCallCommand => _finishPaymentDialogCallCommand ??= new AsyncCommand(OnFinishPaymentDialogCallCommand, allowsMultipleExecutions: false);
+        public ICommand FinishPaymentCommand => _finishPaymentDialogCallCommand ??= new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -395,7 +395,7 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private async Task OnFinishPaymentDialogCallCommand()
+        private async Task OnFinishPaymentCommandAsync()
         {
             var param = new DialogParameters
             {
@@ -405,13 +405,35 @@ namespace Next2.ViewModels
             Action<IDialogParameters> callback = async (IDialogParameters par) =>
             {
                 await MakePayment();
+                await SendReceipt(par);
                 await _navigationService.NavigateAsync(nameof(MenuPage));
             };
-            PopupPage popupPage = App.IsTablet ?
-                new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback) :
-                new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+
+            PopupPage popupPage = App.IsTablet
+                ?
+                    new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
+                :
+                    new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
 
             await _popupNavigation.PushAsync(popupPage);
+        }
+
+        private Task SendReceipt(IDialogParameters par)
+        {
+            if (par.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
+            {
+                switch (options)
+                {
+                    case EPaymentReceiptOptions.SendByEmail:
+                    case EPaymentReceiptOptions.SendBySMS:
+                    case EPaymentReceiptOptions.PrintReceipt:
+                    case EPaymentReceiptOptions.WithoutReceipt:
+                    default:
+                        break;
+                }
+            }
+
+            return Task.CompletedTask;
         }
 
         private async Task MakePayment()

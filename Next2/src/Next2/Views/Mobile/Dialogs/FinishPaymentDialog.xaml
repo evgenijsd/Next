@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <rg:PopupPage
-    x:Class="Next2.Views.Mobile.Dialogs.FinishPaymentDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
@@ -9,46 +8,46 @@
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Mobile.Dialogs.FinishPaymentDialog"
     x:DataType="dialogs:FinishPaymentDialogViewModel">
 
     <rg:PopupPage.Resources>
 
-        <Style
-            x:Key="separatorStyle"
-            TargetType="BoxView">
+        <Style x:Key="SeparatorStyle" TargetType="BoxView">
+            
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
             <Setter Property="HeightRequest" Value="{OnPlatform Android=1.5, iOS=1}" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             <Setter Property="VerticalOptions" Value="End" />
+            
         </Style>
 
-        <Style
-            x:Key="buttonStyle"
-            TargetType="Frame">
+        <Style x:Key="ButtonStyle" TargetType="Frame">
+            
             <Setter Property="WidthRequest" Value="126" />
             <Setter Property="HeightRequest" Value="38" />
             <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
             <Setter Property="CornerRadius" Value="4" />
         </Style>
 
-        <Style
-            x:Key="labelStyle"
-            TargetType="Label">
+        <Style x:Key="LabelStyle" TargetType="Label">
+            
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="HorizontalTextAlignment" Value="Start" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
+            
         </Style>
 
-        <Style
-            x:Key="buttonTextStyle"
-            TargetType="Label">
+        <Style x:Key="ButtonTextStyle" TargetType="Label">
+            
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
             <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
             <Setter Property="HorizontalTextAlignment" Value="Center" />
             <Setter Property="VerticalTextAlignment" Value="Center" />
+            
         </Style>
 
     </rg:PopupPage.Resources>
@@ -82,7 +81,7 @@
             <BoxView
                 Grid.Row="0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                Style="{DynamicResource separatorStyle}" />
+                Style="{DynamicResource SeparatorStyle}" />
 
             <StackLayout
                 Grid.Row="1"
@@ -94,12 +93,12 @@
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{DynamicResource labelStyle}"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Subtotal}" />
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{DynamicResource labelStyle}"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Coupon}">
 
                     <Label.Triggers>
@@ -117,12 +116,12 @@
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{DynamicResource labelStyle}"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Tax}" />
                 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{DynamicResource labelStyle}"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Tip}" />
 
             </StackLayout>
@@ -137,7 +136,7 @@
 
                 <Label
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource labelStyle}">
+                    Style="{DynamicResource LabelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -153,7 +152,7 @@
 
                 <Label
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource labelStyle}">
+                    Style="{DynamicResource LabelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -179,7 +178,7 @@
 
                 <Label
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource labelStyle}">
+                    Style="{DynamicResource LabelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -207,7 +206,7 @@
 
                 <Label
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource labelStyle}">
+                    Style="{DynamicResource LabelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -237,7 +236,7 @@
             <BoxView
                 Grid.Row="1"
                 Margin="18, 0"
-                Style="{DynamicResource separatorStyle}" />
+                Style="{DynamicResource SeparatorStyle}" />
 
             <StackLayout
                 Grid.Row="2"
@@ -248,13 +247,13 @@
 
                 <Label
                     FontFamily="Barlow-Medium"
-                    Style="{DynamicResource labelStyle}"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate GiftCards}" />
 
                 <Label
                     FontFamily="Barlow-Regular"
                     FontSize="{DynamicResource TSize_i6}"
-                    Style="{DynamicResource labelStyle}"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate Total}" />
 
             </StackLayout>
@@ -268,7 +267,7 @@
 
                 <Label
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource labelStyle}">
+                    Style="{DynamicResource LabelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -297,7 +296,7 @@
                     FontFamily="Barlow-Regular"
                     FontSize="{DynamicResource TSize_i6}"
                     HorizontalOptions="EndAndExpand"
-                    Style="{DynamicResource labelStyle}">
+                    Style="{DynamicResource LabelStyle}">
 
                     <Label.FormattedText>
                         <FormattedString>
@@ -315,7 +314,7 @@
 
             <BoxView
                 Grid.Row="2"
-                Style="{DynamicResource separatorStyle}" />
+                Style="{DynamicResource SeparatorStyle}" />
 
             <!--  Buttons  -->
             <StackLayout
@@ -327,42 +326,45 @@
 
                 <Frame
                     BorderColor="{DynamicResource IndicationColor_i5}"
-                    Style="{DynamicResource buttonStyle}">
+                    Style="{DynamicResource ButtonStyle}">
 
                     <Label
-                        Style="{DynamicResource buttonTextStyle}"
+                        Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Email}" />
 
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding EmailCommand}" />
+                        <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
+                                              CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendByEmail}" />
                     </Frame.GestureRecognizers>
 
                 </Frame>
 
                 <Frame
                     BorderColor="{DynamicResource IndicationColor_i7}"
-                    Style="{DynamicResource buttonStyle}">
+                    Style="{DynamicResource ButtonStyle}">
 
                     <Label
-                        Style="{DynamicResource buttonTextStyle}"
+                        Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Text}" />
 
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding TextCommand}" />
+                        <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
+                                              CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendBySMS}" />
                     </Frame.GestureRecognizers>
 
                 </Frame>
 
                 <Frame
                     BorderColor="{DynamicResource AppColor_i1}"
-                    Style="{DynamicResource buttonStyle}">
+                    Style="{DynamicResource ButtonStyle}">
 
                     <Label
-                        Style="{DynamicResource buttonTextStyle}"
+                        Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Print}" />
 
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding PrintCommand}" />
+                        <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
+                                              CommandParameter="{x:Static enum:EPaymentReceiptOptions.PrintReceipt}" />
                     </Frame.GestureRecognizers>
 
                 </Frame>
@@ -373,16 +375,17 @@
                 Grid.Row="3"
                 Margin="18, 0, 18, 16"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
-                Style="{DynamicResource buttonStyle}"
+                Style="{DynamicResource ButtonStyle}"
                 VerticalOptions="EndAndExpand">
 
                 <Label
-                    Style="{DynamicResource buttonTextStyle}"
+                    Style="{DynamicResource ButtonTextStyle}"
                     Text="{xct:Translate NoReceipt}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
 
                 <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NoReceiptCommand}" />
+                    <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
+                                          CommandParameter="{x:Static enum:EPaymentReceiptOptions.WithoutReceipt}" />
                 </Frame.GestureRecognizers>
 
             </Frame>
