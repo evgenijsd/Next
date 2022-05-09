@@ -213,7 +213,7 @@
 
                             <Span Text="+ " />
                             <Span Text="{Binding Order.Tip}" />
-                            <Span Text="%" />
+                            <Span Text="{xct:Translate CurrencySign}" />
 
                         </FormattedString>
                     </Label.FormattedText>
@@ -248,7 +248,17 @@
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
+                    Text="{xct:Translate Cash}" />
+
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{DynamicResource LabelStyle}"
                     Text="{xct:Translate GiftCards}" />
+
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{DynamicResource LabelStyle}"
+                    Text="{xct:Translate Change}" />
 
                 <Label
                     FontFamily="Barlow-Regular"
@@ -271,6 +281,32 @@
 
                     <Label.FormattedText>
                         <FormattedString>
+
+                            <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text="{Binding Order.Cash, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                    <Label.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Order.Cash}"
+                            TargetType="Label"
+                            Value="0">
+
+                            <Setter Property="Text" Value="0" />
+
+                        </DataTrigger>
+                    </Label.Triggers>
+
+                </Label>
+
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource LabelStyle}">
+
+                    <Label.FormattedText>
+                        <FormattedString>
                             
                             <Span Text="- " />
                             <Span Text="{xct:Translate CurrencySign}" />
@@ -282,6 +318,32 @@
                     <Label.Triggers>
                         <DataTrigger
                             Binding="{Binding Order.GiftCard}"
+                            TargetType="Label"
+                            Value="0">
+
+                            <Setter Property="Text" Value="0" />
+
+                        </DataTrigger>
+                    </Label.Triggers>
+
+                </Label>
+
+                <Label
+                    HorizontalOptions="EndAndExpand"
+                    Style="{DynamicResource LabelStyle}">
+
+                    <Label.FormattedText>
+                        <FormattedString>
+
+                            <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text="{Binding Order.Change, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+
+                        </FormattedString>
+                    </Label.FormattedText>
+
+                    <Label.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Order.Change}"
                             TargetType="Label"
                             Value="0">
 
