@@ -12,7 +12,7 @@
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Mobile.TaxRemoveConfirmPage"
     x:DataType="viewModels:TaxRemoveConfirmPageViewModel"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
     <StackLayout>
 

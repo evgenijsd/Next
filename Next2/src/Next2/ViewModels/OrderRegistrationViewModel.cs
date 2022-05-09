@@ -690,8 +690,7 @@ namespace Next2.ViewModels
                 {
                     _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, string.Empty } };
-                    await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), parameters, useModalNavigation: App.IsTablet);
+                    await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
                 }
                 else if (user.Result.UserType == EUserType.Admin)
                 {

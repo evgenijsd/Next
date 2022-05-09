@@ -112,15 +112,15 @@ namespace Next2.Services.Authentication
                 RefreshToken = _settingsManager.RefreshToken,
             };
 
-            _settingsManager.UserId = -1;
-            _settingsManager.IsAuthorizationComplete = false;
-            _settingsManager.Token = string.Empty;
-            _settingsManager.RefreshToken = string.Empty;
-            _settingsManager.TokenExpirationDate = DateTime.Now;
-
             try
             {
                 await _restService.RequestAsync<ExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/logout", employee);
+
+                _settingsManager.UserId = -1;
+                _settingsManager.IsAuthorizationComplete = false;
+                _settingsManager.Token = string.Empty;
+                _settingsManager.RefreshToken = string.Empty;
+                _settingsManager.TokenExpirationDate = DateTime.Now;
 
                 result.SetSuccess();
             }

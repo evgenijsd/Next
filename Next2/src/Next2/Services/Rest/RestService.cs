@@ -68,40 +68,6 @@ namespace Next2.Services.Rest
             }
         }
 
-        internal string BuildParametersString(Dictionary<string, string> parameters)
-        {
-            string result;
-
-            if (parameters is null || parameters.Count == 0)
-            {
-                result = string.Empty;
-            }
-            else
-            {
-                var sb = new StringBuilder("?");
-                bool needAddDivider = false;
-
-                foreach (var item in parameters)
-                {
-                    if (needAddDivider)
-                    {
-                        sb.Append('&');
-                    }
-
-                    var encodedKey = WebUtility.UrlEncode(item.Key);
-                    var encodedVal = WebUtility.UrlEncode(item.Value);
-
-                    sb.Append($"{encodedKey}={encodedVal}");
-
-                    needAddDivider = true;
-                }
-
-                result = sb.ToString();
-            }
-
-            return result;
-        }
-
         private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
             var client = new HttpClient();
