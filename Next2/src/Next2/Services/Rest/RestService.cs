@@ -25,9 +25,9 @@ namespace Next2.Services.Rest
 
         #region -- IRestService implementation --
 
-        public async Task<T> GetAsync<T>(string requestUrl, Dictionary<string, string> additioalHeaders = null)
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            using (var response = await MakeRequestAsync(requestUrl, HttpMethod.Get, null, additioalHeaders).ConfigureAwait(false))
+            using (var response = await MakeRequestAsync(method, requestUrl, null, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
@@ -37,63 +37,15 @@ namespace Next2.Services.Rest
             }
         }
 
-        public async Task<T> PutAsync<T>(string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null)
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            using (var response = await MakeRequestAsync(requestUrl, HttpMethod.Put, requestBody, additioalHeaders))
-            {
-                ThrowIfNotSuccess(response);
-
-                var data = await response.Content.ReadAsStringAsync();
-
-                return JsonConvert.DeserializeObject<T>(data);
-            }
-        }
-
-        public async Task<T> DeleteAsync<T>(string requestUrl, Dictionary<string, string> additioalHeaders = null)
-        {
-            using (var response = await MakeRequestAsync(requestUrl, HttpMethod.Delete, null, additioalHeaders).ConfigureAwait(false))
+            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 return JsonConvert.DeserializeObject<T>(data);
-            }
-        }
-
-        public async Task<T> DeleteAsync<T>(string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null)
-        {
-            using (var response = await MakeRequestAsync(requestUrl, HttpMethod.Get, requestBody, additioalHeaders).ConfigureAwait(false))
-            {
-                ThrowIfNotSuccess(response);
-
-                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                return JsonConvert.DeserializeObject<T>(data);
-            }
-        }
-
-        public async Task<T> PostAsync<T>(string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null)
-        {
-            using (var response = await MakeRequestAsync(requestUrl, HttpMethod.Post, requestBody, additioalHeaders).ConfigureAwait(false))
-            {
-                ThrowIfNotSuccess(response);
-
-                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                return JsonConvert.DeserializeObject<T>(data);
-            }
-        }
-
-        public async Task<GetT> PostAsync<PostT, GetT>(string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null)
-        {
-            using (var response = await MakeRequestAsync(requestUrl, HttpMethod.Post, requestBody, additioalHeaders).ConfigureAwait(false))
-            {
-                ThrowIfNotSuccess(response);
-
-                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                return JsonConvert.DeserializeObject<GetT>(data);
             }
         }
 
@@ -150,7 +102,7 @@ namespace Next2.Services.Rest
             return result;
         }
 
-        private async Task<HttpResponseMessage> MakeRequestAsync(string requestUrl, HttpMethod method, object requestBody = null, Dictionary<string, string> additioalHeaders = null)
+        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
             var client = new HttpClient();
 
@@ -178,7 +130,7 @@ namespace Next2.Services.Rest
                 }
             }
 
-            if (_settingsManager.IsAuthorizationComplete)
+            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
             {
                 await RefreshTokenIfNeeded();
             }
@@ -225,7 +177,7 @@ namespace Next2.Services.Rest
 
             try
             {
-                var resultData = await PostAsync<RefreshTokenQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody);
+                var resultData = await RequestAsync<RefreshTokenQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
 
                 if (resultData.Success)
                 {

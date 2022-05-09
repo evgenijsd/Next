@@ -6,6 +6,7 @@ using Next2.Services.Mock;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Authentication
@@ -76,7 +77,7 @@ namespace Next2.Services.Authentication
 
             try
             {
-                var response = await _restService.PostAsync<LoginQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/login", employee);
+                var response = await _restService.RequestAsync<LoginQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
 
                 if (response.Success && int.TryParse(userId, out int id))
                 {
@@ -84,8 +85,7 @@ namespace Next2.Services.Authentication
                     _settingsManager.IsAuthorizationComplete = true;
                     _settingsManager.Token = response.Value.Tokens.AccessToken;
                     _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
-                    //_settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
-                    _settingsManager.TokenExpirationDate = DateTime.Now;
+                    _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
 
                     result.SetSuccess();
                 }
@@ -114,7 +114,7 @@ namespace Next2.Services.Authentication
 
             try
             {
-                var response = await _restService.PostAsync<ExecutionResult>($"{Constants.API.HOST_URL}/api/auth/logout", employee);
+                var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/logout", employee);
 
                 if (response.Success)
                 {
