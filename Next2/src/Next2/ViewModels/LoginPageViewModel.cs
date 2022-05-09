@@ -131,9 +131,15 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
+                    await _orderService.CreateNewOrderAsync();
+
                     await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
 
                     IsUserLogIn = true;
+                }
+                else
+                {
+                    IsErrorNotificationVisible = true;
                 }
             }
         }
