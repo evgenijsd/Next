@@ -6,7 +6,8 @@
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:DataType="dialogs:CustomerInfoViewModel">
+    x:DataType="dialogs:CustomerInfoViewModel" 
+    Padding="23, 32" >
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -50,9 +51,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentView Padding="23, 32">
-
-        <Frame
+        <Frame 
             x:Name="mainFrame"
             Padding="1.5"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
@@ -360,7 +359,5 @@
             </Frame>
 
         </Frame>
-
-    </ContentView>
 
 </rg:PopupPage>
