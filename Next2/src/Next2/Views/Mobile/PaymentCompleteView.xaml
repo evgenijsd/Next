@@ -41,6 +41,7 @@
 
                     <controls:CustomFrame
                         Padding="0, 15"
+                        HasShadow="False"
                         BorderWidth="1"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
