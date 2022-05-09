@@ -1,24 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.InputTextPage"
-    x:DataType="viewModels:InputTextPageViewModel"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    x:DataType="viewModels:InputTextPageViewModel">
 
     <StackLayout 
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
         Padding="0">
 
         <controls:CustomNavigationbar
-            xct:TouchEffect.Command="{Binding GoBackCommand}"
             Title="{xct:Translate Cancel}"
-            HeightImage="25"/>
+            HeightImage="25"
+            xct:TouchEffect.Command="{Binding GoBackCommand}"/>
         
         <StackLayout 
             Orientation="Vertical"
@@ -26,7 +25,6 @@
             VerticalOptions="StartAndExpand">
 
             <controls:NoActionMenuEntry
-                x:Name="customEntry"
                 ReturnType="Done"
                 ReturnCommand="{Binding ReturnCommand}"
                 Placeholder="{Binding Placeholder}"
@@ -35,7 +33,8 @@
                 Margin="22, 15, 0, 0"
                 PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontFamily="Barlow-Regular"/>
+                FontFamily="Barlow-Regular"
+                x:Name="customEntry"/>
 
         </StackLayout>
 

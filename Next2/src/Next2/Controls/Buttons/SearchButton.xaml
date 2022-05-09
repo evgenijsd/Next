@@ -3,12 +3,12 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    x:DataType="controls:SearchButton"
+    xmlns:controls="clr-namespace:Next2.Controls"
     MinimumWidthRequest="100"
     HeightRequest="45"
-    x:Class="Next2.Controls.SearchButton">
+    x:Class="Next2.Controls.SearchButton"
+    x:DataType="controls:SearchButton">
 
     <Frame
         BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BorderColor}"

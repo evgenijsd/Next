@@ -14,8 +14,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    x:DataType="viewmodels:ModificationsPageViewModel"
-    x:Class="Next2.Views.Mobile.ModificationsPage">
+    x:Class="Next2.Views.Mobile.ModificationsPage"
+    x:DataType="viewmodels:ModificationsPageViewModel">
 
     <Grid
         RowDefinitions="72, 1, *, 1, 75"

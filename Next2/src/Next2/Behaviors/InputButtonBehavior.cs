@@ -32,7 +32,7 @@ namespace Next2.Behaviors
 
         private void InputButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == InputButton.TextProperty.PropertyName || e.PropertyName == InputButton.IsValidValueProperty.PropertyName)
+            if ((e.PropertyName is nameof(InputButton.Text) or nameof(InputButton.IsValidValue))
                 && _inputButton.Text != string.Empty)
             {
                 if (_inputButton.IsValidValue)

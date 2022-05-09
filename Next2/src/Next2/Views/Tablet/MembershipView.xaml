@@ -2,16 +2,16 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:tablet="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    x:DataType="tablet:MembershipViewModel"
-    x:Class="Next2.Views.Tablet.MembershipView">
+    x:Class="Next2.Views.Tablet.MembershipView"
+    x:DataType="tablet:MembershipViewModel">
 
     <Grid 
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" 
@@ -86,11 +86,10 @@
 
             <yummy:PancakeView.Triggers>
 
-                <DataTrigger
-                    TargetType="yummy:PancakeView"
-                    Binding="{Binding DisplayMembers.Count}"
-                    Value="0">
+                <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DisplayMembers.Count}" Value="0">
+                    
                     <Setter Property="IsVisible" Value="true" />
+                    
                 </DataTrigger>
 
             </yummy:PancakeView.Triggers>
@@ -101,6 +100,7 @@
                     HeightRequest="250"
                     VerticalOptions="CenterAndExpand"
                     HorizontalOptions="Center" />
+                
             </StackLayout>
 
         </yummy:PancakeView>
@@ -114,11 +114,10 @@
 
             <yummy:PancakeView.Triggers>
 
-                <DataTrigger
-                    TargetType="yummy:PancakeView"
-                    Binding="{Binding AnyMembersLoaded}"
-                    Value="false">
+                <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyMembersLoaded}" Value="false">
+                    
                     <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                    
                 </DataTrigger>
 
             </yummy:PancakeView.Triggers>
@@ -213,8 +212,7 @@
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                     x:DataType="models:MemberBindableModel">
 
-                                    <Grid
-                                        ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
+                                    <Grid ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*">
 
                                         <Label
                                             Grid.Column="0"

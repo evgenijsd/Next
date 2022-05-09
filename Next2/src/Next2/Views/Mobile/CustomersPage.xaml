@@ -5,15 +5,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-    x:DataType="viewModels:CustomersViewModel"
-    x:Class="Next2.Views.Mobile.CustomersPage">
+    x:Class="Next2.Views.Mobile.CustomersPage"
+    x:DataType="viewModels:CustomersViewModel">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -60,9 +60,9 @@
             </StackLayout>
 
             <StackLayout
+                Grid.Row="1"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                Grid.Row="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
                 <controls:SearchButton
@@ -80,20 +80,14 @@
 
                     <controls:SearchButton.Triggers>
                         
-                        <DataTrigger
-                            TargetType="controls:SearchButton"
-                            Binding="{Binding SearchText}"
-                            Value="">
+                        <DataTrigger TargetType="controls:SearchButton" Binding="{Binding SearchText}" Value="">
 
                             <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                             <Setter Property="ImageSource" Value="ic_search_24x24" />
 
                         </DataTrigger>
 
-                        <DataTrigger
-                            TargetType="controls:SearchButton"
-                            Binding="{Binding IsOrderTabsSelected}"
-                            Value="True">
+                        <DataTrigger TargetType="controls:SearchButton" Binding="{Binding IsOrderTabsSelected}" Value="True">
 
                             <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
 
@@ -114,7 +108,9 @@
                                 <BindingCondition Binding="{Binding AnyCustomersLoaded}" Value="true" />
                                 <BindingCondition Binding="{Binding DisplayedCustomers.Count}" Value="0" />
                             </MultiTrigger.Conditions>
+                            
                             <Setter Property="IsVisible" Value="false" />
+                            
                         </MultiTrigger>
                         
                     </StackLayout.Triggers>
@@ -159,10 +155,7 @@
 
                         <yummy:PancakeView.Triggers>
 
-                            <DataTrigger
-                                TargetType="yummy:PancakeView"
-                                Binding="{Binding AnyCustomersLoaded}"
-                                Value="false">
+                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyCustomersLoaded}" Value="false">
 
                                 <Setter Property="VerticalOptions" Value="FillAndExpand" />
 
@@ -193,7 +186,10 @@
                                             HeightRequest="45">
 
                                             <Grid.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding ShowInfoCommand}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer
+                                                    Command="{Binding ShowInfoCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                                
                                             </Grid.GestureRecognizers>
 
                                             <Label

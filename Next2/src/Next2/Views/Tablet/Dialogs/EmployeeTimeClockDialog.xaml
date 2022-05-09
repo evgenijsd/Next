@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <rg:PopupPage
-    x:Class="Next2.Views.Tablet.Dialogs.EmployeeTimeClockDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
-    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    x:Class="Next2.Views.Tablet.Dialogs.EmployeeTimeClockDialog"
     x:DataType="dialogs:EmployeeTimeClockViewModel">
 
     <rg:PopupPage.Resources>
@@ -87,9 +87,9 @@
 
             <!--  Body  -->
             <sc:StateContainer
-                x:Name="state_container"
                 Grid.Row="1"
-                State="{Binding State}">
+                State="{Binding State}"
+                x:Name="state_container">
 
                 <sc:StateCondition State="Undefined">
 

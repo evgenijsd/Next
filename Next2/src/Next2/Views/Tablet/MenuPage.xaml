@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
-    x:Class="Next2.Views.Tablet.MenuPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -11,16 +11,14 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:viewsTablet="clr-namespace:Next2.Views.Tablet"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:DataType="viewModels:MenuPageViewModel"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+    x:Class="Next2.Views.Tablet.MenuPage"
+    x:DataType="viewModels:MenuPageViewModel">
 
     <Grid ColumnDefinitions="100, *">
 
         <Grid.Triggers>
             <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="false">
-
                 <Setter Property="ColumnDefinitions" Value="0, *"/>
             </DataTrigger>
         </Grid.Triggers>

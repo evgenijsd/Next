@@ -1,5 +1,4 @@
-﻿using Next2.Helpers;
-using Next2.Interfaces;
+﻿using Next2.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;

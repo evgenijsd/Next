@@ -57,7 +57,7 @@ namespace Next2
             containerRegistry.RegisterPopupNavigationService();
             containerRegistry.RegisterPopupDialogService();
 
-            //Services
+            // Services
             var mapper = CreateMapper();
             containerRegistry.RegisterInstance(mapper);
             containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();

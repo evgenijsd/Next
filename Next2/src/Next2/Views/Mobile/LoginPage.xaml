@@ -9,9 +9,9 @@
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.LoginPage"
-    x:DataType="viewModels:LoginPageViewModel"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" >
+    x:DataType="viewModels:LoginPageViewModel">
 
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
@@ -119,7 +119,7 @@
                 <yummy:PancakeView.Shadow>
                     <yummy:DropShadow
                         Color="{DynamicResource TextAndBackgroundColor_i6}"
-                        Offset="1,2" 
+                        Offset="1, 2" 
                         BlurRadius="{OnPlatform Android=3, iOS=4}"
                         Opacity="{OnPlatform Android=1, iOS=0.2}"/>
 

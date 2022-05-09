@@ -1,11 +1,11 @@
 ﻿<!--  Mobile  -->
 <rg:PopupPage
-    x:Class="Next2.Views.Mobile.Dialogs.CustomerInfoDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="Next2.Views.Mobile.Dialogs.CustomerInfoDialog"
     x:DataType="dialogs:CustomerInfoViewModel">
 
     <ContentPage.Resources>
@@ -53,12 +53,12 @@
     <ContentView Padding="23, 32">
 
         <Frame
-            x:Name="mainFrame"
             Padding="1.5"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
             CornerRadius="5"
             HorizontalOptions="Center"
-            VerticalOptions="Center">
+            VerticalOptions="Center"
+            x:Name="mainFrame">
 
             <Frame
                 Padding="0"
@@ -88,7 +88,9 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         VerticalOptions="Center" />
 
-                    <BoxView Grid.Row="1" BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
+                    <BoxView
+                        Grid.Row="1"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
 
                     <StackLayout
                         Grid.Row="1"
@@ -143,7 +145,6 @@
                             Margin="0, 18, 0, 0"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             HeightRequest="1.5" />
-
 
                         <Frame
                             Margin="0, 23, 0, 24"

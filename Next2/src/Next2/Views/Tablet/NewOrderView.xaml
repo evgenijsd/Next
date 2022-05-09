@@ -6,13 +6,13 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:prism="http://prismlibrary.com"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -120,11 +120,11 @@
 
         <!--Left Part-->
 
-        <StackLayout 
-            xct:StateLayout.CurrentState="{Binding OrderRegistrationViewModel.CurrentState}"
-            xct:StateLayout.AnimateStateChanges="True"
+        <StackLayout
             Grid.Row="0"
             Grid.Column="0"
+            xct:StateLayout.CurrentState="{Binding OrderRegistrationViewModel.CurrentState}"
+            xct:StateLayout.AnimateStateChanges="True"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
             <!--StateCustomKey Doesn't work that's why I had to used Loading & Succes insted -->
@@ -497,11 +497,11 @@
                         <!--Menu-->
 
                         <CollectionView
-                            x:Name="menuCollectionView"
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
                             ItemsSource="{Binding SetsItems}"
-                            VerticalScrollBarVisibility="Always">
+                            VerticalScrollBarVisibility="Always"
+                            x:Name="menuCollectionView">
 
                             <CollectionView.ItemsLayout>
 
@@ -566,9 +566,9 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:SetItemTemplate
-                                        x:DataType="models:SetModel"
                                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
-                                        xct:TouchEffect.CommandParameter="{Binding .}"/>
+                                        xct:TouchEffect.CommandParameter="{Binding .}"
+                                        x:DataType="models:SetModel"/>
 
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -731,13 +731,14 @@
 
                                         </VisualStateGroupList>
                                     </VisualStateManager.VisualStateGroups>
+                                    
                                 </Label>
 
                                 <BoxView Style="{DynamicResource SeparatorStyle_i2}"/>
 
                             </StackLayout>
 
-                            <ScrollView 
+                            <ScrollView
                                 Grid.Row="1"
                                 HeightRequest="700">
 
@@ -926,6 +927,7 @@
                                         </VisualStateGroup>
                                     </VisualStateGroupList>
                                 </VisualStateManager.VisualStateGroups>
+                                
                             </buttons:BorderButton>
 
                             <buttons:BorderButton
@@ -995,6 +997,7 @@
                                         </VisualStateGroup>
                                     </VisualStateGroupList>
                                 </VisualStateManager.VisualStateGroups>
+                                
                             </buttons:BorderButton>
 
                         </Grid>
@@ -1254,11 +1257,11 @@
                     </VisualStateManager.VisualStateGroups>
 
                     <Label.Triggers>
+                        
                         <DataTrigger TargetType="Label" Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count}" Value="0">
-
                             <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
-
                         </DataTrigger>
+                        
                     </Label.Triggers>
 
                 </Label>
