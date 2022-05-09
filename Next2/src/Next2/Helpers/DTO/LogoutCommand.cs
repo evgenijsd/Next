@@ -1,4 +1,4 @@
-﻿namespace Next2.Helpers
+﻿namespace Next2.Helpers.DTO
 {
     public class LogoutCommand
     {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Next2.Helpers
+﻿namespace Next2.Helpers.DTO
 {
     public class RefreshTokenQuery
     {

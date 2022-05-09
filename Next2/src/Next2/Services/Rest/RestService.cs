@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Next2.Helpers;
-using Next2.Services.Authentication;
+using Next2.Helpers.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -191,18 +190,18 @@ namespace Next2.Services.Rest
         {
             if (_settingsManager.TokenExpirationDate < DateTime.Now)
             {
-                await TryToRefreshTokenAsync();
+                await RefreshTokenAsync();
             }
         }
 
-        private Task TryToRefreshTokenAsync()
+        private Task RefreshTokenAsync()
         {
             Task result;
 
             if (_tokenRefreshingSource is null || _tokenRefreshingSource.Task.IsCompleted)
             {
                 _tokenRefreshingSource = new TaskCompletionSource<bool>();
-                result = RefreshAccessTokenAsync();
+                result = TryRefreshAccessTokenAsync();
             }
             else
             {
@@ -212,7 +211,7 @@ namespace Next2.Services.Rest
             return result;
         }
 
-        private async Task RefreshAccessTokenAsync()
+        private async Task TryRefreshAccessTokenAsync()
         {
             var responseBody = new RefreshTokenQuery()
             {
@@ -224,29 +223,39 @@ namespace Next2.Services.Rest
                 },
             };
 
-            var resultData = await PostAsync<RefreshTokenQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody);
-
-            if (resultData.Success)
+            try
             {
-                _settingsManager.Token = resultData.Value.Tokens.AccessToken;
-                _settingsManager.RefreshToken = resultData.Value.Tokens.RefreshToken;
-                _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+                var resultData = await PostAsync<RefreshTokenQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody);
 
-                _tokenRefreshingSource.TrySetResult(true);
+                if (resultData.Success)
+                {
+                    _settingsManager.Token = resultData.Value.Tokens.AccessToken;
+                    _settingsManager.RefreshToken = resultData.Value.Tokens.RefreshToken;
+                    _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+
+                    _tokenRefreshingSource.TrySetResult(true);
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine("Token refreshed");
+                    System.Diagnostics.Debug.WriteLine("Token refreshed");
 #endif
-            }
-            else
-            {
-                _settingsManager.IsAuthorizationComplete = false;
-                _settingsManager.Token = string.Empty;
-                _settingsManager.RefreshToken = string.Empty;
-                _settingsManager.TokenExpirationDate = DateTime.Now;
+                }
+                else
+                {
+                    _settingsManager.IsAuthorizationComplete = false;
+                    _settingsManager.Token = string.Empty;
+                    _settingsManager.RefreshToken = string.Empty;
+                    _settingsManager.TokenExpirationDate = DateTime.Now;
 
+                    _tokenRefreshingSource.TrySetResult(false);
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine("Refreshing token failed");
+#endif
+                }
+            }
+            catch (Exception ex)
+            {
                 _tokenRefreshingSource.TrySetResult(false);
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine("Refreshing token failed");
+                System.Diagnostics.Debug.WriteLine($"Bad Request: {ex.Message}");
 #endif
             }
         }

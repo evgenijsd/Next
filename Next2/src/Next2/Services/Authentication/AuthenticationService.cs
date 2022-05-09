@@ -1,4 +1,4 @@
-﻿using Next2.Helpers;
+﻿using Next2.Helpers.DTO;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -65,27 +65,18 @@ namespace Next2.Services.Authentication
             return result;
         }
 
-        public void LogOut()
-        {
-            _settingsManager.UserId = -1;
-            _settingsManager.IsAuthorizationComplete = false;
-            _settingsManager.Token = string.Empty;
-            _settingsManager.RefreshToken = string.Empty;
-            _settingsManager.TokenExpirationDate = DateTime.Now;
-        }
-
         public async Task<AOResult> AuthorizationUserAsync(string userId)
         {
             var result = new AOResult();
 
-            var employeeId = new LoginQuery()
+            var employee = new LoginQuery()
             {
-                employeeId = userId,
+                EmployeeId = userId,
             };
 
             try
             {
-                var response = await _restService.PostAsync<LoginQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/login", employeeId);
+                var response = await _restService.PostAsync<LoginQueryResultExecutionResult>($"{Constants.API.HOST_URL}/api/auth/login", employee);
 
                 if (response.Success && int.TryParse(userId, out int id))
                 {
@@ -93,7 +84,8 @@ namespace Next2.Services.Authentication
                     _settingsManager.IsAuthorizationComplete = true;
                     _settingsManager.Token = response.Value.Tokens.AccessToken;
                     _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
-                    _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+                    //_settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+                    _settingsManager.TokenExpirationDate = DateTime.Now;
 
                     result.SetSuccess();
                 }
@@ -107,14 +99,42 @@ namespace Next2.Services.Authentication
                 result.SetError($"{nameof(AuthorizationUserAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            _settingsManager.UserId = 0;
-
             return result;
         }
 
         public async Task<AOResult> LogoutAsync()
         {
             var result = new AOResult();
+
+            var employee = new LogoutCommand()
+            {
+                EmployeeId = _settingsManager.UserId.ToString(),
+                RefreshToken = _settingsManager.RefreshToken,
+            };
+
+            try
+            {
+                var response = await _restService.PostAsync<ExecutionResult>($"{Constants.API.HOST_URL}/api/auth/logout", employee);
+
+                if (response.Success)
+                {
+                    _settingsManager.UserId = -1;
+                    _settingsManager.IsAuthorizationComplete = false;
+                    _settingsManager.Token = string.Empty;
+                    _settingsManager.RefreshToken = string.Empty;
+                    _settingsManager.TokenExpirationDate = DateTime.Now;
+
+                    result.SetSuccess();
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(LogoutAsync)}: exception", Strings.SomeIssues, ex);
+            }
 
             return result;
         }

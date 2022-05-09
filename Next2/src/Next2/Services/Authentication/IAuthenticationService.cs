@@ -16,8 +16,6 @@ namespace Next2.Services.Authentication
 
         Task<AOResult<UserModel?>> CheckUserExists(int userId);
 
-        void LogOut();
-
         Task<AOResult> AuthorizationUserAsync(string userId);
 
         Task<AOResult> LogoutAsync();

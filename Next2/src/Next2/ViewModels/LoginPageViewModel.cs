@@ -1,6 +1,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Services.Authentication;
+using Next2.Services.Order;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -18,17 +19,20 @@ namespace Next2.ViewModels
     {
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
 
         public LoginPageViewModel(
             INavigationService navigationService,
             IUserService userService,
             IAuthenticationService authenticationService,
+            IOrderService orderService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
             _userService = userService;
+            _orderService = orderService;
             _eventAggregator = eventAggregator;
         }
 
@@ -69,6 +73,8 @@ namespace Next2.ViewModels
         {
             if (_authenticationService.IsAuthorizationComplete)
             {
+                await _orderService.CreateNewOrderAsync();
+
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
             else if (parameters.TryGetValue(Constants.Navigations.EMPLOYEE_ID, out string inputtedEmployeeId))

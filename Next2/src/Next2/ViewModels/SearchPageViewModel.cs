@@ -1,4 +1,4 @@
-﻿using Next2.Helpers;
+﻿using Next2.Helpers.Events;
 using Prism.Events;
 using Prism.Navigation;
 using System;
