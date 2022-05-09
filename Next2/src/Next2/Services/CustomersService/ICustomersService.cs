@@ -17,5 +17,9 @@ namespace Next2.Services.CustomersService
         Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
 
         Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard);
+
+        Task<AOResult> UpdateGiftCardAsync(GiftCardModel giftCard);
+
+        Task<AOResult> UpdateCustomerAsync(CustomerModel customer);
     }
 }

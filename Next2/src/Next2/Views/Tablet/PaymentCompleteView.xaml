@@ -956,8 +956,8 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 CornerRadius="4"
                 Padding="0, 10"
-                Margin="15"/>
-
+                Margin="15"
+                Command="{Binding FinishPaymentCommand}"/>
 
         </StackLayout>
 
