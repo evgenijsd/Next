@@ -33,7 +33,7 @@
             VerticalTextAlignment="Center"
             HorizontalTextAlignment="Start"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TextColor}" 
-            Opacity="0.32"
+            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
             Margin="4, 0, 0, 0"
             FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand"

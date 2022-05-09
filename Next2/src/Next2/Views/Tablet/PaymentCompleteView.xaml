@@ -100,7 +100,7 @@
                                         </VisualStateManager.VisualStateGroups>
 
                                         <StackLayout Orientation="Horizontal">
-                                            
+
                                             <Label
                                                 Text="{Binding Text}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -117,7 +117,7 @@
                                                 </Label.Triggers>
 
                                             </Label>
-                                            
+
                                         </StackLayout>
 
                                     </Frame>
@@ -145,7 +145,7 @@
                             WidthRequest="360">
 
                             <templates:CustomNumericKeyboardTemplate.Triggers>
-                                
+
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
                                     Binding="{Binding SelectedTipItem.TipType}"
@@ -154,13 +154,12 @@
                                     <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
-                                
+
                             </templates:CustomNumericKeyboardTemplate.Triggers>
-                            
+
                         </templates:CustomNumericKeyboardTemplate>
 
                     </Grid>
-
 
                 </StackLayout>
                 
@@ -924,7 +923,6 @@
                 CornerRadius="4"
                 Padding="0, 10"
                 Margin="15"/>
-
 
         </StackLayout>
 

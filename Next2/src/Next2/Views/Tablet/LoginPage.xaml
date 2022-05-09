@@ -60,7 +60,7 @@
                     ScreenKeyboard="{Binding EmployeeId}"
                     PlaceHolder="{xct:Translate TypeEmployeeId}"
                     IsUserLogIn="{Binding IsUserLogIn}"
-                    IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"/>
+                    IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}"/>
 
             </StackLayout>
 

@@ -47,7 +47,6 @@
 
                     </StackLayout>
 
-
                     <BoxView
                         VerticalOptions="Start"
                         HeightRequest="1"

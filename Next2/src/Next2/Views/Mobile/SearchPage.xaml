@@ -46,8 +46,8 @@
                             TargetType="controls:NoActionMenuEntry"
                             Binding="{Binding SearchLine}"
                             Value="">
-                            
-                            <Setter Property="Opacity" Value="0.32" />
+
+                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                             
                         </DataTrigger>
 

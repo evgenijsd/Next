@@ -55,7 +55,6 @@
             
         </controls:CustomFrame>
 
-
         <controls:CustomFrame
             VerticalOptions="Start"
             Padding="0"

@@ -100,7 +100,7 @@
                 FontSize="{DynamicResource TSize_i8}"
                 LeftImagePath="ic_danger_circle"
                 Text="{Binding EmployeeId}"
-                IsValidValue="{Binding IsErrorNotificationVisible, Converter={xct:InvertedBoolConverter}}"
+                IsValidValue="{Binding IsInvalidEmployeeId, Converter={xct:InvertedBoolConverter}}"
                 TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
 
                 <buttons:InputButton.Behaviors>
@@ -114,7 +114,7 @@
                 HeightRequest="40" 
                 Margin="16, 5, 16, 0"
                 CornerRadius="{OnPlatform Android='5', iOS='8'}"
-                IsVisible="{Binding IsErrorNotificationVisible}">
+                IsVisible="{Binding IsInvalidEmployeeId}">
 
                 <yummy:PancakeView.Shadow>
                     <yummy:DropShadow
@@ -205,7 +205,7 @@
 
                                 <MultiTrigger.Conditions>
                                     <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
-                                    <BindingCondition Binding="{Binding IsErrorNotificationVisible}" Value="False" />
+                                    <BindingCondition Binding="{Binding IsInvalidEmployeeId}" Value="False" />
                                 </MultiTrigger.Conditions>
 
                                 <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>

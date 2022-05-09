@@ -29,13 +29,9 @@ namespace Next2.Services.Authentication
 
         #region -- Public properties --
 
-        public int AuthorizedUserId { get => _settingsManager.UserId; }
+        public int AuthorizedUserId => _settingsManager.UserId;
 
-        public bool IsAuthorizationComplete { get => _settingsManager.IsAuthorizationComplete; }
-
-        public string? Token { get => _settingsManager.Token; }
-
-        public string? RefreshToken { get => _settingsManager.RefreshToken; }
+        public bool IsAuthorizationComplete => _settingsManager.IsAuthorizationComplete;
 
         #endregion
 
@@ -49,13 +45,9 @@ namespace Next2.Services.Authentication
             {
                 var user = await _mockService.GetByIdAsync<UserModel>(userId);
 
-                if (user != null)
+                if (user is not null)
                 {
                     result.SetSuccess(user);
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -66,7 +58,7 @@ namespace Next2.Services.Authentication
             return result;
         }
 
-        public async Task<AOResult> AuthorizationUserAsync(string userId)
+        public async Task<AOResult> AuthorizeUserAsync(string userId)
         {
             var result = new AOResult();
 
@@ -77,26 +69,25 @@ namespace Next2.Services.Authentication
 
             try
             {
-                var response = await _restService.RequestAsync<LoginQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
-
-                if (response.Success && int.TryParse(userId, out int id))
+                if (int.TryParse(userId, out int id))
                 {
-                    _settingsManager.UserId = id;
-                    _settingsManager.IsAuthorizationComplete = true;
-                    _settingsManager.Token = response.Value.Tokens.AccessToken;
-                    _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
-                    _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+                    var response = await _restService.RequestAsync<LoginQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
 
-                    result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
+                    if (response.Success)
+                    {
+                        _settingsManager.UserId = id;
+                        _settingsManager.IsAuthorizationComplete = true;
+                        _settingsManager.Token = response.Value.Tokens.AccessToken;
+                        _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
+                        _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+
+                        result.SetSuccess();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AuthorizationUserAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AuthorizeUserAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

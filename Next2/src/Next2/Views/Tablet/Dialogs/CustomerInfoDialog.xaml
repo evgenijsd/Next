@@ -141,7 +141,6 @@
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                         HeightRequest="1.5" />
 
-
                     <Frame
                         Margin="0, 23, 0, 24"
                         Padding="0"

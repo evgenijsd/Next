@@ -34,18 +34,18 @@ namespace Next2.ViewModels
 
         public bool IsAdminAccount { get; set; }
 
-        public bool IsErrorNotificationVisible { get; set; }
+        public bool IsInvalidEmployeeId { get; set; }
 
         public string EmployeeId { get; set; } = string.Empty;
 
         private ICommand _ClearCommand;
-        public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
+        public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _RemoveTaxCommand;
-        public ICommand RemoveTaxCommand => _RemoveTaxCommand ??= new AsyncCommand(OnRemoveTaxCommandAsync);
+        public ICommand RemoveTaxCommand => _RemoveTaxCommand ??= new AsyncCommand(OnRemoveTaxCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _openEmployeeIdInputPage;
-        public ICommand OpenEmployeeIdInputPage => _openEmployeeIdInputPage ??= new AsyncCommand(OnOpenEmployeeIdInputPageAsync);
+        private ICommand _openEmployeeIdInputPageCommand;
+        public ICommand OpenEmployeeIdInputPageCommand => _openEmployeeIdInputPageCommand ??= new AsyncCommand(OnOpenEmployeeIdInputPageCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet && args.PropertyName == nameof(EmployeeId))
             {
-                IsErrorNotificationVisible = false;
+                IsInvalidEmployeeId = false;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Next2.ViewModels
         {
             base.OnDisappearing();
 
-            OnClearCommandAsync().ConfigureAwait(false);
+            OnClearCommandAsync();
         }
 
         #endregion
@@ -86,12 +86,12 @@ namespace Next2.ViewModels
         {
             EmployeeId = string.Empty;
             IsAdminAccount = false;
-            IsErrorNotificationVisible = false;
+            IsInvalidEmployeeId = false;
 
             return Task.CompletedTask;
         }
 
-        private Task OnOpenEmployeeIdInputPageAsync()
+        private Task OnOpenEmployeeIdInputPageCommandAsync()
         {
             return _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
@@ -112,7 +112,7 @@ namespace Next2.ViewModels
 
         private async Task CheckEmployeeId(string inputtedValue)
         {
-            var result = false;
+            var isAdminAccount = false;
 
             if ((inputtedValue.Length == Constants.Limits.LOGIN_LENGTH)
                 && int.TryParse(inputtedValue, out int inputtedEmployeeIdToDigit))
@@ -121,12 +121,12 @@ namespace Next2.ViewModels
 
                 if (user.IsSuccess)
                 {
-                    result = user.Result.UserType == EUserType.Admin;
+                    isAdminAccount = user.Result.UserType == EUserType.Admin;
                 }
             }
 
-            IsAdminAccount = result;
-            IsErrorNotificationVisible = !result && inputtedValue != string.Empty;
+            IsAdminAccount = isAdminAccount;
+            IsInvalidEmployeeId = !isAdminAccount && inputtedValue != string.Empty;
         }
 
         #endregion

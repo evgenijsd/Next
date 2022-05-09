@@ -40,7 +40,7 @@ namespace Next2.ViewModels
 
         public bool IsUserLogIn { get; set; }
 
-        public bool IsErrorNotificationVisible { get; set; }
+        public bool IsInvalidEmployeeId { get; set; }
 
         public string EmployeeId { get; set; } = string.Empty;
 
@@ -50,7 +50,7 @@ namespace Next2.ViewModels
         public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
 
         private ICommand _goToStartPageCommand;
-        public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand(OnStartPageCommandAsync);
+        public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand(OnGoToStartPageCommandAsync);
 
         private ICommand _goToEmployeeIdPage;
         public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
@@ -65,7 +65,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet && args.PropertyName == nameof(EmployeeId))
             {
-                IsErrorNotificationVisible = false;
+                IsInvalidEmployeeId = false;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Next2.ViewModels
         {
             base.OnDisappearing();
 
-            OnClearCommandAsync().ConfigureAwait(false);
+            OnClearCommandAsync();
         }
 
         #endregion
@@ -103,31 +103,31 @@ namespace Next2.ViewModels
         private Task OnClearCommandAsync()
         {
             EmployeeId = string.Empty;
-            IsErrorNotificationVisible = false;
+            IsInvalidEmployeeId = false;
 
             return Task.CompletedTask;
         }
 
-        private async Task OnGoToEmployeeIdPageAsync()
+        private Task OnGoToEmployeeIdPageAsync()
         {
-            await _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
+            return _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
 
-        private async Task OnStartPageCommandAsync()
+        private Task OnGoToStartPageCommandAsync()
         {
             if (App.IsTablet)
             {
                 CheckEmployeeId(EmployeeId);
             }
 
-            await AuithorizationUserAsync();
+            return AuthorizeUserAsync();
         }
 
-        private async Task AuithorizationUserAsync()
+        private async Task AuthorizeUserAsync()
         {
-            if (!IsErrorNotificationVisible && EmployeeId != string.Empty)
+            if (!IsInvalidEmployeeId && EmployeeId != string.Empty)
             {
-                var result = await _authenticationService.AuthorizationUserAsync(EmployeeId);
+                var result = await _authenticationService.AuthorizeUserAsync(EmployeeId);
 
                 if (result.IsSuccess)
                 {
@@ -139,16 +139,16 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    IsErrorNotificationVisible = true;
+                    IsInvalidEmployeeId = true;
                 }
             }
         }
 
         private void CheckEmployeeId(string inputtedValue)
         {
-            var result = !string.IsNullOrWhiteSpace(inputtedValue) && inputtedValue.Length == Constants.Limits.LOGIN_LENGTH;
+            var isEmployeeIdValid = !string.IsNullOrWhiteSpace(inputtedValue) && inputtedValue.Length == Constants.Limits.LOGIN_LENGTH;
 
-            IsErrorNotificationVisible = !result && inputtedValue != string.Empty;
+            IsInvalidEmployeeId = !isEmployeeIdValid && inputtedValue != string.Empty;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)

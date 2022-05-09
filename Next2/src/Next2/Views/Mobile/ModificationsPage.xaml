@@ -579,7 +579,7 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                Opacity="0.6"
+                Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                 xct:TouchEffect.Command="{Binding CloseMenuCommand}"/>
 
         </Grid>

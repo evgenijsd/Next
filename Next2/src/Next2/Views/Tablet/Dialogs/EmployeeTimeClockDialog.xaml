@@ -114,8 +114,6 @@
                         
                     </StackLayout>
 
-                    
-
                 </sc:StateCondition>
 
                 <sc:StateCondition State="CheckedIn">

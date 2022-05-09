@@ -10,13 +10,9 @@ namespace Next2.Services.Authentication
 
         bool IsAuthorizationComplete { get; }
 
-        string? Token { get; }
-
-        string? RefreshToken { get; }
-
         Task<AOResult<UserModel?>> CheckUserExists(int userId);
 
-        Task<AOResult> AuthorizationUserAsync(string userId);
+        Task<AOResult> AuthorizeUserAsync(string userId);
 
         Task<AOResult> LogoutAsync();
     }

@@ -16,7 +16,7 @@
 
         <BoxView
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" 
-            Opacity="0.6" 
+            Opacity="{DynamicResource OpacityWhenDisabled_i2}" 
             VerticalOptions="FillAndExpand" 
             HorizontalOptions="FillAndExpand"
             xct:TouchEffect.Command="{prism:GoBack}"/>
@@ -54,7 +54,7 @@
                     ScreenKeyboard="{Binding EmployeeId}"
                     Value="{Binding EmployeeId}"
                     PlaceHolder="{xct:Translate TypeEmployeeId}"
-                    IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"/>
+                    IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}"/>
 
                 <BoxView
                     Margin="0, 12, 0, 0"

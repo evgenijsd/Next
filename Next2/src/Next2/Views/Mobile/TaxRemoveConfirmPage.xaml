@@ -54,7 +54,7 @@
                 LeftImagePath="ic_danger_circle"
                 IsValidValue="{Binding IsAdminAccount}"
                 Text="{Binding EmployeeId}"
-                TapGestureRecognizerCommand="{Binding OpenEmployeeIdInputPage}"
+                TapGestureRecognizerCommand="{Binding OpenEmployeeIdInputPageCommand}"
                 x:Name="employeeId">
 
                 <buttons:InputButton.Behaviors>
@@ -88,7 +88,7 @@
                 <yummy:PancakeView.Shadow>
                     <yummy:DropShadow
                         Color="{DynamicResource TextAndBackgroundColor_i6}"
-                        Offset="1,2" 
+                        Offset="1, 2" 
                         BlurRadius="{OnPlatform Android=3, iOS=4}"
                         Opacity="{OnPlatform Android=1, iOS=0.2}"/>
 

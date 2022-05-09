@@ -96,7 +96,7 @@
                 <buttons:BorderButton.Triggers>
 
                     <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsCleared}" Value="True">
-                        <Setter Property="Opacity" Value="0.32"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                     </DataTrigger>
                     
                 </buttons:BorderButton.Triggers>

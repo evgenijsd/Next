@@ -17,8 +17,7 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool> _tokenRefreshingSource;
 
-        public RestService(
-            ISettingsManager settingsManager)
+        public RestService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
         }
