@@ -81,9 +81,8 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <StackLayout>
-
-                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">
-
+                
+                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">                    
                     <StackLayout>
 
                         <BoxView
@@ -127,7 +126,6 @@
                             HeightRequest="1"/>
 
                     </StackLayout>
-
                 </StackLayout>
 
                 <StackLayout
@@ -197,21 +195,6 @@
 
                     </StackLayout>
 
-                    <StackLayout
-                        Orientation="Horizontal"
-                        IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
-
-                        <Label
-                            Text="{xct:Translate Tip}"
-                            Style="{DynamicResource SummaryItem}" />
-
-                        <Label
-                            Style="{DynamicResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding SelectedTipItem.Text}" />
-
-                    </StackLayout>
-
                     <StackLayout Orientation="Horizontal">
 
                         <StackLayout.Triggers>
@@ -244,6 +227,21 @@
                             </Label.FormattedText>
 
                         </Label>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
+
+                        <Label
+                            Text="{xct:Translate Tip}"
+                            Style="{DynamicResource SummaryItem}" />
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding SelectedTipItem.Text}" />
 
                     </StackLayout>
 

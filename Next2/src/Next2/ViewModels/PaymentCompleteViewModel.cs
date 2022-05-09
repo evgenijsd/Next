@@ -199,7 +199,7 @@ namespace Next2.ViewModels
 
         public void RecalculateTotal()
         {
-            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.PriceTax = _subtotalWithBonus * Order.Tax.Value;
             Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
             Order.Total = Order.Total - Order.Cash - Order.GiftCard;
             var cash = Order.Cash + Order.Change;

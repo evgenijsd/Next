@@ -189,7 +189,7 @@
                                     <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                         <Grid
-                                            RowDefinitions="0.99*, 0.01*"
+                                            RowDefinitions="0.98*, 0.02*"
                                             HeightRequest="45">
 
                                             <Grid.GestureRecognizers>
