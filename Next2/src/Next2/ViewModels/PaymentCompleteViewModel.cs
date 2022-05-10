@@ -416,10 +416,10 @@ namespace Next2.ViewModels
             };
 
             PopupPage popupPage = App.IsTablet
-                ?
-                    new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
-                :
-                    new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+
+                ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
+
+                : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
 
             await _popupNavigation.PushAsync(popupPage);
         }
@@ -444,6 +444,8 @@ namespace Next2.ViewModels
 
         private async Task MakePayment()
         {
+           // var order = _mapper.Map<OrderModel?>(Order);
+           // order.PaymentStatus = EOrderStatus.Payed;
            // await _orderService.AddOrderAsync(_mapper.Map<OrderModel>(Order));
             await _orderService.CreateNewOrderAsync();
         }
