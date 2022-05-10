@@ -945,7 +945,40 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 CornerRadius="4"
                 Padding="0, 10"
+                IsEnabled="False"
+                Opacity="0.32"
                 Margin="15">
+
+                <buttons:BorderButton.Triggers>
+                    
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding BitmapSignature, Converter={xct:IsNotNullOrEmptyConverter}}" 
+                        Value="true">
+                        
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="IsEnabled" Value="true"/>
+                    </DataTrigger>
+                    
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding IsCleared}"
+                        Value="true">
+                        
+                        <Setter Property="Opacity" Value="0.32"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                    
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton"
+                        Binding="{Binding Order.Total, Converter={StaticResource floatToBoolConverter}}" 
+                        Value="false">
+                        
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="IsEnabled" Value="true"/>
+                    </DataTrigger>
+                    
+                </buttons:BorderButton.Triggers>
                 
                 <buttons:BorderButton.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding FinishPaymentCommand}"/>

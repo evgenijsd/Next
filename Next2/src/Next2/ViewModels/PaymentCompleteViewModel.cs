@@ -113,8 +113,8 @@ namespace Next2.ViewModels
         private ICommand _addGiftCardCommand;
         public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _finishPaymentDialogCallCommand;
-        public ICommand FinishPaymentCommand => _finishPaymentDialogCallCommand ??= new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _finishPaymentCommand;
+        public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
