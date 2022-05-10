@@ -17,8 +17,10 @@ namespace Next2.Models
 
         public DateTime MembershipEndTime { get; set; }
 
-        public ICommand? TapCommand { get; set; }
-
         public string UuId { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public ICommand? TapCommand { get; set; }
     }
 }

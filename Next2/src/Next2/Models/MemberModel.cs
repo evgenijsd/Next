@@ -16,5 +16,7 @@ namespace Next2.Models
         public DateTime MembershipEndTime { get; set; }
 
         public string UuId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

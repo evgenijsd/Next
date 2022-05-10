@@ -34,7 +34,6 @@ namespace Next2.Services.Membership
 
             try
             {
-                //var members = await _mockService.GetAllAsync<MemberModel>();
                 var membersDTO = (await _restService.RequestWithAuthorization<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships")).Value.Memberships;
                 int index = 1;
                 var members = from x in membersDTO
@@ -46,6 +45,7 @@ namespace Next2.Services.Membership
                                   MembershipStartTime = DateTime.Parse(x.StartDate),
                                   MembershipEndTime = DateTime.Parse(x.EndDate),
                                   UuId = x.Id,
+                                  IsActive = x.IsActive,
                               };
 
                 if (members != null)
