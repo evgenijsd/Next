@@ -133,7 +133,7 @@ namespace Next2.ViewModels
                 {
                     await _orderService.CreateNewOrderAsync();
 
-                    await _navigationService.NavigateAsync($"{nameof(Views.Tablet.MenuPage)}");
+                    await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
 
                     IsUserLogIn = true;
                 }

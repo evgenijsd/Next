@@ -14,7 +14,7 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PaymentCompleteView"
-    x:DataType="viewmodels:PaymentCompleteViewModel">
+    x:DataType="viewmodels:PaymentCompleteViewModel" >
 
     <Grid
         ColumnDefinitions="0.67*, 0.33*"
@@ -111,9 +111,11 @@
                                                 HorizontalOptions="FillAndExpand">
 
                                                 <Label.Triggers>
+
                                                     <DataTrigger TargetType="Label" Binding="{Binding TipType}" Value="{Static enum:ETipType.Other}">
                                                         <Setter Property="Text" Value="{xct:Translate Other}" />
                                                     </DataTrigger>
+                                                    
                                                 </Label.Triggers>
 
                                             </Label>
@@ -201,6 +203,7 @@
                                 TextColor="{DynamicResource AppColor_i1}">
 
                                 <Label.Triggers>
+                                    
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">
                                         <Setter Property="Text" Value="0"/>
                                     </DataTrigger>
@@ -208,6 +211,7 @@
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                                         <Setter Property="Text" Value="{Binding Order.Customer.GiftCardCount}"/>
                                     </DataTrigger>
+                                    
                                 </Label.Triggers>
 
                             </Label>
@@ -706,7 +710,8 @@
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout
+                    Orientation="Horizontal">
 
                     <StackLayout.Triggers>
 
@@ -747,21 +752,6 @@
 
                 </StackLayout>
 
-                <StackLayout
-                    Orientation="Horizontal"
-                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
-
-                    <Label
-                        Text="{xct:Translate Tip}"
-                        Style="{DynamicResource SummaryItem}" />
-
-                    <Label
-                        Style="{DynamicResource SummaryItem}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding SelectedTipItem.Text}" />
-
-                </StackLayout>
-
                 <StackLayout Orientation="Horizontal">
 
                     <StackLayout.Triggers>
@@ -789,6 +779,21 @@
                         </Label.FormattedText>
 
                     </Label>
+
+                </StackLayout>
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
+
+                    <Label
+                        Text="{xct:Translate Tip}"
+                        Style="{DynamicResource SummaryItem}" />
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding SelectedTipItem.Text}" />
 
                 </StackLayout>
 
@@ -922,7 +927,8 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 CornerRadius="4"
                 Padding="0, 10"
-                Margin="15"/>
+                Margin="15"
+                Command="{Binding FinishPaymentCommand}"/>
 
         </StackLayout>
 

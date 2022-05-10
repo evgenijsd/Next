@@ -11,11 +11,11 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.TipsPage"
     x:DataType="mobile:TipsPageViewModel">
 
-    <Grid RowDefinitions="70,*">
+    <Grid RowDefinitions="70, *">
 
         <controls:CustomNavigationbar
             Grid.Row="0"

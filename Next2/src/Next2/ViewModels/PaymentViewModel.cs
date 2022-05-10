@@ -233,33 +233,6 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
-        private void RecalculateGiftCardFounds(ref List<GiftCardModel> giftCards)
-        {
-            float tempFounds = Order.GiftCard;
-
-            foreach (var giftCard in giftCards)
-            {
-                while (tempFounds > 0)
-                {
-                    if (giftCard.GiftCardFunds > tempFounds)
-                    {
-                        giftCard.GiftCardFunds = giftCard.GiftCardFunds - tempFounds;
-                        tempFounds = 0;
-                    }
-                    else if (giftCard.GiftCardFunds < tempFounds)
-                    {
-                        tempFounds -= giftCard.GiftCardFunds;
-                        giftCard.GiftCardFunds = 0;
-                    }
-                    else if (giftCard.GiftCardFunds == tempFounds)
-                    {
-                        giftCard.GiftCardFunds = 0;
-                        tempFounds = 0;
-                    }
-                }
-            }
-        }
-
         #endregion
     }
 }

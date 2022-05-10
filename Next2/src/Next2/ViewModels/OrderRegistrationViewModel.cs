@@ -191,7 +191,11 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    _orderService.CurrentOrder.Table = SelectedTable;
+                    if(SelectedTable is not null)
+                    {
+                        _orderService.CurrentOrder.Table = SelectedTable;
+                    }
+
                     break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;

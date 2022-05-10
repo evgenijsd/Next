@@ -41,8 +41,8 @@ namespace Next2.ViewModels.Dialogs
         private ICommand _closeCommand;
         public ICommand CloseCommand => _closeCommand ??= new AsyncCommand(OnCloseCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _getGiftСardAmountCommand;
-        public ICommand GiftСardAmountCommand => _getGiftСardAmountCommand ??= new AsyncCommand(OnGetGiftcardAmountCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _addGiftСardCommand;
+        public ICommand AddGiftСardCommand => _addGiftСardCommand ??= new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -55,10 +55,12 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private async Task OnGetGiftcardAmountCommandAsync()
+        private async Task OnAddGiftCardCommandAsync()
         {
             if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
             {
+                var dialogParameters = new DialogParameters() { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+
                 var giftCardModel = await _customersService.GetGiftCardByNumberAsync(giftCardNumber);
 
                 if (giftCardModel.IsSuccess)
@@ -67,13 +69,22 @@ namespace Next2.ViewModels.Dialogs
 
                     var giftCard = giftCardModel.Result;
 
-                    if (Customer is not null && !Customer.IsNotRegistratedCustomer)
+                    if (Customer is not null)
                     {
-                        var isCustomerUpdated = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
+                        var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
 
-                        if (isCustomerUpdated.IsSuccess)
+                        if (isGiftCardAdded.IsSuccess)
                         {
-                            await _customersService.ActivateGiftCardAsync(giftCard);
+                            if (!Customer.IsNotRegistratedCustomer)
+                            {
+                                await _customersService.ActivateGiftCardAsync(giftCard);
+                            }
+
+                            RequestClose(dialogParameters);
+                        }
+                        else
+                        {
+                            IsGiftCardNotExists = true;
                         }
                     }
                     else
@@ -90,12 +101,8 @@ namespace Next2.ViewModels.Dialogs
 
                         _orderService.CurrentOrder.Customer = tempCustomerModel;
 
-                        await _customersService.ActivateGiftCardAsync(giftCard);
+                        RequestClose(dialogParameters);
                     }
-
-                    var dialogParameters = new DialogParameters { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
-
-                    RequestClose(dialogParameters);
                 }
                 else
                 {
