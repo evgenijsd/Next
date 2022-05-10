@@ -1,10 +1,13 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.DTO;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -13,10 +16,14 @@ namespace Next2.Services.Membership
     public class MembershipService : IMembershipService
     {
         private readonly IMockService _mockService;
+        private readonly IRestService _restService;
 
-        public MembershipService(IMockService mockService)
+        public MembershipService(
+            IMockService mockService,
+            IRestService restService)
         {
             _mockService = mockService;
+            _restService = restService;
         }
 
          #region -- IMembership implementation --
@@ -27,7 +34,11 @@ namespace Next2.Services.Membership
 
             try
             {
-                var members = await _mockService.GetAllAsync<MemberModel>();
+                //var members = await _mockService.GetAllAsync<MemberModel>();
+                var membersDTO = (await _restService.AuthorizedRequestAsync<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships")).Value.Memberships;
+                int index = 1;
+                var members = from x in membersDTO
+                               select new MemberModel { Id = index++, CustomerName = x.Customer.FullName, Phone = x.Customer.Phone, MembershipStartTime = DateTime.Parse(x.StartDate), MembershipEndTime = DateTime.Parse(x.EndDate) };
 
                 if (members != null)
                 {
