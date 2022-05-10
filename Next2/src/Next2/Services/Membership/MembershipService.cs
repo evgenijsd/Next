@@ -38,7 +38,14 @@ namespace Next2.Services.Membership
                 var membersDTO = (await _restService.AuthorizedRequestAsync<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships")).Value.Memberships;
                 int index = 1;
                 var members = from x in membersDTO
-                               select new MemberModel { Id = index++, CustomerName = x.Customer.FullName, Phone = x.Customer.Phone, MembershipStartTime = DateTime.Parse(x.StartDate), MembershipEndTime = DateTime.Parse(x.EndDate) };
+                              select new MemberModel
+                              {
+                                  Id = index++,
+                                  CustomerName = x.Customer.FullName,
+                                  Phone = x.Customer.Phone,
+                                  MembershipStartTime = DateTime.Parse(x.StartDate),
+                                  MembershipEndTime = DateTime.Parse(x.EndDate),
+                              };
 
                 if (members != null)
                 {
