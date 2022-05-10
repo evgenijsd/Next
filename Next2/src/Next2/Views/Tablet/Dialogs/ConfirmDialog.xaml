@@ -11,7 +11,7 @@
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.Dialogs.ConfirmDialog"
     x:DataType="viewModels:ConfirmViewModel">
-        
+
     <pancakeview:PancakeView
         HorizontalOptions="Center" 
         VerticalOptions="Center"

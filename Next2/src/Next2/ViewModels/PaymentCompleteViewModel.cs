@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.CustomersService;
@@ -26,6 +27,7 @@ namespace Next2.ViewModels
         private readonly IPopupNavigation _popupNavigation;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
         private ICommand _tapPaymentOptionCommand;
 
@@ -38,12 +40,14 @@ namespace Next2.ViewModels
             IPopupNavigation popupNavigation,
             ICustomersService customersService,
             IOrderService orderService,
+            IMapper mapper,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
             _customersService = customersService;
             _orderService = orderService;
+            _mapper = mapper;
 
             Order = order;
 
@@ -202,9 +206,9 @@ namespace Next2.ViewModels
 
         public void RecalculateTotal()
         {
-            Order.PriceTax = (Order.Tip + _subtotalWithBonus) * Order.Tax.Value;
+            Order.PriceTax = _subtotalWithBonus * Order.Tax.Value;
             Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
-            Order.Total = Order.Total - Order.Cash;
+            Order.Total = Order.Total - Order.Cash - Order.GiftCard;
             var cash = Order.Cash + Order.Change;
             Order.Cash = 0;
             Order.Cash = cash;
@@ -397,6 +401,8 @@ namespace Next2.ViewModels
 
         private async Task OnFinishPaymentCommandAsync()
         {
+            await GiftCardFinishPaymentAsync();
+
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
@@ -438,6 +444,7 @@ namespace Next2.ViewModels
 
         private async Task MakePayment()
         {
+           // await _orderService.AddOrderAsync(_mapper.Map<OrderModel>(Order));
             await _orderService.CreateNewOrderAsync();
         }
 
@@ -466,9 +473,102 @@ namespace Next2.ViewModels
                     {
                         Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
                         Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+
+                        if (float.TryParse(InputGiftCardFounds, out float sum))
+                        {
+                            sum /= 100;
+
+                            if (Order.GiftCardsTotalFunds >= sum)
+                            {
+                                if (Order.Total >= sum)
+                                {
+                                    Order.GiftCard = sum;
+                                    Order.RemainingGiftCardsTotalFunds -= sum;
+                                    Order.Total -= sum;
+                                }
+                                else
+                                {
+                                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds - Order.Total;
+                                    Order.GiftCard = Order.Total;
+                                    Order.Total = 0;
+                                }
+                            }
+                            else
+                            {
+                                IsInsufficientGiftCardFunds = true;
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        private void RecalculateCustomerGiftCardFounds(CustomerModel customer)
+        {
+            float totalPrice = Order.GiftCard;
+
+            foreach (var giftCard in customer.GiftCards)
+            {
+                if (totalPrice != 0)
+                {
+                    if (giftCard.GiftCardFunds > totalPrice)
+                    {
+                        giftCard.GiftCardFunds -= totalPrice;
+                        totalPrice = 0;
+                    }
+                    else if (giftCard.GiftCardFunds < totalPrice)
+                    {
+                        totalPrice -= giftCard.GiftCardFunds;
+                        giftCard.GiftCardFunds = 0;
+                    }
+                    else if (giftCard.GiftCardFunds == totalPrice)
+                    {
+                        giftCard.GiftCardFunds = 0;
+                        totalPrice = 0;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private async Task GiftCardFinishPaymentAsync()
+        {
+            if (Order.Customer is not null && Order.Customer.GiftCards.Any())
+            {
+                RecalculateCustomerGiftCardFounds(Order.Customer);
+
+                if (!Order.Customer.IsNotRegistratedCustomer)
+                {
+                    await _customersService.UpdateCustomerAsync(Order.Customer);
+                }
+                else
+                {
+                    foreach (var giftCardModel in Order.Customer.GiftCards)
+                    {
+                        if (giftCardModel.GiftCardFunds > 0)
+                        {
+                            await UpdateGiftCardAsync(giftCardModel);
+                        }
+                        else
+                        {
+                            await ActivateGiftCardAsync(giftCardModel);
+                        }
+                    }
+                }
+            }
+        }
+
+        private Task ActivateGiftCardAsync(GiftCardModel giftCardModel)
+        {
+            return _customersService.ActivateGiftCardAsync(giftCardModel);
+        }
+
+        private Task UpdateGiftCardAsync(GiftCardModel giftCardModel)
+        {
+            return _customersService.UpdateGiftCardAsync(giftCardModel);
         }
 
         #endregion

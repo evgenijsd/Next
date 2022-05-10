@@ -18,8 +18,8 @@
 
     <skia:SKCanvasView
         Grid.Row="0"
-        x:Name="canvasView"
-        PaintSurface="OnCanvasViewPaintSurface"/>
+        PaintSurface="OnCanvasViewPaintSurface"
+        x:Name="canvasView"/>
 
     <StackLayout
         Grid.Row="0"

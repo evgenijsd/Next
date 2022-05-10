@@ -32,6 +32,7 @@ using Next2.ViewModels.Mobile;
 using Next2.Services.Rewards;
 using Next2.Services.Bonuses;
 using Next2.Services.Log;
+using Next2.Services.Rest;
 
 namespace Next2
 {
@@ -56,17 +57,18 @@ namespace Next2
             containerRegistry.RegisterPopupNavigationService();
             containerRegistry.RegisterPopupDialogService();
 
-            //Services
+            // Services
             var mapper = CreateMapper();
             containerRegistry.RegisterInstance(mapper);
+            containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IMockService, MockService>();
+            containerRegistry.RegisterSingleton<IRestService, RestService>();
+            containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IOrderService, OrderService>();
             containerRegistry.RegisterSingleton<IRewardsService, RewardsService>();
             containerRegistry.RegisterSingleton<IMenuService, MenuService>();
-            containerRegistry.RegisterSingleton<ISettingsManager, SettingsManager>();
             containerRegistry.RegisterSingleton<IUserService, UserService>();
-            containerRegistry.RegisterSingleton<IAuthenticationService, AuthenticationService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
             containerRegistry.RegisterSingleton<ILogService, LogService>();
@@ -83,7 +85,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.SearchPage, SearchPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.BonusPage, BonusPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.LoginPage, LoginPageViewModel>();
-                containerRegistry.RegisterForNavigation<TabletViews.NumericPage, LoginPageViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.MenuPage, TabletViewModels.MenuPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ExpandPage, TabletViewModels.ExpandPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
@@ -129,6 +131,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.InputGiftCardPage, InputGiftCardPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSwipeCardPage, WaitingSwipeCardPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();

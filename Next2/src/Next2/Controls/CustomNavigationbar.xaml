@@ -2,14 +2,14 @@
 <Grid
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    x:DataType="controls:CustomNavigationbar"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
     ColumnDefinitions="50, *"
     HeightRequest="70"
-    x:Class="Next2.Controls.CustomNavigationbar">
+    x:Class="Next2.Controls.CustomNavigationbar"
+    x:DataType="controls:CustomNavigationbar">
 
     <StackLayout
         Grid.Column="0"
@@ -23,11 +23,11 @@
     </StackLayout>
 
     <Label
+        Grid.Column="1"
         Text="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=Title}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
         FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=FontFamily}"
         FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:CustomNavigationbar}}, Path=FontSize}"
-        VerticalOptions="CenterAndExpand"
-        Grid.Column="1" />
+        VerticalOptions="CenterAndExpand"/>
 
 </Grid>

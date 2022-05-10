@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <views:BaseContentPage
-    x:Class="Next2.Views.Tablet.ExpandPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -12,6 +11,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views"
+    x:Class="Next2.Views.Tablet.ExpandPage"
     x:DataType="viewModels:ExpandPageViewModel">
 
     <views:BaseContentPage.Resources>
@@ -76,10 +76,10 @@
                 Padding="12, 11, 12, 0">
 
                 <ContentView
-                    xct:TouchEffect.Command="{prism:GoBack}"
-                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}" 
                     HeightRequest="40"
-                    Padding="0, 0, 12, 0">
+                    Padding="0, 0, 12, 0"
+                    xct:TouchEffect.Command="{prism:GoBack}"
+                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}" >
 
                     <ffimageloading:CachedImage 
                         Source="ic_arrow_left_tail_40x40"
@@ -336,9 +336,9 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <templates:SetItemTemplate
-                        x:DataType="models:SetModel"
                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
-                        xct:TouchEffect.CommandParameter="{Binding .}"/>
+                        xct:TouchEffect.CommandParameter="{Binding .}"
+                        x:DataType="models:SetModel"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -18,10 +18,7 @@
 
         <BoxView.Triggers>
 
-            <DataTrigger
-                TargetType="BoxView" 
-                Binding="{Binding IsFirstSeat}"
-                Value="True">
+            <DataTrigger TargetType="BoxView" Binding="{Binding IsFirstSeat}" Value="True">
 
                 <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i8}"/>
 
@@ -43,10 +40,7 @@
 
             <ffimageloading:CachedImage.Triggers>
 
-                <DataTrigger
-                    TargetType="ffimageloading:CachedImage"
-                    Binding="{Binding Checked}"
-                    Value="True">
+                <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding Checked}" Value="True">
 
                     <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
 
@@ -158,11 +152,11 @@
                     </VisualStateManager.VisualStateGroups>
 
                     <Frame
-                        x:Name="frame"
                         HeightRequest="88"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        CornerRadius="8">
+                        CornerRadius="8"
+                        x:Name="frame">
 
                         <StackLayout Orientation="Horizontal">
 

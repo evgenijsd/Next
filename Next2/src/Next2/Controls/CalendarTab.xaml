@@ -89,6 +89,7 @@
                     Direction="Right"
                     Swiped="OnLeftMonthButtonTapped"
                     Threshold="24" />
+                
             </Label.GestureRecognizers>
 
         </Label>

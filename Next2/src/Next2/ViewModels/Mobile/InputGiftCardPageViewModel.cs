@@ -113,12 +113,12 @@ namespace Next2.ViewModels.Mobile
         {
             IsInSufficientGiftCardFunds = false;
 
-            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, TipViewDialogCallBack);
+            PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, AddGiftCardDialogCallback);
 
             return _popupNavigation.PushAsync(popupPage);
         }
 
-        private async void TipViewDialogCallBack(IDialogParameters parameters)
+        private async void AddGiftCardDialogCallback(IDialogParameters parameters)
         {
             await _popupNavigation.PopAsync();
 
@@ -128,7 +128,16 @@ namespace Next2.ViewModels.Mobile
 
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {
-                    RemainingGiftCardTotal = Customer.GiftCardTotal;
+                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    {
+                        sum /= 100;
+
+                        RemainingGiftCardTotal = Customer.GiftCardTotal - sum;
+                    }
+                    else
+                    {
+                        RemainingGiftCardTotal = Customer.GiftCardTotal;
+                    }
                 }
             }
         }
@@ -157,7 +166,7 @@ namespace Next2.ViewModels.Mobile
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await Task.Delay(2000);
-                IsErrorNotificationVisible = !IsErrorNotificationVisible;
+                IsErrorNotificationVisible = false;
             });
 
             return Task.CompletedTask;

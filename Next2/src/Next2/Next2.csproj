@@ -106,6 +106,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
     <PackageReference Include="Prism.Unity.Forms" Version="8.1.97" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
@@ -224,6 +225,9 @@
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
       <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\TaxRemoveConfirmPage.xaml.cs">
+      <DependentUpon>TaxRemoveConfirmPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\PaymentPage.xaml.cs">
       <DependentUpon>PaymentPage.xaml</DependentUpon>
@@ -391,6 +395,9 @@
     <EmbeddedResource Update="Views\Mobile\RewardsView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Mobile\TaxRemoveConfirmPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Mobile\TipsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -498,7 +505,7 @@
     <EmbeddedResource Update="Views\Tablet\ModificationsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\NumericPage.xaml">
+    <EmbeddedResource Update="Views\Tablet\TaxRemoveConfirmPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\RewardsView.xaml">

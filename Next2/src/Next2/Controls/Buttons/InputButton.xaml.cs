@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.CommunityToolkit.Helpers;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls.Buttons
 {
@@ -21,11 +13,10 @@ namespace Next2.Controls.Buttons
         #region -- Public properties --
 
         public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(
-        propertyName: nameof(FontFamily),
-        returnType: typeof(string),
-        declaringType: typeof(InputButton),
-        defaultValue: string.Empty,
-        defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(FontFamily),
+            returnType: typeof(string),
+            declaringType: typeof(InputButton),
+            defaultValue: string.Empty);
 
         public string FontFamily
         {
@@ -37,8 +28,7 @@ namespace Next2.Controls.Buttons
             propertyName: nameof(FontSize),
             returnType: typeof(double),
             declaringType: typeof(InputButton),
-            defaultValue: 12d,
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultValue: 12d);
 
         public double FontSize
         {
@@ -47,10 +37,9 @@ namespace Next2.Controls.Buttons
         }
 
         public static readonly BindableProperty LeftImagePathProperty = BindableProperty.Create(
-         propertyName: nameof(LeftImagePath),
-         returnType: typeof(string),
-         declaringType: typeof(InputButton),
-         defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(LeftImagePath),
+            returnType: typeof(string),
+            declaringType: typeof(InputButton));
 
         public string LeftImagePath
         {
@@ -59,10 +48,9 @@ namespace Next2.Controls.Buttons
         }
 
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(
-         propertyName: nameof(TextColor),
-         returnType: typeof(Color),
-         declaringType: typeof(InputButton),
-         defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(TextColor),
+            returnType: typeof(Color),
+            declaringType: typeof(InputButton));
 
         public Color TextColor
         {
@@ -71,10 +59,9 @@ namespace Next2.Controls.Buttons
         }
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
-           propertyName: nameof(Text),
-           returnType: typeof(string),
-           declaringType: typeof(InputButton),
-           defaultBindingMode: BindingMode.TwoWay);
+            propertyName: nameof(Text),
+            returnType: typeof(string),
+            declaringType: typeof(InputButton));
 
         public string Text
         {
@@ -83,10 +70,9 @@ namespace Next2.Controls.Buttons
         }
 
         public static readonly BindableProperty IsLeftImageVisibleProperty = BindableProperty.Create(
-            propertyName: nameof(IsLeftImageVisibleProperty),
+            propertyName: nameof(IsLeftImageVisible),
             returnType: typeof(bool),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            declaringType: typeof(InputButton));
 
         public bool IsLeftImageVisible
         {
@@ -94,23 +80,10 @@ namespace Next2.Controls.Buttons
             set => SetValue(IsLeftImageVisibleProperty, value);
         }
 
-        public static readonly BindableProperty IsEmployeeExistsProperty = BindableProperty.Create(
-          propertyName: nameof(IsEmployeeExists),
-          returnType: typeof(bool),
-          declaringType: typeof(InputButton),
-          defaultBindingMode: BindingMode.TwoWay);
-
-        public bool IsEmployeeExists
-        {
-            get => (bool)GetValue(IsEmployeeExistsProperty);
-            set => SetValue(IsEmployeeExistsProperty, value);
-        }
-
         public static readonly BindableProperty TapGestureRecognizerCommandProperty = BindableProperty.Create(
             propertyName: nameof(TapGestureRecognizerCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            declaringType: typeof(InputButton));
 
         public ICommand TapGestureRecognizerCommand
         {
@@ -118,28 +91,16 @@ namespace Next2.Controls.Buttons
             set => SetValue(TapGestureRecognizerCommandProperty, value);
         }
 
-        public static readonly BindableProperty IsCheckAdminIDProperty = BindableProperty.Create(
-          propertyName: nameof(IsCheckAdminID),
-          returnType: typeof(bool),
-          declaringType: typeof(InputButton),
-          defaultBindingMode: BindingMode.TwoWay);
-
-        public bool IsCheckAdminID
-        {
-            get => (bool)GetValue(IsCheckAdminIDProperty);
-            set => SetValue(IsCheckAdminIDProperty, value);
-        }
-
-        public static readonly BindableProperty IsNoAdminProperty = BindableProperty.Create(
-            propertyName: nameof(IsNoAdmin),
+        public static readonly BindableProperty IsValidValueProperty = BindableProperty.Create(
+            propertyName: nameof(IsValidValue),
             returnType: typeof(bool),
-            declaringType: typeof(InputButton),
-            defaultBindingMode: BindingMode.TwoWay);
+            defaultValue: true,
+            declaringType: typeof(InputButton));
 
-        public bool IsNoAdmin
+        public bool IsValidValue
         {
-            get => (bool)GetValue(IsNoAdminProperty);
-            set => SetValue(IsNoAdminProperty, value);
+            get => (bool)GetValue(IsValidValueProperty);
+            set => SetValue(IsValidValueProperty, value);
         }
 
         #endregion

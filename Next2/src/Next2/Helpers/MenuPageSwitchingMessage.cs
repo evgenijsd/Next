@@ -9,10 +9,6 @@ namespace Next2.Helpers
             Page = page;
         }
 
-        #region -- Public properties --
-
         public EMenuItems Page { get; }
-
-        #endregion
     }
 }

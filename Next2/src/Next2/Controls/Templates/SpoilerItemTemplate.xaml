@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:helpers="clr-namespace:Next2.Helpers"
-    x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
     Orientation="Horizontal"
+    x:Class="Next2.Controls.Templates.SpoilerItemTemplate"
     x:DataType="helpers:SpoilerItem">
 
     <VisualStateManager.VisualStateGroups>
@@ -37,20 +37,20 @@
     </VisualStateManager.VisualStateGroups>
 
     <ffimageloading:CachedImage
-        x:Name="image"
         Margin="32, 0, 0, 0"
         Source="{Binding ImagePath}"
         HorizontalOptions="Start"
-        VerticalOptions="Center"/>
+        VerticalOptions="Center"
+        x:Name="image"/>
 
     <Label
-        x:Name="label"
         HorizontalOptions="Start"
         VerticalTextAlignment="Center"
         Padding="8"
         Text="{Binding Title}"
         FontSize="{DynamicResource TSize_i5}"
-        FontFamily="Barlow-SemiBold"/>
+        FontFamily="Barlow-SemiBold"
+        x:Name="label"/>
 
     <StackLayout
         Orientation="Horizontal"
@@ -67,9 +67,9 @@
             IsVisible="{Binding CanShowDot}"/>
 
         <BoxView
-            x:Name="boxView"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            WidthRequest="4"/>
+            WidthRequest="4"
+            x:Name="boxView"/>
 
     </StackLayout>
 

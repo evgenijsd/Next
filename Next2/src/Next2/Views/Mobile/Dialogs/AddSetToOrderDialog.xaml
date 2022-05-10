@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <rg:PopupPage
-    x:Class="Next2.Views.Mobile.Dialogs.AddSetToOrderDialog"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
@@ -10,7 +8,9 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    x:Class="Next2.Views.Mobile.Dialogs.AddSetToOrderDialog"
     x:DataType="viewmodels:AddSetToOrderDialogViewModel">
 
     <Frame

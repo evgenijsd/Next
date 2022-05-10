@@ -1,26 +1,23 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Services.UserService;
-using Next2.ViewModels.Mobile;
 using Next2.Views.Mobile;
-using Next2.Views.Tablet;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -194,7 +191,11 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    _orderService.CurrentOrder.Table = SelectedTable;
+                    if(SelectedTable is not null)
+                    {
+                        _orderService.CurrentOrder.Table = SelectedTable;
+                    }
+
                     break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
@@ -687,24 +688,19 @@ namespace Next2.ViewModels
         {
             var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            if (user.IsSuccess && (user.Result.UserType != EUserType.Admin))
+            if (user.IsSuccess)
             {
-                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+                if (user.Result.UserType != EUserType.Admin)
+                {
+                    _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-                if (App.IsTablet)
-                {
-                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(NewOrderView) } };
-                    await _navigationService.NavigateAsync(nameof(NumericPage), parameters, useModalNavigation: true);
+                    await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
                 }
-                else
+                else if (user.Result.UserType == EUserType.Admin)
                 {
-                    var parameters = new NavigationParameters { { Constants.Navigations.ADMIN, nameof(OrderRegistrationPage) } };
-                    await _navigationService.NavigateAsync(nameof(Views.Mobile.LoginPage), parameters);
+                    IsOrderWithTax = false;
+                    CurrentOrder.Tax.Value = 0;
                 }
-            }
-            else
-            {
-                IsOrderWithTax = false;
             }
         }
 

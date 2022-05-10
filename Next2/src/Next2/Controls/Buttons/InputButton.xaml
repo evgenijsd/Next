@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<controls:CustomFrame  
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+<controls:CustomFrame
+    xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Next2.Controls.Buttons.InputButton"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     Padding="4"
     BorderWidth="1"
     HasShadow="False"
     BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
     CornerRadius="{OnPlatform Android='5', iOS='8'}"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+    x:Class="Next2.Controls.Buttons.InputButton">
 
     <StackLayout Orientation="Horizontal">
 
-        <Label 
+        <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text}"
             FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=FontSize}" 
             VerticalTextAlignment="Center"
@@ -27,13 +27,13 @@
             HorizontalOptions="FillAndExpand"
             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}"/>
 
-        <Label 
+        <Label
             Text="{xct:Translate TypeEmployeeId}"
             FontSize="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=FontSize}" 
             VerticalTextAlignment="Center"
             HorizontalTextAlignment="Start"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:InputButton}}, Path=TextColor}" 
-            Opacity="0.32"
+            Opacity="{DynamicResource OpacityWhenDisabled_i1}"
             Margin="4, 0, 0, 0"
             FontFamily="Barlow-Medium"
             HorizontalOptions="FillAndExpand"

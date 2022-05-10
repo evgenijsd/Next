@@ -44,7 +44,7 @@
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
             public const int MAX_TABLE_SEATS = 10;
-            public const int LOGIN_PASSWORD_LENGTH = 6;
+            public const int LOGIN_LENGTH = 6;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2100;
@@ -78,7 +78,6 @@
             public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
-            public const string ADMIN = "ADMIN";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SELECTED_SET = "SELECTED_SET";
             public const string SEATS = "SEATS";
@@ -99,6 +98,9 @@
             public const string TIP_ITEMS = "TIP_ITEMS";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
+            public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
+            public const string EMPLOYEE_ID = "EMPLOYEE_ID";
+            public const string RESULT = "RESULT";
         }
 
         public static class Validators
@@ -158,6 +160,12 @@
             public const string IN_PROGRESS = "In progress";
             public const string CANCELLED = "Cancelled";
             public const string PAYED = "Payed";
+        }
+
+        public static class API
+        {
+            public const string HOST_URL = "http://139.59.208.79";
+            public const int TOKEN_EXPIRATION_TIME = 12;
         }
     }
 }

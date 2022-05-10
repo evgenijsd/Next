@@ -41,6 +41,7 @@
 
                     <controls:CustomFrame
                         Padding="0, 15"
+                        HasShadow="False"
                         BorderWidth="1"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                         BorderColor="{DynamicResource TextAndBackgroundColor_i2}" 
@@ -80,9 +81,8 @@
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <StackLayout>
-
-                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">
-
+                
+                <StackLayout xct:TouchEffect.Command="{Binding TapExpandCommand}">                    
                     <StackLayout>
 
                         <BoxView
@@ -106,10 +106,7 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger
-                                        TargetType="ffimageloading:CachedImage"
-                                        Binding="{Binding IsExpandedSummary}"
-                                        Value="False">
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsExpandedSummary}" Value="False">
 
                                         <Setter Property="Source" Value="ic_arrow_down_24x24.png"/>
 
@@ -126,7 +123,6 @@
                             HeightRequest="1"/>
 
                     </StackLayout>
-
                 </StackLayout>
 
                 <StackLayout
@@ -196,21 +192,6 @@
 
                     </StackLayout>
 
-                    <StackLayout
-                        Orientation="Horizontal"
-                        IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
-
-                        <Label
-                            Text="{xct:Translate Tip}"
-                            Style="{DynamicResource SummaryItem}" />
-
-                        <Label
-                            Style="{DynamicResource SummaryItem}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding SelectedTipItem.Text}" />
-
-                    </StackLayout>
-
                     <StackLayout Orientation="Horizontal">
 
                         <StackLayout.Triggers>
@@ -243,6 +224,21 @@
                             </Label.FormattedText>
 
                         </Label>
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
+
+                        <Label
+                            Text="{xct:Translate Tip}"
+                            Style="{DynamicResource SummaryItem}" />
+
+                        <Label
+                            Style="{DynamicResource SummaryItem}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding SelectedTipItem.Text}" />
 
                     </StackLayout>
 
@@ -279,10 +275,7 @@
                         
                         <StackLayout.Triggers>
 
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.Cash}"
-                                Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Cash}" Value="0">
 
                                 <Setter Property="IsVisible" Value="False" />
 
@@ -314,10 +307,7 @@
 
                         <StackLayout.Triggers>
 
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.Change}"
-                                Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Change}" Value="0">
 
                                 <Setter Property="IsVisible" Value="False" />
 
@@ -387,14 +377,42 @@
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
+                Command="{Binding FinishPaymentCommand}"
                 CornerRadius="4"
                 Padding="0, 10"
                 Margin="15">
-                
-                <buttons:BorderButton.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding FinishPaymentCommand}"/>
-                </buttons:BorderButton.GestureRecognizers>
-                
+
+                <buttons:BorderButton.Triggers>
+
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding BitmapSignature, Converter={xct:IsNotNullOrEmptyConverter}}" 
+                        Value="true">
+
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="IsEnabled" Value="true"/>
+                    </DataTrigger>
+
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding IsCleared}"
+                        Value="true">
+
+                        <Setter Property="Opacity" Value="0.32"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton"
+                        Binding="{Binding Order.Total, Converter={StaticResource floatToBoolConverter}}" 
+                        Value="false">
+
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="IsEnabled" Value="true"/>
+                    </DataTrigger>
+
+                </buttons:BorderButton.Triggers>
+
             </buttons:BorderButton>
 
         </StackLayout>

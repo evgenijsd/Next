@@ -14,6 +14,8 @@ namespace Next2.Models
 
         public bool IsApplied { get; set; }
 
+        public bool IsConfirmedApply { get; set; }
+
         public bool CanBeApplied { get; set; } = true;
 
         public ICommand? SelectCommand { get; set; }

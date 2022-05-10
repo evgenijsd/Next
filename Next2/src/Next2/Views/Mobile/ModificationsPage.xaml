@@ -14,8 +14,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    x:DataType="viewmodels:ModificationsPageViewModel"
-    x:Class="Next2.Views.Mobile.ModificationsPage">
+    x:Class="Next2.Views.Mobile.ModificationsPage"
+    x:DataType="viewmodels:ModificationsPageViewModel">
 
     <Grid
         RowDefinitions="72, 1, *, 1, 75"
@@ -579,7 +579,7 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                Opacity="0.6"
+                Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                 xct:TouchEffect.Command="{Binding CloseMenuCommand}"/>
 
         </Grid>

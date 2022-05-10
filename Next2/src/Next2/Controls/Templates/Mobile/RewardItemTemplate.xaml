@@ -17,9 +17,12 @@
         <DataTrigger TargetType="Frame" Binding="{Binding CanBeApplied}" Value="false">
             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
         </DataTrigger>
-        
+
         <DataTrigger TargetType="Frame" Binding="{Binding IsApplied}" Value="True">
             <Setter TargetName="rewardBorder" Property="pc:PancakeView.Border" Value="{pc:BorderMarkup Thickness=2, Color={StaticResource AppColor_i1}}"/>
+        </DataTrigger>
+
+        <DataTrigger TargetType="Frame" Binding="{Binding IsConfirmedApply}" Value="True">
             <Setter TargetName="rewardCheckBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24"/>
         </DataTrigger>
     </Frame.Triggers>
@@ -57,5 +60,6 @@
 
         </StackLayout>
 
-    </pc:PancakeView>                               
+    </pc:PancakeView>  
+    
 </Frame>

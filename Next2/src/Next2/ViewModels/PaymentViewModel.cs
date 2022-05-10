@@ -57,7 +57,7 @@ namespace Next2.ViewModels
                 Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
             }
 
-            RewardsViewModel = new (
+            RewardsViewModel = new(
                 navigationService,
                 popupNavigation,
                 mapper,
@@ -68,17 +68,18 @@ namespace Next2.ViewModels
                 NavigateAsync,
                 GoToPaymentStep);
 
-            PaymentCompleteViewModel = new (
+            PaymentCompleteViewModel = new(
                 navigationService,
                 popupNavigation,
                 customerService,
                 orderService,
+                mapper,
                 Order);
         }
 
         #region -- Public properties --
 
-        public PaidOrderBindableModel Order { get; set; } = new ();
+        public PaidOrderBindableModel Order { get; set; } = new();
 
         public EPaymentSteps PaymentStep { get; set; }
 
@@ -231,33 +232,6 @@ namespace Next2.ViewModels
         private async void ClosePaymentCompleteCallbackAsync(IDialogParameters parameters)
         {
             await _navigationService.GoBackAsync();
-        }
-
-        private void RecalculateGiftCardFounds(ref List<GiftCardModel> giftCards)
-        {
-            float tempFounds = Order.GiftCard;
-
-            foreach (var giftCard in giftCards)
-            {
-                while (tempFounds > 0)
-                {
-                    if (giftCard.GiftCardFunds > tempFounds)
-                    {
-                        giftCard.GiftCardFunds = giftCard.GiftCardFunds - tempFounds;
-                        tempFounds = 0;
-                    }
-                    else if (giftCard.GiftCardFunds < tempFounds)
-                    {
-                        tempFounds -= giftCard.GiftCardFunds;
-                        giftCard.GiftCardFunds = 0;
-                    }
-                    else if (giftCard.GiftCardFunds == tempFounds)
-                    {
-                        giftCard.GiftCardFunds = 0;
-                        tempFounds = 0;
-                    }
-                }
-            }
         }
 
         #endregion
