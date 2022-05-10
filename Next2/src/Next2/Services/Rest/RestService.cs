@@ -142,7 +142,7 @@ namespace Next2.Services.Rest
 
             try
             {
-                var resultData = await RequestAsync<RefreshTokenQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
+                var resultData = await RequestAsync<GenericExecutionResult<RefreshTokenQuery>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
 
                 if (resultData.Success)
                 {

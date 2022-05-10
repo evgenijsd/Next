@@ -71,7 +71,7 @@ namespace Next2.Services.Authentication
             {
                 if (int.TryParse(userId, out int id))
                 {
-                    var response = await _restService.RequestAsync<LoginQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
+                    var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
 
                     if (response.Success)
                     {
