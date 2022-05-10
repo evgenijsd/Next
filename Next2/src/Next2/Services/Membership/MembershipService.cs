@@ -35,7 +35,7 @@ namespace Next2.Services.Membership
             try
             {
                 //var members = await _mockService.GetAllAsync<MemberModel>();
-                var membersDTO = (await _restService.AuthorizedRequestAsync<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships")).Value.Memberships;
+                var membersDTO = (await _restService.RequestWithAuthorization<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships")).Value.Memberships;
                 int index = 1;
                 var members = from x in membersDTO
                               select new MemberModel

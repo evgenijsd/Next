@@ -48,7 +48,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        public async Task<T> AuthorizedRequestAsync<T>(HttpMethod method, string requestUrl)
+        public async Task<T> RequestWithAuthorization<T>(HttpMethod method, string requestUrl)
         {
             Dictionary<string, string> headers = null;
 
