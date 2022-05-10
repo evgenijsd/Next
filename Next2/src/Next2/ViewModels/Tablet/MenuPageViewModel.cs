@@ -186,7 +186,7 @@ namespace Next2.ViewModels.Tablet
             SelectedMenuItem = MenuItems.FirstOrDefault();
         }
 
-        private async Task OnLogOutCommandAsync()
+        private Task OnLogOutCommandAsync()
         {
             var dialogParameters = new DialogParameters
             {
@@ -201,7 +201,7 @@ namespace Next2.ViewModels.Tablet
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            return _popupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -210,10 +210,11 @@ namespace Next2.ViewModels.Tablet
             {
                 if (result)
                 {
-                    await _orderService.CreateNewOrderAsync();
-                    _authenticationService.LogOut();
-
                     await _popupNavigation.PopAsync();
+
+                    await _authenticationService.LogoutAsync();
+
+                    _orderService.CurrentOrder = new();
 
                     var navigationParameters = new NavigationParameters
                     {

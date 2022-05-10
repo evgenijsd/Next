@@ -106,10 +106,7 @@
 
                                 <ffimageloading:CachedImage.Triggers>
 
-                                    <DataTrigger
-                                        TargetType="ffimageloading:CachedImage"
-                                        Binding="{Binding IsExpandedSummary}"
-                                        Value="False">
+                                    <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding IsExpandedSummary}" Value="False">
 
                                         <Setter Property="Source" Value="ic_arrow_down_24x24.png"/>
 
@@ -278,10 +275,7 @@
                         
                         <StackLayout.Triggers>
 
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.Cash}"
-                                Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Cash}" Value="0">
 
                                 <Setter Property="IsVisible" Value="False" />
 
@@ -313,10 +307,7 @@
 
                         <StackLayout.Triggers>
 
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.Change}"
-                                Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Change}" Value="0">
 
                                 <Setter Property="IsVisible" Value="False" />
 

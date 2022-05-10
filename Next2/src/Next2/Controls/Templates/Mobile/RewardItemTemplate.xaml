@@ -60,5 +60,6 @@
 
         </StackLayout>
 
-    </pc:PancakeView>                               
+    </pc:PancakeView>  
+    
 </Frame>

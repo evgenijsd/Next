@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Helpers;
+using Next2.Helpers.Events;
 using Next2.Models;
-using Next2.Resources.Strings;
 using Next2.Services.Membership;
 using Next2.Views.Tablet;
-using Prism.Events;
 using Next2.Views.Tablet.Dialogs;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -14,12 +13,12 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using System.ComponentModel;
 
 namespace Next2.ViewModels.Tablet
 {

@@ -82,13 +82,13 @@
     </VisualStateManager.VisualStateGroups>
 
     <Frame
-        x:Name="frame"
         Padding="0"
         Margin="1"
         HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
         BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
-        CornerRadius="10">
+        CornerRadius="10"
+        x:Name="frame">
 
         <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=Text}"

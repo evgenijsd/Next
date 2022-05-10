@@ -1221,6 +1221,18 @@ namespace Next2.Services.Mock
                     UserName = "Admin",
                     UserType = EUserType.Admin,
                 },
+                new UserModel
+                {
+                    Id = 111111,
+                    UserName = "Admin",
+                    UserType = EUserType.Admin,
+                },
+                new UserModel
+                {
+                    Id = 555555,
+                    UserName = "Waiter",
+                    UserType = EUserType.User,
+                },
             };
         });
 

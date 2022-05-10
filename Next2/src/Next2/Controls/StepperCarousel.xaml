@@ -8,11 +8,11 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
-    x:Class="Next2.Controls.StepperCarousel"
     MinimumHeightRequest="116"
     VerticalOptions="Start"
     Spacing="15"
     Orientation="Horizontal"
+    x:Class="Next2.Controls.StepperCarousel"
     x:Name="stepperCarousel">
 
     <Frame
@@ -46,7 +46,6 @@
     </Frame>
 
     <CollectionView
-        x:Name="collectionView"
         HorizontalOptions="StartAndExpand"
         HeightRequest="100"
         VerticalScrollBarVisibility="Never"
@@ -54,7 +53,8 @@
         SelectionMode="Single"
         ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=ItemsSource}"
         SelectedItem="{Binding Source={RelativeSource AncestorType={x:Type controls:StepperCarousel}}, Path=SelectedItem}"
-        Scrolled="collectionView_Scrolled">
+        Scrolled="collectionView_Scrolled"
+        x:Name="collectionView">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup Name="AdaptiveStepperCarousel">

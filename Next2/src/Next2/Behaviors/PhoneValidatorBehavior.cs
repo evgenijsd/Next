@@ -1,6 +1,5 @@
 ﻿using Next2.Controls;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using Xamarin.Forms;
 

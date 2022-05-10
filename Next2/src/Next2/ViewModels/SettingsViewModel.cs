@@ -45,7 +45,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnLogOutCommandAsync()
+        private Task OnLogOutCommandAsync()
         {
             var dialogParameters = new DialogParameters
             {
@@ -60,8 +60,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
 
-            await _orderService.CreateNewOrderAsync();
-            await _popupNavigation.PushAsync(confirmDialog);
+            return _popupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -70,13 +69,15 @@ namespace Next2.ViewModels
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
                 {
-                    _authenticationService.LogOut();
-
                     await _popupNavigation.PopAsync();
+
+                    await _authenticationService.LogoutAsync();
+
+                    _orderService.CurrentOrder = new();
 
                     var navigationParameters = new NavigationParameters
                     {
-                        { nameof(result), result },
+                        { Constants.Navigations.RESULT, result },
                     };
 
                     await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);

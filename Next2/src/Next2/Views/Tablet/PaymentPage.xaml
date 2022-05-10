@@ -10,8 +10,8 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:tablet="clr-namespace:Next2.Views.Tablet"
-    x:DataType="viewmodels:PaymentViewModel"
-    x:Class="Next2.Views.Tablet.PaymentPage">
+    x:Class="Next2.Views.Tablet.PaymentPage"
+    x:DataType="viewmodels:PaymentViewModel">
     
     <StackLayout Background="{DynamicResource TextAndBackgroundColor_i5}">
         

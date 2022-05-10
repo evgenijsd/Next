@@ -8,8 +8,8 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:DataType="viewmodels:PaymentCompleteDialogViewModel"
-    x:Class="Next2.Views.Mobile.Dialogs.PaymentCompleteDialog">
+    x:Class="Next2.Views.Mobile.Dialogs.PaymentCompleteDialog"
+    x:DataType="viewmodels:PaymentCompleteDialogViewModel">
 
     <pcView:PancakeView
         HorizontalOptions="Center"

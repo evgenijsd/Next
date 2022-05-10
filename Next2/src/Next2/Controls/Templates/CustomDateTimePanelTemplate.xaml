@@ -1,20 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView  
-    xmlns:views="clr-namespace:Next2.Views"
-    xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Next2.Controls.Templates.CustomDateTimePanelTemplate"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    x:Class="Next2.Controls.Templates.CustomDateTimePanelTemplate">
     
-    <StackLayout 
+    <StackLayout
         Orientation="Horizontal"
         HorizontalOptions="Fill"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         Padding="0">
 
-        <Label 
+        <Label
             Text="{xct:Translate Welcome}"
             FontSize="{DynamicResource TSize_i4_5}"
             VerticalOptions="Center"
@@ -22,13 +21,13 @@
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="Barlow-Bold"/>
 
-        <ffimageloading:CachedImage 
+        <ffimageloading:CachedImage
             Margin="0, 0, 5, 0"
             Source="ic_time_circle_24x24"
             VerticalOptions="Center"
             HorizontalOptions="EndAndExpand"/>
             
-        <Label 
+        <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:h: mm : ss tt}', Path=CurrentDateTime}"
             VerticalOptions="Center"
             WidthRequest="80"
@@ -38,11 +37,11 @@
             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
             FontFamily="Barlow-Medium"/>
 
-        <ffimageloading:CachedImage 
+        <ffimageloading:CachedImage
             Source="ic_calendar_24x24"
             Margin="0, 0, 5, 0"/>
 
-        <Label 
+        <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomDateTimePanelTemplate}}, StringFormat='{}{0:dddd, d MMMM yyyy}', Path=CurrentDateTime}"
             VerticalOptions="Center"
             Margin="0, 0, 40, 0"

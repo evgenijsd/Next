@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:BaseContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:prism="http://prismlibrary.com"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+    x:Class="Next2.Views.Mobile.TaxRemoveConfirmPage"
+    x:DataType="viewModels:TaxRemoveConfirmPageViewModel">
+
+    <StackLayout>
+
+        <Label 
+            Text="{xct:Translate EmployeeId}"
+            FontSize="{DynamicResource TSize_i6}"
+            HeightRequest="50"
+            Margin="16, 0, 0, 0"
+            VerticalTextAlignment="Center"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+            FontFamily="Barlow-Bold"/>
+
+        <StackLayout
+            Orientation="Vertical"
+            VerticalOptions="FillAndExpand"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+
+            <ffimageloading:CachedImage
+                Source="pic_logo_rectangular"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                HeightRequest="157"
+                WidthRequest="150"
+                Margin="0, 20, 0, 0"/>
+
+            <Label
+                Text="{xct:Translate EmployeeId}"
+                FontSize="{DynamicResource TSize_i8}"
+                Margin="18, 0, 0, 8"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Regular"/>
+
+            <buttons:InputButton
+                HeightRequest="30"
+                Margin="16, 0"
+                TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                FontSize="{DynamicResource TSize_i8}"
+                LeftImagePath="ic_danger_circle"
+                IsValidValue="{Binding IsAdminAccount}"
+                Text="{Binding EmployeeId}"
+                TapGestureRecognizerCommand="{Binding OpenEmployeeIdInputPageCommand}"
+                x:Name="employeeId">
+
+                <buttons:InputButton.Behaviors>
+                    <behaviors:InputButtonBehavior/>
+                </buttons:InputButton.Behaviors>
+
+            </buttons:InputButton>
+
+            <yummy:PancakeView
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                HeightRequest="40" 
+                Margin="16, 5, 16, 0" 
+                IsVisible="False"
+                CornerRadius="{OnPlatform Android='5', iOS='8'}">
+
+                <yummy:PancakeView.Triggers>
+
+                    <MultiTrigger TargetType="yummy:PancakeView">
+                        
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding IsAdminAccount}" Value="False" />
+                            <BindingCondition Binding="{Binding EmployeeId, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True" />
+                        </MultiTrigger.Conditions>
+                        
+                        <Setter Property="IsVisible" Value="True" />
+                        
+                    </MultiTrigger>
+
+                </yummy:PancakeView.Triggers>
+
+                <yummy:PancakeView.Shadow>
+                    <yummy:DropShadow
+                        Color="{DynamicResource TextAndBackgroundColor_i6}"
+                        Offset="1, 2" 
+                        BlurRadius="{OnPlatform Android=3, iOS=4}"
+                        Opacity="{OnPlatform Android=1, iOS=0.2}"/>
+
+                </yummy:PancakeView.Shadow>
+
+                <Label
+                    Text="{xct:Translate InvalidCode}"
+                    FontSize="{DynamicResource TSize_i8}"
+                    Margin="10, 0, 0, 0"
+                    VerticalOptions="Center"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                    FontFamily="Barlow-Regular"/>
+
+            </yummy:PancakeView>
+
+            <StackLayout 
+                Orientation="Horizontal"
+                VerticalOptions="EndAndExpand"
+                Spacing="11"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                HeightRequest="65">
+
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    HeightRequest="40">
+
+                    <buttons:BorderButton
+                        Margin="16, 0, 0, 0"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        BorderWidth="1"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        Text="{xct:Translate Cancel}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        BorderColor="{DynamicResource IndicationColor_i3}"
+                        FontFamily="Barlow-SemiBold"
+                        Command="{prism:GoBack}"/>
+
+                </StackLayout>
+
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"
+                    VerticalOptions="Center">
+
+                    <buttons:BorderButton
+                        Margin="0, 0, 16, 0"
+                        CornerRadius="{OnPlatform Android='5', iOS='8'}"
+                        Padding="4"
+                        IsEnabled="False"
+                        BorderWidth="0"
+                        HeightRequest="65"
+                        HasShadow="False"
+                        Text="{xct:Translate Confirm}"
+                        FontSize="{DynamicResource TSize_i7}"
+                        BorderColor="Transparent"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        FontFamily="Barlow-SemiBold"
+                        BackgroundColor="{DynamicResource IndicationColor_i2}"
+                        Command="{Binding RemoveTaxCommand}">
+
+                        <buttons:BorderButton.Triggers>
+
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsAdminAccount}" Value="True">
+
+                                <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}"/>
+                                <Setter Property="IsEnabled" Value="True"/>
+
+                            </DataTrigger>
+
+                        </buttons:BorderButton.Triggers>
+
+                    </buttons:BorderButton>
+
+                </StackLayout>
+
+            </StackLayout>
+
+        </StackLayout>
+
+    </StackLayout>
+
+</views:BaseContentPage>

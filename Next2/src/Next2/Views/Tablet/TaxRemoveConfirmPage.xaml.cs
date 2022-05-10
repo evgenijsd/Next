@@ -3,9 +3,9 @@ using Xamarin.Forms;
 
 namespace Next2.Views.Tablet
 {
-    public partial class NumericPage : BaseContentPage
+    public partial class TaxRemoveConfirmPage : BaseContentPage
     {
-        public NumericPage()
+        public TaxRemoveConfirmPage()
         {
             InitializeComponent();
         }

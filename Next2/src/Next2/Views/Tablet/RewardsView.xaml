@@ -63,6 +63,7 @@
                     
                     <!-- NO SELECTED CUSTOMER MESSAGE -->
                     <sc:StateCondition State="{Static enums:ERewardsPageState.NoSelectedCustomer}">
+                        
                         <StackLayout Margin="0, 120">
                                 
                             <ffimageloading:CachedImage
@@ -76,10 +77,12 @@
                                 Text="{xct:Translate StillNotMember}"/>
 
                         </StackLayout>
+                        
                     </sc:StateCondition>
                         
                     <!-- REWARDS NOT EXIST MESSAGE -->
                     <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsNotExist}">
+                        
                         <StackLayout Margin="0, 120">
                                                                 
                             <ffimageloading:CachedImage
@@ -93,11 +96,14 @@
                                 Text="{xct:Translate MessageAboutCashingOutAwards}"/>
 
                         </StackLayout>
+                        
                     </sc:StateCondition>
 
                     <!-- SEATS AND SETS IN ORDER --> 
                     <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
+                        
                         <StackLayout>
+                            
                             <CollectionView ItemsSource="{Binding Order.Seats}">
                                     
                                 <CollectionView.Effects>
@@ -176,11 +182,11 @@
                     xct:TouchEffect.Command="{Binding GoToCompleteTabCommand}">
                         
                     <buttons:BorderButton.Triggers>
+                        
                         <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding Order.IsUnsavedChangesExist}" Value="True">
-                                
                             <Setter Property="Text" Value="{xct:Translate Apply}"/>
-                                
                         </DataTrigger>
+                        
                     </buttons:BorderButton.Triggers>
                         
                 </buttons:BorderButton>
