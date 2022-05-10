@@ -29,8 +29,6 @@ namespace Next2.Services.Order
             _mapper = mapper;
 
             CurrentOrder.Seats = new ();
-
-            Task.Run(CreateNewOrderAsync);
         }
 
         #region -- Public properties --

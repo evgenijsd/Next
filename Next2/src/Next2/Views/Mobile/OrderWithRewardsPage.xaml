@@ -12,8 +12,8 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
-    x:DataType="viewmodels:OrderWithRewardsViewModel"
-    x:Class="Next2.Views.Mobile.OrderWithRewardsPage">
+    x:Class="Next2.Views.Mobile.OrderWithRewardsPage"
+    x:DataType="viewmodels:OrderWithRewardsViewModel">
     
     <Grid RowDefinitions="auto">
         
@@ -131,7 +131,8 @@
 
             <BoxView
                 HeightRequest="1.5"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>         
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"/>
+
         </StackLayout>
         
     </Grid>

@@ -3,10 +3,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:prism="http://prismlibrary.com"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:mobile="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Mobile.WaitingSignaturePage"
@@ -96,7 +96,7 @@
                 <buttons:BorderButton.Triggers>
 
                     <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding IsCleared}" Value="True">
-                        <Setter Property="Opacity" Value="0.32"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                     </DataTrigger>
                     
                 </buttons:BorderButton.Triggers>

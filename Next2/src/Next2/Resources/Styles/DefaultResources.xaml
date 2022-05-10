@@ -30,7 +30,8 @@
     <x:Double x:Key="TSize_i10">10</x:Double>
 
     <x:Double x:Key="OpacityWhenDisabled_i1">0.32</x:Double>
-        
+    <x:Double x:Key="OpacityWhenDisabled_i2">0.6</x:Double>
+
     <Style TargetType="Frame">
         <Setter Property="HasShadow" Value="False" />
         <Setter Property="Padding" Value="0" />
@@ -184,7 +185,6 @@
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />
-    <converters:IsNumberValidConverter x:Key="isNumberValidConverter" />
     <converters:FloatToBoolConverter x:Key="floatToBoolConverter" />
 
 </ResourceDictionary>

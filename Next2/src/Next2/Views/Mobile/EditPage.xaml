@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentPage  
-    xmlns:views="clr-namespace:Next2.Views"
+<views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:prism="http://prismlibrary.com"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
-    xmlns:effects="clr-namespace:Next2.Effects" 
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Mobile.EditPage"
     x:DataType="viewModels:EditPageViewModel">
 
@@ -30,7 +30,6 @@
             HeightRequest="1"
             VerticalOptions="EndAndExpand"/>
 
-
         <ScrollView Grid.Row="1">
 
             <ScrollView.Effects>
@@ -41,6 +40,7 @@
                         ScrollBarCornerRadius="9"
                         ScrollBarThumbColor="{StaticResource AppColor_i1}"
                         ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                
             </ScrollView.Effects>
 
             <Grid
@@ -146,7 +146,8 @@
                 <!-- Row 3 Inventory & Replacement & Option -->
 
                 <templates:ProductItemTemplate 
-                    Grid.Row="2" ItemsSource="{Binding SelectedSet.Products}"
+                    Grid.Row="2"
+                    ItemsSource="{Binding SelectedSet.Products}"
                     FontFamilyProduct="Barlow-Medium"
                     FontSizeProduct="{DynamicResource TSize_i5}"
                     FontFamilyTitle="Barlow-SemiBold"

@@ -10,8 +10,8 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:DataType="viewmodels:OrderDetailDialogViewModel"
-    x:Class="Next2.Views.Tablet.Dialogs.OrderDetailDialog">
+    x:Class="Next2.Views.Tablet.Dialogs.OrderDetailDialog"
+    x:DataType="viewmodels:OrderDetailDialogViewModel">
 
     <rg:PopupPage.Resources>
         <Style TargetType="Label">
@@ -80,6 +80,7 @@
                     IsVisible="{Binding IsOrderDetailsDisplayed}"
                     HeightRequest="1"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+                
             </StackLayout>
 
             <!-- SET LIST -->
@@ -167,6 +168,7 @@
                                             </pcView:PancakeView>
 
                                             <BoxView HeightRequest="6"/>
+                                            
                                         </StackLayout>
 
                                     </DataTemplate>

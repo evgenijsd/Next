@@ -182,18 +182,6 @@ namespace Next2.Controls.Templates
         private ICommand _buttonClearTapCommand;
         public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
 
-        public static readonly BindableProperty ApplyCommandProperty = BindableProperty.Create(
-         propertyName: nameof(ApplyCommand),
-         returnType: typeof(ICommand),
-         declaringType: typeof(CustomNumericKeyboardTemplate),
-         defaultBindingMode: BindingMode.TwoWay);
-
-        public ICommand ApplyCommand
-        {
-            get => (ICommand)GetValue(ApplyCommandProperty);
-            set => SetValue(ApplyCommandProperty, value);
-        }
-
         #endregion
 
         #region -- Ovverides --

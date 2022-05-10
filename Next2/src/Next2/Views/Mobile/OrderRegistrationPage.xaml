@@ -6,18 +6,18 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
-    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:DataType="viewmodels:OrderRegistrationViewModel"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.OrderRegistrationPage"
-    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+    x:DataType="viewmodels:OrderRegistrationViewModel">
 
     <Grid
         RowDefinitions="auto, auto, auto, auto, 65"
@@ -124,11 +124,11 @@
                             Orientation="Horizontal">
 
                             <Label
-                                x:DataType="models:OrderTypeBindableModel"
                                 HorizontalOptions="FillAndExpand"
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i7}"
-                                Text="{Binding Text}" />
+                                Text="{Binding Text}"
+                                x:DataType="models:OrderTypeBindableModel"/>
 
                         </StackLayout>
 
@@ -223,8 +223,7 @@
             </CollectionView.Effects>
 
             <CollectionView.EmptyView>
-                <StackLayout
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                     <Frame 
                         IsVisible="{Binding IsOrderSavedNotificationVisible}"
@@ -394,8 +393,7 @@
 
                 </StackLayout>
 
-                <StackLayout
-                    Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal">
 
                     <StackLayout.Triggers>
 

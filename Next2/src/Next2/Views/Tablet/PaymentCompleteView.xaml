@@ -14,15 +14,15 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PaymentCompleteView"
-    x:DataType="viewmodels:PaymentCompleteViewModel">
+    x:DataType="viewmodels:PaymentCompleteViewModel" >
 
     <Grid
         ColumnDefinitions="0.67*, 0.33*"
         VerticalOptions="FillAndExpand">
 
         <sc:StateContainer
-            State="{Binding SelectedPaymentOption.PaymentType}"
-            Grid.Row="0">
+            Grid.Row="0"
+            State="{Binding SelectedPaymentOption.PaymentType}">
 
             <sc:StateCondition State="Tips">
 
@@ -100,6 +100,7 @@
                                         </VisualStateManager.VisualStateGroups>
 
                                         <StackLayout Orientation="Horizontal">
+
                                             <Label
                                                 Text="{Binding Text}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -110,17 +111,15 @@
                                                 HorizontalOptions="FillAndExpand">
 
                                                 <Label.Triggers>
-                                                    <DataTrigger
-                                                        TargetType="Label"
-                                                        Binding="{Binding TipType}"
-                                                        Value="{Static enum:ETipType.Other}">
 
+                                                    <DataTrigger TargetType="Label" Binding="{Binding TipType}" Value="{Static enum:ETipType.Other}">
                                                         <Setter Property="Text" Value="{xct:Translate Other}" />
-
                                                     </DataTrigger>
+                                                    
                                                 </Label.Triggers>
 
                                             </Label>
+
                                         </StackLayout>
 
                                     </Frame>
@@ -131,9 +130,9 @@
                         </CollectionView>
 
                         <templates:CustomNumericKeyboardTemplate
+                            Grid.Column="1"
                             IsEnabled="False"
                             Margin="0, 95, 0, 0"
-                            Grid.Column="1"
                             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i5}"
                             PlaceHolder="{xct:Translate EnterAmount}"
                             HorizontalOptions="Center"
@@ -148,7 +147,7 @@
                             WidthRequest="360">
 
                             <templates:CustomNumericKeyboardTemplate.Triggers>
-                                
+
                                 <DataTrigger
                                     TargetType="templates:CustomNumericKeyboardTemplate"
                                     Binding="{Binding SelectedTipItem.TipType}"
@@ -157,13 +156,12 @@
                                     <Setter Property="IsEnabled" Value="True" />
 
                                 </DataTrigger>
-                                
+
                             </templates:CustomNumericKeyboardTemplate.Triggers>
-                            
+
                         </templates:CustomNumericKeyboardTemplate>
 
                     </Grid>
-
 
                 </StackLayout>
                 
@@ -205,6 +203,7 @@
                                 TextColor="{DynamicResource AppColor_i1}">
 
                                 <Label.Triggers>
+                                    
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="False">
                                         <Setter Property="Text" Value="0"/>
                                     </DataTrigger>
@@ -212,13 +211,14 @@
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                                         <Setter Property="Text" Value="{Binding Order.Customer.GiftCardCount}"/>
                                     </DataTrigger>
+                                    
                                 </Label.Triggers>
 
                             </Label>
                             
                         </StackLayout>
 
-                        <StackLayout 
+                        <StackLayout
                             Grid.Column="1"
                             Margin="28, 16, 28, 14"
                             Orientation="Horizontal">
@@ -293,8 +293,8 @@
 
                         <Frame
                             Grid.Row="1"
-                            IsVisible="{Binding IsInsufficientGiftCardFunds}"
                             Grid.ColumnSpan="2"
+                            IsVisible="{Binding IsInsufficientGiftCardFunds}"
                             Margin="0, 10, 0, 0"
                             HorizontalOptions="Center"
                             WidthRequest="452"
@@ -436,9 +436,7 @@
                             <StackLayout.Triggers>
 
                                 <DataTrigger TargetType="StackLayout" Binding="{Binding CardPaymentStatus}" Value="WaitingSignature">
-
                                     <Setter Property="IsVisible" Value="False"/>
-                                    
                                 </DataTrigger>
                                 
                             </StackLayout.Triggers>
@@ -450,9 +448,7 @@
                                 <ffimageloading:CachedImage.Triggers>
 
                                     <DataTrigger TargetType="ffimageloading:CachedImage" Binding="{Binding NeedSignatureReceipt}" Value="True">
-
                                         <Setter Property="Source" Value="ic_check_box_checked_primary_24x24.png"/>
-
                                     </DataTrigger>
 
                                 </ffimageloading:CachedImage.Triggers>
@@ -714,7 +710,8 @@
 
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout
+                    Orientation="Horizontal">
 
                     <StackLayout.Triggers>
 
@@ -755,32 +752,12 @@
 
                 </StackLayout>
 
-                <StackLayout
-                    Orientation="Horizontal"
-                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
-
-                    <Label
-                        Text="{xct:Translate Tip}"
-                        Style="{DynamicResource SummaryItem}" />
-
-                    <Label
-                        Style="{DynamicResource SummaryItem}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding SelectedTipItem.Text}" />
-
-                </StackLayout>
-
                 <StackLayout Orientation="Horizontal">
 
                     <StackLayout.Triggers>
 
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding Order.PriceTax}"
-                            Value="0">
-
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding Order.PriceTax}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
-
                         </DataTrigger>
 
                     </StackLayout.Triggers>
@@ -805,6 +782,21 @@
 
                 </StackLayout>
 
+                <StackLayout
+                    Orientation="Horizontal"
+                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
+
+                    <Label
+                        Text="{xct:Translate Tip}"
+                        Style="{DynamicResource SummaryItem}" />
+
+                    <Label
+                        Style="{DynamicResource SummaryItem}"
+                        HorizontalOptions="EndAndExpand"
+                        Text="{Binding SelectedTipItem.Text}" />
+
+                </StackLayout>
+
                 <BoxView
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                     HeightRequest="1"
@@ -814,13 +806,8 @@
 
                     <StackLayout.Triggers>
 
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding Order.Cash}"
-                            Value="0">
-
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Cash}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
-
                         </DataTrigger>
 
                     </StackLayout.Triggers>
@@ -845,7 +832,7 @@
 
                 </StackLayout>
 
-                <StackLayout 
+                <StackLayout
                     Orientation="Horizontal"
                     IsVisible="{Binding Order.GiftCard, Converter={StaticResource floatToBoolConverter}}">
 
@@ -873,13 +860,8 @@
 
                     <StackLayout.Triggers>
 
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding Order.Change}"
-                            Value="0">
-
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Change}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
-
                         </DataTrigger>
 
                     </StackLayout.Triggers>
@@ -945,8 +927,8 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 CornerRadius="4"
                 Padding="0, 10"
-                Margin="15"/>
-
+                Margin="15"
+                Command="{Binding FinishPaymentCommand}"/>
 
         </StackLayout>
 

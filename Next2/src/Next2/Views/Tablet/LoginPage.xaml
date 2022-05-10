@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:BaseContentPage  
-    xmlns:views="clr-namespace:Next2.Views"
+<views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:templates="clr-namespace:Next2.Controls.Templates" 
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.LoginPage"
     x:DataType="viewModels:LoginPageViewModel">
 
@@ -16,11 +16,11 @@
         ColumnDefinitions="*, 0.45*"
         RowDefinitions="0.10*, *">
 
-        <templates:CustomDateTimePanelTemplate 
+        <templates:CustomDateTimePanelTemplate
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
             CurrentDateTime="{Binding CurrentDateTime}"/>
 
-        <ContentView 
+        <ContentView
             Grid.Row="1"
             VerticalOptions="Fill"
             HorizontalOptions="Fill"
@@ -28,20 +28,20 @@
             Margin="0"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-            <ffimageloading:CachedImage 
+            <ffimageloading:CachedImage
                 Source="pic_logo_big"
                 Margin="0, 110, 0, 140"
                 Aspect="AspectFit"/>
                 
         </ContentView>
 
-        <Grid  
+        <Grid
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             Grid.Column="1"
             Grid.RowSpan="2"
             RowDefinitions="0.3*, 0.7*, 2, 60">
-            
-            <Label 
+
+            <Label
                 Text="{xct:Translate EmployeeId}"
                 Grid.Row="0"
                 FontSize="{DynamicResource TSize_i6}"
@@ -56,26 +56,26 @@
                     HeightRequest="310"
                     Margin="30, 0"
                     BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
+                    Value="{Binding EmployeeId}"
                     ScreenKeyboard="{Binding EmployeeId}"
                     PlaceHolder="{xct:Translate TypeEmployeeId}"
                     IsUserLogIn="{Binding IsUserLogIn}"
-                    IsErrorNotificationVisible="{Binding IsErrorNotificationVisible}"
-                    ApplyCommand="{Binding GoToStartPageCommand}"/>
-                
+                    IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}"/>
+
             </StackLayout>
 
-            <StackLayout 
+            <StackLayout
                 Grid.Row="2"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
-            <Frame 
+            <Frame
                 Grid.Row="3"
                 CornerRadius="5"
                 Margin="12"
-                Padding="0"
-                BackgroundColor="{DynamicResource IndicationColor_i1}">
+                BackgroundColor="{DynamicResource IndicationColor_i1}"
+                xct:TouchEffect.Command="{Binding GoToStartPageCommand}">
 
-                <Label 
+                <Label
                     Text="{xct:Translate Login}"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
@@ -83,18 +83,9 @@
                     FontSize="{DynamicResource TSize_i8}"
                     FontFamily="Barlow-Bold"/>
 
-                <Frame.GestureRecognizers>
-
-                    <TapGestureRecognizer 
-                        Command="{Binding GoToStartPageCommand}"
-                        CommandParameter="{Binding EmployeeId}"/>
-
-                </Frame.GestureRecognizers>
-
             </Frame>
 
         </Grid>
-
 
     </Grid>
 

@@ -38,9 +38,10 @@
                 Source="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=WrappedListIconSource}">
 
                 <ffimageloading:CachedImage.Triggers>
-                    <DataTrigger TargetType="ffimageloading:CachedImage" 
-                                 Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
-                                 Value="true">
+                    <DataTrigger
+                        TargetType="ffimageloading:CachedImage" 
+                        Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=IsExpanded}"
+                        Value="true">
 
                         <Setter Property="Source" Value="{Binding Source={RelativeSource AncestorType={x:Type controls:DropDownList}}, Path=ExpandedListIconSource}"/>
 

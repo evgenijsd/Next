@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <views:BaseContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:views="clr-namespace:Next2.Views"
-    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:prism="http://prismlibrary.com"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
-    xmlns:models="clr-namespace:Next2.Models"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels"
+    xmlns:views="clr-namespace:Next2.Views"
+    BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.Tablet.BonusPage"
     x:DataType="viewModels:BonusPageViewModel">
 
@@ -79,10 +80,7 @@
 
                                 <Grid.Triggers>
                                     
-                                    <DataTrigger
-                                        TargetType="Grid"
-                                        Binding="{Binding Title}"
-                                        Value="">
+                                    <DataTrigger TargetType="Grid" Binding="{Binding Title}" Value="">
                                         
                                         <Setter Property="IsVisible" Value="true" />
                                         
@@ -130,7 +128,7 @@
                                                         Margin="0, 0, 0, 25"
                                                         Text="{Binding SeatNumber, StringFormat='Seat {0}'}"
                                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                        Opacity="0.60"
+                                                        Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                         FontSize="{DynamicResource TSize_i8}"
                                                         FontFamily="Barlow-Regular"/>
 
@@ -172,7 +170,7 @@
                                                                                 <Label
                                                                                     Text="{Binding Title}"
                                                                                     Margin="0, 5, 0, 0"
-                                                                                    Opacity="0.6"
+                                                                                    Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i9}"
                                                                                     LineBreakMode="TailTruncation"
@@ -196,7 +194,7 @@
                                                                                 <Label
                                                                                     Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
                                                                                     Margin="0, 5, 0, 0"
-                                                                                    Opacity="0.6"
+                                                                                    Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                                                     HorizontalOptions="End"
                                                                                     TextDecorations="Strikethrough"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -256,10 +254,7 @@
 
                                 <StackLayout.Triggers>
                                     
-                                    <DataTrigger
-                                        TargetType="StackLayout"
-                                        Binding="{Binding Title}"
-                                        Value="">
+                                    <DataTrigger TargetType="StackLayout" Binding="{Binding Title}" Value="">
                                         
                                         <Setter Property="IsVisible" Value="false" />
                                         
@@ -291,13 +286,10 @@
 
                         <buttons:BorderButton.Triggers>
                             
-                            <DataTrigger
-                                TargetType="buttons:BorderButton"
-                                Binding="{Binding Title}"
-                                Value="">
+                            <DataTrigger TargetType="buttons:BorderButton" Binding="{Binding Title}" Value="">
                                 
                                 <Setter Property="IsEnabled" Value="False" />
-                                <Setter Property="Opacity" Value="0.3" />
+                                <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
                                 
                             </DataTrigger>
                             

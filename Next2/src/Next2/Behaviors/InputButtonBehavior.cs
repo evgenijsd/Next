@@ -1,13 +1,6 @@
 ﻿using Next2.Controls.Buttons;
-using Next2.Resources.Strings;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Resources;
-using System.Text;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Next2.Behaviors
 {
@@ -39,9 +32,10 @@ namespace Next2.Behaviors
 
         private void InputButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == InputButton.TextProperty.PropertyName && _inputButton.Text != string.Empty) || e.PropertyName == InputButton.IsNoAdminProperty.PropertyName)
+            if ((e.PropertyName is nameof(InputButton.Text) or nameof(InputButton.IsValidValue))
+                && _inputButton.Text != string.Empty)
             {
-                if ((_inputButton.IsEmployeeExists == true || _inputButton.IsCheckAdminID) && !_inputButton.IsNoAdmin)
+                if (_inputButton.IsValidValue)
                 {
                     _inputButton.SetDynamicResource(InputButton.BorderColorProperty, "TextAndBackgroundColor_i2");
                     _inputButton.IsLeftImageVisible = false;

@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<controls:CustomFrame  
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns="http://xamarin.com/schemas/2014/forms" 
+<controls:CustomFrame
+    xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" 
-    x:Class="Next2.Controls.Buttons.NumericKeyboardButton"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     CornerRadius="{OnPlatform Android='5', iOS='8'}"
     Padding="4"
     BorderWidth="3"
     HasShadow="False"
-    BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
+    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+    x:Class="Next2.Controls.Buttons.NumericKeyboardButton">
 
     <Label 
         x:Name="buttonTitle"
