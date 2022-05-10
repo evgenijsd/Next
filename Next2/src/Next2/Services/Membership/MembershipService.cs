@@ -45,6 +45,7 @@ namespace Next2.Services.Membership
                                   Phone = x.Customer.Phone,
                                   MembershipStartTime = DateTime.Parse(x.StartDate),
                                   MembershipEndTime = DateTime.Parse(x.EndDate),
+                                  UuId = x.Id,
                               };
 
                 if (members != null)
