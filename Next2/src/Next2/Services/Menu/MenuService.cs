@@ -1,4 +1,7 @@
 ﻿using Next2.Helpers.DTO.Categories;
+using Next2.Helpers.DTO.Subcategories;
+using Next2.Helpers.DTO.Subcategories.CreateNewSubcategory;
+using Next2.Helpers.DTO.Subcategories.GetSubcategoryById;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -58,30 +61,87 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        //public async Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategoriesAsync(int categoryId)
-        //{
-        //    var result = new AOResult<IEnumerable<SubcategoryModel>>();
+        public async Task<AOResult<Guid>> CreateNewSubcategoryAsync(CreateSubcategoryQuery subcategoryCreateQuery)
+        {
+            var result = new AOResult<Guid>();
 
-        //    try
-        //    {
-        //        var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
+            try
+            {
+                var headers = _restService.GenerateAuthorizationHeader();
 
-        //        if (subcategories is not null)
-        //        {
-        //            result.SetSuccess(subcategories);
-        //        }
-        //        else
-        //        {
-        //            result.SetFailure();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.SetError($"{nameof(GetSubcategoriesAsync)}: exception", Strings.SomeIssues, ex);
-        //    }
+                var subcategoryGuid = await _restService.RequestAsync<GuidExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/subcategories", subcategoryCreateQuery, headers);
 
-        //    return result;
-        //}
+                if (subcategoryGuid.Success)
+                {
+                    result.SetSuccess(subcategoryGuid.Value);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetAllSubcategoriesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetAllSubcategoriesAsync()
+        {
+            var result = new AOResult<IEnumerable<SubcategoryModelDTO>>();
+
+            try
+            {
+                var headers = _restService.GenerateAuthorizationHeader();
+
+                var subcategories = await _restService.RequestAsync<GetSubcategoriesListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories", headers);
+
+                if (subcategories.Success && subcategories is not null)
+                {
+                    result.SetSuccess(subcategories.Value.Subcategories);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetAllSubcategoriesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetSubcategoryByIdAsync(Guid categoryId)
+        {
+            var result = new AOResult<IEnumerable<SubcategoryModelDTO>>();
+
+            try
+            {
+                var headers = _restService.GenerateAuthorizationHeader();
+
+                var subcategories = await _restService.RequestAsync<GetSubcategoryByIdQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories", categoryId, headers);
+
+                if (subcategories.Success && subcategories is not null)
+                {
+                    result.SetSuccess(subcategories.Value.Subcategory);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetSubcategoryByIdAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId)
         {
             var result = new AOResult<IEnumerable<SetModel>>();
@@ -266,6 +326,11 @@ namespace Next2.Services.Menu
             }
 
             return result;
+        }
+
+        public Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetSubcategoryByIdAsync(int categoryId)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

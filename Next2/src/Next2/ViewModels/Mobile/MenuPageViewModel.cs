@@ -54,8 +54,8 @@ namespace Next2.ViewModels.Mobile
 
         public IEnumerable<CategoryModelDTO>? apiResponce { get; set; }
 
-        //private ICommand _tapCategoryCommand;
-        //public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _tapCategoryCommand;
+        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<Api.Models.Category.CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
         private ICommand _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
 
@@ -161,22 +161,21 @@ namespace Next2.ViewModels.Mobile
                         })),
                     });
 
-                    foreach (var category in categories)
-                    {
-                        allCategories.Add(new Api.Models.Category.CategoryModel()
-                        {
-                            Id = category.Id,
-                            Name = category.Name,
-                        });
+                    //foreach (var category in categories)
+                    //{
+                    //    allCategories.Add(new Api.Models.Category.CategoryModel()
+                    //    {
+                    //        Id = category.Id,
+                    //        Name = category.Name,
+                    //    });
 
-                        allCategories.AddRange(category.Subcategories.Select(subCategory => new Api.Models.Category.CategoryModel()
-                        {
-                            Id = subCategory.Id,
-                            Name = subCategory.Name,
-                        }));
-                    }
-
-                    CategoriesItems = new(allCategories);
+                    //    allCategories.AddRange(category.Subcategories.Select(subCategory => new Api.Models.Category.CategoryModel()
+                    //    {
+                    //        Id = subCategory.Id,
+                    //        Name = subCategory.Name,
+                    //    }));
+                    //}
+                    CategoriesItems = new(categories);
                 }
             }
         }
@@ -186,15 +185,16 @@ namespace Next2.ViewModels.Mobile
             return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
         }
 
-        //private async Task OnTapCategoryCommandAsync(CategoryModel category)
-        //{
-        //    var navigationParams = new NavigationParameters
-        //    {
-        //        { Constants.Navigations.CATEGORY, category },
-        //    };
+        private async Task OnTapCategoryCommandAsync(Api.Models.Category.CategoryModel category)
+        {
+            var navigationParams = new NavigationParameters
+            {
+                { Constants.Navigations.CATEGORY, category },
+            };
 
-        //    await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
-        //}
+            await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
+        }
+
         private async Task GoToSettingsCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");

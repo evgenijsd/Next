@@ -1,4 +1,6 @@
 ﻿using Next2.Helpers.DTO.Categories;
+using Next2.Helpers.DTO.Subcategories;
+using Next2.Helpers.DTO.Subcategories.CreateNewSubcategory;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
@@ -12,7 +14,11 @@ namespace Next2.Services.Menu
     {
         Task<AOResult<IEnumerable<CategoryModelDTO>>> GetCategoriesAsync();
 
-        //Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategoriesAsync(int categoryId);
+        Task<AOResult<Guid>> CreateNewSubcategoryAsync(CreateSubcategoryQuery subcategoryCreateQuery);
+
+        Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetAllSubcategoriesAsync();
+
+        Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetSubcategoryByIdAsync(Guid categoryId);
 
         //Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId);
         Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId);
