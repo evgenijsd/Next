@@ -34,14 +34,15 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membersDTO = (await _restService.RequestWithAuthorization<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships")).Value.Memberships;
+                var headers = _restService.GenerateAuthorizationHeader();
+                var membersDTO = (await _restService.RequestAsync<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships", headers)).Value.Memberships;
                 int index = 1;
                 var members = from x in membersDTO
                               select new MemberModel
                               {
                                   Id = index++,
                                   CustomerName = x.Customer.FullName,
-                                  Phone = x.Customer.Phone,
+                                  Phone = Regex.Replace(x.Customer.Phone, ".{3}", "$0-"),
                                   MembershipStartTime = DateTime.Parse(x.StartDate),
                                   MembershipEndTime = DateTime.Parse(x.EndDate),
                                   UuId = x.Id,

@@ -48,26 +48,12 @@ namespace Next2.Services.Rest
             }
         }
 
-        public async Task<T> RequestWithAuthorization<T>(HttpMethod method, string requestUrl)
+        public Dictionary<string, string> GenerateAuthorizationHeader()
         {
-            Dictionary<string, string> headers = null;
-
-            if (_settingsManager.Token != null)
+            return new Dictionary<string, string>
             {
-                headers = new Dictionary<string, string>
-                {
-                    { "Authorization", $"Bearer {_settingsManager.Token}" },
-                };
-            }
-
-            using (var response = await MakeRequestAsync(method, requestUrl, null, headers, false).ConfigureAwait(false))
-            {
-                ThrowIfNotSuccess(response);
-
-                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                return JsonConvert.DeserializeObject<T>(data);
-            }
+                { "Authorization", $"Bearer {_settingsManager.Token}" },
+            };
         }
 
         #endregion
