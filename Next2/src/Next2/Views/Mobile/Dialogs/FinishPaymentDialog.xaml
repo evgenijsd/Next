@@ -102,10 +102,7 @@
                     Text="{xct:Translate Coupon}">
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.BonusType}"
-                            TargetType="Label"
-                            Value="{x:Static enum:EBonusType.Discount}">
+                        <DataTrigger Binding="{Binding Order.BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.Discount}">
 
                             <Setter Property="Text" Value="{xct:Translate Discount}" />
 
@@ -164,10 +161,7 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.Bonus.Name.Length}"
-                            TargetType="Label"
-                            Value="0">
+                        <DataTrigger Binding="{Binding Order.Bonus.Name.Length}" TargetType="Label" Value="0">
 
                             <Setter Property="Text" Value="0" />
 
@@ -192,10 +186,7 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.PriceTax}"
-                            TargetType="Label"
-                            Value="0">
+                        <DataTrigger Binding="{Binding Order.PriceTax}" TargetType="Label" Value="0">
 
                             <Setter Property="Text" Value="0" />
 
@@ -219,10 +210,7 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.Tip}"
-                            TargetType="Label"
-                            Value="0">
+                        <DataTrigger Binding="{Binding Order.Tip}" TargetType="Label" Value="0">
 
                             <Setter Property="Text" Value="0" />
 
@@ -289,10 +277,7 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.Cash}"
-                            TargetType="Label"
-                            Value="0">
+                        <DataTrigger Binding="{Binding Order.Cash}" TargetType="Label" Value="0">
 
                             <Setter Property="Text" Value="0" />
 
@@ -316,10 +301,7 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.GiftCard}"
-                            TargetType="Label"
-                            Value="0">
+                        <DataTrigger Binding="{Binding Order.GiftCard}" TargetType="Label" Value="0">
 
                             <Setter Property="Text" Value="0" />
 
@@ -342,10 +324,7 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger
-                            Binding="{Binding Order.Change}"
-                            TargetType="Label"
-                            Value="0">
+                        <DataTrigger Binding="{Binding Order.Change}" TargetType="Label" Value="0">
 
                             <Setter Property="Text" Value="0" />
 
@@ -388,47 +367,35 @@
 
                 <Frame
                     BorderColor="{DynamicResource IndicationColor_i5}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendByEmail}"
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
                     Style="{DynamicResource ButtonStyle}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Email}" />
-
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
-                                              CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendByEmail}" />
-                    </Frame.GestureRecognizers>
-
                 </Frame>
 
                 <Frame
                     BorderColor="{DynamicResource IndicationColor_i7}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendBySMS}"
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
                     Style="{DynamicResource ButtonStyle}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Text}" />
-
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
-                                              CommandParameter="{x:Static enum:EPaymentReceiptOptions.SendBySMS}" />
-                    </Frame.GestureRecognizers>
-
                 </Frame>
 
                 <Frame
                     BorderColor="{DynamicResource AppColor_i1}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.PrintReceipt}"
+                    xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
                     Style="{DynamicResource ButtonStyle}">
 
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Print}" />
-
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
-                                              CommandParameter="{x:Static enum:EPaymentReceiptOptions.PrintReceipt}" />
-                    </Frame.GestureRecognizers>
-
                 </Frame>
 
             </StackLayout>
@@ -438,18 +405,14 @@
                 Margin="18, 0, 18, 16"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 Style="{DynamicResource ButtonStyle}"
+                xct:TouchEffect.CommandParameter="{x:Static enum:EPaymentReceiptOptions.WithoutReceipt}"
+                xct:TouchEffect.Command="{Binding FinishPaymentCommand}"
                 VerticalOptions="EndAndExpand">
 
                 <Label
                     Style="{DynamicResource ButtonTextStyle}"
                     Text="{xct:Translate NoReceipt}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
-
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding FinishPaymentCommand}" 
-                                          CommandParameter="{x:Static enum:EPaymentReceiptOptions.WithoutReceipt}" />
-                </Frame.GestureRecognizers>
-
             </Frame>
 
         </Grid>
