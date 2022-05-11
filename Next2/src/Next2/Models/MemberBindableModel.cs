@@ -9,15 +9,15 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         public DateTime MembershipStartTime { get; set; }
 
         public DateTime MembershipEndTime { get; set; }
 
-        public string UuId { get; set; }
+        public Guid UuId { get; set; }
 
         public bool IsActive { get; set; }
 
