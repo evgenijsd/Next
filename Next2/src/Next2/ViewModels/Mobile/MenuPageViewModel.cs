@@ -176,14 +176,6 @@ namespace Next2.ViewModels.Mobile
                         }));
                     }
 
-                    //foreach (var category in categories)
-                    //{
-                    //    allCategories.Add(new Api.Models.Category.CategoryModel()
-                    //    {
-                    //        Id = category.Id,
-                    //        Name = category.Name,
-                    //    });
-                    //}
                     CategoriesItems = new(allCategories);
                 }
             }
