@@ -91,12 +91,19 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
             if (parameters is not null)
             {
+                if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+                {
+                    PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
+
+                    await _popupNavigation.PushAsync(confirmDialog);
+                }
+
                 if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
                 {
                     NewOrderViewModel.OrderRegistrationViewModel.OnNavigatedTo(parameters);
@@ -104,7 +111,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
                 {
-                    NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    await NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                 }
             }
         }

@@ -165,9 +165,7 @@ namespace Next2.ViewModels
             }
             else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
             {
-                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
-
-                await _popupNavigation.PushAsync(confirmDialog);
+                PaymentCompleteViewModel.IsPaymentComplete = true;
             }
             else
             {

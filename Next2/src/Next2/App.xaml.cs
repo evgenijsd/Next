@@ -192,6 +192,7 @@ namespace Next2
                 cfg.CreateMap<BonusBindableModel, BonusModel>();
                 cfg.CreateMap<FullOrderBindableModel, OrderModel>();
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
+                cfg.CreateMap<PaidOrderBindableModel, OrderModel>();
             }).CreateMapper();
         }
 

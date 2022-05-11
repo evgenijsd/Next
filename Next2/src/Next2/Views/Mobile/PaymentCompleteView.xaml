@@ -379,6 +379,8 @@
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 Command="{Binding FinishPaymentCommand}"
                 CornerRadius="4"
+                IsEnabled="False"
+                Opacity="0.32"
                 Padding="0, 10"
                 Margin="15">
 
@@ -386,20 +388,11 @@
 
                     <DataTrigger 
                         TargetType="buttons:BorderButton" 
-                        Binding="{Binding BitmapSignature, Converter={xct:IsNotNullOrEmptyConverter}}" 
+                        Binding="{Binding IsPaymentComplete}"
                         Value="true">
 
                         <Setter Property="Opacity" Value="1"/>
                         <Setter Property="IsEnabled" Value="true"/>
-                    </DataTrigger>
-
-                    <DataTrigger 
-                        TargetType="buttons:BorderButton" 
-                        Binding="{Binding IsCleared}"
-                        Value="true">
-
-                        <Setter Property="Opacity" Value="0.32"/>
-                        <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
 
                     <DataTrigger 

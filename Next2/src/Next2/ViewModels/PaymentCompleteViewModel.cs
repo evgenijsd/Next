@@ -102,6 +102,8 @@ namespace Next2.ViewModels
 
         public bool IsInsufficientGiftCardFunds { get; set; }
 
+        public bool IsPaymentComplete { get; set; } = false;
+
         private ICommand _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand = new Command(() => IsExpandedSummary = !IsExpandedSummary);
 
@@ -410,9 +412,15 @@ namespace Next2.ViewModels
 
             Action<IDialogParameters> callback = async (IDialogParameters par) =>
             {
-                await MakePayment();
-                await SendReceipt(par);
-                await _navigationService.NavigateAsync(nameof(MenuPage));
+                await MakePaymentAsync();
+                var navigationParameters = await SendReceiptAsync(par)
+
+                ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
+
+                : null;
+
+                await _navigationService.ClearPopupStackAsync();
+                await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
             };
 
             PopupPage popupPage = App.IsTablet
@@ -424,29 +432,37 @@ namespace Next2.ViewModels
             await _popupNavigation.PushAsync(popupPage);
         }
 
-        private Task SendReceipt(IDialogParameters par)
+        private Task<bool> SendReceiptAsync(IDialogParameters par)
         {
+            bool isReceiptPrint = false;
+
             if (par.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
             {
                 switch (options)
                 {
+                    case EPaymentReceiptOptions.PrintReceipt:
+                        {
+                            isReceiptPrint = true;
+                            break;
+                        }
+
                     case EPaymentReceiptOptions.SendByEmail:
                     case EPaymentReceiptOptions.SendBySMS:
-                    case EPaymentReceiptOptions.PrintReceipt:
                     case EPaymentReceiptOptions.WithoutReceipt:
+
                     default:
                         break;
                 }
             }
 
-            return Task.CompletedTask;
+            return Task.FromResult(isReceiptPrint);
         }
 
-        private async Task MakePayment()
+        private async Task MakePaymentAsync()
         {
-           // var order = _mapper.Map<OrderModel?>(Order);
-           // order.PaymentStatus = EOrderStatus.Payed;
-           // await _orderService.AddOrderAsync(_mapper.Map<OrderModel>(Order));
+            var order = _mapper.Map<PaidOrderBindableModel, OrderModel>(Order);
+            order.PaymentStatus = EOrderStatus.Payed;
+            var v = await _orderService.AddOrderAsync(order);
             await _orderService.CreateNewOrderAsync();
         }
 
