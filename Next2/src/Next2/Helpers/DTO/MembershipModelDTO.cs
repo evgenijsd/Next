@@ -6,7 +6,7 @@ namespace Next2.Helpers.DTO
 {
     public class MembershipModelDTO
     {
-        public string Id { get; set; } = string.Empty;
+        public Guid Id { get; set; }
 
         public string StartDate { get; set; } = string.Empty;
 
