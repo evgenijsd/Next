@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -42,7 +43,7 @@ namespace Next2.Services.Membership
                               {
                                   Id = index++,
                                   CustomerName = x.Customer.FullName,
-                                  Phone = Regex.Replace(x.Customer.Phone, ".{3}", "$0-"),
+                                  Phone = FormattedPhone(x.Customer.Phone),
                                   MembershipStartTime = DateTime.Parse(x.StartDate),
                                   MembershipEndTime = DateTime.Parse(x.EndDate),
                                   UuId = x.Id,
@@ -130,6 +131,35 @@ namespace Next2.Services.Membership
             }
 
             return result;
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private string FormattedPhone(string? phone)
+        {
+            StringBuilder result = new();
+            int interval = 3;
+            int index = 0;
+
+            for (int i = 0; i < phone?.Length; i++)
+            {
+                result.Append(phone[i]);
+
+                if ((i + 1) % interval == 0)
+                {
+                    result.Append("-");
+                    index = result.Length - 1;
+                }
+            }
+
+            if (index + interval != result.Length)
+            {
+                result.Remove(index, 1);
+            }
+
+            return result.ToString();
         }
 
         #endregion
