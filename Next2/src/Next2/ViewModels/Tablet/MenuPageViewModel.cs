@@ -99,7 +99,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
                 {
-                    PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
+                    PopupPage confirmDialog = new Views.Tablet.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
 
                     await _popupNavigation.PushAsync(confirmDialog);
                 }
