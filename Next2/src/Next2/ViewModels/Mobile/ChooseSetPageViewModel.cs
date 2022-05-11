@@ -137,42 +137,42 @@ namespace Next2.ViewModels.Mobile
 
         private async Task LoadSetsAsync()
         {
-            if (IsInternetConnected)
-            {
-                var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+            //if (IsInternetConnected)
+            //{
+            //    var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
 
-                if (resultSets.IsSuccess)
-                {
-                    if (_order)
-                    {
-                        SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
-                    }
-                    else
-                    {
-                        SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
-                    }
-                }
-            }
+            //    if (resultSets.IsSuccess)
+            //    {
+            //        if (_order)
+            //        {
+            //            SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
+            //        }
+            //        else
+            //        {
+            //            SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
+            //        }
+            //    }
+            //}
         }
 
         private async Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected)
             {
-                var resultSubcategories = await _menuService.GetSubcategoriesAsync(SelectedCategoriesItem.Id);
+                //var resultSubcategories = await _menuService.GetSubcategoriesAsync(SelectedCategoriesItem.Id);
 
-                if (resultSubcategories.IsSuccess)
-                {
-                    SubcategoriesItems = new(resultSubcategories.Result);
-                    SubcategoriesItems.Insert(0, new SubcategoryModel()
-                    {
-                        Id = 0,
-                        CategoryId = SelectedCategoriesItem.Id,
-                        Title = "All",
-                    });
+                //if (resultSubcategories.IsSuccess)
+                //{
+                //    SubcategoriesItems = new(resultSubcategories.Result);
+                //    SubcategoriesItems.Insert(0, new SubcategoryModel()
+                //    {
+                //        Id = 0,
+                //        CategoryId = SelectedCategoriesItem.Id,
+                //        Title = "All",
+                //    });
 
-                    SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
-                }
+                //    SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
+                //}
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Next2.Interfaces;
+﻿using Next2.Api.Models.Category;
+using Next2.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -22,25 +23,25 @@ namespace Next2.Controls
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
-            typeof(IEnumerable<IBaseModel>),
+            typeof(IEnumerable<CategoryModel>),
             typeof(StepperCarousel),
-            default(IEnumerable<IBaseModel>));
+            default(IEnumerable<CategoryModel>));
 
-        public IEnumerable<IBaseModel> ItemsSource
+        public IEnumerable<CategoryModel> ItemsSource
         {
-            get => (IEnumerable<IBaseModel>)GetValue(ItemsSourceProperty);
+            get => (IEnumerable<CategoryModel>)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
-            returnType: typeof(IBaseModel),
+            returnType: typeof(CategoryModel),
             declaringType: typeof(StepperCarousel),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public IBaseModel SelectedItem
+        public CategoryModel SelectedItem
         {
-            get => (IBaseModel)GetValue(SelectedItemProperty);
+            get => (CategoryModel)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 

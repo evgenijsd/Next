@@ -1,10 +1,14 @@
-﻿using Next2.Enums;
+﻿using Next2.Api.Models;
+using Next2.Api.Models.Category;
+using Next2.Enums;
+using Next2.Helpers.DTO.Categories;
 using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -46,11 +50,12 @@ namespace Next2.ViewModels.Mobile
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+        public ObservableCollection<Api.Models.Category.CategoryModel> CategoriesItems { get; set; }
 
-        private ICommand _tapCategoryCommand;
-        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
+        public IEnumerable<CategoryModelDTO>? apiResponce { get; set; }
 
+        //private ICommand _tapCategoryCommand;
+        //public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
         private ICommand _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
 
@@ -141,7 +146,45 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new (resultCategories.Result);
+                    apiResponce = resultCategories.Result;
+
+                    List<Api.Models.Category.CategoryModel> allCategories = new();
+
+                    IEnumerable<Api.Models.Category.CategoryModel>? categories = apiResponce.Select(row => new Api.Models.Category.CategoryModel()
+                    {
+                        Id = Guid.Parse(row.Id),
+                        Name = row.Name,
+                        Subcategories = new(row.Subcategories.Select(row => new Api.Models.Category.SubcategoryModel()
+                        {
+                            Id = Guid.Parse(row.Id),
+                            Name = row.Name,
+                        })),
+                    });
+
+                    foreach (var category in categories)
+                    {
+                        allCategories.Add(new Api.Models.Category.CategoryModel()
+                        {
+                            Id = category.Id,
+                            Name = category.Name,
+                        });
+
+                        allCategories.AddRange(category.Subcategories.Select(subCategory => new Api.Models.Category.CategoryModel()
+                        {
+                            Id = subCategory.Id,
+                            Name = subCategory.Name,
+                        }));
+                    }
+
+                    //foreach (var category in categories)
+                    //{
+                    //    allCategories.Add(new Api.Models.Category.CategoryModel()
+                    //    {
+                    //        Id = category.Id,
+                    //        Name = category.Name,
+                    //    });
+                    //}
+                    CategoriesItems = new(allCategories);
                 }
             }
         }
@@ -151,16 +194,15 @@ namespace Next2.ViewModels.Mobile
             return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
         }
 
-        private async Task OnTapCategoryCommandAsync(CategoryModel category)
-        {
-            var navigationParams = new NavigationParameters
-            {
-                { Constants.Navigations.CATEGORY, category },
-            };
+        //private async Task OnTapCategoryCommandAsync(CategoryModel category)
+        //{
+        //    var navigationParams = new NavigationParameters
+        //    {
+        //        { Constants.Navigations.CATEGORY, category },
+        //    };
 
-            await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
-        }
-
+        //    await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
+        //}
         private async Task GoToSettingsCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");

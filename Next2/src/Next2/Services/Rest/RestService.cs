@@ -48,6 +48,14 @@ namespace Next2.Services.Rest
             }
         }
 
+        public Dictionary<string, string> GenerateAuthorizationHeader()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Authorization", $"Bearer {_settingsManager.Token}" },
+            };
+        }
+
         #endregion
 
         #region -- Private helpers --
