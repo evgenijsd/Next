@@ -26,6 +26,16 @@ namespace Next2.Services.Rest
 
         public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
+            if (_settingsManager.IsAuthorizationComplete)
+            {
+                if (additioalHeaders is null)
+                {
+                    additioalHeaders = new();
+                }
+
+                additioalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
+            }
+
             using (var response = await MakeRequestAsync(method, requestUrl, null, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
@@ -38,6 +48,16 @@ namespace Next2.Services.Rest
 
         public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
+            if (_settingsManager.IsAuthorizationComplete)
+            {
+                if (additioalHeaders is null)
+                {
+                    additioalHeaders = new();
+                }
+
+                additioalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
+            }
+
             using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
@@ -46,14 +66,6 @@ namespace Next2.Services.Rest
 
                 return JsonConvert.DeserializeObject<T>(data);
             }
-        }
-
-        public Dictionary<string, string> GenerateAuthorizationHeader()
-        {
-            return new Dictionary<string, string>
-            {
-                { "Authorization", $"Bearer {_settingsManager.Token}" },
-            };
         }
 
         #endregion

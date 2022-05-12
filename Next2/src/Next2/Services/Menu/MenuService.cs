@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.DTO.Categories;
+﻿using Next2.Helpers.DTO;
+using Next2.Helpers.DTO.Categories;
 using Next2.Helpers.DTO.Subcategories;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
@@ -38,9 +39,7 @@ namespace Next2.Services.Menu
 
             try
             {
-                var headers = _restService.GenerateAuthorizationHeader();
-
-                var categories = await _restService.RequestAsync<GetCategoriesListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories", headers);
+                var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
 
                 if (categories.Success && categories.Value.Categories is not null)
                 {
@@ -65,9 +64,7 @@ namespace Next2.Services.Menu
 
             try
             {
-                var headers = _restService.GenerateAuthorizationHeader();
-
-                var subcategories = await _restService.RequestAsync<GetSubcategoriesListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories", headers);
+                var subcategories = await _restService.RequestAsync<GenericExecutionResult<GetSubcategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories");
 
                 if (subcategories.Success && subcategories is not null)
                 {

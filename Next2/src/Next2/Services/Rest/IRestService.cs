@@ -9,7 +9,5 @@ namespace Next2.Services.Rest
         Task<T> RequestAsync<T>(HttpMethod method, string resource, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false);
 
         Task<T> RequestAsync<T>(HttpMethod method, string resource, object requestBody, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false);
-
-        Dictionary<string, string> GenerateAuthorizationHeader();
     }
 }
