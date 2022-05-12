@@ -14,8 +14,5 @@ namespace Next2.Api.Models.Category
         [Required]
         public string Name { get; set; }
 
-        //public virtual ICollection<CategoryModel> Categories { get; set; }
-
-        //public virtual ICollection<DishModel> Dishes { get; set; }
     }
 }

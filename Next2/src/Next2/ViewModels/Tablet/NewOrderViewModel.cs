@@ -187,7 +187,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetCategoriesAsync();
+                var resultCategories = await _menuService.GetAllCategoriesAsync();
 
                 if (resultCategories.IsSuccess)
                 {
@@ -195,11 +195,11 @@ namespace Next2.ViewModels.Tablet
 
                     var categories = apiResponce.Select(row => new CategoryModel()
                     {
-                        Id = Guid.Parse(row.Id),
+                        Id = row.Id,
                         Name = row.Name,
                         Subcategories = new(row.Subcategories.Select(row => new SubcategoryModel()
                         {
-                            Id = Guid.Parse(row.Id),
+                            Id = row.Id,
                             Name = row.Name
                         })),
                     });
@@ -234,12 +234,22 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
-                SubcategoriesItems.Insert(0, new SubcategoryModel()
+                var resultSubcategories = await _menuService.GetAllSubcategoriesAsync();
+
+                if (resultSubcategories.IsSuccess)
                 {
-                    Id = Guid.Parse($"{SelectedCategoriesItem.Id}"),
-                    Name = "All",
-                });
+                    SubcategoriesItems = new(resultSubcategories.Result.Where(row => row.categoriesId.Any(row => row == SelectedCategoriesItem.Id)).Select(row => new SubcategoryModel()
+                    {
+                        Id = row.Id,
+                        Name = row.Name,
+                    }));
+
+                    SubcategoriesItems.Insert(0, new SubcategoryModel()
+                    {
+                        Id = Guid.Parse($"0"),
+                        Name = "All",
+                    });
+                }
 
                 SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
             }

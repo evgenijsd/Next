@@ -15,7 +15,5 @@ namespace Next2.Api.Models.Category
         public string Name { get; set; }
 
         public List<SubcategoryModel>? Subcategories { get; set; } = new();
-
-        //public virtual ICollection<DishModel> Dishes { get; set; }
     }
 }

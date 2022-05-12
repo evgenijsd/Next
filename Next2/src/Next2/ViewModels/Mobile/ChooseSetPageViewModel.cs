@@ -155,15 +155,16 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                var resultSubcategories = await _menuService.GetSubcategoryByIdAsync(SelectedCategoriesItem.Id);
+                var resultSubcategories = await _menuService.GetAllSubcategoriesAsync();
 
                 if (resultSubcategories.IsSuccess)
                 {
-                    SubcategoriesItems = new(resultSubcategories.Result.Select(row => new SubcategoryModel()
+                    SubcategoriesItems = new(resultSubcategories.Result.Where(row => row.categoriesId.Any(row => row == SelectedCategoriesItem.Id)).Select(row => new SubcategoryModel()
                     {
-                        Id = Guid.Parse(row.Id),
+                        Id = row.Id,
                         Name = row.Name,
                     }));
+
                     SubcategoriesItems.Insert(0, new SubcategoryModel()
                     {
                         Id = Guid.Parse($"0"),

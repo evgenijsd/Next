@@ -142,39 +142,23 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetCategoriesAsync();
+                var resultCategories = await _menuService.GetAllCategoriesAsync();
 
                 if (resultCategories.IsSuccess)
                 {
                     apiResponce = resultCategories.Result;
 
-                    List<Api.Models.Category.CategoryModel> allCategories = new();
-
-                    IEnumerable<Api.Models.Category.CategoryModel>? categories = apiResponce.Select(row => new Api.Models.Category.CategoryModel()
+                    var categories = apiResponce.Select(row => new Api.Models.Category.CategoryModel()
                     {
-                        Id = Guid.Parse(row.Id),
+                        Id = row.Id,
                         Name = row.Name,
                         Subcategories = new(row.Subcategories.Select(row => new Api.Models.Category.SubcategoryModel()
                         {
-                            Id = Guid.Parse(row.Id),
+                            Id = row.Id,
                             Name = row.Name,
                         })),
                     });
 
-                    //foreach (var category in categories)
-                    //{
-                    //    allCategories.Add(new Api.Models.Category.CategoryModel()
-                    //    {
-                    //        Id = category.Id,
-                    //        Name = category.Name,
-                    //    });
-
-                    //    allCategories.AddRange(category.Subcategories.Select(subCategory => new Api.Models.Category.CategoryModel()
-                    //    {
-                    //        Id = subCategory.Id,
-                    //        Name = subCategory.Name,
-                    //    }));
-                    //}
                     CategoriesItems = new(categories);
                 }
             }

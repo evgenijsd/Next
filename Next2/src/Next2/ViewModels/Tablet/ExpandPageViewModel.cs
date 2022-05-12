@@ -153,7 +153,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetCategoriesAsync();
+                var resultCategories = await _menuService.GetAllCategoriesAsync();
 
                 if (resultCategories.IsSuccess)
                 {
@@ -161,11 +161,11 @@ namespace Next2.ViewModels.Tablet
 
                     var categories = apiResponce.Select(row => new CategoryModel()
                     {
-                        Id = Guid.Parse(row.Id),
+                        Id = row.Id,
                         Name = row.Name,
                         Subcategories = new(row.Subcategories.Select(row => new SubcategoryModel()
                         {
-                            Id = Guid.Parse(row.Id),
+                            Id = row.Id,
                             Name = row.Name
                         })),
                     });
