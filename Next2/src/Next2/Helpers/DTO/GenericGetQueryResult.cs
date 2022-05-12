@@ -8,7 +8,6 @@ namespace Next2.Helpers.DTO
 {
     public class GenericGetQueryResult<T>
     {
-        [JsonProperty(PropertyName = "memberships")]
         public T? Result { get; set; }
     }
 }

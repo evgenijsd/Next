@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Next2.Helpers.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.SettingsService;
@@ -18,8 +19,6 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool> _tokenRefreshingSource;
 
-        private string _jsonProperty;
-
         public RestService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
@@ -27,38 +26,36 @@ namespace Next2.Services.Rest
 
         #region -- IRestService implementation --
 
-        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            using (var response = await MakeRequestAsync(method, requestUrl, null, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
-            {
-                ThrowIfNotSuccess(response);
+            additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
 
-                _jsonProperty = Path.GetFileName(requestUrl);
-
-                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                return JsonConvert.DeserializeObject<T>(data);
-            }
-        }
-
-        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
-        {
-            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
+            using (var response = await MakeRequestAsync(method, requestUrl, null, additionalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
+                var propertyName = Path.GetFileName(requestUrl);
+                int indexProperty = data.IndexOf(propertyName);
+                data = data.Remove(indexProperty, propertyName.Length).Insert(indexProperty, "Result");
+
                 return JsonConvert.DeserializeObject<T>(data);
             }
         }
 
-        public Dictionary<string, string> GenerateAuthorizationHeader()
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            return new Dictionary<string, string>
+            additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
+
+            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additionalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
-                { "Authorization", $"Bearer {_settingsManager.Token}" },
-            };
+                ThrowIfNotSuccess(response);
+
+                var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                return JsonConvert.DeserializeObject<T>(data);
+            }
         }
 
         #endregion
@@ -188,6 +185,18 @@ namespace Next2.Services.Rest
                 System.Diagnostics.Debug.WriteLine($"Bad Request: {ex.Message}");
 #endif
             }
+        }
+
+        private Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string> additionalHeaders)
+        {
+            if (additionalHeaders is null)
+            {
+                additionalHeaders = new();
+            }
+
+            additionalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
+
+            return additionalHeaders;
         }
 
         #endregion
