@@ -1,6 +1,8 @@
 ﻿using Next2.Helpers.DTO;
 using Next2.Helpers.DTO.Categories.GetAllCategories;
+using Next2.Helpers.DTO.Subcategories;
 using Next2.Helpers.DTO.Subcategories.GetAllSubcategories;
+using Next2.Helpers.DTO.Subcategories.GetSubcategoryById;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -66,7 +68,7 @@ namespace Next2.Services.Menu
             {
                 var subcategories = await _restService.RequestAsync<GenericExecutionResult<GetSubcategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories");
 
-                if (subcategories.Success && subcategories is not null)
+                if (subcategories.Success && subcategories?.Value?.Subcategories is not null)
                 {
                     result.SetSuccess(subcategories.Value.Subcategories);
                 }
@@ -78,6 +80,31 @@ namespace Next2.Services.Menu
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetAllSubcategoriesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<SubcategoryModelDTO>> GetSubcategoryByIdAsync(Guid category)
+        {
+            var result = new AOResult<SubcategoryModelDTO>();
+
+            try
+            {
+                var subcategories = await _restService.RequestAsync<GenericExecutionResult<GetSubcategoryByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories", category);
+
+                if (subcategories.Success && subcategories.Value is not null)
+                {
+                    result.SetSuccess(subcategories.Value.Subcategory);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetSubcategoryByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

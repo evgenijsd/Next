@@ -1,5 +1,5 @@
 ﻿using Next2.Helpers.DTO.Categories.GetAllCategories;
-using Next2.Helpers.DTO.Subcategories.GetAllSubcategories;
+using Next2.Helpers.DTO.Subcategories;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
@@ -14,6 +14,8 @@ namespace Next2.Services.Menu
         Task<AOResult<IEnumerable<CategoryModelDTO>>> GetAllCategoriesAsync();
 
         Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetAllSubcategoriesAsync();
+
+        Task<AOResult<SubcategoryModelDTO>> GetSubcategoryByIdAsync(Guid categoryId);
 
         //Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId);
         Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Helpers.DTO.Subcategories.GetAllSubcategories
+namespace Next2.Helpers.DTO.Subcategories
 {
     public class SubcategoryModelDTO
     {
