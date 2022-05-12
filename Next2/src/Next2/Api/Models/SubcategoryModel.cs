@@ -13,6 +13,5 @@ namespace Next2.Api.Models.Category
 
         [Required]
         public string Name { get; set; }
-
     }
 }
