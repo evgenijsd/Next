@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Helpers.DTO
 {
-    public class GenericGetQueryExecutionResult<T>
+    public class GenericGetExecutionResult<T>
     {
         public bool Success { get; set; }
 
@@ -13,6 +13,6 @@ namespace Next2.Helpers.DTO
 
         public List<InfoMessage>? Messages { get; set; }
 
-        public T? Value { get; set; }
+        public GenericGetResult<T>? Value { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Next2.Helpers.DTO
 {
-    public class GenericGetQueryResult<T>
+    public class GenericGetResult<T>
     {
         public T? Result { get; set; }
     }

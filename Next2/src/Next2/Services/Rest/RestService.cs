@@ -19,6 +19,11 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool> _tokenRefreshingSource;
 
+        private Dictionary<string, string> _propertyNames = new Dictionary<string, string>
+        {
+            { $"{nameof(MembershipModelDTO)}s", "memberships" },
+        };
+
         public RestService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
@@ -36,11 +41,7 @@ namespace Next2.Services.Rest
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var propertyName = Path.GetFileName(requestUrl);
-                int indexProperty = data.IndexOf(propertyName);
-                data = data.Remove(indexProperty, propertyName.Length).Insert(indexProperty, "Result");
-
-                return JsonConvert.DeserializeObject<T>(data);
+                return JsonConvert.DeserializeObject<T>(RenameDataProperty<T>(data));
             }
         }
 
@@ -75,6 +76,18 @@ namespace Next2.Services.Rest
             {
                 throw ex;
             }
+        }
+
+        private string RenameDataProperty<T>(string data)
+        {
+            var propertyKey = typeof(T).FullName;
+            propertyKey = propertyKey.Substring(0, propertyKey.IndexOf(','));
+            propertyKey = propertyKey.Contains("IEnumerable") ? $"{propertyKey}s" : propertyKey;
+            propertyKey = propertyKey.Substring(propertyKey.LastIndexOf('.') + 1);
+            var propertyName = _propertyNames[propertyKey];
+            int indexProperty = data.IndexOf(propertyName);
+            data = data.Remove(indexProperty, propertyName.Length).Insert(indexProperty, nameof(GenericGetResult<T>.Result));
+            return data;
         }
 
         private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)

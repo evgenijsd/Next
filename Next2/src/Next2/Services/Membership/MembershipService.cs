@@ -31,7 +31,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membersDTO = await _restService.RequestAsync<GenericGetQueryExecutionResult<GenericGetQueryResult<IEnumerable<MembershipModelDTO>>>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
+                var membersDTO = await _restService.RequestAsync<GenericGetExecutionResult<IEnumerable<MembershipModelDTO>>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
 
                 var members = membersDTO?.Value?.Result.Select(x =>
                               new MemberModel
