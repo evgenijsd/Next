@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Next2.Helpers.DTO
 {
-    public class GetMembershipsListQueryResultExecutionResult
+    public class GenericGetQueryExecutionResult<T>
     {
         public bool Success { get; set; }
 
@@ -12,6 +13,6 @@ namespace Next2.Helpers.DTO
 
         public List<InfoMessage>? Messages { get; set; }
 
-        public GetMembershipsListQueryResult Value { get; set; } = new();
+        public T? Value { get; set; }
     }
 }

@@ -5,9 +5,9 @@ using System.Windows.Input;
 
 namespace Next2.Models
 {
-    public class MemberBindableModel : BindableBase, IBaseModel, ITappable
+    public class MemberBindableModel : BindableBase, IBaseApiModel, ITappable
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string? CustomerName { get; set; }
 
@@ -16,8 +16,6 @@ namespace Next2.Models
         public DateTime MembershipStartTime { get; set; }
 
         public DateTime MembershipEndTime { get; set; }
-
-        public Guid UuId { get; set; }
 
         public bool IsActive { get; set; }
 

@@ -225,7 +225,7 @@ namespace Next2.Services.Mock
                 { typeof(UserModel), GetMaxId(_users) },
                 { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(TableModel), GetMaxId(_tables) },
-                { typeof(MemberModel), GetMaxId(_members) },
+                //{ typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(GiftCardModel), GetMaxId(_giftCards) },
@@ -2024,8 +2024,10 @@ namespace Next2.Services.Mock
         {
             var cultureInfo = new CultureInfo(Constants.DEFAULT_CULTURE);
 
-            _members = new List<MemberModel>
-            {
+            _members = new List<MemberModel>();
+        });
+
+            /*{
                 new MemberModel
                 {
                     Id = 1,
@@ -2223,7 +2225,7 @@ namespace Next2.Services.Mock
                         cultureInfo),
                 },
             };
-        });
+            });*/
 
         private Task InitCustomersAsync() => Task.Run(() =>
         {

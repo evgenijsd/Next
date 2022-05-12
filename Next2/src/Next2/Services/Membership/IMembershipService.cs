@@ -12,6 +12,6 @@ namespace Next2.Services.Membership
 
         string ApplyNameFilter(string text);
 
-        Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member);
+        //Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member);
     }
 }

@@ -222,7 +222,7 @@
                                         <Label
                                             Grid.Column="1"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding Phone}" />
+                                            Text="{Binding Phone, Converter={StaticResource formattedPhoneConverter}}" />
 
                                         <Label
                                             Grid.Column="2"

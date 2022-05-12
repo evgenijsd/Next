@@ -256,8 +256,7 @@ namespace Next2.ViewModels.Tablet
         {
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted) && isMembershipDisableAccepted)
             {
-                await _membershipService.UpdateMemberAsync(_member);
-
+                //await _membershipService.UpdateMemberAsync(_member);
                 await RefreshMembersAsync();
             }
 

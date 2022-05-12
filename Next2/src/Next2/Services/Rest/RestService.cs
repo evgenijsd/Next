@@ -4,6 +4,7 @@ using Next2.Resources.Strings;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -17,6 +18,8 @@ namespace Next2.Services.Rest
 
         private TaskCompletionSource<bool> _tokenRefreshingSource;
 
+        private string _jsonProperty;
+
         public RestService(ISettingsManager settingsManager)
         {
             _settingsManager = settingsManager;
@@ -29,6 +32,8 @@ namespace Next2.Services.Rest
             using (var response = await MakeRequestAsync(method, requestUrl, null, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
+
+                _jsonProperty = Path.GetFileName(requestUrl);
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 

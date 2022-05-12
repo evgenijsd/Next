@@ -3,9 +3,9 @@ using System;
 
 namespace Next2.Models
 {
-    public class MemberModel : IBaseModel
+    public class MemberModel : IBaseApiModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string? CustomerName { get; set; }
 
@@ -14,8 +14,6 @@ namespace Next2.Models
         public DateTime MembershipStartTime { get; set; }
 
         public DateTime MembershipEndTime { get; set; }
-
-        public Guid UuId { get; set; }
 
         public bool IsActive { get; set; }
     }

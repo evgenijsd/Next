@@ -16,14 +16,10 @@ namespace Next2.Services.Membership
 {
     public class MembershipService : IMembershipService
     {
-        private readonly IMockService _mockService;
         private readonly IRestService _restService;
 
-        public MembershipService(
-            IMockService mockService,
-            IRestService restService)
+        public MembershipService(IRestService restService)
         {
-            _mockService = mockService;
             _restService = restService;
         }
 
@@ -36,19 +32,18 @@ namespace Next2.Services.Membership
             try
             {
                 var headers = _restService.GenerateAuthorizationHeader();
-                var membersDTO = (await _restService.RequestAsync<GetMembershipsListQueryResultExecutionResult>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships", headers)).Value.Memberships;
-                int index = 1;
-                var members = from x in membersDTO
-                              select new MemberModel
+                var membersDTO = await _restService.RequestAsync<GenericGetQueryExecutionResult<GenericGetQueryResult<IEnumerable<MembershipModelDTO>>>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships", headers);
+
+                var members = membersDTO?.Value?.Result.Select(x =>
+                              new MemberModel
                               {
-                                  Id = index++,
+                                  Id = x.Id,
                                   CustomerName = x.Customer.FullName,
-                                  Phone = FormattedPhone(x.Customer.Phone),
+                                  Phone = x.Customer.Phone,
                                   MembershipStartTime = DateTime.Parse(x.StartDate),
                                   MembershipEndTime = DateTime.Parse(x.EndDate),
-                                  UuId = x.Id,
                                   IsActive = x.IsActive,
-                              };
+                              });
 
                 if (members != null)
                 {
@@ -83,7 +78,7 @@ namespace Next2.Services.Membership
             return result;
         }
 
-        public async Task<AOResult<bool>> DisableMemberAsync(MemberModel member)
+        /*public async Task<AOResult<bool>> DisableMemberAsync(MemberModel member)
         {
             var result = new AOResult<bool>();
 
@@ -106,9 +101,9 @@ namespace Next2.Services.Membership
             }
 
             return result;
-        }
+        }*/
 
-        public async Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member)
+        /*public async Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member)
         {
             var result = new AOResult<MemberModel>();
 
@@ -131,37 +126,9 @@ namespace Next2.Services.Membership
             }
 
             return result;
-        }
+        }*/
 
         #endregion
 
-        #region -- Private helpers --
-
-        private string FormattedPhone(string? phone)
-        {
-            StringBuilder result = new();
-            int interval = 3;
-            int index = 0;
-
-            for (int i = 0; i < phone?.Length; i++)
-            {
-                result.Append(phone[i]);
-
-                if ((i + 1) % interval == 0)
-                {
-                    result.Append("-");
-                    index = result.Length - 1;
-                }
-            }
-
-            if (index + interval != result.Length)
-            {
-                result.Remove(index, 1);
-            }
-
-            return result.ToString();
-        }
-
-        #endregion
     }
 }
