@@ -269,11 +269,6 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetSubcategoryByIdAsync(int categoryId)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
     }
 }

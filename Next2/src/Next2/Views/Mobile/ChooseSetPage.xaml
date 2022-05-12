@@ -103,7 +103,7 @@
 
             </CollectionView.ItemsLayout>
 
-            <CollectionView.ItemTemplate>
+            <!--<CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:SetModel">
 
                     <templates:SetItemTemplate
@@ -111,7 +111,7 @@
                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </CollectionView.ItemTemplate>-->
 
         </CollectionView>
 
