@@ -200,7 +200,6 @@ namespace Next2.ViewModels.Tablet
                 SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
                 SubcategoriesItems.Insert(0, new SubcategoryModel()
                 {
-                    Id = Guid.Parse("0"),
                     Name = "All",
                 });
 

@@ -201,6 +201,7 @@ namespace Next2.ViewModels.Tablet
                     });
 
                     CategoriesItems = new(categories);
+
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
                 }
             }
@@ -230,22 +231,12 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                var resultSubcategories = await _menuService.GetAllSubcategoriesAsync();
+                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
 
-                if (resultSubcategories.IsSuccess)
+                SubcategoriesItems.Insert(0, new SubcategoryModel()
                 {
-                    SubcategoriesItems = new(resultSubcategories.Result.Where(row => row.categoriesId.Any(row => row == SelectedCategoriesItem.Id)).Select(row => new SubcategoryModel()
-                    {
-                        Id = row.Id,
-                        Name = row.Name,
-                    }));
-
-                    SubcategoriesItems.Insert(0, new SubcategoryModel()
-                    {
-                        Id = Guid.Parse($"0"),
-                        Name = "All",
-                    });
-                }
+                    Name = "All",
+                });
 
                 SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
             }

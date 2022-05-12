@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Helpers.DTO.Categories
+namespace Next2.Helpers.DTO.Categories.GetAllCategories
 {
     public class GetCategoriesListQueryResult
     {

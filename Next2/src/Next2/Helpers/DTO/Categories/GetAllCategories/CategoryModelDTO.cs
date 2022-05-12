@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Next2.Api.Models.Category;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Helpers.DTO.Categories
+namespace Next2.Helpers.DTO.Categories.GetAllCategories
 {
     public class CategoryModelDTO
     {
@@ -10,6 +11,6 @@ namespace Next2.Helpers.DTO.Categories
 
         public string? Name { get; set; }
 
-        public List<SimpleSubcategoryModelDTO>? Subcategories { get; set; } = new ();
+        public List<SubcategoryModel>? Subcategories { get; set; } = new ();
     }
 }

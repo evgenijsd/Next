@@ -153,13 +153,13 @@ namespace Next2.ViewModels.Mobile
 
         private async Task LoadSubcategoriesAsync()
         {
-            if (IsInternetConnected)
+            if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
                 var resultSubcategories = await _menuService.GetAllSubcategoriesAsync();
 
                 if (resultSubcategories.IsSuccess)
                 {
-                    SubcategoriesItems = new(resultSubcategories.Result.Where(row => row.categoriesId.Any(row => row == SelectedCategoriesItem.Id)).Select(row => new SubcategoryModel()
+                    SubcategoriesItems = new(SelectedCategoriesItem.Subcategories.Select(row => new SubcategoryModel()
                     {
                         Id = row.Id,
                         Name = row.Name,
@@ -167,7 +167,6 @@ namespace Next2.ViewModels.Mobile
 
                     SubcategoriesItems.Insert(0, new SubcategoryModel()
                     {
-                        Id = Guid.Parse($"0"),
                         Name = "All",
                     });
 

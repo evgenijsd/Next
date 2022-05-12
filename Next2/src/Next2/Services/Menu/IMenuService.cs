@@ -1,5 +1,5 @@
-﻿using Next2.Helpers.DTO.Categories;
-using Next2.Helpers.DTO.Subcategories;
+﻿using Next2.Helpers.DTO.Categories.GetAllCategories;
+using Next2.Helpers.DTO.Subcategories.GetAllSubcategories;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
