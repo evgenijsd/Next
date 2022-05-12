@@ -66,8 +66,6 @@ namespace Next2.ViewModels.Tablet
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        public IEnumerable<CategoryModelDTO>? apiResponce { get; set; }
-
         //private ICommand _tapSetCommand;
         //public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<DishModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
         private ICommand _tapSortCommand;
@@ -191,9 +189,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultCategories.IsSuccess)
                 {
-                    apiResponce = resultCategories.Result;
-
-                    var categories = apiResponce.Select(row => new CategoryModel()
+                    var categories = resultCategories.Result.Select(row => new CategoryModel()
                     {
                         Id = row.Id,
                         Name = row.Name,

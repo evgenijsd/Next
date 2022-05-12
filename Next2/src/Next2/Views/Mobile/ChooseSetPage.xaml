@@ -83,11 +83,11 @@
 
         <!--Menu-->
 
-        <!--<CollectionView
+        <CollectionView
             Margin="15, 10, 15, 0"
             VerticalOptions="FillAndExpand"
-            ItemsSource="{Binding SetsItems}"
             VerticalScrollBarVisibility="Never">
+            <!--ItemsSource="{Binding SetsItems}"-->
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
@@ -113,7 +113,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
-        </CollectionView>-->
+        </CollectionView>
 
         <!--Tabs Subcategories Menu-->
 

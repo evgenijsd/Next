@@ -53,8 +53,6 @@ namespace Next2.ViewModels.Tablet
         //public ObservableCollection<SetModel> SetsItems { get; set; }
         public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
 
-        public IEnumerable<CategoryModelDTO>? apiResponce { get; set; }
-
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
         //private ICommand _tapSetCommand;
@@ -157,9 +155,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultCategories.IsSuccess)
                 {
-                    apiResponce = resultCategories.Result;
-
-                    var categories = apiResponce.Select(row => new CategoryModel()
+                    var categories = resultCategories.Result.Select(row => new CategoryModel()
                     {
                         Id = row.Id,
                         Name = row.Name,
@@ -204,7 +200,7 @@ namespace Next2.ViewModels.Tablet
                 SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
                 SubcategoriesItems.Insert(0, new SubcategoryModel()
                 {
-                    Id = Guid.Parse("SelectedCategoriesItem.Id"),
+                    Id = Guid.Parse("0"),
                     Name = "All",
                 });
 

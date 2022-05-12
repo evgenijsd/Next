@@ -52,8 +52,6 @@ namespace Next2.ViewModels.Mobile
 
         public ObservableCollection<Api.Models.Category.CategoryModel> CategoriesItems { get; set; }
 
-        public IEnumerable<CategoryModelDTO>? apiResponce { get; set; }
-
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<Api.Models.Category.CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
         private ICommand _openNewOrderPageCommand;
@@ -146,9 +144,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultCategories.IsSuccess)
                 {
-                    apiResponce = resultCategories.Result;
-
-                    var categories = apiResponce.Select(row => new Api.Models.Category.CategoryModel()
+                    var categories = resultCategories.Result.Select(row => new Api.Models.Category.CategoryModel()
                     {
                         Id = row.Id,
                         Name = row.Name,
