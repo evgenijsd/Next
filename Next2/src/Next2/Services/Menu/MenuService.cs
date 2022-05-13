@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.DTO;
+﻿using Next2.Api.Models.Category;
+using Next2.Helpers.DTO;
 using Next2.Helpers.DTO.Categories.GetAllCategories;
 using Next2.Helpers.DTO.Subcategories;
 using Next2.Helpers.DTO.Subcategories.GetAllSubcategories;
@@ -35,9 +36,9 @@ namespace Next2.Services.Menu
 
         #region -- IMenuService implementation --
 
-        public async Task<AOResult<IEnumerable<CategoryModelDTO>>> GetAllCategoriesAsync()
+        public async Task<AOResult<IEnumerable<Api.Models.Category.CategoryModel>>> GetAllCategoriesAsync()
         {
-            var result = new AOResult<IEnumerable<CategoryModelDTO>>();
+            var result = new AOResult<IEnumerable<Api.Models.Category.CategoryModel>>();
 
             try
             {
@@ -114,35 +115,34 @@ namespace Next2.Services.Menu
         {
             var result = new AOResult<IEnumerable<SetModel>>();
 
-            try
-            {
-                IEnumerable<SetModel> sets;
+            //try
+            //{
+            //    IEnumerable<SetModel> sets;
 
-                if (subcategoryId == 0)
-                {
-                    var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
+            //    if (subcategoryId == 0)
+            //    {
+            //        var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
 
-                    sets = await _mockService.GetAsync<SetModel>(x => subcategories.Any(row => row.Id == x.SubcategoryId));
-                }
-                else
-                {
-                    sets = await _mockService.GetAsync<SetModel>(row => row.SubcategoryId == subcategoryId);
-                }
+            //        sets = await _mockService.GetAsync<SetModel>(x => subcategories.Any(row => row.Id == x.SubcategoryId));
+            //    }
+            //    else
+            //    {
+            //        sets = await _mockService.GetAsync<SetModel>(row => row.SubcategoryId == subcategoryId);
+            //    }
 
-                if (sets is not null)
-                {
-                    result.SetSuccess(sets);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSetsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
+            //    if (sets is not null)
+            //    {
+            //        result.SetSuccess(sets);
+            //    }
+            //    else
+            //    {
+            //        result.SetFailure();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    result.SetError($"{nameof(GetSetsAsync)}: exception", Strings.SomeIssues, ex);
+            //}
             return result;
         }
 
