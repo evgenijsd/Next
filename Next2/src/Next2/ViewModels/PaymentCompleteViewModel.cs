@@ -53,7 +53,7 @@ namespace Next2.ViewModels
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
                 Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
             }
 
@@ -144,7 +144,7 @@ namespace Next2.ViewModels
                 {
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
-                    Order.RemainingGiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                    Order.RemainingGiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
@@ -418,7 +418,7 @@ namespace Next2.ViewModels
 
                     if (Order.Customer.GiftCards.Any())
                     {
-                        Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                        Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
                         Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
 
                         if (float.TryParse(InputGiftCardFounds, out float sum))

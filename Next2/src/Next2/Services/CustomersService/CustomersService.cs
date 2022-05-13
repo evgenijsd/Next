@@ -78,8 +78,8 @@ namespace Next2.Services.CustomersService
                 {
                     giftCard.IsRegistered = true;
                     customer.GiftCards.Add(giftCard);
-                    customer.GiftCardTotal = customer.GiftCards.Sum(row => row.GiftCardFunds);
-                    customer.GiftCardCount = customer.GiftCards.Count();
+                    customer.GiftCardsTotalFund = customer.GiftCards.Sum(row => row.GiftCardFunds);
+                    customer.GiftCardsCount = customer.GiftCards.Count();
                     customer.IsUpdatedCustomer = true;
 
                     result.SetSuccess();
@@ -180,8 +180,8 @@ namespace Next2.Services.CustomersService
             {
                 if (customer is not null)
                 {
-                    customer.GiftCardTotal = customer.GiftCards.Sum(row => row.GiftCardFunds);
-                    customer.GiftCardCount = customer.GiftCards.Count();
+                    customer.GiftCardsTotalFund = customer.GiftCards.Sum(row => row.GiftCardFunds);
+                    customer.GiftCardsCount = customer.GiftCards.Count();
 
                     var customerModel = await _mockService.UpdateAsync(customer);
 

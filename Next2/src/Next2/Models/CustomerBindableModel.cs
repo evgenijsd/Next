@@ -18,11 +18,11 @@ namespace Next2.Models
 
         public int Rewards { get; set; }
 
-        public int GiftCardCount { get; set; }
+        public int GiftCardsCount { get; set; }
 
         public int Points { get; set; }
 
-        public float GiftCardTotal { get; set; }
+        public float GiftCardsTotalFund { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 

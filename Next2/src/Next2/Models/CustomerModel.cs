@@ -21,8 +21,8 @@ namespace Next2.Models
             Points = customerModel.Points;
             Rewards = customerModel.Rewards;
             GiftCards = customerModel.GiftCards;
-            GiftCardCount = customerModel.GiftCardCount;
-            GiftCardTotal = customerModel.GiftCardTotal;
+            GiftCardsCount = customerModel.GiftCardsCount;
+            GiftCardsTotalFund = customerModel.GiftCardsTotalFund;
             IsNotRegistratedCustomer = customerModel.IsNotRegistratedCustomer;
             IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
         }
@@ -41,9 +41,9 @@ namespace Next2.Models
 
         public int Rewards { get; set; }
 
-        public int GiftCardCount { get; set; }
+        public int GiftCardsCount { get; set; }
 
-        public float GiftCardTotal { get; set; }
+        public float GiftCardsTotalFund { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 

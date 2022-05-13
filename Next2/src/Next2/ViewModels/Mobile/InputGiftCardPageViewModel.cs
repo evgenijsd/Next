@@ -38,7 +38,7 @@ namespace Next2.ViewModels.Mobile
 
             if (Customer is not null && Customer.GiftCards.Any())
             {
-                RemainingGiftCardTotal = Customer.GiftCardTotal;
+                RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
             }
         }
 
@@ -78,15 +78,15 @@ namespace Next2.ViewModels.Mobile
 
                 if (Customer is not null && Customer.GiftCards.Any())
                 {
-                    RemainingGiftCardTotal = Customer.GiftCardTotal;
+                    RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
                     if (float.TryParse(InputGiftCardFounds, out float sum))
                     {
                         sum /= 100;
 
-                        if (Customer.GiftCardTotal >= sum)
+                        if (Customer.GiftCardsTotalFund >= sum)
                         {
-                            RemainingGiftCardTotal = Customer.GiftCardTotal - sum;
+                            RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
                         }
                         else
                         {
@@ -132,11 +132,11 @@ namespace Next2.ViewModels.Mobile
                     {
                         sum /= 100;
 
-                        RemainingGiftCardTotal = Customer.GiftCardTotal - sum;
+                        RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
                     }
                     else
                     {
-                        RemainingGiftCardTotal = Customer.GiftCardTotal;
+                        RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
                     }
                 }
             }

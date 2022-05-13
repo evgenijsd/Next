@@ -379,7 +379,7 @@
                                                         Grid.Column="4"
                                                         LineBreakMode="TailTruncation"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Text="{Binding GiftCardCount}" />
+                                                        Text="{Binding GiftCardsCount}" />
 
                                                     <Label
                                                         Grid.Row="0"
@@ -391,7 +391,7 @@
                                                             <FormattedString>
                                                                 <Span Text="{xct:Translate CurrencySign}" />
                                                                 <Span Text=" " />
-                                                                <Span Text="{Binding GiftCardTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                <Span Text="{Binding GiftCardsTotalFund, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                         

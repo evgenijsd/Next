@@ -238,7 +238,7 @@
                                     FontFamily="Barlow-Bold"
                                     FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
-                                    Text="{Binding Customer.GiftCardCount}"
+                                    Text="{Binding Customer.GiftCardsCount}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
 
                             </StackLayout>
@@ -276,7 +276,7 @@
 
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding Customer.GiftCardTotal, StringFormat='$ {0:F2}'}" />
+                                            <Span Text="{Binding Customer.GiftCardsTotalFund, StringFormat='$ {0:F2}'}" />
                                         </FormattedString>
                                     </Label.FormattedText>
 
