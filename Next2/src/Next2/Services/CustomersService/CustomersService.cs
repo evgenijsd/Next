@@ -1,10 +1,14 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Newtonsoft.Json.Linq;
+using Next2.Helpers.DTO;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Next2.Services.CustomersService
@@ -12,10 +16,14 @@ namespace Next2.Services.CustomersService
     public class CustomersService : ICustomersService
     {
         private readonly IMockService _mockService;
+        private readonly IRestService _restService;
 
-        public CustomersService(IMockService mockService)
+        public CustomersService(
+            IMockService mockService,
+            IRestService restService)
         {
             _mockService = mockService;
+            _restService = restService;
         }
 
         #region -- ICustomersSerice implementation --
@@ -47,6 +55,8 @@ namespace Next2.Services.CustomersService
 
             try
             {
+                var header = _restService.GenerateAuthorizationHeader(null);
+                var response = await _restService.RequestAsync<GenericExecutionResult<IEnumerable<CustomerModelDTO>>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers", header);
                 var customers = await _mockService.GetAllAsync<CustomerModel>();
 
                 if (customers != null)
