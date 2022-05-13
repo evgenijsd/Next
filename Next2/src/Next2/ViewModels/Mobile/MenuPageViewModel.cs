@@ -1,6 +1,6 @@
-﻿using Next2.Api.Models.Category;
-using Next2.Enums;
+﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Models.Api;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -51,7 +51,7 @@ namespace Next2.ViewModels.Mobile
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
         private ICommand _tapCategoryCommand;
-        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<Api.Models.Category.CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
         private ICommand _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
 

@@ -1,6 +1,6 @@
 ﻿using Acr.UserDialogs;
-using Next2.Api.Models.Category;
 using Next2.Interfaces;
+using Next2.Models.Api;
 using Next2.Resources.Strings;
 using Next2.Services.Log;
 using Next2.Services.Menu;
@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
@@ -234,7 +235,7 @@ namespace Next2.ViewModels.Tablet
 
                 SubcategoriesItems.Insert(0, new SubcategoryModel()
                 {
-                    Name = "All",
+                    Name = LocalizationResourceManager.Current["All"],
                 });
 
                 SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();

@@ -1,4 +1,4 @@
-﻿using Next2.Api.Models.Category;
+﻿using Next2.Models.Api;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Next2.Api.Models.Category
+namespace Next2.Models.Api
 {
     public class CategoryModel : IBaseApiModel
     {

@@ -1,5 +1,4 @@
-﻿using Next2.Api.Models.Category;
-using Next2.Interfaces;
+﻿using Next2.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;

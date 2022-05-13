@@ -1,8 +1,8 @@
-﻿using Next2.Api.Models.Category;
-using Next2.Helpers.DTO.Categories.GetAllCategories;
+﻿using Next2.Helpers.DTO.Categories.GetAllCategories;
 using Next2.Helpers.DTO.Subcategories;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Api;
 using System;
 using System.Collections.Generic;
 using System.Text;
