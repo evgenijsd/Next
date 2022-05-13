@@ -24,6 +24,14 @@ namespace Next2.Services.Rest
 
         #region -- IRestService implementation --
 
+        public Dictionary<string, string> GenerateAuthorizationHeader()
+        {
+            return new Dictionary<string, string>
+            {
+                { "Authorization", $"Bearer {_settingsManager.Token}" },
+            };
+        }
+
         public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
         {
             using (var response = await MakeRequestAsync(method, requestUrl, null, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))

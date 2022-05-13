@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using Next2.Helpers.DTO;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,15 +19,18 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IRestService _restService;
         private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
+            IRestService restService,
             IBonusesService bonusesService,
             IMapper mapper)
         {
             _mockService = mockService;
+            _restService = restService;
             _bonusService = bonusesService;
             _mapper = mapper;
 
@@ -123,6 +129,16 @@ namespace Next2.Services.Order
 
             try
             {
+                string query = $"{Constants.API.HOST_URL}/api/orders";
+                var headers = _restService.GenerateAuthorizationHeader();
+
+                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderListQueryResultResult>>(HttpMethod.Get, query, headers);
+
+                if (responce.Success)
+                {
+                    var orderFromServer = responce.Value.Orders;
+                }
+
                 var orders = await _mockService.GetAsync<OrderModel>(x => x.Id != 0);
 
                 if (orders is not null)

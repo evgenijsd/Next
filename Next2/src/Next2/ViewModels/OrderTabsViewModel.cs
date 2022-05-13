@@ -63,8 +63,6 @@ namespace Next2.ViewModels
 
         public string SearchText { get; set; } = string.Empty;
 
-        public string SearchPlaceholder { get; set; }
-
         public bool IsNotingFound { get; set; } = false;
 
         public bool IsSearching { get; set; } = false;
