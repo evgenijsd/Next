@@ -156,18 +156,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultCategories.IsSuccess)
                 {
-                    var categories = resultCategories.Result.Select(row => new CategoryModel()
-                    {
-                        Id = row.Id,
-                        Name = row.Name,
-                        Subcategories = new(row.Subcategories.Select(row => new SubcategoryModel()
-                        {
-                            Id = row.Id,
-                            Name = row.Name
-                        })),
-                    });
-
-                    CategoriesItems = new(categories);
+                    CategoriesItems = new(resultCategories.Result);
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
 
                     HeightCollectionView = (int)((Math.Ceiling((double)CategoriesItems.Count / 7) * (54 + 10)) - 8);

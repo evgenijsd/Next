@@ -156,11 +156,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories.Select(row => new SubcategoryModel()
-                {
-                    Id = row.Id,
-                    Name = row.Name,
-                }));
+                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
 
                 SubcategoriesItems.Insert(0, new SubcategoryModel()
                 {

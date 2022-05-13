@@ -189,18 +189,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new(resultCategories.Result.Select(row => new CategoryModel()
-                    {
-                        Id = row.Id,
-                        Name = row.Name,
-                        Subcategories = new(row.Subcategories.Select(row => new SubcategoryModel()
-                        {
-                            Id = row.Id,
-                            Name = row.Name
-                        })),
-                    }));
-
-                    CategoriesItems = new(CategoriesItems);
+                    CategoriesItems = new(resultCategories.Result);
 
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
                 }
