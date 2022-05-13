@@ -37,15 +37,15 @@ namespace Next2.Services.Membership
                 var membersDTO = membersObj.SelectToken("value")?.SelectToken("memberships")?.ToObject<IEnumerable<MembershipModelDTO>>();
 
                 var members = membersDTO?.Select(x =>
-                              new MemberModel
-                              {
-                                  Id = x.Id,
-                                  CustomerName = x.Customer.FullName,
-                                  Phone = x.Customer.Phone,
-                                  MembershipStartTime = DateTime.Parse(x.StartDate),
-                                  MembershipEndTime = DateTime.Parse(x.EndDate),
-                                  IsActive = x.IsActive,
-                              });
+                    new MemberModel
+                    {
+                        Id = x.Id,
+                        CustomerName = x.Customer.FullName,
+                        Phone = x.Customer.Phone,
+                        MembershipStartTime = DateTime.Parse(x.StartDate),
+                        MembershipEndTime = DateTime.Parse(x.EndDate),
+                        IsActive = x.IsActive,
+                    });
 
                 if (members != null)
                 {
