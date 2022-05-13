@@ -220,10 +220,7 @@ namespace Next2.Services.Rest
 
         private Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string> additionalHeaders)
         {
-            if (additionalHeaders is null)
-            {
-                additionalHeaders = new();
-            }
+            additionalHeaders ??= new();
 
             additionalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
 
