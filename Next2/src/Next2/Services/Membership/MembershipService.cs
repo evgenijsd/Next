@@ -1,4 +1,6 @@
-﻿using Next2.Helpers.DTO;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Next2.Helpers.DTO;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -31,9 +33,10 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membersDTO = await _restService.RequestAsync<GenericGetExecutionResult<IEnumerable<MembershipModelDTO>>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
+                var membersObj = await _restService.RequestAsync<JObject>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
+                var membersDTO = membersObj.SelectToken("value")?.SelectToken("memberships")?.ToObject<IEnumerable<MembershipModelDTO>>();
 
-                var members = membersDTO?.Value?.Result.Select(x =>
+                var members = membersDTO?.Select(x =>
                               new MemberModel
                               {
                                   Id = x.Id,
