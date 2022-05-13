@@ -36,9 +36,9 @@ namespace Next2.Services.Menu
 
         #region -- IMenuService implementation --
 
-        public async Task<AOResult<IEnumerable<Api.Models.Category.CategoryModel>>> GetAllCategoriesAsync()
+        public async Task<AOResult<IEnumerable<CategoryModel>>> GetAllCategoriesAsync()
         {
-            var result = new AOResult<IEnumerable<Api.Models.Category.CategoryModel>>();
+            var result = new AOResult<IEnumerable<CategoryModel>>();
 
             try
             {

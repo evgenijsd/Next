@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Next2.Api.Models.Category;
-using Next2.Helpers.DTO.Categories;
 using Next2.Interfaces;
 using Next2.Resources.Strings;
 using Next2.Services.Log;

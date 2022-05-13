@@ -12,7 +12,7 @@ namespace Next2.Services.Menu
 {
     public interface IMenuService
     {
-        Task<AOResult<IEnumerable<Api.Models.Category.CategoryModel>>> GetAllCategoriesAsync();
+        Task<AOResult<IEnumerable<CategoryModel>>> GetAllCategoriesAsync();
 
         Task<AOResult<IEnumerable<SubcategoryModelDTO>>> GetAllSubcategoriesAsync();
 

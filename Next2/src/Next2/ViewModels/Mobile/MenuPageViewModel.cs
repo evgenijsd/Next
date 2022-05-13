@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using Next2.Api.Models.Category;
+using Next2.Enums;
 using Next2.Models;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -47,7 +48,7 @@ namespace Next2.ViewModels.Mobile
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<Api.Models.Category.CategoryModel> CategoriesItems { get; set; }
+        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<Api.Models.Category.CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
@@ -141,11 +142,11 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultCategories.IsSuccess)
                 {
-                    var categories = resultCategories.Result.Select(row => new Api.Models.Category.CategoryModel()
+                    var categories = resultCategories.Result.Select(row => new CategoryModel()
                     {
                         Id = row.Id,
                         Name = row.Name,
-                        Subcategories = new(row.Subcategories.Select(row => new Api.Models.Category.SubcategoryModel()
+                        Subcategories = new(row.Subcategories.Select(row => new SubcategoryModel()
                         {
                             Id = row.Id,
                             Name = row.Name,
@@ -162,7 +163,7 @@ namespace Next2.ViewModels.Mobile
             return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
         }
 
-        private async Task OnTapCategoryCommandAsync(Api.Models.Category.CategoryModel category)
+        private async Task OnTapCategoryCommandAsync(CategoryModel category)
         {
             var navigationParams = new NavigationParameters
             {
