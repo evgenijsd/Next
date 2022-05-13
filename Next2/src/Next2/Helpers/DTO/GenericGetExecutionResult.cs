@@ -5,14 +5,8 @@ using System.Text;
 
 namespace Next2.Helpers.DTO
 {
-    public class GenericGetExecutionResult<T>
+    public class GenericGetExecutionResult<T> : ExecutionResult
     {
-        public bool Success { get; set; }
-
-        public List<ErrorInfo>? Errors { get; set; }
-
-        public List<InfoMessage>? Messages { get; set; }
-
         public GenericGetResult<T>? Value { get; set; }
     }
 }
