@@ -14,7 +14,7 @@ namespace Next2.Converters
 
             if (!string.IsNullOrEmpty(phone))
             {
-                value = FormattedPhone(phone);
+                value = GetPhoneFormat(phone);
             }
 
             return value;
@@ -27,7 +27,7 @@ namespace Next2.Converters
 
         #region -- Private helpers --
 
-        private string FormattedPhone(string? phone)
+        private string GetPhoneFormat(string? phone)
         {
             StringBuilder result = new();
             int interval = 3;

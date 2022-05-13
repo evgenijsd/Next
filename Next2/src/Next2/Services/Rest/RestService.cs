@@ -21,7 +21,8 @@ namespace Next2.Services.Rest
 
         private Dictionary<string, string> _propertyNames = new Dictionary<string, string>
         {
-            { $"{nameof(MembershipModelDTO)}s", "memberships" },
+            { nameof(MembershipModelDTO), "memberships" },
+            { nameof(CustomerModelDTO), "customers" },
         };
 
         public RestService(ISettingsManager settingsManager)
@@ -41,7 +42,12 @@ namespace Next2.Services.Rest
 
                 var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                return JsonConvert.DeserializeObject<T>(RenameDataProperty<T>(data));
+                if (method == HttpMethod.Get)
+                {
+                    data = RenameDataProperty<T>(data);
+                }
+
+                return JsonConvert.DeserializeObject<T>(data);
             }
         }
 
@@ -80,14 +86,26 @@ namespace Next2.Services.Rest
 
         private string RenameDataProperty<T>(string data)
         {
-            var propertyKey = typeof(T).FullName;
-            propertyKey = propertyKey.Substring(0, propertyKey.IndexOf(','));
-            propertyKey = propertyKey.Contains("IEnumerable") ? $"{propertyKey}s" : propertyKey;
-            propertyKey = propertyKey.Substring(propertyKey.LastIndexOf('.') + 1);
-            var propertyName = _propertyNames[propertyKey];
+            var propertyName = GetPropertyName<T>();
             int indexProperty = data.IndexOf(propertyName);
             data = data.Remove(indexProperty, propertyName.Length).Insert(indexProperty, nameof(GenericGetResult<T>.Result));
+
             return data;
+        }
+
+        private string GetPropertyName<T>()
+        {
+            var propertyKey = typeof(T).FullName;
+
+            foreach (var property in _propertyNames)
+            {
+                if (propertyKey.Contains(property.Key))
+                {
+                    return _propertyNames[property.Key];
+                }
+            }
+
+            return string.Empty;
         }
 
         private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
