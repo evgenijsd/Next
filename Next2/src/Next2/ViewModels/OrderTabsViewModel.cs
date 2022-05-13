@@ -47,7 +47,7 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
-            _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderStatus);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
 
             _popupNavigation = popupNavigation;
         }
@@ -168,11 +168,9 @@ namespace Next2.ViewModels
             if (ordersResult.IsSuccess)
             {
                 _orders = new List<OrderModelDTO>(ordersResult.Result)
-                    .Where(x => x.OrderStatus == EOrderStatus.WaitingForPayment.ToString())
                     .OrderBy(x => x.Table?.Number);
 
-                _tabs = new List<OrderModelDTO>(ordersResult.Result
-                    .Where(x => x.OrderType == EOrderStatus.InProgress.ToString()));
+                _tabs = new List<OrderModelDTO>(ordersResult.Result);
             }
 
             IsOrdersRefreshing = false;
@@ -516,10 +514,7 @@ namespace Next2.ViewModels
             _lastSavedOrderId = orderId;
         }
 
-        private void SetOrderStatus(Enum orderStatus)
-        {
-            IsOrderTabsSelected = orderStatus is EOrderStatus.WaitingForPayment;
-        }
+        private void SetOrderType(bool isTab) => IsOrderTabsSelected = isTab;
 
         private async Task OnGoBackCommand()
         {

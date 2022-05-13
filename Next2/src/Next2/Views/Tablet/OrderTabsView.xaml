@@ -409,7 +409,7 @@
                                                 x:Name="orderStatusLabel">
 
                                                 <Label.Triggers>
-                                                    <Trigger TargetType="Label" Property="Text" Value="{Static local:Constants+OrderStatus.CANCELLED}">
+                                                    <Trigger TargetType="Label" Property="Text" Value="{Static enums:EOrderStatus.Canceled}">
                                                         <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
                                                     </Trigger>
                                                 </Label.Triggers>

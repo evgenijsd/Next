@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers.DTO;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
@@ -106,7 +107,7 @@ namespace Next2.Services.Order
                     if (allOrders is not null)
                     {
                         var freeTables = allTables.Where(table => allOrders
-                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is Constants.OrderStatus.CANCELLED or Constants.OrderStatus.PAYED));
+                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is not EOrderStatus.Pending and EOrderStatus.Preparing));
 
                         if (freeTables is not null)
                         {
@@ -239,8 +240,8 @@ namespace Next2.Services.Order
 
                     CurrentOrder.Id = orderId.Result;
                     CurrentOrder.OrderNumber = orderId.Result;
-                    CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
-                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    CurrentOrder.OrderStatus = EOrderStatus.Pending;
+                    CurrentOrder.OrderType = EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
                     CurrentSeat = null;

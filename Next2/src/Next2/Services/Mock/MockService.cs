@@ -11,7 +11,7 @@ namespace Next2.Services.Mock
 {
     public class MockService : IMockService
     {
-        private readonly TaskCompletionSource<bool> _initCompletionSource = new ();
+        private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
         private IList<OrderModel> _orders;
         private IList<CategoryModel> _categories;
@@ -200,7 +200,7 @@ namespace Next2.Services.Mock
                 { typeof(SubcategoryModel), _subcategories },
                 { typeof(UserModel), _users },
                 { typeof(SetModel), _sets },
-                { typeof(SeatModel), _seats },
+                //{ typeof(SeatModel), _seats },
                 { typeof(TableModel), _tables },
                 { typeof(MemberModel), _members },
                 { typeof(CustomerModel), _customers },
@@ -223,7 +223,7 @@ namespace Next2.Services.Mock
                 { typeof(SubcategoryModel), GetMaxId(_subcategories) },
                 { typeof(SetModel), GetMaxId(_sets) },
                 { typeof(UserModel), GetMaxId(_users) },
-                { typeof(SeatModel), GetMaxId(_seats) },
+                //{ typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(TableModel), GetMaxId(_tables) },
                 { typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
@@ -448,251 +448,253 @@ namespace Next2.Services.Mock
 
         private Task InitOrdersAsync() => Task.Run(async () =>
         {
-            await InitSeatsAsync();
+            _orders = new List<OrderModel>();
+            //    await InitSeatsAsync();
 
-            _orders = new List<OrderModel>
-            {
-                new OrderModel()
-                {
-                    Id = 1,
-                    Customer = new CustomerModel
-                    {
-                        Id = 1,
-                        Name = "Adam Brody",
-                    },
-                    TableNumber = 10,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 1,
-                    Total = 50.2f,
-                    PriceTax = 5.02f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
-                },
-                new OrderModel()
-                {
-                    Id = 2,
-                    Customer = new CustomerModel
-                    {
-                        Id = 2,
-                        Name = "Abraham Linkoln",
-                    },
-                    TableNumber = 9,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 2,
-                    Total = 30.3f,
-                    PriceTax = 3.03f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 3,
-                    Customer = new CustomerModel
-                    {
-                        Id = 3,
-                        Name = "Aaron Rodgers",
-                    },
-                    TableNumber = 8,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 3,
-                    Total = 40.45f,
-                    PriceTax = 4.05f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
-                },
-                new OrderModel()
-                {
-                    Id = 4,
-                    Customer = new (),
-                    TableNumber = 7,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 4,
-                    Total = 3.67f,
-                    PriceTax = 0.37f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 5,
-                    Customer = new CustomerModel
-                    {
-                        Id = 5,
-                        Name = "Angel Dias",
-                    },
-                    TableNumber = 6,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 5,
-                    Total = 70.44f,
-                    PriceTax = 7.04f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
-                },
-                new OrderModel()
-                {
-                    Id = 6,
-                    Customer = new CustomerModel
-                    {
-                        Id = 6,
-                        Name = "Kaiya Dorwart",
-                    },
-                    TableNumber = 5,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 6,
-                    Total = 6.77f,
-                    PriceTax = 0.68f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 7,
-                    Customer = new CustomerModel
-                    {
-                        Id = 7,
-                        Name = "Lincoln Lipshutz",
-                    },
-                    TableNumber = 4,
-                    OrderStatus = Constants.OrderStatus.CANCELLED,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 7,
-                    Total = 45.11f,
-                    PriceTax = 4.51f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 8,
-                    Customer = new CustomerModel
-                    {
-                        Id = 8,
-                        Name = "Randy Mango",
-                    },
-                    TableNumber = 3,
-                    OrderStatus = Constants.OrderStatus.CANCELLED,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 8,
-                    Total = 33.67f,
-                    PriceTax = 3.37f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 9,
-                    Customer = new CustomerModel
-                    {
-                        Id = 9,
-                        Name = "Martin Schleifer",
-                    },
-                    TableNumber = 2,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 9,
-                    Total = 55.16f,
-                    PriceTax = 5.52f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
-                },
-                new OrderModel()
-                {
-                    Id = 10,
-                    Customer = new CustomerModel
-                    {
-                        Id = 10,
-                        Name = "Carla Dorwart",
-                    },
-                    TableNumber = 1,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 10,
-                    Total = 97.66f,
-                    PriceTax = 9.77f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 11,
-                    Customer = new CustomerModel
-                    {
-                        Id = 11,
-                        Name = "Davis Septimus",
-                    },
-                    TableNumber = 11,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 11,
-                    Total = 96.00f,
-                    PriceTax = 9.60f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 12,
-                    Customer = new CustomerModel
-                    {
-                        Id = 12,
-                        Name = "Grover Parsons",
-                    },
-                    TableNumber = 12,
-                    OrderStatus = Constants.OrderStatus.CANCELLED,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 12,
-                    Total = 9.50f,
-                    PriceTax = 0.95f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 13,
-                    Customer = new CustomerModel
-                    {
-                        Id = 13,
-                        Name = "Douglas Moreno",
-                    },
-                    TableNumber = 13,
-                    OrderStatus = Constants.OrderStatus.CANCELLED,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 13,
-                    Total = 9.40f,
-                    PriceTax = 0.94f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
-                },
-                new OrderModel()
-                {
-                    Id = 14,
-                    Customer = new (),
-                    TableNumber = 14,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 14,
-                    Total = 9.30f,
-                    PriceTax = 0.93f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-                new OrderModel()
-                {
-                    Id = 15,
-                    Customer = new CustomerModel
-                    {
-                        Id = 15,
-                        Name = "Kenneth Feron",
-                    },
-                    TableNumber = 15,
-                    OrderStatus = Constants.OrderStatus.IN_PROGRESS,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 15,
-                    Total = 9.20f,
-                    PriceTax = 0.92f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
-                },
-            };
+            //    _orders = new List<OrderModel>
+            //    {
+            //        new OrderModel()
+            //        {
+            //            Id = 1,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 1,
+            //                Name = "Adam Brody",
+            //            },
+            //            TableNumber = 10,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 1,
+            //            Total = 50.2f,
+            //            PriceTax = 5.02f,
+            //            PaymentStatus = Enums.EOrderStatus.InProgress,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 2,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 2,
+            //                Name = "Abraham Linkoln",
+            //            },
+            //            TableNumber = 9,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 2,
+            //            Total = 30.3f,
+            //            PriceTax = 3.03f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 3,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 3,
+            //                Name = "Aaron Rodgers",
+            //            },
+            //            TableNumber = 8,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 3,
+            //            Total = 40.45f,
+            //            PriceTax = 4.05f,
+            //            PaymentStatus = Enums.EOrderStatus.InProgress,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 4,
+            //            Customer = new (),
+            //            TableNumber = 7,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 4,
+            //            Total = 3.67f,
+            //            PriceTax = 0.37f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 5,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 5,
+            //                Name = "Angel Dias",
+            //            },
+            //            TableNumber = 6,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 5,
+            //            Total = 70.44f,
+            //            PriceTax = 7.04f,
+            //            PaymentStatus = Enums.EOrderStatus.InProgress,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 6,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 6,
+            //                Name = "Kaiya Dorwart",
+            //            },
+            //            TableNumber = 5,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 6,
+            //            Total = 6.77f,
+            //            PriceTax = 0.68f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 7,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 7,
+            //                Name = "Lincoln Lipshutz",
+            //            },
+            //            TableNumber = 4,
+            //            OrderStatus = Constants.OrderStatus.CANCELLED,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 7,
+            //            Total = 45.11f,
+            //            PriceTax = 4.51f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 8,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 8,
+            //                Name = "Randy Mango",
+            //            },
+            //            TableNumber = 3,
+            //            OrderStatus = Constants.OrderStatus.CANCELLED,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 8,
+            //            Total = 33.67f,
+            //            PriceTax = 3.37f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 9,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 9,
+            //                Name = "Martin Schleifer",
+            //            },
+            //            TableNumber = 2,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 9,
+            //            Total = 55.16f,
+            //            PriceTax = 5.52f,
+            //            PaymentStatus = Enums.EOrderStatus.InProgress,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 10,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 10,
+            //                Name = "Carla Dorwart",
+            //            },
+            //            TableNumber = 1,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 10,
+            //            Total = 97.66f,
+            //            PriceTax = 9.77f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 11,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 11,
+            //                Name = "Davis Septimus",
+            //            },
+            //            TableNumber = 11,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 11,
+            //            Total = 96.00f,
+            //            PriceTax = 9.60f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 12,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 12,
+            //                Name = "Grover Parsons",
+            //            },
+            //            TableNumber = 12,
+            //            OrderStatus = Constants.OrderStatus.CANCELLED,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 12,
+            //            Total = 9.50f,
+            //            PriceTax = 0.95f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 13,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 13,
+            //                Name = "Douglas Moreno",
+            //            },
+            //            TableNumber = 13,
+            //            OrderStatus = Constants.OrderStatus.CANCELLED,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 13,
+            //            Total = 9.40f,
+            //            PriceTax = 0.94f,
+            //            PaymentStatus = Enums.EOrderStatus.InProgress,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 14,
+            //            Customer = new (),
+            //            TableNumber = 14,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 14,
+            //            Total = 9.30f,
+            //            PriceTax = 0.93f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //        new OrderModel()
+            //        {
+            //            Id = 15,
+            //            Customer = new CustomerModel
+            //            {
+            //                Id = 15,
+            //                Name = "Kenneth Feron",
+            //            },
+            //            TableNumber = 15,
+            //            OrderStatus = Constants.OrderStatus.IN_PROGRESS,
+            //            OrderType = EOrderType.DineIn,
+            //            OrderNumber = 15,
+            //            Total = 9.20f,
+            //            PriceTax = 0.92f,
+            //            PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+            //        },
+            //    };
 
-            for (int i = 0; i < _orders.Count; i++)
-            {
-                var orderSeats = _seats.Where(s => s.OrderId == _orders[i].Id);
-                var amountsBySeats = orderSeats.Select(x => x.Sets.Select(x => x.Price).Sum());
+            //    for (int i = 0; i < _orders.Count; i++)
+            //    {
+            //        var orderSeats = _seats.Where(s => s.OrderId == _orders[i].Id);
+            //        var amountsBySeats = orderSeats.Select(x => x.Sets.Select(x => x.Price).Sum());
 
-                _orders[i].Total = amountsBySeats.Sum();
-            }
+            //        _orders[i].Total = amountsBySeats.Sum();
+            //    }
+            //});
         });
 
         private Task InitCategoriesAsync() => Task.Run(() =>
@@ -1236,688 +1238,687 @@ namespace Next2.Services.Mock
             };
         });
 
-        private Task InitSeatsAsync() => Task.Run(() =>
-        {
-            int seatId = 1;
-            int tableId = 1;
-            var rand = new Random();
+        //private Task InitSeatsAsync() => Task.Run(() =>
+        //{
+        //    int seatId = 1;
+        //    int tableId = 1;
+        //    var rand = new Random();
 
-            _seats = new List<SeatModel>
-            {
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 3,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 5,
-                            SubcategoryId = 1,
-                            Title = "E Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 5,
-                            SubcategoryId = 1,
-                            Title = "E Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "C Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 2,
-                            SubcategoryId = 1,
-                            Title = "B Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId,
-                    SeatNumber = 1,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 1,
-                            SubcategoryId = 1,
-                            Title = "A Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-                new SeatModel
-                {
-                    Id = seatId++,
-                    OrderId = tableId++,
-                    SeatNumber = 2,
-                    Sets = new List<SetModel>
-                    {
-                        new SetModel()
-                        {
-                            Id = 3,
-                            SubcategoryId = 1,
-                            Title = "3 Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                        new SetModel()
-                        {
-                            Id = 4,
-                            SubcategoryId = 1,
-                            Title = "D Pulled Pork Sammy Meal",
-                            Price = rand.Next(10, 40),
-                            ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                        },
-                    },
-                },
-            };
-        });
-
+        //    _seats = new List<SeatModel>
+        //    {
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 3,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 5,
+        //                    SubcategoryId = 1,
+        //                    Title = "E Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 5,
+        //                    SubcategoryId = 1,
+        //                    Title = "E Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "C Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 2,
+        //                    SubcategoryId = 1,
+        //                    Title = "B Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId,
+        //            SeatNumber = 1,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 1,
+        //                    SubcategoryId = 1,
+        //                    Title = "A Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //        new SeatModel
+        //        {
+        //            Id = seatId++,
+        //            OrderId = tableId++,
+        //            SeatNumber = 2,
+        //            Sets = new List<SetModel>
+        //            {
+        //                new SetModel()
+        //                {
+        //                    Id = 3,
+        //                    SubcategoryId = 1,
+        //                    Title = "3 Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //                new SetModel()
+        //                {
+        //                    Id = 4,
+        //                    SubcategoryId = 1,
+        //                    Title = "D Pulled Pork Sammy Meal",
+        //                    Price = rand.Next(10, 40),
+        //                    ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
+        //                },
+        //            },
+        //        },
+        //    };
+        //});
         private Task InitTables() => Task.Run(() =>
         {
             _tables = new List<TableModel>

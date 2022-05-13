@@ -117,13 +117,6 @@
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         }
 
-        public static class OrderStatus
-        {
-            public const string IN_PROGRESS = "In progress";
-            public const string CANCELLED = "Cancelled";
-            public const string PAYED = "Payed";
-        }
-
         public static class DialogParameterKeys
         {
             public const string MESSAGE = "MESSAGE";
@@ -144,20 +137,12 @@
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
-            public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
             public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
-        }
-
-        public static class PaymentOrderStatus
-        {
-            public const string IN_PROGRESS = "In progress";
-            public const string CANCELLED = "Cancelled";
-            public const string PAYED = "Payed";
         }
 
         public static class API

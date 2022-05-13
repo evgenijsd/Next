@@ -49,7 +49,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedSet;
-        private EOrderStatus _orderPaymentStatus;
+        private bool _isTab;
         private bool _isAnySetChosen;
         private bool _isAnyUpDateForCurrentSet = true;
 
@@ -73,8 +73,6 @@ namespace Next2.ViewModels
             _authenticationService = authenticationService;
             _menuService = menuService;
             _bonusesService = bonusesService;
-
-            _orderPaymentStatus = EOrderStatus.None;
 
             CurrentState = LayoutState.Loading;
 
@@ -131,10 +129,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<bool>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<bool>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -716,9 +714,9 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOrderCommandAsync(EOrderStatus commandParameter)
+        private async Task OnOrderCommandAsync(bool isMovingToTab)
         {
-            _orderPaymentStatus = commandParameter;
+            _isTab = isMovingToTab;
 
             List<SeatModel> seats = new();
 
@@ -758,7 +756,7 @@ namespace Next2.ViewModels
 
             if (isAllSeatSaved)
             {
-                CurrentOrder.PaymentStatus = _orderPaymentStatus;
+                CurrentOrder.IsTab = _isTab;
 
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
                 .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
@@ -779,7 +777,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnTabCommandAsync(EOrderStatus commandParameter)
+        private async Task OnTabCommandAsync(bool isTab)
         {
             var parameters = new DialogParameters
             {
@@ -787,7 +785,6 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
                 { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
-                { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
             };
 
             PopupPage confirmDialog = App.IsTablet ?
@@ -799,13 +796,10 @@ namespace Next2.ViewModels
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderStatus commandParameter))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderToTabAccepted)
+                && isMovedOrderToTabAccepted)
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderStatus.InProgress)
-                {
-                    await OnOrderCommandAsync(commandParameter);
-                }
+                await OnOrderCommandAsync(true);
             }
 
             await _popupNavigation.PopAsync();
@@ -913,7 +907,7 @@ namespace Next2.ViewModels
             }
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_isTab);
 
             RefreshCurrentOrderAsync();
         }

@@ -508,16 +508,14 @@
                 Style="{DynamicResource BorderButtonStyle_i2}"
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Order}"
-                xct:TouchEffect.Command="{Binding OrderCommand}"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.WaitingForPayment}"/> 
+                xct:TouchEffect.Command="{Binding OrderCommand}"/> 
 
             <buttons:BorderButton
                 Grid.Column="1"
                 Style="{DynamicResource BorderButtonStyle_i2}"
                 BorderColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Tab}"
-                xct:TouchEffect.Command="{Binding TabCommand }"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.InProgress}"/> 
+                xct:TouchEffect.Command="{Binding TabCommand }"/> 
 
             <buttons:BorderButton
                 Grid.Column="2"

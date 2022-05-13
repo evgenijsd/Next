@@ -16,6 +16,7 @@ namespace Next2.Models
         {
             Id = order.Id;
             OrderNumber = order.OrderNumber;
+            IsTab = order.IsTab;
             Table = order.Table;
             Customer = order.Customer;
             CustomerName = order.CustomerName;
@@ -67,13 +68,15 @@ namespace Next2.Models
 
         public int OrderNumber { get; set; }
 
+        public bool IsTab { get; set; }
+
         public TableBindableModel Table { get; set; } = new();
 
         public CustomerModel? Customer { get; set; }
 
         public string? CustomerName { get; set; }
 
-        public string OrderStatus { get; set; } = string.Empty;
+        public EOrderStatus OrderStatus { get; set; }
 
         public EOrderType OrderType { get; set; }
 
@@ -92,7 +95,5 @@ namespace Next2.Models
         public float Total { get; set; }
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
-
-        public EOrderStatus? PaymentStatus;
     }
 }

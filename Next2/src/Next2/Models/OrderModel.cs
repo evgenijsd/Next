@@ -11,18 +11,18 @@ namespace Next2.Models
 
         public int TableNumber { get; set; }
 
-        public string OrderStatus { get; set; }
+        public EOrderStatus OrderStatus { get; set; }
 
         public EOrderType OrderType { get; set; }
 
         public int OrderNumber { get; set; }
+
+        public bool IsTab { get; set; }
 
         public EBonusType BonusType { get; set; } = EBonusType.None;
 
         public float Total { get; set; }
 
         public float PriceTax { get; set; }
-
-        public EOrderStatus? PaymentStatus;
     }
 }
