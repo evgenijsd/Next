@@ -156,23 +156,18 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                var resultSubcategories = await _menuService.GetAllSubcategoriesAsync();
-
-                if (resultSubcategories.IsSuccess)
+                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories.Select(row => new SubcategoryModel()
                 {
-                    SubcategoriesItems = new(SelectedCategoriesItem.Subcategories.Select(row => new SubcategoryModel()
-                    {
-                        Id = row.Id,
-                        Name = row.Name,
-                    }));
+                    Id = row.Id,
+                    Name = row.Name,
+                }));
 
-                    SubcategoriesItems.Insert(0, new SubcategoryModel()
-                    {
-                        Name = LocalizationResourceManager.Current["All"],
-                    });
+                SubcategoriesItems.Insert(0, new SubcategoryModel()
+                {
+                    Name = LocalizationResourceManager.Current["All"],
+                });
 
-                    SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
-                }
+                SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
             }
         }
 
