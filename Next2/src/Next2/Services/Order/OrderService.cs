@@ -123,9 +123,9 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<OrderModelDTO>>> GetOrdersAsync()
         {
-            var result = new AOResult<IEnumerable<OrderModel>>();
+            var result = new AOResult<IEnumerable<OrderModelDTO>>();
 
             try
             {
@@ -136,14 +136,7 @@ namespace Next2.Services.Order
 
                 if (responce.Success)
                 {
-                    var orderFromServer = responce.Value.Orders;
-                }
-
-                var orders = await _mockService.GetAsync<OrderModel>(x => x.Id != 0);
-
-                if (orders is not null)
-                {
-                    result.SetSuccess(orders);
+                    result.SetSuccess(responce.Value.Orders);
                 }
                 else
                 {

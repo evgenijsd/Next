@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Helpers.DTO;
 using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -31,8 +32,8 @@ namespace Next2.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IPopupNavigation _popupNavigation;
 
-        private IEnumerable<OrderModel>? _ordersBase;
-        private IEnumerable<OrderModel>? _tabsBase;
+        private IEnumerable<OrderModelDTO>? _orders;
+        private IEnumerable<OrderModelDTO>? _tabs;
         private int _lastSavedOrderId = -1;
         public double _heightPage;
 
@@ -162,18 +163,16 @@ namespace Next2.ViewModels
 
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-            var resultOrders = await _orderService.GetOrdersAsync();
+            var ordersResult = await _orderService.GetOrdersAsync();
 
-            if (resultOrders.IsSuccess)
+            if (ordersResult.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
-            }
+                _orders = new List<OrderModelDTO>(ordersResult.Result)
+                    .Where(x => x.OrderStatus == EOrderStatus.WaitingForPayment.ToString())
+                    .OrderBy(x => x.Table?.Number);
 
-            var resultTabs = await _orderService.GetOrdersAsync();
-
-            if (resultTabs.IsSuccess)
-            {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabs = new List<OrderModelDTO>(ordersResult.Result
+                    .Where(x => x.OrderType == EOrderStatus.InProgress.ToString()));
             }
 
             IsOrdersRefreshing = false;
@@ -188,32 +187,36 @@ namespace Next2.ViewModels
 
             Orders = new ObservableCollection<OrderBindableModel>();
 
-            IEnumerable<OrderModel>? result;
+            IEnumerable<OrderModelDTO>? result;
 
             if (IsOrderTabsSelected)
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.TableNumber}"))
-                            .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
-                result = _ordersBase;
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, OrderBindableModel>()
+                    .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.Table.Number}"))
+                    .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.Number}")));
+
+                result = _orders;
             }
             else
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
-                            .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
-                result = _tabsBase;
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, OrderBindableModel>()
+                    .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.FullName))
+                    .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.Number}")));
+
+                result = _tabs;
             }
 
             if (result != null)
             {
                 var mapper = new Mapper(config);
 
-                Orders = mapper.Map<IEnumerable<OrderModel>, ObservableCollection<OrderBindableModel>>(result);
+                Orders = mapper.Map<IEnumerable<OrderModelDTO>, ObservableCollection<OrderBindableModel>>(result);
 
                 for (int i = 0; i < Orders.Count; i++)
                 {
-                    Orders[i].Name = string.IsNullOrWhiteSpace(Orders[i].Name) ? CreateRandomCustomerName() : Orders[i].Name;
+                    Orders[i].Name = string.IsNullOrWhiteSpace(Orders[i].Name)
+                        ? CreateRandomCustomerName()
+                        : Orders[i].Name;
                 }
 
                 if (!string.IsNullOrEmpty(SearchText))

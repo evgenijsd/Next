@@ -7,6 +7,8 @@ namespace Next2.Helpers.DTO
     {
         public string Id { get; set; } = string.Empty;
 
+        public int Number { get; set; }
+
         public string? OrderType { get; set; }
 
         public SimpleTableModelDTO Table { get; set; } = new ();
@@ -31,7 +33,7 @@ namespace Next2.Helpers.DTO
 
         public SimpleDiscountModelDTO Discount { get; set; } = new ();
 
-        public string? CustomerId { get; set; }
+        public SimpleCustomerModelDTO Customer { get; set; }
 
         public string? EmployeeId { get; set; }
 
