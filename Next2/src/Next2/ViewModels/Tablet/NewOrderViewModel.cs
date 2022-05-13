@@ -189,7 +189,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (resultCategories.IsSuccess)
                 {
-                    var categories = resultCategories.Result.Select(row => new CategoryModel()
+                    CategoriesItems = new(resultCategories.Result.Select(row => new CategoryModel()
                     {
                         Id = row.Id,
                         Name = row.Name,
@@ -198,9 +198,9 @@ namespace Next2.ViewModels.Tablet
                             Id = row.Id,
                             Name = row.Name
                         })),
-                    });
+                    }));
 
-                    CategoriesItems = new(categories);
+                    CategoriesItems = new(CategoriesItems);
 
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
                 }
