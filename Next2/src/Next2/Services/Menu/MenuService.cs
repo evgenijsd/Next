@@ -1,7 +1,6 @@
 ﻿using Next2.Helpers.DTO;
 using Next2.Helpers.DTO.Categories.GetAllCategories;
 using Next2.Helpers.DTO.Subcategories;
-using Next2.Helpers.DTO.Subcategories.GetSubcategoryById;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.Api;
@@ -55,31 +54,6 @@ namespace Next2.Services.Menu
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetAllCategoriesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<SubcategoryModelDTO>> GetSubcategoryByIdAsync(Guid category)
-        {
-            var result = new AOResult<SubcategoryModelDTO>();
-
-            try
-            {
-                var subcategories = await _restService.RequestAsync<GenericExecutionResult<GetSubcategoryByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/subcategories", category);
-
-                if (subcategories.Success && subcategories.Value is not null)
-                {
-                    result.SetSuccess(subcategories.Value.Subcategory);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSubcategoryByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
