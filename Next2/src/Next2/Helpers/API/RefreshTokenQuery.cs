@@ -1,4 +1,4 @@
-﻿namespace Next2.Helpers.DTO
+﻿namespace Next2.Helpers.API
 {
     public class RefreshTokenQuery
     {

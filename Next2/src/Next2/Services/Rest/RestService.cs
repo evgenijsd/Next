@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Next2.Helpers.DTO;
-using Next2.Resources.Strings;
+using Next2.Helpers.API;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;

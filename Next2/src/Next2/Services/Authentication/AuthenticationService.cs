@@ -1,4 +1,4 @@
-﻿using Next2.Helpers.DTO;
+﻿using Next2.Helpers.API;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
