@@ -93,9 +93,9 @@ namespace Next2.Services.Membership
                     IsActive = member.IsActive,
                 };
 
-                var memberUpdate = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/{Constants.API.MEMBERSHIPS}", update);
+                var resultUpdate = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/{Constants.API.MEMBERSHIPS}", update);
 
-                if (memberUpdate.Success)
+                if (resultUpdate.Success)
                 {
                     result.SetSuccess();
                 }
