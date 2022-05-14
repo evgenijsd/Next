@@ -19,6 +19,8 @@ namespace Next2.Models
 
         public bool IsActive { get; set; }
 
+        public Guid CustomerId { get; set; }
+
         public ICommand? TapCommand { get; set; }
     }
 }

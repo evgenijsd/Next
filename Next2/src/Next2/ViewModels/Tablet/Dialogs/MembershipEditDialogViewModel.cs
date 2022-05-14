@@ -61,10 +61,7 @@ namespace Next2.ViewModels.Dialogs
             switch (editType)
             {
                 case EMembershipEditType.Disable:
-                    if (Member.MembershipEndTime > DateTime.Now)
-                    {
-                        Member.MembershipEndTime = DateTime.Now;
-                    }
+                    Member.IsActive = false;
 
                     break;
 

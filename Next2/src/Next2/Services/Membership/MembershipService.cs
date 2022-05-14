@@ -1,4 +1,5 @@
 ﻿using Next2.Helpers.API;
+using Next2.Helpers.API.Command;
 using Next2.Helpers.API.Result;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
@@ -41,6 +42,7 @@ namespace Next2.Services.Membership
                         MembershipStartTime = DateTime.Parse(x.StartDate),
                         MembershipEndTime = DateTime.Parse(x.EndDate),
                         IsActive = x.IsActive,
+                        CustomerId = x.Customer.Id,
                     });
 
                 if (members != null)
@@ -76,42 +78,26 @@ namespace Next2.Services.Membership
             return result;
         }
 
-        /*public async Task<AOResult<bool>> DisableMemberAsync(MemberModel member)
+        public async Task<AOResult> UpdateMemberAsync(MemberModel member)
         {
-            var result = new AOResult<bool>();
+            var result = new AOResult();
 
             try
             {
-                var remove = await _mockService.RemoveAsync(member);
+                var update = new UpdateMembershipCommand
+                {
+                    Id = member.Id,
+                    StartDate = $"{member.MembershipStartTime:s}",
+                    EndDate = $"{member.MembershipEndTime:s}",
+                    CustomerId = member.CustomerId,
+                    IsActive = member.IsActive,
+                };
 
-                if (remove)
+                var memberUpdate = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/{Constants.API.MEMBERSHIPS}", update);
+
+                if (memberUpdate.Success)
                 {
                     result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(DisableMemberAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }*/
-
-        /*public async Task<AOResult<MemberModel>> UpdateMemberAsync(MemberModel member)
-        {
-            var result = new AOResult<MemberModel>();
-
-            try
-            {
-                var update = await _mockService.UpdateAsync(member);
-
-                if (update is not null)
-                {
-                    result.SetSuccess(update);
                 }
                 else
                 {
@@ -124,7 +110,7 @@ namespace Next2.Services.Membership
             }
 
             return result;
-        }*/
+        }
 
         #endregion
 
