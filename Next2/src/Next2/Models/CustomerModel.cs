@@ -29,13 +29,17 @@ namespace Next2.Models
 
         public int Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string UuId { get; set; }
 
-        public string Email { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
 
-        public string Phone { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
+
+        public string? Phone { get; set; } = string.Empty;
 
         public DateTime? Birthday { get; set; }
+
+        public string? MembershipId { get; set; }
 
         public int Points { get; set; }
 
@@ -46,6 +50,8 @@ namespace Next2.Models
         public float GiftCardsTotalFund { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
+
+        public IEnumerable<string>? GiftCardsId { get; set; }
 
         public bool IsNotRegistratedCustomer { get; set; }
 

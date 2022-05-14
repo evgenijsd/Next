@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Next2.Helpers.DTO;
+using Next2.Helpers.DTO.Customers;
+using Next2.Helpers.Extensions;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -56,10 +58,13 @@ namespace Next2.Services.CustomersService
             try
             {
                 var header = _restService.GenerateAuthorizationHeader(null);
-                var response = await _restService.RequestAsync<GenericExecutionResult<IEnumerable<CustomerModelDTO>>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers", header);
-                var customers = await _mockService.GetAllAsync<CustomerModel>();
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers", header);
+                var mockCustomers = await _mockService.GetAllAsync<CustomerModel>();
+                var dtoCustomers = response?.Value?.Customers;
 
-                if (customers != null)
+                var customers = MergeDTOModelsWithMocksModels(dtoCustomers, mockCustomers);
+
+                if (customers is not null)
                 {
                     result.SetSuccess(condition == null
                         ? customers
@@ -218,5 +223,30 @@ namespace Next2.Services.CustomersService
         }
 
         #endregion
+
+        #region -- Private Helpers --
+
+        private IEnumerable<CustomerModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelDTOs, IEnumerable<CustomerModel> mockModels)
+        {
+            IEnumerable<CustomerModel>? result = null;
+
+            if (modelDTOs is not null || mockModels is not null)
+            {
+                var dtoModelsArray = modelDTOs.ToArray();
+                var mockModelsArray = mockModels.ToArray();
+
+                for (int i = 0; i < dtoModelsArray.Length && i < mockModelsArray.Length; i++)
+                {
+                    mockModelsArray[i] = dtoModelsArray[i].MergeWithUIModel(mockModelsArray[i]);
+                }
+
+                result = mockModelsArray;
+            }
+
+            return result;
+        }
+
+        #endregion
+
     }
 }
