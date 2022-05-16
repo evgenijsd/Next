@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Helpers.DTO.Customers
 {
-    public class CustomerModelDTO
+    public class CustomerModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
