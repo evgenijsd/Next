@@ -1,36 +1,50 @@
-﻿using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.DTO;
+using Next2.Helpers.DTO.Categories.GetAllCategories;
+using Next2.Helpers.DTO.Subcategories;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Api;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
+using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Menu
 {
     public class MenuService : IMenuService
     {
+        private readonly IRestService _restService;
+        private readonly ISettingsManager _settingsManager;
         private IMockService _mockService;
 
-        public MenuService(IMockService mockService)
+        public MenuService(
+            IMockService mockService,
+            IRestService restService,
+            ISettingsManager settingsManager)
         {
             _mockService = mockService;
+            _restService = restService;
+            _settingsManager = settingsManager;
         }
 
         #region -- IMenuService implementation --
 
-        public async Task<AOResult<IEnumerable<CategoryModel>>> GetCategoriesAsync()
+        public async Task<AOResult<IEnumerable<CategoryModel>>> GetAllCategoriesAsync()
         {
             var result = new AOResult<IEnumerable<CategoryModel>>();
 
             try
             {
-                var categories = await _mockService.GetAllAsync<CategoryModel>();
+                var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
 
-                if (categories is not null)
+                if (categories.Success && categories.Value.Categories is not null)
                 {
-                    result.SetSuccess(categories);
+                    result.SetSuccess(categories.Value.Categories);
                 }
                 else
                 {
@@ -39,32 +53,7 @@ namespace Next2.Services.Menu
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetCategoriesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<SubcategoryModel>>> GetSubcategoriesAsync(int categoryId)
-        {
-            var result = new AOResult<IEnumerable<SubcategoryModel>>();
-
-            try
-            {
-                var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
-
-                if (subcategories is not null)
-                {
-                    result.SetSuccess(subcategories);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSubcategoriesAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetAllCategoriesAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -74,35 +63,34 @@ namespace Next2.Services.Menu
         {
             var result = new AOResult<IEnumerable<SetModel>>();
 
-            try
-            {
-                IEnumerable<SetModel> sets;
+            //try
+            //{
+            //    IEnumerable<SetModel> sets;
 
-                if (subcategoryId == 0)
-                {
-                    var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
+            //    if (subcategoryId == 0)
+            //    {
+            //        var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
 
-                    sets = await _mockService.GetAsync<SetModel>(x => subcategories.Any(row => row.Id == x.SubcategoryId));
-                }
-                else
-                {
-                    sets = await _mockService.GetAsync<SetModel>(row => row.SubcategoryId == subcategoryId);
-                }
+            //        sets = await _mockService.GetAsync<SetModel>(x => subcategories.Any(row => row.Id == x.SubcategoryId));
+            //    }
+            //    else
+            //    {
+            //        sets = await _mockService.GetAsync<SetModel>(row => row.SubcategoryId == subcategoryId);
+            //    }
 
-                if (sets is not null)
-                {
-                    result.SetSuccess(sets);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSetsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
+            //    if (sets is not null)
+            //    {
+            //        result.SetSuccess(sets);
+            //    }
+            //    else
+            //    {
+            //        result.SetFailure();
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    result.SetError($"{nameof(GetSetsAsync)}: exception", Strings.SomeIssues, ex);
+            //}
             return result;
         }
 
