@@ -1,5 +1,4 @@
-﻿using Next2.Helpers.API;
-using Next2.Helpers.DTO.Categories.GetAllCategories;
+﻿using Next2.Models.API;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -11,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Next2.Models.API.Result;
 
 namespace Next2.Services.Menu
 {

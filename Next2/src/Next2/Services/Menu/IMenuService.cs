@@ -1,6 +1,4 @@
-﻿using Next2.Helpers.DTO.Categories.GetAllCategories;
-using Next2.Helpers.API.DTO;
-using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Helpers.API.Command
+namespace Next2.Models.API.Command
 {
     public class UpdateMembershipDTO : IBaseApiModel
     {

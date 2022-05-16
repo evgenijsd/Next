@@ -1,4 +1,4 @@
-﻿namespace Next2.Helpers.API
+﻿namespace Next2.Models.API
 {
     public class RefreshTokenQueryResult
     {

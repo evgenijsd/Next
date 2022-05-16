@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Helpers.API.Result
+namespace Next2.Models.API.Result
 {
     public class GetCategoriesListQueryResult
     {

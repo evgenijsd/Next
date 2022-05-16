@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Helpers.API.DTO
+namespace Next2.Models.API.DTO
 {
     public class SubcategoryModelDTO
     {

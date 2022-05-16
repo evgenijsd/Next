@@ -1,5 +1,5 @@
-﻿using Next2.Helpers.API;
-using Next2.Helpers.API.Command;
+﻿using Next2.Models.API;
+using Next2.Models.API.Command;
 using Next2.Helpers.API.Result;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
