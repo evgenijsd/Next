@@ -164,7 +164,6 @@
         {
             public const string HOST_URL = "http://139.59.208.79";
             public const int TOKEN_EXPIRATION_TIME = 12;
-            public const string MEMBERSHIPS = "memberships";
         }
     }
 }

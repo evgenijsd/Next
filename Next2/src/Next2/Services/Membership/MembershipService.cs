@@ -31,7 +31,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membersDTO = await _restService.RequestAsync<GenericGetExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/{Constants.API.MEMBERSHIPS}");
+                var membersDTO = await _restService.RequestAsync<GenericGetExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
 
                 var members = membersDTO?.Value?.Memberships?.Select(x =>
                     new MemberModel
@@ -93,7 +93,7 @@ namespace Next2.Services.Membership
                     IsActive = member.IsActive,
                 };
 
-                var resultUpdate = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/{Constants.API.MEMBERSHIPS}", update);
+                var resultUpdate = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/memberships", update);
 
                 if (resultUpdate.Success)
                 {
