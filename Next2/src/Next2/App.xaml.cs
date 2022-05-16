@@ -33,6 +33,7 @@ using Next2.Services.Rewards;
 using Next2.Services.Bonuses;
 using Next2.Services.Log;
 using Next2.Services.Rest;
+using Next2.Helpers.DTO.Tables;
 
 namespace Next2
 {
@@ -177,7 +178,7 @@ namespace Next2
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TableModel, TableBindableModel>();
+                cfg.CreateMap<TableModelDTO, TableBindableModel>();
                 cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<SetModel, FreeSetBindableModel>();
                 cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();

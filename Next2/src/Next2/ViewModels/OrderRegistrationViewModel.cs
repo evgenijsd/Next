@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Helpers.DTO.Tables;
 using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Services.Authentication;
@@ -266,6 +267,8 @@ namespace Next2.ViewModels
             SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
+
+            await RefreshTablesAsync();
         }
 
         #endregion
@@ -274,13 +277,19 @@ namespace Next2.ViewModels
 
         private async Task RefreshTablesAsync()
         {
-            var availableTablesResult = await _orderService.GetFreeTablesAsync();
-
-            if (availableTablesResult.IsSuccess)
+             if (IsInternetConnected)
             {
-                var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var availableTablesModelDTOResult = await _orderService.GetFreeTablesAsync();
 
-                Tables = new(tableBindableModels);
+                if (availableTablesModelDTOResult.IsSuccess)
+                {
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TableBindableModel, TableModelDTO>()
+                    .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber))).CreateMapper();
+
+                    var tableBindableModels = mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesModelDTOResult.Result);
+
+                    Tables = new(tableBindableModels);
+                }
             }
         }
 

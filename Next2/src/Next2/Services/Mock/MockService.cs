@@ -15,7 +15,6 @@ namespace Next2.Services.Mock
 
         private IList<OrderModel> _orders;
         private IList<SeatModel> _seats;
-        private IList<TableModel> _tables;
         private IList<UserModel> _users;
         private IList<MemberModel> _members;
         private IList<TaxModel> _tax;
@@ -164,7 +163,6 @@ namespace Next2.Services.Mock
             await Task.WhenAll(
                 InitOrdersAsync(),
                 InitMembersAsync(),
-                InitTables(),
                 InitUsersAsync(),
                 InitCustomersAsync(),
                 InitTaxAsync(),
@@ -192,7 +190,6 @@ namespace Next2.Services.Mock
                 { typeof(OrderModel), _orders },
                 { typeof(UserModel), _users },
                 { typeof(SeatModel), _seats },
-                { typeof(TableModel), _tables },
                 { typeof(MemberModel), _members },
                 { typeof(CustomerModel), _customers },
                 { typeof(IngredientCategoryModel), _ingredientCategories },
@@ -212,7 +209,6 @@ namespace Next2.Services.Mock
                 { typeof(OrderModel), GetMaxId(_orders) },
                 { typeof(UserModel), GetMaxId(_users) },
                 { typeof(SeatModel), GetMaxId(_seats) },
-                { typeof(TableModel), GetMaxId(_tables) },
                 { typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
@@ -1405,108 +1401,6 @@ namespace Next2.Services.Mock
                         },
                     },
                 },
-            };
-        });
-
-        private Task InitTables() => Task.Run(() =>
-        {
-            _tables = new List<TableModel>
-            {
-                 new TableModel
-                 {
-                     Id = 1,
-                     TableNumber = 1,
-                 },
-                 new TableModel
-                 {
-                     Id = 2,
-                     TableNumber = 2,
-                 },
-                 new TableModel
-                 {
-                     Id = 3,
-                     TableNumber = 3,
-                 },
-                 new TableModel
-                 {
-                     Id = 4,
-                     TableNumber = 4,
-                 },
-                 new TableModel
-                 {
-                     Id = 5,
-                     TableNumber = 5,
-                 },
-                 new TableModel
-                 {
-                     Id = 6,
-                     TableNumber = 6,
-                 },
-                 new TableModel
-                 {
-                     Id = 7,
-                     TableNumber = 7,
-                 },
-                 new TableModel
-                 {
-                     Id = 8,
-                     TableNumber = 8,
-                 },
-                 new TableModel
-                 {
-                     Id = 9,
-                     TableNumber = 9,
-                 },
-                 new TableModel
-                 {
-                     Id = 10,
-                     TableNumber = 10,
-                 },
-                 new TableModel
-                 {
-                     Id = 11,
-                     TableNumber = 11,
-                 },
-                 new TableModel
-                 {
-                     Id = 12,
-                     TableNumber = 12,
-                 },
-                 new TableModel
-                 {
-                     Id = 13,
-                     TableNumber = 13,
-                 },
-                 new TableModel
-                 {
-                     Id = 14,
-                     TableNumber = 14,
-                 },
-                 new TableModel
-                 {
-                     Id = 15,
-                     TableNumber = 15,
-                 },
-                 new TableModel
-                 {
-                     Id = 16,
-                     TableNumber = 16,
-                 },
-                 new TableModel
-                 {
-                     Id = 17,
-                     TableNumber = 17,
-                 },
-                 new TableModel
-                 {
-                     Id = 18,
-                     TableNumber = 18,
-                 },
-                 new TableModel
-                 {
-                     Id = 19,
-                     TableNumber = 19,
-                 },
             };
         });
 
