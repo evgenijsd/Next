@@ -1,15 +1,15 @@
 ﻿using Next2.Interfaces;
 using System;
 
-namespace Next2.Models.API.Command
+namespace Next2.Models.API.Commands
 {
     public class UpdateMembershipCommand : IBaseApiModel
     {
         public Guid Id { get; set; }
 
-        public string StartDate { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; }
 
-        public string EndDate { get; set; } = string.Empty;
+        public DateTime EndDate { get; set; }
 
         public Guid CustomerId { get; set; }
 

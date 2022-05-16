@@ -1,8 +1,8 @@
-﻿using Next2.Helpers.API.Result;
+﻿using Next2.Helpers.API.Results;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API;
-using Next2.Models.API.Command;
+using Next2.Models.API.Commands;
 using Next2.Resources.Strings;
 using Next2.Services.Rest;
 using System;
@@ -39,8 +39,8 @@ namespace Next2.Services.Membership
                         Id = x.Id,
                         CustomerName = x.Customer.FullName,
                         Phone = x.Customer.Phone,
-                        MembershipStartTime = DateTime.Parse(x.StartDate),
-                        MembershipEndTime = DateTime.Parse(x.EndDate),
+                        MembershipStartTime = x.StartDate,
+                        MembershipEndTime = x.EndDate,
                         IsActive = x.IsActive,
                         CustomerId = x.Customer.Id,
                     });
@@ -87,8 +87,8 @@ namespace Next2.Services.Membership
                 var update = new UpdateMembershipCommand
                 {
                     Id = member.Id,
-                    StartDate = $"{member.MembershipStartTime:s}",
-                    EndDate = $"{member.MembershipEndTime:s}",
+                    StartDate = member.MembershipStartTime,
+                    EndDate = member.MembershipEndTime,
                     CustomerId = member.CustomerId,
                     IsActive = member.IsActive,
                 };

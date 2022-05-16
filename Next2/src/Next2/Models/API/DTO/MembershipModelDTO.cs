@@ -7,9 +7,9 @@ namespace Next2.Models.API.DTO
     {
         public Guid Id { get; set; }
 
-        public string StartDate { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; }
 
-        public string EndDate { get; set; } = string.Empty;
+        public DateTime EndDate { get; set; }
 
         public bool IsActive { get; set; }
 
