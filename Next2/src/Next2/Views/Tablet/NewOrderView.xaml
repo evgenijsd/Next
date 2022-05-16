@@ -12,7 +12,7 @@
     xmlns:enum="clr-namespace:Next2.Enums"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -624,7 +624,7 @@
                                     <templates:SubCategoryItemTemplate
                                         HeightRequest="50"
                                         MinimumHeightRequest="50"
-                                        Text="{Binding Title}"
+                                        Text="{Binding Name}"
                                         FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-Medium">
 

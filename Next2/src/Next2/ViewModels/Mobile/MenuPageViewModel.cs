@@ -5,6 +5,7 @@ using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -50,7 +51,6 @@ namespace Next2.ViewModels.Mobile
 
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
-
         private ICommand _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
 
@@ -137,11 +137,11 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetCategoriesAsync();
+                var resultCategories = await _menuService.GetAllCategoriesAsync();
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new (resultCategories.Result);
+                    CategoriesItems = new(resultCategories.Result);
                 }
             }
         }

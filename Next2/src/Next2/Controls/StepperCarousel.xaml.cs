@@ -22,25 +22,25 @@ namespace Next2.Controls
 
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
             nameof(ItemsSource),
-            typeof(IEnumerable<IBaseModel>),
+            typeof(IEnumerable<IBaseApiModel>),
             typeof(StepperCarousel),
-            default(IEnumerable<IBaseModel>));
+            default(IEnumerable<IBaseApiModel>));
 
-        public IEnumerable<IBaseModel> ItemsSource
+        public IEnumerable<IBaseApiModel> ItemsSource
         {
-            get => (IEnumerable<IBaseModel>)GetValue(ItemsSourceProperty);
+            get => (IEnumerable<IBaseApiModel>)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(
             propertyName: nameof(SelectedItem),
-            returnType: typeof(IBaseModel),
+            returnType: typeof(IBaseApiModel),
             declaringType: typeof(StepperCarousel),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public IBaseModel SelectedItem
+        public IBaseApiModel SelectedItem
         {
-            get => (IBaseModel)GetValue(SelectedItemProperty);
+            get => (IBaseApiModel)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
