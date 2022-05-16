@@ -1,4 +1,4 @@
-﻿using Next2.Helpers.API.DTO;
+﻿using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
