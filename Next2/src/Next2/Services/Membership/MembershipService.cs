@@ -1,8 +1,8 @@
 ﻿using Next2.Helpers.API.Results;
 using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.Rest;
 using System;
@@ -25,25 +25,15 @@ namespace Next2.Services.Membership
 
          #region -- IMembership implementation --
 
-        public async Task<AOResult<IEnumerable<MemberModel>>> GetAllMembersAsync(Func<MemberModel, bool>? condition = null)
+        public async Task<AOResult<IEnumerable<MembershipModelDTO>>> GetAllMembersAsync(Func<MembershipModelDTO, bool>? condition = null)
         {
-            var result = new AOResult<IEnumerable<MemberModel>>();
+            var result = new AOResult<IEnumerable<MembershipModelDTO>>();
 
             try
             {
                 var membersDTO = await _restService.RequestAsync<GenericGetExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
 
-                var members = membersDTO?.Value?.Memberships?.Select(x =>
-                    new MemberModel
-                    {
-                        Id = x.Id,
-                        CustomerName = x.Customer.FullName,
-                        Phone = x.Customer.Phone,
-                        MembershipStartTime = x.StartDate,
-                        MembershipEndTime = x.EndDate,
-                        IsActive = x.IsActive,
-                        CustomerId = x.Customer.Id,
-                    });
+                var members = membersDTO?.Value?.Memberships;
 
                 if (members != null)
                 {
@@ -78,7 +68,7 @@ namespace Next2.Services.Membership
             return result;
         }
 
-        public async Task<AOResult> UpdateMemberAsync(MemberModel member)
+        public async Task<AOResult> UpdateMemberAsync(MembershipModelDTO member)
         {
             var result = new AOResult();
 
@@ -87,9 +77,9 @@ namespace Next2.Services.Membership
                 var update = new UpdateMembershipCommand
                 {
                     Id = member.Id,
-                    StartDate = member.MembershipStartTime,
-                    EndDate = member.MembershipEndTime,
-                    CustomerId = member.CustomerId,
+                    StartDate = $"{member.StartDate:s}",
+                    EndDate = $"{member.EndDate:s}",
+                    CustomerId = member.Customer.Id,
                     IsActive = member.IsActive,
                 };
 

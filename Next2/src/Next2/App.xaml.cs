@@ -33,6 +33,7 @@ using Next2.Services.Rewards;
 using Next2.Services.Bonuses;
 using Next2.Services.Log;
 using Next2.Services.Rest;
+using Next2.Models.API.DTO;
 
 namespace Next2
 {
@@ -177,19 +178,28 @@ namespace Next2
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TableModel, TableBindableModel>();
-                cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
-                cfg.CreateMap<SetModel, FreeSetBindableModel>();
-                cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
-                cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
-                cfg.CreateMap<SeatBindableModel, SeatModel>();
-                cfg.CreateMap<RewardModel, RewardBindabledModel>();
-                cfg.CreateMap<MemberModel, MemberBindableModel>().ReverseMap();
-                cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
-                cfg.CreateMap<BonusModel, BonusBindableModel>();
-                cfg.CreateMap<BonusBindableModel, BonusModel>();
-                cfg.CreateMap<FullOrderBindableModel, OrderModel>();
-                cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
+            cfg.CreateMap<TableModel, TableBindableModel>();
+            cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
+            cfg.CreateMap<SetModel, FreeSetBindableModel>();
+            cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
+            cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
+            cfg.CreateMap<SeatBindableModel, SeatModel>();
+            cfg.CreateMap<RewardModel, RewardBindabledModel>();
+            cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
+            cfg.CreateMap<BonusModel, BonusBindableModel>();
+            cfg.CreateMap<BonusBindableModel, BonusModel>();
+            cfg.CreateMap<FullOrderBindableModel, OrderModel>();
+            cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
+            cfg.CreateMap<MembershipModelDTO, MemberBindableModel>()
+                .ForMember(x => x.CustomerName, s => s.MapFrom(x => x.Customer.FullName))
+                .ForMember(x => x.CustomerId, s => s.MapFrom(x => x.Customer.Id))
+                .ForMember(x => x.Phone, s => s.MapFrom(x => x.Customer.Phone)).ReverseMap();
+            cfg.CreateMap<MemberBindableModel, MembershipModelDTO>()
+                .ForMember(x => x.Customer, s => s.MapFrom(i => i));
+            cfg.CreateMap<MemberBindableModel, SimpleCustomerModelDTO>()
+                .ForMember(x => x.FullName, s => s.MapFrom(i => i.CustomerName))
+                .ForMember(x => x.Id, s => s.MapFrom(i => i.CustomerId))
+                .ForMember(x => x.Phone, s => s.MapFrom(i => i.Phone));
             }).CreateMapper();
         }
 

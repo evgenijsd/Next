@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Membership;
 using Next2.Views.Tablet;
 using Next2.Views.Tablet.Dialogs;
@@ -29,7 +30,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IEventAggregator _eventAggregator;
         private readonly IPopupNavigation _popupNavigation;
 
-        private MemberModel _member;
+        private MembershipModelDTO _member;
         private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
@@ -112,8 +113,8 @@ namespace Next2.ViewModels.Tablet
         {
             Func<MemberBindableModel, object> comparer = MemberSorting switch
             {
-                EMemberSorting.ByMembershipStartTime => x => x.MembershipStartTime,
-                EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
+                EMemberSorting.ByMembershipStartTime => x => x.StartDate,
+                EMemberSorting.ByMembershipEndTime => x => x.EndDate,
                 EMemberSorting.ByCustomerName => x => x.CustomerName,
                 _ => throw new NotImplementedException(),
             };
@@ -236,7 +237,7 @@ namespace Next2.ViewModels.Tablet
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
-                _member = _mapper.Map<MemberBindableModel, MemberModel>(member);
+                _member = _mapper.Map<MemberBindableModel, MembershipModelDTO>(member);
 
                 var confirmDialogParameters = new DialogParameters
                 {

@@ -13,9 +13,9 @@ namespace Next2.Models
 
         public string? Phone { get; set; }
 
-        public DateTime MembershipStartTime { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime MembershipEndTime { get; set; }
+        public DateTime EndDate { get; set; }
 
         public bool IsActive { get; set; }
 
