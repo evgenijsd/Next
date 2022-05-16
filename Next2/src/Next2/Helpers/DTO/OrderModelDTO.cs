@@ -5,11 +5,13 @@ namespace Next2.Helpers.DTO
 {
     public class OrderModelDTO
     {
-        public string Id { get; set; } = string.Empty;
+        public Guid Id { get; set; }
 
         public int Number { get; set; }
 
         public string? OrderType { get; set; }
+
+        public bool IsTab { get; set; }
 
         public SimpleTableModelDTO Table { get; set; } = new ();
 
@@ -33,7 +35,7 @@ namespace Next2.Helpers.DTO
 
         public SimpleDiscountModelDTO Discount { get; set; } = new ();
 
-        public SimpleCustomerModelDTO Customer { get; set; }
+        public SimpleCustomerModelDTO Customer { get; set; } = new ();
 
         public string? EmployeeId { get; set; }
 

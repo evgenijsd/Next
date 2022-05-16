@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Next2.Helpers.DTO
 {
     public class SimpleSelectedDishModelDTO
     {
-        public string Id { get; set; } = string.Empty;
+        public Guid Id { get; set; }
 
         public string? Comment { get; set; }
 

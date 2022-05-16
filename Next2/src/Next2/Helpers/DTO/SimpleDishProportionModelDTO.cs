@@ -1,8 +1,10 @@
-﻿namespace Next2.Helpers.DTO
+﻿using System;
+
+namespace Next2.Helpers.DTO
 {
     public class SimpleDishProportionModelDTO
     {
-        public string Id { get; set; } = string.Empty;
+        public Guid Id { get; set; }
 
         public double PriceRatio { get; set; }
 
