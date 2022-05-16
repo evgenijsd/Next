@@ -6,8 +6,8 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:effects="clr-namespace:Next2.Effects" 
+    xmlns:models="clr-namespace:Next2.Models.Api"
     MinimumHeightRequest="116"
     VerticalOptions="Start"
     Spacing="15"
@@ -105,7 +105,7 @@
             <DataTemplate x:DataType="models:CategoryModel">
 
                 <templates:CategoryItemTemplate
-                    Text="{Binding Title}"
+                    Text="{Binding Name}"
                     FontSize="{DynamicResource TSize_i8}"
                     FontFamily="Barlow-Medium"
                     HeightRequest="54"

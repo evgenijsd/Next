@@ -787,7 +787,6 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
                 { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
-                { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
             };
 
             PopupPage confirmDialog = App.IsTablet ?
@@ -799,12 +798,11 @@ namespace Next2.ViewModels
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderStatus commandParameter))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderStatus.InProgress)
+                if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(commandParameter);
+                    await OnOrderCommandAsync(EOrderStatus.InProgress);
                 }
             }
 

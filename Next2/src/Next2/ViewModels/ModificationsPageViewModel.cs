@@ -217,21 +217,21 @@ namespace Next2.ViewModels
 
         private async Task ResetSelectedOptionsAsync(ProductBindableModel product)
         {
-            var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
+            //var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
 
-            if (options.IsSuccess)
-            {
-                if (options.Result is not null)
-                {
-                    product.SelectedOption = options.Result.FirstOrDefault(row => row.Id == product.SelectedProduct.DefaultOptionId);
-                    product.Options = new(options.Result);
-                }
-                else
-                {
-                    product.SelectedOption = new();
-                    product.Options = new();
-                }
-            }
+            //if (options.IsSuccess)
+            //{
+            //    if (options.Result is not null)
+            //    {
+            //        product.SelectedOption = options.Result.FirstOrDefault(row => row.Id == product.SelectedProduct.DefaultOptionId);
+            //        product.Options = new(options.Result);
+            //    }
+            //    else
+            //    {
+            //        product.SelectedOption = new();
+            //        product.Options = new();
+            //    }
+            //}
         }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()

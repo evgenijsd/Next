@@ -592,4 +592,7 @@ A receipt has been printed for you.</value>
   <data name="TypeGiftCardNumber" xml:space="preserve">
     <value>Type Gift Card Number</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
 </root>
