@@ -13,7 +13,7 @@ namespace Next2.Models
 
         public CustomerModel(CustomerModel customerModel)
         {
-            Id = customerModel.Id;
+            Id = customerModel.Id; // TODO: поудалять по возможности интовые айдишники.
             Name = customerModel.Name;
             Email = customerModel.Email;
             Phone = customerModel.Phone;
