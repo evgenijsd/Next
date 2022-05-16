@@ -57,6 +57,69 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
+        public async Task<AOResult<CustomerModelDTO>> GetCustomerByIdAsync(Guid id)
+        {
+            var result = new AOResult<CustomerModelDTO>();
+
+            try
+            {
+                var header = _restService.GenerateAuthorizationHeader(null);
+                var response = await _restService.RequestAsync<GenericExecutionResult<CustomerQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers/{id}", header);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value.Customer);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> UpdateCustomerAsync(CustomerModel customer)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                if (customer is not null)
+                {
+                    customer.GiftCardsTotalFund = customer.GiftCards.Sum(row => row.GiftCardFunds);
+                    customer.GiftCardsCount = customer.GiftCards.Count();
+
+                    var customerModelDTO = customer.MergeWithDTOModel();
+                    var header = _restService.GenerateAuthorizationHeader(null);
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/customers", customerModelDTO, header);
+
+                    if (response.Success)
+                    {
+                        result.SetSuccess();
+                    }
+                    else
+                    {
+                        result.SetFailure();
+                    }
+                }
+                else
+                {
+                    result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateCustomerAsync)}: exception", "Some issues", ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<CustomerModel>>();
@@ -188,41 +251,6 @@ namespace Next2.Services.CustomersService
             catch (Exception ex)
             {
                 result.SetError($"{nameof(UpdateGiftCardAsync)}: exception", "Some issues", ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult> UpdateCustomerAsync(CustomerModel customer)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                if (customer is not null)
-                {
-                    customer.GiftCardsTotalFund = customer.GiftCards.Sum(row => row.GiftCardFunds);
-                    customer.GiftCardsCount = customer.GiftCards.Count();
-
-                    var customerModel = await _mockService.UpdateAsync(customer);
-
-                    if (customerModel is not null)
-                    {
-                        result.SetSuccess();
-                    }
-                    else
-                    {
-                        result.SetFailure();
-                    }
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(UpdateCustomerAsync)}: exception", "Some issues", ex);
             }
 
             return result;

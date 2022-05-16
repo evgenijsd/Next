@@ -275,61 +275,6 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
-                {
-                    Name = "Gwan Jee",
-                    Email = "gwanone@yaho.com",
-                    Phone = "709-502-5598",
-                    Points = 451,
-                    Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Name = "Son Hae-Won",
-                    Email = "sonwon98@yaho.com",
-                    Phone = "732-902-8298",
-                    Points = 22,
-                    Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Name = "Wesley Chavez",
-                    Email = "whiskey@gmail.com",
-                    Phone = "444-912-6298",
-                    Points = 34,
-                    Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Name = "Harlan Sharp",
-                    Email = "orlan@yaho.com",
-                    Phone = "452-955-8228",
-                    Points = 35,
-                    Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Name = "Audrey Bishop",
-                    Email = "andrewBishop@gmail.com",
-                    Phone = "332-456-2363",
-                    Points = 123,
-                    Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
-                },
             };
         }
     }
