@@ -38,8 +38,6 @@ namespace Next2.ViewModels.Dialogs
 
         public string ConfirmationText { get; set; }
 
-        public string Parameter { get; set; }
-
         public ICommand CloseCommand { get; }
 
         public ICommand AcceptCommand { get; }

@@ -796,8 +796,7 @@ namespace Next2.ViewModels
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderToTabAccepted)
-                && isMovedOrderToTabAccepted)
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
             {
                 await OnOrderCommandAsync(true);
             }
