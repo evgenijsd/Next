@@ -25,7 +25,6 @@ namespace Next2.ViewModels.Tablet
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMenuService _menuService;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
         private readonly ILogService _logService;
 
@@ -38,10 +37,9 @@ namespace Next2.ViewModels.Tablet
             OrderRegistrationViewModel orderRegistrationViewModel,
             ILogService logService,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _menuService = menuService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
             _logService = logService;
             OrderRegistrationViewModel = orderRegistrationViewModel;

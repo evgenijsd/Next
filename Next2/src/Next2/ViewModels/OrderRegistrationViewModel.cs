@@ -32,7 +32,6 @@ namespace Next2.ViewModels
     public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
 
         private readonly IOrderService _orderService;
@@ -63,9 +62,8 @@ namespace Next2.ViewModels
             IBonusesService bonusesService,
             IAuthenticationService authenticationService,
             IMenuService menuService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
             _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;

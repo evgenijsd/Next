@@ -30,7 +30,6 @@ namespace Next2.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
-        private readonly IPopupNavigation _popupNavigation;
         private ECustomersSorting _sortCriterion;
 
         private List<CustomerBindableModel> _allCustomers = new();
@@ -42,13 +41,12 @@ namespace Next2.ViewModels
             ICustomersService customersService,
             IOrderService orderService,
             IPopupNavigation popupNavigation)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
             _customersService = customersService;
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public Properties --

@@ -19,9 +19,6 @@ namespace Next2.ViewModels
     public class SettingsViewModel : BaseViewModel
     {
         private readonly IAuthenticationService _authenticationService;
-
-        private readonly IPopupNavigation _popupNavigation;
-
         private readonly IOrderService _orderService;
 
         public SettingsViewModel(
@@ -29,10 +26,9 @@ namespace Next2.ViewModels
             IAuthenticationService authenticationService,
             IPopupNavigation popupNavigation,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _authenticationService = authenticationService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
         }
 

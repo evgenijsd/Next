@@ -22,7 +22,6 @@ namespace Next2.ViewModels
 {
     public class RewardsViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
@@ -38,9 +37,8 @@ namespace Next2.ViewModels
             PaidOrderBindableModel order,
             Action<NavigationMessage> navigateAsync,
             Action<EPaymentSteps> goToPaymentStep)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;

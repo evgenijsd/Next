@@ -20,7 +20,6 @@ namespace Next2.ViewModels.Mobile
     public class MenuPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
-
         private readonly IOrderService _orderService;
 
         private MenuItemBindableModel _oldSelectedMenuItem;

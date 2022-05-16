@@ -19,16 +19,13 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
-
         private TipItem _noTipItem;
 
         public TipsPageViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --

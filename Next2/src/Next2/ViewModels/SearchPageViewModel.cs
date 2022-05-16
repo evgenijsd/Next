@@ -1,6 +1,7 @@
 ﻿using Next2.Helpers.Events;
 using Prism.Events;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;

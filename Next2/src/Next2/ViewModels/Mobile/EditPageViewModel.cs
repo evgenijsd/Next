@@ -23,7 +23,6 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
-        private readonly IPopupNavigation _popupNavigation;
         private int _indexOfSeat;
 
         public EditPageViewModel(
@@ -31,12 +30,9 @@ namespace Next2.ViewModels.Mobile
             IOrderService orderService,
             IPopupNavigation popupNavigation,
             IMenuService menuService)
-          : base(navigationService)
+          : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
-
             _orderService = orderService;
-
             _menuService = menuService;
         }
 

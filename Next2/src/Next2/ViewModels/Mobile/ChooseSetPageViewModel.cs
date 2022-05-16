@@ -35,7 +35,7 @@ namespace Next2.ViewModels.Mobile
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _menuService = menuService;
             _popupNavigation = popupNavigation;

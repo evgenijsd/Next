@@ -7,6 +7,7 @@ using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -34,10 +35,11 @@ namespace Next2.ViewModels
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IOrderService orderService,
             IMenuService menuService,
             IBonusesService bonusService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _orderService = orderService;
             _menuService = menuService;

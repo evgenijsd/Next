@@ -35,7 +35,7 @@ namespace Next2.ViewModels.Tablet
             CustomersViewModel customersViewModel,
             SettingsViewModel settingsViewModel,
             IOrderService orderService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             NewOrderViewModel = newOrderViewModel;
             HoldItemsViewModel = holdItemsViewModel;

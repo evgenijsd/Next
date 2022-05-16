@@ -30,7 +30,6 @@ namespace Next2.ViewModels
         private readonly double _offsetHeight = App.IsTablet ? Constants.LayoutOrderTabs.OFFSET_TABLET : Constants.LayoutOrderTabs.OFFSET_MOBILE;
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IPopupNavigation _popupNavigation;
 
         private IEnumerable<OrderModelDTO>? _orders;
         private IEnumerable<OrderModelDTO>? _tabs;
@@ -42,14 +41,12 @@ namespace Next2.ViewModels
             IOrderService orderService,
             IEventAggregator eventAggregator,
             IPopupNavigation popupNavigation)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
-
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -159,25 +156,42 @@ namespace Next2.ViewModels
 
         public async Task LoadDataAsync()
         {
-            IsOrdersRefreshing = true;
-
-            CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
-
-            var ordersResult = await _orderService.GetOrdersAsync();
-
-            if (ordersResult.IsSuccess)
+            if (IsInternetConnected)
             {
-                _orders = new List<OrderModelDTO>(ordersResult.Result)
-                    .Where(x => !x.IsTab)
-                    .OrderBy(x => x.Table?.Number);
+                IsOrdersRefreshing = true;
 
-                _tabs = new List<OrderModelDTO>(ordersResult.Result)
-                    .Where(x => x.IsTab);
+                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+
+                var ordersResult = await _orderService.GetOrdersAsync();
+
+                if (ordersResult.IsSuccess)
+                {
+                    _orders = new List<OrderModelDTO>(ordersResult.Result)
+                        .Where(x => !x.IsTab)
+                        .OrderBy(x => x.Table?.Number);
+
+                    _tabs = new List<OrderModelDTO>(ordersResult.Result)
+                        .Where(x => x.IsTab);
+
+                    SetVisualCollection();
+                }
+                else
+                {
+                    _orders = _tabs = null;
+                    Orders = new ();
+
+                    await ShowInfoDialog("SomethingWentWrong", "Error");
+                }
+
+                IsOrdersRefreshing = false;
             }
+            else
+            {
+                _orders = _tabs = null;
+                Orders = new();
 
-            IsOrdersRefreshing = false;
-
-            SetVisualCollection();
+                await ShowInfoDialog("NoInternetConnection", "Error");
+            }
         }
 
         private void SetVisualCollection()

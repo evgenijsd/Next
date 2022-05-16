@@ -25,7 +25,6 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly IPopupNavigation _popupNavigation;
 
         private bool _order;
 
@@ -34,11 +33,10 @@ namespace Next2.ViewModels.Tablet
             IOrderService orderService,
             IMenuService menuService,
             IPopupNavigation popupNavigation)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
 
             Task.Run(LoadCategoriesAsync);
         }

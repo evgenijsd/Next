@@ -8,8 +8,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -23,7 +21,6 @@ namespace Next2.ViewModels
 {
     public class PaymentCompleteViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
 
@@ -39,9 +36,8 @@ namespace Next2.ViewModels
             ICustomersService customersService,
             IOrderService orderService,
             PaidOrderBindableModel order)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
             _customersService = customersService;
             _orderService = orderService;
 

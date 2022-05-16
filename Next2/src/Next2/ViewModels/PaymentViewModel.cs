@@ -10,7 +10,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,7 +20,6 @@ namespace Next2.ViewModels
 {
     public class PaymentViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
 
         private float _subtotalWithBonus;
@@ -33,9 +31,8 @@ namespace Next2.ViewModels
             IOrderService orderService,
             ICustomersService customerService,
             IRewardsService rewardsService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
 
             Order.BonusType = orderService.CurrentOrder.BonusType;

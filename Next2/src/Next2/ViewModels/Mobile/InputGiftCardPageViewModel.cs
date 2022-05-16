@@ -21,16 +21,14 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
-        private readonly IPopupNavigation _popupNavigation;
 
         public InputGiftCardPageViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
             IOrderService orderService,
             ICustomersService customersService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
             _customersService = customersService;
 

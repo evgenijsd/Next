@@ -1,9 +1,11 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.ComponentModel;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
 
 namespace Next2.ViewModels
@@ -11,12 +13,38 @@ namespace Next2.ViewModels
     public class BaseViewModel : BindableBase, IDestructible, IInitialize, IInitializeAsync, INavigationAware, IPageActionsHandler
     {
         protected INavigationService _navigationService { get; }
+        protected IPopupNavigation _popupNavigation { get; }
 
         protected bool IsInternetConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
 
-        public BaseViewModel(INavigationService navigationService)
+        public BaseViewModel(
+            INavigationService navigationService)
         {
             _navigationService = navigationService;
+        }
+
+        public BaseViewModel(
+            INavigationService navigationService,
+            IPopupNavigation popupNavigation)
+            : this(navigationService)
+        {
+            _popupNavigation = popupNavigation;
+        }
+
+        protected Task ShowInfoDialog(string descriptionTextKey, string titleTextKey, string closeTextKey = "Ok")
+        {
+            var parameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current[titleTextKey] },
+                { Constants.DialogParameterKeys.DESCRIPTION,  LocalizationResourceManager.Current[descriptionTextKey] },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current[closeTextKey] },
+            };
+
+            PopupPage infoDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.InfoDialog(parameters, () => _popupNavigation.PopAsync())
+                : new Views.Mobile.Dialogs.InfoDialog(parameters, () => _popupNavigation.PopAsync());
+
+            return _popupNavigation.PushAsync(infoDialog);
         }
 
         #region -- IDestructible implementation --

@@ -27,7 +27,6 @@ namespace Next2.ViewModels.Tablet
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IPopupNavigation _popupNavigation;
 
         private MemberModel _member;
         private List<MemberBindableModel> _allMembers = new();
@@ -38,12 +37,11 @@ namespace Next2.ViewModels.Tablet
             IEventAggregator eventAggregator,
             IMembershipService membershipService,
             IPopupNavigation popupNavigation)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
             _membershipService = membershipService;
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --

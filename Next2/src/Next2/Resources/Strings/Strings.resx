@@ -595,4 +595,10 @@ A receipt has been printed for you.</value>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
 </root>

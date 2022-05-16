@@ -6,6 +6,7 @@ using Next2.Services.Bonuses;
 using Next2.Services.Order;
 using Prism.Events;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -28,11 +29,12 @@ namespace Next2.ViewModels
 
         public BonusPageViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IEventAggregator eventAggregator,
             IOrderService orderService,
             IMapper mapper,
             IBonusesService bonusesService)
-            : base(navigationService)
+            : base(navigationService, popupNavigation)
         {
             _mapper = mapper;
             _bonusesService = bonusesService;

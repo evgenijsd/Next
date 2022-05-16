@@ -1,4 +1,5 @@
 ﻿using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -10,8 +11,10 @@ namespace Next2.ViewModels
     {
         private string _oldText;
 
-        public InputTextPageViewModel(INavigationService navigationService)
-          : base(navigationService)
+        public InputTextPageViewModel(
+            INavigationService navigationService,
+            IPopupNavigation popupNavigation)
+          : base(navigationService, popupNavigation)
         {
         }
 
