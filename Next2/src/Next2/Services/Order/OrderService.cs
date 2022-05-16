@@ -131,9 +131,7 @@ namespace Next2.Services.Order
             try
             {
                 string query = $"{Constants.API.HOST_URL}/api/orders";
-                var headers = _restService.GenerateAuthorizationHeader();
-
-                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderListQueryResultResult>>(HttpMethod.Get, query, headers);
+                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderListQueryResultResult>>(HttpMethod.Get, query);
 
                 if (responce.Success)
                 {

@@ -2,7 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers.DTO;
 using Next2.Helpers.Events;
-using Next2.Models;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -70,9 +70,9 @@ namespace Next2.ViewModels
 
         public bool IsOrderTabsSelected { get; set; } = true;
 
-        public OrderBindableModel? SelectedOrder { get; set; }
+        public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
-        public ObservableCollection<OrderBindableModel> Orders { get; set; } = new ();
+        public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
 
         private ICommand _SelectOrdersCommand;
         public ICommand SelectOrdersCommand => _SelectOrdersCommand ??= new AsyncCommand(OnSelectOrdersCommandAsync);
@@ -93,7 +93,7 @@ namespace Next2.ViewModels
         public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
 
         private ICommand _tapSelectCommand;
-        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<OrderBindableModel?>(OnTapSelectCommandAsync);
+        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<SimpleOrderBindableModel?>(OnTapSelectCommandAsync);
 
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
@@ -168,9 +168,11 @@ namespace Next2.ViewModels
             if (ordersResult.IsSuccess)
             {
                 _orders = new List<OrderModelDTO>(ordersResult.Result)
+                    .Where(x => !x.IsTab)
                     .OrderBy(x => x.Table?.Number);
 
-                _tabs = new List<OrderModelDTO>(ordersResult.Result);
+                _tabs = new List<OrderModelDTO>(ordersResult.Result)
+                    .Where(x => x.IsTab);
             }
 
             IsOrdersRefreshing = false;
@@ -181,25 +183,25 @@ namespace Next2.ViewModels
         private void SetVisualCollection()
         {
             SelectedOrder = null;
-            MapperConfiguration config;
+            MapperConfiguration config = null;
 
-            Orders = new ObservableCollection<OrderBindableModel>();
+            Orders = new ObservableCollection<SimpleOrderBindableModel>();
 
-            IEnumerable<OrderModelDTO>? result;
+            IEnumerable<OrderModelDTO>? result = null;
 
             if (IsOrderTabsSelected)
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, OrderBindableModel>()
-                    .ForMember(x => x.Name, s => s.MapFrom(x => $"Table {x.Table.Number}"))
-                    .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.Number}")));
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, SimpleOrderBindableModel>()
+                    .ForMember(x => x.TableNumberOrName, s => s.MapFrom(x => x.Table == null
+                        ? "Not defined"
+                        : $"Table {x.Table.Number}")));
 
                 result = _orders;
             }
             else
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, OrderBindableModel>()
-                    .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.FullName))
-                    .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.Number}")));
+                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, SimpleOrderBindableModel>()
+                    .ForMember(x => x.TableNumberOrName, s => s.MapFrom(x => x.Customer.FullName)));
 
                 result = _tabs;
             }
@@ -208,24 +210,26 @@ namespace Next2.ViewModels
             {
                 var mapper = new Mapper(config);
 
-                Orders = mapper.Map<IEnumerable<OrderModelDTO>, ObservableCollection<OrderBindableModel>>(result);
+                Orders = mapper.Map<IEnumerable<OrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(result);
 
                 for (int i = 0; i < Orders.Count; i++)
                 {
-                    Orders[i].Name = string.IsNullOrWhiteSpace(Orders[i].Name)
+                    Orders[i].TableNumberOrName = string.IsNullOrWhiteSpace(Orders[i].TableNumberOrName)
                         ? CreateRandomCustomerName()
-                        : Orders[i].Name;
+                        : Orders[i].TableNumberOrName;
                 }
 
                 if (!string.IsNullOrEmpty(SearchText))
                 {
-                    Orders = new(Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
+                    Orders = new(Orders.Where(x => x.Number.ToString().Contains(SearchText.ToLower()) || x.TableNumberOrName.ToLower().Contains(SearchText.ToLower())));
                 }
 
                 SetHeightCollection();
             }
 
-            SelectedOrder = _lastSavedOrderId != 0 ? Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId) : null;
+            //SelectedOrder = _lastSavedOrderId == 0
+            //    ? null
+            //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
         }
 
         private void SetHeightCollection()
@@ -313,7 +317,7 @@ namespace Next2.ViewModels
         {
             SearchText = searchLine;
 
-            Orders = new (Orders.Where(x => x.OrderNumberText.ToLower().Contains(SearchText.ToLower()) || x.Name.ToLower().Contains(SearchText.ToLower())));
+            Orders = new (Orders.Where(x => x.Number.ToString().Contains(SearchText) || x.TableNumberOrName.ToLower().Contains(SearchText.ToLower())));
             SelectedOrder = null;
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
@@ -343,15 +347,15 @@ namespace Next2.ViewModels
             SetVisualCollection();
         }
 
-        private IEnumerable<OrderBindableModel> GetSortedOrders(IEnumerable<OrderBindableModel> orders)
+        private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
         {
             EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : CurrentOrderTabSorting;
 
-            Func<OrderBindableModel, object> comparer = orderTabSorting switch
+            Func<SimpleOrderBindableModel, object> comparer = orderTabSorting switch
             {
-                EOrderTabSorting.ByOrderNumber => x => x.OrderNumber,
+                EOrderTabSorting.ByOrderNumber => x => x.Number,
                 EOrderTabSorting.ByTableNumber => x => x.TableNumber,
-                EOrderTabSorting.ByCustomerName => x => x.Name,
+                EOrderTabSorting.ByCustomerName => x => x.TableNumberOrName,
                 _ => throw new NotImplementedException(),
             };
 
@@ -374,7 +378,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectCommandAsync(OrderBindableModel? order)
+        private Task OnTapSelectCommandAsync(SimpleOrderBindableModel? order)
         {
             SelectedOrder = order == SelectedOrder ? null : order;
 
@@ -385,29 +389,29 @@ namespace Next2.ViewModels
         {
             if (SelectedOrder is not null)
             {
-                var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+                //var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
 
-                if (seatsResult.IsSuccess)
-                {
-                    var seats = seatsResult.Result;
+                //if (seatsResult.IsSuccess)
+                //{
+                //    var seats = seatsResult.Result;
 
-                    var param = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
-                        { Constants.DialogParameterKeys.SEATS,  seats },
-                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
-                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
-                    };
+                //    var param = new DialogParameters
+                //    {
+                //        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
+                //        { Constants.DialogParameterKeys.SEATS,  seats },
+                //        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                //        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                //        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
+                //    };
 
-                    PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                //    PopupPage deleteSeatDialog = App.IsTablet
+                //        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
+                //        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
-                    await _popupNavigation.PushAsync(deleteSeatDialog);
-                }
+                //    await _popupNavigation.PushAsync(deleteSeatDialog);
+                //}
             }
         }
 
@@ -444,21 +448,21 @@ namespace Next2.ViewModels
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
             {
-                if (isOrderRemovingAccepted && SelectedOrder is not null)
-                {
-                    int removalOrderId = SelectedOrder.Id;
-                    var result = await _orderService.DeleteOrderAsync(removalOrderId);
+                //if (isOrderRemovingAccepted && SelectedOrder is not null)
+                //{
+                //    int removalOrderId = SelectedOrder.Id;
+                //    var result = await _orderService.DeleteOrderAsync(removalOrderId);
 
-                    if (result.IsSuccess)
-                    {
-                        var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+                //    if (result.IsSuccess)
+                //    {
+                //        var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
 
-                        await LoadDataAsync();
-                        SelectedOrder = null;
-                    }
+                //        await LoadDataAsync();
+                //        SelectedOrder = null;
+                //    }
 
-                    await _popupNavigation.PopAsync();
-                }
+                //    await _popupNavigation.PopAsync();
+                //}
             }
 
             await _popupNavigation.PopAsync();
@@ -468,29 +472,29 @@ namespace Next2.ViewModels
         {
             if (SelectedOrder is not null)
             {
-                var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+                //var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
 
-                if (seatsResult.IsSuccess)
-                {
-                    var seats = seatsResult.Result;
+                //if (seatsResult.IsSuccess)
+                //{
+                //    var seats = seatsResult.Result;
 
-                    var param = new DialogParameters
-                    {
-                        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
-                        { Constants.DialogParameterKeys.SEATS,  seats },
-                        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
-                        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
-                        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
-                    };
+                //    var param = new DialogParameters
+                //    {
+                //        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
+                //        { Constants.DialogParameterKeys.SEATS,  seats },
+                //        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
+                //        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] },
+                //        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
+                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
+                //    };
 
-                    PopupPage deleteSeatDialog = App.IsTablet
-                        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
-                        : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
+                //    PopupPage deleteSeatDialog = App.IsTablet
+                //        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
+                //        : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
 
-                    await _popupNavigation.PushAsync(deleteSeatDialog);
-                }
+                //    await _popupNavigation.PushAsync(deleteSeatDialog);
+                //}
             }
         }
 

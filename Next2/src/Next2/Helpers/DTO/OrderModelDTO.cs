@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Next2.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace Next2.Helpers.DTO
@@ -19,7 +20,7 @@ namespace Next2.Helpers.DTO
 
         public DateTime? Close { get; set; }
 
-        public string? OrderStatus { get; set; }
+        public EOrderStatus OrderStatus { get; set; }
 
         public double TaxCoefficient { get; set; }
 

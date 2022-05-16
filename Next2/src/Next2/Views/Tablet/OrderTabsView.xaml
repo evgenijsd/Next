@@ -9,7 +9,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:enums="clr-namespace:Next2.Enums"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Views.Tablet.OrderTabsView"
@@ -313,7 +313,7 @@
 
                             <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="models:OrderBindableModel">
+                                <DataTemplate x:DataType="models:SimpleOrderBindableModel">
 
                                     <Grid
                                         HorizontalOptions="Fill"
@@ -363,7 +363,7 @@
                                                 Grid.Column="1"
                                                 HorizontalOptions="FillAndExpand"
                                                 Margin="20, 13, 0, 0"
-                                                Text="{Binding Name}"
+                                                Text="{Binding TableNumberOrName}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
                                                 LineBreakMode="TailTruncation"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -372,7 +372,7 @@
                                                 
                                                 <Label.Triggers>
 
-                                                    <DataTrigger TargetType="Label" Binding="{Binding Name}" Value="''">
+                                                    <DataTrigger TargetType="Label" Binding="{Binding TableNumberOrName}" Value="''">
                                                         <Setter Property="Text" Value="NoName"/>
                                                     </DataTrigger>
 
@@ -384,7 +384,7 @@
                                                 Grid.Column="2"
                                                 HorizontalOptions="StartAndExpand"
                                                 Margin="15, 13, 0, 0"
-                                                Text="{Binding OrderNumber}"
+                                                Text="{Binding Number}"
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
@@ -396,7 +396,7 @@
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                Text="{Binding Total, StringFormat='$ {0:F2}'}" />
+                                                Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}" />
 
                                             <Label
                                                 Grid.Column="4"
