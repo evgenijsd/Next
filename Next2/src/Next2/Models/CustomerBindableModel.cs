@@ -10,6 +10,8 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
+        public System.Guid UuId { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }

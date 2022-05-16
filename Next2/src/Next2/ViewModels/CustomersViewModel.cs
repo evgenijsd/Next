@@ -223,11 +223,11 @@ namespace Next2.ViewModels
         {
             await _popupNavigation.PopAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
             {
                 await RefreshAsync();
 
-                int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.Id == customerId));
+                int index = DisplayedCustomers.IndexOf(DisplayedCustomers.FirstOrDefault(x => x.UuId == customerId));
                 DisplayedCustomers.Move(index, 0);
             }
         }

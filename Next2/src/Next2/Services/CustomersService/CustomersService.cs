@@ -30,17 +30,23 @@ namespace Next2.Services.CustomersService
 
         #region -- ICustomersSerice implementation --
 
-        public async Task<AOResult<int>> AddNewCustomerAsync(CustomerModel customer)
+        public async Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModel customer)
         {
-            var result = new AOResult<int>();
+            var result = new AOResult<Guid>();
 
             try
             {
-                var response = await _mockService.AddAsync(customer);
+                var customerModelDto = customer.MergeWithDTOModel();
+                var header = _restService.GenerateAuthorizationHeader(null);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/customers", customerModelDto, header);
 
-                if (response != -1)
+                if (response.Success)
                 {
-                    result.SetSuccess(response);
+                    result.SetSuccess(response.Value);
+                }
+                else
+                {
+                    result.SetFailure();
                 }
             }
             catch (Exception ex)

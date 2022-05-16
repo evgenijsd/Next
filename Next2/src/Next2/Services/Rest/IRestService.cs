@@ -10,6 +10,6 @@ namespace Next2.Services.Rest
 
         Task<T> RequestAsync<T>(HttpMethod method, string resource, object requestBody, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false);
 
-        Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string> additionalHeaders);
+        Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string>? additionalHeaders);
     }
 }

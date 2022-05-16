@@ -177,7 +177,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        public Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string> additionalHeaders)
+        public Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string>? additionalHeaders)
         {
             additionalHeaders ??= new();
 

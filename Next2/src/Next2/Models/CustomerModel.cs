@@ -29,7 +29,7 @@ namespace Next2.Models
 
         public int Id { get; set; }
 
-        public string UuId { get; set; }
+        public Guid UuId { get; set; }
 
         public string? Name { get; set; } = string.Empty;
 

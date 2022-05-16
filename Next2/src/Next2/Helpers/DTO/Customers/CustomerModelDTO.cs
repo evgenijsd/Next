@@ -7,7 +7,7 @@ namespace Next2.Helpers.DTO.Customers
 {
     public class CustomerModelDTO
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         public string? FullName { get; set; }
 
