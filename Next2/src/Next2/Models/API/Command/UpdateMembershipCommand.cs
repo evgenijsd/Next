@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Models.API.Command
 {
-    public class UpdateMembershipDTO : IBaseApiModel
+    public class UpdateMembershipCommand : IBaseApiModel
     {
         public Guid Id { get; set; }
 

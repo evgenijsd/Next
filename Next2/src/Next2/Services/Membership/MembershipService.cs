@@ -84,7 +84,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var update = new UpdateMembershipDTO
+                var update = new UpdateMembershipCommand
                 {
                     Id = member.Id,
                     StartDate = $"{member.MembershipStartTime:s}",
