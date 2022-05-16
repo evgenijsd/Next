@@ -1,7 +1,4 @@
-﻿using Next2.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Next2.Models.API.Result
 {

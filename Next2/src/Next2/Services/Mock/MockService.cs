@@ -210,7 +210,6 @@ namespace Next2.Services.Mock
                 { typeof(UserModel), GetMaxId(_users) },
                 { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(TableModel), GetMaxId(_tables) },
-                //{ typeof(MemberModel), GetMaxId(_members) },
                 { typeof(CustomerModel), GetMaxId(_customers) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(GiftCardModel), GetMaxId(_giftCards) },

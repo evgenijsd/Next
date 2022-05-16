@@ -4,11 +4,9 @@ using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {

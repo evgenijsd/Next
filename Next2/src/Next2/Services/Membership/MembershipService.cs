@@ -1,8 +1,8 @@
-﻿using Next2.Models.API;
-using Next2.Models.API.Command;
-using Next2.Helpers.API.Result;
+﻿using Next2.Helpers.API.Result;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API;
+using Next2.Models.API.Command;
 using Next2.Resources.Strings;
 using Next2.Services.Rest;
 using System;
