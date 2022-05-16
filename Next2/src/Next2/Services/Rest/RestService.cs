@@ -197,15 +197,6 @@ namespace Next2.Services.Rest
             }
         }
 
-        public Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string>? additionalHeaders)
-        {
-            additionalHeaders ??= new();
-
-            additionalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
-
-            return additionalHeaders;
-        }
-
         #endregion
     }
 }

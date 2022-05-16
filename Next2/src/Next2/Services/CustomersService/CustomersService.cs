@@ -37,8 +37,7 @@ namespace Next2.Services.CustomersService
             try
             {
                 var customerModelDto = customer.MergeWithDTOModel();
-                var header = _restService.GenerateAuthorizationHeader(null);
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/customers", customerModelDto, header);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/customers", customerModelDto);
 
                 if (response.Success)
                 {
@@ -63,8 +62,7 @@ namespace Next2.Services.CustomersService
 
             try
             {
-                var header = _restService.GenerateAuthorizationHeader(null);
-                var response = await _restService.RequestAsync<GenericExecutionResult<CustomerQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers/{id}", header);
+                var response = await _restService.RequestAsync<GenericExecutionResult<CustomerQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers/{id}");
 
                 if (response.Success)
                 {
@@ -95,8 +93,7 @@ namespace Next2.Services.CustomersService
                     customer.GiftCardsCount = customer.GiftCards.Count();
 
                     var customerModelDTO = customer.MergeWithDTOModel();
-                    var header = _restService.GenerateAuthorizationHeader(null);
-                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/customers", customerModelDTO, header);
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/customers", customerModelDTO);
 
                     if (response.Success)
                     {
@@ -126,8 +123,7 @@ namespace Next2.Services.CustomersService
 
             try
             {
-                var header = _restService.GenerateAuthorizationHeader(null);
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers", header);
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers");
                 var mockCustomers = await _mockService.GetAllAsync<CustomerModel>();
                 var dtoCustomers = response?.Value?.Customers;
 
