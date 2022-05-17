@@ -40,7 +40,7 @@ namespace Next2.Services.Menu
             {
                 var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
 
-                if (categories.Success && categories?.Value?.Categories is not null)
+                if (categories.Success && categories.Value.Categories is not null)
                 {
                     result.SetSuccess(categories.Value.Categories);
                 }

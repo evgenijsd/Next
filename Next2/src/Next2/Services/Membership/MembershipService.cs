@@ -31,7 +31,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membersDTO = await _restService.RequestAsync<GenericGetExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
+                var membersDTO = await _restService.RequestAsync<GenericExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
 
                 var members = membersDTO?.Value?.Memberships;
 
