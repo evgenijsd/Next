@@ -27,7 +27,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IOrderService _orderService;
         private readonly ILogService _logService;
 
-        private bool _isDishesOrderByDESC;
+        private bool _shouldOrderDishesByDESC;
 
         public NewOrderViewModel(
             INavigationService navigationService,
@@ -83,7 +83,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnAppearing();
 
-            _isDishesOrderByDESC = false;
+            _shouldOrderDishesByDESC = false;
             Task.Run(LoadCategoriesAsync);
 
             OrderRegistrationViewModel.InitializeAsync(null);
@@ -127,7 +127,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSortCommandAsync()
         {
-            _isDishesOrderByDESC = !_isDishesOrderByDESC;
+            _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             DishesItems = new(DishesItems.Reverse());
         }
 
@@ -201,7 +201,7 @@ namespace Next2.ViewModels.Tablet
 
                 if (response.IsSuccess)
                 {
-                    DishesItems = _isDishesOrderByDESC ?
+                    DishesItems = _shouldOrderDishesByDESC ?
                         new(response.Result.OrderByDescending(row => row.Name))
                         : new(response.Result.OrderBy(row => row.Name));
                 }

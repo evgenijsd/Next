@@ -23,7 +23,7 @@ namespace Next2.ViewModels.Mobile
 
         private readonly IOrderService _orderService;
 
-        private bool _isDishesOrderByDESC;
+        private bool _shouldOrderDishesByDESC;
 
         public ChooseSetPageViewModel(
             IMenuService menuService,
@@ -85,7 +85,7 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapSortCommandAsync()
         {
-            _isDishesOrderByDESC = !_isDishesOrderByDESC;
+            _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             DishesItems = new(DishesItems.Reverse());
         }
 
@@ -136,7 +136,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (response.IsSuccess)
                 {
-                    DishesItems = _isDishesOrderByDESC ?
+                    DishesItems = _shouldOrderDishesByDESC ?
                         new(response.Result.OrderByDescending(row => row.Name))
                         : new(response.Result.OrderBy(row => row.Name));
                 }
