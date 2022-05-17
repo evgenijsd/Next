@@ -4,6 +4,8 @@ using Next2.Helpers.DTO.Subcategories;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.Api;
+using Next2.Models.Api.DTO;
+using Next2.Models.Api.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
@@ -59,38 +61,26 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SetModel>>> GetSetsAsync(int categoryId, int subcategoryId)
+        public async Task<AOResult<IEnumerable<DishModelDTO>>> GetDishesAsync(Guid categoryId, Guid subcategoryId)
         {
-            var result = new AOResult<IEnumerable<SetModel>>();
+            var result = new AOResult<IEnumerable<DishModelDTO>>();
 
-            //try
-            //{
-            //    IEnumerable<SetModel> sets;
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/dishes/{categoryId}.{subcategoryId}";
 
-            //    if (subcategoryId == 0)
-            //    {
-            //        var subcategories = await _mockService.GetAsync<SubcategoryModel>(row => row.CategoryId == categoryId);
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
 
-            //        sets = await _mockService.GetAsync<SetModel>(x => subcategories.Any(row => row.Id == x.SubcategoryId));
-            //    }
-            //    else
-            //    {
-            //        sets = await _mockService.GetAsync<SetModel>(row => row.SubcategoryId == subcategoryId);
-            //    }
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value.Dishes);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetDishesAsync)}: exception", Strings.SomeIssues, ex);
+            }
 
-            //    if (sets is not null)
-            //    {
-            //        result.SetSuccess(sets);
-            //    }
-            //    else
-            //    {
-            //        result.SetFailure();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    result.SetError($"{nameof(GetSetsAsync)}: exception", Strings.SomeIssues, ex);
-            //}
             return result;
         }
 

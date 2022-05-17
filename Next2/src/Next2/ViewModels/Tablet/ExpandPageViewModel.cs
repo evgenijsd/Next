@@ -2,6 +2,7 @@
 using Next2.Helpers.DTO.Categories;
 using Next2.Interfaces;
 using Next2.Models.Api;
+using Next2.Models.Api.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -27,7 +28,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
 
-        private bool _order;
+        private bool _isDishesOrderByDESC;
 
         public ExpandPageViewModel(
             INavigationService navigationService,
@@ -39,8 +40,6 @@ namespace Next2.ViewModels.Tablet
             _menuService = menuService;
             _orderService = orderService;
             _popupNavigation = popupNavigation;
-
-            Task.Run(LoadCategoriesAsync);
         }
 
         #region -- Public properties --
@@ -49,12 +48,13 @@ namespace Next2.ViewModels.Tablet
 
         public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
 
-        public CategoryModel SelectedCategoriesItem { get; set; }
+        public CategoryModel? SelectedCategoriesItem { get; set; }
 
-        //public ObservableCollection<SetModel> SetsItems { get; set; }
+        public ObservableCollection<DishModelDTO> DishesItems { get; set; }
+
         public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
 
-        public SubcategoryModel SelectedSubcategoriesItem { get; set; }
+        public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
         //private ICommand _tapSetCommand;
         //public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
@@ -69,16 +69,8 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnAppearing();
 
-            _order = false;
+            _isDishesOrderByDESC = false;
             Task.Run(LoadCategoriesAsync);
-        }
-
-        public override void OnDisappearing()
-        {
-            base.OnDisappearing();
-
-            SelectedCategoriesItem = new();
-            SelectedSubcategoriesItem = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -90,9 +82,9 @@ namespace Next2.ViewModels.Tablet
                 case nameof(SelectedCategoriesItem):
                     Task.Run(LoadSubcategoriesAsync);
                     break;
-                //case nameof(SelectedSubcategoriesItem):
-                //    Task.Run(LoadSetsAsync);
-                //    break;
+                case nameof(SelectedSubcategoriesItem):
+                    Task.Run(LoadDishesAsync);
+                    break;
             }
         }
 
@@ -102,8 +94,8 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSortCommandAsync()
         {
-            _order = !_order;
-            //await LoadSetsAsync();
+            _isDishesOrderByDESC = !_isDishesOrderByDESC;
+            DishesItems = new(DishesItems.Reverse());
         }
 
         //private async Task OnTapSetCommandAsync(SetModel set)
@@ -152,11 +144,11 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetAllCategoriesAsync();
+                var response = await _menuService.GetAllCategoriesAsync();
 
-                if (resultCategories.IsSuccess)
+                if (response.IsSuccess)
                 {
-                    CategoriesItems = new(resultCategories.Result);
+                    CategoriesItems = new(response.Result);
                     SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
 
                     HeightCollectionView = (int)((Math.Ceiling((double)CategoriesItems.Count / 7) * (54 + 10)) - 8);
@@ -164,25 +156,21 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        //private async Task LoadSetsAsync()
-        //{
-        //    if (IsInternetConnected)
-        //    {
-        //        var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+        private async Task LoadDishesAsync()
+        {
+            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
+            {
+                var response = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
 
-        //        if (resultSets.IsSuccess)
-        //        {
-        //            if (_order)
-        //            {
-        //                SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
-        //            }
-        //            else
-        //            {
-        //                SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
-        //            }
-        //        }
-        //    }
-        //}
+                if (response.IsSuccess)
+                {
+                    DishesItems = _isDishesOrderByDESC ?
+                        new(response.Result.OrderByDescending(row => row.Name))
+                        : new(response.Result.OrderBy(row => row.Name));
+                }
+            }
+        }
+
         private async Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
@@ -190,6 +178,7 @@ namespace Next2.ViewModels.Tablet
                 SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
                 SubcategoriesItems.Insert(0, new SubcategoryModel()
                 {
+                    Id = Guid.Empty,
                     Name = LocalizationResourceManager.Current["All"],
                 });
 

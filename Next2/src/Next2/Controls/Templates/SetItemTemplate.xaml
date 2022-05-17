@@ -5,11 +5,11 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:dto="clr-namespace:Next2.Models.Api.DTO"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Padding="0, 0, 0, 5"
     x:Class="Next2.Controls.Templates.SetItemTemplate"
-    x:DataType="models:SetModel">
+    x:DataType="dto:DishModelDTO">
 
     <Frame
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
@@ -24,7 +24,7 @@
                 <ffimageloading:CachedImage
                     HeightRequest="120"
                     Aspect="AspectFill"
-                    Source="{Binding ImagePath}">
+                    Source="{Binding ImageSource}">
 
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup Name="OrientationState">
@@ -49,7 +49,7 @@
             </pkView:PancakeView>
 
             <Label
-                Text="{Binding Title}"
+                Text="{Binding Name}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="{DynamicResource TSize_i7}"
                 FontFamily="Barlow-Medium"
@@ -70,7 +70,7 @@
                     <FormattedString>
                         <Span Text="{xct:Translate CurrencySign}" />
                         <Span Text=" " />
-                        <Span Text="{Binding Price, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                        <Span Text="{Binding OriginalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                     </FormattedString>
                 </Label.FormattedText>
 

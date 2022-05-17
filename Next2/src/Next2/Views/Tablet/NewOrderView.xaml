@@ -500,7 +500,7 @@
                         <CollectionView
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
-                            ItemsSource="{Binding SetsItems}"
+                            ItemsSource="{Binding DishesItems}"
                             VerticalScrollBarVisibility="Always"
                             x:Name="menuCollectionView">
 

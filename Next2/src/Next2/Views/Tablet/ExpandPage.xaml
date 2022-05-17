@@ -8,9 +8,10 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:views="clr-namespace:Next2.Views" 
     xmlns:models="clr-namespace:Next2.Models.Api"
+    xmlns:dto="clr-namespace:Next2.Models.Api.DTO"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.ExpandPage"
     x:DataType="viewModels:ExpandPageViewModel">
 
@@ -280,8 +281,8 @@
         <CollectionView
             Margin="12, 8, 12, 0"
             VerticalOptions="StartAndExpand"
-            VerticalScrollBarVisibility="Always">
-            <!--ItemsSource="{Binding SetsItems}"-->
+            VerticalScrollBarVisibility="Always"
+            ItemsSource="{Binding DishesItems}">
 
             <CollectionView.ItemsLayout>
 
@@ -337,8 +338,8 @@
                 <DataTemplate>
                     <templates:SetItemTemplate
                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
-                        xct:TouchEffect.CommandParameter="{Binding .}"/>
-                        <!--x:DataType="models:SetModel"-->
+                        xct:TouchEffect.CommandParameter="{Binding .}"
+                        x:DataType="dto:DishModelDTO"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>

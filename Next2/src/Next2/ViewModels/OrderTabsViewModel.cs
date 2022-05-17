@@ -169,12 +169,7 @@ namespace Next2.ViewModels
             if (resultOrders.IsSuccess)
             {
                 _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
-            }
 
-            var resultTabs = await _orderService.GetOrdersAsync();
-
-            if (resultTabs.IsSuccess)
-            {
                 _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
