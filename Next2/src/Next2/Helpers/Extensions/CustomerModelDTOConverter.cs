@@ -42,16 +42,14 @@ namespace Next2.Helpers.Extensions
         {
             if (customerModel is null)
             {
-                var phone = customerModelDTO.Phone;
-
                 customerModel = new CustomerModel()
                 {
                     UuId = customerModelDTO.Id,
                     Name = customerModelDTO.FullName,
                     Email = customerModelDTO.Email,
-                    Phone = $"{phone.Substring(0, 3)}-{phone.Substring(3, 3)}-{phone.Substring(6)}",
-                    Birthday = DateTime.Parse(customerModelDTO.Birthday),
-                    GiftCardsId = customerModelDTO.GiftCardsId,
+                    Phone = customerModelDTO?.Phone?.FormatPhoneNumber(),
+                    Birthday = DateTime.Parse(customerModelDTO?.Birthday),
+                    GiftCardsId = customerModelDTO?.GiftCardsId,
                     MembershipId = customerModelDTO?.MembershipId,
                     GiftCardsCount = customerModelDTO.GiftCardsId.Count(),
                 };
@@ -63,7 +61,7 @@ namespace Next2.Helpers.Extensions
                 customerModel.UuId = customerModelDTO.Id;
                 customerModel.Name = customerModelDTO.FullName;
                 customerModel.Email = customerModelDTO.Email;
-                customerModel.Phone = $"{phone.Substring(0, 3)}-{phone.Substring(3, 3)}-{phone.Substring(6)}";
+                customerModel.Phone = customerModelDTO?.Phone?.FormatPhoneNumber();
                 customerModel.Birthday = DateTime.Parse(customerModelDTO.Birthday);
                 customerModel.GiftCardsId = customerModelDTO.GiftCardsId;
                 customerModel.MembershipId = customerModelDTO?.MembershipId;

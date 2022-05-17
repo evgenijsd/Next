@@ -43,10 +43,6 @@ namespace Next2.Services.CustomersService
                 {
                     result.SetSuccess(response.Value);
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
@@ -67,10 +63,6 @@ namespace Next2.Services.CustomersService
                 if (response.Success)
                 {
                     result.SetSuccess(response.Value.Customer);
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -99,14 +91,6 @@ namespace Next2.Services.CustomersService
                     {
                         result.SetSuccess();
                     }
-                    else
-                    {
-                        result.SetFailure();
-                    }
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -135,10 +119,6 @@ namespace Next2.Services.CustomersService
                         ? customers
                         : customers.Where(condition));
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
@@ -164,10 +144,6 @@ namespace Next2.Services.CustomersService
 
                     result.SetSuccess();
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
@@ -188,10 +164,6 @@ namespace Next2.Services.CustomersService
                 if (isGiftCardRemoved)
                 {
                     result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -214,10 +186,6 @@ namespace Next2.Services.CustomersService
                 {
                     result.SetSuccess(giftCard);
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
@@ -238,10 +206,6 @@ namespace Next2.Services.CustomersService
                 if (giftCardId is not null)
                 {
                     result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
