@@ -190,16 +190,8 @@ namespace Next2
             cfg.CreateMap<BonusBindableModel, BonusModel>();
             cfg.CreateMap<FullOrderBindableModel, OrderModel>();
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
-            cfg.CreateMap<MembershipModelDTO, MemberBindableModel>()
-                .ForMember(x => x.CustomerName, s => s.MapFrom(x => x.Customer.FullName))
-                .ForMember(x => x.CustomerId, s => s.MapFrom(x => x.Customer.Id))
-                .ForMember(x => x.Phone, s => s.MapFrom(x => x.Customer.Phone)).ReverseMap();
-            cfg.CreateMap<MemberBindableModel, MembershipModelDTO>()
-                .ForMember(x => x.Customer, s => s.MapFrom(i => i));
-            cfg.CreateMap<MemberBindableModel, SimpleCustomerModelDTO>()
-                .ForMember(x => x.FullName, s => s.MapFrom(i => i.CustomerName))
-                .ForMember(x => x.Id, s => s.MapFrom(i => i.CustomerId))
-                .ForMember(x => x.Phone, s => s.MapFrom(i => i.Phone));
+            cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
+            cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
             }).CreateMapper();
         }
 

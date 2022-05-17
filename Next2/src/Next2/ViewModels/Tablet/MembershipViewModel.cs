@@ -115,7 +115,7 @@ namespace Next2.ViewModels.Tablet
             {
                 EMemberSorting.ByMembershipStartTime => x => x.StartDate,
                 EMemberSorting.ByMembershipEndTime => x => x.EndDate,
-                EMemberSorting.ByCustomerName => x => x.CustomerName,
+                EMemberSorting.ByCustomerName => x => x.Customer.FullName,
                 _ => throw new NotImplementedException(),
             };
 
@@ -199,8 +199,8 @@ namespace Next2.ViewModels.Tablet
 
         private List<MemberBindableModel> SearchMembers(string searchLine)
         {
-            bool containsName(MemberBindableModel x) => x.CustomerName.ToLower().Contains(searchLine.ToLower());
-            bool containsPhone(MemberBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+            bool containsName(MemberBindableModel x) => x.Customer.FullName.ToLower().Contains(searchLine.ToLower());
+            bool containsPhone(MemberBindableModel x) => x.Customer.Phone.Replace("-", string.Empty).Contains(searchLine);
 
             return _allMembers.Where(x => containsName(x) || containsPhone(x)).ToList();
         }

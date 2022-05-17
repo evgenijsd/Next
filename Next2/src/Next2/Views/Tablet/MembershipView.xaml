@@ -217,12 +217,12 @@
                                         <Label
                                             Grid.Column="0"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding CustomerName}" />
+                                            Text="{Binding Customer.FullName}" />
 
                                         <Label
                                             Grid.Column="1"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding Phone, Converter={StaticResource formattedPhoneConverter}}" />
+                                            Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}" />
 
                                         <Label
                                             Grid.Column="2"
