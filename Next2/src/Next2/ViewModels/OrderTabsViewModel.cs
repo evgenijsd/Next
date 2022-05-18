@@ -9,7 +9,6 @@ using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -43,6 +42,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
@@ -58,38 +58,38 @@ namespace Next2.ViewModels
 
         public GridLength HeightCollectionGrid { get; set; }
 
-        public string SearchText { get; set; } = string.Empty;
+        public string SearchQuery { get; set; } = string.Empty;
 
-        public bool IsNotingFound { get; set; } = false;
+        public bool IsNothingFound { get; set; } = false;
 
-        public bool IsSearching { get; set; } = false;
+        public bool IsSearchActive { get; set; } = false;
 
-        public bool IsOrderTabsSelected { get; set; } = true;
+        public bool IsTabsSelected { get; set; } = true;
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
 
-        private ICommand _SelectOrdersCommand;
-        public ICommand SelectOrdersCommand => _SelectOrdersCommand ??= new AsyncCommand(OnSelectOrdersCommandAsync);
+        private ICommand _selectOrdersCommand;
+        public ICommand SelectOrdersCommand => _selectOrdersCommand ??= new AsyncCommand(OnSelectOrdersCommandAsync);
 
-        private ICommand _SelectTabsCommand;
-        public ICommand SelectTabsCommand => _SelectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
+        private ICommand _selectTabsCommand;
+        public ICommand SelectTabsCommand => _selectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
 
-        private ICommand _SearchCommand;
-        public ICommand SearchCommand => _SearchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _searchCommand;
+        public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _ClearSearchCommand;
-        public ICommand ClearSearchCommand => _ClearSearchCommand ??= new AsyncCommand(OnClearSearchCommandAsync);
+        private ICommand _clearSearchCommand;
+        public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync);
 
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
         private ICommand _orderTabSortingChangeCommand;
-        public ICommand OrderTabSortingChangeCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnOrderTabSortingChangeCommandAsync);
+        public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnChangeOrderSortingCommandAsync);
 
-        private ICommand _tapSelectCommand;
-        public ICommand TapSelectCommand => _tapSelectCommand ??= new AsyncCommand<SimpleOrderBindableModel?>(OnTapSelectCommandAsync);
+        private ICommand _selectOrderCommand;
+        public ICommand SelectOrderCommand => _selectOrderCommand ??= new AsyncCommand<SimpleOrderBindableModel?>(OnSelectOrderCommandAsync);
 
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
@@ -118,9 +118,9 @@ namespace Next2.ViewModels
         {
             base.OnDisappearing();
 
-            SearchText = string.Empty;
-            IsSearching = false;
-            IsNotingFound = false;
+            SearchQuery = string.Empty;
+            IsSearchActive = false;
+            IsNothingFound = false;
             SelectedOrder = null;
             _lastSavedOrderId = 0;
         }
@@ -135,9 +135,9 @@ namespace Next2.ViewModels
             }
             else if (args.PropertyName is nameof(Orders))
             {
-                IsNotingFound = !Orders.Any();
+                IsNothingFound = !Orders.Any();
 
-                if (IsNotingFound)
+                if (IsNothingFound)
                 {
                     HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
                 }
@@ -202,7 +202,7 @@ namespace Next2.ViewModels
 
             IEnumerable<OrderModelDTO>? result = null;
 
-            if (IsOrderTabsSelected)
+            if (IsTabsSelected)
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, SimpleOrderBindableModel>()
                     .ForMember(x => x.TableNumberOrName, s => s.MapFrom(x => x.Table == null
@@ -232,9 +232,11 @@ namespace Next2.ViewModels
                         : Orders[i].TableNumberOrName;
                 }
 
-                if (!string.IsNullOrEmpty(SearchText))
+                if (!string.IsNullOrEmpty(SearchQuery))
                 {
-                    Orders = new(Orders.Where(x => x.Number.ToString().Contains(SearchText.ToLower()) || x.TableNumberOrName.ToLower().Contains(SearchText.ToLower())));
+                    Orders = new(Orders.Where(x =>
+                        x.Number.ToString().Contains(SearchQuery) ||
+                        x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
                 }
 
                 SetHeightCollection();
@@ -275,12 +277,12 @@ namespace Next2.ViewModels
 
         private Task OnSelectOrdersCommandAsync()
         {
-            if (!IsOrderTabsSelected)
+            if (!IsTabsSelected)
             {
-                IsOrderTabsSelected = !IsOrderTabsSelected;
+                IsTabsSelected = !IsTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-                SearchText = string.Empty;
+                SearchQuery = string.Empty;
 
                 SetVisualCollection();
             }
@@ -290,12 +292,12 @@ namespace Next2.ViewModels
 
         private Task OnSelectTabsCommandAsync()
         {
-            if (IsOrderTabsSelected)
+            if (IsTabsSelected)
             {
-                IsOrderTabsSelected = !IsOrderTabsSelected;
+                IsTabsSelected = !IsTabsSelected;
                 CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-                SearchText = string.Empty;
+                SearchQuery = string.Empty;
 
                 SetVisualCollection();
             }
@@ -305,22 +307,27 @@ namespace Next2.ViewModels
 
         private async Task OnSearchCommandAsync()
         {
-            if (Orders.Any() || !string.IsNullOrEmpty(SearchText))
+            if (Orders.Any() || !string.IsNullOrEmpty(SearchQuery))
             {
                 _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
 
-                Func<string, string> searchValidator = IsOrderTabsSelected ? _orderService.ApplyNumberFilter : _orderService.ApplyNameFilter;
-                var placeholder = IsOrderTabsSelected ? Strings.TableNumberOrOrder : Strings.NameOrOrder;
+                Func<string, string> searchValidator = IsTabsSelected
+                    ? _orderService.ApplyNumberFilter
+                    : _orderService.ApplyNameFilter;
+
+                var placeholder = IsTabsSelected
+                    ? LocalizationResourceManager.Current["TableNumberOrOrder"]
+                    : LocalizationResourceManager.Current["NameOrOrder"];
 
                 var parameters = new NavigationParameters()
                 {
-                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.SEARCH, SearchQuery },
                     { Constants.Navigations.FUNC, searchValidator },
                     { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
 
-                ClearSearchAsync();
-                IsSearching = true;
+                ClearSearch();
+                IsSearchActive = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
@@ -328,9 +335,12 @@ namespace Next2.ViewModels
 
         private void SearchEventCommand(string searchLine)
         {
-            SearchText = searchLine;
+            SearchQuery = searchLine;
 
-            Orders = new (Orders.Where(x => x.Number.ToString().Contains(SearchText) || x.TableNumberOrName.ToLower().Contains(SearchText.ToLower())));
+            Orders = new (Orders.Where(
+                x => x.Number.ToString().Contains(SearchQuery) ||
+                x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
+
             SelectedOrder = null;
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
@@ -338,11 +348,11 @@ namespace Next2.ViewModels
             SetHeightCollection();
         }
 
-        private async Task OnClearSearchCommandAsync()
+        private async Task OnClearSearchResultCommandAsync()
         {
-            if (SearchText != string.Empty)
+            if (SearchQuery != string.Empty)
             {
-                ClearSearchAsync();
+                ClearSearch();
             }
             else
             {
@@ -350,19 +360,21 @@ namespace Next2.ViewModels
             }
         }
 
-        private void ClearSearchAsync()
+        private void ClearSearch()
         {
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
             SelectedOrder = null;
-            SearchText = string.Empty;
+            SearchQuery = string.Empty;
 
             SetVisualCollection();
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
         {
-            EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsOrderTabsSelected ? EOrderTabSorting.ByTableNumber : CurrentOrderTabSorting;
+            EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsTabsSelected
+                ? EOrderTabSorting.ByTableNumber
+                : CurrentOrderTabSorting;
 
             Func<SimpleOrderBindableModel, object> comparer = orderTabSorting switch
             {
@@ -375,7 +387,7 @@ namespace Next2.ViewModels
             return orders.OrderBy(comparer);
         }
 
-        private Task OnOrderTabSortingChangeCommandAsync(EOrderTabSorting newOrderTabSorting)
+        private Task OnChangeOrderSortingCommandAsync(EOrderTabSorting newOrderTabSorting)
         {
             if (CurrentOrderTabSorting == newOrderTabSorting)
             {
@@ -391,7 +403,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnTapSelectCommandAsync(SimpleOrderBindableModel? order)
+        private Task OnSelectOrderCommandAsync(SimpleOrderBindableModel? order)
         {
             SelectedOrder = order == SelectedOrder ? null : order;
 
@@ -531,11 +543,11 @@ namespace Next2.ViewModels
             _lastSavedOrderId = orderId;
         }
 
-        private void SetOrderType(bool isTab) => IsOrderTabsSelected = isTab;
+        private void SetOrderType(bool isTab) => IsTabsSelected = isTab;
 
-        private async Task OnGoBackCommand()
+        private Task OnGoBackCommand()
         {
-            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
+            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
         }
 
         private string CreateRandomCustomerName()
