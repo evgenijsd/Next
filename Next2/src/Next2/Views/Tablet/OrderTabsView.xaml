@@ -216,7 +216,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding ChangeOrderSortingCommand}"
-                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByCustomerName}" />
+                                    CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}" />
                                 
                             </StackLayout.GestureRecognizers>
 
@@ -243,7 +243,7 @@
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding ChangeOrderSortingCommand}"
-                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}"/>
+                                    CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}"/>
                                 
                             </StackLayout.GestureRecognizers>
 
@@ -293,158 +293,158 @@
                         Command="{Binding RefreshOrdersCommand}">
 
                         <controls:CustomScrollBarCollectionView
-                            Style="{DynamicResource CustomScrollBarCollectionView_i1}"
-                            ItemsSource="{Binding Orders}"
-                            SelectedItem="{Binding SelectedOrder}"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                        Style="{DynamicResource CustomScrollBarCollectionView_i1}"
+                        ItemsSource="{Binding Orders}"
+                        SelectedItem="{Binding SelectedOrder}"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
-                            <CollectionView.Effects>
+                        <CollectionView.Effects>
                                 
-                                <effects:NoOverScrollEffect />
+                            <effects:NoOverScrollEffect />
 
-                                <effects:ScrollBarColorEffect
-                                    ScrollBarThumbWidth="6"
-                                    ScrollBarCornerRadius="9"
-                                    ScrollBarThumbColor="{StaticResource AppColor_i1}"
-                                    ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
+                            <effects:ScrollBarColorEffect
+                                ScrollBarThumbWidth="6"
+                                ScrollBarCornerRadius="9"
+                                ScrollBarThumbColor="{StaticResource AppColor_i1}"
+                                ScrollBarTrackColor="{StaticResource TextAndBackgroundColor_i2}"/>
                                 
-                            </CollectionView.Effects>
+                        </CollectionView.Effects>
 
-                            <CollectionView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
 
-                                <DataTemplate x:DataType="models:SimpleOrderBindableModel">
+                            <DataTemplate x:DataType="models:SimpleOrderBindableModel">
+
+                                <Grid
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Fill"
+                                    RowDefinitions="48, 2">
+
+                                    <VisualStateManager.VisualStateGroups>
+
+                                        <VisualStateGroup Name="CommonStates">
+                                                
+                                            <VisualState Name="Normal">
+                                                    
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                                                </VisualState.Setters>
+                                                    
+                                            </VisualState>
+
+                                            <VisualState Name="Selected">
+                                                    
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                                                    <Setter TargetName="orderStatusLabel" Property="Label.TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                    <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
+                                                </VisualState.Setters>
+                                                    
+                                            </VisualState>
+
+                                        </VisualStateGroup>
+
+                                    </VisualStateManager.VisualStateGroups>
 
                                     <Grid
-                                        HorizontalOptions="Fill"
-                                        VerticalOptions="Fill"
-                                        RowDefinitions="48, 2">
+                                        Grid.Row="0"
+                                        ColumnDefinitions="50, *, *, *, *">
 
-                                        <VisualStateManager.VisualStateGroups>
+                                        <ffimageloading:CachedImage
+                                            Source="ic_check_box_unchecked_white"
+                                            Grid.Column="0"
+                                            HeightRequest="25"
+                                            HorizontalOptions="CenterAndExpand"
+                                            Margin="20, 0, 0, 0"
+                                            VerticalOptions="CenterAndExpand"
+                                            x:Name="checkBoxImage"/>
 
-                                            <VisualStateGroup Name="CommonStates">
+                                        <Label
+                                            Grid.Column="1"
+                                            HorizontalOptions="FillAndExpand"
+                                            Margin="20, 13, 0, 0"
+                                            Text="{Binding TableNumberOrName}"
+                                            HeightRequest="{DynamicResource TSize_i8}"
+                                            LineBreakMode="TailTruncation"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            FontFamily="Barlow-Regular">
                                                 
-                                                <VisualState Name="Normal">
-                                                    
-                                                    <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
-                                                    </VisualState.Setters>
-                                                    
-                                                </VisualState>
+                                            <Label.Triggers>
 
-                                                <VisualState Name="Selected">
-                                                    
-                                                    <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                                                        <Setter TargetName="orderStatusLabel" Property="Label.TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                                                        <Setter TargetName="checkBoxImage" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white" />
-                                                    </VisualState.Setters>
-                                                    
-                                                </VisualState>
+                                                <DataTrigger TargetType="Label" Binding="{Binding TableNumberOrName}" Value="''">
+                                                    <Setter Property="Text" Value="NoName"/>
+                                                </DataTrigger>
 
-                                            </VisualStateGroup>
-
-                                        </VisualStateManager.VisualStateGroups>
-
-                                        <Grid
-                                            Grid.Row="0"
-                                            ColumnDefinitions="50, *, *, *, *">
-
-                                            <ffimageloading:CachedImage
-                                                Source="ic_check_box_unchecked_white"
-                                                Grid.Column="0"
-                                                HeightRequest="25"
-                                                HorizontalOptions="CenterAndExpand"
-                                                Margin="20, 0, 0, 0"
-                                                VerticalOptions="CenterAndExpand"
-                                                x:Name="checkBoxImage"/>
-
-                                            <Label
-                                                Grid.Column="1"
-                                                HorizontalOptions="FillAndExpand"
-                                                Margin="20, 13, 0, 0"
-                                                Text="{Binding TableNumberOrName}"
-                                                HeightRequest="{DynamicResource TSize_i8}"
-                                                LineBreakMode="TailTruncation"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                FontFamily="Barlow-Regular">
+                                            </Label.Triggers>
                                                 
-                                                <Label.Triggers>
+                                        </Label>
 
-                                                    <DataTrigger TargetType="Label" Binding="{Binding TableNumberOrName}" Value="''">
-                                                        <Setter Property="Text" Value="NoName"/>
-                                                    </DataTrigger>
+                                        <Label
+                                            Grid.Column="2"
+                                            HorizontalOptions="StartAndExpand"
+                                            Margin="15, 13, 0, 0"
+                                            Text="{Binding Number}"
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
-                                                </Label.Triggers>
+                                        <Label
+                                            Grid.Column="3"
+                                            HorizontalOptions="StartAndExpand"
+                                            Margin="10, 13, 0, 0"
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                            Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}" />
+
+                                        <Label
+                                            Grid.Column="4"
+                                            HorizontalOptions="StartAndExpand"
+                                            Margin="15, 13, 0, 0"
+                                            Text="{Binding OrderStatus}"
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource IndicationColor_i5}"
+                                            x:Name="orderStatusLabel">
+
+                                            <Label.Triggers>
+                                                <Trigger TargetType="Label" Property="Text" Value="{Static enums:EOrderStatus.Canceled}">
+                                                    <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
+                                                </Trigger>
+                                            </Label.Triggers>
+
+                                        </Label>
+
+                                        <Label
+                                            Grid.Column="5"
+                                            HorizontalOptions="StartAndExpand"
+                                            Margin="15, 13, 0, 0"
+                                            Text="{Binding OrderType}"
+                                            FontFamily="Barlow-Regular"
+                                            FontSize="{DynamicResource TSize_i8}"
+                                            TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=SelectOrderCommand}"
+                                                CommandParameter="{Binding .}" />
                                                 
-                                            </Label>
-
-                                            <Label
-                                                Grid.Column="2"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="15, 13, 0, 0"
-                                                Text="{Binding Number}"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                                            <Label
-                                                Grid.Column="3"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="10, 13, 0, 0"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}" />
-
-                                            <Label
-                                                Grid.Column="4"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="15, 13, 0, 0"
-                                                Text="{Binding OrderStatus}"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource IndicationColor_i5}"
-                                                x:Name="orderStatusLabel">
-
-                                                <Label.Triggers>
-                                                    <Trigger TargetType="Label" Property="Text" Value="{Static enums:EOrderStatus.Canceled}">
-                                                        <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
-                                                    </Trigger>
-                                                </Label.Triggers>
-
-                                            </Label>
-
-                                            <Label
-                                                Grid.Column="5"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="15, 13, 0, 0"
-                                                Text="{Binding OrderType}"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-
-                                            <Grid.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=SelectOrderCommand}"
-                                                    CommandParameter="{Binding .}" />
-                                                
-                                            </Grid.GestureRecognizers>
-
-                                        </Grid>
-
-                                        <BoxView
-                                            Grid.Row="1"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                                        </Grid.GestureRecognizers>
 
                                     </Grid>
 
-                                </DataTemplate>
+                                    <BoxView
+                                        Grid.Row="1"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
 
-                            </CollectionView.ItemTemplate>
+                                </Grid>
 
-                        </controls:CustomScrollBarCollectionView>
+                            </DataTemplate>
 
+                        </CollectionView.ItemTemplate>
+
+                    </controls:CustomScrollBarCollectionView>
+                        
                     </RefreshView>
 
                     <yummy:PancakeView

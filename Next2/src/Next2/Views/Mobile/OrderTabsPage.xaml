@@ -127,7 +127,7 @@
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding ChangeOrderSortingCommand}"
-                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByCustomerName}" />
+                                    CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}" />
 
                             </Label.GestureRecognizers>
 
@@ -160,7 +160,7 @@
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding ChangeOrderSortingCommand}"
-                                    CommandParameter="{x:Static enums:EOrderTabSorting.ByOrderNumber}" />
+                                    CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}" />
 
                             </Label.GestureRecognizers>
 

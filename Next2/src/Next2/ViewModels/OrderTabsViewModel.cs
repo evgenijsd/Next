@@ -54,7 +54,7 @@ namespace Next2.ViewModels
 
         public bool IsOrdersRefreshing { get; set; }
 
-        public EOrderTabSorting CurrentOrderTabSorting { get; set; }
+        public EOrdersSortingType OrderSortingType { get; set; }
 
         public GridLength HeightCollectionGrid { get; set; }
 
@@ -86,7 +86,7 @@ namespace Next2.ViewModels
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
         private ICommand _orderTabSortingChangeCommand;
-        public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrderTabSorting>(OnChangeOrderSortingCommandAsync);
+        public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrdersSortingType>(OnChangeOrderSortingCommandAsync);
 
         private ICommand _selectOrderCommand;
         public ICommand SelectOrderCommand => _selectOrderCommand ??= new AsyncCommand<SimpleOrderBindableModel?>(OnSelectOrderCommandAsync);
@@ -159,17 +159,19 @@ namespace Next2.ViewModels
             {
                 IsOrdersRefreshing = true;
 
-                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+                OrderSortingType = EOrdersSortingType.ByCustomerName;
 
-                var ordersResult = await _orderService.GetOrdersAsync();
+                var gettingOrdersResult = await _orderService.GetOrdersAsync();
 
-                if (ordersResult.IsSuccess)
+                if (gettingOrdersResult.IsSuccess)
                 {
-                    _orders = new List<OrderModelDTO>(ordersResult.Result)
+                    var pendingOrders = gettingOrdersResult.Result.Where(x => x.OrderStatus == EOrderStatus.Pending);
+
+                    _orders = new List<OrderModelDTO>(pendingOrders)
                         .Where(x => !x.IsTab)
                         .OrderBy(x => x.Table?.Number);
 
-                    _tabs = new List<OrderModelDTO>(ordersResult.Result)
+                    _tabs = new List<OrderModelDTO>(pendingOrders)
                         .Where(x => x.IsTab);
 
                     SetVisualCollection();
@@ -280,7 +282,7 @@ namespace Next2.ViewModels
             if (!IsTabsSelected)
             {
                 IsTabsSelected = !IsTabsSelected;
-                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+                OrderSortingType = EOrdersSortingType.ByCustomerName;
 
                 SearchQuery = string.Empty;
 
@@ -295,7 +297,7 @@ namespace Next2.ViewModels
             if (IsTabsSelected)
             {
                 IsTabsSelected = !IsTabsSelected;
-                CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+                OrderSortingType = EOrdersSortingType.ByCustomerName;
 
                 SearchQuery = string.Empty;
 
@@ -362,7 +364,7 @@ namespace Next2.ViewModels
 
         private void ClearSearch()
         {
-            CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
+            OrderSortingType = EOrdersSortingType.ByCustomerName;
 
             SelectedOrder = null;
             SearchQuery = string.Empty;
@@ -372,30 +374,30 @@ namespace Next2.ViewModels
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
         {
-            EOrderTabSorting orderTabSorting = CurrentOrderTabSorting == EOrderTabSorting.ByCustomerName && IsTabsSelected
-                ? EOrderTabSorting.ByTableNumber
-                : CurrentOrderTabSorting;
+            EOrdersSortingType orderTabSorting = OrderSortingType == EOrdersSortingType.ByCustomerName && IsTabsSelected
+                ? EOrdersSortingType.ByTableNumber
+                : OrderSortingType;
 
             Func<SimpleOrderBindableModel, object> comparer = orderTabSorting switch
             {
-                EOrderTabSorting.ByOrderNumber => x => x.Number,
-                EOrderTabSorting.ByTableNumber => x => x.TableNumber,
-                EOrderTabSorting.ByCustomerName => x => x.TableNumberOrName,
+                EOrdersSortingType.ByOrderNumber => x => x.Number,
+                EOrdersSortingType.ByTableNumber => x => x.TableNumber,
+                EOrdersSortingType.ByCustomerName => x => x.TableNumberOrName,
                 _ => throw new NotImplementedException(),
             };
 
             return orders.OrderBy(comparer);
         }
 
-        private Task OnChangeOrderSortingCommandAsync(EOrderTabSorting newOrderTabSorting)
+        private Task OnChangeOrderSortingCommandAsync(EOrdersSortingType orderSortingType)
         {
-            if (CurrentOrderTabSorting == newOrderTabSorting)
+            if (OrderSortingType == orderSortingType)
             {
                 Orders = new (Orders.Reverse());
             }
             else
             {
-                CurrentOrderTabSorting = newOrderTabSorting;
+                OrderSortingType = orderSortingType;
 
                 Orders = new (GetSortedOrders(Orders));
             }
