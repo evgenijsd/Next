@@ -26,12 +26,11 @@ namespace Next2.ViewModels
 
         public PaymentViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customerService,
             IRewardsService rewardsService)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _orderService = orderService;
 
@@ -56,7 +55,6 @@ namespace Next2.ViewModels
 
             RewardsViewModel = new (
                 navigationService,
-                popupNavigation,
                 mapper,
                 orderService,
                 customerService,
@@ -67,7 +65,6 @@ namespace Next2.ViewModels
 
             PaymentCompleteViewModel = new (
                 navigationService,
-                popupNavigation,
                 customerService,
                 orderService,
                 Order);
@@ -163,7 +160,7 @@ namespace Next2.ViewModels
             {
                 PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
 
-                await _popupNavigation.PushAsync(confirmDialog);
+                await PopupNavigation.PushAsync(confirmDialog);
             }
             else
             {
@@ -203,7 +200,7 @@ namespace Next2.ViewModels
                         ? new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync)
                         : new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync);
 
-                    await _popupNavigation.PushAsync(confirmDialog);
+                    await PopupNavigation.PushAsync(confirmDialog);
                 }
                 else
                 {
@@ -216,7 +213,7 @@ namespace Next2.ViewModels
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
 
                 if (isExitConfirmed)
                 {

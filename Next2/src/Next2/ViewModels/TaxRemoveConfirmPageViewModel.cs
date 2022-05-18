@@ -25,7 +25,7 @@ namespace Next2.ViewModels
             IUserService userService,
             IAuthenticationService authenticationService,
             IEventAggregator eventAggregator)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _authenticationService = authenticationService;
             _userService = userService;

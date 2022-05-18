@@ -1,5 +1,4 @@
 ﻿using Prism.Navigation;
-using Rg.Plugins.Popup.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,10 +8,8 @@ namespace Next2.ViewModels
 {
     public class LoginPage_EmployeeIdViewModel : BaseViewModel
     {
-        public LoginPage_EmployeeIdViewModel(
-            INavigationService navigationService,
-            IPopupNavigation popupNavigation)
-          : base(navigationService, popupNavigation)
+        public LoginPage_EmployeeIdViewModel(INavigationService navigationService)
+          : base(navigationService)
         {
         }
 

@@ -55,14 +55,13 @@ namespace Next2.ViewModels
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
             IBonusesService bonusesService,
             IAuthenticationService authenticationService,
             IMenuService menuService)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _eventAggregator = eventAggregator;
             _mapper = mapper;
@@ -364,7 +363,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
                     : new Views.Mobile.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback);
 
-                await _popupNavigation.PushAsync(deleteSeatDialog);
+                await PopupNavigation.PushAsync(deleteSeatDialog);
             }
             else
             {
@@ -468,7 +467,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
@@ -529,7 +528,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
                     : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
-                await _popupNavigation.PushAsync(removeOrderDialog);
+                await PopupNavigation.PushAsync(removeOrderDialog);
             }
         }
 
@@ -553,12 +552,12 @@ namespace Next2.ViewModels
                         ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
                         : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback);
 
-                    await _popupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                    await PopupNavigation.PushAsync(orderDeletionConfirmationDialog);
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 
@@ -570,11 +569,11 @@ namespace Next2.ViewModels
                 {
                     await RemoveOrderAsync();
 
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
@@ -789,7 +788,7 @@ namespace Next2.ViewModels
                 new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync) :
                 new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
@@ -799,7 +798,7 @@ namespace Next2.ViewModels
                 await OnOrderCommandAsync(true);
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private async Task OnOpenModifyCommandAsync()
@@ -821,7 +820,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
@@ -870,7 +869,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private Task OnPayCommandAsync()

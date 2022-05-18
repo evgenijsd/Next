@@ -33,11 +33,10 @@ namespace Next2.ViewModels.Tablet
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
-            IPopupNavigation popupNavigation,
             OrderRegistrationViewModel orderRegistrationViewModel,
             ILogService logService,
             IOrderService orderService)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
@@ -143,7 +142,7 @@ namespace Next2.ViewModels.Tablet
         //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
         //        };
 
-        //        await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        //        await PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
         //    }
         //}
 
@@ -157,9 +156,9 @@ namespace Next2.ViewModels.Tablet
 
         //            if (result.IsSuccess)
         //            {
-        //                if (_popupNavigation.PopupStack.Any())
+        //                if (PopupNavigation.PopupStack.Any())
         //                {
-        //                    await _popupNavigation.PopAsync();
+        //                    await PopupNavigation.PopAsync();
         //                }
 
         //                OrderRegistrationViewModel.RefreshCurrentOrderAsync();
@@ -176,7 +175,7 @@ namespace Next2.ViewModels.Tablet
         //    }
         //    else
         //    {
-        //        await _popupNavigation.PopAsync();
+        //        await PopupNavigation.PopAsync();
         //    }
         //}
         private async Task LoadCategoriesAsync()
@@ -236,9 +235,9 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnEmployeeTimeClockPopupCallCommandAsync()
         {
-            return _popupNavigation
+            return PopupNavigation
                 .PushAsync(new Views.Tablet.Dialogs
-                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
+                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
         }
 
         #endregion

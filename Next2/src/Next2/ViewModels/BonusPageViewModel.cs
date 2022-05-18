@@ -29,12 +29,11 @@ namespace Next2.ViewModels
 
         public BonusPageViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IEventAggregator eventAggregator,
             IOrderService orderService,
             IMapper mapper,
             IBonusesService bonusesService)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _mapper = mapper;
             _bonusesService = bonusesService;

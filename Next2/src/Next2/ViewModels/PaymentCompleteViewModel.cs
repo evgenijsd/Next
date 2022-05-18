@@ -32,11 +32,10 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             ICustomersService customersService,
             IOrderService orderService,
             PaidOrderBindableModel order)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _customersService = customersService;
             _orderService = orderService;
@@ -378,7 +377,7 @@ namespace Next2.ViewModels
             {
                 PopupPage confirmDialog = new Views.Tablet.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
 
-                await _popupNavigation.PushAsync(confirmDialog);
+                await PopupNavigation.PushAsync(confirmDialog);
             }
             else
             {
@@ -397,12 +396,12 @@ namespace Next2.ViewModels
 
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
 
-            await _popupNavigation.PushAsync(popupPage);
+            await PopupNavigation.PushAsync(popupPage);
         }
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
             {

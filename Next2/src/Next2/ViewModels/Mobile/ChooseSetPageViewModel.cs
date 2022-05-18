@@ -24,8 +24,6 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IMenuService _menuService;
 
-        private readonly IPopupNavigation _popupNavigation;
-
         private readonly IOrderService _orderService;
 
         private bool _order;
@@ -33,12 +31,10 @@ namespace Next2.ViewModels.Mobile
         public ChooseSetPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IOrderService orderService)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _menuService = menuService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
         }
 
@@ -105,7 +101,7 @@ namespace Next2.ViewModels.Mobile
         //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
         //        };
 
-        //        await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        //        await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
         //    }
         //}
         //private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -114,9 +110,9 @@ namespace Next2.ViewModels.Mobile
         //    {
         //        await _orderService.AddSetInCurrentOrderAsync(set);
 
-        //        if (_popupNavigation.PopupStack.Any())
+        //        if (PopupNavigation.PopupStack.Any())
         //        {
-        //            await _popupNavigation.PopAsync();
+        //            await PopupNavigation.PopAsync();
         //        }
 
         //        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
@@ -129,7 +125,7 @@ namespace Next2.ViewModels.Mobile
         //    }
         //    else
         //    {
-        //        await _popupNavigation.PopAsync();
+        //        await PopupNavigation.PopAsync();
         //    }
         //}
         private async Task LoadSetsAsync()

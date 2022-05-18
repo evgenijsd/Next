@@ -39,9 +39,8 @@ namespace Next2.ViewModels
             IEventAggregator eventAggregator,
             INavigationService navigationService,
             ICustomersService customersService,
-            IOrderService orderService,
-            IPopupNavigation popupNavigation)
-            : base(navigationService, popupNavigation)
+            IOrderService orderService)
+            : base(navigationService)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
@@ -168,13 +167,13 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback)
                     : new Views.Mobile.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback);
 
-                await _popupNavigation.PushAsync(customerInfoDialog);
+                await PopupNavigation.PushAsync(customerInfoDialog);
             }
         }
 
         private async void CloseCustomerInfoDialogCallback(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerSelected) && isCustomerSelected)
             {
@@ -214,12 +213,12 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService)
                 : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService);
 
-            return _popupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddCustomerDialogCallBack(IDialogParameters param)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
             {

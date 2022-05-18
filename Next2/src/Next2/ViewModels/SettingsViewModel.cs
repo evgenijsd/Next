@@ -24,9 +24,8 @@ namespace Next2.ViewModels
         public SettingsViewModel(
             INavigationService navigationService,
             IAuthenticationService authenticationService,
-            IPopupNavigation popupNavigation,
             IOrderService orderService)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _authenticationService = authenticationService;
             _orderService = orderService;
@@ -56,7 +55,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
 
-            return _popupNavigation.PushAsync(confirmDialog);
+            return PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -65,7 +64,7 @@ namespace Next2.ViewModels
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool result) && result)
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
 
                     await _authenticationService.LogoutAsync();
 
@@ -80,7 +79,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
         }

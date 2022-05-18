@@ -39,9 +39,8 @@ namespace Next2.ViewModels
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IEventAggregator eventAggregator,
-            IPopupNavigation popupNavigation)
-            : base(navigationService, popupNavigation)
+            IEventAggregator eventAggregator)
+            : base(navigationService)
         {
             _orderService = orderService;
             _eventAggregator = eventAggregator;
@@ -424,7 +423,7 @@ namespace Next2.ViewModels
                 //        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
                 //        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
-                //    await _popupNavigation.PushAsync(deleteSeatDialog);
+                //    await PopupNavigation.PushAsync(deleteSeatDialog);
                 //}
             }
         }
@@ -449,12 +448,12 @@ namespace Next2.ViewModels
                         ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback)
                         : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback);
 
-                    await _popupNavigation.PushAsync(confirmDialog);
+                    await PopupNavigation.PushAsync(confirmDialog);
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 
@@ -475,11 +474,11 @@ namespace Next2.ViewModels
                 //        SelectedOrder = null;
                 //    }
 
-                //    await _popupNavigation.PopAsync();
+                //    await PopupNavigation.PopAsync();
                 //}
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private async Task OnPrintCommandAsync()
@@ -507,7 +506,7 @@ namespace Next2.ViewModels
                 //        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
                 //        : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
 
-                //    await _popupNavigation.PushAsync(deleteSeatDialog);
+                //    await PopupNavigation.PushAsync(deleteSeatDialog);
                 //}
             }
         }
@@ -518,12 +517,12 @@ namespace Next2.ViewModels
             {
                 if (isOrderPrintingAccepted && SelectedOrder is not null)
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 

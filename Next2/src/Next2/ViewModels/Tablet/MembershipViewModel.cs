@@ -35,9 +35,8 @@ namespace Next2.ViewModels.Tablet
             IMapper mapper,
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IMembershipService membershipService,
-            IPopupNavigation popupNavigation)
-            : base(navigationService, popupNavigation)
+            IMembershipService membershipService)
+            : base(navigationService)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
@@ -224,13 +223,13 @@ namespace Next2.ViewModels.Tablet
 
                 PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
 
-                await _popupNavigation.PushAsync(popupPage);
+                await PopupNavigation.PushAsync(popupPage);
             }
         }
 
         private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
@@ -246,7 +245,7 @@ namespace Next2.ViewModels.Tablet
                 };
 
                 PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);
-                await _popupNavigation.PushAsync(confirmDialog);
+                await PopupNavigation.PushAsync(confirmDialog);
             }
         }
 
@@ -259,7 +258,7 @@ namespace Next2.ViewModels.Tablet
                 await RefreshMembersAsync();
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         #endregion

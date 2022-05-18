@@ -173,6 +173,12 @@ namespace Next2
 
         #endregion
 
+        #region -- Public static methods --
+
+        public static T Resolve<T>() => Current.Container.Resolve<T>();
+
+        #endregion
+
         #region --- Private helpers --
 
         private IMapper CreateMapper()

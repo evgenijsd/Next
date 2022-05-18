@@ -31,9 +31,8 @@ namespace Next2.ViewModels.Tablet
         public ExpandPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IMenuService menuService,
-            IPopupNavigation popupNavigation)
-            : base(navigationService, popupNavigation)
+            IMenuService menuService)
+            : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
@@ -116,7 +115,7 @@ namespace Next2.ViewModels.Tablet
         //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
         //        };
 
-        //        await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        //        await PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
         //    }
         //}
         //private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -129,7 +128,7 @@ namespace Next2.ViewModels.Tablet
 
         //            if (result.IsSuccess)
         //            {
-        //                await _popupNavigation.PopAsync();
+        //                await PopupNavigation.PopAsync();
 
         //                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
         //                {
@@ -143,7 +142,7 @@ namespace Next2.ViewModels.Tablet
         //    }
         //    else
         //    {
-        //        await _popupNavigation.PopAsync();
+        //        await PopupNavigation.PopAsync();
         //    }
         //}
         private async Task LoadCategoriesAsync()

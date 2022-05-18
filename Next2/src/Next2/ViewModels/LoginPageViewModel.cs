@@ -23,12 +23,11 @@ namespace Next2.ViewModels
 
         public LoginPageViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IUserService userService,
             IAuthenticationService authenticationService,
             IOrderService orderService,
             IEventAggregator eventAggregator)
-            : base(navigationService, popupNavigation)
+            : base(navigationService)
         {
             _authenticationService = authenticationService;
             _userService = userService;

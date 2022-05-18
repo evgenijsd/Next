@@ -1,14 +1,11 @@
 ﻿using Prism.Navigation;
-using Rg.Plugins.Popup.Contracts;
 
 namespace Next2.ViewModels
 {
     public class HoldItemsViewModel : BaseViewModel
     {
-        public HoldItemsViewModel(
-            INavigationService navigationService,
-            IPopupNavigation popupNavigation)
-            : base(navigationService, popupNavigation)
+        public HoldItemsViewModel(INavigationService navigationService)
+            : base(navigationService)
         {
             Text = "HoldItems";
         }

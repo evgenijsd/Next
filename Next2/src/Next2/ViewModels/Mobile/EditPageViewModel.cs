@@ -28,9 +28,8 @@ namespace Next2.ViewModels.Mobile
         public EditPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IPopupNavigation popupNavigation,
             IMenuService menuService)
-          : base(navigationService, popupNavigation)
+          : base(navigationService)
         {
             _orderService = orderService;
             _menuService = menuService;
@@ -96,7 +95,7 @@ namespace Next2.ViewModels.Mobile
 
             PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteSetDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters parameters)
@@ -109,7 +108,7 @@ namespace Next2.ViewModels.Mobile
 
                     if (result.IsSuccess)
                     {
-                        await _popupNavigation.PopAsync();
+                        await PopupNavigation.PopAsync();
 
                         var navigationParameters = new NavigationParameters
                         {
@@ -120,12 +119,12 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 

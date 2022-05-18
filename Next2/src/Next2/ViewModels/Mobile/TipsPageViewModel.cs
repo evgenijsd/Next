@@ -21,10 +21,8 @@ namespace Next2.ViewModels.Mobile
     {
         private TipItem _noTipItem;
 
-        public TipsPageViewModel(
-            INavigationService navigationService,
-            IPopupNavigation popupNavigation)
-            : base(navigationService, popupNavigation)
+        public TipsPageViewModel(INavigationService navigationService)
+            : base(navigationService)
         {
         }
 
@@ -75,7 +73,7 @@ namespace Next2.ViewModels.Mobile
             {
                 PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
 
-                await _popupNavigation.PushAsync(popupPage);
+                await PopupNavigation.PushAsync(popupPage);
             }
             else if (sender is ETipType eTip && eTip == ETipType.NoTip)
             {
@@ -85,7 +83,7 @@ namespace Next2.ViewModels.Mobile
 
         private async void TipViewDialogCallBack(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out float value))
             {
