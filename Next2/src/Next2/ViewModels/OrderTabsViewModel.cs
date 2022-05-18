@@ -114,6 +114,8 @@ namespace Next2.ViewModels
             IsNothingFound = false;
             SelectedOrder = null;
             _lastSavedOrderId = 0;
+            _orders = _tabs = null;
+            Orders = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
