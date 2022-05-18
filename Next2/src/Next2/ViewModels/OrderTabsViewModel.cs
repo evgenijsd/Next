@@ -164,13 +164,13 @@ namespace Next2.ViewModels
 
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-            var response = await _orderService.GetOrdersAsync();
+            var resultGettingOrders = await _orderService.GetOrdersAsync();
 
-            if (response.IsSuccess)
+            if (resultGettingOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(response.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
 
-                _tabsBase = new List<OrderModel>(response.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
