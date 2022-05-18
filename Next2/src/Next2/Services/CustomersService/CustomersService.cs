@@ -46,7 +46,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -67,7 +67,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -95,7 +95,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(UpdateCustomerAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(UpdateCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -168,7 +168,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(ActivateGiftCardAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(ActivateGiftCardAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -189,7 +189,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetGiftCardByNumberAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(GetGiftCardByNumberAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -210,7 +210,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(UpdateGiftCardAsync)}: exception", "Some issues", ex);
+                result.SetError($"{nameof(UpdateGiftCardAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -220,13 +220,13 @@ namespace Next2.Services.CustomersService
 
         #region -- Private Helpers --
 
-        private IEnumerable<CustomerModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelDTOs, IEnumerable<CustomerModel> mockModels)
+        private IEnumerable<CustomerModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelsDTO, IEnumerable<CustomerModel> mockModels)
         {
             IEnumerable<CustomerModel>? result = null;
 
-            if (modelDTOs is not null || mockModels is not null)
+            if (modelsDTO is not null || mockModels is not null)
             {
-                var dtoModelsArray = modelDTOs.ToArray();
+                var dtoModelsArray = modelsDTO.ToArray();
                 var mockModelsArray = mockModels.ToArray();
 
                 for (int i = 0; i < dtoModelsArray.Length && i < mockModelsArray.Length; i++)
