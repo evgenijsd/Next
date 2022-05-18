@@ -1,19 +1,17 @@
-﻿using Next2.Models.API;
-using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.Api;
 using Next2.Models.Api.DTO;
 using Next2.Models.Api.Results;
+using Next2.Models.API;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Next2.Models.API.Results;
 
 namespace Next2.Services.Menu
 {
