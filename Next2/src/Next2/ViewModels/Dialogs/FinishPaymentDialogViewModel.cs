@@ -30,7 +30,7 @@ namespace Next2.ViewModels.Dialogs
         public PaidOrderBindableModel Order { get; set; }
 
         private ICommand _finishPaymentCommand;
-        public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand<EPaymentReceiptOptions>(OnFinishPaymentCommand, allowsMultipleExecutions: false);
+        public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand<EPaymentReceiptOptions>(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace Next2.ViewModels.Dialogs
             }
         }
 
-        private Task OnFinishPaymentCommand(EPaymentReceiptOptions receiptOptions)
+        private Task OnFinishPaymentCommandAsync(EPaymentReceiptOptions receiptOptions)
         {
             var param = new DialogParameters
             {
