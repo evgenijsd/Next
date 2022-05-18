@@ -1972,7 +1972,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.WaitingForPayment}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Pending}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -1980,7 +1980,7 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.InProgress}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Preparing}"/>
 
                 <buttons:BorderButton
                     Grid.Column="2"

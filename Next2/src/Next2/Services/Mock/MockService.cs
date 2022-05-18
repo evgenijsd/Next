@@ -450,7 +450,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 1,
                     Total = 50.2f,
                     PriceTax = 5.02f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
+                    PaymentStatus = Enums.EOrderStatus.Preparing,
                 },
                 new OrderModel()
                 {
@@ -466,7 +466,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 2,
                     Total = 30.3f,
                     PriceTax = 3.03f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -482,7 +482,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 3,
                     Total = 40.45f,
                     PriceTax = 4.05f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
+                    PaymentStatus = Enums.EOrderStatus.Preparing,
                 },
                 new OrderModel()
                 {
@@ -494,7 +494,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 4,
                     Total = 3.67f,
                     PriceTax = 0.37f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -510,7 +510,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 5,
                     Total = 70.44f,
                     PriceTax = 7.04f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
+                    PaymentStatus = Enums.EOrderStatus.Preparing,
                 },
                 new OrderModel()
                 {
@@ -526,7 +526,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 6,
                     Total = 6.77f,
                     PriceTax = 0.68f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -542,7 +542,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 7,
                     Total = 45.11f,
                     PriceTax = 4.51f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -558,7 +558,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 8,
                     Total = 33.67f,
                     PriceTax = 3.37f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -574,7 +574,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 9,
                     Total = 55.16f,
                     PriceTax = 5.52f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
+                    PaymentStatus = Enums.EOrderStatus.Preparing,
                 },
                 new OrderModel()
                 {
@@ -590,7 +590,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 10,
                     Total = 97.66f,
                     PriceTax = 9.77f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -606,7 +606,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 11,
                     Total = 96.00f,
                     PriceTax = 9.60f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -622,7 +622,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 12,
                     Total = 9.50f,
                     PriceTax = 0.95f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -638,7 +638,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 13,
                     Total = 9.40f,
                     PriceTax = 0.94f,
-                    PaymentStatus = Enums.EOrderStatus.InProgress,
+                    PaymentStatus = Enums.EOrderStatus.Preparing,
                 },
                 new OrderModel()
                 {
@@ -650,7 +650,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 14,
                     Total = 9.30f,
                     PriceTax = 0.93f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
                 new OrderModel()
                 {
@@ -666,7 +666,7 @@ namespace Next2.Services.Mock
                     OrderNumber = 15,
                     Total = 9.20f,
                     PriceTax = 0.92f,
-                    PaymentStatus = Enums.EOrderStatus.WaitingForPayment,
+                    PaymentStatus = Enums.EOrderStatus.Pending,
                 },
             };
 

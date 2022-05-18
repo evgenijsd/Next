@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Next2.Enums
+﻿namespace Next2.Enums
 {
     public enum EOrderStatus
     {
-        WaitingForPayment,
-        InProgress,
+        Pending,
+        Preparing,
+        Closed,
+        Canceled,
+        Deleted,
         None,
     }
 }

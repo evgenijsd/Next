@@ -802,7 +802,7 @@ namespace Next2.ViewModels
             {
                 if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(EOrderStatus.InProgress);
+                    await OnOrderCommandAsync(EOrderStatus.Preparing);
                 }
             }
 
