@@ -4,6 +4,7 @@ using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
@@ -122,7 +123,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetNewOrderIdDTOAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -261,9 +262,9 @@ namespace Next2.Services.Order
                 if (orderId.IsSuccess && availableTables.IsSuccess && orderIdDTO.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
-                    var orderDTO = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
+                    var orderDTO = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
 
-                    CurrentOrderDTO = orderDTO.Value ?? new();
+                    CurrentOrderDTO = orderDTO?.Value?.Order ?? new();
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
 

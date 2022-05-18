@@ -11,7 +11,9 @@ namespace Next2.Models.API.DTO
 
         public int Number { get; set; }
 
-        public EOrderType? OrderType { get; set; }
+        public string? OrderType { get; set; }
+
+        public bool IsTab { get; set; }
 
         public SimpleTableModelDTO Table { get; set; } = new();
 
@@ -19,7 +21,7 @@ namespace Next2.Models.API.DTO
 
         public DateTime? Close { get; set; }
 
-        public EOrderStatus? OrderStatus { get; set; }
+        public string? OrderStatus { get; set; }
 
         public decimal TaxCoefficient { get; set; }
 
@@ -31,9 +33,9 @@ namespace Next2.Models.API.DTO
 
         public bool IsCashPayment { get; set; }
 
-        public SimpleCouponModelDTO Coupon { get; set; } = new();
-
         public SimpleDiscountModelDTO Discount { get; set; } = new();
+
+        public SimpleCouponModelDTO Coupon { get; set; } = new();
 
         public SimpleCustomerModelDTO Customer { get; set; } = new();
 
