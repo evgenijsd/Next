@@ -66,11 +66,11 @@ namespace Next2.Services.Menu
             {
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{categoryId}.{subcategoryId}";
 
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
+                var resultGettingDishes = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
 
-                if (response.Success)
+                if (resultGettingDishes.Success)
                 {
-                    result.SetSuccess(response.Value.Dishes);
+                    result.SetSuccess(resultGettingDishes.Value.Dishes);
                 }
             }
             catch (Exception ex)

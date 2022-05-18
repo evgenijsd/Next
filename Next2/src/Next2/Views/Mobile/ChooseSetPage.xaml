@@ -88,7 +88,7 @@
             Margin="15, 10, 15, 0"
             VerticalOptions="FillAndExpand"
             VerticalScrollBarVisibility="Never"
-            ItemsSource="{Binding DishesItems}">
+            ItemsSource="{Binding Dishes}">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
@@ -121,7 +121,7 @@
         <CollectionView
             HeightRequest="60"
             VerticalOptions="End"
-            ItemsSource="{Binding SubcategoriesItems}"
+            ItemsSource="{Binding Subcategories}"
             SelectedItem="{Binding SelectedSubcategoriesItem}"
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single"
