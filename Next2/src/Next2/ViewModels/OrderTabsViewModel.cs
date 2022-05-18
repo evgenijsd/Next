@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers.DTO;
 using Next2.Helpers.Events;
+using Next2.Helpers.ProcessHelpers;
 using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Order;
@@ -142,7 +143,17 @@ namespace Next2.ViewModels
 
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
 
-                var gettingOrdersResult = await _orderService.GetOrdersAsync();
+                AOResult<IEnumerable<OrderModelDTO>> gettingOrdersResult = new AOResult<IEnumerable<OrderModelDTO>>();
+
+                if (IsTabsSelected)
+                {
+                    gettingOrdersResult = await _orderService.GetOrdersAsync();
+                }
+                else
+                {
+                    gettingOrdersResult.SetSuccess(new List<OrderModelDTO>());
+                    await Task.Delay(2000);
+                }
 
                 if (gettingOrdersResult.IsSuccess)
                 {

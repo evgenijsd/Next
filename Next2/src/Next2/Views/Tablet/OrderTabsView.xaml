@@ -17,260 +17,255 @@
     <ContentView.Resources>
         <Style x:Key="BorderButtonStyle_i1_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
             <Setter Property="FontSize" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-            <Setter Property="TextColor" Value="{DynamicResource TSize_i7}"/>
+            <Setter Property="TextColor" Value="{DynamicResource TSize_i3}"/>
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="WidthRequest" Value="100"/>
         </Style>
     </ContentView.Resources>
     
-    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+    <Grid
+        RowDefinitions="75, 2, 95"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
+        <!-- PAGE HEADER --> 
         <Grid
-            RowDefinitions="75, 2, 95"
-            HorizontalOptions="Fill"
-            VerticalOptions="Fill">
+            Grid.Row="0"
+            ColumnDefinitions="520, *">
 
-            <Grid
+            <Label
+                Grid.Column="0"
+                Text="{xct:Translate OrderTabs}"
+                Margin="30, 0, 0, 0"
+                VerticalOptions="CenterAndExpand"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i4}" />
+
+            <controls:CustomButton
+                Grid.Column="0"
+                Text="{xct:Translate Orders}"
+                CornerRadius="10, 0, 0, 0"
+                HeightRequest="50"
+                WidthRequest="260"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                IsSelected="{Binding IsTabsSelected}"
+                Command="{Binding SelectOrdersCommand}" />
+
+            <controls:CustomButton
+                Grid.Column="1"
+                Text="{xct:Translate Tabs}"
+                CornerRadius="0, 10, 0, 0"
+                HeightRequest="50"
+                WidthRequest="260"
+                HorizontalOptions="Start"
+                VerticalOptions="End"
+                IsSelected="{Binding IsTabsSelected, Converter={xct:InvertedBoolConverter}}"
+                Command="{Binding SelectTabsCommand}" />
+
+        </Grid>
+
+        <BoxView
+            Grid.Row="1"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
+
+        <!-- OPTIONS --> 
+        <Grid
+            Grid.Row="2"
+            Margin="20, 30, 0, 20"
+            ColumnDefinitions="325, *">
+
+            <controls:SearchButton
                 Grid.Row="0"
-                HorizontalOptions="Fill"
-                VerticalOptions="Fill"
-                ColumnDefinitions="520, *">
+                CornerRadius="5"
+                Text="{Binding SearchQuery}"
+                Placeholder="{xct:Translate SearchName}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                BackColor="Transparent"
+                BorderColor="{DynamicResource AppColor_i1}"
+                CommandSearch="{Binding SearchCommand}"
+                CommandClear="{Binding ClearSearchResultCommand}">
 
-                <Label
-                    Grid.Column="0"
-                    Text="{xct:Translate OrderTabs}"
-                    Margin="30, 0, 0, 0"
-                    VerticalOptions="CenterAndExpand"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontFamily="Barlow-Bold"
-                    FontSize="{DynamicResource TSize_i4}" />
+                <controls:SearchButton.Triggers>
 
-                <controls:CustomButton
-                    Grid.Column="0"
-                    Text="{xct:Translate Orders}"
-                    CornerRadius="10, 0, 0, 0"
-                    HeightRequest="50"
-                    WidthRequest="260"
-                    HorizontalOptions="End"
-                    VerticalOptions="End"
-                    IsSelected="{Binding IsTabsSelected}"
-                    Command="{Binding SelectOrdersCommand}" />
+                    <DataTrigger TargetType="controls:SearchButton" Binding="{Binding SearchQuery}" Value="">
+                        <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
+                        <Setter Property="ImageSource" Value="ic_search_24x24" />
+                    </DataTrigger>
 
-                <controls:CustomButton
-                    Grid.Column="1"
-                    Text="{xct:Translate Tabs}"
-                    CornerRadius="0, 10, 0, 0"
-                    HeightRequest="50"
-                    WidthRequest="260"
-                    HorizontalOptions="Start"
-                    VerticalOptions="End"
-                    IsSelected="{Binding IsTabsSelected, Converter={xct:InvertedBoolConverter}}"
-                    Command="{Binding SelectTabsCommand}" />
+                    <DataTrigger TargetType="controls:SearchButton" Binding="{Binding IsTabsSelected}" Value="True">
+                        <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
+                    </DataTrigger>
 
-            </Grid>
-
-            <BoxView
-                Grid.Row="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}" />
-
-            <Grid
-                Grid.Row="2"
-                Margin="20, 30, 0, 20"
-                ColumnDefinitions="325, *">
-
-                <controls:SearchButton
-                    Grid.Row="0"
-                    CornerRadius="5"
-                    Text="{Binding SearchQuery}"
-                    Placeholder="{xct:Translate SearchName}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    BackColor="Transparent"
-                    BorderColor="{DynamicResource AppColor_i1}"
-                    CommandSearch="{Binding SearchCommand}"
-                    CommandClear="{Binding ClearSearchResultCommand}">
-
-                    <controls:SearchButton.Triggers>
-
-                        <DataTrigger TargetType="controls:SearchButton" Binding="{Binding SearchQuery}" Value="">
-                     
-                            <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                            <Setter Property="ImageSource" Value="ic_search_24x24" />
+                </controls:SearchButton.Triggers>
                             
-                        </DataTrigger>
+            </controls:SearchButton>
 
-                        <DataTrigger TargetType="controls:SearchButton" Binding="{Binding IsTabsSelected}" Value="True">
-                            
-                            <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
-                            
-                        </DataTrigger>
+            <!-- BUTTONS -->
+            <StackLayout
+                Grid.Column="1"
+                Orientation="Horizontal"
+                Spacing="15"
+                Margin="0, 0, 20, 0">
 
-                    </controls:SearchButton.Triggers>
-                            
-                </controls:SearchButton>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
+                        <Setter Property="IsEnabled" Value="false"/>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                    </DataTrigger>
+                </StackLayout.Triggers>
 
-                <StackLayout
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Spacing="15"
-                    Margin="0, 0, 20, 0">
-
-                    <StackLayout.Triggers>
-                        <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                                
-                            <Setter Property="IsEnabled" Value="false"/>
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
-                                
-                        </DataTrigger>
-                    </StackLayout.Triggers>
-
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i1_1}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{xct:Translate Remove}"
-                        BorderColor="{DynamicResource IndicationColor_i3}"
-                        xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    HorizontalOptions="EndAndExpand"
+                    BorderColor="{DynamicResource IndicationColor_i3}"
+                    Text="{xct:Translate Remove}"
+                    xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
                     
-                    <buttons:BorderButton
-                        Text="{xct:Translate Edit}"
-                        BorderColor="{DynamicResource IndicationColor_i5}"
-                        Style="{DynamicResource BorderButtonStyle_i1}"/>
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    BorderColor="{DynamicResource IndicationColor_i5}"
+                    Text="{xct:Translate Edit}"/>
 
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i1}"
-                        Text="{xct:Translate Split}"
-                        BorderColor="{DynamicResource IndicationColor_i7}"
-                        IsVisible="{Binding IsTabsSelected}"/>
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    BorderColor="{DynamicResource IndicationColor_i7}"
+                    Text="{xct:Translate Split}"
+                    IsVisible="{Binding IsTabsSelected}"/>
 
-                    <buttons:BorderButton
-                        Style="{DynamicResource BorderButtonStyle_i1}"
-                        BorderColor="{DynamicResource IndicationColor_i1}"
-                        BackgroundColor="{DynamicResource IndicationColor_i1}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        Text="{xct:Translate Print}"
-                        xct:TouchEffect.Command="{Binding PrintCommand}"/>
+                <buttons:BorderButton
+                    Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    TextColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    Text="{xct:Translate Print}"
+                    xct:TouchEffect.Command="{Binding PrintCommand}"/>
 
-                </StackLayout>
+            </StackLayout>
 
-            </Grid>
+        </Grid>
 
-            <yummy:PancakeView
-                Grid.Row="3"
-                Margin="20, 0, 20, 20"
-                CornerRadius="10"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+        <yummy:PancakeView
+            Grid.Row="3"
+            Margin="20, 0, 20, 20"
+            CornerRadius="10"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
-                <StackLayout>
+            <StackLayout>
 
-                    <!-- TABLE HEADER -->
-                    <Grid
-                        ColumnDefinitions="50, *, *, *, *"
-                        VerticalOptions="Start"
-                        HeightRequest="50"
-                        MinimumHeightRequest="50">
+                <!-- TABLE HEADER -->
+                <Grid
+                    ColumnDefinitions="50, *, *, *, *"
+                    VerticalOptions="Start"
+                    HeightRequest="50"
+                    MinimumHeightRequest="50">
 
-                        <StackLayout
-                            Grid.Column="1"
-                            Orientation="Horizontal"
-                            xct:TouchEffect.Command="{Binding ChangeOrderSortingCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}">
+                    <StackLayout
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        xct:TouchEffect.Command="{Binding ChangeOrderSortingCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}">
 
-                            <Label
-                                Margin="20, 15, 0, 0"
-                                Text="{xct:Translate TableNumber}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-Medium">
+                        <Label
+                            Margin="20, 15, 0, 0"
+                            Text="{xct:Translate TableNumber}"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                            FontSize="{DynamicResource TSize_i8}"
+                            FontFamily="Barlow-Medium">
 
-                                <Label.Triggers>
+                            <Label.Triggers>
                                     
-                                    <DataTrigger
-                                        TargetType="Label"
-                                        Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsTabsSelected}"
-                                        Value="False">
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsTabsSelected}"
+                                    Value="False">
                                         
-                                        <Setter Property="Text" Value="{xct:Translate CustomerName}" />
+                                    <Setter Property="Text" Value="{xct:Translate CustomerName}" />
                                         
-                                    </DataTrigger>
+                                </DataTrigger>
 
-                                </Label.Triggers>
+                            </Label.Triggers>
 
-                            </Label>
+                        </Label>
 
-                            <ffimageloading:CachedImage
-                                Source="ic_sort_primary_24x24"
-                                HeightRequest="25"
-                                Margin="5, 13, 0, 0"
-                                VerticalOptions="StartAndExpand"/>
+                        <ffimageloading:CachedImage
+                            Source="ic_sort_primary_24x24"
+                            HeightRequest="25"
+                            Margin="5, 13, 0, 0"
+                            VerticalOptions="StartAndExpand"/>
 
-                        </StackLayout>
+                    </StackLayout>
 
-                        <StackLayout
-                            Grid.Column="2"
-                            Orientation="Horizontal"
-                            xct:TouchEffect.Command="{Binding ChangeOrderSortingCommand}"
-                            xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}">
-
-                            <Label
-                                HorizontalOptions="Start"
-                                Margin="15, 15, 0, 0"
-                                Text="{xct:Translate OrderNumber}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                FontSize="{DynamicResource TSize_i8}"
-                                FontFamily="Barlow-SemiBold" />
-
-                            <ffimageloading:CachedImage
-                                Source="ic_sort_primary_24x24"
-                                HeightRequest="25"
-                                Margin="5, 13, 0, 0"
-                                VerticalOptions="Start" />
-
-
-                        </StackLayout>
+                    <StackLayout
+                        Grid.Column="2"
+                        Orientation="Horizontal"
+                        xct:TouchEffect.Command="{Binding ChangeOrderSortingCommand}"
+                        xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}">
 
                         <Label
-                            Grid.Column="3"
-                            HorizontalOptions="StartAndExpand"
-                            Margin="10, 15, 0, 0"
-                            Text="{xct:Translate Total}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-SemiBold" />
-
-                        <Label
-                            Grid.Column="4"
-                            HorizontalOptions="StartAndExpand"
+                            HorizontalOptions="Start"
                             Margin="15, 15, 0, 0"
-                            Text="{xct:Translate OrderStatus}"
+                            Text="{xct:Translate OrderNumber}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-SemiBold" />
 
-                        <Label
-                            Grid.Column="5"
-                            HorizontalOptions="StartAndExpand"
-                            Margin="15, 15, 0, 0"
-                            Text="{xct:Translate OrderType}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-SemiBold" />
+                        <ffimageloading:CachedImage
+                            Source="ic_sort_primary_24x24"
+                            HeightRequest="25"
+                            Margin="5, 13, 0, 0"
+                            VerticalOptions="Start" />
 
-                        <BoxView
-                            Grid.ColumnSpan="6"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="EndAndExpand"
-                            HeightRequest="2"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+                    </StackLayout>
 
-                    </Grid>
+                    <Label
+                        Grid.Column="3"
+                        HorizontalOptions="StartAndExpand"
+                        Margin="10, 15, 0, 0"
+                        Text="{xct:Translate Total}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i8}"
+                        FontFamily="Barlow-SemiBold" />
 
-                    <!-- TABLE CONTENT -->
-                    <RefreshView
-                        VerticalOptions="Start"
-                        IsRefreshing="{Binding IsOrdersRefreshing}"
-                        Command="{Binding RefreshOrdersCommand}">
+                    <Label
+                        Grid.Column="4"
+                        HorizontalOptions="StartAndExpand"
+                        Margin="15, 15, 0, 0"
+                        Text="{xct:Translate OrderStatus}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i8}"
+                        FontFamily="Barlow-SemiBold" />
 
+                    <Label
+                        Grid.Column="5"
+                        HorizontalOptions="StartAndExpand"
+                        Margin="15, 15, 0, 0"
+                        Text="{xct:Translate OrderType}"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                        FontSize="{DynamicResource TSize_i8}"
+                        FontFamily="Barlow-SemiBold" />
+
+                    <BoxView
+                        Grid.ColumnSpan="6"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="EndAndExpand"
+                        HeightRequest="2"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
+
+                </Grid>
+
+                <!-- TABLE CONTENT -->
+                <RefreshView
+                    VerticalOptions="FillAndExpand"
+                    IsRefreshing="{Binding IsOrdersRefreshing}"
+                    Command="{Binding RefreshOrdersCommand}">
+
+                    <StackLayout>
+                            
                         <controls:CustomScrollBarCollectionView
-                            HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=50}"
+                            HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=30}"
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Orders}"
                             SelectedItem="{Binding SelectedOrder}"
@@ -423,31 +418,31 @@
 
                         </controls:CustomScrollBarCollectionView>
                         
-                    </RefreshView>
+                        <!-- NOTHING FOUND STATE -->
+                        <yummy:PancakeView
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                            CornerRadius="0, 0, 10, 10"
+                            Margin="2, 0, 2, 2"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            IsVisible="{Binding IsNothingFound}">
 
-                    <!-- NOTHING FOUND STATE -->
-                    <yummy:PancakeView
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                        CornerRadius="0, 0, 10, 10"
-                        Margin="2, 0, 2, 2"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        IsVisible="{Binding IsNothingFound}">
+                            <ffimageloading:CachedImage
+                                Source="pic_nothing_found"
+                                HeightRequest="250"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center" />
 
-                        <ffimageloading:CachedImage
-                            Source="pic_nothing_found"
-                            HeightRequest="250"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center" />
+                        </yummy:PancakeView>
 
-                    </yummy:PancakeView>
+                    </StackLayout>
 
-                </StackLayout>
+                </RefreshView>
 
-            </yummy:PancakeView>
+            </StackLayout>
 
-        </Grid>
+        </yummy:PancakeView>
 
-    </StackLayout>
+    </Grid>
 
 </ContentView>
