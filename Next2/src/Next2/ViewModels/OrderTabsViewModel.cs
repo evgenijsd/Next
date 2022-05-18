@@ -25,15 +25,12 @@ namespace Next2.ViewModels
 {
     public class OrderTabsViewModel : BaseViewModel
     {
-        private readonly double _summRowHeight = App.IsTablet ? Constants.LayoutOrderTabs.SUMM_ROW_HEIGHT_TABLET : Constants.LayoutOrderTabs.SUMM_ROW_HEIGHT_MOBILE;
-        private readonly double _offsetHeight = App.IsTablet ? Constants.LayoutOrderTabs.OFFSET_TABLET : Constants.LayoutOrderTabs.OFFSET_MOBILE;
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
 
         private IEnumerable<OrderModelDTO>? _orders;
         private IEnumerable<OrderModelDTO>? _tabs;
         private int _lastSavedOrderId = -1;
-        public double _heightPage;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -50,13 +47,9 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public double HeightPage { get; set; }
-
         public bool IsOrdersRefreshing { get; set; }
 
         public EOrdersSortingType OrderSortingType { get; set; }
-
-        public GridLength HeightCollectionGrid { get; set; }
 
         public string SearchQuery { get; set; } = string.Empty;
 
@@ -108,9 +101,6 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            _heightPage = HeightPage;
-            HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
-
             await LoadDataAsync();
         }
 
@@ -129,18 +119,9 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(SelectedOrder))
-            {
-                SetHeightCollection();
-            }
-            else if (args.PropertyName is nameof(Orders))
+            if (args.PropertyName is nameof(Orders))
             {
                 IsNothingFound = !Orders.Any();
-
-                if (IsNothingFound)
-                {
-                    HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
-                }
             }
         }
 
@@ -240,41 +221,11 @@ namespace Next2.ViewModels
                         x.Number.ToString().Contains(SearchQuery) ||
                         x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
                 }
-
-                SetHeightCollection();
             }
 
             //SelectedOrder = _lastSavedOrderId == 0
             //    ? null
             //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
-        }
-
-        private void SetHeightCollection()
-        {
-            var heightCollectionScreen = _heightPage - _summRowHeight;
-
-            if (SelectedOrder != null && !App.IsTablet)
-            {
-                heightCollectionScreen -= Constants.LayoutOrderTabs.BUTTONS_HEIGHT;
-            }
-
-            HeightCollectionGrid = new GridLength(heightCollectionScreen);
-
-            if (Orders.Any())
-            {
-                var heightCollection = (Orders.Count * Constants.LayoutOrderTabs.ROW_HEIGHT) + _offsetHeight;
-
-                if (heightCollectionScreen > heightCollection)
-                {
-                    heightCollectionScreen = heightCollection;
-                }
-
-                HeightCollectionGrid = new GridLength(heightCollectionScreen);
-            }
-            else
-            {
-                HeightCollectionGrid = new GridLength(_heightPage - _summRowHeight);
-            }
         }
 
         private Task OnSelectOrdersCommandAsync()
@@ -346,8 +297,6 @@ namespace Next2.ViewModels
             SelectedOrder = null;
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
-
-            SetHeightCollection();
         }
 
         private async Task OnClearSearchResultCommandAsync()
