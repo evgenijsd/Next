@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Next2.Helpers.DTO
+namespace Next2.Models.API
 {
-    public class LoginQueryResultExecutionResult
+    public class RefreshTokenQueryResultExecutionResult
     {
         public bool Success { get; set; }
 
@@ -10,6 +10,6 @@ namespace Next2.Helpers.DTO
 
         public List<InfoMessage>? Messages { get; set; }
 
-        public LoginQueryResult Value { get; set; } = new();
+        public RefreshTokenQueryResult Value { get; set; } = new();
     }
 }

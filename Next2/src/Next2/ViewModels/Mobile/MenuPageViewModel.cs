@@ -1,6 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Models;
-using Next2.Models.Api;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;

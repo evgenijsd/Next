@@ -1,6 +1,6 @@
 ﻿using Acr.UserDialogs;
 using Next2.Interfaces;
-using Next2.Models.Api;
+using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Log;
 using Next2.Services.Menu;
