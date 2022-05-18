@@ -1,5 +1,7 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Api.Commands;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,6 +30,8 @@ namespace Next2.Services.Order
         string ApplyNameFilter(string text);
 
         Task<AOResult> CreateNewOrderAsync();
+
+        Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
 
         Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
 

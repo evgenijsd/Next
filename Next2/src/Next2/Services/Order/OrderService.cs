@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Api.Commands;
+using Next2.Models.API;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -18,15 +22,18 @@ namespace Next2.Services.Order
         private readonly IMockService _mockService;
         private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
+        private readonly IRestService _restService;
 
         public OrderService(
             IMockService mockService,
             IBonusesService bonusesService,
+            IRestService restService,
             IMapper mapper)
         {
             _mockService = mockService;
             _bonusService = bonusesService;
             _mapper = mapper;
+            _restService = restService;
 
             CurrentOrder.Seats = new ();
         }
@@ -553,6 +560,22 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(AddOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/orders", order);
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
