@@ -1,8 +1,8 @@
 ﻿using Acr.UserDialogs;
-using Next2.Helpers.DTO.Categories;
 using Next2.Interfaces;
 using Next2.Models.Api;
 using Next2.Models.Api.DTO;
+using Next2.Models;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;

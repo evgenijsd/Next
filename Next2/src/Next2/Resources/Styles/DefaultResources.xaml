@@ -186,5 +186,6 @@
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />
     <converters:FloatToBoolConverter x:Key="floatToBoolConverter" />
+    <converters:FormattedPhoneConverter x:Key="formattedPhoneConverter" />
 
 </ResourceDictionary>

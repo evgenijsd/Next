@@ -1,7 +1,7 @@
 ﻿using Next2.Interfaces;
 using System;
 
-namespace Next2.Models.Api
+namespace Next2.Models
 {
     public class SubcategoryModel : IBaseApiModel
     {
