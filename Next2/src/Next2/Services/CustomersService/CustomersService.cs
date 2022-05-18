@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using Next2.Helpers.DTO;
-using Next2.Helpers.DTO.Customers;
+﻿using Next2.Helpers.DTO.Customers;
 using Next2.Helpers.Extensions;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API;
+using Next2.Models.API.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
@@ -59,7 +58,7 @@ namespace Next2.Services.CustomersService
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<CustomerQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers/{id}");
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomerByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers/{id}");
 
                 if (response.Success)
                 {
@@ -108,7 +107,7 @@ namespace Next2.Services.CustomersService
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQuery>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers");
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers");
                 var mockCustomers = await _mockService.GetAllAsync<CustomerModel>();
                 var dtoCustomers = response?.Value?.Customers;
 

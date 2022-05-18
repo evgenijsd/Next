@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Next2.Models.API.DTO;
 
 namespace Next2.Helpers.DTO.Customers
 {
-    public class CustomerQuery
+    public class GetCustomerByIdQueryResult
     {
         public CustomerModelDTO Customer { get; set; }
     }

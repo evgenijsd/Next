@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Next2.Models.API.DTO;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Next2.Helpers.DTO.Customers
 {
-    public class GetCustomersListQuery
+    public class GetCustomersListQueryResult
     {
         public IEnumerable<CustomerModelDTO>? Customers { get; set; }
     }

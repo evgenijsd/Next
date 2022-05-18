@@ -14,10 +14,10 @@ namespace Next2.Models.API.DTO
 
         public string? Email { get; set; }
 
-        public string Birthday { get; set; } = string.Empty;
+        public DateTime? Birthday { get; set; }
 
         public string? MembershipId { get; set; }
 
-        public List<string>? GiftCardsId { get; set; }
+        public IEnumerable<string>? GiftCardsId { get; set; }
     }
 }

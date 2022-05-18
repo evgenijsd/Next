@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.DTO.Customers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
