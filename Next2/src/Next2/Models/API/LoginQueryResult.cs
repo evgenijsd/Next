@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Next2.Helpers.DTO
+namespace Next2.Models.API
 {
     public class LoginQueryResult
     {

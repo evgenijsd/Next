@@ -1,9 +1,6 @@
-﻿using Next2.Helpers.DTO;
-using Next2.Helpers.DTO.Categories.GetAllCategories;
-using Next2.Helpers.DTO.Subcategories;
+﻿using Next2.Models.API;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.Api;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
@@ -13,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Next2.Models.API.Results;
 
 namespace Next2.Services.Menu
 {
