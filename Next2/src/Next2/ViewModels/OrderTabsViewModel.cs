@@ -4,7 +4,6 @@ using Next2.Helpers.DTO;
 using Next2.Helpers.Events;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -60,6 +59,8 @@ namespace Next2.ViewModels
 
         public bool IsTabsSelected { get; set; } = true;
 
+        public bool IsOrdersInitializing => IsOrdersRefreshing && !IsNothingFound && !Orders.Any();
+
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
@@ -101,6 +102,7 @@ namespace Next2.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
+            IsSearchActive = IsNothingFound = false;
 
             await LoadDataAsync();
         }
@@ -109,13 +111,13 @@ namespace Next2.ViewModels
         {
             base.OnDisappearing();
 
-            SearchQuery = string.Empty;
-            IsSearchActive = false;
-            IsNothingFound = false;
-            SelectedOrder = null;
             _lastSavedOrderId = 0;
             _orders = _tabs = null;
+
+            SearchQuery = string.Empty;
+            IsSearchActive = IsNothingFound = false;
             Orders = new();
+            SelectedOrder = null;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -147,7 +149,7 @@ namespace Next2.ViewModels
 
                 AOResult<IEnumerable<OrderModelDTO>> gettingOrdersResult = new AOResult<IEnumerable<OrderModelDTO>>();
 
-                if (IsTabsSelected)
+                if (true)
                 {
                     gettingOrdersResult = await _orderService.GetOrdersAsync();
                 }
@@ -241,34 +243,29 @@ namespace Next2.ViewModels
             //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
         }
 
-        private Task OnSelectOrdersCommandAsync()
+        private async Task OnSelectOrdersCommandAsync()
         {
             if (!IsTabsSelected)
             {
-                IsTabsSelected = !IsTabsSelected;
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
 
                 SearchQuery = string.Empty;
 
-                SetVisualCollection();
+                await LoadDataAsync();
+                IsTabsSelected = !IsTabsSelected;
             }
-
-            return Task.CompletedTask;
         }
 
-        private Task OnSelectTabsCommandAsync()
+        private async Task OnSelectTabsCommandAsync()
         {
             if (IsTabsSelected)
             {
-                IsTabsSelected = !IsTabsSelected;
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
 
                 SearchQuery = string.Empty;
-
-                SetVisualCollection();
+                await LoadDataAsync();
+                IsTabsSelected = !IsTabsSelected;
             }
-
-            return Task.CompletedTask;
         }
 
         private async Task OnSearchCommandAsync()
