@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Next2.Services.Order
         Task<AOResult<TaxModel>> GetTaxAsync();
 
         Task<AOResult<int>> GetNewOrderIdAsync();
+        Task<AOResult<Guid>> GetNewOrderIdDTOAsync();
 
         Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync();
 

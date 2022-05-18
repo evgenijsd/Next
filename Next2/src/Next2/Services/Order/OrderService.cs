@@ -1,13 +1,19 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API;
+using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
+using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,15 +22,21 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly ISettingsManager _settingsManager;
+        private readonly IRestService _restService;
         private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
             IBonusesService bonusesService,
+            ISettingsManager settingsManager,
+            IRestService restService,
             IMapper mapper)
         {
             _mockService = mockService;
+            _settingsManager = settingsManager;
+            _restService = restService;
             _bonusService = bonusesService;
             _mapper = mapper;
 
@@ -33,7 +45,8 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new ();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+        public OrderModelDTO CurrentOrderDTO { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
 
@@ -76,6 +89,36 @@ namespace Next2.Services.Order
                 int newOrderId = _mockService.MaxIdentifier<OrderModel>() + 1;
 
                 result.SetSuccess(newOrderId);
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<Guid>> GetNewOrderIdDTOAsync()
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var newOrderEmployeeId = new CreateOrderCommand
+                {
+                    EmployeeId = _settingsManager.UserId.ToString(),
+                };
+
+                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/orders", newOrderEmployeeId);
+
+                if (resultCreate?.Value?.Id is not null)
+                {
+                    result.SetSuccess(resultCreate.Value.Id);
+                }
+                else
+                {
+                    result.SetFailure();
+                }
             }
             catch (Exception ex)
             {
@@ -212,12 +255,15 @@ namespace Next2.Services.Order
             try
             {
                 var orderId = await GetNewOrderIdAsync();
+                var orderIdDTO = await GetNewOrderIdDTOAsync();
                 var availableTables = await GetFreeTablesAsync();
 
-                if (orderId.IsSuccess && availableTables.IsSuccess)
+                if (orderId.IsSuccess && availableTables.IsSuccess && orderIdDTO.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
+                    var orderDTO = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
 
+                    CurrentOrderDTO = orderDTO.Value ?? new();
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
 
