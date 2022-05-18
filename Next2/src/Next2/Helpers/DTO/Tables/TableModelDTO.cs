@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Next2.Helpers.DTO.Tables
 {
-    public class TableModelDTO
+    public class TableModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 

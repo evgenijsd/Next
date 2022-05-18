@@ -279,14 +279,14 @@ namespace Next2.ViewModels
         {
              if (IsInternetConnected)
             {
-                var availableTablesModelDTOResult = await _orderService.GetFreeTablesAsync();
+                var freeTablesResult = await _orderService.GetFreeTablesAsync();
 
-                if (availableTablesModelDTOResult.IsSuccess)
+                if (freeTablesResult.IsSuccess)
                 {
                     var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TableBindableModel, TableModelDTO>()
                     .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber))).CreateMapper();
 
-                    var tableBindableModels = mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesModelDTOResult.Result);
+                    var tableBindableModels = mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
 
                     Tables = new(tableBindableModels);
                 }

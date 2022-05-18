@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Next2.Helpers.DTO.Subcategories
 {
-    public class SubcategoryModelDTO
+    public class SubcategoryModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
