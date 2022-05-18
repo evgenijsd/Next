@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 
 namespace Next2.Models.Api.DTO
 {
-    public class SimpleIngredientsCategoryModelDTO
+    public class SimpleIngredientsCategoryModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
