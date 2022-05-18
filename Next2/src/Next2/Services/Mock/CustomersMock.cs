@@ -14,7 +14,7 @@ namespace Next2.Services
                 {
                     Name = "Adam Brody",
                     Email = "adambrody@gmail.com",
-                    Phone = "456-112-5298",
+                    Phone = "4561125298",
                     Points = 221,
                     Rewards = 4,
                     GiftCardsCount = 2,
@@ -41,7 +41,7 @@ namespace Next2.Services
                 {
                     Name = "Abraham Linkoln",
                     Email = "abrahamlinkoln@gmail.com",
-                    Phone = "772-303-1228",
+                    Phone = "7723031228",
                     Points = 22,
                     Rewards = 3,
                     GiftCardsCount = 2,
@@ -68,7 +68,7 @@ namespace Next2.Services
                 {
                     Name = "Aaron Rodgers",
                     Email = "aaronrodgers@gmail.com",
-                    Phone = "713-901-8114",
+                    Phone = "7139018114",
                     Points = 108,
                     Rewards = 2,
                     GiftCardsCount = 2,
@@ -95,7 +95,7 @@ namespace Next2.Services
                 {
                     Name = "Kierra Bergson",
                     Email = "kierrabergson@yaho.com",
-                    Phone = "709-502-5598",
+                    Phone = "7095025598",
                     Points = 451,
                     Rewards = 0,
                     GiftCardsCount = 17,
@@ -115,7 +115,7 @@ namespace Next2.Services
                 {
                     Name = "Angel Dias",
                     Email = "Diazzz@yaho.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 22,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -125,7 +125,7 @@ namespace Next2.Services
                 {
                     Name = "Kaiya Dorwart",
                     Email = "KaDor@gmail.com",
-                    Phone = "444-912-6298",
+                    Phone = "4449126298",
                     Points = 34,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -136,7 +136,7 @@ namespace Next2.Services
                 {
                     Name = "Lincoln Lipshutz",
                     Email = "liliputz@yaho.com",
-                    Phone = "452-955-8228",
+                    Phone = "4529558228",
                     Points = 35,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -147,7 +147,7 @@ namespace Next2.Services
                 {
                     Name = "Randy Mango",
                     Email = "mango_jango@gmail.com",
-                    Phone = "332-456-2363",
+                    Phone = "3324562363",
                     Points = 123,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -158,7 +158,7 @@ namespace Next2.Services
                 {
                     Name = "Martin Schleifer",
                     Email = "MartSh@gmail.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 221,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -169,7 +169,7 @@ namespace Next2.Services
                 {
                     Name = "Carla Dorwart",
                     Email = "Carla_123@gmail.com",
-                    Phone = "732-302-8538",
+                    Phone = "7323028538",
                     Points = 22,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -180,7 +180,7 @@ namespace Next2.Services
                 {
                     Name = "Davis Septimus",
                     Email = "DavSept@gmail.com",
-                    Phone = "733-901-8244",
+                    Phone = "7339018244",
                     Points = 108,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -191,7 +191,7 @@ namespace Next2.Services
                 {
                     Name = "Grover Parsons",
                     Email = "groverpars@yaho.com",
-                    Phone = "709-502-5598",
+                    Phone = "7095025598",
                     Points = 451,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -202,7 +202,7 @@ namespace Next2.Services
                 {
                     Name = "Douglas Moreno",
                     Email = "douglasreno@yaho.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 22,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -213,7 +213,7 @@ namespace Next2.Services
                 {
                     Name = "Colin Nichols",
                     Email = "colinic@gmail.com",
-                    Phone = "444-912-6298",
+                    Phone = "4449126298",
                     Points = 34,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -224,7 +224,7 @@ namespace Next2.Services
                 {
                     Name = "Kenneth Feron",
                     Email = "kenny@yaho.com",
-                    Phone = "452-955-8228",
+                    Phone = "4529558228",
                     Points = 35,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -235,7 +235,7 @@ namespace Next2.Services
                 {
                     Name = "Geoffrey Kim",
                     Email = "geokim@gmail.com",
-                    Phone = "332-456-2363",
+                    Phone = "3324562363",
                     Points = 123,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -246,7 +246,7 @@ namespace Next2.Services
                 {
                     Name = "Fiona Cole",
                     Email = "fiona12@gmail.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 221,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -257,7 +257,7 @@ namespace Next2.Services
                 {
                     Name = "Yeom Woong",
                     Email = "yeo@gmail.com",
-                    Phone = "732-302-8538",
+                    Phone = "7323028538",
                     Points = 22,
                     Rewards = 0,
                     GiftCardsCount = 0,
@@ -268,7 +268,7 @@ namespace Next2.Services
                 {
                     Name = "Do Soon-Bok",
                     Email = "soon-book@gmail.com",
-                    Phone = "733-901-8244",
+                    Phone = "7339018244",
                     Points = 108,
                     Rewards = 0,
                     GiftCardsCount = 0,

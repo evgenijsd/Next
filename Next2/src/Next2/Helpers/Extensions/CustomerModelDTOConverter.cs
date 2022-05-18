@@ -18,8 +18,8 @@ namespace Next2.Helpers.Extensions
                     Id = customerModel.UuId,
                     FullName = customerModel.Name,
                     Email = customerModel.Email,
-                    Phone = customerModel.Phone.Trim('-'),
-                    Birthday = customerModel?.Birthday?.ToString("s"),
+                    Phone = customerModel.Phone,
+                    Birthday = customerModel?.Birthday,
                     GiftCardsId = customerModel.GiftCardsId ??= customerModel?.GiftCards.Select(x => x.UuId),
                     MembershipId = customerModel?.MembershipId,
                 };
@@ -29,8 +29,8 @@ namespace Next2.Helpers.Extensions
                 customerModelDTO.Id = customerModel.UuId;
                 customerModelDTO.FullName = customerModel.Name;
                 customerModelDTO.Email = customerModel.Email;
-                customerModelDTO.Phone = customerModel.Phone.Trim('-');
-                customerModelDTO.Birthday = customerModel?.Birthday?.ToString("s");
+                customerModelDTO.Phone = customerModel.Phone;
+                customerModelDTO.Birthday = customerModel?.Birthday;
                 customerModelDTO.GiftCardsId = customerModel.GiftCardsId ??= customerModel?.GiftCards.Select(x => x.UuId);
                 customerModelDTO.MembershipId = customerModel?.MembershipId;
             }
@@ -47,8 +47,8 @@ namespace Next2.Helpers.Extensions
                     UuId = customerModelDTO.Id,
                     Name = customerModelDTO.FullName,
                     Email = customerModelDTO.Email,
-                    Phone = customerModelDTO?.Phone?.FormatPhoneNumber(),
-                    Birthday = DateTime.Parse(customerModelDTO?.Birthday),
+                    Phone = customerModelDTO?.Phone,
+                    Birthday = customerModelDTO?.Birthday,
                     GiftCardsId = customerModelDTO?.GiftCardsId,
                     MembershipId = customerModelDTO?.MembershipId,
                     GiftCardsCount = customerModelDTO.GiftCardsId.Count(),
@@ -61,8 +61,8 @@ namespace Next2.Helpers.Extensions
                 customerModel.UuId = customerModelDTO.Id;
                 customerModel.Name = customerModelDTO.FullName;
                 customerModel.Email = customerModelDTO.Email;
-                customerModel.Phone = customerModelDTO?.Phone?.FormatPhoneNumber();
-                customerModel.Birthday = DateTime.Parse(customerModelDTO.Birthday);
+                customerModel.Phone = customerModelDTO?.Phone;
+                customerModel.Birthday = customerModelDTO.Birthday;
                 customerModel.GiftCardsId = customerModelDTO.GiftCardsId;
                 customerModel.MembershipId = customerModelDTO?.MembershipId;
                 customerModel.GiftCardsCount = customerModelDTO.GiftCardsId.Count();

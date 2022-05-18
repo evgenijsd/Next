@@ -120,7 +120,7 @@
                         <Label
                             FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
-                            Text="{Binding Customer.Phone}"
+                            Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>
