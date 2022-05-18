@@ -10,7 +10,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:views="clr-namespace:Next2.Views" 
-    xmlns:models="clr-namespace:Next2.Models.Api"
+    xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Views.Tablet.ExpandPage"
     x:DataType="viewModels:ExpandPageViewModel">
 

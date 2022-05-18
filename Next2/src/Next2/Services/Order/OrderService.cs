@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Next2.Helpers.DTO;
-using Next2.Helpers.DTO.Tables;
-using Next2.Helpers.DTO.Tables.GetListAvailableTables;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API;
+using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;

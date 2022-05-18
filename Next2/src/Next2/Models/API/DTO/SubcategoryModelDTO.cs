@@ -1,9 +1,8 @@
 ﻿using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Next2.Helpers.DTO.Subcategories
+namespace Next2.Models.API.DTO
 {
     public class SubcategoryModelDTO : IBaseApiModel
     {

@@ -7,7 +7,7 @@
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects" 
-    xmlns:models="clr-namespace:Next2.Models.Api"
+    xmlns:models="clr-namespace:Next2.Models"
     MinimumHeightRequest="116"
     VerticalOptions="Start"
     Spacing="15"

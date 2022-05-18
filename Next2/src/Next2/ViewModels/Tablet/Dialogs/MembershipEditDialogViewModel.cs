@@ -4,11 +4,9 @@ using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Dialogs
 {
@@ -61,22 +59,22 @@ namespace Next2.ViewModels.Dialogs
             switch (editType)
             {
                 case EMembershipEditType.Disable:
-                    if (Member.MembershipEndTime > DateTime.Now)
+                    if (Member.EndDate > DateTime.Now)
                     {
-                        Member.MembershipEndTime = DateTime.Now;
+                        Member.EndDate = DateTime.Now;
                     }
 
                     break;
 
                 case EMembershipEditType.Save:
                     TimeSpan time = new(1, 0, 0);
-                    Member.MembershipStartTime = (SelectedDate ?? Member.MembershipStartTime) + time;
+                    Member.StartDate = (SelectedDate ?? Member.StartDate) + time;
                     time = new(23, 0, 0);
-                    Member.MembershipEndTime = (SelectedEndDate ?? Member.MembershipEndTime) + time;
+                    Member.EndDate = (SelectedEndDate ?? Member.EndDate) + time;
 
-                    if (Member.MembershipStartTime > Member.MembershipEndTime)
+                    if (Member.StartDate > Member.EndDate)
                     {
-                        Member.MembershipEndTime = Member.MembershipStartTime;
+                        Member.EndDate = Member.StartDate;
                     }
 
                     break;
@@ -97,8 +95,8 @@ namespace Next2.ViewModels.Dialogs
             {
                 Member = _mapper.Map<MemberBindableModel, MemberBindableModel>(member);
 
-                SelectedDate = Member.MembershipStartTime;
-                SelectedEndDate = Member.MembershipEndTime;
+                SelectedDate = Member.StartDate;
+                SelectedEndDate = Member.EndDate;
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
-using Next2.Helpers.DTO.Tables;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
@@ -277,16 +277,13 @@ namespace Next2.ViewModels
 
         private async Task RefreshTablesAsync()
         {
-             if (IsInternetConnected)
+            if (IsInternetConnected)
             {
                 var freeTablesResult = await _orderService.GetFreeTablesAsync();
 
                 if (freeTablesResult.IsSuccess)
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TableBindableModel, TableModelDTO>()
-                    .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber))).CreateMapper();
-
-                    var tableBindableModels = mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
+                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
 
                     Tables = new(tableBindableModels);
                 }
