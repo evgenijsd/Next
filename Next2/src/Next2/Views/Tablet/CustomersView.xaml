@@ -358,7 +358,7 @@
                                                         Grid.Column="1"
                                                         LineBreakMode="TailTruncation"
                                                         Style="{DynamicResource ViewCellLabelStyle}"
-                                                        Text="{Binding Name}" />
+                                                        Text="{Binding FullName}" />
 
                                                     <Label
                                                         Grid.Row="0"

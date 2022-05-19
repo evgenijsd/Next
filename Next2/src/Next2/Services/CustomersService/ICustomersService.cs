@@ -9,20 +9,20 @@ namespace Next2.Services.CustomersService
 {
     public interface ICustomersService
     {
-        Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null);
+        Task<AOResult<IEnumerable<CustomerModelDTO>>> GetAllCustomersAsync(Func<CustomerModelDTO, bool>? condition = null);
 
         Task<AOResult<CustomerModelDTO>> GetCustomerByIdAsync(Guid id);
 
-        Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModel customer);
+        Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModelDTO customer);
 
         Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber);
 
         Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
 
-        Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard);
+        Task<AOResult> AddGiftCardToCustomerAsync(CustomerModelDTO customer, GiftCardModel giftCard);
 
         Task<AOResult> UpdateGiftCardAsync(GiftCardModel giftCard);
 
-        Task<AOResult> UpdateCustomerAsync(CustomerModel customer);
+        Task<AOResult> UpdateCustomerAsync(CustomerModelDTO customer);
     }
 }

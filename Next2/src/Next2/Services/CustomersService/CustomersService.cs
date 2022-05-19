@@ -1,5 +1,4 @@
 ﻿using Next2.Helpers.DTO.Customers;
-using Next2.Helpers.Extensions;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API;
@@ -30,14 +29,13 @@ namespace Next2.Services.CustomersService
 
         #region -- ICustomersSerice implementation --
 
-        public async Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModel customer)
+        public async Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModelDTO customer)
         {
             var result = new AOResult<Guid>();
 
             try
             {
-                var customerModelDto = customer.MergeWithDTOModel();
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/customers", customerModelDto);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/customers", customer);
 
                 if (response.Success)
                 {
@@ -73,7 +71,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> UpdateCustomerAsync(CustomerModel customer)
+        public async Task<AOResult> UpdateCustomerAsync(CustomerModelDTO customer)
         {
             var result = new AOResult();
 
@@ -84,8 +82,7 @@ namespace Next2.Services.CustomersService
                     customer.GiftCardsTotalFund = customer.GiftCards.Sum(row => row.GiftCardFunds);
                     customer.GiftCardsCount = customer.GiftCards.Count();
 
-                    var customerModelDTO = customer.MergeWithDTOModel();
-                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/customers", customerModelDTO);
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/customers", customer);
 
                     if (response.Success)
                     {
@@ -101,14 +98,14 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<CustomerModel>>> GetAllCustomersAsync(Func<CustomerModel, bool>? condition = null)
+        public async Task<AOResult<IEnumerable<CustomerModelDTO>>> GetAllCustomersAsync(Func<CustomerModelDTO, bool>? condition = null)
         {
-            var result = new AOResult<IEnumerable<CustomerModel>>();
+            var result = new AOResult<IEnumerable<CustomerModelDTO>>();
 
             try
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers");
-                var mockCustomers = await _mockService.GetAllAsync<CustomerModel>();
+                var mockCustomers = CustomersMock.Create();
                 var dtoCustomers = response?.Value?.Customers;
 
                 var customers = MergeDTOModelsWithMocksModels(dtoCustomers, mockCustomers);
@@ -128,7 +125,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerModel customer, GiftCardModel giftCard)
+        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerModelDTO customer, GiftCardModel giftCard)
         {
             var result = new AOResult();
 
@@ -220,9 +217,9 @@ namespace Next2.Services.CustomersService
 
         #region -- Private Helpers --
 
-        private IEnumerable<CustomerModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelsDTO, IEnumerable<CustomerModel> mockModels)
+        private IEnumerable<CustomerModelDTO>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelsDTO, IEnumerable<CustomerModelDTO> mockModels)
         {
-            IEnumerable<CustomerModel>? result = null;
+            IEnumerable<CustomerModelDTO>? result = null;
 
             if (modelsDTO is not null || mockModels is not null)
             {
@@ -231,10 +228,18 @@ namespace Next2.Services.CustomersService
 
                 for (int i = 0; i < dtoModelsArray.Length && i < mockModelsArray.Length; i++)
                 {
-                    mockModelsArray[i] = dtoModelsArray[i].MergeWithUIModel(mockModelsArray[i]);
+                    dtoModelsArray[i].Rewards = mockModelsArray[i].Rewards;
+                    dtoModelsArray[i].Points = mockModelsArray[i].Points;
+                    dtoModelsArray[i].IsUpdatedCustomer = mockModelsArray[i].IsUpdatedCustomer;
+                    dtoModelsArray[i].GiftCardsCount = mockModelsArray[i].GiftCardsCount;
+                    dtoModelsArray[i].GiftCardsTotalFund = mockModelsArray[i].GiftCardsTotalFund;
+                    dtoModelsArray[i].GiftCardsTotalFund = mockModelsArray[i].GiftCardsTotalFund;
+                    dtoModelsArray[i].GiftCards = mockModelsArray[i].GiftCards;
+                    dtoModelsArray[i].IsNotRegistratedCustomer = mockModelsArray[i].IsNotRegistratedCustomer;
+                    dtoModelsArray[i].IsUpdatedCustomer = mockModelsArray[i].IsUpdatedCustomer;
                 }
 
-                result = mockModelsArray;
+                result = dtoModelsArray;
             }
 
             return result;

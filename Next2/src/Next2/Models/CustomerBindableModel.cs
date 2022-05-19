@@ -7,13 +7,11 @@ using Xamarin.Forms;
 
 namespace Next2.Models
 {
-    public class CustomerBindableModel : BindableBase, IBaseModel
+    public class CustomerBindableModel : BindableBase, IBaseApiModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public Guid UuId { get; set; }
-
-        public string? Name { get; set; }
+        public string? FullName { get; set; }
 
         public string? Email { get; set; }
 

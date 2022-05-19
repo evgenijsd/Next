@@ -1593,7 +1593,7 @@
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.FullName}">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>

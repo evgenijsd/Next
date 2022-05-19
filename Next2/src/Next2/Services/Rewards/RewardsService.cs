@@ -20,7 +20,7 @@ namespace Next2.Services.Rewards
 
         #region -- IReardsService --
 
-        public async Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(int customerId)
+        public async Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(Guid customerId)
         {
             var result = new AOResult<IEnumerable<RewardModel>>();
 

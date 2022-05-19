@@ -102,7 +102,7 @@
                         <Label
                             FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
-                            Text="{Binding Customer.Name}"
+                            Text="{Binding Customer.FullName}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>

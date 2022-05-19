@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -52,7 +53,7 @@ namespace Next2.ViewModels.Mobile
 
         public bool IsErrorNotificationVisible { get; set; }
 
-        public CustomerModel? Customer { get; set; }
+        public CustomerModelDTO? Customer { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);

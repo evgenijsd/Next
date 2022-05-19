@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Mock;
 using System.Collections.Generic;
 
@@ -6,13 +7,13 @@ namespace Next2.Services
 {
     public static class CustomersMock
     {
-        public static List<CustomerModel> Create()
+        public static List<CustomerModelDTO> Create()
         {
-            return new List<CustomerModel>()
+            return new List<CustomerModelDTO>()
             {
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Adam Brody",
+                    FullName = "Adam Brody",
                     Email = "adambrody@gmail.com",
                     Phone = "4561125298",
                     Points = 221,
@@ -37,9 +38,9 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Abraham Linkoln",
+                    FullName = "Abraham Linkoln",
                     Email = "abrahamlinkoln@gmail.com",
                     Phone = "7723031228",
                     Points = 22,
@@ -64,9 +65,9 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Aaron Rodgers",
+                    FullName = "Aaron Rodgers",
                     Email = "aaronrodgers@gmail.com",
                     Phone = "7139018114",
                     Points = 108,
@@ -91,9 +92,9 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Kierra Bergson",
+                    FullName = "Kierra Bergson",
                     Email = "kierrabergson@yaho.com",
                     Phone = "7095025598",
                     Points = 451,
@@ -111,9 +112,9 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Angel Dias",
+                    FullName = "Angel Dias",
                     Email = "Diazzz@yaho.com",
                     Phone = "7329028298",
                     Points = 22,
@@ -121,9 +122,9 @@ namespace Next2.Services
                     GiftCardsCount = 0,
                     GiftCardsTotalFund = 0,
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Kaiya Dorwart",
+                    FullName = "Kaiya Dorwart",
                     Email = "KaDor@gmail.com",
                     Phone = "4449126298",
                     Points = 34,
@@ -132,9 +133,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Lincoln Lipshutz",
+                    FullName = "Lincoln Lipshutz",
                     Email = "liliputz@yaho.com",
                     Phone = "4529558228",
                     Points = 35,
@@ -143,9 +144,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Randy Mango",
+                    FullName = "Randy Mango",
                     Email = "mango_jango@gmail.com",
                     Phone = "3324562363",
                     Points = 123,
@@ -154,9 +155,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Martin Schleifer",
+                    FullName = "Martin Schleifer",
                     Email = "MartSh@gmail.com",
                     Phone = "7329028298",
                     Points = 221,
@@ -165,9 +166,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Carla Dorwart",
+                    FullName = "Carla Dorwart",
                     Email = "Carla_123@gmail.com",
                     Phone = "7323028538",
                     Points = 22,
@@ -176,9 +177,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Davis Septimus",
+                    FullName = "Davis Septimus",
                     Email = "DavSept@gmail.com",
                     Phone = "7339018244",
                     Points = 108,
@@ -187,9 +188,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Grover Parsons",
+                    FullName = "Grover Parsons",
                     Email = "groverpars@yaho.com",
                     Phone = "7095025598",
                     Points = 451,
@@ -198,9 +199,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Douglas Moreno",
+                    FullName = "Douglas Moreno",
                     Email = "douglasreno@yaho.com",
                     Phone = "7329028298",
                     Points = 22,
@@ -209,9 +210,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Colin Nichols",
+                    FullName = "Colin Nichols",
                     Email = "colinic@gmail.com",
                     Phone = "4449126298",
                     Points = 34,
@@ -220,9 +221,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Kenneth Feron",
+                    FullName = "Kenneth Feron",
                     Email = "kenny@yaho.com",
                     Phone = "4529558228",
                     Points = 35,
@@ -231,9 +232,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Geoffrey Kim",
+                    FullName = "Geoffrey Kim",
                     Email = "geokim@gmail.com",
                     Phone = "3324562363",
                     Points = 123,
@@ -242,9 +243,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Fiona Cole",
+                    FullName = "Fiona Cole",
                     Email = "fiona12@gmail.com",
                     Phone = "7329028298",
                     Points = 221,
@@ -253,9 +254,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Yeom Woong",
+                    FullName = "Yeom Woong",
                     Email = "yeo@gmail.com",
                     Phone = "7323028538",
                     Points = 22,
@@ -264,9 +265,9 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Name = "Do Soon-Bok",
+                    FullName = "Do Soon-Bok",
                     Email = "soon-book@gmail.com",
                     Phone = "7339018244",
                     Points = 108,
