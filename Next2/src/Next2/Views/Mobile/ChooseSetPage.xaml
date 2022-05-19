@@ -8,7 +8,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:dto="clr-namespace:Next2.Models.Api.DTO"
+    xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"

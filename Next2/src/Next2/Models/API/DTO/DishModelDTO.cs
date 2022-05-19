@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Next2.Models.Api.DTO
+namespace Next2.Models.API.DTO
 {
     public class DishModelDTO : IBaseApiModel
     {
