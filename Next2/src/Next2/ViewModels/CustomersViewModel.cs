@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -123,7 +124,7 @@ namespace Next2.ViewModels
 
             if (customersAoresult.IsSuccess)
             {
-                var customers = _mapper.Map<List<CustomerBindableModel>>(customersAoresult.Result.OrderBy(x => x.Name));
+                var customers = _mapper.Map<List<CustomerBindableModel>>(customersAoresult.Result.OrderBy(x => x.FullName));
 
                 foreach (var item in customers)
                 {
@@ -188,7 +189,7 @@ namespace Next2.ViewModels
         {
             if (SelectedCustomer is not null)
             {
-                _orderService.CurrentOrder.Customer = _mapper.Map<CustomerBindableModel, CustomerModel>(SelectedCustomer);
+                _orderService.CurrentOrder.Customer = _mapper.Map<CustomerBindableModel, CustomerModelDTO>(SelectedCustomer);
 
                 if (App.IsTablet)
                 {
@@ -223,7 +224,7 @@ namespace Next2.ViewModels
         {
             await _popupNavigation.PopAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
             {
                 await RefreshAsync();
 
@@ -244,7 +245,7 @@ namespace Next2.ViewModels
 
                 Func<CustomerBindableModel, object> comparer = criterion switch
                 {
-                    ECustomersSorting.ByName => x => x.Name,
+                    ECustomersSorting.ByName => x => x.FullName,
                     ECustomersSorting.ByPoints => x => x.Points,
                     ECustomersSorting.ByPhoneNumber => x => x.Phone,
                     _ => throw new NotImplementedException(),
@@ -288,7 +289,7 @@ namespace Next2.ViewModels
 
         private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
         {
-            bool containsName(CustomerBindableModel x) => x.Name.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
+            bool containsName(CustomerBindableModel x) => x.FullName.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
             bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
 
             return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));

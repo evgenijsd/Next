@@ -9,6 +9,8 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
+        public string UuId { get; set; }
+
         public int GiftCardNumber { get; set; }
 
         public float GiftCardFunds { get; set; }

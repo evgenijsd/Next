@@ -1,6 +1,7 @@
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,7 +24,6 @@ namespace Next2.Services.Mock
         private IList<BonusSetModel> _bonusSets;
         private IList<PortionModel> _portions;
         private IList<RewardModel> _rewards;
-        private IList<CustomerModel> _customers;
         private IList<ProductModel> _products;
         private IList<ReplacementProductModel> _replacementProducts;
         private IList<OptionModel> _optionsProduct;
@@ -164,7 +164,6 @@ namespace Next2.Services.Mock
                 InitOrdersAsync(),
                 InitTables(),
                 InitUsersAsync(),
-                InitCustomersAsync(),
                 InitTaxAsync(),
                 InitBonusAsync(),
                 InitBonusSetAsync(),
@@ -191,7 +190,6 @@ namespace Next2.Services.Mock
                 { typeof(UserModel), _users },
                 { typeof(SeatModel), _seats },
                 { typeof(TableModel), _tables },
-                { typeof(CustomerModel), _customers },
                 { typeof(IngredientCategoryModel), _ingredientCategories },
                 { typeof(IngredientOfProductModel), _ingredientsOfProductModel },
                 { typeof(IngredientModel), _ingredients },
@@ -210,7 +208,6 @@ namespace Next2.Services.Mock
                 { typeof(UserModel), GetMaxId(_users) },
                 { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(TableModel), GetMaxId(_tables) },
-                { typeof(CustomerModel), GetMaxId(_customers) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(GiftCardModel), GetMaxId(_giftCards) },
             };
@@ -367,63 +364,63 @@ namespace Next2.Services.Mock
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 1,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 1,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
                     SetId = 2,
                     SetTitle = "B Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 1,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 1,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 2,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 2,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 2,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 3,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c8"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = 3,
+                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c8"),
                     SetId = 4,
                     SetTitle = "D Pulled Pork Sammy Meal",
                 },
@@ -439,10 +436,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 1,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 1,
-                        Name = "Adam Brody",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                        FullName = "Adam Brody",
                     },
                     TableNumber = 10,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -455,10 +452,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 2,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 2,
-                        Name = "Abraham Linkoln",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                        FullName = "Abraham Linkoln",
                     },
                     TableNumber = 9,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -471,10 +468,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 3,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 3,
-                        Name = "Aaron Rodgers",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c47c8"),
+                        FullName = "Aaron Rodgers",
                     },
                     TableNumber = 8,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -499,10 +496,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 5,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 5,
-                        Name = "Angel Dias",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c47c9"),
+                        FullName = "Angel Dias",
                     },
                     TableNumber = 6,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -515,10 +512,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 6,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 6,
-                        Name = "Kaiya Dorwart",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c57c6"),
+                        FullName = "Kaiya Dorwart",
                     },
                     TableNumber = 5,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -531,10 +528,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 7,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 7,
-                        Name = "Lincoln Lipshutz",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c67c6"),
+                        FullName = "Lincoln Lipshutz",
                     },
                     TableNumber = 4,
                     OrderStatus = Constants.OrderStatus.CANCELLED,
@@ -547,10 +544,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 8,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 8,
-                        Name = "Randy Mango",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c77c6"),
+                        FullName = "Randy Mango",
                     },
                     TableNumber = 3,
                     OrderStatus = Constants.OrderStatus.CANCELLED,
@@ -563,10 +560,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 9,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 9,
-                        Name = "Martin Schleifer",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c87c6"),
+                        FullName = "Martin Schleifer",
                     },
                     TableNumber = 2,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -579,10 +576,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 10,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 10,
-                        Name = "Carla Dorwart",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c97c6"),
+                        FullName = "Carla Dorwart",
                     },
                     TableNumber = 1,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -595,10 +592,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 11,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 11,
-                        Name = "Davis Septimus",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c48c6"),
+                        FullName = "Davis Septimus",
                     },
                     TableNumber = 11,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -611,10 +608,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 12,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 12,
-                        Name = "Grover Parsons",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c49c6"),
+                        FullName = "Grover Parsons",
                     },
                     TableNumber = 12,
                     OrderStatus = Constants.OrderStatus.CANCELLED,
@@ -627,10 +624,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 13,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 13,
-                        Name = "Douglas Moreno",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c51c6"),
+                        FullName = "Douglas Moreno",
                     },
                     TableNumber = 13,
                     OrderStatus = Constants.OrderStatus.CANCELLED,
@@ -655,10 +652,10 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 15,
-                    Customer = new CustomerModel
+                    Customer = new CustomerModelDTO
                     {
-                        Id = 15,
-                        Name = "Kenneth Feron",
+                        Id = new Guid("0b214de7895849568eed28f9ba2c52c6"),
+                        FullName = "Kenneth Feron",
                     },
                     TableNumber = 15,
                     OrderStatus = Constants.OrderStatus.IN_PROGRESS,
@@ -1504,11 +1501,6 @@ namespace Next2.Services.Mock
                      TableNumber = 19,
                  },
             };
-        });
-
-        private Task InitCustomersAsync() => Task.Run(() =>
-        {
-            _customers = CustomersMock.Create();
         });
 
         private Task InitIngredientCategoriesAsync() => Task.Run(() =>

@@ -49,7 +49,7 @@
                     </DataTrigger>
 
                     <DataTrigger TargetType="Label" Binding="{Binding Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
-                        <Setter Property="Text" Value="{Binding Customer.GiftCardCount}"/>
+                        <Setter Property="Text" Value="{Binding Customer.GiftCardsCount}"/>
                     </DataTrigger>
                 </Label.Triggers>
 
