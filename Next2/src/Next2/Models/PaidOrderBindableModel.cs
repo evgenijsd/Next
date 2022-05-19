@@ -1,13 +1,14 @@
 ﻿using Next2.Enums;
 using Next2.Interfaces;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 
 namespace Next2.Models
 {
-    public class PaidOrderBindableModel : BindableBase, IBaseModel
+    public class PaidOrderBindableModel : BindableBase, IBaseApiModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public bool IsUnsavedChangesExist { get; set; }
 

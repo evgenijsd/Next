@@ -414,7 +414,7 @@ namespace Next2.ViewModels
 
                 if (updatedCustomer is not null)
                 {
-                    Order.Customer = new CustomerModel(updatedCustomer);
+                    Order.Customer = new(); // CustomerModel(updatedCustomer);
 
                     if (Order.Customer.GiftCards.Any())
                     {

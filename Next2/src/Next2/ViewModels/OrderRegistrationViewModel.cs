@@ -88,7 +88,7 @@ namespace Next2.ViewModels
 
         public LayoutState CurrentState { get; set; }
 
-        public FullOrderBindableModelDTO CurrentOrder { get; set; } = new();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Id);
 
@@ -156,7 +156,7 @@ namespace Next2.ViewModels
         {
             if (!App.IsTablet)
             {
-                CurrentOrder = _orderService.CurrentOrderDTO;
+                CurrentOrder = _orderService.CurrentOrder;
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
@@ -193,7 +193,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if(SelectedTable is not null)
                     {
-                        _orderService.CurrentOrder.Table = SelectedTable;
+                        //_orderService.CurrentOrder.Table = SelectedTable;
                     }
 
                     break;
@@ -244,7 +244,7 @@ namespace Next2.ViewModels
         {
             IsOrderSavedNotificationVisible = false;
 
-            CurrentOrder = _orderService.CurrentOrderDTO;
+            CurrentOrder = _orderService.CurrentOrder;
 
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
@@ -676,10 +676,10 @@ namespace Next2.ViewModels
             await _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
         }
 
-        private void BonusEventCommand(FullOrderBindableModelDTO currentOrder)
+        private void BonusEventCommand(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
-            _orderService.CurrentOrderDTO = CurrentOrder;
+            _orderService.CurrentOrder = CurrentOrder;
 
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }

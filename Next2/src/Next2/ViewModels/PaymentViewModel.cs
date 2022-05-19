@@ -38,14 +38,14 @@ namespace Next2.ViewModels
             _popupNavigation = popupNavigation;
             _orderService = orderService;
 
-            Order.BonusType = orderService.CurrentOrder.BonusType;
+            /*Order.BonusType = orderService.CurrentOrder.BonusType;
             Order.Bonus = orderService.CurrentOrder.Bonus;
             Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
             Order.Subtotal = orderService.CurrentOrder.SubTotal;
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
             Order.Tax = orderService.CurrentOrder.Tax;
             Order.Total = orderService.CurrentOrder.Total;
-            Order.Customer = orderService.CurrentOrder.Customer;
+            Order.Customer = orderService.CurrentOrder.Customer;*/
 
             _subtotalWithBonus = Order.BonusType == EBonusType.None
                 ? Order.Subtotal
@@ -124,7 +124,7 @@ namespace Next2.ViewModels
                 if (parameters.ContainsKey(Constants.Navigations.GIFT_CARD_ADDED)
                     && _orderService.CurrentOrder.Customer is not null)
                 {
-                    _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
+                    /*_orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
                     Order.BonusType = _orderService.CurrentOrder.BonusType;
                     Order.Customer = _orderService.CurrentOrder.Customer;
                     Order.Bonus = _orderService.CurrentOrder.Bonus;
@@ -132,7 +132,7 @@ namespace Next2.ViewModels
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.Total;
                     Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
-                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;*/
                 }
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())

@@ -153,7 +153,7 @@ namespace Next2.Services.Bonuses
 
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
-            if (currentOrder.BonusType != EBonusType.None)
+            /*if (currentOrder.BonusType != EBonusType.None)
             {
                 currentOrder.PriceWithBonus = 0;
 
@@ -246,7 +246,7 @@ namespace Next2.Services.Bonuses
 
                     currentOrder.Total = currentOrder.PriceWithBonus + currentOrder.PriceTax;
                 }
-            }
+            }*/
 
             return currentOrder;
         }

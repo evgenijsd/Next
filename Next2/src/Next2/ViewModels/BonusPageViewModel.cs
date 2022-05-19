@@ -45,7 +45,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
 
-        public FullOrderBindableModelDTO CurrentOrder { get; set; } = new();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public BonusBindableModel? SelectedBonus { get; set; }
 
@@ -75,7 +75,7 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                //CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
+                CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
 
                 //_bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
                 if (_bonuses.Count > 0)

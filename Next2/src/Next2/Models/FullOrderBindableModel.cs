@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Next2.Models
 {
-    public class FullOrderBindableModelDTO : BindableBase, IBaseApiModel
+    public class FullOrderBindableModel : BindableBase, IBaseApiModel
     {
         public Guid Id { get; set; } //public int Id { get; set; }
 
@@ -74,5 +74,32 @@ namespace Next2.Models
         public string? EmployeeId { get; set; }
 
         public IEnumerable<SeatModelDTO>? Seats { get; set; } */
+
+        public void UpdateTotalSum()
+        {
+            SubTotalPrice = 0;
+
+            foreach (var seat in Seats)
+            {
+                foreach (var set in seat.Sets)
+                {
+                    set.IngredientsPrice = 0;
+                    set.ProductsPrice = 0;
+
+                    foreach (var product in set.Products)
+                    {
+                        set.IngredientsPrice += product.IngredientsPrice;
+                        set.ProductsPrice += product.SelectedProduct.ProductPrice;
+                    }
+
+                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
+
+                    SubTotalPrice += set.TotalPrice;
+                }
+            }
+
+            PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
+            TotalPrice = (decimal)SubTotalPrice + PriceTax;
+        }
     }
 }

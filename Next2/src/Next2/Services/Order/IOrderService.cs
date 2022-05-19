@@ -8,9 +8,8 @@ namespace Next2.Services.Order
 {
     public interface IOrderService
     {
+        //FullOrderBindableModel CurrentOrder { get; set; }
         FullOrderBindableModel CurrentOrder { get; set; }
-
-        FullOrderBindableModelDTO CurrentOrderDTO { get; set; }
 
         SeatBindableModel? CurrentSeat { get; set; }
 

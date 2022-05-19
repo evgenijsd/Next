@@ -47,8 +47,8 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
+        //public FullOrderBindableModel CurrentOrder { get; set; } = new();
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
-        public FullOrderBindableModelDTO CurrentOrderDTO { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
 
@@ -265,11 +265,11 @@ namespace Next2.Services.Order
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
                     var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
 
-                    CurrentOrderDTO = _mapper.Map<FullOrderBindableModelDTO>(order?.Value?.Order);
-                    CurrentOrder = new();
+                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
+                    //CurrentOrder = new();
                     CurrentOrder.Seats = new();
 
-                    var tax = await GetTaxAsync();
+                    /*var tax = await GetTaxAsync();
 
                     if (tax.IsSuccess)
                     {
@@ -282,7 +282,7 @@ namespace Next2.Services.Order
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
-                    CurrentSeat = null;
+                    CurrentSeat = null;*/
 
                     result.SetSuccess();
                 }
@@ -387,7 +387,7 @@ namespace Next2.Services.Order
 
                     set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
 
-                    CurrentOrder.Total += set.TotalPrice;
+                    CurrentOrder.TotalPrice += set.TotalPrice;
                 }
                 else
                 {
@@ -399,7 +399,7 @@ namespace Next2.Services.Order
                     result.SetFailure();
                 }
 
-                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
+                /*CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
                 CurrentOrder.SubTotal += set.Portion.Price;
 
                 CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
@@ -408,7 +408,7 @@ namespace Next2.Services.Order
                 if (CurrentOrder.BonusType != Enums.EBonusType.None)
                 {
                     CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-                }
+                }*/
 
                 result.SetSuccess();
             }
@@ -463,7 +463,7 @@ namespace Next2.Services.Order
 
                 if (isDeleted)
                 {
-                    for (int i = seat.SeatNumber - 1; i < CurrentOrder.Seats.Count; i++)
+                    /*for (int i = seat.SeatNumber - 1; i < CurrentOrder.Seats.Count; i++)
                     {
                         CurrentOrder.Seats[i].Id--;
                         CurrentOrder.Seats[i].SeatNumber--;
@@ -473,7 +473,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder.SubTotal -= seat.Sets.Sum(row => row.TotalPrice);
                     CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;*/
 
                     result.SetSuccess();
                 }
@@ -527,10 +527,10 @@ namespace Next2.Services.Order
                 SetBindableModel? setTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
                 if (setTobeRemoved is not null)
                 {
-                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
+                   /* CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
                     CurrentOrder.SubTotal -= setTobeRemoved.TotalPrice;
                     CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;*/
                 }
 
                 result.SetSuccess();
