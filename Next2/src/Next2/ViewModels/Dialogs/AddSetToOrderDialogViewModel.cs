@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Next2.Models;
+using Next2.Models.API;
+using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -23,10 +24,10 @@ namespace Next2.ViewModels
             TapAddCommand = new Command(
                 execute: () =>
                 {
-                    Set.Portion = SelectedPortion;
-                    Set.Portions = new(Portions);
+                    Dish.DishProportion = SelectedPortion;
+                    Dish.Products = new();
 
-                    RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.SET, Set } });
+                    RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISH, Dish } });
                 },
                 canExecute: () =>
                 {
@@ -41,22 +42,29 @@ namespace Next2.ViewModels
                     return result;
                 });
 
-            if (param.ContainsKey(Constants.DialogParameterKeys.SET) && param.ContainsKey(Constants.DialogParameterKeys.PORTIONS))
+            if (param.ContainsKey(Constants.DialogParameterKeys.DISH) && param.ContainsKey(Constants.DialogParameterKeys.PORTIONS))
             {
-                if (param.TryGetValue(Constants.DialogParameterKeys.SET, out SetModel set) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out IEnumerable<PortionModel> portions))
+                if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out IEnumerable<SimpleDishProportionModelDTO> portions))
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<SetModel, SetBindableModel>()).CreateMapper();
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>()).CreateMapper();
 
-                    Set = mapper.Map<SetModel, SetBindableModel>(set);
-                    Portions = portions;
-                    SelectedPortion = Portions.FirstOrDefault(row => row.Id == set.DefaultPortionId);
+                    Dish = mapper.Map<DishModelDTO, Models.DishBindableModel>(dish);
+
+                    Portions = portions.Select(row => new PortionModel()
+                    {
+                        Id = row.Id,
+                        Price = row.PriceRatio == 1 ? Dish.OriginalPrice : Dish.OriginalPrice * (1.0 + row.PriceRatio),
+                        Title = row.ProportionName,
+                    });
+
+                    SelectedPortion = Portions.FirstOrDefault();
                 }
             }
         }
 
         #region --Public Properties--
 
-        public SetBindableModel Set { get; }
+        public Models.DishBindableModel Dish { get; }
 
         public IEnumerable<PortionModel> Portions { get; }
 

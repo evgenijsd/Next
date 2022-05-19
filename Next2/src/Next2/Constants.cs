@@ -151,6 +151,7 @@
             public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string DISH = "DISH";
         }
 
         public static class PaymentOrderStatus

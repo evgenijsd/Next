@@ -1,7 +1,7 @@
 ﻿using Next2.Interfaces;
 using System;
 
-namespace Next2.Models.Api.DTO
+namespace Next2.Models.API.DTO
 {
     public class SimpleSubcategoryModelDTO : IBaseApiModel
     {

@@ -1,7 +1,7 @@
-﻿using Next2.Models.Api.DTO;
+﻿using Next2.Models.API.DTO;
 using System.Collections.Generic;
 
-namespace Next2.Models.Api.Results
+namespace Next2.Models.API.Results
 {
     public class GetDishesListQueryResult
     {

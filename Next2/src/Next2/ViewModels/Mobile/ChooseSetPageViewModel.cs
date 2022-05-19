@@ -1,5 +1,5 @@
 using Next2.Models;
-using Next2.Models.Api.DTO;
+using Next2.Models.API.DTO;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;

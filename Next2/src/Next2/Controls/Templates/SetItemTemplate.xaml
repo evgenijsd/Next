@@ -5,7 +5,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
-    xmlns:dto="clr-namespace:Next2.Models.Api.DTO"
+    xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     Padding="0, 0, 0, 5"
     x:Class="Next2.Controls.Templates.SetItemTemplate"
