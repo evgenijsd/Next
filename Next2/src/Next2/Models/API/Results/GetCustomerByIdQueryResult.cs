@@ -1,6 +1,6 @@
 ﻿using Next2.Models.API.DTO;
 
-namespace Next2.Helpers.DTO.Customers
+namespace Next2.Models.API.Results
 {
     public class GetCustomerByIdQueryResult
     {
