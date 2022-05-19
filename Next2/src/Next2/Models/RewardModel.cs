@@ -1,4 +1,5 @@
 ﻿using Next2.Interfaces;
+using System;
 
 namespace Next2.Models
 {
@@ -6,7 +7,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
         public int SetId { get; set; }
 
