@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:local="clr-namespace:Next2"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     Padding="23, 32"
     x:Class="Next2.Views.Mobile.Dialogs.CustomerInfoDialog"
@@ -104,7 +105,7 @@
                         <Label
                             FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
-                            Text="{Binding Customer.Name}"
+                            Text="{Binding Customer.FullName}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>
@@ -119,7 +120,7 @@
                         <Label
                             FontSize="{DynamicResource TSize_i8}"
                             Style="{StaticResource HeadTextStyle}"
-                            Text="{Binding Customer.Phone}"
+                            Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
 
                     </StackLayout>
@@ -244,7 +245,7 @@
                                     FontFamily="Barlow-Bold"
                                     FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
-                                    Text="{Binding Customer.GiftCardCount}"
+                                    Text="{Binding Customer.GiftCardsCount}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
 
                             </StackLayout>
@@ -284,7 +285,9 @@
 
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding Customer.GiftCardTotal, StringFormat='$ {0:F2}'}" />
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding Customer.GiftCardsTotalFund, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                         </FormattedString>
                                     </Label.FormattedText>
 

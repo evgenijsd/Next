@@ -170,7 +170,7 @@ namespace Next2.ViewModels
             {
                 _ordersBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
 
-                _tabsBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.FullName));
             }
 
             IsOrdersRefreshing = false;
@@ -197,7 +197,7 @@ namespace Next2.ViewModels
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.FullName))
                             .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }

@@ -1283,7 +1283,7 @@
                 Margin="18"
                 WidthRequest="125"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
+                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
 
@@ -1593,7 +1593,7 @@
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.FullName}">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
