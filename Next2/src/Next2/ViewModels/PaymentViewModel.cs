@@ -24,7 +24,7 @@ namespace Next2.ViewModels
         private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
 
-        private float _subtotalWithBonus;
+        private decimal _subtotalWithBonus;
 
         public PaymentViewModel(
             INavigationService navigationService,
@@ -114,7 +114,7 @@ namespace Next2.ViewModels
             }
             else if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
             {
-                if (float.TryParse(inputValue, out float sum))
+                if (decimal.TryParse(inputValue, out decimal sum))
                 {
                     Order.Cash = sum / 100;
                 }
@@ -140,7 +140,7 @@ namespace Next2.ViewModels
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
 
-                    if (float.TryParse(inputAmountValue, out float sum))
+                    if (decimal.TryParse(inputAmountValue, out decimal sum))
                     {
                         sum /= 100;
 

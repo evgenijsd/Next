@@ -255,9 +255,9 @@ namespace Next2.Services.Bonuses
 
         #region -- Private helpers --
 
-        private float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
+        private decimal GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
         {
-            float result = 0;
+            decimal result = 0;
 
             switch (selectedBonus.Type)
             {

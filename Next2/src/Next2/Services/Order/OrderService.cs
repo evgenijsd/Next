@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API;
@@ -47,7 +48,7 @@ namespace Next2.Services.Order
         #region -- Public properties --
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
-        public OrderModelDTO CurrentOrderDTO { get; set; } = new();
+        public FullOrderBindableModelDTO CurrentOrderDTO { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
 
@@ -262,9 +263,9 @@ namespace Next2.Services.Order
                 if (orderId.IsSuccess && availableTables.IsSuccess && orderIdDTO.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
-                    var orderDTO = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
+                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
 
-                    CurrentOrderDTO = orderDTO?.Value?.Order ?? new();
+                    CurrentOrderDTO = _mapper.Map<FullOrderBindableModelDTO>(order?.Value?.Order);
                     CurrentOrder = new();
                     CurrentOrder.Seats = new();
 

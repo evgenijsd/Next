@@ -10,6 +10,8 @@ namespace Next2.Services.Order
     {
         FullOrderBindableModel CurrentOrder { get; set; }
 
+        FullOrderBindableModelDTO CurrentOrderDTO { get; set; }
+
         SeatBindableModel? CurrentSeat { get; set; }
 
         Task<AOResult<TaxModel>> GetTaxAsync();

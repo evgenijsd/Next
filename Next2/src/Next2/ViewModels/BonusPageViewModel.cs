@@ -45,7 +45,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+        public FullOrderBindableModelDTO CurrentOrder { get; set; } = new();
 
         public BonusBindableModel? SelectedBonus { get; set; }
 
@@ -75,19 +75,18 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
+                //CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
 
-                _bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
-
+                //_bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
                 if (_bonuses.Count > 0)
                 {
                     Discounts = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveDiscountsAsync(_bonuses));
                     Coupons = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveCouponesAsync(_bonuses));
 
-                    if (CurrentOrder.BonusType != EBonusType.None)
+                    /*if (CurrentOrder.BonusType != EBonusType.None)
                     {
-                        SelectedBonus = CurrentOrder.BonusType == EBonusType.Coupone ? Coupons.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id) : Discounts.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id);
-                    }
+                        SelectedBonus = CurrentOrder.Coupon != null ? Coupons.FirstOrDefault(x => x.Id == CurrentOrder.Coupon.Id) : Discounts.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id);
+                    }*/
 
                     foreach (var coupon in Coupons)
                     {
@@ -128,7 +127,7 @@ namespace Next2.ViewModels
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            CurrentOrder.BonusType = EBonusType.None;
+            /*CurrentOrder.BonusType = EBonusType.None;
 
             SelectedBonus = bonus == SelectedBonus ? null : bonus;
 
@@ -138,7 +137,7 @@ namespace Next2.ViewModels
                 CurrentOrder.Bonus = SelectedBonus;
 
                 CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
-            }
+            }*/
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

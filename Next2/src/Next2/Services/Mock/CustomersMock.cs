@@ -19,20 +19,20 @@ namespace Next2.Services
                     Points = 221,
                     Rewards = 4,
                     GiftCardCount = 2,
-                    GiftCardTotal = 60.50f,
+                    GiftCardTotal = 60.50m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 1,
-                            GiftCardFunds = 20f,
+                            GiftCardFunds = 20m,
                             GiftCardNumber = 100,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 2,
-                            GiftCardFunds = 40.50f,
+                            GiftCardFunds = 40.50m,
                             GiftCardNumber = 101,
                             IsRegistered = true,
                         },
@@ -47,20 +47,20 @@ namespace Next2.Services
                     Points = 22,
                     Rewards = 3,
                     GiftCardCount = 2,
-                    GiftCardTotal = 66f,
+                    GiftCardTotal = 66m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 3,
-                            GiftCardFunds = 25.50f,
+                            GiftCardFunds = 25.50m,
                             GiftCardNumber = 103,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 4,
-                            GiftCardFunds = 40.50f,
+                            GiftCardFunds = 40.50m,
                             GiftCardNumber = 104,
                             IsRegistered = true,
                         },
@@ -75,20 +75,20 @@ namespace Next2.Services
                     Points = 108,
                     Rewards = 2,
                     GiftCardCount = 2,
-                    GiftCardTotal = 106f,
+                    GiftCardTotal = 106m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 5,
-                            GiftCardFunds = 65.50f,
+                            GiftCardFunds = 65.50m,
                             GiftCardNumber = 105,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 6,
-                            GiftCardFunds = 40.50f,
+                            GiftCardFunds = 40.50m,
                             GiftCardNumber = 106,
                             IsRegistered = true,
                         },
@@ -103,13 +103,13 @@ namespace Next2.Services
                     Points = 451,
                     Rewards = 0,
                     GiftCardCount = 17,
-                    GiftCardTotal = 50.02f,
+                    GiftCardTotal = 50.02m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 7,
-                            GiftCardFunds = 30f,
+                            GiftCardFunds = 30m,
                             GiftCardNumber = 107,
                             IsRegistered = true,
                         },

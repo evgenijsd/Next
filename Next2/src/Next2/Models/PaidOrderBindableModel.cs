@@ -21,20 +21,20 @@ namespace Next2.Models
 
         public BonusBindableModel? Bonus { get; set; }
 
-        public float SubtotalWithBonus { get; set; }
+        public decimal SubtotalWithBonus { get; set; }
 
-        public float Subtotal { get; set; }
+        public decimal Subtotal { get; set; }
 
-        public float PriceTax { get; set; }
+        public decimal PriceTax { get; set; }
 
         public TaxModel Tax { get; set; } = new();
 
-        public float Tip { get; set; }
+        public decimal Tip { get; set; }
 
-        public float GiftCard { get; set; }
+        public decimal GiftCard { get; set; }
 
-        private float _cash;
-        public float Cash
+        private decimal _cash;
+        public decimal Cash
         {
             get => _cash;
             set
@@ -56,12 +56,12 @@ namespace Next2.Models
             }
         }
 
-        public float Change { get; set; }
+        public decimal Change { get; set; }
 
-        public float Total { get; set;  }
+        public decimal Total { get; set;  }
 
-        public float GiftCardsTotalFunds { get; set; }
+        public decimal GiftCardsTotalFunds { get; set; }
 
-        public float RemainingGiftCardsTotalFunds { get; set; }
+        public decimal RemainingGiftCardsTotalFunds { get; set; }
     }
 }

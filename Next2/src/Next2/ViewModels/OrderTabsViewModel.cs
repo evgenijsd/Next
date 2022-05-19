@@ -33,7 +33,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<OrderModel>? _ordersBase;
         private IEnumerable<OrderModel>? _tabsBase;
-        private int _lastSavedOrderId = -1;
+        private Guid _lastSavedOrderId;
         public double _heightPage;
 
         public OrderTabsViewModel(
@@ -127,7 +127,7 @@ namespace Next2.ViewModels
             IsSearching = false;
             IsNotingFound = false;
             SelectedOrder = null;
-            _lastSavedOrderId = 0;
+            _lastSavedOrderId = Guid.Empty;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -168,14 +168,14 @@ namespace Next2.ViewModels
 
             if (resultOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
+                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.Pending).OrderBy(x => x.TableNumber));
             }
 
             var resultTabs = await _orderService.GetOrdersAsync();
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.Preparing).OrderBy(x => x.Customer?.Name));
             }
 
             IsOrdersRefreshing = false;
@@ -226,7 +226,7 @@ namespace Next2.ViewModels
                 SetHeightCollection();
             }
 
-            SelectedOrder = _lastSavedOrderId != 0 ? Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId) : null;
+            //SelectedOrder = _lastSavedOrderId != null ? Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId) : null;
         }
 
         private void SetHeightCollection()
@@ -510,14 +510,14 @@ namespace Next2.ViewModels
             }
         }
 
-        private void SetLastSavedOrderId(int orderId)
+        private void SetLastSavedOrderId(Guid orderId)
         {
             _lastSavedOrderId = orderId;
         }
 
         private void SetOrderStatus(Enum orderStatus)
         {
-            IsOrderTabsSelected = orderStatus is EOrderStatus.WaitingForPayment;
+            IsOrderTabsSelected = orderStatus is EOrderStatus.Pending;
         }
 
         private async Task OnGoBackCommand()

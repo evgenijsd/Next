@@ -74,7 +74,7 @@ namespace Next2.ViewModels
             _menuService = menuService;
             _bonusesService = bonusesService;
 
-            _orderPaymentStatus = EOrderStatus.None;
+            _orderPaymentStatus = EOrderStatus.Closed;
 
             CurrentState = LayoutState.Loading;
 
@@ -88,7 +88,7 @@ namespace Next2.ViewModels
 
         public LayoutState CurrentState { get; set; }
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new();
+        public FullOrderBindableModelDTO CurrentOrder { get; set; } = new();
 
         public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Id);
 
@@ -156,7 +156,7 @@ namespace Next2.ViewModels
         {
             if (!App.IsTablet)
             {
-                CurrentOrder = _orderService.CurrentOrder;
+                CurrentOrder = _orderService.CurrentOrderDTO;
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
@@ -169,7 +169,7 @@ namespace Next2.ViewModels
                 _isAnyUpDateForCurrentSet = true;
             }
 
-            if (CurrentOrder.Tax.Value == 0)
+            if (CurrentOrder.TaxCoefficient == 0)
             {
                 IsOrderWithTax = false;
             }
@@ -210,14 +210,14 @@ namespace Next2.ViewModels
 
                     break;
                 case nameof(CurrentOrder):
-                    IsOrderWithTax = CurrentOrder.Tax.Value > 0;
+                    IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
                     break;
                 case nameof(IsOrderWithTax):
                     if (!IsOrderWithTax)
                     {
-                        CurrentOrder.Total = CurrentOrder.BonusType != EBonusType.None
-                            ? CurrentOrder.PriceWithBonus
-                            : CurrentOrder.SubTotal;
+                        CurrentOrder.TotalPrice = CurrentOrder.Coupon != null || CurrentOrder.Discount != null
+                            ? (decimal)CurrentOrder.DiscountPrice
+                            : (decimal)CurrentOrder.SubTotalPrice;
                         CurrentOrder.PriceTax = 0;
                     }
 
@@ -244,7 +244,7 @@ namespace Next2.ViewModels
         {
             IsOrderSavedNotificationVisible = false;
 
-            CurrentOrder = _orderService.CurrentOrder;
+            CurrentOrder = _orderService.CurrentOrderDTO;
 
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
@@ -263,7 +263,7 @@ namespace Next2.ViewModels
 
             AddSeatsCommands();
 
-            SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
+            //SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
         }
@@ -520,7 +520,7 @@ namespace Next2.ViewModels
 
                 var param = new DialogParameters
                 {
-                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.Number },
                     { Constants.DialogParameterKeys.SEATS, seats },
                     { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
                     { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
@@ -676,10 +676,10 @@ namespace Next2.ViewModels
             await _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
         }
 
-        private void BonusEventCommand(FullOrderBindableModel currentOrder)
+        private void BonusEventCommand(FullOrderBindableModelDTO currentOrder)
         {
             CurrentOrder = currentOrder;
-            _orderService.CurrentOrder = CurrentOrder;
+            _orderService.CurrentOrderDTO = CurrentOrder;
 
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
@@ -699,7 +699,7 @@ namespace Next2.ViewModels
                 else if (user.Result.UserType == EUserType.Admin)
                 {
                     IsOrderWithTax = false;
-                    CurrentOrder.Tax.Value = 0;
+                    CurrentOrder.TaxCoefficient = 0;
                 }
             }
         }
@@ -712,7 +712,7 @@ namespace Next2.ViewModels
 
             if (!IsOrderWithTax)
             {
-                CurrentOrder.Tax.Value = 0;
+                CurrentOrder.TaxCoefficient = 0;
             }
         }
 
@@ -724,7 +724,7 @@ namespace Next2.ViewModels
 
             bool isAllSeatSaved = true;
 
-            foreach (var seat in CurrentOrder.Seats)
+            /*foreach (var seat in CurrentOrder.Seats)
             {
                 if (seat.Sets.Any())
                 {
@@ -776,7 +776,7 @@ namespace Next2.ViewModels
                     CurrentOrder.Seats = new();
                     await _orderService.CreateNewOrderAsync();
                 }
-            }
+            }*/
         }
 
         private async Task OnTabCommandAsync(EOrderStatus commandParameter)
@@ -802,7 +802,7 @@ namespace Next2.ViewModels
             {
                 if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(EOrderStatus.InProgress);
+                    await OnOrderCommandAsync(EOrderStatus.Preparing);
                 }
             }
 
@@ -843,8 +843,7 @@ namespace Next2.ViewModels
                     {
                         RefreshCurrentOrderAsync();
 
-                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
-
+                        //CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedSet.Sets.Any())
