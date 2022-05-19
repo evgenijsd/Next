@@ -1,8 +1,9 @@
-﻿using Next2.Helpers.DTO.Customers;
-using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Api.Results;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
@@ -177,11 +178,10 @@ namespace Next2.Services.CustomersService
 
             try
             {
-                var giftCard = await _mockService.FindAsync<GiftCardModel>(x => x.GiftCardNumber == giftCardNumber);
-
-                if (giftCard is not null)
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardByNumberQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{giftCardNumber}");
+                if (response.Success)
                 {
-                    result.SetSuccess(giftCard);
+                    result.SetSuccess(response.Value.GiftCard);
                 }
             }
             catch (Exception ex)
