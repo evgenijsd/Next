@@ -139,7 +139,6 @@ namespace Next2.ViewModels.Tablet
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.DISH, dish },
-                { Constants.DialogParameterKeys.PORTIONS, dish.DishProportions },
             };
 
             await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));

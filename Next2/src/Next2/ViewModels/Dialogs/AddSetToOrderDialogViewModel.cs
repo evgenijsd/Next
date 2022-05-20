@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -25,7 +26,6 @@ namespace Next2.ViewModels
                 execute: () =>
                 {
                     Dish.DishProportion = SelectedPortion;
-                    Dish.Products = new();
 
                     RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISH, Dish } });
                 },
@@ -42,15 +42,15 @@ namespace Next2.ViewModels
                     return result;
                 });
 
-            if (param.ContainsKey(Constants.DialogParameterKeys.DISH) && param.ContainsKey(Constants.DialogParameterKeys.PORTIONS))
+            if (param.ContainsKey(Constants.DialogParameterKeys.DISH))
             {
-                if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish) && param.TryGetValue(Constants.DialogParameterKeys.PORTIONS, out IEnumerable<SimpleDishProportionModelDTO> portions))
+                if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish))
                 {
                     var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>()).CreateMapper();
 
                     Dish = mapper.Map<DishModelDTO, Models.DishBindableModel>(dish);
 
-                    Portions = portions.Select(row => new PortionModel()
+                    Portions = dish.DishProportions.Select(row => new PortionModel()
                     {
                         Id = row.Id,
                         Price = row.PriceRatio == 1 ? Dish.OriginalPrice : Dish.OriginalPrice * (1.0 + row.PriceRatio),
