@@ -88,7 +88,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (CanAddNewCustomer)
             {
-                var newCustomer = new CustomerModelDTO()
+                var newCustomer = new CustomerBindableModel()
                 {
                     Email = Email,
                     FullName = Name,

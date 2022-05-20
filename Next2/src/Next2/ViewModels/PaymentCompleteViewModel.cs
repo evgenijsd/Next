@@ -415,7 +415,7 @@ namespace Next2.ViewModels
 
                 if (updatedCustomer is not null)
                 {
-                    Order.Customer = new CustomerModelDTO(updatedCustomer);
+                    Order.Customer = new CustomerBindableModel(updatedCustomer);
 
                     if (Order.Customer.GiftCards.Any())
                     {
@@ -451,7 +451,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private void RecalculateCustomerGiftCardFounds(CustomerModelDTO customer)
+        private void RecalculateCustomerGiftCardFounds(CustomerBindableModel customer)
         {
             double totalPrice = Order.GiftCard;
 

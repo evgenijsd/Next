@@ -53,7 +53,7 @@ namespace Next2.ViewModels.Mobile
 
         public bool IsErrorNotificationVisible { get; set; }
 
-        public CustomerModelDTO? Customer { get; set; }
+        public CustomerBindableModel? Customer { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);

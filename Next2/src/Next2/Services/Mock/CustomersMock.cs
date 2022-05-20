@@ -7,11 +7,11 @@ namespace Next2.Services
 {
     public static class CustomersMock
     {
-        public static List<CustomerModelDTO> Create()
+        public static List<CustomerBindableModel> Create()
         {
-            return new List<CustomerModelDTO>()
+            return new List<CustomerBindableModel>()
             {
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Adam Brody",
                     Email = "adambrody@gmail.com",
@@ -36,7 +36,7 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Abraham Linkoln",
                     Email = "abrahamlinkoln@gmail.com",
@@ -61,7 +61,7 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Aaron Rodgers",
                     Email = "aaronrodgers@gmail.com",
@@ -86,7 +86,7 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Kierra Bergson",
                     Email = "kierrabergson@yaho.com",
@@ -105,7 +105,7 @@ namespace Next2.Services
                         },
                     },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Angel Dias",
                     Email = "Diazzz@yaho.com",
@@ -115,7 +115,7 @@ namespace Next2.Services
                     GiftCardsCount = 0,
                     GiftCardsTotalFund = 0,
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Kaiya Dorwart",
                     Email = "KaDor@gmail.com",
@@ -126,7 +126,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Lincoln Lipshutz",
                     Email = "liliputz@yaho.com",
@@ -137,7 +137,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Randy Mango",
                     Email = "mango_jango@gmail.com",
@@ -148,7 +148,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Martin Schleifer",
                     Email = "MartSh@gmail.com",
@@ -159,7 +159,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Carla Dorwart",
                     Email = "Carla_123@gmail.com",
@@ -170,7 +170,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Davis Septimus",
                     Email = "DavSept@gmail.com",
@@ -181,7 +181,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Grover Parsons",
                     Email = "groverpars@yaho.com",
@@ -192,7 +192,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Douglas Moreno",
                     Email = "douglasreno@yaho.com",
@@ -203,7 +203,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Colin Nichols",
                     Email = "colinic@gmail.com",
@@ -214,7 +214,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Kenneth Feron",
                     Email = "kenny@yaho.com",
@@ -225,7 +225,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Geoffrey Kim",
                     Email = "geokim@gmail.com",
@@ -236,7 +236,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Fiona Cole",
                     Email = "fiona12@gmail.com",
@@ -247,7 +247,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Yeom Woong",
                     Email = "yeo@gmail.com",
@@ -258,7 +258,7 @@ namespace Next2.Services
                     GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
                     FullName = "Do Soon-Bok",
                     Email = "soon-book@gmail.com",

@@ -33,7 +33,7 @@ namespace Next2.ViewModels.Dialogs
 
         public string InputGiftCardNumber { get; set; } = string.Empty;
 
-        public CustomerModelDTO? Customer { get; set; }
+        public CustomerBindableModel? Customer { get; set; }
 
         public bool IsGiftCardNotExists { get; set; }
 
@@ -90,7 +90,7 @@ namespace Next2.ViewModels.Dialogs
                     }
                     else
                     {
-                        var tempCustomerModel = new CustomerModelDTO()
+                        var tempCustomerModel = new CustomerBindableModel()
                         {
                             GiftCardsTotalFund = giftCard.TotalBalance,
                             GiftCardsCount = 1,

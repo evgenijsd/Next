@@ -35,7 +35,7 @@ namespace Next2.Services.CustomersService
 
         #region -- Customers Region --
 
-        public async Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModelDTO customer)
+        public async Task<AOResult<Guid>> AddNewCustomerAsync(CustomerBindableModel customer)
         {
             var result = new AOResult<Guid>();
 
@@ -56,9 +56,9 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<CustomerModelDTO>> GetCustomerByIdAsync(Guid id)
+        public async Task<AOResult<CustomerBindableModel>> GetCustomerByIdAsync(Guid id)
         {
-            var result = new AOResult<CustomerModelDTO>();
+            var result = new AOResult<CustomerBindableModel>();
 
             try
             {
@@ -77,7 +77,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> UpdateCustomerAsync(CustomerModelDTO customer)
+        public async Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer)
         {
             var result = new AOResult();
 
@@ -104,9 +104,9 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<CustomerModelDTO>>> GetAllCustomersAsync(Func<CustomerModelDTO, bool>? condition = null)
+        public async Task<AOResult<IEnumerable<CustomerBindableModel>>> GetAllCustomersAsync(Func<CustomerBindableModel, bool>? condition = null)
         {
-            var result = new AOResult<IEnumerable<CustomerModelDTO>>();
+            var result = new AOResult<IEnumerable<CustomerBindableModel>>();
 
             try
             {
@@ -171,7 +171,7 @@ namespace Next2.Services.CustomersService
 
         #region -- Gift Card Region --
 
-        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerModelDTO customer, GiftCardModel giftCard)
+        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModel giftCard)
         {
             var result = new AOResult();
 
@@ -297,9 +297,9 @@ namespace Next2.Services.CustomersService
 
         #region -- Private Helpers --
 
-        private IEnumerable<CustomerModelDTO>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelsDTO, IEnumerable<CustomerModelDTO> mockModels)
+        private IEnumerable<CustomerBindableModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerModelDTO> modelsDTO, IEnumerable<CustomerBindableModel> mockModels)
         {
-            IEnumerable<CustomerModelDTO>? result = null;
+            IEnumerable<CustomerBindableModel>? result = null;
 
             if (modelsDTO is not null || mockModels is not null)
             {

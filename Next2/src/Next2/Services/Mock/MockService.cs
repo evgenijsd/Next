@@ -429,7 +429,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 1,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c47c6"),
                         FullName = "Adam Brody",
@@ -445,7 +445,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 2,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c47c7"),
                         FullName = "Abraham Linkoln",
@@ -461,7 +461,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 3,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c47c8"),
                         FullName = "Aaron Rodgers",
@@ -489,7 +489,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 5,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c47c9"),
                         FullName = "Angel Dias",
@@ -505,7 +505,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 6,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c57c6"),
                         FullName = "Kaiya Dorwart",
@@ -521,7 +521,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 7,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c67c6"),
                         FullName = "Lincoln Lipshutz",
@@ -537,7 +537,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 8,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c77c6"),
                         FullName = "Randy Mango",
@@ -553,7 +553,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 9,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c87c6"),
                         FullName = "Martin Schleifer",
@@ -569,7 +569,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 10,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c97c6"),
                         FullName = "Carla Dorwart",
@@ -585,7 +585,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 11,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c48c6"),
                         FullName = "Davis Septimus",
@@ -601,7 +601,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 12,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c49c6"),
                         FullName = "Grover Parsons",
@@ -617,7 +617,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 13,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c51c6"),
                         FullName = "Douglas Moreno",
@@ -645,7 +645,7 @@ namespace Next2.Services.Mock
                 new OrderModel()
                 {
                     Id = 15,
-                    Customer = new CustomerModelDTO
+                    Customer = new CustomerBindableModel
                     {
                         Id = new Guid("0b214de7895849568eed28f9ba2c52c6"),
                         FullName = "Kenneth Feron",

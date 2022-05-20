@@ -8,7 +8,7 @@ namespace Next2.Models
     {
         public int Id { get; set; }
 
-        public CustomerModelDTO? Customer { get; set; }
+        public CustomerBindableModel? Customer { get; set; }
 
         public int TableNumber { get; set; }
 
