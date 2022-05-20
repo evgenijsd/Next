@@ -104,7 +104,7 @@
                 Margin="0, 0, 20, 0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 HorizontalScrollBarVisibility="Never"
-                ItemsSource="{Binding CategoriesItems}"
+                ItemsSource="{Binding Categories}"
                 VerticalScrollBarVisibility="Never">
 
                 <CollectionView.Effects>
