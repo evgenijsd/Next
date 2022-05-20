@@ -13,6 +13,8 @@ namespace Next2.Models
 
         public int Number { get; set; }
 
+        public bool IsTab { get; set; }
+
         public SimpleTableModelDTO Table { get; set; } = new();
 
         public SimpleCustomerModelDTO Customer { get; set; } = new();

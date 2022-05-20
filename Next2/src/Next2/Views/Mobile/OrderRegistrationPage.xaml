@@ -525,7 +525,7 @@
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Order}"
                 xct:TouchEffect.Command="{Binding OrderCommand}"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Pending}"/> 
+                xct:TouchEffect.CommandParameter="False"/> 
 
             <buttons:BorderButton
                 Grid.Column="1"
@@ -533,7 +533,7 @@
                 BorderColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Tab}"
                 xct:TouchEffect.Command="{Binding TabCommand }"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Preparing}"/> 
+                xct:TouchEffect.CommandParameter="True"/> 
 
             <buttons:BorderButton
                 Grid.Column="2"

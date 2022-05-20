@@ -132,10 +132,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<bool>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<bool>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -722,10 +722,8 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOrderCommandAsync(EOrderStatus commandParameter)
+        private async Task OnOrderCommandAsync(bool isTab)
         {
-            _orderPaymentStatus = commandParameter;
-
             List<SeatModel> seats = new();
 
             bool isAllSeatSaved = true;
@@ -785,7 +783,7 @@ namespace Next2.ViewModels
             }*/
         }
 
-        private async Task OnTabCommandAsync(EOrderStatus commandParameter)
+        private async Task OnTabCommandAsync(bool isTab)
         {
             var parameters = new DialogParameters
             {
@@ -808,7 +806,7 @@ namespace Next2.ViewModels
             {
                 if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(EOrderStatus.Preparing);
+                    await OnOrderCommandAsync(true);
                 }
             }
 

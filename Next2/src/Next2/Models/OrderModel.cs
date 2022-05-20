@@ -10,6 +10,8 @@ namespace Next2.Models
 
         public CustomerModelDTO? Customer { get; set; }
 
+        public bool IsTab { get; set; }
+
         public int TableNumber { get; set; }
 
         public string OrderStatus { get; set; }
