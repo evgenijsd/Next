@@ -347,7 +347,7 @@
                             <controls:StepperCarousel
                                 HeightRequest="100"
                                 Margin="12, 10, 12, 16"
-                                ItemsSource="{Binding CategoriesItems}"
+                                ItemsSource="{Binding Categories}"
                                 SelectedItem="{Binding SelectedCategoriesItem}">
 
                                 <VisualStateManager.VisualStateGroups>
@@ -499,7 +499,7 @@
                         <CollectionView
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
-                            ItemsSource="{Binding SetsItems}"
+                            ItemsSource="{Binding Dishes}"
                             VerticalScrollBarVisibility="Always"
                             x:Name="menuCollectionView">
 
@@ -581,7 +581,7 @@
                             HeightRequest="50"
                             MinimumHeightRequest="50"
                             VerticalOptions="End"
-                            ItemsSource="{Binding SubcategoriesItems}"
+                            ItemsSource="{Binding Subcategories}"
                             SelectedItem="{Binding SelectedSubcategoriesItem}"
                             VerticalScrollBarVisibility="Never"
                             SelectionMode="Single">

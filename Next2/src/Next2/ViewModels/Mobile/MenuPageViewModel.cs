@@ -47,7 +47,7 @@ namespace Next2.ViewModels.Mobile
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; }
 
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
@@ -141,7 +141,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new(resultCategories.Result);
+                    Categories = new(resultCategories.Result);
                 }
             }
         }

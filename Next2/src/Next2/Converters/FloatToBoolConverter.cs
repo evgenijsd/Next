@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace Next2.Converters
 {
-    public class FloatToBoolConverter : IValueConverter
+    public class DecimalToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

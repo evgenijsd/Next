@@ -8,9 +8,10 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
-    xmlns:views="clr-namespace:Next2.Views" 
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:dto="clr-namespace:Next2.Models.API.DTO"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
+    xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Tablet.ExpandPage"
     x:DataType="viewModels:ExpandPageViewModel">
 
@@ -102,7 +103,7 @@
                 Margin="12, 10, 12, 16"
                 VerticalOptions="Start"
                 SelectionMode="Single"
-                ItemsSource="{Binding CategoriesItems}"
+                ItemsSource="{Binding Categories}"
                 SelectedItem="{Binding SelectedCategoriesItem}">
 
                 <VisualStateManager.VisualStateGroups>
@@ -280,8 +281,8 @@
         <CollectionView
             Margin="12, 8, 12, 0"
             VerticalOptions="StartAndExpand"
-            VerticalScrollBarVisibility="Always">
-            <!--ItemsSource="{Binding SetsItems}"-->
+            VerticalScrollBarVisibility="Always"
+            ItemsSource="{Binding Dishes}">
 
             <CollectionView.ItemsLayout>
 
@@ -337,8 +338,8 @@
                 <DataTemplate>
                     <templates:SetItemTemplate
                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ExpandPageViewModel}}}"
-                        xct:TouchEffect.CommandParameter="{Binding .}"/>
-                        <!--x:DataType="models:SetModel"-->
+                        xct:TouchEffect.CommandParameter="{Binding .}"
+                        x:DataType="dto:DishModelDTO"/>
 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -351,7 +352,7 @@
             HeightRequest="50"
             MinimumHeightRequest="50"
             VerticalOptions="End"
-            ItemsSource="{Binding SubcategoriesItems}"
+            ItemsSource="{Binding Subcategories}"
             SelectedItem="{Binding SelectedSubcategoriesItem}"
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single">

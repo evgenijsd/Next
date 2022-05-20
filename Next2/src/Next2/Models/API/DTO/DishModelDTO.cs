@@ -16,9 +16,9 @@ namespace Next2.Models.API.DTO
 
         public Guid DefaultProductId { get; set; }
 
-        public SimpleCategoryModelDTO Category { get; set; } = new();
+        public SimpleCategoryModelDTO Category { get; set; }
 
-        public SimpleSubCategoryModelDTO SubCategory { get; set; } = new();
+        public SimpleSubcategoryModelDTO Subcategory { get; set; }
 
         public IEnumerable<SimpleProductModelDTO>? Products { get; set; }
 
