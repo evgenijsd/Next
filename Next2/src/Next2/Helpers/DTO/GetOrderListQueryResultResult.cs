@@ -4,6 +4,6 @@ namespace Next2.Helpers.DTO
 {
     public class GetOrderListQueryResultResult
     {
-        public List<OrderModelDTO> Orders { get; set; } = new ();
+        public List<SimpleOrderModelDTO> Orders { get; set; } = new ();
     }
 }

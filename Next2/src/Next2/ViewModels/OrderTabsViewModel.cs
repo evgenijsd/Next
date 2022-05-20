@@ -2,7 +2,6 @@
 using Next2.Enums;
 using Next2.Helpers.DTO;
 using Next2.Helpers.Events;
-using Next2.Helpers.ProcessHelpers;
 using Next2.Models.Bindables;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -28,8 +27,6 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
 
-        private IEnumerable<OrderModelDTO>? _orders;
-        private IEnumerable<OrderModelDTO>? _tabs;
         private int _lastSavedOrderId = -1;
 
         public OrderTabsViewModel(
@@ -47,6 +44,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public int ErrorCounter { get; set; }
+
         public bool IsOrdersRefreshing { get; set; }
 
         public EOrdersSortingType OrderSortingType { get; set; }
@@ -57,7 +56,7 @@ namespace Next2.ViewModels
 
         public bool IsSearchActive { get; set; } = false;
 
-        public bool IsTabsSelected { get; set; } = true;
+        public bool IsTabsSelected { get; set; }
 
         public bool IsOrdersInitializing => IsOrdersRefreshing && !IsNothingFound && !Orders.Any();
 
@@ -65,11 +64,11 @@ namespace Next2.ViewModels
 
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
 
-        private ICommand _selectOrdersCommand;
-        public ICommand SelectOrdersCommand => _selectOrdersCommand ??= new AsyncCommand(OnSelectOrdersCommandAsync);
+        private ICommand _switchToOrdersCommand;
+        public ICommand SwitchTotOrdersCommand => _switchToOrdersCommand ??= new AsyncCommand(OnSwitchTotOrdersCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _selectTabsCommand;
-        public ICommand SelectTabsCommand => _selectTabsCommand ??= new AsyncCommand(OnSelectTabsCommandAsync);
+        private ICommand _switchToTabsComamnd;
+        public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new AsyncCommand(OnSwitchToTabsComamndAsync, allowsMultipleExecutions: false);
 
         private ICommand _searchCommand;
         public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
@@ -78,7 +77,7 @@ namespace Next2.ViewModels
         public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync);
 
         private ICommand _refreshOrdersCommand;
-        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
+        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync/*, () => !IsOrdersRefreshing*/);
 
         private ICommand _orderTabSortingChangeCommand;
         public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrdersSortingType>(OnChangeOrderSortingCommandAsync);
@@ -102,9 +101,10 @@ namespace Next2.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
+
             IsSearchActive = IsNothingFound = false;
 
-            await LoadDataAsync();
+            await LoadOrdersAsync(IsTabsSelected);
         }
 
         public override void OnDisappearing()
@@ -112,12 +112,10 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             _lastSavedOrderId = 0;
-            _orders = _tabs = null;
-
             SearchQuery = string.Empty;
-            IsSearchActive = IsNothingFound = false;
-            Orders = new();
+            IsSearchActive = IsNothingFound = IsOrdersRefreshing = false;
             SelectedOrder = null;
+            Orders = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -136,135 +134,115 @@ namespace Next2.ViewModels
 
         private Task OnRefreshOrdersCommandAsync()
         {
-            return LoadDataAsync();
+            return LoadOrdersAsync(IsTabsSelected);
         }
 
-        public async Task LoadDataAsync()
+        public async Task LoadOrdersAsync(bool isTabsLoading)
         {
+            IsOrdersRefreshing = true;
+
             if (IsInternetConnected)
             {
-                IsOrdersRefreshing = true;
-
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
 
-                AOResult<IEnumerable<OrderModelDTO>> gettingOrdersResult = new AOResult<IEnumerable<OrderModelDTO>>();
-
-                if (true)
-                {
-                    gettingOrdersResult = await _orderService.GetOrdersAsync();
-                }
-                else
-                {
-                    gettingOrdersResult.SetSuccess(new List<OrderModelDTO>());
-                    await Task.Delay(2000);
-                }
+                var gettingOrdersResult = await _orderService.GetOrdersAsync();
 
                 if (gettingOrdersResult.IsSuccess)
                 {
-                    var pendingOrders = gettingOrdersResult.Result.Where(x => x.OrderStatus == EOrderStatus.Pending);
+                    Orders = new();
+                    SelectedOrder = null;
 
-                    _orders = new List<OrderModelDTO>(pendingOrders)
-                        .Where(x => !x.IsTab)
-                        .OrderBy(x => x.Table?.Number);
+                    var pendingOrders = gettingOrdersResult.Result
+                            .Where(x => x.OrderStatus == EOrderStatus.Pending);
 
-                    _tabs = new List<OrderModelDTO>(pendingOrders)
-                        .Where(x => x.IsTab);
+                    var displayedOrders = isTabsLoading
+                        ? pendingOrders.Where(x => x.IsTab)
+                        : pendingOrders.Where(x => !x.IsTab).OrderBy(x => x.TableNumber);
 
-                    SetVisualCollection();
+                    var mapper = new Mapper(GetOrderConfig(isTabsLoading));
+
+                    Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(displayedOrders);
+
+                    if (!string.IsNullOrEmpty(SearchQuery))
+                    {
+                        Orders = new(Orders.Where(x =>
+                            x.Number.ToString().Contains(SearchQuery) ||
+                            x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
+                    }
+
+                    //SelectedOrder = _lastSavedOrderId == 0
+                    //    ? null
+                    //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
                 }
                 else
                 {
-                    _orders = _tabs = null;
-                    Orders = new ();
+                    Orders = new();
 
                     await ShowInfoDialog("SomethingWentWrong", "Error");
+                    ErrorCounter++;
                 }
-
-                IsOrdersRefreshing = false;
             }
             else
             {
-                _orders = _tabs = null;
                 Orders = new();
 
                 await ShowInfoDialog("NoInternetConnection", "Error");
+                ErrorCounter++;
             }
+
+            IsOrdersRefreshing = false;
         }
 
-        private void SetVisualCollection()
+        private MapperConfiguration GetOrderConfig(bool isTabsLoading)
         {
-            SelectedOrder = null;
             MapperConfiguration config = null;
 
-            Orders = new ObservableCollection<SimpleOrderBindableModel>();
-
-            IEnumerable<OrderModelDTO>? result = null;
-
-            if (IsTabsSelected)
+            if (isTabsLoading)
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, SimpleOrderBindableModel>()
-                    .ForMember(x => x.TableNumberOrName, s => s.MapFrom(x => x.Table == null
-                        ? "Not defined"
-                        : $"Table {x.Table.Number}")));
-
-                result = _orders;
+                config = new MapperConfiguration(cfg => cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
+                    .ForMember(x => x.TableNumberOrName, s => s.MapFrom(x => x.Customer != null
+                        ? x.Customer.FullName
+                        : CreateRandomCustomerName())));
             }
             else
             {
-                config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModelDTO, SimpleOrderBindableModel>()
-                    .ForMember(x => x.TableNumberOrName, s => s.MapFrom(x => x.Customer.FullName)));
-
-                result = _tabs;
+                config = new MapperConfiguration(cfg => cfg.CreateMap<SimpleOrderModelDTO, SimpleOrderBindableModel>()
+                    .ForMember<string>(x => x.TableNumberOrName, s => s.MapFrom(x => GetTableName(x.TableNumber))));
             }
 
-            if (result != null)
-            {
-                var mapper = new Mapper(config);
-
-                Orders = mapper.Map<IEnumerable<OrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(result);
-
-                for (int i = 0; i < Orders.Count; i++)
-                {
-                    Orders[i].TableNumberOrName = string.IsNullOrWhiteSpace(Orders[i].TableNumberOrName)
-                        ? CreateRandomCustomerName()
-                        : Orders[i].TableNumberOrName;
-                }
-
-                if (!string.IsNullOrEmpty(SearchQuery))
-                {
-                    Orders = new(Orders.Where(x =>
-                        x.Number.ToString().Contains(SearchQuery) ||
-                        x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
-                }
-            }
-
-            //SelectedOrder = _lastSavedOrderId == 0
-            //    ? null
-            //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
+            return config;
         }
 
-        private async Task OnSelectOrdersCommandAsync()
+        private string GetTableName(int? tableNumber)
+        {
+            return tableNumber == null
+                ? "Not defined"
+                : $"Table {tableNumber}";
+        }
+
+        private async Task OnSwitchTotOrdersCommandAsync()
+        {
+            if (IsTabsSelected)
+            {
+                OrderSortingType = EOrdersSortingType.ByCustomerName;
+                SearchQuery = string.Empty;
+
+                await LoadOrdersAsync(false);
+
+                IsTabsSelected = false;
+            }
+        }
+
+        private async Task OnSwitchToTabsComamndAsync()
         {
             if (!IsTabsSelected)
             {
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
-
                 SearchQuery = string.Empty;
 
-                await LoadDataAsync();
-                IsTabsSelected = !IsTabsSelected;
-            }
-        }
+                await LoadOrdersAsync(true);
 
-        private async Task OnSelectTabsCommandAsync()
-        {
-            if (IsTabsSelected)
-            {
-                OrderSortingType = EOrdersSortingType.ByCustomerName;
-
-                SearchQuery = string.Empty;
-                await LoadDataAsync();
-                IsTabsSelected = !IsTabsSelected;
+                IsTabsSelected = true;
             }
         }
 
@@ -279,8 +257,8 @@ namespace Next2.ViewModels
                     : _orderService.ApplyNameFilter;
 
                 var placeholder = IsTabsSelected
-                    ? LocalizationResourceManager.Current["TableNumberOrOrder"]
-                    : LocalizationResourceManager.Current["NameOrOrder"];
+                    ? LocalizationResourceManager.Current["NameOrOrder"]
+                    : LocalizationResourceManager.Current["TableNumberOrOrder"];
 
                 var parameters = new NavigationParameters()
                 {
@@ -289,7 +267,7 @@ namespace Next2.ViewModels
                     { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
 
-                ClearSearch();
+                await ClearSearchAsync();
                 IsSearchActive = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
@@ -302,7 +280,7 @@ namespace Next2.ViewModels
 
             Orders = new (Orders.Where(
                 x => x.Number.ToString().Contains(SearchQuery) ||
-                x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
+                (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
 
             SelectedOrder = null;
 
@@ -313,7 +291,7 @@ namespace Next2.ViewModels
         {
             if (SearchQuery != string.Empty)
             {
-                ClearSearch();
+                await ClearSearchAsync();
             }
             else
             {
@@ -321,14 +299,14 @@ namespace Next2.ViewModels
             }
         }
 
-        private void ClearSearch()
+        private Task ClearSearchAsync()
         {
             OrderSortingType = EOrdersSortingType.ByCustomerName;
 
             SelectedOrder = null;
             SearchQuery = string.Empty;
 
-            SetVisualCollection();
+            return LoadOrdersAsync(IsTabsSelected);
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)

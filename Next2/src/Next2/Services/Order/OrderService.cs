@@ -124,9 +124,9 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<OrderModelDTO>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync()
         {
-            var result = new AOResult<IEnumerable<OrderModelDTO>>();
+            var result = new AOResult<IEnumerable<SimpleOrderModelDTO>>();
 
             try
             {
@@ -136,10 +136,6 @@ namespace Next2.Services.Order
                 if (responce.Success)
                 {
                     result.SetSuccess(responce.Value.Orders);
-                }
-                else
-                {
-                    result.SetFailure(Strings.NotFoundOrders);
                 }
             }
             catch (Exception ex)

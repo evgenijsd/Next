@@ -32,7 +32,8 @@
         <!-- PAGE HEADER --> 
         <Grid
             Grid.Row="0"
-            ColumnDefinitions="520, *">
+            ColumnDefinitions="520, *"
+            IsEnabled="{Binding IsOrdersRefreshing, Converter={xct:InvertedBoolConverter}}">
 
             <Label
                 Grid.Column="0"
@@ -51,8 +52,8 @@
                 WidthRequest="260"
                 HorizontalOptions="End"
                 VerticalOptions="End"
-                IsSelected="{Binding IsTabsSelected}"
-                Command="{Binding SelectOrdersCommand}" />
+                IsSelected="{Binding IsTabsSelected, Converter={xct:InvertedBoolConverter}}"
+                Command="{Binding SwitchTotOrdersCommand}" />
 
             <controls:CustomButton
                 Grid.Column="1"
@@ -62,8 +63,8 @@
                 WidthRequest="260"
                 HorizontalOptions="Start"
                 VerticalOptions="End"
-                IsSelected="{Binding IsTabsSelected, Converter={xct:InvertedBoolConverter}}"
-                Command="{Binding SelectTabsCommand}" />
+                IsSelected="{Binding IsTabsSelected}"
+                Command="{Binding SwitchToTabsComamnd}" />
 
         </Grid>
 
@@ -180,7 +181,7 @@
                                 <DataTrigger
                                     TargetType="Label"
                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsTabsSelected}"
-                                    Value="False">
+                                    Value="True">
                                         
                                     <Setter Property="Text" Value="{xct:Translate CustomerName}" />
                                         
@@ -251,26 +252,6 @@
                 
             </yummy:PancakeView>
             
-            <!--<Label
-                Text="{Binding IsOrdersRefreshing, StringFormat='IsOrdersRefreshing {0}'}"
-                TextColor="Red"
-                FontSize="20"/>
-            
-            <Label
-                Text="{Binding IsNothingFound, StringFormat='IsNothingFound {0}'}"
-                TextColor="Orange"
-                FontSize="20"/>
-            
-            <Label
-                Text="{Binding Orders.Count, StringFormat='Order.Count {0}'}"
-                TextColor="ForestGreen"
-                FontSize="20"/>
-
-            <Label
-                Text="{Binding IsOrdersInitializing, StringFormat='IsOrdersInitializing {0}'}"
-                TextColor="White"
-                FontSize="20" />-->
-
             <!-- TABLE CONTENT -->
             <RefreshView
                 VerticalOptions="FillAndExpand"
