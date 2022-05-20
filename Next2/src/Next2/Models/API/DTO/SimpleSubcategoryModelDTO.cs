@@ -3,7 +3,7 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleSubcategoryModelDTO : IBaseApiModel
+    public class SimpleSubCategoryModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
