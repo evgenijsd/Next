@@ -91,7 +91,8 @@ namespace Next2.Services.Order
                     EmployeeId = _settingsManager.UserId.ToString(),
                 };
 
-                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/orders", newOrderEmployeeId);
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, query, newOrderEmployeeId);
 
                 if (resultCreate?.Value?.Id is not null)
                 {
@@ -116,7 +117,8 @@ namespace Next2.Services.Order
 
             try
             {
-                var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/tables/available");
+                var query = $"{Constants.API.HOST_URL}/api/tables/available";
+                var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, query);
 
                 if (freeTables.Success)
                 {
@@ -238,7 +240,9 @@ namespace Next2.Services.Order
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
-                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderId.Result}");
+
+                    var query = $"{Constants.API.HOST_URL}/api/orders/{orderId.Result}";
+                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
 
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.Seats = new();
