@@ -164,7 +164,7 @@ namespace Next2.ViewModels
             if (customer is CustomerBindableModel selectedCustomer)
             {
                 SelectedCustomer = customer;
-                var res = await _customersService.GetInfoAboutGiftCards(selectedCustomer);
+                var res = await _customersService.GetFullGiftCardsData(selectedCustomer);
                 selectedCustomer = res.IsSuccess
                     ? res.Result
                     : selectedCustomer;

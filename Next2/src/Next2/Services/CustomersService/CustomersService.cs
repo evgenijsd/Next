@@ -132,13 +132,13 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<CustomerBindableModel>> GetInfoAboutGiftCards(CustomerBindableModel customer)
+        public async Task<AOResult<CustomerBindableModel>> GetFullGiftCardsData(CustomerBindableModel customer)
         {
             var result = new AOResult<CustomerBindableModel>();
 
             try
             {
-                if (customer.GiftCardsId?.Count() > 0)
+                if (customer.GiftCardsId?.Count() > 0 && customer.GiftCards.Count == 0)
                 {
                     var giftCards = new List<GiftCardModel>();
 
