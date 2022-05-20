@@ -75,18 +75,18 @@
             <StackLayout
                 VerticalOptions="StartAndExpand"
                 Padding="24, 0"
-                BindableLayout.ItemsSource="{Binding Portions}">
+                BindableLayout.ItemsSource="{Binding Proportions}">
 
                 <BindableLayout.ItemTemplate>
 
-                    <DataTemplate x:DataType="api:PortionModel">
+                    <DataTemplate x:DataType="api:ProportionModel">
 
                         <templates:ToggleItemTemplate
                             State="{Binding .}"
                             IsVisibleSubtitle="True"
                             Title="{Binding Title}"
                             Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                            BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:AddSetToOrderDialogViewModel}}}"/>
+                            BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:AddSetToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>
 

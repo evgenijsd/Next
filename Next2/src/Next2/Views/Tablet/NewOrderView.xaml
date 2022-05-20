@@ -566,7 +566,7 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:SetItemTemplate
-                                        xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
                                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                                 </DataTemplate>

@@ -25,7 +25,7 @@ namespace Next2.ViewModels
             TapAddCommand = new Command(
                 execute: () =>
                 {
-                    Dish.DishProportion = SelectedPortion;
+                    Dish.SelectedProportion = SelectedProportion;
 
                     RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISH, Dish } });
                 },
@@ -46,18 +46,23 @@ namespace Next2.ViewModels
             {
                 if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish))
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>()).CreateMapper();
+                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>().ForMember(x => x.DishProportions, s => s.MapFrom(x => x.DishProportions.Select(row => new ProportionModel()
+                    {
+                        Id = row.Id,
+                        Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1.0 + row.PriceRatio),
+                        Title = row.ProportionName,
+                    })))).CreateMapper();
 
                     Dish = mapper.Map<DishModelDTO, Models.DishBindableModel>(dish);
 
-                    Portions = dish.DishProportions.Select(row => new PortionModel()
+                    Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.Id,
                         Price = row.PriceRatio == 1 ? Dish.OriginalPrice : Dish.OriginalPrice * (1.0 + row.PriceRatio),
                         Title = row.ProportionName,
                     });
 
-                    SelectedPortion = Portions.FirstOrDefault();
+                    SelectedProportion = Proportions.FirstOrDefault();
                 }
             }
         }
@@ -66,9 +71,9 @@ namespace Next2.ViewModels
 
         public Models.DishBindableModel Dish { get; }
 
-        public IEnumerable<PortionModel> Portions { get; }
+        public IEnumerable<ProportionModel> Proportions { get; }
 
-        public PortionModel SelectedPortion { get; set; }
+        public ProportionModel SelectedProportion { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 

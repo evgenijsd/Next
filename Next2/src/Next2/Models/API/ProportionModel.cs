@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Next2.Models.API
 {
-    public class PortionModel : IBaseApiModel
+    public class ProportionModel : IBaseApiModel
     {
         public Guid Id { get; set; }
 

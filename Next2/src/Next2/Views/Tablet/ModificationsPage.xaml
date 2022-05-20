@@ -193,7 +193,7 @@
                                         Title="{Binding Title}"
                                         IsVisibleSubtitle="True"
                                         Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                                        BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
+                                        BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
                                     
                                 </Frame>
 

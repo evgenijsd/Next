@@ -42,10 +42,10 @@ namespace Next2.Models
 
         public SimpleSubcategoryModelDTO Subcategory { get; set; }
 
-        public API.PortionModel DishProportion { get; set; }
+        public API.ProportionModel SelectedProportion { get; set; }
 
         public ObservableCollection<SimpleProductModelDTO>? Products { get; set; }
 
-        public ObservableCollection<PortionModel>? DishProportions { get; set; }
+        public ObservableCollection<API.ProportionModel>? DishProportions { get; set; }
     }
 }
