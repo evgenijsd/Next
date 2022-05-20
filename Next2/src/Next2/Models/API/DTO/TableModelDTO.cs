@@ -1,14 +1,15 @@
 ﻿using Next2.Interfaces;
-using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Next2.Models
+namespace Next2.Models.API.DTO
 {
-    public class TableBindableModel : BindableBase, IBaseApiModel
+    public class TableModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
-        public int TableNumber { get; set; }
+        public int Number { get; set; }
 
         public int SeatNumbers { get; set; }
 

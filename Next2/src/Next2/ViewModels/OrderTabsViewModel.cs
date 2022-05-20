@@ -175,7 +175,7 @@ namespace Next2.ViewModels
 
             if (resultTabs.IsSuccess)
             {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.Preparing).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.Preparing).OrderBy(x => x.Customer?.FullName));
             }
 
             IsOrdersRefreshing = false;
@@ -202,7 +202,7 @@ namespace Next2.ViewModels
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.FullName))
                             .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }

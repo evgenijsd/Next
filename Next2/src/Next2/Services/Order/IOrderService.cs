@@ -1,6 +1,7 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using System;
+using Next2.Models.API.DTO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,17 +9,15 @@ namespace Next2.Services.Order
 {
     public interface IOrderService
     {
-        //FullOrderBindableModel CurrentOrder { get; set; }
         FullOrderBindableModel CurrentOrder { get; set; }
 
         SeatBindableModel? CurrentSeat { get; set; }
 
         Task<AOResult<TaxModel>> GetTaxAsync();
 
-        Task<AOResult<int>> GetNewOrderIdAsync();
-        Task<AOResult<Guid>> GetNewOrderIdDTOAsync();
+        Task<AOResult<Guid>> GetNewOrderIdAsync();
 
-        Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync();
+        Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
         Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
 

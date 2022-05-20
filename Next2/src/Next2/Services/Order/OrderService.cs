@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API;
@@ -31,9 +30,9 @@ namespace Next2.Services.Order
 
         public OrderService(
             IMockService mockService,
+            IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
-            IRestService restService,
             IMapper mapper)
         {
             _mockService = mockService;
@@ -47,7 +46,6 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
-        //public FullOrderBindableModel CurrentOrder { get; set; } = new();
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
@@ -82,25 +80,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<int>> GetNewOrderIdAsync()
-        {
-            var result = new AOResult<int>();
-
-            try
-            {
-                int newOrderId = _mockService.MaxIdentifier<OrderModel>() + 1;
-
-                result.SetSuccess(newOrderId);
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<Guid>> GetNewOrderIdDTOAsync()
+        public async Task<AOResult<Guid>> GetNewOrderIdAsync()
         {
             var result = new AOResult<Guid>();
 
@@ -124,34 +104,30 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetNewOrderIdDTOAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync()
+        public async Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync()
         {
-            var result = new AOResult<IEnumerable<TableModel>>();
+            var result = new AOResult<IEnumerable<TableModelDTO>>();
 
             try
             {
-                var allTables = await _mockService.GetAllAsync<TableModel>();
+                var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/tables/available");
 
-                if (allTables is not null)
+                if (freeTables.Success)
                 {
-                    var allOrders = await _mockService.GetAllAsync<OrderModel>();
-
-                    if (allOrders is not null)
+                    if (freeTables?.Value?.Tables is not null)
                     {
-                        var freeTables = allTables.Where(table => allOrders
-                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is Constants.OrderStatus.CANCELLED or Constants.OrderStatus.PAYED));
-
-                        if (freeTables is not null)
-                        {
-                            result.SetSuccess(freeTables);
-                        }
+                        result.SetSuccess(freeTables.Value.Tables);
                     }
+                }
+                else
+                {
+                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -257,16 +233,14 @@ namespace Next2.Services.Order
             try
             {
                 var orderId = await GetNewOrderIdAsync();
-                var orderIdDTO = await GetNewOrderIdDTOAsync();
                 var availableTables = await GetFreeTablesAsync();
 
-                if (orderId.IsSuccess && availableTables.IsSuccess && orderIdDTO.IsSuccess)
+                if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
-                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderIdDTO.Result}");
+                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{orderId.Result}");
 
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
-                    //CurrentOrder = new();
                     CurrentOrder.Seats = new();
 
                     /*var tax = await GetTaxAsync();

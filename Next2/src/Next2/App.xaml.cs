@@ -180,8 +180,8 @@ namespace Next2
         {
             return new MapperConfiguration(cfg =>
             {
-            cfg.CreateMap<TableModel, TableBindableModel>();
-            cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
+            cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
+            cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
             cfg.CreateMap<SetModel, FreeSetBindableModel>();
             cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
             cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
