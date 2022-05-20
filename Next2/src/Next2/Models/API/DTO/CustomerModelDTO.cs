@@ -38,7 +38,7 @@ namespace Next2.Models.API.DTO
 
         public string? MembershipId { get; set; }
 
-        public IEnumerable<string>? GiftCardsId { get; set; }
+        public IEnumerable<Guid>? GiftCardsId { get; set; }
 
         #region -- Over Properties --
 
@@ -48,7 +48,7 @@ namespace Next2.Models.API.DTO
 
         public int GiftCardsCount { get; set; }
 
-        public float GiftCardsTotalFund { get; set; }
+        public double GiftCardsTotalFund { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 

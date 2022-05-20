@@ -2,7 +2,7 @@
 
 namespace Next2.Models.Api.Results
 {
-    public class GetGiftCardByNumberQueryResult
+    public class GetGiftCardQueryResult
     {
         public GiftCardModelDTO GiftCard { get; set; }
     }

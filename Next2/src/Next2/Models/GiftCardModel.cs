@@ -5,16 +5,18 @@ using System.Text;
 
 namespace Next2.Models
 {
-    public class GiftCardModel : IBaseModel
+    public class GiftCardModel : IBaseApiModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public string UuId { get; set; }
+        public int GiftCardNumber { get; set; } // string
 
-        public int GiftCardNumber { get; set; }
+        public double TotalBalance { get; set; }
 
-        public float GiftCardFunds { get; set; }
+        public DateTime Expire { get; set; }
 
-        public bool IsRegistered { get; set; }
+        public Guid CustomerId { get; set; }
+
+        public bool IsRegistered { get; set; } // will be deleted?
     }
 }

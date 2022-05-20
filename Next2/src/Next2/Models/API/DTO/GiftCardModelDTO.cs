@@ -11,6 +11,6 @@ namespace Next2.Models.Api.DTO
         public string? GiftCardNumber { get; set; }
         public DateTime Expire { get; set; }
         public double TotalBalance { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
     }
 }

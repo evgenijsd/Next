@@ -47,7 +47,7 @@ namespace Next2.ViewModels.Mobile
 
         public string InputGiftCardFounds { get; set; }
 
-        public float RemainingGiftCardTotal { get; set; }
+        public double RemainingGiftCardTotal { get; set; }
 
         public bool IsInSufficientGiftCardFunds { get; set; }
 

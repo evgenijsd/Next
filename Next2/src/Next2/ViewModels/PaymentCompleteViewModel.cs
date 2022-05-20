@@ -453,25 +453,25 @@ namespace Next2.ViewModels
 
         private void RecalculateCustomerGiftCardFounds(CustomerModelDTO customer)
         {
-            float totalPrice = Order.GiftCard;
+            double totalPrice = Order.GiftCard;
 
             foreach (var giftCard in customer.GiftCards)
             {
                 if (totalPrice != 0)
                 {
-                    if (giftCard.GiftCardFunds > totalPrice)
+                    if (giftCard.TotalBalance > totalPrice)
                     {
-                        giftCard.GiftCardFunds -= totalPrice;
+                        giftCard.TotalBalance -= totalPrice;
                         totalPrice = 0;
                     }
-                    else if (giftCard.GiftCardFunds < totalPrice)
+                    else if (giftCard.TotalBalance < totalPrice)
                     {
-                        totalPrice -= giftCard.GiftCardFunds;
-                        giftCard.GiftCardFunds = 0;
+                        totalPrice -= giftCard.TotalBalance;
+                        giftCard.TotalBalance = 0;
                     }
-                    else if (giftCard.GiftCardFunds == totalPrice)
+                    else if (giftCard.TotalBalance == totalPrice)
                     {
-                        giftCard.GiftCardFunds = 0;
+                        giftCard.TotalBalance = 0;
                         totalPrice = 0;
                     }
                 }
@@ -496,7 +496,7 @@ namespace Next2.ViewModels
                 {
                     foreach (var giftCardModel in Order.Customer.GiftCards)
                     {
-                        if (giftCardModel.GiftCardFunds > 0)
+                        if (giftCardModel.TotalBalance > 0)
                         {
                             await UpdateGiftCardAsync(giftCardModel);
                         }

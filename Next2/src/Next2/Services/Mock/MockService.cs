@@ -4,7 +4,6 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -176,8 +175,7 @@ namespace Next2.Services.Mock
                 InitIngredientCategoriesAsync(),
                 InitIngredientsAsync(),
                 InitWorkLogBookAsync(),
-                InitIngredientsOfProductAsync(),
-                InitGiftCardsAsync());
+                InitIngredientsOfProductAsync());
 
             _base = new Dictionary<Type, object>
             {
@@ -209,7 +207,6 @@ namespace Next2.Services.Mock
                 { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(TableModel), GetMaxId(_tables) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
-                { typeof(GiftCardModel), GetMaxId(_giftCards) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -4266,156 +4263,6 @@ namespace Next2.Services.Mock
                     ProductId = productId++,
                     Title = "Medium",
                 },
-            };
-        });
-
-        private Task InitGiftCardsAsync() => Task.Run(() =>
-        {
-            int id = 7;
-            int giftCardNumber = 107;
-
-            _giftCards = new List<GiftCardModel>
-            {
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 55.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 85.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 5.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 7.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 95.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 85f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 615.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 225f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 80f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
             };
         });
 

@@ -34,6 +34,8 @@ using Next2.Services.Bonuses;
 using Next2.Services.Log;
 using Next2.Services.Rest;
 using Next2.Models.API.DTO;
+using Next2.Models.Api.DTO;
+using Next2.Models.Api.Commands;
 
 namespace Next2
 {
@@ -192,6 +194,8 @@ namespace Next2
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
             cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
+            cfg.CreateMap<GiftCardModelDTO, GiftCardModel>().ForMember(x => x.GiftCardNumber, opt => opt.Ignore());
+            cfg.CreateMap<GiftCardModel, UpdateGiftCardCommand>().ForMember(x => x.GiftCardNumber, opt => opt.Ignore());
             }).CreateMapper();
         }
 
