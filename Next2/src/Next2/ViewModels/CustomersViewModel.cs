@@ -164,6 +164,10 @@ namespace Next2.ViewModels
             if (customer is CustomerBindableModel selectedCustomer)
             {
                 SelectedCustomer = customer;
+                var res = await _customersService.GetInfoAboutGiftCards(selectedCustomer);
+                selectedCustomer = res.IsSuccess
+                    ? res.Result
+                    : selectedCustomer;
 
                 var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedCustomer } };
 

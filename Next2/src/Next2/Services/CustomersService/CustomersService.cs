@@ -131,9 +131,9 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<CustomerModelDTO>> GetInfoAboutGiftCards(CustomerModelDTO customer)
+        public async Task<AOResult<CustomerBindableModel>> GetInfoAboutGiftCards(CustomerBindableModel customer)
         {
-            var result = new AOResult<CustomerModelDTO>();
+            var result = new AOResult<CustomerBindableModel>();
 
             try
             {
@@ -310,11 +310,6 @@ namespace Next2.Services.CustomersService
                 {
                     dtoModelsArray[i].Rewards = mockModelsArray[i].Rewards;
                     dtoModelsArray[i].Points = mockModelsArray[i].Points;
-                    dtoModelsArray[i].IsUpdatedCustomer = mockModelsArray[i].IsUpdatedCustomer;
-                    dtoModelsArray[i].GiftCardsCount = mockModelsArray[i].GiftCardsCount;
-                    dtoModelsArray[i].GiftCardsTotalFund = mockModelsArray[i].GiftCardsTotalFund;
-                    dtoModelsArray[i].GiftCardsTotalFund = mockModelsArray[i].GiftCardsTotalFund;
-                    dtoModelsArray[i].GiftCards = mockModelsArray[i].GiftCards;
                     dtoModelsArray[i].IsNotRegistratedCustomer = mockModelsArray[i].IsNotRegistratedCustomer;
                     dtoModelsArray[i].IsUpdatedCustomer = mockModelsArray[i].IsUpdatedCustomer;
                 }
