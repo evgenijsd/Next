@@ -47,7 +47,7 @@ namespace Next2.ViewModels
             _bonusService = bonusService;
             _mapper = mapper;
 
-            CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(_orderService.CurrentOrder); //new(_orderService.CurrentOrder);
+            CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder); //new(_orderService.CurrentOrder);
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
