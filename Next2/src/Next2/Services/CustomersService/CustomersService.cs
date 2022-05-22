@@ -138,7 +138,7 @@ namespace Next2.Services.CustomersService
 
             try
             {
-                if (customer.GiftCardsId?.Count() > 0 && customer.GiftCards.Any())
+                if (customer.GiftCardsId?.Count() > 0 && !customer.GiftCards.Any())
                 {
                     var giftCards = new List<GiftCardModelDTO>();
 
