@@ -15,7 +15,7 @@ namespace Next2.Services.CustomersService
 
         Task<AOResult<Guid>> AddNewCustomerAsync(CustomerBindableModel customer);
 
-        Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber);
+        Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(string giftCardNumber);
 
         Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
 
@@ -25,6 +25,6 @@ namespace Next2.Services.CustomersService
 
         Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer);
 
-        Task<AOResult<CustomerBindableModel>> GetFullGiftCardsData(CustomerBindableModel customer);
+        Task<AOResult<CustomerBindableModel>> GetFullGiftCardsDataAsync(CustomerBindableModel customer);
     }
 }

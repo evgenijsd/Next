@@ -124,7 +124,7 @@ namespace Next2.ViewModels
 
             if (customersAoresult.IsSuccess)
             {
-                var customers = _mapper.Map<List<CustomerBindableModel>>(customersAoresult.Result.OrderBy(x => x.FullName));
+                var customers = customersAoresult.Result.ToList();
 
                 foreach (var item in customers)
                 {
@@ -136,12 +136,27 @@ namespace Next2.ViewModels
                 {
                     _allCustomers = customers;
                     DisplayedCustomers = SearchCustomers(SearchText);
-
+                    GetGiftCardsInfoAsync();
                     SelectCurrentCustomer();
                 }
             }
 
             IsRefreshing = false;
+        }
+
+        private async void GetGiftCardsInfoAsync()
+        {
+            if (App.IsTablet)
+            {
+                foreach (var customer in DisplayedCustomers)
+                {
+                    var result = await _customersService.GetFullGiftCardsDataAsync(customer);
+                    if (result.IsSuccess)
+                    {
+                       customer.GiftCards = result.Result.GiftCards;
+                    }
+                }
+            }
         }
 
         private void SelectCurrentCustomer()
@@ -164,7 +179,7 @@ namespace Next2.ViewModels
             if (customer is CustomerBindableModel selectedCustomer)
             {
                 SelectedCustomer = customer;
-                var res = await _customersService.GetFullGiftCardsData(selectedCustomer);
+                var res = await _customersService.GetFullGiftCardsDataAsync(selectedCustomer);
                 selectedCustomer = res.IsSuccess
                     ? res.Result
                     : selectedCustomer;
@@ -296,7 +311,7 @@ namespace Next2.ViewModels
             bool containsName(CustomerBindableModel x) => x.FullName.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
             bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
 
-            return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
+            return new ObservableCollection<CustomerBindableModel>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
         }
 
         private Task OnClearSearchCommandAsync()

@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -23,8 +24,6 @@ namespace Next2.Models
             Points = customerModel.Points;
             Rewards = customerModel.Rewards;
             GiftCards = customerModel.GiftCards;
-            GiftCardsCount = customerModel.GiftCardsCount;
-            GiftCardsTotalFund = customerModel.GiftCardsTotalFund;
             IsNotRegistratedCustomer = customerModel.IsNotRegistratedCustomer;
             IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
         }
@@ -45,11 +44,9 @@ namespace Next2.Models
 
         public int Rewards { get; set; }
 
-        public int GiftCardsCount { get; set; }
-
         public int Points { get; set; }
 
-        public double GiftCardsTotalFund { get; set; }
+        public double GiftCardsTotalFund => GiftCards.Sum(x => x.TotalBalance);
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 

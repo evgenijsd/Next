@@ -132,7 +132,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<CustomerBindableModel>> GetFullGiftCardsData(CustomerBindableModel customer)
+        public async Task<AOResult<CustomerBindableModel>> GetFullGiftCardsDataAsync(CustomerBindableModel customer)
         {
             var result = new AOResult<CustomerBindableModel>();
 
@@ -152,9 +152,6 @@ namespace Next2.Services.CustomersService
                     }
 
                     customer.GiftCards = giftCards;
-                    customer.GiftCardsCount = giftCards.Count;
-                    customer.GiftCardsTotalFund = giftCards.Sum(x => x.TotalBalance);
-
                     result.SetSuccess(customer);
                 }
             }
@@ -214,7 +211,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber)
+        public async Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(string giftCardNumber)
         {
             var result = new AOResult<GiftCardModel>();
 
@@ -225,7 +222,6 @@ namespace Next2.Services.CustomersService
                 {
                     var giftcardDTO = response.Value.GiftCard;
                     var giftcard = _mapper.Map<GiftCardModel>(giftcardDTO);
-                    giftcard.GiftCardNumber = int.Parse(giftcardDTO.GiftCardNumber);
 
                     result.SetSuccess(giftcard);
                 }
@@ -249,7 +245,6 @@ namespace Next2.Services.CustomersService
                 {
                     var giftcardDTO = response.Value.GiftCard;
                     var giftcard = _mapper.Map<GiftCardModel>(giftcardDTO);
-                    giftcard.GiftCardNumber = int.Parse(giftcardDTO.GiftCardNumber);
 
                     result.SetSuccess(giftcard);
                 }
@@ -309,8 +304,6 @@ namespace Next2.Services.CustomersService
                 {
                     dtoModelsArray[i].Rewards = mockModelsArray[i].Rewards;
                     dtoModelsArray[i].Points = mockModelsArray[i].Points;
-                    dtoModelsArray[i].IsNotRegistratedCustomer = mockModelsArray[i].IsNotRegistratedCustomer;
-                    dtoModelsArray[i].IsUpdatedCustomer = mockModelsArray[i].IsUpdatedCustomer;
                 }
 
                 result = dtoModelsArray;

@@ -58,57 +58,52 @@ namespace Next2.ViewModels.Dialogs
 
         private async Task OnAddGiftCardCommandAsync()
         {
-            if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
+            var dialogParameters = new DialogParameters() { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+
+            var giftCardModel = await _customersService.GetGiftCardByNumberAsync(InputGiftCardNumber);
+
+            if (giftCardModel.IsSuccess)
             {
-                var dialogParameters = new DialogParameters() { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+                IsGiftCardNotExists = false;
 
-                var giftCardModel = await _customersService.GetGiftCardByNumberAsync(giftCardNumber);
+                var giftCard = giftCardModel.Result;
 
-                if (giftCardModel.IsSuccess)
+                if (Customer is not null)
                 {
-                    IsGiftCardNotExists = false;
+                    var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
 
-                    var giftCard = giftCardModel.Result;
-
-                    if (Customer is not null)
+                    if (isGiftCardAdded.IsSuccess)
                     {
-                        var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
-
-                        if (isGiftCardAdded.IsSuccess)
+                        if (!Customer.IsNotRegistratedCustomer)
                         {
-                            if (!Customer.IsNotRegistratedCustomer)
-                            {
-                                await _customersService.ActivateGiftCardAsync(giftCard);
-                            }
+                            await _customersService.ActivateGiftCardAsync(giftCard);
+                        }
 
-                            RequestClose(dialogParameters);
-                        }
-                        else
-                        {
-                            IsGiftCardNotExists = true;
-                        }
+                        RequestClose(dialogParameters);
                     }
                     else
                     {
-                        var tempCustomerModel = new CustomerBindableModel()
-                        {
-                            GiftCardsTotalFund = giftCard.TotalBalance,
-                            GiftCardsCount = 1,
-                            IsUpdatedCustomer = true,
-                            IsNotRegistratedCustomer = true,
-                        };
-
-                        tempCustomerModel.GiftCards.Add(giftCard);
-
-                        _orderService.CurrentOrder.Customer = tempCustomerModel;
-
-                        RequestClose(dialogParameters);
+                        IsGiftCardNotExists = true;
                     }
                 }
                 else
                 {
-                    IsGiftCardNotExists = true;
+                    var tempCustomerModel = new CustomerBindableModel()
+                    {
+                        IsUpdatedCustomer = true,
+                        IsNotRegistratedCustomer = true,
+                    };
+
+                    tempCustomerModel.GiftCards.Add(giftCard);
+
+                    _orderService.CurrentOrder.Customer = tempCustomerModel;
+
+                    RequestClose(dialogParameters);
                 }
+            }
+            else
+            {
+                IsGiftCardNotExists = true;
             }
         }
 
