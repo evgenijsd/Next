@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Next2.Models.Api.DTO;
 
 namespace Next2.Models
 {
@@ -48,7 +49,7 @@ namespace Next2.Models
 
         public double GiftCardsTotalFund => GiftCards.Sum(x => x.TotalBalance);
 
-        public List<GiftCardModel> GiftCards { get; set; } = new();
+        public List<GiftCardModelDTO> GiftCards { get; set; } = new();
 
         public bool IsNotRegistratedCustomer { get; set; }
 

@@ -194,8 +194,7 @@ namespace Next2
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
             cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
-            cfg.CreateMap<GiftCardModelDTO, GiftCardModel>();
-            cfg.CreateMap<GiftCardModel, UpdateGiftCardCommand>();
+            cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
             }).CreateMapper();
         }
 

@@ -1,6 +1,7 @@
 using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
+using Next2.Models.Api.DTO;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Next2.Services.Mock
         private IList<IngredientModel> _ingredients;
         private IList<IngredientOfProductModel> _ingredientsOfProductModel;
         private IList<WorkLogRecordModel> _workLogBook;
-        private IList<GiftCardModel> _giftCards;
+        private IList<GiftCardModelDTO> _giftCards;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -193,7 +194,7 @@ namespace Next2.Services.Mock
                 { typeof(ProductModel), _products },
                 { typeof(OptionModel), _optionsProduct },
                 { typeof(WorkLogRecordModel), _workLogBook },
-                { typeof(GiftCardModel), _giftCards },
+                { typeof(GiftCardModelDTO), _giftCards },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>

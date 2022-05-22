@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.Api.DTO;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,13 @@ namespace Next2.Services.CustomersService
 
         Task<AOResult<Guid>> AddNewCustomerAsync(CustomerBindableModel customer);
 
-        Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(string giftCardNumber);
+        Task<AOResult<GiftCardModelDTO>> GetGiftCardByNumberAsync(string giftCardNumber);
 
-        Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
+        Task<AOResult> ActivateGiftCardAsync(GiftCardModelDTO giftCard);
 
-        Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModel giftCard);
+        Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModelDTO giftCard);
 
-        Task<AOResult> UpdateGiftCardAsync(GiftCardModel giftCard);
+        Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCard);
 
         Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer);
 

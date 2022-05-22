@@ -140,7 +140,7 @@ namespace Next2.Services.CustomersService
             {
                 if (customer.GiftCardsId?.Count() > 0 && customer.GiftCards.Count == 0)
                 {
-                    var giftCards = new List<GiftCardModel>();
+                    var giftCards = new List<GiftCardModelDTO>();
 
                     foreach (Guid giftCardId in customer.GiftCardsId)
                     {
@@ -167,7 +167,7 @@ namespace Next2.Services.CustomersService
 
         #region -- Gift Card Region --
 
-        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModel giftCard)
+        public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModelDTO giftCard)
         {
             var result = new AOResult();
 
@@ -192,7 +192,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard)
+        public async Task<AOResult> ActivateGiftCardAsync(GiftCardModelDTO giftCard)
         {
             var result = new AOResult();
 
@@ -211,18 +211,16 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(string giftCardNumber)
+        public async Task<AOResult<GiftCardModelDTO>> GetGiftCardByNumberAsync(string giftCardNumber)
         {
-            var result = new AOResult<GiftCardModel>();
+            var result = new AOResult<GiftCardModelDTO>();
 
             try
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{giftCardNumber}");
                 if (response.Success)
                 {
-                    var giftcardDTO = response.Value.GiftCard;
-                    var giftcard = _mapper.Map<GiftCardModel>(giftcardDTO);
-
+                    var giftcard = response.Value.GiftCard;
                     result.SetSuccess(giftcard);
                 }
             }
@@ -234,17 +232,16 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<GiftCardModel>> GetGiftCardByIdAsync(Guid id)
+        public async Task<AOResult<GiftCardModelDTO>> GetGiftCardByIdAsync(Guid id)
         {
-            var result = new AOResult<GiftCardModel>();
+            var result = new AOResult<GiftCardModelDTO>();
 
             try
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{id}");
                 if (response.Success)
                 {
-                    var giftcardDTO = response.Value.GiftCard;
-                    var giftcard = _mapper.Map<GiftCardModel>(giftcardDTO);
+                    var giftcard = response.Value.GiftCard;
 
                     result.SetSuccess(giftcard);
                 }
@@ -257,7 +254,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> UpdateGiftCardAsync(GiftCardModel giftCard)
+        public async Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCard)
         {
             var result = new AOResult();
             UpdateGiftCardCommand updateGiftCardCommand = new();
