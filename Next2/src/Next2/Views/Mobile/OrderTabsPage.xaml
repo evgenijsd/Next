@@ -128,7 +128,7 @@
                                 <DataTrigger
                                     TargetType="Label"
                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type viewModels:OrderTabsViewModel}}, Path=IsTabsSelected}"
-                                    Value="False">
+                                    Value="True">
 
                                     <Setter Property="Text" Value="{xct:Translate CustomerName}" />
 

@@ -63,10 +63,10 @@ namespace Next2.ViewModels
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
 
         private ICommand _switchToOrdersCommand;
-        public ICommand SwitchTotOrdersCommand => _switchToOrdersCommand ??= new AsyncCommand(OnSwitchTotOrdersCommandAsync, allowsMultipleExecutions: false);
+        public ICommand SwitchTotOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchTotOrdersCommand);
 
         private ICommand _switchToTabsComamnd;
-        public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new AsyncCommand(OnSwitchToTabsComamndAsync, allowsMultipleExecutions: false);
+        public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new Command(OnSwitchToTabsComamnd);
 
         private ICommand _goToSearchQueryInputCommand;
         public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
@@ -78,10 +78,10 @@ namespace Next2.ViewModels
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
         private ICommand _orderTabSortingChangeCommand;
-        public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrdersSortingType>(OnChangeOrderSortingCommandAsync);
+        public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new Command<EOrdersSortingType>(OnChangeOrderSortingCommand);
 
         private ICommand _selectOrderCommand;
-        public ICommand SelectOrderCommand => _selectOrderCommand ??= new AsyncCommand<SimpleOrderBindableModel?>(OnSelectOrderCommandAsync);
+        public ICommand SelectOrderCommand => _selectOrderCommand ??= new Command<SimpleOrderBindableModel?>(OnSelectOrderCommand);
 
         private ICommand _removeOrderCommand;
         public ICommand RemoveOrderCommand => _removeOrderCommand ??= new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
@@ -96,7 +96,7 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override async void OnAppearing()
+        public override void OnAppearing()
         {
             base.OnAppearing();
 
@@ -116,7 +116,6 @@ namespace Next2.ViewModels
                 IsSearchActive = IsNothingFound = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
-                //Orders = new();
                 _lastSavedOrderId = 0;
             }
         }
@@ -139,7 +138,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(Orders) or nameof(IsSearchActive))
+            if (args.PropertyName is nameof(IsSearchActive) or nameof(Orders))
             {
                 IsNothingFound = IsSearchActive && !Orders.Any();
             }
@@ -185,8 +184,6 @@ namespace Next2.ViewModels
 
             if (IsInternetConnected)
             {
-                OrderSortingType = EOrdersSortingType.ByCustomerName;
-
                 var gettingOrdersResult = await _orderService.GetOrdersAsync();
 
                 if (gettingOrdersResult.IsSuccess)
@@ -256,34 +253,34 @@ namespace Next2.ViewModels
         private string GetTableName(int? tableNumber)
         {
             return tableNumber == null
-                ? "Not defined"
-                : $"Table {tableNumber}";
+                ? LocalizationResourceManager.Current["NotDefined"]
+                : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
         }
 
-        private async Task OnSwitchTotOrdersCommandAsync()
+        private void OnSwitchTotOrdersCommand()
         {
             if (IsTabsSelected)
             {
-                SearchQuery = string.Empty;
-                IsSearchActive = false;
-
-                Orders = new();
-                IsTabsSelected = false;
-                IsOrdersRefreshing = true;
+                ChangeTab(false);
             }
         }
 
-        private async Task OnSwitchToTabsComamndAsync()
+        private void OnSwitchToTabsComamnd()
         {
             if (!IsTabsSelected)
             {
-                SearchQuery = string.Empty;
-                IsSearchActive = false;
-
-                Orders = new();
-                IsTabsSelected = true;
-                IsOrdersRefreshing = true;
+                ChangeTab(true);
             }
+        }
+
+        private void ChangeTab(bool isTab)
+        {
+            SearchQuery = string.Empty;
+            IsSearchActive = false;
+
+            Orders = new();
+            IsTabsSelected = isTab;
+            IsOrdersRefreshing = true;
         }
 
         private async Task OnGoToSearchQueryInputCommandAsync()
@@ -342,7 +339,7 @@ namespace Next2.ViewModels
             return orders.OrderBy(comparer);
         }
 
-        private Task OnChangeOrderSortingCommandAsync(EOrdersSortingType orderSortingType)
+        private void OnChangeOrderSortingCommand(EOrdersSortingType orderSortingType)
         {
             if (OrderSortingType == orderSortingType)
             {
@@ -354,15 +351,11 @@ namespace Next2.ViewModels
 
                 Orders = new (GetSortedOrders(Orders));
             }
-
-            return Task.CompletedTask;
         }
 
-        private Task OnSelectOrderCommandAsync(SimpleOrderBindableModel? order)
+        private void OnSelectOrderCommand(SimpleOrderBindableModel? order)
         {
             SelectedOrder = order == SelectedOrder ? null : order;
-
-            return Task.CompletedTask;
         }
 
         private async Task OnRemoveOrderCommandAsync()

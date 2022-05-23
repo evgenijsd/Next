@@ -773,6 +773,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not defined.
+        /// </summary>
+        internal static string NotDefined {
+            get {
+                return ResourceManager.GetString("NotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not found data.
         /// </summary>
         internal static string NotFoundData {
