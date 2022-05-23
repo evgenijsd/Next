@@ -594,7 +594,7 @@ namespace Next2.ViewModels
 
         private async Task RemoveOrderAsync()
         {
-            var result = await _orderService.CreateNewOrderAsync();
+            var result = await _orderService.CreateNewCurrentOrderAsync();
 
             if (result.IsSuccess)
             {
@@ -728,59 +728,59 @@ namespace Next2.ViewModels
 
             bool isAllSeatSaved = true;
 
-            /*foreach (var seat in CurrentOrder.Seats)
-            {
-                if (seat.Sets.Any())
-                {
-                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-                    {
-                        Id = x.Id,
-                        SubcategoryId = x.SubcategoryId,
-                        Title = x.Title,
-                        Price = x.Portion.Price,
-                        ImagePath = x.ImagePath,
-                    }));
+            //foreach (var seat in CurrentOrder.Seats)
+            //{
+            //    if (seat.Sets.Any())
+            //    {
+            //        var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+            //        {
+            //            Id = x.Id,
+            //            SubcategoryId = x.SubcategoryId,
+            //            Title = x.Title,
+            //            Price = x.Portion.Price,
+            //            ImagePath = x.ImagePath,
+            //        }));
 
-                    var newSeat = new SeatModel
-                    {
-                        OrderId = CurrentOrder.Id,
-                        SeatNumber = seat.SeatNumber,
-                        Sets = sets,
-                    };
+            //        var newSeat = new SeatModel
+            //        {
+            //            OrderId = CurrentOrder.Id,
+            //            SeatNumber = seat.SeatNumber,
+            //            Sets = sets,
+            //        };
 
-                    var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
+            //        var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
 
-                    await RefreshTablesAsync();
+            //        await RefreshTablesAsync();
 
-                    if (!isSuccessSeatResult.IsSuccess)
-                    {
-                        isAllSeatSaved = !isAllSeatSaved;
-                        break;
-                    }
-                }
-            }
+            //        if (!isSuccessSeatResult.IsSuccess)
+            //        {
+            //            isAllSeatSaved = !isAllSeatSaved;
+            //            break;
+            //        }
+            //    }
+            //}
 
-            if (isAllSeatSaved)
-            {
-                CurrentOrder.PaymentStatus = _orderPaymentStatus;
+            //if (isAllSeatSaved)
+            //{
+            //    CurrentOrder.PaymentStatus = _orderPaymentStatus;
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
-                .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
-                .ForMember(x => x.Customer, s => s.MapFrom(x => x.Customer)));
+            //    var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
+            //    .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
+            //    .ForMember(x => x.Customer, s => s.MapFrom(x => x.Customer)));
 
-                var mapper = new Mapper(config);
+            //    var mapper = new Mapper(config);
 
-                var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
+            //    var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
 
-                var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
+            //    var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
 
-                if (isSuccessOrderResult.IsSuccess)
-                {
-                    IsOrderSavedNotificationVisible = true;
-                    CurrentOrder.Seats = new();
-                    await _orderService.CreateNewOrderAsync();
-                }
-            }*/
+            //    if (isSuccessOrderResult.IsSuccess)
+            //    {
+            //        IsOrderSavedNotificationVisible = true;
+            //        CurrentOrder.Seats = new();
+            //        await _orderService.CreateNewOrderAsync();
+            //    }
+            //}
         }
 
         private async Task OnTabCommandAsync(bool isTab)

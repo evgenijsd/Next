@@ -83,11 +83,10 @@ namespace Next2.ViewModels
                     Discounts = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveDiscountsAsync(_bonuses));
                     Coupons = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveCouponesAsync(_bonuses));
 
-                    /*if (CurrentOrder.BonusType != EBonusType.None)
-                    {
-                        SelectedBonus = CurrentOrder.Coupon != null ? Coupons.FirstOrDefault(x => x.Id == CurrentOrder.Coupon.Id) : Discounts.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id);
-                    }*/
-
+                    //if (CurrentOrder.BonusType != EBonusType.None)
+                    //{
+                    //    SelectedBonus = CurrentOrder.Coupon != null ? Coupons.FirstOrDefault(x => x.Id == CurrentOrder.Coupon.Id) : Discounts.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id);
+                    //}
                     foreach (var coupon in Coupons)
                     {
                         coupon.TapCommand = TapSelectBonusCommand;
@@ -127,17 +126,17 @@ namespace Next2.ViewModels
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            /*CurrentOrder.BonusType = EBonusType.None;
+            //CurrentOrder.BonusType = EBonusType.None;
 
-            SelectedBonus = bonus == SelectedBonus ? null : bonus;
+            //SelectedBonus = bonus == SelectedBonus ? null : bonus;
 
-            if (SelectedBonus is not null)
-            {
-                CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
-                CurrentOrder.Bonus = SelectedBonus;
+            //if (SelectedBonus is not null)
+            //{
+            //    CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
+            //    CurrentOrder.Bonus = SelectedBonus;
 
-                CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
-            }*/
+            //    CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+            //}
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

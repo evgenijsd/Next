@@ -12,7 +12,7 @@ namespace Next2.Models.API.DTO
 
         public decimal DefaultPrice { get; set; }
 
-        public string? ImageSouurce { get; set; }
+        public string? ImageSource { get; set; }
 
         public IEnumerable<OptionModelDTO>? Options { get; set; }
 

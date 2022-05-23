@@ -18,7 +18,7 @@ namespace Next2.Models.API.DTO
 
         public SimpleCategoryModelDTO Category { get; set; } = new();
 
-        public SimpleSubCategoryModelDTO Subcategory { get; set; } = new();
+        public SimpleSubcategoryModelDTO Subcategory { get; set; } = new();
 
         public IEnumerable<SimpleProductModelDTO>? Products { get; set; }
 

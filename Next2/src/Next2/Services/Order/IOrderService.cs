@@ -15,7 +15,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<TaxModel>> GetTaxAsync();
 
-        Task<AOResult<Guid>> GetNewOrderIdAsync();
+        Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
@@ -29,7 +29,7 @@ namespace Next2.Services.Order
 
         string ApplyNameFilter(string text);
 
-        Task<AOResult> CreateNewOrderAsync();
+        Task<AOResult> CreateNewCurrentOrderAsync();
 
         Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
 
