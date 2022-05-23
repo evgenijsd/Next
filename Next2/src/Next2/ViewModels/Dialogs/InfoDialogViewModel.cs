@@ -8,7 +8,9 @@ namespace Next2.ViewModels.Dialogs
 {
     public class InfoDialogViewModel : BindableBase
     {
-        public InfoDialogViewModel(DialogParameters parameters, Action requestClose)
+        public InfoDialogViewModel(
+            DialogParameters parameters,
+            Action requestClose)
         {
             LoadPageData(parameters);
             RequestClose = requestClose;

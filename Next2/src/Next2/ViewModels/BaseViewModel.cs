@@ -30,7 +30,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        public Task ShowInfoDialog(string descriptionTextKey, string titleTextKey, string closeTextKey = "Ok")
+        protected Task ShowInfoDialog(string titleTextKey, string descriptionTextKey, string closeTextKey = "Ok")
         {
             var parameters = new DialogParameters
             {

@@ -260,9 +260,7 @@
                 Command="{Binding RefreshOrdersCommand}">
 
                 <StackLayout>
-                        
-                    <!--<yummy:PancakeView CornerRadius="0, 0, 10, 10">-->
-                            
+                                                    
                     <controls:CustomScrollBarCollectionView
                         HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=50}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
@@ -416,9 +414,7 @@
                         </CollectionView.ItemTemplate>
 
                     </controls:CustomScrollBarCollectionView>
-                        
-                    <!--</yummy:PancakeView>-->
-                        
+                                                
                     <!-- NOTHING FOUND STATE -->
                     <yummy:PancakeView
                         VerticalOptions="FillAndExpand"
