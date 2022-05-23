@@ -1,7 +1,6 @@
-﻿using Acr.UserDialogs;
 using Next2.Interfaces;
 using Next2.Models;
-using Next2.Resources.Strings;
+using Next2.Models.API.DTO;
 using Next2.Services.Log;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -16,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Tablet
@@ -27,7 +27,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IOrderService _orderService;
         private readonly ILogService _logService;
 
-        private bool _order;
+        private bool _shouldOrderDishesByDESC;
 
         public NewOrderViewModel(
             INavigationService navigationService,
@@ -42,9 +42,8 @@ namespace Next2.ViewModels.Tablet
             _popupNavigation = popupNavigation;
             _orderService = orderService;
             _logService = logService;
-            OrderRegistrationViewModel = orderRegistrationViewModel;
 
-            _orderService = orderService;
+            OrderRegistrationViewModel = orderRegistrationViewModel;
 
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
         }
@@ -53,21 +52,20 @@ namespace Next2.ViewModels.Tablet
 
         public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
-        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; }
 
         public CategoryModel? SelectedCategoriesItem { get; set; }
 
-        public ObservableCollection<SetModel> SetsItems { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; }
 
-        public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
 
         public OrderRegistrationViewModel OrderRegistrationViewModel { get; set; }
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        private ICommand _tapSetCommand;
-        public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
-
+        //private ICommand _tapSetCommand;
+        //public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<DishModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
@@ -85,7 +83,7 @@ namespace Next2.ViewModels.Tablet
         {
             base.OnAppearing();
 
-            _order = false;
+            _shouldOrderDishesByDESC = false;
             Task.Run(LoadCategoriesAsync);
 
             OrderRegistrationViewModel.InitializeAsync(null);
@@ -98,9 +96,9 @@ namespace Next2.ViewModels.Tablet
             SelectedSubcategoriesItem = null;
             SelectedCategoriesItem = null;
 
-            SetsItems = new();
-            SubcategoriesItems = new();
-            CategoriesItems = new();
+            Dishes = new();
+            Subcategories = new();
+            Categories = new();
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -113,7 +111,7 @@ namespace Next2.ViewModels.Tablet
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(LoadSetsAsync);
+                    Task.Run(LoadDishesAsync);
                     break;
             }
         }
@@ -129,89 +127,83 @@ namespace Next2.ViewModels.Tablet
 
         private async Task OnTapSortCommandAsync()
         {
-            _order = !_order;
-            await LoadSetsAsync();
+            _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
+            Dishes = new(Dishes.Reverse());
         }
 
-        private async Task OnTapSetCommandAsync(SetModel set)
-        {
-            var portions = await _menuService.GetPortionsSetAsync(set.Id);
+        //private async Task OnTapSetCommandAsync(SetModel set)
+        //{
+        //    var portions = await _menuService.GetPortionsSetAsync(set.Id);
 
-            if (portions.IsSuccess)
-            {
-                var param = new DialogParameters
-                {
-                    { Constants.DialogParameterKeys.SET, set },
-                    { Constants.DialogParameterKeys.PORTIONS, portions.Result },
-                };
+        //    if (portions.IsSuccess)
+        //    {
+        //        var param = new DialogParameters
+        //        {
+        //            { Constants.DialogParameterKeys.SET, set },
+        //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
+        //        };
 
-                await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
-            }
-        }
+        //        await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        //    }
+        //}
 
-        private async void CloseDialogCallback(IDialogParameters dialogResult)
-        {
-            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
-            {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
-                {
-                    var result = await _orderService.AddSetInCurrentOrderAsync(set);
+        //private async void CloseDialogCallback(IDialogParameters dialogResult)
+        //{
+        //    if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
+        //    {
+        //        if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
+        //        {
+        //            var result = await _orderService.AddSetInCurrentOrderAsync(set);
 
-                    if (result.IsSuccess)
-                    {
-                        if (_popupNavigation.PopupStack.Any())
-                        {
-                            await _popupNavigation.PopAsync();
-                        }
+        //            if (result.IsSuccess)
+        //            {
+        //                if (_popupNavigation.PopupStack.Any())
+        //                {
+        //                    await _popupNavigation.PopAsync();
+        //                }
 
-                        OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+        //                OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
-                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                        {
-                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                            Position = ToastPosition.Bottom,
-                        };
+        //                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+        //                {
+        //                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+        //                    Position = ToastPosition.Bottom,
+        //                };
 
-                        UserDialogs.Instance.Toast(toastConfig);
-                    }
-                }
-            }
-            else
-            {
-                await _popupNavigation.PopAsync();
-            }
-        }
-
+        //                UserDialogs.Instance.Toast(toastConfig);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        await _popupNavigation.PopAsync();
+        //    }
+        //}
         private async Task LoadCategoriesAsync()
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetCategoriesAsync();
+                var resultGettingCategories = await _menuService.GetAllCategoriesAsync();
 
-                if (resultCategories.IsSuccess)
+                if (resultGettingCategories.IsSuccess)
                 {
-                    CategoriesItems = new (resultCategories.Result);
-                    SelectedCategoriesItem = CategoriesItems.FirstOrDefault();
+                    Categories = new(resultGettingCategories.Result);
+                    SelectedCategoriesItem = Categories.FirstOrDefault();
                 }
             }
         }
 
-        private async Task LoadSetsAsync()
+        private async Task LoadDishesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
             {
-                var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
 
-                if (resultSets.IsSuccess)
+                if (resultGettingDishes.IsSuccess)
                 {
-                    if (_order)
-                    {
-                        SetsItems = new (resultSets.Result.OrderByDescending(row => row.Title));
-                    }
-                    else
-                    {
-                        SetsItems = new (resultSets.Result.OrderBy(row => row.Title));
-                    }
+                    Dishes = _shouldOrderDishesByDESC
+                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
+                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
                 }
             }
         }
@@ -220,26 +212,21 @@ namespace Next2.ViewModels.Tablet
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                var resultSubcategories = await _menuService.GetSubcategoriesAsync(SelectedCategoriesItem.Id);
+                Subcategories = new(SelectedCategoriesItem.Subcategories);
 
-                if (resultSubcategories.IsSuccess)
+                Subcategories.Insert(0, new SubcategoryModel()
                 {
-                    SubcategoriesItems = new (resultSubcategories.Result);
-                    SubcategoriesItems.Insert(0, new SubcategoryModel()
-                    {
-                        Id = 0,
-                        CategoryId = SelectedCategoriesItem.Id,
-                        Title = "All",
-                    });
+                    Id = Guid.Empty,
+                    Name = LocalizationResourceManager.Current["All"],
+                });
 
-                    SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
-                }
+                SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
         }
 
-        private async Task OnTapExpandCommandAsync()
+        private Task OnTapExpandCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(ExpandPage));
+            return _navigationService.NavigateAsync(nameof(ExpandPage));
         }
 
         private Task OnEmployeeTimeClockPopupCallCommandAsync()

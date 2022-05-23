@@ -8,6 +8,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
@@ -86,8 +87,8 @@
         <CollectionView
             Margin="15, 10, 15, 0"
             VerticalOptions="FillAndExpand"
-            ItemsSource="{Binding SetsItems}"
-            VerticalScrollBarVisibility="Never">
+            VerticalScrollBarVisibility="Never"
+            ItemsSource="{Binding Dishes}">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
@@ -104,7 +105,7 @@
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:SetModel">
+                <DataTemplate x:DataType="dto:DishModelDTO">
 
                     <templates:SetItemTemplate
                         xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseSetPageViewModel}}}"
@@ -120,7 +121,7 @@
         <CollectionView
             HeightRequest="60"
             VerticalOptions="End"
-            ItemsSource="{Binding SubcategoriesItems}"
+            ItemsSource="{Binding Subcategories}"
             SelectedItem="{Binding SelectedSubcategoriesItem}"
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single"
@@ -144,7 +145,7 @@
 
                     <templates:SubCategoryItemTemplate
                         HeightRequest="54"
-                        Text="{Binding Title}"
+                        Text="{Binding Name}"
                         FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-Medium"/>
 

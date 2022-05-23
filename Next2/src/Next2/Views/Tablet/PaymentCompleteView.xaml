@@ -209,7 +209,7 @@
                                     </DataTrigger>
 
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
-                                        <Setter Property="Text" Value="{Binding Order.Customer.GiftCardCount}"/>
+                                        <Setter Property="Text" Value="{Binding Order.Customer.GiftCardsCount}"/>
                                     </DataTrigger>
                                     
                                 </Label.Triggers>

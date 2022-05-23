@@ -38,7 +38,7 @@
                             FontSize="{DynamicResource TSize_i6}" />
 
                         <Label
-                            Text="{Binding Member.CustomerName}"
+                            Text="{Binding Member.Customer.FullName}"
                             HorizontalOptions="EndAndExpand"
                             Margin="0, 23, 20, 18"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"

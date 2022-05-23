@@ -8,6 +8,7 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -53,11 +54,10 @@ namespace Next2.ViewModels.Mobile
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; }
 
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
-
         private ICommand _openNewOrderPageCommand;
         public ICommand OpenNewOrderPageCommand => _openNewOrderPageCommand ??= new AsyncCommand(OnOpenNewOrderPageCommandAsync, allowsMultipleExecutions: false);
 
@@ -151,11 +151,11 @@ namespace Next2.ViewModels.Mobile
         {
             if (IsInternetConnected)
             {
-                var resultCategories = await _menuService.GetCategoriesAsync();
+                var resultCategories = await _menuService.GetAllCategoriesAsync();
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new (resultCategories.Result);
+                    Categories = new(resultCategories.Result);
                 }
             }
         }

@@ -103,7 +103,7 @@ namespace Next2.ViewModels
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -164,18 +164,13 @@ namespace Next2.ViewModels
 
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
-            var resultOrders = await _orderService.GetOrdersAsync();
+            var resultGettingOrders = await _orderService.GetOrdersAsync();
 
-            if (resultOrders.IsSuccess)
+            if (resultGettingOrders.IsSuccess)
             {
-                _ordersBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
-            }
+                _ordersBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.WaitingForPayment).OrderBy(x => x.TableNumber));
 
-            var resultTabs = await _orderService.GetOrdersAsync();
-
-            if (resultTabs.IsSuccess)
-            {
-                _tabsBase = new List<OrderModel>(resultOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.Name));
+                _tabsBase = new List<OrderModel>(resultGettingOrders.Result.Where(x => x.PaymentStatus == EOrderStatus.InProgress).OrderBy(x => x.Customer?.FullName));
             }
 
             IsOrdersRefreshing = false;
@@ -202,7 +197,7 @@ namespace Next2.ViewModels
             else
             {
                 config = new MapperConfiguration(cfg => cfg.CreateMap<OrderModel, OrderBindableModel>()
-                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.Name))
+                            .ForMember(x => x.Name, s => s.MapFrom(x => x.Customer.FullName))
                             .ForMember(x => x.OrderNumberText, s => s.MapFrom(x => $"{x.OrderNumber}")));
                 result = _tabsBase;
             }
@@ -303,7 +298,7 @@ namespace Next2.ViewModels
                     { Constants.Navigations.PLACEHOLDER, placeholder },
                 };
 
-                ClearSearchAsync();
+                ClearSearch();
                 IsSearching = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
@@ -326,7 +321,7 @@ namespace Next2.ViewModels
         {
             if (SearchText != string.Empty)
             {
-                ClearSearchAsync();
+                ClearSearch();
             }
             else
             {
@@ -334,7 +329,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private void ClearSearchAsync()
+        private void ClearSearch()
         {
             CurrentOrderTabSorting = EOrderTabSorting.ByCustomerName;
 
@@ -520,9 +515,9 @@ namespace Next2.ViewModels
             IsOrderTabsSelected = orderStatus is EOrderStatus.WaitingForPayment;
         }
 
-        private async Task OnGoBackCommand()
+        private Task OnGoBackCommandAsync()
         {
-            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
+            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
         }
 
         private string CreateRandomCustomerName()

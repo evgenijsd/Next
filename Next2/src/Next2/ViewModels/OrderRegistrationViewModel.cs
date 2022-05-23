@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
@@ -266,6 +267,8 @@ namespace Next2.ViewModels
             SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
+
+            await RefreshTablesAsync();
         }
 
         #endregion
@@ -274,13 +277,16 @@ namespace Next2.ViewModels
 
         private async Task RefreshTablesAsync()
         {
-            var availableTablesResult = await _orderService.GetFreeTablesAsync();
-
-            if (availableTablesResult.IsSuccess)
+            if (IsInternetConnected)
             {
-                var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var freeTablesResult = await _orderService.GetFreeTablesAsync();
 
-                Tables = new(tableBindableModels);
+                if (freeTablesResult.IsSuccess)
+                {
+                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
+
+                    Tables = new(tableBindableModels);
+                }
             }
         }
 
@@ -787,7 +793,6 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["SwipeTheCard"] },
                 { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
-                { Constants.DialogParameterKeys.ACTION_ON_ORDER, commandParameter },
             };
 
             PopupPage confirmDialog = App.IsTablet ?
@@ -799,12 +804,11 @@ namespace Next2.ViewModels
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted)
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_ORDER, out EOrderStatus commandParameter))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted))
             {
-                if (isMovedOrderAccepted && commandParameter == EOrderStatus.InProgress)
+                if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(commandParameter);
+                    await OnOrderCommandAsync(EOrderStatus.InProgress);
                 }
             }
 

@@ -1,13 +1,18 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API;
+using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,16 +21,19 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly IRestService _restService;
         private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
+            IRestService restService,
             IBonusesService bonusesService,
             IMapper mapper)
         {
             _mockService = mockService;
             _bonusService = bonusesService;
+            _restService = restService;
             _mapper = mapper;
 
             CurrentOrder.Seats = new ();
@@ -85,28 +93,24 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync()
+        public async Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync()
         {
-            var result = new AOResult<IEnumerable<TableModel>>();
+            var result = new AOResult<IEnumerable<TableModelDTO>>();
 
             try
             {
-                var allTables = await _mockService.GetAllAsync<TableModel>();
+                var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/tables/available");
 
-                if (allTables is not null)
+                if (freeTables.Success)
                 {
-                    var allOrders = await _mockService.GetAllAsync<OrderModel>();
-
-                    if (allOrders is not null)
+                    if (freeTables?.Value?.Tables is not null)
                     {
-                        var freeTables = allTables.Where(table => allOrders
-                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is Constants.OrderStatus.CANCELLED or Constants.OrderStatus.PAYED));
-
-                        if (freeTables is not null)
-                        {
-                            result.SetSuccess(freeTables);
-                        }
+                        result.SetSuccess(freeTables.Value.Tables);
                     }
+                }
+                else
+                {
+                    result.SetFailure();
                 }
             }
             catch (Exception ex)

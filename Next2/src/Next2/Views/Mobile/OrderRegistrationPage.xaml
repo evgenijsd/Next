@@ -341,7 +341,7 @@
                         IsVisible="{Binding CurrentOrder.Customer, Converter={xct:IsNotNullOrEmptyConverter}}"
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
-                        Text="{Binding CurrentOrder.Customer.Name}"/>
+                        Text="{Binding CurrentOrder.Customer.FullName}"/>
 
                 </StackLayout>
 
