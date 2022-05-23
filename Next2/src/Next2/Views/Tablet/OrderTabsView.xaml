@@ -435,8 +435,8 @@
                             HorizontalOptions="Center" />
 
                     </yummy:PancakeView>
-
-
+                    
+                    <!-- ORDER NOT RECEIVED STATE -->
                     <yummy:PancakeView
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"

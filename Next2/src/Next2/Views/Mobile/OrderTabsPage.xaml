@@ -173,7 +173,7 @@
                         VerticalOptions="FillAndExpand"
                         HeightRequest="1"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" />
-
+                   
                     <!-- TABLE CONTENT -->
                     <RefreshView
                         VerticalOptions="Start"
@@ -186,8 +186,16 @@
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedOrder}"
+                            HeightRequest="400"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             VerticalScrollBarVisibility="Never">
 
+                            <CollectionView.Triggers>
+                                <DataTrigger TargetType="CollectionView" Binding="{Binding IsOrdersNotReceived}" Value="False">
+                                    <Setter Property="HeightRequest" Value="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=50}"/>
+                                </DataTrigger>           
+                            </CollectionView.Triggers>
+                            
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect />
                             </CollectionView.Effects>

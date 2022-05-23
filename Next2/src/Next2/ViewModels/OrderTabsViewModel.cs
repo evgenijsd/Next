@@ -50,14 +50,13 @@ namespace Next2.ViewModels
 
         public string SearchQuery { get; set; } = string.Empty;
 
-        public bool IsNothingFound { get; set; } = false;
+        public bool IsNothingFound { get; set; }
 
-        public bool IsSearchActive { get; set; } = false;
+        public bool IsSearchActive { get; set; }
 
         public bool IsTabsSelected { get; set; }
 
-        public bool IsOrdersNotReceived => !IsSearchActive
-            && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
+        public bool IsOrdersNotReceived => !IsSearchActive && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
@@ -101,20 +100,39 @@ namespace Next2.ViewModels
         {
             base.OnAppearing();
 
-            IsSearchActive = IsNothingFound = false;
-            IsOrdersRefreshing = true;
+            if (App.IsTablet)
+            {
+                IsSearchActive = IsNothingFound = false;
+                IsOrdersRefreshing = true;
+            }
         }
 
         public override void OnDisappearing()
         {
             base.OnDisappearing();
 
-            _lastSavedOrderId = 0;
+            if (App.IsTablet)
+            {
+                IsSearchActive = IsNothingFound = false;
+                SearchQuery = string.Empty;
+                SelectedOrder = null;
+                //Orders = new();
+                _lastSavedOrderId = 0;
+            }
+        }
 
-            IsSearchActive = IsNothingFound = IsOrdersRefreshing = false;
-            SearchQuery = string.Empty;
-            SelectedOrder = null;
-            Orders = new();
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
+            {
+                SearchOrders(searchQuery);
+            }
+            else
+            {
+                IsOrdersRefreshing = true;
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
