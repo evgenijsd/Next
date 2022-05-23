@@ -380,7 +380,7 @@
                 Command="{Binding FinishPaymentCommand}"
                 CornerRadius="4"
                 IsEnabled="False"
-                Opacity="0.32"
+                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                 Padding="0, 10"
                 Margin="15">
 

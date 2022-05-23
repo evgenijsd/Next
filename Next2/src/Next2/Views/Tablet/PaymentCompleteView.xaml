@@ -929,7 +929,7 @@
                 CornerRadius="4"
                 Padding="0, 10"
                 IsEnabled="False"
-                Opacity="0.32"
+                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                 Margin="15">
 
                 <buttons:BorderButton.Triggers>
@@ -947,8 +947,8 @@
                         TargetType="buttons:BorderButton" 
                         Binding="{Binding IsCleared}"
                         Value="true">
-                        
-                        <Setter Property="Opacity" Value="0.32"/>
+
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
                     

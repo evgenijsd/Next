@@ -374,6 +374,7 @@
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Email}" />
+                    
                 </Frame>
 
                 <Frame
@@ -385,6 +386,7 @@
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Text}" />
+                    
                 </Frame>
 
                 <Frame
@@ -396,6 +398,7 @@
                     <Label
                         Style="{DynamicResource ButtonTextStyle}"
                         Text="{xct:Translate Print}" />
+                    
                 </Frame>
 
             </StackLayout>
@@ -413,6 +416,7 @@
                     Style="{DynamicResource ButtonTextStyle}"
                     Text="{xct:Translate NoReceipt}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}" />
+                
             </Frame>
 
         </Grid>

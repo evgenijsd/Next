@@ -131,7 +131,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if(args.PropertyName == nameof(InputValue))
+            if (args.PropertyName == nameof(InputValue))
             {
                 if (float.TryParse(InputValue, out float sum))
                 {
@@ -415,10 +415,8 @@ namespace Next2.ViewModels
             {
                 await MakePaymentAsync();
                 var navigationParameters = await SendReceiptAsync(par)
-
-                ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
-
-                : null;
+                    ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
+                    : null;
 
                 await _navigationService.ClearPopupStackAsync();
                 await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
@@ -461,10 +459,6 @@ namespace Next2.ViewModels
 
         private async Task MakePaymentAsync()
         {
-            var order = _mapper.Map<PaidOrderBindableModel, OrderModel>(Order);
-            order.PaymentStatus = EOrderStatus.Payed;
-            var v = await _orderService.AddOrderAsync(order);
-            await _orderService.CreateNewOrderAsync();
         }
 
         private async Task OnAddGiftCardCommandAsync()
