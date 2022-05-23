@@ -9,5 +9,6 @@ namespace Next2.Enums
         WaitingForPayment,
         InProgress,
         None,
+        Payed,
     }
 }
