@@ -58,7 +58,7 @@ namespace Next2.ViewModels
 
         public bool IsTabsSelected { get; set; }
 
-        public bool IsOrdersInitializing => IsOrdersRefreshing && !IsNothingFound && !Orders.Any();
+        public bool IsOrdersInitializing => !IsInternetConnected || IsOrdersRefreshing && !Orders.Any();
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
@@ -104,7 +104,9 @@ namespace Next2.ViewModels
 
             IsSearchActive = IsNothingFound = false;
 
-            await LoadOrdersAsync(IsTabsSelected);
+            IsOrdersRefreshing = true;
+
+            //await LoadOrdersAsync(IsTabsSelected);
         }
 
         public override void OnDisappearing()
@@ -124,7 +126,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(Orders))
             {
-                IsNothingFound = !Orders.Any();
+                IsNothingFound = IsSearchActive && !Orders.Any();
             }
         }
 
@@ -134,13 +136,11 @@ namespace Next2.ViewModels
 
         private Task OnRefreshOrdersCommandAsync()
         {
-            return LoadOrdersAsync(IsTabsSelected);
+            return LoadOrdersAsync();
         }
 
-        public async Task LoadOrdersAsync(bool isTabsLoading)
+        public async Task LoadOrdersAsync()
         {
-            IsOrdersRefreshing = true;
-
             if (IsInternetConnected)
             {
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
@@ -153,13 +153,13 @@ namespace Next2.ViewModels
                     SelectedOrder = null;
 
                     var pendingOrders = gettingOrdersResult.Result
-                            .Where(x => x.OrderStatus == EOrderStatus.Pending);
+                        .Where(x => x.OrderStatus == EOrderStatus.Pending);
 
-                    var displayedOrders = isTabsLoading
+                    var displayedOrders = IsTabsSelected
                         ? pendingOrders.Where(x => x.IsTab)
                         : pendingOrders.Where(x => !x.IsTab).OrderBy(x => x.TableNumber);
 
-                    var mapper = new Mapper(GetOrderConfig(isTabsLoading));
+                    var mapper = new Mapper(GetOrderConfig(IsTabsSelected));
 
                     Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(displayedOrders);
 
@@ -226,10 +226,10 @@ namespace Next2.ViewModels
             {
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
                 SearchQuery = string.Empty;
-
-                await LoadOrdersAsync(false);
-
+                Orders = new();
+                //await LoadOrdersAsync(false);
                 IsTabsSelected = false;
+                IsOrdersRefreshing = true;
             }
         }
 
@@ -239,10 +239,10 @@ namespace Next2.ViewModels
             {
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
                 SearchQuery = string.Empty;
-
-                await LoadOrdersAsync(true);
-
+                Orders = new();
+                //await LoadOrdersAsync(true);
                 IsTabsSelected = true;
+                IsOrdersRefreshing = true;
             }
         }
 
@@ -306,7 +306,9 @@ namespace Next2.ViewModels
             SelectedOrder = null;
             SearchQuery = string.Empty;
 
-            return LoadOrdersAsync(IsTabsSelected);
+            IsOrdersRefreshing = true;
+
+            return Task.CompletedTask;
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)

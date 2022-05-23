@@ -256,6 +256,7 @@
             <RefreshView
                 VerticalOptions="FillAndExpand"
                 IsRefreshing="{Binding IsOrdersRefreshing}"
+                IsEnabled="{Binding IsSearchActive, Converter={xct:InvertedBoolConverter}}"
                 Command="{Binding RefreshOrdersCommand}">
 
                 <StackLayout>
@@ -440,7 +441,7 @@
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
                         IsVisible="{Binding IsOrdersInitializing}"
-                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                         CornerRadius="0, 0, 10, 10">
                         
                         <StackLayout>
