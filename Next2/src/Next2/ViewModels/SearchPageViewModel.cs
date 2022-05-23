@@ -12,14 +12,9 @@ namespace Next2.ViewModels
 {
     public class SearchPageViewModel : BaseViewModel
     {
-        private readonly IEventAggregator _eventAggregator;
-
-        public SearchPageViewModel(
-            INavigationService navigationService,
-            IEventAggregator eventAggregator)
+        public SearchPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            _eventAggregator = eventAggregator;
         }
 
         #region -- Public properties --
@@ -71,12 +66,16 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync(string? done)
+        private Task OnGoBackCommandAsync(string? done)
         {
-            var result = done ?? string.Empty;
-            _eventAggregator.GetEvent<EventSearch>().Publish(result);
+            var searchQuery = done ?? string.Empty;
 
-            await _navigationService.GoBackAsync();
+            var parameters = new NavigationParameters
+            {
+                { Constants.Navigations.SEARCH_QUERY, searchQuery },
+            };
+
+            return _navigationService.GoBackAsync(parameters);
         }
 
         #endregion

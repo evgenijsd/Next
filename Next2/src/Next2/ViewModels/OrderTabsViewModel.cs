@@ -102,10 +102,7 @@ namespace Next2.ViewModels
             base.OnAppearing();
 
             IsSearchActive = IsNothingFound = false;
-
             IsOrdersRefreshing = true;
-
-            //await LoadOrdersAsync(IsTabsSelected);
         }
 
         public override void OnDisappearing()
@@ -113,8 +110,9 @@ namespace Next2.ViewModels
             base.OnDisappearing();
 
             _lastSavedOrderId = 0;
-            SearchQuery = string.Empty;
+
             IsSearchActive = IsNothingFound = IsOrdersRefreshing = false;
+            SearchQuery = string.Empty;
             SelectedOrder = null;
             Orders = new();
         }
@@ -131,6 +129,28 @@ namespace Next2.ViewModels
 
         #endregion
 
+        #region -- Public helpers --
+
+        public void SearchOrders(string searchQuery)
+        {
+            SelectedOrder = null;
+            SearchQuery = searchQuery;
+
+            if (string.IsNullOrEmpty(SearchQuery))
+            {
+                IsSearchActive = false;
+                IsOrdersRefreshing = true;
+            }
+            else
+            {
+                Orders = new(Orders.Where(
+                    x => x.Number.ToString().Contains(SearchQuery) ||
+                    (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
+            }
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
         private Task OnRefreshOrdersCommandAsync()
@@ -140,7 +160,7 @@ namespace Next2.ViewModels
 
         public async Task LoadOrdersAsync()
         {
-            bool isOrderGettingSuccessed = false;
+            bool isOrdersLoaded = false;
 
             OrderSortingType = EOrdersSortingType.ByCustomerName;
             SelectedOrder = null;
@@ -153,8 +173,6 @@ namespace Next2.ViewModels
 
                 if (gettingOrdersResult.IsSuccess)
                 {
-                    isOrderGettingSuccessed = true;
-
                     var pendingOrders = gettingOrdersResult.Result
                         .Where(x => x.OrderStatus == EOrderStatus.Pending);
 
@@ -173,6 +191,8 @@ namespace Next2.ViewModels
                             x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)));
                     }
 
+                    isOrdersLoaded = true;
+
                     //SelectedOrder = _lastSavedOrderId == 0
                     //    ? null
                     //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
@@ -187,7 +207,7 @@ namespace Next2.ViewModels
                 await ShowInfoDialog("NoInternetConnection", "Error");
             }
 
-            if (!isOrderGettingSuccessed)
+            if (!isOrdersLoaded)
             {
                 Orders = new();
             }
@@ -252,11 +272,9 @@ namespace Next2.ViewModels
         {
             if (Orders.Any() || !string.IsNullOrEmpty(SearchQuery))
             {
-                _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchOrdersCallback);
-
                 Func<string, string> searchValidator = IsTabsSelected
-                    ? _orderService.ApplyNumberFilter
-                    : _orderService.ApplyNameFilter;
+                    ? _orderService.ApplyNameFilter
+                    : _orderService.ApplyNumberFilter;
 
                 var searchHint = IsTabsSelected
                     ? LocalizationResourceManager.Current["NameOrOrder"]
@@ -269,31 +287,10 @@ namespace Next2.ViewModels
                     { Constants.Navigations.PLACEHOLDER, searchHint },
                 };
 
-                //ClearSearch();
                 IsSearchActive = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
-        }
-
-        private void SearchOrdersCallback(string searchLine)
-        {
-            SelectedOrder = null;
-            SearchQuery = searchLine;
-
-            if (SearchQuery == string.Empty)
-            {
-                IsSearchActive = false;
-                IsOrdersRefreshing = true;
-            }
-            else
-            {
-                Orders = new(Orders.Where(
-                    x => x.Number.ToString().Contains(SearchQuery) ||
-                    (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
-            }
-
-            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchOrdersCallback);
         }
 
         private async Task OnClearSearchResultCommandAsync()

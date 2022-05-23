@@ -103,6 +103,11 @@ namespace Next2.ViewModels.Tablet
                 {
                     NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                 }
+
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
+                {
+                    OrderTabsViewModel.SearchOrders(searchQuery);
+                }
             }
         }
 
