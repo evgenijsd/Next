@@ -68,8 +68,8 @@ namespace Next2.ViewModels
         private ICommand _switchToTabsComamnd;
         public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new AsyncCommand(OnSwitchToTabsComamndAsync, allowsMultipleExecutions: false);
 
-        private ICommand _searchCommand;
-        public ICommand SearchCommand => _searchCommand ??= new AsyncCommand(OnSearchCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _goToSearchQueryInputCommand;
+        public ICommand GoToSearchQueryInputCommand => _goToSearchQueryInputCommand ??= new AsyncCommand(OnGoToSearchQueryInputCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _clearSearchCommand;
         public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync);
@@ -242,17 +242,17 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnSearchCommandAsync()
+        private async Task OnGoToSearchQueryInputCommandAsync()
         {
             if (Orders.Any() || !string.IsNullOrEmpty(SearchQuery))
             {
-                _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchEventCommand);
+                _eventAggregator.GetEvent<EventSearch>().Subscribe(SearchOrdersCallback);
 
                 Func<string, string> searchValidator = IsTabsSelected
                     ? _orderService.ApplyNumberFilter
                     : _orderService.ApplyNameFilter;
 
-                var placeholder = IsTabsSelected
+                var searchHint = IsTabsSelected
                     ? LocalizationResourceManager.Current["NameOrOrder"]
                     : LocalizationResourceManager.Current["TableNumberOrOrder"];
 
@@ -260,10 +260,10 @@ namespace Next2.ViewModels
                 {
                     { Constants.Navigations.SEARCH, SearchQuery },
                     { Constants.Navigations.FUNC, searchValidator },
-                    { Constants.Navigations.PLACEHOLDER, placeholder },
+                    { Constants.Navigations.PLACEHOLDER, searchHint },
                 };
 
-                await ClearSearchAsync();
+                ClearSearch();
 
                 IsSearchActive = true;
 
@@ -271,32 +271,31 @@ namespace Next2.ViewModels
             }
         }
 
-        private void SearchEventCommand(string searchLine)
+        private void SearchOrdersCallback(string searchLine)
         {
+            SelectedOrder = null;
             SearchQuery = searchLine;
 
             Orders = new (Orders.Where(
                 x => x.Number.ToString().Contains(SearchQuery) ||
                 (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
 
-            SelectedOrder = null;
-
-            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchEventCommand);
+            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchOrdersCallback);
         }
 
         private async Task OnClearSearchResultCommandAsync()
         {
             if (SearchQuery != string.Empty)
             {
-                await ClearSearchAsync();
+                ClearSearch();
             }
             else
             {
-                await OnSearchCommandAsync();
+                await OnGoToSearchQueryInputCommandAsync();
             }
         }
 
-        private Task ClearSearchAsync()
+        private void ClearSearch()
         {
             OrderSortingType = EOrdersSortingType.ByCustomerName;
 
@@ -304,8 +303,6 @@ namespace Next2.ViewModels
             SearchQuery = string.Empty;
 
             IsOrdersRefreshing = true;
-
-            return Task.CompletedTask;
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
