@@ -1,11 +1,11 @@
 ﻿using Next2.Interfaces;
+using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Next2.Models.Api.DTO;
 
 namespace Next2.Models
 {

@@ -74,11 +74,6 @@ namespace Next2.ViewModels.Dialogs
 
                     if (isGiftCardAdded.IsSuccess)
                     {
-                        if (!Customer.IsNotRegistratedCustomer)
-                        {
-                            await _customersService.ActivateGiftCardAsync(giftCard);
-                        }
-
                         RequestClose(dialogParameters);
                     }
                     else

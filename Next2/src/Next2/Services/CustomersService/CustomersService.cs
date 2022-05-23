@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.Api.Commands;
-using Next2.Models.Api.DTO;
-using Next2.Models.Api.Results;
 using Next2.Models.API;
+using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
-using Next2.Services.Mock;
 using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
@@ -145,6 +142,7 @@ namespace Next2.Services.CustomersService
                     foreach (Guid giftCardId in customer.GiftCardsId)
                     {
                         var res = await GetGiftCardByIdAsync(giftCardId);
+
                         if (res.IsSuccess)
                         {
                             giftCards.Add(res.Result);
@@ -157,7 +155,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(ActivateGiftCardAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetFullGiftCardsDataAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -192,25 +190,6 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> ActivateGiftCardAsync(GiftCardModelDTO giftCard)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                if (true)
-                {
-                    result.SetSuccess();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(ActivateGiftCardAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public async Task<AOResult<GiftCardModelDTO>> GetGiftCardByNumberAsync(string giftCardNumber)
         {
             var result = new AOResult<GiftCardModelDTO>();
@@ -218,10 +197,10 @@ namespace Next2.Services.CustomersService
             try
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{giftCardNumber}");
+
                 if (response.Success)
                 {
-                    var giftcard = response.Value.GiftCard;
-                    result.SetSuccess(giftcard);
+                    result.SetSuccess(response.Value.GiftCard);
                 }
             }
             catch (Exception ex)
@@ -239,11 +218,10 @@ namespace Next2.Services.CustomersService
             try
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{id}");
+
                 if (response.Success)
                 {
-                    var giftcard = response.Value.GiftCard;
-
-                    result.SetSuccess(giftcard);
+                    result.SetSuccess(response.Value.GiftCard);
                 }
             }
             catch (Exception ex)
@@ -262,12 +240,11 @@ namespace Next2.Services.CustomersService
             if (giftCard is not null)
             {
                 updateGiftCardCommand = _mapper.Map<UpdateGiftCardCommand>(giftCard);
-                updateGiftCardCommand.GiftCardNumber = giftCard.GiftCardNumber.ToString();
             }
 
             try
             {
-                var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/gift-cards");
+                var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/gift-cards", updateGiftCardCommand);
 
                 if (response.Success)
                 {

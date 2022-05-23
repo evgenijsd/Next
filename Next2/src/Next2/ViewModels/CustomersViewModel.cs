@@ -3,7 +3,6 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
-using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -136,7 +135,7 @@ namespace Next2.ViewModels
                 {
                     _allCustomers = customers;
                     DisplayedCustomers = SearchCustomers(SearchText);
-                    GetGiftCardsInfoAsync();
+                    AddGiftCardsToDisplayedCustomers();
                     SelectCurrentCustomer();
                 }
             }
@@ -144,13 +143,14 @@ namespace Next2.ViewModels
             IsRefreshing = false;
         }
 
-        private async void GetGiftCardsInfoAsync()
+        private async void AddGiftCardsToDisplayedCustomers()
         {
             if (App.IsTablet)
             {
                 foreach (var customer in DisplayedCustomers)
                 {
                     var result = await _customersService.GetFullGiftCardsDataAsync(customer);
+
                     if (result.IsSuccess)
                     {
                        customer.GiftCards = result.Result.GiftCards;

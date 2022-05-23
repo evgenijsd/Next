@@ -483,8 +483,7 @@ namespace Next2.ViewModels
 
                     if (Order.Customer.GiftCards.Any())
                     {
-                        Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
-                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
 
                         if (float.TryParse(InputGiftCardFounds, out float sum))
                         {
@@ -564,18 +563,9 @@ namespace Next2.ViewModels
                         {
                             await UpdateGiftCardAsync(giftCardModel);
                         }
-                        else
-                        {
-                            await ActivateGiftCardAsync(giftCardModel);
-                        }
                     }
                 }
             }
-        }
-
-        private Task ActivateGiftCardAsync(GiftCardModelDTO giftCardModel)
-        {
-            return _customersService.ActivateGiftCardAsync(giftCardModel);
         }
 
         private Task UpdateGiftCardAsync(GiftCardModelDTO giftCardModel)
