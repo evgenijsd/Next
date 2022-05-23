@@ -56,7 +56,8 @@ namespace Next2.ViewModels
 
         public bool IsTabsSelected { get; set; }
 
-        public bool IsOrdersInitializing => !IsInternetConnected || (IsOrdersRefreshing && !Orders.Any());
+        public bool IsOrdersNotReceived => !IsSearchActive
+            && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
@@ -142,7 +143,6 @@ namespace Next2.ViewModels
             bool isOrderGettingSuccessed = false;
 
             OrderSortingType = EOrdersSortingType.ByCustomerName;
-            SearchQuery = string.Empty;
             SelectedOrder = null;
 
             if (IsInternetConnected)
@@ -226,6 +226,9 @@ namespace Next2.ViewModels
         {
             if (IsTabsSelected)
             {
+                SearchQuery = string.Empty;
+                IsSearchActive = false;
+
                 Orders = new();
                 IsTabsSelected = false;
                 IsOrdersRefreshing = true;
@@ -236,6 +239,9 @@ namespace Next2.ViewModels
         {
             if (!IsTabsSelected)
             {
+                SearchQuery = string.Empty;
+                IsSearchActive = false;
+
                 Orders = new();
                 IsTabsSelected = true;
                 IsOrdersRefreshing = true;
@@ -263,8 +269,7 @@ namespace Next2.ViewModels
                     { Constants.Navigations.PLACEHOLDER, searchHint },
                 };
 
-                ClearSearch();
-
+                //ClearSearch();
                 IsSearchActive = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
@@ -276,9 +281,17 @@ namespace Next2.ViewModels
             SelectedOrder = null;
             SearchQuery = searchLine;
 
-            Orders = new (Orders.Where(
-                x => x.Number.ToString().Contains(SearchQuery) ||
-                (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
+            if (SearchQuery == string.Empty)
+            {
+                IsSearchActive = false;
+                IsOrdersRefreshing = true;
+            }
+            else
+            {
+                Orders = new(Orders.Where(
+                    x => x.Number.ToString().Contains(SearchQuery) ||
+                    (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
+            }
 
             _eventAggregator.GetEvent<EventSearch>().Unsubscribe(SearchOrdersCallback);
         }
@@ -287,22 +300,14 @@ namespace Next2.ViewModels
         {
             if (SearchQuery != string.Empty)
             {
-                ClearSearch();
+                SearchQuery = string.Empty;
+                IsSearchActive = false;
+                IsOrdersRefreshing = true;
             }
             else
             {
                 await OnGoToSearchQueryInputCommandAsync();
             }
-        }
-
-        private void ClearSearch()
-        {
-            OrderSortingType = EOrdersSortingType.ByCustomerName;
-
-            SelectedOrder = null;
-            SearchQuery = string.Empty;
-
-            IsOrdersRefreshing = true;
         }
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)

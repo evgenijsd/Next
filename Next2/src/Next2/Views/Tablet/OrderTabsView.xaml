@@ -440,7 +440,7 @@
                     <yummy:PancakeView
                         VerticalOptions="FillAndExpand"
                         HorizontalOptions="FillAndExpand"
-                        IsVisible="{Binding IsOrdersInitializing}"
+                        IsVisible="{Binding IsOrdersNotReceived}"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                         CornerRadius="0, 0, 10, 10">
                         
