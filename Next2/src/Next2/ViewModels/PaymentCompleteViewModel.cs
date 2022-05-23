@@ -423,9 +423,7 @@ namespace Next2.ViewModels
             };
 
             PopupPage popupPage = App.IsTablet
-
                 ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
-
                 : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
 
             await _popupNavigation.PushAsync(popupPage);
