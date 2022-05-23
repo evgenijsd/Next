@@ -86,21 +86,17 @@ namespace Next2.Services.Order
 
             try
             {
-                var newOrderEmployeeId = new CreateOrderCommand
+                var requestBody = new CreateOrderCommand
                 {
                     EmployeeId = _settingsManager.UserId.ToString(),
                 };
 
                 var query = $"{Constants.API.HOST_URL}/api/orders";
-                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, query, newOrderEmployeeId);
+                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, query, requestBody);
 
                 if (resultCreate?.Value?.Id is not null)
                 {
                     result.SetSuccess(resultCreate.Value.Id);
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
