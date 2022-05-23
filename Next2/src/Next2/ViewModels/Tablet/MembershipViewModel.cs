@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Membership;
 using Next2.Views.Tablet;
 using Next2.Views.Tablet.Dialogs;
@@ -28,7 +29,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IMembershipService _membershipService;
         private readonly IEventAggregator _eventAggregator;
 
-        private MemberModel _member;
+        private MembershipModelDTO _member;
         private List<MemberBindableModel> _allMembers = new();
 
         public MembershipViewModel(
@@ -109,9 +110,9 @@ namespace Next2.ViewModels.Tablet
         {
             Func<MemberBindableModel, object> comparer = MemberSorting switch
             {
-                EMemberSorting.ByMembershipStartTime => x => x.MembershipStartTime,
-                EMemberSorting.ByMembershipEndTime => x => x.MembershipEndTime,
-                EMemberSorting.ByCustomerName => x => x.CustomerName,
+                EMemberSorting.ByMembershipStartTime => x => x.StartDate,
+                EMemberSorting.ByMembershipEndTime => x => x.EndDate,
+                EMemberSorting.ByCustomerName => x => x.Customer.FullName,
                 _ => throw new NotImplementedException(),
             };
 
@@ -195,8 +196,8 @@ namespace Next2.ViewModels.Tablet
 
         private List<MemberBindableModel> SearchMembers(string searchLine)
         {
-            bool containsName(MemberBindableModel x) => x.CustomerName.ToLower().Contains(searchLine.ToLower());
-            bool containsPhone(MemberBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+            bool containsName(MemberBindableModel x) => x.Customer.FullName.ToLower().Contains(searchLine.ToLower());
+            bool containsPhone(MemberBindableModel x) => x.Customer.Phone.Replace("-", string.Empty).Contains(searchLine);
 
             return _allMembers.Where(x => containsName(x) || containsPhone(x)).ToList();
         }
@@ -233,7 +234,7 @@ namespace Next2.ViewModels.Tablet
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
-                _member = _mapper.Map<MemberBindableModel, MemberModel>(member);
+                _member = _mapper.Map<MemberBindableModel, MembershipModelDTO>(member);
 
                 var confirmDialogParameters = new DialogParameters
                 {
@@ -254,7 +255,6 @@ namespace Next2.ViewModels.Tablet
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMembershipDisableAccepted) && isMembershipDisableAccepted)
             {
                 await _membershipService.UpdateMemberAsync(_member);
-
                 await RefreshMembersAsync();
             }
 

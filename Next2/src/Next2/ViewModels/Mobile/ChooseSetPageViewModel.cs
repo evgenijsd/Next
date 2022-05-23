@@ -1,18 +1,13 @@
-﻿using Acr.UserDialogs;
-using Next2.Models.Api;
-using Next2.Resources.Strings;
+using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Menu;
 using Next2.Services.Order;
-using Next2.Views.Mobile;
 using Prism.Navigation;
-using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -26,7 +21,7 @@ namespace Next2.ViewModels.Mobile
 
         private readonly IOrderService _orderService;
 
-        private bool _order;
+        private bool _shouldOrderDishesByDESC;
 
         public ChooseSetPageViewModel(
             IMenuService menuService,
@@ -42,8 +37,9 @@ namespace Next2.ViewModels.Mobile
 
         public CategoryModel SelectedCategoriesItem { get; set; }
 
-        //public ObservableCollection<SetModel> SetsItems { get; set; }
-        public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
@@ -74,7 +70,7 @@ namespace Next2.ViewModels.Mobile
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(LoadSetsAsync);
+                    Task.Run(LoadDishesAsync);
                     break;
             }
         }
@@ -85,8 +81,8 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapSortCommandAsync()
         {
-            _order = !_order;
-            await LoadSetsAsync();
+            _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
+            Dishes = new(Dishes.Reverse());
         }
 
         //private async Task OnTapSetCommandAsync(SetModel set)
@@ -128,38 +124,34 @@ namespace Next2.ViewModels.Mobile
         //        await PopupNavigation.PopAsync();
         //    }
         //}
-        private async Task LoadSetsAsync()
+        private async Task LoadDishesAsync()
         {
-            //if (IsInternetConnected)
-            //{
-            //    var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+            if (IsInternetConnected)
+            {
+                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
 
-            //    if (resultSets.IsSuccess)
-            //    {
-            //        if (_order)
-            //        {
-            //            SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
-            //        }
-            //        else
-            //        {
-            //            SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
-            //        }
-            //    }
-            //}
+                if (resultGettingDishes.IsSuccess)
+                {
+                    Dishes = _shouldOrderDishesByDESC
+                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
+                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+                }
+            }
         }
 
         private async Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
+                Subcategories = new(SelectedCategoriesItem.Subcategories);
 
-                SubcategoriesItems.Insert(0, new SubcategoryModel()
+                Subcategories.Insert(0, new SubcategoryModel()
                 {
+                    Id = Guid.Empty,
                     Name = LocalizationResourceManager.Current["All"],
                 });
 
-                SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
+                SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
         }
 

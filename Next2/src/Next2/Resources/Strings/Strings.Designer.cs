@@ -19,7 +19,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -782,6 +782,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Receipt.
+        /// </summary>
+        internal static string NoReceipt {
+            get {
+                return ResourceManager.GetString("NoReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not found data.
         /// </summary>
         internal static string NotFoundData {
@@ -935,11 +944,20 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Payment complete!.
+        ///   Looks up a localized string similar to Payment complete.
         /// </summary>
         internal static string PaymentComplete {
             get {
                 return ResourceManager.GetString("PaymentComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Payment complete!.
+        /// </summary>
+        internal static string PaymentCompleteExclamation {
+            get {
+                return ResourceManager.GetString("PaymentCompleteExclamation", resourceCulture);
             }
         }
         
@@ -1338,6 +1356,15 @@ namespace Next2.Resources.Strings {
         internal static string Tax {
             get {
                 return ResourceManager.GetString("Tax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text.
+        /// </summary>
+        internal static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
             }
         }
         

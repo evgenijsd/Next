@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Next2.Helpers.DTO;
-using Next2.Resources.Strings;
+using Next2.Models.API;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,27 +22,16 @@ namespace Next2.Services.Rest
 
         #region -- IRestService implementation --
 
-        public Dictionary<string, string> GenerateAuthorizationHeader()
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            return new Dictionary<string, string>
+            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
             {
-                { "Authorization", $"Bearer {_settingsManager.Token}" },
-            };
-        }
+                await RefreshTokenIfNeeded();
 
-        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
-        {
-            if (_settingsManager.IsAuthorizationComplete)
-            {
-                if (additioalHeaders is null)
-                {
-                    additioalHeaders = new();
-                }
-
-                additioalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
+                additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
             }
 
-            using (var response = await MakeRequestAsync(method, requestUrl, null, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
+            using (var response = await MakeRequestAsync(method, requestUrl, null, additionalHeaders).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
@@ -54,19 +41,16 @@ namespace Next2.Services.Rest
             }
         }
 
-        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
+        public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            if (_settingsManager.IsAuthorizationComplete)
+            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
             {
-                if (additioalHeaders is null)
-                {
-                    additioalHeaders = new();
-                }
+                await RefreshTokenIfNeeded();
 
-                additioalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
+                additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
             }
 
-            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additioalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
+            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additionalHeaders).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
@@ -95,7 +79,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
+        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null)
         {
             var client = new HttpClient();
 
@@ -123,20 +107,12 @@ namespace Next2.Services.Rest
                 }
             }
 
-            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
-            {
-                await RefreshTokenIfNeeded();
-            }
-
             return await client.SendAsync(request).ConfigureAwait(false);
         }
 
-        private async Task RefreshTokenIfNeeded()
+        private Task RefreshTokenIfNeeded()
         {
-            if (_settingsManager.TokenExpirationDate < DateTime.Now)
-            {
-                await RefreshTokenAsync();
-            }
+            return _settingsManager.TokenExpirationDate < DateTime.Now ? RefreshTokenAsync() : Task.CompletedTask;
         }
 
         private Task RefreshTokenAsync()
@@ -203,6 +179,15 @@ namespace Next2.Services.Rest
                 System.Diagnostics.Debug.WriteLine($"Bad Request: {ex.Message}");
 #endif
             }
+        }
+
+        private Dictionary<string, string> GenerateAuthorizationHeader(Dictionary<string, string> additionalHeaders)
+        {
+            additionalHeaders ??= new();
+
+            additionalHeaders.Add("Authorization", $"Bearer {_settingsManager.Token}");
+
+            return additionalHeaders;
         }
 
         #endregion

@@ -142,6 +142,8 @@
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
             public const string TIP_VALUE_DIALOG = "TIP_VALUE_DIALOG";
+            public const string PAID_ORDER_BINDABLE_MODEL = "PAID_ORDER_BINDABLE_MODEL";
+            public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
         }

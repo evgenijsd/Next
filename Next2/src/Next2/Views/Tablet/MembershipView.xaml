@@ -217,22 +217,22 @@
                                         <Label
                                             Grid.Column="0"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding CustomerName}" />
+                                            Text="{Binding Customer.FullName}" />
 
                                         <Label
                                             Grid.Column="1"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding Phone}" />
+                                            Text="{Binding Customer.Phone, Converter={StaticResource formattedPhoneConverter}}" />
 
                                         <Label
                                             Grid.Column="2"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding MembershipStartTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
+                                            Text="{Binding StartDate, Converter={x:StaticResource timeToFormattedStringConverter}}" />
 
                                         <Label
                                             Grid.Column="3"
                                             Style="{DynamicResource TableCellStyle_i1}"
-                                            Text="{Binding MembershipEndTime, Converter={x:StaticResource timeToFormattedStringConverter}}" />
+                                            Text="{Binding EndDate, Converter={x:StaticResource timeToFormattedStringConverter}}" />
 
                                         <Grid.GestureRecognizers>
                                             <TapGestureRecognizer

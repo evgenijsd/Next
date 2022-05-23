@@ -1,54 +1,62 @@
 ﻿using Next2.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Next2.Models
+namespace Next2.Models.API.DTO
 {
-    public class CustomerModel : IBaseModel
+    public class CustomerModelDTO : IBaseApiModel
     {
-        public CustomerModel()
+        public CustomerModelDTO()
         {
         }
 
-        public CustomerModel(CustomerModel customerModel)
+        public CustomerModelDTO(CustomerModelDTO customerModel)
         {
             Id = customerModel.Id;
-            Name = customerModel.Name;
+            FullName = customerModel.FullName;
             Email = customerModel.Email;
             Phone = customerModel.Phone;
             Birthday = customerModel.Birthday;
             Points = customerModel.Points;
             Rewards = customerModel.Rewards;
             GiftCards = customerModel.GiftCards;
-            GiftCardCount = customerModel.GiftCardCount;
-            GiftCardTotal = customerModel.GiftCardTotal;
+            GiftCardsCount = customerModel.GiftCardsCount;
+            GiftCardsTotalFund = customerModel.GiftCardsTotalFund;
             IsNotRegistratedCustomer = customerModel.IsNotRegistratedCustomer;
             IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
         }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string? FullName { get; set; }
 
-        public string Email { get; set; } = string.Empty;
+        public string? Phone { get; set; }
 
-        public string Phone { get; set; } = string.Empty;
+        public string? Email { get; set; }
 
         public DateTime? Birthday { get; set; }
+
+        public string? MembershipId { get; set; }
+
+        public IEnumerable<string>? GiftCardsId { get; set; }
+
+        #region -- Over Properties --
 
         public int Points { get; set; }
 
         public int Rewards { get; set; }
 
-        public int GiftCardCount { get; set; }
+        public int GiftCardsCount { get; set; }
 
-        public float GiftCardTotal { get; set; }
+        public float GiftCardsTotalFund { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 
         public bool IsNotRegistratedCustomer { get; set; }
 
         public bool IsUpdatedCustomer { get; set; }
+
+        #endregion
+
     }
 }

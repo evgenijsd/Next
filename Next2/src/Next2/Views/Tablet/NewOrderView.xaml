@@ -13,7 +13,6 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
-    xmlns:apiModels="clr-namespace:Next2.Models.Api"
     x:Class="Next2.Views.Tablet.NewOrderView"
     x:DataType="viewModels:NewOrderViewModel">
 
@@ -348,7 +347,7 @@
                             <controls:StepperCarousel
                                 HeightRequest="100"
                                 Margin="12, 10, 12, 16"
-                                ItemsSource="{Binding CategoriesItems}"
+                                ItemsSource="{Binding Categories}"
                                 SelectedItem="{Binding SelectedCategoriesItem}">
 
                                 <VisualStateManager.VisualStateGroups>
@@ -500,7 +499,7 @@
                         <CollectionView
                             Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
-                            ItemsSource="{Binding SetsItems}"
+                            ItemsSource="{Binding Dishes}"
                             VerticalScrollBarVisibility="Always"
                             x:Name="menuCollectionView">
 
@@ -582,7 +581,7 @@
                             HeightRequest="50"
                             MinimumHeightRequest="50"
                             VerticalOptions="End"
-                            ItemsSource="{Binding SubcategoriesItems}"
+                            ItemsSource="{Binding Subcategories}"
                             SelectedItem="{Binding SelectedSubcategoriesItem}"
                             VerticalScrollBarVisibility="Never"
                             SelectionMode="Single">
@@ -620,7 +619,7 @@
                             </CollectionView.ItemsLayout>
 
                             <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="apiModels:SubcategoryModel">
+                                <DataTemplate x:DataType="models:SubcategoryModel">
 
                                     <templates:SubCategoryItemTemplate
                                         HeightRequest="50"
@@ -1284,7 +1283,7 @@
                 Margin="18"
                 WidthRequest="125"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
+                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
 
@@ -1594,7 +1593,7 @@
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.FullName}">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>

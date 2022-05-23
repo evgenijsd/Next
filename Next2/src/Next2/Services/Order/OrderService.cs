@@ -3,6 +3,9 @@ using Next2.Enums;
 using Next2.Helpers.DTO;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API;
+using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
@@ -33,6 +36,7 @@ namespace Next2.Services.Order
             _mockService = mockService;
             _restService = restService;
             _bonusService = bonusesService;
+            _restService = restService;
             _mapper = mapper;
 
             CurrentOrder.Seats = new ();
@@ -92,28 +96,24 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync()
+        public async Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync()
         {
-            var result = new AOResult<IEnumerable<TableModel>>();
+            var result = new AOResult<IEnumerable<TableModelDTO>>();
 
             try
             {
-                var allTables = await _mockService.GetAllAsync<TableModel>();
+                var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/tables/available");
 
-                if (allTables is not null)
+                if (freeTables.Success)
                 {
-                    var allOrders = await _mockService.GetAllAsync<OrderModel>();
-
-                    if (allOrders is not null)
+                    if (freeTables?.Value?.Tables is not null)
                     {
-                        var freeTables = allTables.Where(table => allOrders
-                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is not EOrderStatus.Pending and EOrderStatus.Preparing));
-
-                        if (freeTables is not null)
-                        {
-                            result.SetSuccess(freeTables);
-                        }
+                        result.SetSuccess(freeTables.Value.Tables);
                     }
+                }
+                else
+                {
+                    result.SetFailure();
                 }
             }
             catch (Exception ex)

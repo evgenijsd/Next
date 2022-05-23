@@ -25,7 +25,7 @@
             <StackLayout>
 
                 <Label
-                    Text="{xct:Translate PaymentComplete}"
+                    Text="{xct:Translate PaymentCompleteExclamation}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     Padding="17"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
