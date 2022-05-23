@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -27,6 +28,7 @@ namespace Next2.ViewModels
         private readonly IPopupNavigation _popupNavigation;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
         private ICommand _tapPaymentOptionCommand;
 
@@ -39,12 +41,14 @@ namespace Next2.ViewModels
             IPopupNavigation popupNavigation,
             ICustomersService customersService,
             IOrderService orderService,
+            IMapper mapper,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
             _popupNavigation = popupNavigation;
             _customersService = customersService;
             _orderService = orderService;
+            _mapper = mapper;
 
             Order = order;
 
@@ -99,6 +103,8 @@ namespace Next2.ViewModels
 
         public bool IsInsufficientGiftCardFunds { get; set; }
 
+        public bool IsPaymentComplete { get; set; } = false;
+
         private ICommand _tapExpandCommand;
         public ICommand TapExpandCommand => _tapExpandCommand = new Command(() => IsExpandedSummary = !IsExpandedSummary);
 
@@ -115,7 +121,7 @@ namespace Next2.ViewModels
         public ICommand AddGiftCardCommand => _addGiftCardCommand = new AsyncCommand(OnAddGiftCardCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _finishPaymentCommand;
-        public ICommand FinishPaymentCommand => _finishPaymentCommand = new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
+        public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -125,7 +131,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if(args.PropertyName == nameof(InputValue))
+            if (args.PropertyName == nameof(InputValue))
             {
                 if (float.TryParse(InputValue, out float sum))
                 {
@@ -396,6 +402,63 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync();
         }
 
+        private async Task OnFinishPaymentCommandAsync()
+        {
+            await GiftCardFinishPaymentAsync();
+
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
+            };
+
+            Action<IDialogParameters> callback = async (IDialogParameters par) =>
+            {
+                await MakePaymentAsync();
+                var navigationParameters = await SendReceiptAsync(par)
+                    ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
+                    : null;
+
+                await _navigationService.ClearPopupStackAsync();
+                await _navigationService.NavigateAsync(nameof(MenuPage), navigationParameters);
+            };
+
+            PopupPage popupPage = App.IsTablet
+                ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
+                : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
+
+            await _popupNavigation.PushAsync(popupPage);
+        }
+
+        private Task<bool> SendReceiptAsync(IDialogParameters par)
+        {
+            bool isReceiptPrint = false;
+
+            if (par.TryGetValue(Constants.DialogParameterKeys.PAYMENT_COMPLETE, out EPaymentReceiptOptions options))
+            {
+                switch (options)
+                {
+                    case EPaymentReceiptOptions.PrintReceipt:
+                        {
+                            isReceiptPrint = true;
+                            break;
+                        }
+
+                    case EPaymentReceiptOptions.SendByEmail:
+                    case EPaymentReceiptOptions.SendBySMS:
+                    case EPaymentReceiptOptions.WithoutReceipt:
+
+                    default:
+                        break;
+                }
+            }
+
+            return Task.FromResult(isReceiptPrint);
+        }
+
+        private async Task MakePaymentAsync()
+        {
+        }
+
         private async Task OnAddGiftCardCommandAsync()
         {
             IsInsufficientGiftCardFunds = false;
@@ -482,7 +545,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnFinishPaymentCommandAsync()
+        private async Task GiftCardFinishPaymentAsync()
         {
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {

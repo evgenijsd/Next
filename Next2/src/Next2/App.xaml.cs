@@ -107,6 +107,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.EmployeeTimeClockDialog, EmployeeTimeClockViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
             else
             {
@@ -135,6 +136,7 @@ namespace Next2
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
         }
 

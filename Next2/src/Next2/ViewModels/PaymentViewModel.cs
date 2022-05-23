@@ -57,7 +57,7 @@ namespace Next2.ViewModels
                 Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
             }
 
-            RewardsViewModel = new (
+            RewardsViewModel = new(
                 navigationService,
                 popupNavigation,
                 mapper,
@@ -68,17 +68,18 @@ namespace Next2.ViewModels
                 NavigateAsync,
                 GoToPaymentStep);
 
-            PaymentCompleteViewModel = new (
+            PaymentCompleteViewModel = new(
                 navigationService,
                 popupNavigation,
                 customerService,
                 orderService,
+                mapper,
                 Order);
         }
 
         #region -- Public properties --
 
-        public PaidOrderBindableModel Order { get; set; } = new ();
+        public PaidOrderBindableModel Order { get; set; } = new();
 
         public EPaymentSteps PaymentStep { get; set; }
 
@@ -164,9 +165,7 @@ namespace Next2.ViewModels
             }
             else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
             {
-                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
-
-                await _popupNavigation.PushAsync(confirmDialog);
+                PaymentCompleteViewModel.IsPaymentComplete = true;
             }
             else
             {
