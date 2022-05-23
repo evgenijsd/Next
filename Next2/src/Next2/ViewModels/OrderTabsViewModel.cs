@@ -44,8 +44,6 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
-        public int ErrorCounter { get; set; }
-
         public bool IsOrdersRefreshing { get; set; }
 
         public EOrdersSortingType OrderSortingType { get; set; }
@@ -58,7 +56,7 @@ namespace Next2.ViewModels
 
         public bool IsTabsSelected { get; set; }
 
-        public bool IsOrdersInitializing => !IsInternetConnected || IsOrdersRefreshing && !Orders.Any();
+        public bool IsOrdersInitializing => !IsInternetConnected || (IsOrdersRefreshing && !Orders.Any());
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
@@ -77,7 +75,7 @@ namespace Next2.ViewModels
         public ICommand ClearSearchResultCommand => _clearSearchCommand ??= new AsyncCommand(OnClearSearchResultCommandAsync);
 
         private ICommand _refreshOrdersCommand;
-        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync/*, () => !IsOrdersRefreshing*/);
+        public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
         private ICommand _orderTabSortingChangeCommand;
         public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new AsyncCommand<EOrdersSortingType>(OnChangeOrderSortingCommandAsync);
@@ -124,7 +122,7 @@ namespace Next2.ViewModels
         {
             base.OnPropertyChanged(args);
 
-            if (args.PropertyName is nameof(Orders))
+            if (args.PropertyName is nameof(Orders) or nameof(IsSearchActive))
             {
                 IsNothingFound = IsSearchActive && !Orders.Any();
             }
@@ -141,6 +139,12 @@ namespace Next2.ViewModels
 
         public async Task LoadOrdersAsync()
         {
+            bool isOrderGettingSuccessed = false;
+
+            OrderSortingType = EOrdersSortingType.ByCustomerName;
+            SearchQuery = string.Empty;
+            SelectedOrder = null;
+
             if (IsInternetConnected)
             {
                 OrderSortingType = EOrdersSortingType.ByCustomerName;
@@ -149,8 +153,7 @@ namespace Next2.ViewModels
 
                 if (gettingOrdersResult.IsSuccess)
                 {
-                    Orders = new();
-                    SelectedOrder = null;
+                    isOrderGettingSuccessed = true;
 
                     var pendingOrders = gettingOrdersResult.Result
                         .Where(x => x.OrderStatus == EOrderStatus.Pending);
@@ -176,18 +179,17 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    Orders = new();
-
                     await ShowInfoDialog("SomethingWentWrong", "Error");
-                    ErrorCounter++;
                 }
             }
             else
             {
-                Orders = new();
-
                 await ShowInfoDialog("NoInternetConnection", "Error");
-                ErrorCounter++;
+            }
+
+            if (!isOrderGettingSuccessed)
+            {
+                Orders = new();
             }
 
             IsOrdersRefreshing = false;
@@ -224,10 +226,7 @@ namespace Next2.ViewModels
         {
             if (IsTabsSelected)
             {
-                OrderSortingType = EOrdersSortingType.ByCustomerName;
-                SearchQuery = string.Empty;
                 Orders = new();
-                //await LoadOrdersAsync(false);
                 IsTabsSelected = false;
                 IsOrdersRefreshing = true;
             }
@@ -237,10 +236,7 @@ namespace Next2.ViewModels
         {
             if (!IsTabsSelected)
             {
-                OrderSortingType = EOrdersSortingType.ByCustomerName;
-                SearchQuery = string.Empty;
                 Orders = new();
-                //await LoadOrdersAsync(true);
                 IsTabsSelected = true;
                 IsOrdersRefreshing = true;
             }
@@ -268,6 +264,7 @@ namespace Next2.ViewModels
                 };
 
                 await ClearSearchAsync();
+
                 IsSearchActive = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
