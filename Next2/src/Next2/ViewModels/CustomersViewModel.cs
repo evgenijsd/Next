@@ -135,7 +135,7 @@ namespace Next2.ViewModels
                 {
                     _allCustomers = customers;
                     DisplayedCustomers = SearchCustomers(SearchText);
-                    AddGiftCardsToDisplayedCustomers();
+                    await AddGiftCardsToDisplayedCustomersAsync();
                     SelectCurrentCustomer();
                 }
             }
@@ -143,7 +143,7 @@ namespace Next2.ViewModels
             IsRefreshing = false;
         }
 
-        private async void AddGiftCardsToDisplayedCustomers()
+        private async Task AddGiftCardsToDisplayedCustomersAsync()
         {
             if (App.IsTablet)
             {

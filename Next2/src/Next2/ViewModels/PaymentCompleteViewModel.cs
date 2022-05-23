@@ -2,7 +2,6 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
-using Next2.Models.Api.DTO;
 using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;

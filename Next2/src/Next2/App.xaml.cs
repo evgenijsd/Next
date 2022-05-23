@@ -34,8 +34,7 @@ using Next2.Services.Bonuses;
 using Next2.Services.Log;
 using Next2.Services.Rest;
 using Next2.Models.API.DTO;
-using Next2.Models.Api.DTO;
-using Next2.Models.Api.Commands;
+using Next2.Models.API.Commands;
 
 namespace Next2
 {
