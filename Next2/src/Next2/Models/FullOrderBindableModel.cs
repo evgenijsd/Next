@@ -2,44 +2,48 @@
 using Next2.Interfaces;
 using Next2.Models.API.DTO;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Next2.Models
 {
-    public class FullOrderBindableModel : BindableBase, IBaseModel
+    public class FullOrderBindableModel : BindableBase, IBaseApiModel
     {
-        public FullOrderBindableModel()
-        {
-        }
+        public Guid Id { get; set; }
 
-        public FullOrderBindableModel(FullOrderBindableModel order)
-        {
-            Id = order.Id;
-            OrderNumber = order.OrderNumber;
-            Table = order.Table;
-            Customer = order.Customer;
-            CustomerName = order.CustomerName;
-            OrderStatus = order.OrderStatus;
-            OrderType = order.OrderType;
-            Bonus = order.Bonus;
-            BonusType = order.BonusType;
-            SubTotal = order.SubTotal;
-            Tax = order.Tax;
-            PriceWithBonus = order.PriceWithBonus;
-            PriceTax = order.PriceTax;
-            Total = order.Total;
-            Seats = new();
+        public int Number { get; set; }
 
-            foreach (var seat in order.Seats)
-            {
-                Seats.Add(new SeatBindableModel(seat));
-            }
-        }
+        public bool IsTab { get; set; }
+
+        public SimpleTableModelDTO Table { get; set; } = new();
+
+        public CustomerBindableModel Customer { get; set; } = new();
+
+        public EOrderStatus? OrderStatus { get; set; }
+
+        public EOrderType? OrderType { get; set; }
+
+        public SimpleDiscountModelDTO Discount { get; set; } = new();
+
+        public SimpleCouponModelDTO Coupon { get; set; } = new();
+
+        public decimal TaxCoefficient { get; set; }
+
+        public decimal? SubTotalPrice { get; set; }
+
+        public decimal? DiscountPrice { get; set; }
+
+        public decimal PriceTax { get; set; }
+
+        public decimal TotalPrice { get; set; }
+
+        public string? EmployeeId { get; set; }
+
+        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         public void UpdateTotalSum()
         {
-            SubTotal = 0;
+            SubTotalPrice = 0;
 
             foreach (var seat in Seats)
             {
@@ -56,27 +60,17 @@ namespace Next2.Models
 
                     set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
 
-                    SubTotal += set.TotalPrice;
+                    SubTotalPrice += set.TotalPrice;
                 }
             }
 
-            PriceTax = SubTotal * Tax.Value;
-            Total = SubTotal + PriceTax;
+            PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
+            TotalPrice = (decimal)SubTotalPrice + PriceTax;
         }
-
-        public int Id { get; set; }
 
         public int OrderNumber { get; set; }
 
-        public TableBindableModel Table { get; set; } = new();
-
-        public CustomerBindableModel? Customer { get; set; }
-
         public string? CustomerName { get; set; }
-
-        public string OrderStatus { get; set; } = string.Empty;
-
-        public EOrderType OrderType { get; set; }
 
         public EBonusType BonusType { get; set; } = EBonusType.None;
 
@@ -88,11 +82,7 @@ namespace Next2.Models
 
         public float PriceWithBonus { get; set; } = 0f;
 
-        public float PriceTax { get; set; }
-
         public float Total { get; set; }
-
-        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         public EOrderStatus? PaymentStatus;
     }

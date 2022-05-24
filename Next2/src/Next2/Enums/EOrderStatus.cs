@@ -6,9 +6,10 @@ namespace Next2.Enums
 {
     public enum EOrderStatus
     {
-        WaitingForPayment,
-        InProgress,
-        None,
-        Payed,
+        Pending,
+        Preparing,
+        Closed,
+        Canceled,
+        Deleted,
     }
 }

@@ -47,7 +47,7 @@ namespace Next2.Models
 
         public int Points { get; set; }
 
-        public double GiftCardsTotalFund => GiftCards.Where(x => x.Expire.ToOADate() <= DateTime.Now.ToOADate()).Sum(x => x.TotalBalance);
+        public decimal GiftCardsTotalFund => GiftCards.Where(x => x.Expire.ToOADate() <= DateTime.Now.ToOADate()).Sum(x => x.TotalBalance);
 
         public List<GiftCardModelDTO> GiftCards { get; set; } = new();
 

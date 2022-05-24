@@ -29,9 +29,9 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnGetTipValueCommandAsync()
         {
-            float tipValue = 0;
+            decimal tipValue = 0;
 
-            if (float.TryParse(InputTip, out float tip))
+            if (decimal.TryParse(InputTip, out decimal tip))
             {
                 tipValue = tip / 100;
             }

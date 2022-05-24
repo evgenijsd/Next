@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Next2.Models;
-using Next2.Models.API.DTO;
+﻿using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +31,7 @@ namespace Next2.ViewModels.Mobile
             _orderService = orderService;
             _customersService = customersService;
 
-            Customer = _orderService.CurrentOrder.Customer;
+            Customer = new(); // _orderService.CurrentOrder.Customer;
 
             if (Customer is not null && Customer.GiftCards.Any())
             {
@@ -47,7 +43,7 @@ namespace Next2.ViewModels.Mobile
 
         public string InputGiftCardFounds { get; set; }
 
-        public double RemainingGiftCardTotal { get; set; }
+        public decimal RemainingGiftCardTotal { get; set; }
 
         public bool IsInSufficientGiftCardFunds { get; set; }
 
@@ -81,7 +77,7 @@ namespace Next2.ViewModels.Mobile
                 {
                     RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 
@@ -98,7 +94,7 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         IsInSufficientGiftCardFunds = RemainingGiftCardTotal < sum;
                     }
@@ -125,11 +121,11 @@ namespace Next2.ViewModels.Mobile
 
             if (_orderService.CurrentOrder.Customer is not null)
             {
-                Customer = new(_orderService.CurrentOrder.Customer);
+                Customer = new(); //(_orderService.CurrentOrder.Customer);
 
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 

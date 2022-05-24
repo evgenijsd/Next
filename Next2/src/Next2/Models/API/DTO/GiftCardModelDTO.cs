@@ -11,7 +11,7 @@ namespace Next2.Models.API.DTO
 
         public DateTime Expire { get; set; }
 
-        public double TotalBalance { get; set; }
+        public decimal TotalBalance { get; set; }
 
         public Guid? CustomerId { get; set; }
     }

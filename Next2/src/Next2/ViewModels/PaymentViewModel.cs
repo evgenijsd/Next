@@ -24,7 +24,7 @@ namespace Next2.ViewModels
         private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
 
-        private float _subtotalWithBonus;
+        private decimal _subtotalWithBonus;
 
         public PaymentViewModel(
             INavigationService navigationService,
@@ -38,15 +38,14 @@ namespace Next2.ViewModels
             _popupNavigation = popupNavigation;
             _orderService = orderService;
 
-            Order.BonusType = orderService.CurrentOrder.BonusType;
-            Order.Bonus = orderService.CurrentOrder.Bonus;
-            Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
-            Order.Subtotal = orderService.CurrentOrder.SubTotal;
-            Order.PriceTax = orderService.CurrentOrder.PriceTax;
-            Order.Tax = orderService.CurrentOrder.Tax;
-            Order.Total = orderService.CurrentOrder.Total;
-            Order.Customer = orderService.CurrentOrder.Customer;
-
+            //Order.BonusType = orderService.CurrentOrder.BonusType;
+            //Order.Bonus = orderService.CurrentOrder.Bonus;
+            //Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
+            //Order.Subtotal = orderService.CurrentOrder.SubTotal;
+            //Order.PriceTax = orderService.CurrentOrder.PriceTax;
+            //Order.Tax = orderService.CurrentOrder.Tax;
+            //Order.Total = orderService.CurrentOrder.Total;
+            //Order.Customer = orderService.CurrentOrder.Customer;
             _subtotalWithBonus = Order.BonusType == EBonusType.None
                 ? Order.Subtotal
                 : Order.SubtotalWithBonus;
@@ -115,7 +114,7 @@ namespace Next2.ViewModels
             }
             else if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
             {
-                if (float.TryParse(inputValue, out float sum))
+                if (decimal.TryParse(inputValue, out decimal sum))
                 {
                     Order.Cash = sum / 100;
                 }
@@ -125,15 +124,15 @@ namespace Next2.ViewModels
                 if (parameters.ContainsKey(Constants.Navigations.GIFT_CARD_ADDED)
                     && _orderService.CurrentOrder.Customer is not null)
                 {
-                    _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
-                    Order.BonusType = _orderService.CurrentOrder.BonusType;
-                    Order.Customer = _orderService.CurrentOrder.Customer;
-                    Order.Bonus = _orderService.CurrentOrder.Bonus;
-                    Order.Subtotal = _orderService.CurrentOrder.SubTotal;
-                    Order.PriceTax = _orderService.CurrentOrder.PriceTax;
-                    Order.Total = _orderService.CurrentOrder.Total;
-                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
-                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                    //_orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
+                    //Order.BonusType = _orderService.CurrentOrder.BonusType;
+                    //Order.Customer = _orderService.CurrentOrder.Customer;
+                    //Order.Bonus = _orderService.CurrentOrder.Bonus;
+                    //Order.Subtotal = _orderService.CurrentOrder.SubTotal;
+                    //Order.PriceTax = _orderService.CurrentOrder.PriceTax;
+                    //Order.Total = _orderService.CurrentOrder.Total;
+                    //Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
+                    //Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                 }
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())
@@ -141,7 +140,7 @@ namespace Next2.ViewModels
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
 
-                    if (float.TryParse(inputAmountValue, out float sum))
+                    if (decimal.TryParse(inputAmountValue, out decimal sum))
                     {
                         sum /= 100;
 

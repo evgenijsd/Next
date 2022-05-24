@@ -1,40 +1,38 @@
-﻿using Next2.Resources.Strings;
+﻿using AutoMapper;
+using Next2.Enums;
+using Next2.Models;
+using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Authentication;
+using Next2.Services.Bonuses;
 using Next2.Services.CustomersService;
+using Next2.Services.Log;
 using Next2.Services.Membership;
 using Next2.Services.Menu;
 using Next2.Services.Mock;
 using Next2.Services.Order;
+using Next2.Services.Rest;
+using Next2.Services.Rewards;
 using Next2.Services.SettingsService;
 using Next2.Services.UserService;
 using Next2.ViewModels;
 using Next2.ViewModels.Dialogs;
+using Next2.ViewModels.Mobile;
 using Next2.ViewModels.Tablet;
+using Next2.Views;
 using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
 using Prism.Unity;
+using System;
 using System.Globalization;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using MobileViewModels = Next2.ViewModels.Mobile;
 using MobileViews = Next2.Views.Mobile;
 using TabletViewModels = Next2.ViewModels.Tablet;
 using TabletViews = Next2.Views.Tablet;
-using AutoMapper;
-using Next2.Models;
-using Next2.Views;
-using Next2.Views.Tablet;
-using Next2.ViewModels.Mobile;
-using Next2.Services.Rewards;
-using Next2.Services.Bonuses;
-using Next2.Services.Log;
-using Next2.Services.Rest;
-using Next2.Models.API.DTO;
-using Next2.Models.API.Commands;
 
 namespace Next2
 {
@@ -191,6 +189,9 @@ namespace Next2
             cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
             cfg.CreateMap<BonusModel, BonusBindableModel>();
             cfg.CreateMap<BonusBindableModel, BonusModel>();
+            cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
+                .ForMember(x => x.OrderStatus, x => x.MapFrom(s => (EOrderStatus)Enum.Parse(typeof(EOrderStatus), s.OrderStatus)))
+                .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
             cfg.CreateMap<FullOrderBindableModel, OrderModel>();
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();

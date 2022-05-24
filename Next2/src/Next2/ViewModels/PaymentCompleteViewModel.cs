@@ -34,7 +34,7 @@ namespace Next2.ViewModels
 
         private ICommand _tapTipItemCommand;
 
-        private float _subtotalWithBonus;
+        private decimal _subtotalWithBonus;
 
         public PaymentCompleteViewModel(
             INavigationService navigationService,
@@ -133,7 +133,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(InputValue))
             {
-                if (float.TryParse(InputValue, out float sum))
+                if (decimal.TryParse(InputValue, out decimal sum))
                 {
                     Order.Cash = sum / 100;
                 }
@@ -153,7 +153,7 @@ namespace Next2.ViewModels
                     Order.GiftCard = 0;
                     Order.RemainingGiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
 
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 
@@ -180,7 +180,7 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         IsInsufficientGiftCardFunds = sum > 0;
                     }
@@ -189,7 +189,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName == nameof(InputTip))
             {
-                if (float.TryParse(InputTip, out float tip))
+                if (decimal.TryParse(InputTip, out decimal tip))
                 {
                     Order.Tip = tip / 100;
                     SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {Order.Tip:F2}";
@@ -264,28 +264,28 @@ namespace Next2.ViewModels
                 {
                     TipType = ETipType.NoTip,
                     Text = LocalizationResourceManager.Current["NoTip"],
-                    PercentTip = 0f,
+                    PercentTip = 0m,
                 },
                 new()
                 {
                     TipType = ETipType.Percent,
-                    PercentTip = 0.1f,
+                    PercentTip = 0.1m,
                 },
                 new()
                 {
                     TipType = ETipType.Percent,
-                    PercentTip = 0.15f,
+                    PercentTip = 0.15m,
                 },
                 new()
                 {
                     TipType = ETipType.Percent,
-                    PercentTip = 0.2f,
+                    PercentTip = 0.2m,
                 },
                 new()
                 {
                     TipType = ETipType.Other,
                     Text = LocalizationResourceManager.Current["Other"],
-                    Value = 0f,
+                    Value = 0m,
                 },
             };
 
@@ -484,7 +484,7 @@ namespace Next2.ViewModels
                     {
                         Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
 
-                        if (float.TryParse(InputGiftCardFounds, out float sum))
+                        if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                         {
                             sum /= 100;
 
@@ -515,7 +515,7 @@ namespace Next2.ViewModels
 
         private void RecalculateCustomerGiftCardFounds(CustomerBindableModel customer)
         {
-            double totalPrice = Order.GiftCard;
+            var totalPrice = Order.GiftCard;
 
             foreach (var giftCard in customer.GiftCards)
             {
