@@ -33,11 +33,11 @@ namespace Next2.Models
 
         public string ImagePath { get; set; }
 
-        public float ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
 
-        public float IngredientsPrice { get; set; }
+        public decimal IngredientsPrice { get; set; }
 
-        public float TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public string? Comment { get; set; }
     }

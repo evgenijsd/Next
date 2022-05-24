@@ -35,7 +35,7 @@ namespace Next2.ViewModels.Mobile
             _orderService = orderService;
             _customersService = customersService;
 
-            Customer = _orderService.CurrentOrder.Customer;
+            Customer = new(); // _orderService.CurrentOrder.Customer;
 
             if (Customer is not null && Customer.GiftCards.Any())
             {
@@ -47,7 +47,7 @@ namespace Next2.ViewModels.Mobile
 
         public string InputGiftCardFounds { get; set; }
 
-        public float RemainingGiftCardTotal { get; set; }
+        public decimal RemainingGiftCardTotal { get; set; }
 
         public bool IsInSufficientGiftCardFunds { get; set; }
 
@@ -81,7 +81,7 @@ namespace Next2.ViewModels.Mobile
                 {
                     RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 
@@ -98,7 +98,7 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         IsInSufficientGiftCardFunds = RemainingGiftCardTotal < sum;
                     }
@@ -125,11 +125,11 @@ namespace Next2.ViewModels.Mobile
 
             if (_orderService.CurrentOrder.Customer is not null)
             {
-                Customer = new(_orderService.CurrentOrder.Customer);
+                Customer = new(); //(_orderService.CurrentOrder.Customer);
 
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 

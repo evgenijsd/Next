@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
         {
             _orderService = orderService;
             _customersService = customersService;
-            Customer = _orderService.CurrentOrder.Customer;
+            Customer = new(); // _orderService.CurrentOrder.Customer;
             RequestClose = requestClose;
         }
 
@@ -100,7 +100,7 @@ namespace Next2.ViewModels.Dialogs
 
                         tempCustomerModel.GiftCards.Add(giftCard);
 
-                        _orderService.CurrentOrder.Customer = tempCustomerModel;
+                        _orderService.CurrentOrder.Customer = new(); // tempCustomerModel;
 
                         RequestClose(dialogParameters);
                     }

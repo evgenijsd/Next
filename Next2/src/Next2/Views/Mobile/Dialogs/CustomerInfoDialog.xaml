@@ -287,7 +287,7 @@
                                         <FormattedString>
                                             <Span Text="{xct:Translate CurrencySign}" />
                                             <Span Text=" " />
-                                            <Span Text="{Binding Customer.GiftCardsTotalFund, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                            <Span Text="{Binding Customer.GiftCardTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                         </FormattedString>
                                     </Label.FormattedText>
 

@@ -48,15 +48,15 @@ namespace Next2.Models
 
         public string Title { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
 
-        public float ProductsPrice { get; set; }
+        public decimal ProductsPrice { get; set; }
 
-        public float IngredientsPrice { get; set; }
+        public decimal IngredientsPrice { get; set; }
 
-        public float TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
-        public float PriceBonus { get; set; } = 0f;
+        public decimal PriceBonus { get; set; } = 0m;
 
         public string ImagePath { get; set; }
 

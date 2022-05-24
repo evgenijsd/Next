@@ -150,7 +150,7 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                //SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }
         }
 
@@ -189,7 +189,7 @@ namespace Next2.ViewModels
         {
             if (SelectedCustomer is not null)
             {
-                _orderService.CurrentOrder.Customer = _mapper.Map<CustomerBindableModel, CustomerModelDTO>(SelectedCustomer);
+                _orderService.CurrentOrder.Customer = new(); // _mapper.Map<CustomerBindableModel, CustomerModel>(SelectedCustomer);
 
                 if (App.IsTablet)
                 {

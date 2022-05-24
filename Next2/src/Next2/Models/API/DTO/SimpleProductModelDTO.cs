@@ -10,12 +10,12 @@ namespace Next2.Models.API.DTO
 
         public string? Name { get; set; }
 
-        public double DefaultPrice { get; set; }
+        public decimal DefaultPrice { get; set; }
 
         public string? ImageSource { get; set; }
 
         public IEnumerable<OptionModelDTO>? Options { get; set; }
 
-        public IEnumerable<SimpleIngredientModelDTO>? Ingridients { get; set; }
+        public IEnumerable<SimpleIngredientModelDTO>? Ingredients { get; set; }
     }
 }

@@ -3,14 +3,12 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleDishProportionModelDTO : IBaseApiModel
+    public class DishProportionModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
         public decimal PriceRatio { get; set; }
 
-        public Guid ProportionId { get; set; }
-
-        public string? ProportionName { get; set; }
+        public ProportionModelDTO Proportion { get; set; } = new();
     }
 }

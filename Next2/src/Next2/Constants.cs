@@ -49,7 +49,7 @@
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2100;
             public const int DAYS_IN_CALENDAR = 42;
-            public const float TAX_PERCENTAGE = 20;
+            public const decimal TAX_PERCENTAGE = 20;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int EMPLOYEE_ID_LENGTH = 6;
         }
