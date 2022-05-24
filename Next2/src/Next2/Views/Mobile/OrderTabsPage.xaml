@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:prism="http://prismlibrary.com"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
@@ -25,7 +26,7 @@
                 Title="{xct:Translate OrderTabs}"
                 HeightImage="24"
                 FontSize="{DynamicResource TSize_i5}"
-                LeftButtonCommand="{Binding GoBackCommand}" />
+                LeftButtonCommand="{prism:GoBack}" />
 
             <Grid
                 Grid.Row="1"

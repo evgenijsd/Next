@@ -14,7 +14,7 @@ namespace Next2.Views.Mobile
         {
             if (collectionView?.SelectedItem != null)
             {
-                collectionView.ScrollTo(collectionView.SelectedItem, position: ScrollToPosition.Center);
+                collectionView.ScrollTo(collectionView.SelectedItem, position: ScrollToPosition.Center, animate: false);
             }
         }
     }

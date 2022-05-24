@@ -89,9 +89,6 @@ namespace Next2.ViewModels
         private ICommand _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
-
         #endregion
 
         #region -- Overrides --
@@ -292,8 +289,8 @@ namespace Next2.ViewModels
                     : _orderService.ApplyNumberFilter;
 
                 var searchHint = IsTabsSelected
-                    ? LocalizationResourceManager.Current["NameOrOrder"]
-                    : LocalizationResourceManager.Current["TableNumberOrOrder"];
+                    ? LocalizationResourceManager.Current["TableNumberOrOrder"]
+                    : LocalizationResourceManager.Current["NameOrOrder"];
 
                 var parameters = new NavigationParameters()
                 {
@@ -492,11 +489,6 @@ namespace Next2.ViewModels
         }
 
         private void SetOrderType(bool isTab) => IsTabsSelected = isTab;
-
-        private Task OnGoBackCommandAsync()
-        {
-            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
-        }
 
         private string CreateRandomCustomerName()
         {
