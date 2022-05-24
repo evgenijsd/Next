@@ -32,7 +32,7 @@ namespace Next2.Models
 
         public string? Name { get; set; }
 
-        public double OriginalPrice { get; set; }
+        public decimal OriginalPrice { get; set; }
 
         public string? ImageSource { get; set; }
 

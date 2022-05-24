@@ -275,120 +275,119 @@ namespace Next2.Services.Order
         public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
         {
             var result = new AOResult();
-            bool success = true;
+            //bool success = true;
 
-            try
-            {
-                if (CurrentSeat is null)
-                {
-                    var seat = new SeatBindableModel
-                    {
-                        Id = 1,
-                        SeatNumber = 1,
-                        Sets = new(),
-                        Checked = true,
-                        IsFirstSeat = true,
-                    };
+            //try
+            //{
+            //    if (CurrentSeat is null)
+            //    {
+            //        var seat = new SeatBindableModel
+            //        {
+            //            Id = 1,
+            //            SeatNumber = 1,
+            //            Sets = new(),
+            //            Checked = true,
+            //            IsFirstSeat = true,
+            //        };
 
-                    CurrentOrder.Seats.Add(seat);
+            //        CurrentOrder.Seats.Add(seat);
 
-                    CurrentSeat = seat;
-                }
+            //        CurrentSeat = seat;
+            //    }
 
-                var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+            //    var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
 
-                if (resultProducts is not null)
-                {
-                    set.Products = new();
+            //    if (resultProducts is not null)
+            //    {
+            //        set.Products = new();
 
-                    foreach (var product in resultProducts)
-                    {
-                        var newProduct = new ProductBindableModel()
-                        {
-                            Id = product.Id,
-                            ReplacementProducts = new(),
-                            SelectedIngredients = new(),
-                            Title = product.Title,
-                            ImagePath = product.ImagePath,
-                            ProductPrice = product.ProductPrice,
-                            IngredientsPrice = product.IngredientsPrice,
-                            TotalPrice = product.ProductPrice,
-                            Comment = product.Comment,
-                        };
+            //        foreach (var product in resultProducts)
+            //        {
+            //            var newProduct = new ProductBindableModel()
+            //            {
+            //                Id = product.Id,
+            //                ReplacementProducts = new(),
+            //                SelectedIngredients = new(),
+            //                Title = product.Title,
+            //                ImagePath = product.ImagePath,
+            //                ProductPrice = product.ProductPrice,
+            //                IngredientsPrice = product.IngredientsPrice,
+            //                TotalPrice = product.ProductPrice,
+            //                Comment = product.Comment,
+            //            };
 
-                        var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
+            //            var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
 
-                        if (resultOptionsProduct is not null)
-                        {
-                            newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
-                            newProduct.Options = new(resultOptionsProduct);
-                        }
-                        else
-                        {
-                            newProduct.SelectedOption = new();
-                            newProduct.Options = new();
-                        }
+            //            if (resultOptionsProduct is not null)
+            //            {
+            //                newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
+            //                newProduct.Options = new(resultOptionsProduct);
+            //            }
+            //            else
+            //            {
+            //                newProduct.SelectedOption = new();
+            //                newProduct.Options = new();
+            //            }
 
-                        var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
+            //            var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
 
-                        foreach (var replacementProduct in resultReplacementProducts)
-                        {
-                            var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
-                            newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
-                        }
+            //            foreach (var replacementProduct in resultReplacementProducts)
+            //            {
+            //                var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
+            //                newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
+            //            }
 
-                        newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
+            //            newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
 
-                        if (newProduct.SelectedProduct is null)
-                        {
-                            newProduct.SelectedProduct = product;
-                        }
+            //            if (newProduct.SelectedProduct is null)
+            //            {
+            //                newProduct.SelectedProduct = product;
+            //            }
 
-                        var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
+            //            var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
 
-                        if (selectedIngredients is not null)
-                        {
-                            newProduct.SelectedIngredients = new(selectedIngredients);
-                            newProduct.DefaultSelectedIngredients = new(selectedIngredients);
-                        }
+            //            if (selectedIngredients is not null)
+            //            {
+            //                newProduct.SelectedIngredients = new(selectedIngredients);
+            //                newProduct.DefaultSelectedIngredients = new(selectedIngredients);
+            //            }
 
-                        set.Products.Add(newProduct);
+            //            set.Products.Add(newProduct);
 
-                        set.IngredientsPrice += newProduct.IngredientsPrice;
-                        set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
-                    }
+            //            set.IngredientsPrice += newProduct.IngredientsPrice;
+            //            set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
+            //        }
 
-                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
+            //        set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
 
-                    CurrentOrder.TotalPrice += set.TotalPrice;
-                }
-                else
-                {
-                    success = false;
-                }
+            //        CurrentOrder.TotalPrice += set.TotalPrice;
+            //    }
+            //    else
+            //    {
+            //        success = false;
+            //    }
 
-                if (!success)
-                {
-                    result.SetFailure();
-                }
+            //    if (!success)
+            //    {
+            //        result.SetFailure();
+            //    }
 
-                //CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
-                //CurrentOrder.SubTotal += set.Portion.Price;
+            //    //CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
+            //    //CurrentOrder.SubTotal += set.Portion.Price;
 
-                //CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                //CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+            //    //CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
+            //    //CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
 
-                //if (CurrentOrder.BonusType != Enums.EBonusType.None)
-                //{
-                //    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-                //}
-                result.SetSuccess();
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
+            //    //if (CurrentOrder.BonusType != Enums.EBonusType.None)
+            //    //{
+            //    //    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+            //    //}
+            //    result.SetSuccess();
+            //}
+            //catch (Exception ex)
+            //{
+            //    result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            //}
             return result;
         }
 

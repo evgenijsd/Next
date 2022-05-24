@@ -49,7 +49,7 @@ namespace Next2.ViewModels
                     var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>().ForMember(x => x.DishProportions, s => s.MapFrom(x => x.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.Id,
-                        Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1.0 + row.PriceRatio),
+                        Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1 + row.PriceRatio),
                         Title = row.ProportionName,
                     })))).CreateMapper();
 
@@ -58,7 +58,7 @@ namespace Next2.ViewModels
                     Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.Id,
-                        Price = row.PriceRatio == 1 ? Dish.OriginalPrice : Dish.OriginalPrice * (1.0 + row.PriceRatio),
+                        Price = row.PriceRatio == 1 ? Dish.OriginalPrice : Dish.OriginalPrice * (1 + row.PriceRatio),
                         Title = row.ProportionName,
                     });
 
