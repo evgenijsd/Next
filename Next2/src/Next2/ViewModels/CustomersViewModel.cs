@@ -149,11 +149,11 @@ namespace Next2.ViewModels
             {
                 foreach (var customer in DisplayedCustomers)
                 {
-                    var result = await _customersService.GetFullGiftCardsDataAsync(customer);
+                    var result = await _customersService.GetGiftCardsCustomerAsync(customer.GiftCardsId);
 
                     if (result.IsSuccess)
                     {
-                       customer.GiftCards = result.Result.GiftCards;
+                        customer.GiftCards = result.Result.ToList();
                     }
                 }
             }
@@ -179,10 +179,12 @@ namespace Next2.ViewModels
             if (customer is CustomerBindableModel selectedCustomer)
             {
                 SelectedCustomer = customer;
-                var res = await _customersService.GetFullGiftCardsDataAsync(selectedCustomer);
-                selectedCustomer = res.IsSuccess
-                    ? res.Result
-                    : selectedCustomer;
+                var res = await _customersService.GetGiftCardsCustomerAsync(selectedCustomer.GiftCardsId);
+
+                if (res.IsSuccess)
+                {
+                    selectedCustomer.GiftCards = res.Result.ToList();
+                }
 
                 var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedCustomer } };
 

@@ -129,17 +129,17 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<CustomerBindableModel>> GetFullGiftCardsDataAsync(CustomerBindableModel customer)
+        public async Task<AOResult<IEnumerable<GiftCardModelDTO>>> GetGiftCardsCustomerAsync(IEnumerable<Guid>? guids)
         {
-            var result = new AOResult<CustomerBindableModel>();
+            var result = new AOResult<IEnumerable<GiftCardModelDTO>>();
 
             try
             {
-                if (customer.GiftCardsId?.Count() > 0 && !customer.GiftCards.Any())
+                if (guids?.Count() > 0)
                 {
                     var giftCards = new List<GiftCardModelDTO>();
 
-                    foreach (Guid giftCardId in customer.GiftCardsId)
+                    foreach (Guid giftCardId in guids)
                     {
                         var res = await GetGiftCardByIdAsync(giftCardId);
 
@@ -149,13 +149,15 @@ namespace Next2.Services.CustomersService
                         }
                     }
 
-                    customer.GiftCards = giftCards;
-                    result.SetSuccess(customer);
+                    if (giftCards.Count == guids.Count())
+                    {
+                        result.SetSuccess(giftCards);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetFullGiftCardsDataAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetGiftCardsCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -232,28 +234,27 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCard)
+        public async Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO? giftCard)
         {
             var result = new AOResult();
-            UpdateGiftCardCommand updateGiftCardCommand = new();
 
             if (giftCard is not null)
             {
-                updateGiftCardCommand = _mapper.Map<UpdateGiftCardCommand>(giftCard);
-            }
+                var updateGiftCardCommand = _mapper.Map<UpdateGiftCardCommand>(giftCard);
 
-            try
-            {
-                var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/gift-cards", updateGiftCardCommand);
-
-                if (response.Success)
+                try
                 {
-                    result.SetSuccess();
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/gift-cards", updateGiftCardCommand);
+
+                    if (response.Success)
+                    {
+                        result.SetSuccess();
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(UpdateGiftCardAsync)}: exception", Strings.SomeIssues, ex);
+                catch (Exception ex)
+                {
+                    result.SetError($"{nameof(UpdateGiftCardAsync)}: exception", Strings.SomeIssues, ex);
+                }
             }
 
             return result;

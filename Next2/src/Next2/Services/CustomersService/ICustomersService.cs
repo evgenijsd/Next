@@ -23,6 +23,8 @@ namespace Next2.Services.CustomersService
 
         Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer);
 
-        Task<AOResult<CustomerBindableModel>> GetFullGiftCardsDataAsync(CustomerBindableModel customer);
+        Task<AOResult<IEnumerable<GiftCardModelDTO>>> GetGiftCardsCustomerAsync(IEnumerable<Guid> guids);
+
+        Task<AOResult<GiftCardModelDTO>> GetGiftCardByIdAsync(Guid id);
     }
 }
