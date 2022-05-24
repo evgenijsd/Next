@@ -404,8 +404,6 @@ namespace Next2.ViewModels
 
         private async Task OnFinishPaymentCommandAsync()
         {
-            await GiftCardFinishPaymentAsync();
-
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
@@ -457,6 +455,7 @@ namespace Next2.ViewModels
 
         private async Task MakePaymentAsync()
         {
+            await GiftCardFinishPaymentAsync();
         }
 
         private async Task OnAddGiftCardCommandAsync()
