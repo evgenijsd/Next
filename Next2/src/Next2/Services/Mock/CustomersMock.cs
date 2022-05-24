@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Mock;
 using System.Collections.Generic;
 
@@ -6,352 +7,273 @@ namespace Next2.Services
 {
     public static class CustomersMock
     {
-        public static List<CustomerModel> Create()
+        public static List<CustomerModelDTO> Create()
         {
-            return new List<CustomerModel>()
+            return new List<CustomerModelDTO>()
             {
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 1,
-                    Name = "Adam Brody",
+                    FullName = "Adam Brody",
                     Email = "adambrody@gmail.com",
-                    Phone = "456-112-5298",
+                    Phone = "4561125298",
                     Points = 221,
                     Rewards = 4,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 60.50f,
+                    GiftCardsCount = 2,
+                    GiftCardsTotalFund = 60.50m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 1,
-                            GiftCardFunds = 20f,
+                            GiftCardFunds = 20m,
                             GiftCardNumber = 100,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 2,
-                            GiftCardFunds = 40.50f,
+                            GiftCardFunds = 40.50m,
                             GiftCardNumber = 101,
                             IsRegistered = true,
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 2,
-                    Name = "Abraham Linkoln",
+                    FullName = "Abraham Linkoln",
                     Email = "abrahamlinkoln@gmail.com",
-                    Phone = "772-303-1228",
+                    Phone = "7723031228",
                     Points = 22,
                     Rewards = 3,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 66f,
+                    GiftCardsCount = 2,
+                    GiftCardsTotalFund = 66m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 3,
-                            GiftCardFunds = 25.50f,
+                            GiftCardFunds = 25.50m,
                             GiftCardNumber = 103,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 4,
-                            GiftCardFunds = 40.50f,
+                            GiftCardFunds = 40.50m,
                             GiftCardNumber = 104,
                             IsRegistered = true,
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 3,
-                    Name = "Aaron Rodgers",
+                    FullName = "Aaron Rodgers",
                     Email = "aaronrodgers@gmail.com",
-                    Phone = "713-901-8114",
+                    Phone = "7139018114",
                     Points = 108,
                     Rewards = 2,
-                    GiftCardCount = 2,
-                    GiftCardTotal = 106f,
+                    GiftCardsCount = 2,
+                    GiftCardsTotalFund = 106m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 5,
-                            GiftCardFunds = 65.50f,
+                            GiftCardFunds = 65.50m,
                             GiftCardNumber = 105,
                             IsRegistered = true,
                         },
                         new GiftCardModel()
                         {
                             Id = 6,
-                            GiftCardFunds = 40.50f,
+                            GiftCardFunds = 40.50m,
                             GiftCardNumber = 106,
                             IsRegistered = true,
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 4,
-                    Name = "Kierra Bergson",
+                    FullName = "Kierra Bergson",
                     Email = "kierrabergson@yaho.com",
-                    Phone = "709-502-5598",
+                    Phone = "7095025598",
                     Points = 451,
                     Rewards = 0,
-                    GiftCardCount = 17,
-                    GiftCardTotal = 50.02f,
+                    GiftCardsCount = 17,
+                    GiftCardsTotalFund = 50.02m,
                     GiftCards = new List<GiftCardModel>
                     {
                         new GiftCardModel()
                         {
                             Id = 7,
-                            GiftCardFunds = 30f,
+                            GiftCardFunds = 30m,
                             GiftCardNumber = 107,
                             IsRegistered = true,
                         },
                     },
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 5,
-                    Name = "Angel Dias",
+                    FullName = "Angel Dias",
                     Email = "Diazzz@yaho.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 6,
-                    Name = "Kaiya Dorwart",
+                    FullName = "Kaiya Dorwart",
                     Email = "KaDor@gmail.com",
-                    Phone = "444-912-6298",
+                    Phone = "4449126298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 7,
-                    Name = "Lincoln Lipshutz",
+                    FullName = "Lincoln Lipshutz",
                     Email = "liliputz@yaho.com",
-                    Phone = "452-955-8228",
+                    Phone = "4529558228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 8,
-                    Name = "Randy Mango",
+                    FullName = "Randy Mango",
                     Email = "mango_jango@gmail.com",
-                    Phone = "332-456-2363",
+                    Phone = "3324562363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 9,
-                    Name = "Martin Schleifer",
+                    FullName = "Martin Schleifer",
                     Email = "MartSh@gmail.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 221,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 10,
-                    Name = "Carla Dorwart",
+                    FullName = "Carla Dorwart",
                     Email = "Carla_123@gmail.com",
-                    Phone = "732-302-8538",
+                    Phone = "7323028538",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 11,
-                    Name = "Davis Septimus",
+                    FullName = "Davis Septimus",
                     Email = "DavSept@gmail.com",
-                    Phone = "733-901-8244",
+                    Phone = "7339018244",
                     Points = 108,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 12,
-                    Name = "Grover Parsons",
+                    FullName = "Grover Parsons",
                     Email = "groverpars@yaho.com",
-                    Phone = "709-502-5598",
+                    Phone = "7095025598",
                     Points = 451,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 13,
-                    Name = "Douglas Moreno",
+                    FullName = "Douglas Moreno",
                     Email = "douglasreno@yaho.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 14,
-                    Name = "Colin Nichols",
+                    FullName = "Colin Nichols",
                     Email = "colinic@gmail.com",
-                    Phone = "444-912-6298",
+                    Phone = "4449126298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 15,
-                    Name = "Kenneth Feron",
+                    FullName = "Kenneth Feron",
                     Email = "kenny@yaho.com",
-                    Phone = "452-955-8228",
+                    Phone = "4529558228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 16,
-                    Name = "Geoffrey Kim",
+                    FullName = "Geoffrey Kim",
                     Email = "geokim@gmail.com",
-                    Phone = "332-456-2363",
+                    Phone = "3324562363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 17,
-                    Name = "Fiona Cole",
+                    FullName = "Fiona Cole",
                     Email = "fiona12@gmail.com",
-                    Phone = "732-902-8298",
+                    Phone = "7329028298",
                     Points = 221,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 18,
-                    Name = "Yeom Woong",
+                    FullName = "Yeom Woong",
                     Email = "yeo@gmail.com",
-                    Phone = "732-302-8538",
+                    Phone = "7323028538",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
-                new CustomerModel()
+                new CustomerModelDTO()
                 {
-                    Id = 19,
-                    Name = "Do Soon-Bok",
+                    FullName = "Do Soon-Bok",
                     Email = "soon-book@gmail.com",
-                    Phone = "733-901-8244",
+                    Phone = "7339018244",
                     Points = 108,
                     Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Id = 20,
-                    Name = "Gwan Jee",
-                    Email = "gwanone@yaho.com",
-                    Phone = "709-502-5598",
-                    Points = 451,
-                    Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Id = 21,
-                    Name = "Son Hae-Won",
-                    Email = "sonwon98@yaho.com",
-                    Phone = "732-902-8298",
-                    Points = 22,
-                    Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Id = 22,
-                    Name = "Wesley Chavez",
-                    Email = "whiskey@gmail.com",
-                    Phone = "444-912-6298",
-                    Points = 34,
-                    Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Id = 23,
-                    Name = "Harlan Sharp",
-                    Email = "orlan@yaho.com",
-                    Phone = "452-955-8228",
-                    Points = 35,
-                    Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
-                    GiftCards = new(),
-                },
-                new CustomerModel()
-                {
-                    Id = 24,
-                    Name = "Audrey Bishop",
-                    Email = "andrewBishop@gmail.com",
-                    Phone = "332-456-2363",
-                    Points = 123,
-                    Rewards = 0,
-                    GiftCardCount = 0,
-                    GiftCardTotal = 0,
+                    GiftCardsCount = 0,
+                    GiftCardsTotalFund = 0,
                     GiftCards = new(),
                 },
             };

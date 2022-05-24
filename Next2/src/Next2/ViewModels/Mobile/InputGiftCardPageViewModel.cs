@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -34,11 +35,11 @@ namespace Next2.ViewModels.Mobile
             _orderService = orderService;
             _customersService = customersService;
 
-            Customer = _orderService.CurrentOrder.Customer;
+            Customer = new(); // _orderService.CurrentOrder.Customer;
 
             if (Customer is not null && Customer.GiftCards.Any())
             {
-                RemainingGiftCardTotal = Customer.GiftCardTotal;
+                RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
             }
         }
 
@@ -46,13 +47,13 @@ namespace Next2.ViewModels.Mobile
 
         public string InputGiftCardFounds { get; set; }
 
-        public float RemainingGiftCardTotal { get; set; }
+        public decimal RemainingGiftCardTotal { get; set; }
 
         public bool IsInSufficientGiftCardFunds { get; set; }
 
         public bool IsErrorNotificationVisible { get; set; }
 
-        public CustomerModel? Customer { get; set; }
+        public CustomerModelDTO? Customer { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -78,15 +79,15 @@ namespace Next2.ViewModels.Mobile
 
                 if (Customer is not null && Customer.GiftCards.Any())
                 {
-                    RemainingGiftCardTotal = Customer.GiftCardTotal;
+                    RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
 
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 
-                        if (Customer.GiftCardTotal >= sum)
+                        if (Customer.GiftCardsTotalFund >= sum)
                         {
-                            RemainingGiftCardTotal = Customer.GiftCardTotal - sum;
+                            RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
                         }
                         else
                         {
@@ -97,7 +98,7 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         IsInSufficientGiftCardFunds = RemainingGiftCardTotal < sum;
                     }
@@ -124,19 +125,19 @@ namespace Next2.ViewModels.Mobile
 
             if (_orderService.CurrentOrder.Customer is not null)
             {
-                Customer = new(_orderService.CurrentOrder.Customer);
+                Customer = new(); //(_orderService.CurrentOrder.Customer);
 
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {
-                    if (float.TryParse(InputGiftCardFounds, out float sum))
+                    if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                     {
                         sum /= 100;
 
-                        RemainingGiftCardTotal = Customer.GiftCardTotal - sum;
+                        RemainingGiftCardTotal = Customer.GiftCardsTotalFund - sum;
                     }
                     else
                     {
-                        RemainingGiftCardTotal = Customer.GiftCardTotal;
+                        RemainingGiftCardTotal = Customer.GiftCardsTotalFund;
                     }
                 }
             }

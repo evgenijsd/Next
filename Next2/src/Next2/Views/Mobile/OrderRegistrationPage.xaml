@@ -92,7 +92,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="{xct:Translate Order}" />
-                        <Span Text="{Binding CurrentOrder.Id, StringFormat='{} #{0}'}" />
+                        <Span Text="{Binding CurrentOrder.Number, StringFormat='{} #{0}'}" />
                     </FormattedString>
                 </Label.FormattedText>
 
@@ -341,7 +341,7 @@
                         IsVisible="{Binding CurrentOrder.Customer, Converter={xct:IsNotNullOrEmptyConverter}}"
                         VerticalOptions="FillAndExpand"
                         TextColor="{DynamicResource AppColor_i1}"
-                        Text="{Binding CurrentOrder.Customer.Name}"/>
+                        Text="{Binding CurrentOrder.Customer.FullName}"/>
 
                 </StackLayout>
 
@@ -385,7 +385,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.SubTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.SubTotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 
@@ -397,14 +397,15 @@
 
                     <StackLayout.Triggers>
 
-                        <DataTrigger
-                            TargetType="StackLayout"
-                            Binding="{Binding CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
-                            Value="0">
+                        <MultiTrigger TargetType="StackLayout">
+                            <MultiTrigger.Conditions>
+                                <BindingCondition Binding="{Binding CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                <BindingCondition Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                            </MultiTrigger.Conditions>
 
                             <Setter Property="IsVisible" Value="False" />
 
-                        </DataTrigger>
+                        </MultiTrigger>
 
                     </StackLayout.Triggers>
 
@@ -416,7 +417,7 @@
 
                             <DataTrigger
                                 TargetType="Label"
-                                Binding="{Binding CurrentOrder.BonusType}"
+                                Binding="{Binding CurrentOrder.Discount}"
                                 Value="{x:Static enum:EBonusType.Discount}">
 
                                 <Setter Property="Text" Value="{xct:Translate Discount}" />
@@ -430,7 +431,22 @@
                     <Label
                         Style="{DynamicResource SemiBold24pxLabelStyle}"
                         HorizontalOptions="EndAndExpand"
-                        Text="{Binding CurrentOrder.Bonus.Name}" />
+                        Text="{Binding CurrentOrder.Coupon.Name}">
+                        
+                        <Label.Triggers>
+
+                            <DataTrigger
+                                TargetType="Label"
+                                Binding="{Binding CurrentOrder.Discount}"
+                                Value="{x:Static enum:EBonusType.Discount}">
+
+                                <Setter Property="Text" Value="{Binding CurrentOrder.Discount.Name}" />
+
+                            </DataTrigger>
+
+                        </Label.Triggers>
+
+                    </Label>
 
                 </StackLayout>
 
@@ -474,7 +490,7 @@
                             <FormattedString>
                                 <Span Text="{xct:Translate CurrencySign}" />
                                 <Span Text=" " />
-                                <Span Text="{Binding CurrentOrder.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                <Span Text="{Binding CurrentOrder.TotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                             </FormattedString>
                         </Label.FormattedText>
 
@@ -509,7 +525,7 @@
                 BorderColor="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Order}"
                 xct:TouchEffect.Command="{Binding OrderCommand}"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.WaitingForPayment}"/> 
+                xct:TouchEffect.CommandParameter="False"/> 
 
             <buttons:BorderButton
                 Grid.Column="1"
@@ -517,7 +533,7 @@
                 BorderColor="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Tab}"
                 xct:TouchEffect.Command="{Binding TabCommand }"
-                xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.InProgress}"/> 
+                xct:TouchEffect.CommandParameter="True"/> 
 
             <buttons:BorderButton
                 Grid.Column="2"

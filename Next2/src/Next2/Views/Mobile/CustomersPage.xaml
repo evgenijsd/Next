@@ -197,14 +197,14 @@
                                                 Grid.Column="0"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding Name}" />
+                                                Text="{Binding FullName}" />
 
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
                                                 LineBreakMode="TailTruncation"
                                                 Style="{DynamicResource ViewCellLabelStyle}"
-                                                Text="{Binding Phone}" />
+                                                Text="{Binding Phone,  Converter={StaticResource formattedPhoneConverter}}" />
 
                                             <Label
                                                 Grid.Row="0"

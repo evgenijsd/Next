@@ -34,6 +34,8 @@ using Next2.Services.Bonuses;
 using Next2.Services.Log;
 using Next2.Services.Rest;
 using Next2.Models.API.DTO;
+using System;
+using Next2.Enums;
 
 namespace Next2
 {
@@ -107,6 +109,7 @@ namespace Next2
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.EmployeeTimeClockDialog, EmployeeTimeClockViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
             else
             {
@@ -135,6 +138,7 @@ namespace Next2
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
             }
         }
 
@@ -178,8 +182,8 @@ namespace Next2
         {
             return new MapperConfiguration(cfg =>
             {
-            cfg.CreateMap<TableModel, TableBindableModel>();
-            cfg.CreateMap<CustomerModel, CustomerBindableModel>().ReverseMap();
+            cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
+            cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
             cfg.CreateMap<SetModel, FreeSetBindableModel>();
             cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
             cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
@@ -188,6 +192,9 @@ namespace Next2
             cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
             cfg.CreateMap<BonusModel, BonusBindableModel>();
             cfg.CreateMap<BonusBindableModel, BonusModel>();
+            cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
+                .ForMember(x => x.OrderStatus, x => x.MapFrom(s => (EOrderStatus)Enum.Parse(typeof(EOrderStatus), s.OrderStatus)))
+                .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
             cfg.CreateMap<FullOrderBindableModel, OrderModel>();
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();

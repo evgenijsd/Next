@@ -115,7 +115,7 @@ namespace Next2.ViewModels
         public async Task RefreshPageDataAsync()
         {
             Order.Id = _orderService.CurrentOrder.Id;
-            Order.Customer = _orderService.CurrentOrder.Customer;
+            Order.Customer = new(); // _orderService.CurrentOrder.Customer;
 
             if (Order.Customer is null)
             {
@@ -217,13 +217,13 @@ namespace Next2.ViewModels
         {
             await _popupNavigation.PopAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int newCustomerId))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid newCustomerId))
             {
                 var customerResult = await _customersService.GetAllCustomersAsync(x => x.Id == newCustomerId);
 
                 if (customerResult.IsSuccess)
                 {
-                    _orderService.CurrentOrder.Customer = customerResult.Result.FirstOrDefault();
+                    _orderService.CurrentOrder.Customer = new(); // customerResult.Result.FirstOrDefault();
 
                     await RefreshPageDataAsync();
                 }

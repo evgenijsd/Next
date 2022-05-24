@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Mvvm;
@@ -24,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
         {
             _orderService = orderService;
             _customersService = customersService;
-            Customer = _orderService.CurrentOrder.Customer;
+            Customer = new(); // _orderService.CurrentOrder.Customer;
             RequestClose = requestClose;
         }
 
@@ -32,7 +33,7 @@ namespace Next2.ViewModels.Dialogs
 
         public string InputGiftCardNumber { get; set; } = string.Empty;
 
-        public CustomerModel? Customer { get; set; }
+        public CustomerModelDTO? Customer { get; set; }
 
         public bool IsGiftCardNotExists { get; set; }
 
@@ -89,17 +90,17 @@ namespace Next2.ViewModels.Dialogs
                     }
                     else
                     {
-                        var tempCustomerModel = new CustomerModel()
+                        var tempCustomerModel = new CustomerModelDTO()
                         {
-                            GiftCardTotal = giftCard.GiftCardFunds,
-                            GiftCardCount = 1,
+                            GiftCardsTotalFund = giftCard.GiftCardFunds,
+                            GiftCardsCount = 1,
                             IsUpdatedCustomer = true,
                             IsNotRegistratedCustomer = true,
                         };
 
                         tempCustomerModel.GiftCards.Add(giftCard);
 
-                        _orderService.CurrentOrder.Customer = tempCustomerModel;
+                        _orderService.CurrentOrder.Customer = new(); // tempCustomerModel;
 
                         RequestClose(dialogParameters);
                     }

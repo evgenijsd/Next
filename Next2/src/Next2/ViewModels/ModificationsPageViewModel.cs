@@ -1,4 +1,5 @@
-﻿using Next2.Enums;
+﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Resources.Strings;
@@ -22,6 +23,7 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IBonusesService _bonusService;
         private readonly IMenuService _menuService;
+        private readonly IMapper _mapper;
 
         private int _indexOfSeat;
         private int _indexOfSelectedSet;
@@ -36,14 +38,16 @@ namespace Next2.ViewModels
             INavigationService navigationService,
             IOrderService orderService,
             IMenuService menuService,
+            IMapper mapper,
             IBonusesService bonusService)
             : base(navigationService)
         {
             _orderService = orderService;
             _menuService = menuService;
             _bonusService = bonusService;
+            _mapper = mapper;
 
-            CurrentOrder = new(_orderService.CurrentOrder);
+            CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder); //new(_orderService.CurrentOrder);
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 

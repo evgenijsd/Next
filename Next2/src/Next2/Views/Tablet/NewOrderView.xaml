@@ -1122,7 +1122,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Order}" />
-                            <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Id, StringFormat='{} #{0}'}" />
+                            <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Number, StringFormat='{} #{0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -1282,7 +1282,7 @@
                 Margin="18"
                 WidthRequest="125"
                 ScrollBarVisibility="Never"
-                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.Id, StringFormat='Table {0}'}"
+                HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
 
@@ -1592,7 +1592,7 @@
                             VerticalOptions="FillAndExpand"
                             Style="{DynamicResource Medium16LabelStyle}"
                             TextColor="{DynamicResource AppColor_i1}"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.Name}">
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Customer.FullName}">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
@@ -1684,7 +1684,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1718,15 +1718,16 @@
 
                         <StackLayout.Triggers>
 
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
-                                Value="0">
+                            <MultiTrigger TargetType="StackLayout">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                </MultiTrigger.Conditions>
 
                                 <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
+                                
+                            </MultiTrigger>
+                            
                         </StackLayout.Triggers>
 
                         <Label
@@ -1759,8 +1760,8 @@
 
                                 <DataTrigger
                                     TargetType="Label"
-                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType}"
-                                    Value="{x:Static enum:EBonusType.Discount}">
+                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Value="True">
 
                                     <Setter Property="Text" Value="{xct:Translate Discount}" />
 
@@ -1773,7 +1774,7 @@
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
                             HorizontalOptions="EndAndExpand"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Bonus.Name}" >
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" >
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
@@ -1915,7 +1916,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.TotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1971,7 +1972,7 @@
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.WaitingForPayment}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Pending}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
@@ -1979,7 +1980,7 @@
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
                     xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.InProgress}"/>
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Preparing}"/>
 
                 <buttons:BorderButton
                     Grid.Column="2"

@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
@@ -74,7 +75,7 @@ namespace Next2.ViewModels
             _menuService = menuService;
             _bonusesService = bonusesService;
 
-            _orderPaymentStatus = EOrderStatus.None;
+            _orderPaymentStatus = EOrderStatus.Closed;
 
             CurrentState = LayoutState.Loading;
 
@@ -131,10 +132,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<EOrderStatus>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<bool>(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<EOrderStatus>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<bool>(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -169,7 +170,7 @@ namespace Next2.ViewModels
                 _isAnyUpDateForCurrentSet = true;
             }
 
-            if (CurrentOrder.Tax.Value == 0)
+            if (CurrentOrder.TaxCoefficient == 0)
             {
                 IsOrderWithTax = false;
             }
@@ -193,7 +194,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if(SelectedTable is not null)
                     {
-                        _orderService.CurrentOrder.Table = SelectedTable;
+                        //_orderService.CurrentOrder.Table = SelectedTable;
                     }
 
                     break;
@@ -210,14 +211,14 @@ namespace Next2.ViewModels
 
                     break;
                 case nameof(CurrentOrder):
-                    IsOrderWithTax = CurrentOrder.Tax.Value > 0;
+                    IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
                     break;
                 case nameof(IsOrderWithTax):
                     if (!IsOrderWithTax)
                     {
-                        CurrentOrder.Total = CurrentOrder.BonusType != EBonusType.None
-                            ? CurrentOrder.PriceWithBonus
-                            : CurrentOrder.SubTotal;
+                        CurrentOrder.TotalPrice = CurrentOrder.Coupon != null || CurrentOrder.Discount != null
+                            ? (decimal)CurrentOrder.DiscountPrice
+                            : (decimal)CurrentOrder.SubTotalPrice;
                         CurrentOrder.PriceTax = 0;
                     }
 
@@ -263,9 +264,11 @@ namespace Next2.ViewModels
 
             AddSeatsCommands();
 
-            SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
+            //SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
+
+            await RefreshTablesAsync();
         }
 
         #endregion
@@ -274,13 +277,16 @@ namespace Next2.ViewModels
 
         private async Task RefreshTablesAsync()
         {
-            var availableTablesResult = await _orderService.GetFreeTablesAsync();
-
-            if (availableTablesResult.IsSuccess)
+            if (IsInternetConnected)
             {
-                var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTablesResult.Result);
+                var freeTablesResult = await _orderService.GetFreeTablesAsync();
 
-                Tables = new(tableBindableModels);
+                if (freeTablesResult.IsSuccess)
+                {
+                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
+
+                    Tables = new(tableBindableModels);
+                }
             }
         }
 
@@ -520,7 +526,7 @@ namespace Next2.ViewModels
 
                 var param = new DialogParameters
                 {
-                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.OrderNumber },
+                    { Constants.DialogParameterKeys.ORDER_NUMBER, CurrentOrder.Number },
                     { Constants.DialogParameterKeys.SEATS, seats },
                     { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
                     { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
@@ -588,7 +594,7 @@ namespace Next2.ViewModels
 
         private async Task RemoveOrderAsync()
         {
-            var result = await _orderService.CreateNewOrderAsync();
+            var result = await _orderService.CreateNewCurrentOrderAsync();
 
             if (result.IsSuccess)
             {
@@ -699,7 +705,7 @@ namespace Next2.ViewModels
                 else if (user.Result.UserType == EUserType.Admin)
                 {
                     IsOrderWithTax = false;
-                    CurrentOrder.Tax.Value = 0;
+                    CurrentOrder.TaxCoefficient = 0;
                 }
             }
         }
@@ -712,74 +718,72 @@ namespace Next2.ViewModels
 
             if (!IsOrderWithTax)
             {
-                CurrentOrder.Tax.Value = 0;
+                CurrentOrder.TaxCoefficient = 0;
             }
         }
 
-        private async Task OnOrderCommandAsync(EOrderStatus commandParameter)
+        private async Task OnOrderCommandAsync(bool isTab)
         {
-            _orderPaymentStatus = commandParameter;
-
             List<SeatModel> seats = new();
 
             bool isAllSeatSaved = true;
 
-            foreach (var seat in CurrentOrder.Seats)
-            {
-                if (seat.Sets.Any())
-                {
-                    var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-                    {
-                        Id = x.Id,
-                        SubcategoryId = x.SubcategoryId,
-                        Title = x.Title,
-                        Price = x.Portion.Price,
-                        ImagePath = x.ImagePath,
-                    }));
+            //foreach (var seat in CurrentOrder.Seats)
+            //{
+            //    if (seat.Sets.Any())
+            //    {
+            //        var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
+            //        {
+            //            Id = x.Id,
+            //            SubcategoryId = x.SubcategoryId,
+            //            Title = x.Title,
+            //            Price = x.Portion.Price,
+            //            ImagePath = x.ImagePath,
+            //        }));
 
-                    var newSeat = new SeatModel
-                    {
-                        OrderId = CurrentOrder.Id,
-                        SeatNumber = seat.SeatNumber,
-                        Sets = sets,
-                    };
+            //        var newSeat = new SeatModel
+            //        {
+            //            OrderId = CurrentOrder.Id,
+            //            SeatNumber = seat.SeatNumber,
+            //            Sets = sets,
+            //        };
 
-                    var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
+            //        var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
 
-                    await RefreshTablesAsync();
+            //        await RefreshTablesAsync();
 
-                    if (!isSuccessSeatResult.IsSuccess)
-                    {
-                        isAllSeatSaved = !isAllSeatSaved;
-                        break;
-                    }
-                }
-            }
+            //        if (!isSuccessSeatResult.IsSuccess)
+            //        {
+            //            isAllSeatSaved = !isAllSeatSaved;
+            //            break;
+            //        }
+            //    }
+            //}
 
-            if (isAllSeatSaved)
-            {
-                CurrentOrder.PaymentStatus = _orderPaymentStatus;
+            //if (isAllSeatSaved)
+            //{
+            //    CurrentOrder.PaymentStatus = _orderPaymentStatus;
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
-                .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
-                .ForMember(x => x.Customer, s => s.MapFrom(x => x.Customer)));
+            //    var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
+            //    .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
+            //    .ForMember(x => x.Customer, s => s.MapFrom(x => x.Customer)));
 
-                var mapper = new Mapper(config);
+            //    var mapper = new Mapper(config);
 
-                var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
+            //    var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
 
-                var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
+            //    var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
 
-                if (isSuccessOrderResult.IsSuccess)
-                {
-                    IsOrderSavedNotificationVisible = true;
-                    CurrentOrder.Seats = new();
-                    await _orderService.CreateNewOrderAsync();
-                }
-            }
+            //    if (isSuccessOrderResult.IsSuccess)
+            //    {
+            //        IsOrderSavedNotificationVisible = true;
+            //        CurrentOrder.Seats = new();
+            //        await _orderService.CreateNewOrderAsync();
+            //    }
+            //}
         }
 
-        private async Task OnTabCommandAsync(EOrderStatus commandParameter)
+        private async Task OnTabCommandAsync(bool isTab)
         {
             var parameters = new DialogParameters
             {
@@ -802,7 +806,7 @@ namespace Next2.ViewModels
             {
                 if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(EOrderStatus.InProgress);
+                    await OnOrderCommandAsync(true);
                 }
             }
 
@@ -843,8 +847,7 @@ namespace Next2.ViewModels
                     {
                         RefreshCurrentOrderAsync();
 
-                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
-
+                        //CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedSet.Sets.Any())

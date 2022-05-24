@@ -153,101 +153,100 @@ namespace Next2.Services.Bonuses
 
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
-            if (currentOrder.BonusType != EBonusType.None)
-            {
-                currentOrder.PriceWithBonus = 0;
+            //if (currentOrder.BonusType != EBonusType.None)
+            //{
+            //    currentOrder.PriceWithBonus = 0;
 
-                IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
-                IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
+            //    IEnumerable<BonusConditionModel> bonusConditions = Enumerable.Empty<BonusConditionModel>();
+            //    IEnumerable<BonusSetModel> bonusSets = Enumerable.Empty<BonusSetModel>();
 
-                var resultConditions = await GetConditionsAsync();
+            //    var resultConditions = await GetConditionsAsync();
 
-                if (resultConditions.IsSuccess)
-                {
-                    bonusConditions = resultConditions.Result;
-                }
+            //    if (resultConditions.IsSuccess)
+            //    {
+            //        bonusConditions = resultConditions.Result;
+            //    }
 
-                var resultBonusSets = await GetBonusSetsAsync();
+            //    var resultBonusSets = await GetBonusSetsAsync();
 
-                if (resultBonusSets.IsSuccess)
-                {
-                    bonusSets = resultBonusSets.Result;
-                }
+            //    if (resultBonusSets.IsSuccess)
+            //    {
+            //        bonusSets = resultBonusSets.Result;
+            //    }
 
-                var bonus = currentOrder.Bonus;
-                var conditions = bonusConditions.Where(x => x.BonusId == bonus.Id);
-                var setConditions = bonusSets.Where(x => x.BonusId == bonus.Id);
-                bool isBonus = true;
-                bool isSet = true;
-                var sets = GetSets(currentOrder);
-                List<SetModel> currentBonusSets = new();
+            //    var bonus = currentOrder.Bonus;
+            //    var conditions = bonusConditions.Where(x => x.BonusId == bonus.Id);
+            //    var setConditions = bonusSets.Where(x => x.BonusId == bonus.Id);
+            //    bool isBonus = true;
+            //    bool isSet = true;
+            //    var sets = GetSets(currentOrder);
+            //    List<SetModel> currentBonusSets = new();
 
-                do
-                {
-                    isBonus = true;
-                    int countSet = 0;
+            //    do
+            //    {
+            //        isBonus = true;
+            //        int countSet = 0;
 
-                    foreach (var condition in conditions)
-                    {
-                        var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
-                        if (set is not null)
-                        {
-                            isBonus = false;
-                            sets.Remove(set);
-                            countSet++;
-                        }
-                    }
+            //        foreach (var condition in conditions)
+            //        {
+            //            var set = sets.FirstOrDefault(x => x.Id == condition.SetId);
+            //            if (set is not null)
+            //            {
+            //                isBonus = false;
+            //                sets.Remove(set);
+            //                countSet++;
+            //            }
+            //        }
 
-                    isBonus = isBonus || countSet == conditions.Count();
+            //        isBonus = isBonus || countSet == conditions.Count();
 
-                    if (isBonus)
-                    {
-                        isSet = true;
+            //        if (isBonus)
+            //        {
+            //            isSet = true;
 
-                        foreach (var setCondition in setConditions)
-                        {
-                            var set = sets.FirstOrDefault(x => x.Id == setCondition.SetId);
-                            if (set is not null)
-                            {
-                                isSet = false;
-                                currentBonusSets.Add(set);
-                                sets.Remove(set);
-                            }
-                        }
-                    }
-                }
-                while (!isBonus || !isSet);
+            //            foreach (var setCondition in setConditions)
+            //            {
+            //                var set = sets.FirstOrDefault(x => x.Id == setCondition.SetId);
+            //                if (set is not null)
+            //                {
+            //                    isSet = false;
+            //                    currentBonusSets.Add(set);
+            //                    sets.Remove(set);
+            //                }
+            //            }
+            //        }
+            //    }
+            //    while (!isBonus || !isSet);
 
-                foreach (SeatBindableModel seat in currentOrder.Seats)
-                {
-                    foreach (SetBindableModel set in seat.Sets)
-                    {
-                        var currentBonusSet = currentBonusSets.FirstOrDefault(x => x.Id == set.Id);
+            //    foreach (SeatBindableModel seat in currentOrder.Seats)
+            //    {
+            //        foreach (SetBindableModel set in seat.Sets)
+            //        {
+            //            var currentBonusSet = currentBonusSets.FirstOrDefault(x => x.Id == set.Id);
 
-                        if (setConditions.Count() == 0 || (currentBonusSet is not null))
-                        {
-                            set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
-                            currentBonusSets.Remove(currentBonusSet);
-                        }
-                        else
-                        {
-                            set.PriceBonus = set.TotalPrice;
-                        }
+            //            if (setConditions.Count() == 0 || (currentBonusSet is not null))
+            //            {
+            //                set.PriceBonus = GetPriceBonus(currentOrder.Bonus, set);
+            //                currentBonusSets.Remove(currentBonusSet);
+            //            }
+            //            else
+            //            {
+            //                set.PriceBonus = set.TotalPrice;
+            //            }
 
-                        currentOrder.PriceWithBonus += set.PriceBonus;
-                    }
+            //            currentOrder.PriceWithBonus += set.PriceBonus;
+            //        }
 
-                    if (currentOrder.PriceWithBonus == currentOrder.SubTotal)
-                    {
-                        currentOrder.BonusType = EBonusType.None;
-                    }
+            //        if (currentOrder.PriceWithBonus == currentOrder.SubTotal)
+            //        {
+            //            currentOrder.BonusType = EBonusType.None;
+            //        }
 
-                    currentOrder.PriceTax = currentOrder.PriceWithBonus * currentOrder.Tax.Value;
+            //        currentOrder.PriceTax = currentOrder.PriceWithBonus * currentOrder.Tax.Value;
 
-                    currentOrder.Total = currentOrder.PriceWithBonus + currentOrder.PriceTax;
-                }
-            }
-
+            //        currentOrder.Total = currentOrder.PriceWithBonus + currentOrder.PriceTax;
+            //    }
+            //}
             return currentOrder;
         }
 
@@ -255,9 +254,9 @@ namespace Next2.Services.Bonuses
 
         #region -- Private helpers --
 
-        private float GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
+        private decimal GetPriceBonus(BonusBindableModel selectedBonus, SetBindableModel set)
         {
-            float result = 0;
+            decimal result = 0;
 
             switch (selectedBonus.Type)
             {
