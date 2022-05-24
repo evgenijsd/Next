@@ -18,34 +18,23 @@ namespace Next2.Models
         public DishBindableModel(DishBindableModel dish)
         {
             Id = dish.Id;
-            Name = dish.Name;
-            OriginalPrice = dish.OriginalPrice;
-            ImageSource = dish.ImageSource;
-            DefaultProductId = dish.DefaultProductId;
-            Category = dish.Category;
-            Subcategory = dish.Subcategory;
-            Products = dish.Products;
-            DishProportions = dish.DishProportions;
+            TotalPrice = dish.TotalPrice;
+            DiscountPrice = dish.DiscountPrice;
+            SelectedDishProportion = dish.SelectedDishProportion;
+            Dish = dish.Dish;
+            SelectedProducts = dish.SelectedProducts;
         }
 
         public Guid Id { get; set; }
 
-        public string? Name { get; set; }
+        public decimal TotalPrice { get; set; }
 
-        public decimal OriginalPrice { get; set; }
+        public decimal DiscountPrice { get; set; }
 
-        public string? ImageSource { get; set; }
+        public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
-        public Guid DefaultProductId { get; set; }
+        public DishModelDTO Dish { get; set; } = new();
 
-        public SimpleCategoryModelDTO Category { get; set; }
-
-        public SimpleSubcategoryModelDTO Subcategory { get; set; }
-
-        public API.ProportionModel SelectedProportion { get; set; }
-
-        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; }
-
-        public ObservableCollection<API.ProportionModel>? DishProportions { get; set; }
+        public IEnumerable<SelectedProductModelDTO>? SelectedProducts { get; set; }
     }
 }

@@ -25,7 +25,20 @@ namespace Next2.ViewModels
             TapAddCommand = new Command(
                 execute: () =>
                 {
-                    Dish.SelectedProportion = SelectedProportion;
+                    var selectedDishProportionModelDTO = Dish?.Dish.DishProportions.FirstOrDefault(row => row.Id == SelectedProportion?.Id);
+
+                    Dish.SelectedDishProportion = new()
+                    {
+                        Id = selectedDishProportionModelDTO.ProportionId,
+                        PriceRatio = selectedDishProportionModelDTO.PriceRatio,
+                        Proportion = new ProportionModelDTO()
+                        {
+                            Id = selectedDishProportionModelDTO.ProportionId,
+                            Name = selectedDishProportionModelDTO.ProportionName,
+                        },
+                    };
+
+                    Dish.TotalPrice = SelectedProportion.Price;
 
                     RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISH, Dish } });
                 },
@@ -44,21 +57,27 @@ namespace Next2.ViewModels
 
             if (param.ContainsKey(Constants.DialogParameterKeys.DISH))
             {
-                if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish))
+                if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
+                    && param.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
                 {
-                    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>().ForMember(x => x.DishProportions, s => s.MapFrom(x => x.DishProportions.Select(row => new ProportionModel()
+                    //Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1 + row.PriceRatio),
+                    //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>().ForMember(x => x.DishProportions, s => s.MapFrom(x => x.DishProportions.Select(row => new ProportionModel()
+                    //{
+                    //    Id = row.Id,
+                    //    Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1 + row.PriceRatio),
+                    //    Title = row.ProportionName,
+                    //})))).CreateMapper();
+                    Dish = new Models.DishBindableModel()
                     {
-                        Id = row.Id,
-                        Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1 + row.PriceRatio),
-                        Title = row.ProportionName,
-                    })))).CreateMapper();
-
-                    Dish = mapper.Map<DishModelDTO, Models.DishBindableModel>(dish);
+                        Id = dish.Id,
+                        DiscountPrice = discountPrice,
+                        Dish = dish,
+                    };
 
                     Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.Id,
-                        Price = row.PriceRatio == 1 ? Dish.OriginalPrice : Dish.OriginalPrice * (1 + row.PriceRatio),
+                        Price = row.PriceRatio == 1 ? dish.OriginalPrice : dish.OriginalPrice * (1 + row.PriceRatio),
                         Title = row.ProportionName,
                     });
 
