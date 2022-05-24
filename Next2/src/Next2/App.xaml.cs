@@ -199,6 +199,7 @@ namespace Next2
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
             cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
+            cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
             }).CreateMapper();
         }
 

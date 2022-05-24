@@ -194,7 +194,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if(SelectedTable is not null)
                     {
-                        //_orderService.CurrentOrder.Table = SelectedTable;
+                        _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
                     }
 
                     break;
@@ -264,7 +264,7 @@ namespace Next2.ViewModels
 
             AddSeatsCommands();
 
-            //SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
+            SelectedTable = Tables.FirstOrDefault();
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
 
