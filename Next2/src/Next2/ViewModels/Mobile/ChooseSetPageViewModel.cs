@@ -1,5 +1,7 @@
+using Acr.UserDialogs;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -96,6 +98,7 @@ namespace Next2.ViewModels.Mobile
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.DISH, dish },
+                { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
             await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
@@ -105,20 +108,20 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                //await _orderService.AddSetInCurrentOrderAsync(set);
+                await _orderService.AddSetInCurrentOrderAsync(dish);
 
-                //if (_popupNavigation.PopupStack.Any())
-                //{
-                //    await _popupNavigation.PopAsync();
-                //}
+                if (_popupNavigation.PopupStack.Any())
+                {
+                    await _popupNavigation.PopAsync();
+                }
 
-                //var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                //{
-                //    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                //    Position = ToastPosition.Bottom,
-                //};
+                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
 
-                //UserDialogs.Instance.Toast(toastConfig);
+                UserDialogs.Instance.Toast(toastConfig);
             }
             else
             {

@@ -1268,7 +1268,7 @@
                 <controls:CustomStepper
                     IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Style="{DynamicResource CustomStepperStyle_i1}"
-                    MaxValue="{x:Static local:Constants+Limits.MAX_TABLE_SEATS}"
+                    MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
 
@@ -1538,7 +1538,7 @@
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <templates:SeatItemTemplate
-                            ItemsSource="{Binding Sets}"
+                            ItemsSource="{Binding SelectedDishes}"
                             Padding="18, 9, 18, 0"/>
 
                     </DataTemplate>

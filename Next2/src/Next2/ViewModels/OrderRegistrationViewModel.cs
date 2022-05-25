@@ -202,7 +202,7 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
                     break;
                 case nameof(NumberOfSeats):
-                    if (NumberOfSeats > CurrentOrder.Seats.Count)
+                    if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
                     {
                         IsOrderSavedNotificationVisible = false;
                         await _orderService.AddSeatInCurrentOrderAsync();
@@ -251,16 +251,15 @@ namespace Next2.ViewModels
 
             _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
-            SelectedSet = _seatWithSelectedSet?.SelectedItem;
-
+            //SelectedSet = _seatWithSelectedSet?.SelectedItem;
             if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
             {
                 await InitEditSetDetailsAsync(SelectedSet);
             }
 
-            _isAnySetChosen = CurrentOrder.Seats.Any(x => x.Sets.Any());
+            _isAnySetChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
-            _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.Sets.Any());
+            _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
             AddSeatsCommands();
 
@@ -335,7 +334,7 @@ namespace Next2.ViewModels
 
                 foreach (var item in CurrentOrder.Seats)
                 {
-                    if (item.Id != seat.Id)
+                    if (item.SeatNumber != seat.SeatNumber)
                     {
                         item.Checked = false;
                     }
@@ -360,7 +359,7 @@ namespace Next2.ViewModels
 
         private async Task DeleteSeatAsync(SeatBindableModel seat)
         {
-            if (seat.Sets.Any())
+            if (seat.SelectedDishes.Any())
             {
                 IEnumerable<int> seatNumbersOfCurrentOrder = CurrentOrder.Seats.Select(x => x.SeatNumber);
 
@@ -424,7 +423,7 @@ namespace Next2.ViewModels
                             if (App.IsTablet)
                             {
                                 _firstSeat.Checked = true;
-                                SelectedSet = _firstNotEmptySeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstNotEmptySeat.Sets.FirstOrDefault() : _firstNotEmptySeat.SelectedItem = null;
+                                //SelectedSet = _firstNotEmptySeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstNotEmptySeat.Dishes.FirstOrDefault() : _firstNotEmptySeat.SelectedItem = null;
                             }
                             else
                             {
@@ -437,8 +436,7 @@ namespace Next2.ViewModels
 
                                 _firstSeat.Checked = true;
 
-                                SelectedSet = _firstSeat.Sets.FirstOrDefault();
-
+                                //SelectedSet = _firstSeat.Dishes.FirstOrDefault();
                                 RefreshCurrentOrderAsync();
                             }
                         }
@@ -469,7 +467,7 @@ namespace Next2.ViewModels
                             destinationSeat.Checked = true;
                             if (CurrentState == LayoutState.Success)
                             {
-                                SelectedSet = destinationSeat.SelectedItem = destinationSeat.Sets.FirstOrDefault();
+                                //SelectedSet = destinationSeat.SelectedItem = destinationSeat.Dishes.FirstOrDefault();
                             }
 
                             RefreshCurrentOrderAsync();
@@ -488,7 +486,7 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.Sets.Any());
+            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
             if (isAnySetsInOrder)
             {
@@ -505,22 +503,21 @@ namespace Next2.ViewModels
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
-                    if (seat.Sets.Any())
+                    if (seat.SelectedDishes.Any())
                     {
-                        var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-                        {
-                            ImagePath = x.ImagePath,
-                            Title = x.Title,
-                            Price = x.Portion.Price,
-                        }));
+                        //var sets = new List<SetModel>(seat.Dishes.Select(x => new SetModel
+                        //{
+                        //    ImagePath = x.ImagePath,
+                        //    Title = x.Title,
+                        //    Price = x.Portion.Price,
+                        //}));
+                        //var newSeat = new SeatModel
+                        //{
+                        //    SeatNumber = seat.SeatNumber,
+                        //    Sets = sets,
+                        //};
 
-                        var newSeat = new SeatModel
-                        {
-                            SeatNumber = seat.SeatNumber,
-                            Sets = sets,
-                        };
-
-                        seats.Add(newSeat);
+                        //seats.Add(newSeat);
                     }
                 }
 
@@ -622,8 +619,7 @@ namespace Next2.ViewModels
                     }
                 }
 
-                SelectedSet = seat.SelectedItem;
-
+                //SelectedSet = seat.SelectedItem;
                 foreach (var singleSeat in _orderService.CurrentOrder.Seats)
                 {
                     if (singleSeat.SeatNumber != seat.SeatNumber)
@@ -850,9 +846,9 @@ namespace Next2.ViewModels
                         //CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
-                            if (_seatWithSelectedSet.Sets.Any())
+                            if (_seatWithSelectedSet.SelectedDishes.Any())
                             {
-                                SelectedSet = _seatWithSelectedSet.SelectedItem = _seatWithSelectedSet.Sets.FirstOrDefault();
+                                //SelectedSet = _seatWithSelectedSet.SelectedItem = _seatWithSelectedSet.Dishes.FirstOrDefault();
                             }
                             else if (_isAnySetChosen)
                             {
@@ -861,7 +857,7 @@ namespace Next2.ViewModels
                                     set.SelectedItem = null;
                                 }
 
-                                SelectedSet = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.Sets.FirstOrDefault();
+                                //SelectedSet = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.Dishes.FirstOrDefault();
                             }
                             else
                             {

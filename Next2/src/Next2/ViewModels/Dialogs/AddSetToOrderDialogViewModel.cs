@@ -60,13 +60,6 @@ namespace Next2.ViewModels
                 if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
                     && param.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
                 {
-                    //Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1 + row.PriceRatio),
-                    //var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishModelDTO, Models.DishBindableModel>().ForMember(x => x.DishProportions, s => s.MapFrom(x => x.DishProportions.Select(row => new ProportionModel()
-                    //{
-                    //    Id = row.Id,
-                    //    Price = row.PriceRatio == 1 ? x.OriginalPrice : x.OriginalPrice * (1 + row.PriceRatio),
-                    //    Title = row.ProportionName,
-                    //})))).CreateMapper();
                     Dish = new Models.DishBindableModel()
                     {
                         Id = dish.Id,

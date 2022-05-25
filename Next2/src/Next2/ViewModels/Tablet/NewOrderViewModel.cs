@@ -1,6 +1,8 @@
+using Acr.UserDialogs;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Log;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -147,28 +149,27 @@ namespace Next2.ViewModels.Tablet
         {
             if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
             {
-                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel set))
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    Console.WriteLine();
-                    //var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                    var result = await _orderService.AddSetInCurrentOrderAsync(dish);
 
-                    //if (result.IsSuccess)
-                    //{
-                    //    if (_popupNavigation.PopupStack.Any())
-                    //    {
-                    //        await _popupNavigation.PopAsync();
-                    //    }
+                    if (result.IsSuccess)
+                    {
+                        if (_popupNavigation.PopupStack.Any())
+                        {
+                            await _popupNavigation.PopAsync();
+                        }
 
-                    //    OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                        OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
-                    //    var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                    //    {
-                    //        Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                    //        Position = ToastPosition.Bottom,
-                    //    };
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        {
+                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                            Position = ToastPosition.Bottom,
+                        };
 
-                    //    UserDialogs.Instance.Toast(toastConfig);
-                    //}
+                        UserDialogs.Instance.Toast(toastConfig);
+                    }
                 }
             }
             else

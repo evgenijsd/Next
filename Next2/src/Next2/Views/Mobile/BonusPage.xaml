@@ -244,8 +244,8 @@
                                     <StackLayout Orientation="Horizontal">
 
                                         <StackLayout
-                                            HorizontalOptions="FillAndExpand"
-                                            BindableLayout.ItemsSource="{Binding Sets}">
+                                            HorizontalOptions="FillAndExpand">
+                                            <!--BindableLayout.ItemsSource="{Binding Sets}"-->
                                             
                                             <BindableLayout.ItemTemplate>
 
