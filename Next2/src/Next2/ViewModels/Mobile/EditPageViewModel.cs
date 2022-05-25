@@ -42,7 +42,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public DishBindableModel? SelectedSet { get; set; }
+        public DishBindableModel? SelectedDish { get; set; }
 
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
@@ -65,9 +65,9 @@ namespace Next2.ViewModels.Mobile
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
 
-            SelectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
 
-            if (SelectedSet is not null)
+            if (SelectedDish is not null)
             {
                 //await InitEditSetDetailsAsync(SelectedSet);
             }

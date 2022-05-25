@@ -18,8 +18,8 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         CornerRadius="10"
         Margin="24"
-        HorizontalOptions="Center"
-        VerticalOptions="Center">
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
 
         <StackLayout>
 

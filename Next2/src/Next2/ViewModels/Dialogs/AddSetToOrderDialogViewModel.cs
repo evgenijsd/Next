@@ -38,6 +38,8 @@ namespace Next2.ViewModels
                         },
                     };
 
+                    Dish.SelectedDishProportionPrice = SelectedProportion.Price;
+
                     Dish.TotalPrice = SelectedProportion.Price;
 
                     RequestClose(new DialogParameters() { { Constants.DialogParameterKeys.DISH, Dish } });

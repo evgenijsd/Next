@@ -33,6 +33,8 @@ namespace Next2.Models
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
+        public decimal SelectedDishProportionPrice { get; set; }
+
         public DishModelDTO Dish { get; set; } = new();
 
         public IEnumerable<SelectedProductModelDTO>? SelectedProducts { get; set; }
