@@ -777,7 +777,7 @@
                                                 WidthRequest="80">
 
                                                 <ffimageloading:CachedImage 
-                                                    Source="{Binding OrderRegistrationViewModel.SelectedSet.ImagePath}"
+                                                    Source="{Binding OrderRegistrationViewModel.SelectedDish.Dish.ImageSource}"
                                                     Aspect="AspectFill"/>
 
                                             </Frame>
@@ -792,14 +792,14 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Title}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.Dish.Name}"
                                                 Margin="0"
                                                 FontSize="{DynamicResource TSize_i4_5}"
                                                 FontFamily="Barlow-Medium"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.TotalPrice, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
                                                 Margin="0, 5, 0, 0"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-SemiBold"
@@ -838,7 +838,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Title}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.SelectedDishProportion.Proportion.Name}"
                                                 Margin="0, 5, 0, 10"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-Medium"
@@ -853,7 +853,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.SelectedDishProportionPrice, StringFormat='$ {0:F2}'}"
                                                 FontFamily="Barlow-SemiBold"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 TextColor="{DynamicResource IndicationColor_i1}"/>
@@ -866,7 +866,7 @@
                                         
                                     <templates:ProductItemTemplate
                                         Grid.Row="2"
-                                        ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}"/>
+                                        ItemsSource="{Binding OrderRegistrationViewModel}"/>
 
                                     <!-- Row 6 Footer-->
 
