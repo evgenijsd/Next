@@ -624,6 +624,7 @@
                                     <templates:SubCategoryItemTemplate
                                         HeightRequest="50"
                                         MinimumHeightRequest="50"
+                                        TextMargin="18, 0, 18, 6"
                                         Text="{Binding Name}"
                                         FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-Medium">
