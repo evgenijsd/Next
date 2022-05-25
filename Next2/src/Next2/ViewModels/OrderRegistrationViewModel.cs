@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -321,8 +322,9 @@ namespace Next2.ViewModels
                 }
             }
 
-            IsSideMenuVisible = true;
             CurrentState = LayoutState.Loading;
+            Thread.Sleep(80);
+            IsSideMenuVisible = true;
         }
 
         private Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
@@ -659,8 +661,9 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
 
-                    IsSideMenuVisible = false;
-                    CurrentState = LayoutState.Success;
+                    CurrentState = LayoutState.Loading;
+                    Thread.Sleep(100);
+                    IsSideMenuVisible = true;
                 }
                 else
                 {
