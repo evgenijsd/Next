@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using System;
@@ -26,6 +27,18 @@ namespace Next2.Services.Bonuses
         }
 
         #region -- IBonusService implementation --
+
+        public async Task<AOResult<IEnumerable<DiscountModelDTO>>> GetAllDiscountsAsync(Func<DiscountModelDTO, bool>? condition = null)
+        {
+            var result = new AOResult<IEnumerable<DiscountModelDTO>>();
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<CouponModelDTO>>> GetAllCouponsAsync(Func<DiscountModelDTO, bool>? condition = null)
+        {
+            var result = new AOResult<IEnumerable<CouponModelDTO>>();
+            return result;
+        }
 
         public async Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses)
         {

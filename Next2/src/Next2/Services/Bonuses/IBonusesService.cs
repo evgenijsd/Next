@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,10 @@ namespace Next2.Services.Bonuses
 {
     public interface IBonusesService
     {
+        Task<AOResult<IEnumerable<DiscountModelDTO>>> GetAllDiscountsAsync(Func<DiscountModelDTO, bool>? condition = null);
+
+        Task<AOResult<IEnumerable<CouponModelDTO>>> GetAllCouponsAsync(Func<DiscountModelDTO, bool>? condition = null);
+
         Task<List<BonusModel>> GetActiveBonusesAsync(FullOrderBindableModel currentOrder);
 
         Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses);
