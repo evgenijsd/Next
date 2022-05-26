@@ -866,9 +866,9 @@
                                         
                                     <templates:ProductItemTemplate
                                         Grid.Row="2"
-                                        ItemsSource="{Binding OrderRegistrationViewModel}"/>
+                                        ItemsSource="{Binding OrderRegistrationViewModel.SelectedDish.SelectedProducts}"/>
 
-                                    <!-- Row 6 Footer-->
+                                     <!--Row 6 Footer-->
 
                                     <Grid Grid.Row="3" />
 

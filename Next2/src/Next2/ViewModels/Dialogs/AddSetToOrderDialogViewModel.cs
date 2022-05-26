@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Prism.Mvvm;
@@ -62,14 +63,27 @@ namespace Next2.ViewModels
                 if (param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishModelDTO dish)
                     && param.TryGetValue(Constants.DialogParameterKeys.DISCOUNT_PRICE, out decimal discountPrice))
                 {
-                    Dish = new Models.DishBindableModel()
+                    Dish = new DishBindableModel()
                     {
                         Id = dish.Id,
                         DiscountPrice = discountPrice,
                         Dish = dish,
+                        SelectedProducts = new (dish.Products.Where(row => row.Id == dish.DefaultProductId).Select(row => new ProductBindableModel()
+                        {
+                            Id = row.Id,
+                            SelectedOptions = row.Options.FirstOrDefault(),
+                            Product = new()
+                            {
+                                Id = row.Id,
+                                DefaultPrice = row.DefaultPrice,
+                                ImageSource = row.ImageSource,
+                                Ingredients = row.Ingredients,
+                                Name = row.Name,
+                                Options = row.Options,
+                            },
+                        })),
                     };
-
-                    Proportions = dish.DishProportions.Select(row => new ProportionModel()
+                    Proportions = dish.DishProportions.Select(row => new Models.API.ProportionModel()
                     {
                         Id = row.Id,
                         Price = row.PriceRatio == 1 ? dish.OriginalPrice : dish.OriginalPrice * (1 + row.PriceRatio),
@@ -83,11 +97,11 @@ namespace Next2.ViewModels
 
         #region --Public Properties--
 
-        public Models.DishBindableModel Dish { get; }
+        public DishBindableModel Dish { get; }
 
-        public IEnumerable<ProportionModel> Proportions { get; }
+        public IEnumerable<Models.API.ProportionModel> Proportions { get; }
 
-        public ProportionModel SelectedProportion { get; set; }
+        public Models.API.ProportionModel SelectedProportion { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 

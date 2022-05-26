@@ -22,7 +22,12 @@ namespace Next2.Models
             DiscountPrice = dish.DiscountPrice;
             SelectedDishProportion = dish.SelectedDishProportion;
             Dish = dish.Dish;
-            SelectedProducts = dish.SelectedProducts;
+            SelectedProducts = new();
+
+            foreach (var selectedProduct in dish?.SelectedProducts)
+            {
+                SelectedProducts.Add(new ProductBindableModel(selectedProduct));
+            }
         }
 
         public Guid Id { get; set; }
@@ -37,6 +42,6 @@ namespace Next2.Models
 
         public DishModelDTO Dish { get; set; } = new();
 
-        public IEnumerable<SelectedProductModelDTO>? SelectedProducts { get; set; }
+        public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
     }
 }

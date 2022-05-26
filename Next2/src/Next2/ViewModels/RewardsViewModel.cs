@@ -175,10 +175,10 @@ namespace Next2.ViewModels
 
         private void SetProductsNamesForSets(ObservableCollection<SetBindableModel> setBindables, ObservableCollection<FreeSetBindableModel> freeSets)
         {
-            for (int i = 0; i < setBindables.Count; i++)
-            {
-                freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
-            }
+            //for (int i = 0; i < setBindables.Count; i++)
+            //{
+            //    freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
+            //}
         }
 
         private void ApplyCancelRewardToSet(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel reward)

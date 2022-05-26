@@ -11,6 +11,6 @@ namespace Next2.Enums
         Moved,
         Released,
         Exited,
-        Cancelled
+        Cancelled,
     }
 }

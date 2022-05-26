@@ -123,9 +123,8 @@ namespace Next2.ViewModels
         private ICommand _expandIngredientCategoriesCommand;
         public ICommand ExpandIngredientCategoriesCommand => _expandIngredientCategoriesCommand ??= new AsyncCommand(OnExpandIngredientCategoriesCommandAsync);
 
-        private ICommand _changingToggleCommand;
-        public ICommand ChangingToggleCommand => _changingToggleCommand ??= new AsyncCommand<IngredientBindableModel>(OnChangingToggleCommandAsync);
-
+        //private ICommand _changingToggleCommand;
+        //public ICommand ChangingToggleCommand => _changingToggleCommand ??= new AsyncCommand<IngredientBindableModel>(OnChangingToggleCommandAsync);
         #endregion
 
         #region -- Overrides --
@@ -134,90 +133,89 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
-            {
-                var products = _currentSet.Products;
-                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                var indexProduct = products.IndexOf(product);
+            //if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
+            //{
+            //    var products = _currentSet.Products;
+            //    var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+            //    var indexProduct = products.IndexOf(product);
 
-                ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+            //    ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
-                _currentSet.Products[indexProduct].Comment = text;
+            //    _currentSet.Products[indexProduct].Comment = text;
 
-                ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
-            }
+            //    ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
+            //}
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
-            base.OnPropertyChanged(args);
+            //base.OnPropertyChanged(args);
 
-            switch (args.PropertyName)
-            {
-                case nameof(SelectedPortion):
-                    if (SelectedPortion is not null)
-                    {
-                        _currentSet.Portion = SelectedPortion;
-                    }
+            //switch (args.PropertyName)
+            //{
+            //    case nameof(SelectedPortion):
+            //        if (SelectedPortion is not null)
+            //        {
+            //            _currentSet.Portion = SelectedPortion;
+            //        }
 
-                    break;
-                case nameof(SelectedReplacementProduct):
-                    if (SelectedReplacementProduct is not null)
-                    {
-                        var products = _currentSet.Products;
-                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+            //        break;
+            //    case nameof(SelectedReplacementProduct):
+            //        if (SelectedReplacementProduct is not null)
+            //        {
+            //            //var products = _currentSet.Products;
+            //            //var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
-                        product.SelectedProduct = SelectedReplacementProduct;
-                        ProductsSet[ProductsSet.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Title;
+            //            //product.SelectedProduct = SelectedReplacementProduct;
+            //            //ProductsSet[ProductsSet.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Title;
 
-                        _currentSet.Price = 0;
+            //            //_currentSet.Price = 0;
 
-                        foreach (var item in _currentSet.Products)
-                        {
-                            _currentSet.Price += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
-                        }
+            //            //foreach (var item in _currentSet.Products)
+            //            //{
+            //            //    _currentSet.Price += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
+            //            //}
 
-                        ResetSelectedIngredientsAsync(product);
+            //            //ResetSelectedIngredientsAsync(product);
 
-                        ResetSelectedOptionsAsync(product);
-                    }
+            //            //ResetSelectedOptionsAsync(product);
+            //        }
 
-                    break;
-                case nameof(SelectedOption):
-                    if (SelectedOption is not null)
-                    {
-                        var products = _currentSet.Products;
-                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+            //    //    break;
+            //    //case nameof(SelectedOption):
+            //    //    if (SelectedOption is not null)
+            //    //    {
+            //    //        var products = _currentSet.Products;
+            //    //        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
-                        products[products.IndexOf(product)].SelectedOption = SelectedOption;
-                    }
+            //    //        products[products.IndexOf(product)].SelectedOption = SelectedOption;
+            //    //    }
 
-                    break;
-                case nameof(SelectedIngredientCategory):
-                    if (SelectedIngredientCategory is not null)
-                    {
-                        InitIngredientsAsync(SelectedIngredientCategory.Id).Await();
-                    }
+            //    //    break;
+            //    //case nameof(SelectedIngredientCategory):
+            //    //    if (SelectedIngredientCategory is not null)
+            //    //    {
+            //    //        InitIngredientsAsync(SelectedIngredientCategory.Id).Await();
+            //    //    }
 
-                    break;
-            }
+            //    //    break;
+            //}
         }
 
         #endregion
 
         #region --Private methods--
 
-        private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
-        {
-            var ingridients = await _menuService.GetIngredientsOfProductAsync(product.SelectedProduct.Id);
+        //private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
+        //{
+        //    var ingridients = await _menuService.GetIngredientsOfProductAsync(product.SelectedProduct.Id);
 
-            if (ingridients.IsSuccess)
-            {
-                product.SelectedIngredients = new(ingridients.Result);
-                product.DefaultSelectedIngredients = new(ingridients.Result);
-            }
-        }
-
+        //    if (ingridients.IsSuccess)
+        //    {
+        //        product.SelectedIngredients = new(ingridients.Result);
+        //        product.DefaultSelectedIngredients = new(ingridients.Result);
+        //    }
+        //}
         private async Task ResetSelectedOptionsAsync(ProductBindableModel product)
         {
             //var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
@@ -274,154 +272,153 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
-        {
-            toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
+        //private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
+        //{
+        //    toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
 
-            var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+        //    var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
 
-            var ingridient = product.SelectedIngredients.FirstOrDefault(row => row.IngredientId == toggleIngredient.Id);
+        //    var ingridient = product.SelectedIngredients.FirstOrDefault(row => row.IngredientId == toggleIngredient.Id);
 
-            if(ingridient is null)
-            {
-                product.SelectedIngredients.Add(new IngredientOfProductModel()
-                {
-                    Id = toggleIngredient.Id,
-                    IngredientId = toggleIngredient.Id,
-                    ProductId = product.Id,
-                });
+        //    if(ingridient is null)
+        //    {
+        //        product.SelectedIngredients.Add(new IngredientOfProductModel()
+        //        {
+        //            Id = toggleIngredient.Id,
+        //            IngredientId = toggleIngredient.Id,
+        //            ProductId = product.Id,
+        //        });
 
-                if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
-                {
-                    product.IngredientsPrice += toggleIngredient.Price;
-                    product.TotalPrice += toggleIngredient.Price;
-                }
-            }
-            else
-            {
-                product.SelectedIngredients.Remove(ingridient);
+        //        if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
+        //        {
+        //            product.IngredientsPrice += toggleIngredient.Price;
+        //            product.TotalPrice += toggleIngredient.Price;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        product.SelectedIngredients.Remove(ingridient);
 
-                if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
-                {
-                    product.IngredientsPrice -= toggleIngredient.Price;
-                    product.TotalPrice -= toggleIngredient.Price;
-                }
+        //        if (!product.DefaultSelectedIngredients.Any(row => row.IngredientId == toggleIngredient.Id))
+        //        {
+        //            product.IngredientsPrice -= toggleIngredient.Price;
+        //            product.TotalPrice -= toggleIngredient.Price;
+        //        }
 
-                var productToBeRemoved = product.DetailedSelectedIngredientModels.FirstOrDefault(x => x.Id == ingridient.IngredientId);
+        //        var productToBeRemoved = product.DetailedSelectedIngredientModels.FirstOrDefault(x => x.Id == ingridient.IngredientId);
 
-                product.DetailedSelectedIngredientModels.Remove(productToBeRemoved);
-            }
+        //        product.DetailedSelectedIngredientModels.Remove(productToBeRemoved);
+        //    }
 
-            return Task.CompletedTask;
-        }
-
+        //    return Task.CompletedTask;
+        //}
         private void InitProductsSet()
         {
-            var products = _currentSet.Products;
+            //var products = _currentSet.Products;
 
-            if (products is not null)
-            {
-                ProductsSet = new(products.Select(row =>
-                {
-                    var result = new SpoilerBindableModel
-                    {
-                        Id = row.Id,
-                        Title = row.SelectedProduct.Title,
-                        Items = new()
-                        {
-                            new SpoilerItem()
-                            {
-                                State = ESubmenuItemsModifactions.Replace,
-                                Title = "Replace",
-                                ImagePath = "ic_paper_fail_24x24.png",
-                                SelectedImagePath = "ic_paper_fail_primary_24x24.png",
-                            },
-                            new SpoilerItem()
-                            {
-                                State = ESubmenuItemsModifactions.Inventory,
-                                Title = "Inventory",
-                                ImagePath = "ic_paper_24x24.png",
-                                SelectedImagePath = "ic_paper_primary_24x24.png",
-                            },
-                            new SpoilerItem()
-                            {
-                                State = ESubmenuItemsModifactions.Options,
-                                Title = "Options",
-                                ImagePath = "ic_paper_plus_24x24.png",
-                                SelectedImagePath = "ic_paper_plus_primary_24x24.png",
-                            },
-                            new SpoilerItem()
-                            {
-                                State = ESubmenuItemsModifactions.Comment,
-                                Title = "Comment",
-                                ImagePath = "ic_chat_white_24x24.png",
-                                SelectedImagePath = "ic_chat_primary.png",
-                                CanShowDot = !string.IsNullOrWhiteSpace(row.Comment),
-                            },
-                        },
-                        TapCommand = TapSubmenuCommand,
-                    };
+            //if (products is not null)
+            //{
+            //    ProductsSet = new(products.Select(row =>
+            //    {
+            //        var result = new SpoilerBindableModel
+            //        {
+            //            Id = row.Id,
+            //            Title = row.SelectedProduct.Title,
+            //            Items = new()
+            //            {
+            //                new SpoilerItem()
+            //                {
+            //                    State = ESubmenuItemsModifactions.Replace,
+            //                    Title = "Replace",
+            //                    ImagePath = "ic_paper_fail_24x24.png",
+            //                    SelectedImagePath = "ic_paper_fail_primary_24x24.png",
+            //                },
+            //                new SpoilerItem()
+            //                {
+            //                    State = ESubmenuItemsModifactions.Inventory,
+            //                    Title = "Inventory",
+            //                    ImagePath = "ic_paper_24x24.png",
+            //                    SelectedImagePath = "ic_paper_primary_24x24.png",
+            //                },
+            //                new SpoilerItem()
+            //                {
+            //                    State = ESubmenuItemsModifactions.Options,
+            //                    Title = "Options",
+            //                    ImagePath = "ic_paper_plus_24x24.png",
+            //                    SelectedImagePath = "ic_paper_plus_primary_24x24.png",
+            //                },
+            //                new SpoilerItem()
+            //                {
+            //                    State = ESubmenuItemsModifactions.Comment,
+            //                    Title = "Comment",
+            //                    ImagePath = "ic_chat_white_24x24.png",
+            //                    SelectedImagePath = "ic_chat_primary.png",
+            //                    CanShowDot = !string.IsNullOrWhiteSpace(row.Comment),
+            //                },
+            //            },
+            //            TapCommand = TapSubmenuCommand,
+            //        };
 
-                    return result;
-                }));
-            }
+            //        return result;
+            //    }));
+            //}
         }
 
         private void InitReplacementProductsSet()
         {
-            var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+        //    var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
 
-            if (product.ReplacementProducts is var replacementProducts)
-            {
-                if (_isOrderedByDescendingReplacementProducts)
-                {
-                    ReplacementProducts = new(replacementProducts.OrderBy(row => row.Title));
-                }
-                else
-                {
-                    ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Title));
-                }
+        //    if (product.ReplacementProducts is var replacementProducts)
+        //    {
+        //        if (_isOrderedByDescendingReplacementProducts)
+        //        {
+        //            ReplacementProducts = new(replacementProducts.OrderBy(row => row.Title));
+        //        }
+        //        else
+        //        {
+        //            ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Title));
+        //        }
 
-                _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct?.Id);
-            }
-        }
+        //        _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == product.SelectedProduct?.Id);
+        //    }
+        //}
 
-        private async Task InitIngredientCategoriesAsync()
-        {
-            var ingredientCategories = await _menuService.GetIngredientCategoriesAsync();
+        //private async Task InitIngredientCategoriesAsync()
+        //{
+        //    var ingredientCategories = await _menuService.GetIngredientCategoriesAsync();
 
-            if (ingredientCategories.IsSuccess)
-            {
-                IngredientCategories = new(ingredientCategories.Result);
-                SelectedIngredientCategory = IngredientCategories.FirstOrDefault();
+        //    if (ingredientCategories.IsSuccess)
+        //    {
+        //        IngredientCategories = new(ingredientCategories.Result);
+        //        SelectedIngredientCategory = IngredientCategories.FirstOrDefault();
 
-                IsExpandedIngredientCategories = false;
-                var countItemsInRow = App.IsTablet ? 6 : 2;
-                var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
+        //        IsExpandedIngredientCategories = false;
+        //        var countItemsInRow = App.IsTablet ? 6 : 2;
+        //        var countRow = Math.Ceiling((double)IngredientCategories.Count / countItemsInRow);
 
-                HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * (44 + 8)) - 6);
-            }
+        //        HeightIngredientCategories = (int)(((countRow > 2 ? 2 : countRow) * (44 + 8)) - 6);
+        //    }
         }
 
         private async Task InitIngredientsAsync(int categoryId)
         {
-            var ingredients = await _menuService.GetIngredientsAsync(categoryId);
+            //var ingredients = await _menuService.GetIngredientsAsync(categoryId);
 
-            if (ingredients.IsSuccess)
-            {
-                var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
+            //if (ingredients.IsSuccess)
+            //{
+            //    var product = _currentSet.Products[ProductsSet.IndexOf(SelectedProduct)];
 
-                Ingredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
-                {
-                    Id = row.Id,
-                    CategoryId = row.CategoryId,
-                    IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
-                    Title = row.Title,
-                    Price = row.Price,
-                    ImagePath = row.ImagePath,
-                    ChangingToggle = ChangingToggleCommand,
-                }));
-            }
+            //    Ingredients = new(ingredients.Result.Select(row => new IngredientBindableModel()
+            //    {
+            //        Id = row.Id,
+            //        CategoryId = row.CategoryId,
+            //        //IsToggled = product.SelectedIngredients.Any(item => item.IngredientId == row.Id),
+            //        Title = row.Title,
+            //        Price = row.Price,
+            //        ImagePath = row.ImagePath,
+            //        ChangingToggle = ChangingToggleCommand,
+            //    }));
+            //}
         }
 
         private void InitPortionsSet()
@@ -439,20 +436,20 @@ namespace Next2.ViewModels
 
         private void LoadOptionsProduct()
         {
-            if (SelectedProduct != null)
-            {
-                var products = _currentSet.Products;
-                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                var indexProduct = products.IndexOf(product);
+            //if (SelectedProduct != null)
+            //{
+            //    var products = _currentSet.Products;
+            //    var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+            //    var indexProduct = products.IndexOf(product);
 
-                var options = products[indexProduct].Options;
+            //    var options = products[indexProduct].Options;
 
-                if (options is not null)
-                {
-                    OptionsProduct = new(options);
-                    SelectedOption = products[indexProduct].SelectedOption;
-                }
-            }
+            //    if (options is not null)
+            //    {
+            //        OptionsProduct = new(options);
+            //        SelectedOption = products[indexProduct].SelectedOption;
+            //    }
+            //}
         }
 
         private async Task OnTapSubmenuCommandAsync(SpoilerBindableModel item)
@@ -473,35 +470,34 @@ namespace Next2.ViewModels
                     }
                 }
 
-                switch (item.SelectedItem.State)
-                {
-                    case ESubmenuItemsModifactions.Options:
-                        LoadOptionsProduct();
-                        break;
-                    case ESubmenuItemsModifactions.Replace:
-                        InitReplacementProductsSet();
-                        break;
-                    case ESubmenuItemsModifactions.Inventory:
-                        Ingredients = new();
-                        SelectedIngredientCategory = null;
+                //switch (item.SelectedItem.State)
+                //{
+                //    case ESubmenuItemsModifactions.Options:
+                //        LoadOptionsProduct();
+                //        break;
+                //    case ESubmenuItemsModifactions.Replace:
+                //        InitReplacementProductsSet();
+                //        break;
+                //    case ESubmenuItemsModifactions.Inventory:
+                //        Ingredients = new();
+                //        SelectedIngredientCategory = null;
 
-                        InitIngredientCategoriesAsync().Await();
-                        break;
-                    case ESubmenuItemsModifactions.Comment:
-                        var products = _currentSet.Products;
-                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                        var indexProduct = products.IndexOf(product);
+                //        InitIngredientCategoriesAsync().Await();
+                //        break;
+                //    case ESubmenuItemsModifactions.Comment:
+                //        var products = _currentSet.Products;
+                //        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                //        var indexProduct = products.IndexOf(product);
 
-                        var navigationParameters = new NavigationParameters()
-                        {
-                            { Constants.Navigations.INPUT_VALUE, _currentSet.Products[indexProduct].Comment },
-                            { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
-                        };
+                //        var navigationParameters = new NavigationParameters()
+                //        {
+                //            { Constants.Navigations.INPUT_VALUE, _currentSet.Products[indexProduct].Comment },
+                //            { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
+                //        };
 
-                        await _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
-                        break;
-                }
-
+                //        await _navigationService.NavigateAsync(nameof(InputTextPage), navigationParameters);
+                //        break;
+                //}
                 if (!App.IsTablet)
                 {
                     await OnCloseMenuCommandAsync();
