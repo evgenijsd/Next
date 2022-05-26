@@ -121,7 +121,7 @@ namespace Next2.ViewModels.Mobile
 
             if (_orderService.CurrentOrder.Customer is not null)
             {
-                Customer = new(); //(_orderService.CurrentOrder.Customer);
+                Customer = _orderService.CurrentOrder.Customer;
 
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {

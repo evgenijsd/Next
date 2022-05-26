@@ -165,7 +165,7 @@ namespace Next2.ViewModels
 
             if (currentCustomer is not null)
             {
-                //SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
+                SelectedCustomer = DisplayedCustomers.FirstOrDefault(x => x.Id == currentCustomer.Id);
             }
         }
 

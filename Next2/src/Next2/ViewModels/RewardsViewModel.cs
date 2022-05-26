@@ -223,7 +223,7 @@ namespace Next2.ViewModels
 
                 if (customerResult.IsSuccess)
                 {
-                    _orderService.CurrentOrder.Customer = new(); // customerResult.Result.FirstOrDefault();
+                    _orderService.CurrentOrder.Customer = customerResult.Result.FirstOrDefault();
 
                     await RefreshPageDataAsync();
                 }
