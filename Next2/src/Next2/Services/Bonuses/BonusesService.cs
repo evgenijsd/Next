@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
+using Next2.Interfaces;
 using Next2.Models;
+using Next2.Models.API;
 using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
+using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,26 +20,55 @@ namespace Next2.Services.Bonuses
     {
         private readonly IMockService _mockService;
         private readonly IMapper _mapper;
+        private readonly IRestService _restService;
 
         public BonusesService(
             IMockService mockService,
+            IRestService restService,
             IMapper mapper)
         {
             _mockService = mockService;
             _mapper = mapper;
+            _restService = restService;
         }
 
         #region -- IBonusService implementation --
 
-        public async Task<AOResult<IEnumerable<DiscountModelDTO>>> GetAllDiscountsAsync(Func<DiscountModelDTO, bool>? condition = null)
+        public async Task<AOResult<IEnumerable<T>>> GetAllBonusesAsync<T>(Func<T, bool>? condition = null)
+            where T : IBaseApiModel, new()
         {
-            var result = new AOResult<IEnumerable<DiscountModelDTO>>();
-            return result;
-        }
+            var result = new AOResult<IEnumerable<T>>();
 
-        public async Task<AOResult<IEnumerable<CouponModelDTO>>> GetAllCouponsAsync(Func<DiscountModelDTO, bool>? condition = null)
-        {
-            var result = new AOResult<IEnumerable<CouponModelDTO>>();
+            GenericExecutionResult<GetDiscountsListQueryResult>? discountsResponse;
+            GenericExecutionResult<GetCouponsListQueryResult>? couponsResponse;
+            IEnumerable<T> bonuses = null;
+
+            try
+            {
+                if (typeof(T) == typeof(DiscountModelDTO))
+                {
+                    discountsResponse = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(System.Net.Http.HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
+                    bonuses = discountsResponse.Value.Discounts as IEnumerable<T>;
+                }
+
+                if (typeof(T) == typeof(CouponModelDTO))
+                {
+                    couponsResponse = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(System.Net.Http.HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
+                    bonuses = couponsResponse?.Value?.Coupons as IEnumerable<T>;
+                }
+
+                if (bonuses is not null)
+                {
+                    result.SetSuccess(condition == null
+                        ? bonuses
+                        : bonuses.Where(condition));
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetAllBonusesAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
             return result;
         }
 
