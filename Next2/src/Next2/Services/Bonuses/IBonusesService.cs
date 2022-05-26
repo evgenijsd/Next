@@ -16,6 +16,8 @@ namespace Next2.Services.Bonuses
         Task<AOResult<IEnumerable<T>>> GetAllBonusesAsync<T>(Func<T, bool>? condition = null)
             where T : IBaseApiModel, new();
 
+        Task<AOResult<CouponModelDTO>> GetCouponById(Guid id);
+
         Task<List<BonusModel>> GetActiveBonusesAsync(FullOrderBindableModel currentOrder);
 
         Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses);

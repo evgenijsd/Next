@@ -12,6 +12,7 @@ using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Bonuses
@@ -34,6 +35,27 @@ namespace Next2.Services.Bonuses
 
         #region -- IBonusService implementation --
 
+        public async Task<AOResult<CouponModelDTO>> GetCouponById(Guid id)
+        {
+            var result = new AOResult<CouponModelDTO>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons/{id}");
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value.Coupon);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetCouponById)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         public async Task<AOResult<IEnumerable<T>>> GetAllBonusesAsync<T>(Func<T, bool>? condition = null)
             where T : IBaseApiModel, new()
         {
@@ -47,13 +69,13 @@ namespace Next2.Services.Bonuses
             {
                 if (typeof(T) == typeof(DiscountModelDTO))
                 {
-                    discountsResponse = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(System.Net.Http.HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
+                    discountsResponse = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
                     bonuses = discountsResponse.Value.Discounts as IEnumerable<T>;
                 }
 
                 if (typeof(T) == typeof(CouponModelDTO))
                 {
-                    couponsResponse = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(System.Net.Http.HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
+                    couponsResponse = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
                     bonuses = couponsResponse?.Value?.Coupons as IEnumerable<T>;
                 }
 
