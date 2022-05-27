@@ -136,7 +136,7 @@
 
                                                         <StackLayout
                                                             HorizontalOptions="FillAndExpand"
-                                                            BindableLayout.ItemsSource="{Binding Sets}">
+                                                            BindableLayout.ItemsSource="{Binding SelectedDishes}">
                                                             
                                                             <BindableLayout.ItemTemplate>
                                                                     

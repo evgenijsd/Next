@@ -31,7 +31,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> CreateNewCurrentOrderAsync();
 
-        Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
+        Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
@@ -39,8 +39,10 @@ namespace Next2.Services.Order
 
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
-        Task<AOResult> DeleteSetFromCurrentSeat();
+        Task<AOResult> DeleteDishFromCurrentSeat();
+
         Task<AOResult> AddSeatAsync(SeatModel seat);
+
         Task<AOResult> AddOrderAsync(OrderModel order);
     }
 }

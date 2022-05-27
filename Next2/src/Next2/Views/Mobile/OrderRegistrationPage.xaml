@@ -166,7 +166,7 @@
 
             <controls:CustomStepper
                 IsEnabled="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
-                MaxValue="{x:Static local:Constants+Limits.MAX_TABLE_SEATS}"
+                MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
                 DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
@@ -311,7 +311,7 @@
                 <DataTemplate x:DataType="models:SeatBindableModel">
 
                     <templates:SeatItemTemplate
-                        ItemsSource="{Binding Sets}"
+                        ItemsSource="{Binding SelectedDishes}"
                         Padding="17, 9, 17, 0"/>
 
                 </DataTemplate>

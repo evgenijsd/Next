@@ -38,7 +38,7 @@ namespace Next2.Services.Menu
 
             try
             {
-                var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
+                var categories = await _restService.RequestAsync<Models.API.GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
 
                 if (categories.Success && categories.Value.Categories is not null)
                 {
@@ -65,7 +65,7 @@ namespace Next2.Services.Menu
             {
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{categoryId}.{subcategoryId}";
 
-                var resultGettingDishes = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
+                var resultGettingDishes = await _restService.RequestAsync<Models.API.GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
 
                 if (resultGettingDishes.Success)
                 {

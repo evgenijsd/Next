@@ -153,6 +153,8 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string DISH = "DISH";
+            public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
         }
 
         public static class PaymentOrderStatus
