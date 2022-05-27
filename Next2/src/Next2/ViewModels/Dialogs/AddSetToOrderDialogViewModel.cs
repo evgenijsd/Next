@@ -72,6 +72,7 @@ namespace Next2.ViewModels
                         {
                             Id = row.Id,
                             SelectedOptions = row.Options.FirstOrDefault(),
+                            AddedIngredients = new(row.Ingredients),
                             Product = new()
                             {
                                 Id = row.Id,
