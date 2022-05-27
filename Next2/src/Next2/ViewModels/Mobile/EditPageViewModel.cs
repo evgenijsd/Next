@@ -105,11 +105,11 @@ namespace Next2.ViewModels.Mobile
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isSetRemovingAccepted))
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
-                if (isSetRemovingAccepted)
+                if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteSetFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeat();
 
                     if (result.IsSuccess)
                     {

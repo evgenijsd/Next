@@ -415,25 +415,26 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteSetFromCurrentSeat()
+        public async Task<AOResult> DeleteDishFromCurrentSeat()
         {
             var result = new AOResult();
 
             try
             {
-                //SetBindableModel? setTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
-                //if (setTobeRemoved is not null)
-                //{
-                //   // CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
-                //   // CurrentOrder.SubTotal -= setTobeRemoved.TotalPrice;
-                //   // CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                //   // CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
-                //}
+                DishBindableModel? dishTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
+                if (dishTobeRemoved is not null)
+                {
+                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
+                    CurrentOrder.SubTotalPrice -= dishTobeRemoved.TotalPrice;
+                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
+                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                }
+
                 result.SetSuccess();
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(DeleteSetFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(DeleteDishFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

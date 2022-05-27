@@ -832,11 +832,11 @@ namespace Next2.ViewModels
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isSetRemovingAccepted))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
-                if (isSetRemovingAccepted)
+                if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteSetFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeat();
 
                     if (result.IsSuccess)
                     {
@@ -847,7 +847,7 @@ namespace Next2.ViewModels
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
                             {
-                                //SelectedSet = _seatWithSelectedSet.SelectedItem = _seatWithSelectedSet.Dishes.FirstOrDefault();
+                                SelectedDish = _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
                             }
                             else if (_isAnySetChosen)
                             {
@@ -856,7 +856,7 @@ namespace Next2.ViewModels
                                     set.SelectedItem = null;
                                 }
 
-                                //SelectedSet = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.Dishes.FirstOrDefault();
+                                SelectedDish = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
                             }
                             else
                             {

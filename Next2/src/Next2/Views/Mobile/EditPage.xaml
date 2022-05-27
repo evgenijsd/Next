@@ -152,8 +152,8 @@
                     FontFamilyTitle="Barlow-SemiBold"
                     FontSizeTitle="{DynamicResource TSize_i6}"
                     FontFamilyPrice="Barlow-SemiBold"
-                    FontSizePrice="{DynamicResource TSize_i5}"/>
-                <!--ItemsSource="{Binding SelectedSet.SelectedProducts}"-->
+                    FontSizePrice="{DynamicResource TSize_i5}"
+                    ItemsSource="{Binding SelectedDish.SelectedProducts}"/>
 
                 <!--Row 6 Footer-->
 
