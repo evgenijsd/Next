@@ -1720,8 +1720,8 @@
 
                             <MultiTrigger TargetType="StackLayout">
                                 <MultiTrigger.Conditions>
-                                    <BindingCondition Binding="{Binding CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
-                                    <BindingCondition Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
                                 </MultiTrigger.Conditions>
 
                                 <Setter Property="IsVisible" Value="False" />
