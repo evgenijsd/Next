@@ -2,10 +2,7 @@
 using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Next2.Models
 {

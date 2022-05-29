@@ -1,12 +1,8 @@
-﻿using Next2.Enums;
-using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Interfaces;
-using Next2.Models;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Bonuses
@@ -18,12 +14,12 @@ namespace Next2.Services.Bonuses
 
         Task<AOResult<CouponModelDTO>> GetCouponById(Guid id);
 
-        Task<List<BonusModel>> GetActiveBonusesAsync(FullOrderBindableModel currentOrder);
+        //Task<List<BonusModel>> GetActiveBonusesAsync(FullOrderBindableModel currentOrder);
 
-        Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses);
+        //Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses);
 
-        Task<IEnumerable<BonusModel>> GetActiveDiscountsAsync(List<BonusModel> bonuses);
+        //Task<IEnumerable<BonusModel>> GetActiveDiscountsAsync(List<BonusModel> bonuses);
 
-        Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder);
+        //Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder, BonusBindableModel bonus);
     }
 }

@@ -77,7 +77,7 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                CurrentOrder = currentOrder;
+                CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
                 var coupons = await GetCoupons();
 
@@ -127,9 +127,9 @@ namespace Next2.ViewModels
         private async Task<IEnumerable<CouponModelDTO>>? GetCoupons()
         {
             IEnumerable<CouponModelDTO>? result = null;
-            var couponsIds = CurrentOrder.Seats.SelectMany(x => x.Sets).SelectMany(x => x.Coupons).Select(x => x.Id).Distinct();
+            var dishesIds = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Select(x => x.Id);
 
-            var aoResult = await _bonusesService.GetAllBonusesAsync<CouponModelDTO>(x => x.IsActive && couponsIds.Contains(x.Id));
+            var aoResult = await _bonusesService.GetAllBonusesAsync<CouponModelDTO>(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
 
             if (aoResult.IsSuccess)
             {
@@ -171,14 +171,43 @@ namespace Next2.ViewModels
                     var coupon = _mapper.Map<CouponModelDTO>(bonus);
                     coupon.SeatNumbers = CurrentOrder.Seats.Count;
                     CurrentOrder.Coupon = coupon;
+                    CurrentOrder.Discount = null;
+
+                    var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
+                    foreach (var dish in dishes)
+                    {
+                        if (coupon.Dishes.Select(x => x.Id).Contains(dish.Id))
+                        {
+                            dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
+                        }
+                        else
+                        {
+                            dish.DiscountPrice = dish.SelectedDishProportionPrice;
+                        }
+                    }
+
+                    CurrentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.DiscountPrice * CurrentOrder.TaxCoefficient);
+                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.PriceTax + CurrentOrder.DiscountPrice);
                 }
 
                 if (bonus.Type is EBonusType.Discount)
                 {
                     CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
-                }
+                    CurrentOrder.Coupon = null;
 
-                CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+                    var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
+                    }
+
+                    CurrentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.DiscountPrice * CurrentOrder.TaxCoefficient);
+                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.PriceTax + CurrentOrder.DiscountPrice);
+                }
             }
         }
 
@@ -199,7 +228,6 @@ namespace Next2.ViewModels
         private Task OnRemoveSelectionBonusCommandAsync()
         {
             SelectedBonus = null;
-
             return Task.CompletedTask;
         }
 
