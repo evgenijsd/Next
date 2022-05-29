@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 namespace Next2.Models.API.DTO
 {
-    public class CouponModelDTO : DiscountModelDTO, IBaseApiModel
+    public class CouponModelDTO : SimpleCouponModelDTO, IBaseApiModel
     {
+        public int DiscountPercentage { get; set; }
+
+        public bool IsActive { get; set; }
+
         public IEnumerable<SimpleDishModelDTO>? Dishes { get; set; }
     }
 }

@@ -325,7 +325,7 @@ namespace Next2.Services.Bonuses
         {
             decimal result = 0;
 
-            switch (selectedBonus.Type)
+            switch (selectedBonus.BonusValueType)
             {
                 case EBonusValueType.Value:
                     result = set.TotalPrice - selectedBonus.Value;

@@ -190,8 +190,8 @@ namespace Next2
             cfg.CreateMap<SeatBindableModel, SeatModel>();
             cfg.CreateMap<RewardModel, RewardBindabledModel>();
             cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
-            cfg.CreateMap<BonusModel, BonusBindableModel>();
-            cfg.CreateMap<BonusBindableModel, BonusModel>();
+            cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
+            cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
             cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
                 .ForMember(x => x.OrderStatus, x => x.MapFrom(s => (EOrderStatus)Enum.Parse(typeof(EOrderStatus), s.OrderStatus)))
                 .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));

@@ -21,5 +21,11 @@ namespace Next2.Models
         public IEnumerable<SimpleDishModelDTO>? Dishes { get; set; }
 
         public ICommand? TapCommand { get; set; }
+
+        public EBonusType Type { get; set; }
+
+        public decimal Value { get; set; }
+
+        public EBonusValueType BonusValueType { get; set; }
     }
 }

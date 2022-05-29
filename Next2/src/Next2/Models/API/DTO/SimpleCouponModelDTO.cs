@@ -3,12 +3,8 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleCouponModelDTO : IBaseApiModel
+    public class SimpleCouponModelDTO : SimpleDiscountModelDTO, IBaseApiModel
     {
-        public Guid Id { get; set; }
-
-        public string? Name { get; set; }
-
         public int SeatNumbers { get; set; }
     }
 }
