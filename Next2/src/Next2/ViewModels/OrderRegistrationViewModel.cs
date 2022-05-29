@@ -49,7 +49,7 @@ namespace Next2.ViewModels
 
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
-        private SeatBindableModel _seatWithSelectedSet;
+        private SeatBindableModel _seatWithSelectedDish;
         private EOrderStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
         private bool _isAnyUpDateForCurrentSet = true;
@@ -97,7 +97,7 @@ namespace Next2.ViewModels
 
         public OrderTypeBindableModel SelectedOrderType { get; set; }
 
-        public SetBindableModel? SelectedSet { get; set; }
+        public DishBindableModel? SelectedDish { get; set; }
 
         public SeatBindableModel SelectedSeat { get; set; }
 
@@ -194,7 +194,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if(SelectedTable is not null)
                     {
-                        //_orderService.CurrentOrder.Table = SelectedTable;
+                        _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
                     }
 
                     break;
@@ -202,7 +202,7 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
                     break;
                 case nameof(NumberOfSeats):
-                    if (NumberOfSeats > CurrentOrder.Seats.Count)
+                    if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
                     {
                         IsOrderSavedNotificationVisible = false;
                         await _orderService.AddSeatInCurrentOrderAsync();
@@ -249,22 +249,20 @@ namespace Next2.ViewModels
 
             _firstSeat = CurrentOrder.Seats.FirstOrDefault();
 
-            _seatWithSelectedSet = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
+            _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
-            SelectedSet = _seatWithSelectedSet?.SelectedItem;
+            SelectedDish = _seatWithSelectedDish?.SelectedItem;
+            //if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
+            //{
+            //    await InitEditSetDetailsAsync(SelectedSet);
+            //}
+            _isAnySetChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
-            if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
-            {
-                await InitEditSetDetailsAsync(SelectedSet);
-            }
-
-            _isAnySetChosen = CurrentOrder.Seats.Any(x => x.Sets.Any());
-
-            _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.Sets.Any());
+            _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
             AddSeatsCommands();
 
-            //SelectedTable = Tables.FirstOrDefault(row => row.Id == CurrentOrder.Table.Id);
+            SelectedTable = Tables.FirstOrDefault();
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
 
@@ -313,7 +311,7 @@ namespace Next2.ViewModels
 
         private void OnGoBackCommand()
         {
-            if (SelectedSet is not null)
+            if (SelectedDish is not null)
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
@@ -335,7 +333,7 @@ namespace Next2.ViewModels
 
                 foreach (var item in CurrentOrder.Seats)
                 {
-                    if (item.Id != seat.Id)
+                    if (item.SeatNumber != seat.SeatNumber)
                     {
                         item.Checked = false;
                     }
@@ -360,7 +358,7 @@ namespace Next2.ViewModels
 
         private async Task DeleteSeatAsync(SeatBindableModel seat)
         {
-            if (seat.Sets.Any())
+            if (seat.SelectedDishes.Any())
             {
                 IEnumerable<int> seatNumbersOfCurrentOrder = CurrentOrder.Seats.Select(x => x.SeatNumber);
 
@@ -424,7 +422,7 @@ namespace Next2.ViewModels
                             if (App.IsTablet)
                             {
                                 _firstSeat.Checked = true;
-                                SelectedSet = _firstNotEmptySeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstNotEmptySeat.Sets.FirstOrDefault() : _firstNotEmptySeat.SelectedItem = null;
+                                //SelectedSet = _firstNotEmptySeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstNotEmptySeat.Dishes.FirstOrDefault() : _firstNotEmptySeat.SelectedItem = null;
                             }
                             else
                             {
@@ -437,8 +435,7 @@ namespace Next2.ViewModels
 
                                 _firstSeat.Checked = true;
 
-                                SelectedSet = _firstSeat.Sets.FirstOrDefault();
-
+                                //SelectedSet = _firstSeat.Dishes.FirstOrDefault();
                                 RefreshCurrentOrderAsync();
                             }
                         }
@@ -469,7 +466,7 @@ namespace Next2.ViewModels
                             destinationSeat.Checked = true;
                             if (CurrentState == LayoutState.Success)
                             {
-                                SelectedSet = destinationSeat.SelectedItem = destinationSeat.Sets.FirstOrDefault();
+                                //SelectedSet = destinationSeat.SelectedItem = destinationSeat.Dishes.FirstOrDefault();
                             }
 
                             RefreshCurrentOrderAsync();
@@ -488,7 +485,7 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.Sets.Any());
+            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
             if (isAnySetsInOrder)
             {
@@ -505,22 +502,21 @@ namespace Next2.ViewModels
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
-                    if (seat.Sets.Any())
+                    if (seat.SelectedDishes.Any())
                     {
-                        var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-                        {
-                            ImagePath = x.ImagePath,
-                            Title = x.Title,
-                            Price = x.Portion.Price,
-                        }));
+                        //var sets = new List<SetModel>(seat.Dishes.Select(x => new SetModel
+                        //{
+                        //    ImagePath = x.ImagePath,
+                        //    Title = x.Title,
+                        //    Price = x.Portion.Price,
+                        //}));
+                        //var newSeat = new SeatModel
+                        //{
+                        //    SeatNumber = seat.SeatNumber,
+                        //    Sets = sets,
+                        //};
 
-                        var newSeat = new SeatModel
-                        {
-                            SeatNumber = seat.SeatNumber,
-                            Sets = sets,
-                        };
-
-                        seats.Add(newSeat);
+                        //seats.Add(newSeat);
                     }
                 }
 
@@ -622,8 +618,7 @@ namespace Next2.ViewModels
                     }
                 }
 
-                SelectedSet = seat.SelectedItem;
-
+                SelectedDish = seat.SelectedItem;
                 foreach (var singleSeat in _orderService.CurrentOrder.Seats)
                 {
                     if (singleSeat.SeatNumber != seat.SeatNumber)
@@ -651,7 +646,7 @@ namespace Next2.ViewModels
 
                 if (_isAnyUpDateForCurrentSet)
                 {
-                    await InitEditSetDetailsAsync(SelectedSet);
+                    //await InitEditSetDetailsAsync(SelectedSet);
                 }
 
                 if (App.IsTablet)
@@ -837,11 +832,11 @@ namespace Next2.ViewModels
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isSetRemovingAccepted))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
-                if (isSetRemovingAccepted)
+                if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteSetFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeat();
 
                     if (result.IsSuccess)
                     {
@@ -850,9 +845,9 @@ namespace Next2.ViewModels
                         //CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
-                            if (_seatWithSelectedSet.Sets.Any())
+                            if (_seatWithSelectedDish.SelectedDishes.Any())
                             {
-                                SelectedSet = _seatWithSelectedSet.SelectedItem = _seatWithSelectedSet.Sets.FirstOrDefault();
+                                SelectedDish = _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
                             }
                             else if (_isAnySetChosen)
                             {
@@ -861,7 +856,7 @@ namespace Next2.ViewModels
                                     set.SelectedItem = null;
                                 }
 
-                                SelectedSet = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.Sets.FirstOrDefault();
+                                SelectedDish = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
                             }
                             else
                             {
@@ -919,71 +914,70 @@ namespace Next2.ViewModels
             RefreshCurrentOrderAsync();
         }
 
-        private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
-        {
-            if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
-            {
-                var result = await _menuService.GetIngredientsAsync();
+        //private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
+        //{
+        //    if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
+        //    {
+        //        var result = await _menuService.GetIngredientsAsync();
 
-                if (result.IsSuccess)
-                {
-                    List<IngredientModel> allIngredientModels = new(result.Result);
+        //        if (result.IsSuccess)
+        //        {
+        //            List<IngredientModel> allIngredientModels = new(result.Result);
 
-                    if (allIngredientModels is not null && SelectedSet is not null)
-                    {
-                        foreach (var product in SelectedSet.Products)
-                        {
-                            ObservableCollection<IngredientBindableModel> tempListIngredients = new();
-                            List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
-                            {
-                                Id = row.Id,
-                                Title = row.Title,
-                                Price = row.Price,
-                                IsToggled = true,
-                                ImagePath = row.ImagePath,
-                            }));
+        //            if (allIngredientModels is not null && SelectedSet is not null)
+        //            {
+        //                foreach (var product in SelectedSet.Products)
+        //                {
+        //                    ObservableCollection<IngredientBindableModel> tempListIngredients = new();
+        //                    List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
+        //                    {
+        //                        Id = row.Id,
+        //                        Title = row.Title,
+        //                        Price = row.Price,
+        //                        IsToggled = true,
+        //                        ImagePath = row.ImagePath,
+        //                    }));
 
-                            foreach (var ingredient in setOfIngredients)
-                            {
-                                tempListIngredients.Add(ingredient);
-                            }
+        //                    foreach (var ingredient in setOfIngredients)
+        //                    {
+        //                        tempListIngredients.Add(ingredient);
+        //                    }
 
-                            if (product.DefaultSelectedIngredients.Count > 0)
-                            {
-                                foreach (var defaultIngredient in product.DefaultSelectedIngredients)
-                                {
-                                    var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+        //                    if (product.DefaultSelectedIngredients.Count > 0)
+        //                    {
+        //                        foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+        //                        {
+        //                            var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
 
-                                    var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+        //                            var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
 
-                                    if (!isDefaultIngredientExist)
-                                    {
-                                        tempListIngredients.Add(new IngredientBindableModel()
-                                        {
-                                            Title = defaultIngredientModel.Title,
-                                            Price = 0,
-                                            IsToggled = false,
-                                            IsDefault = true,
-                                        });
-                                    }
-                                }
-                            }
+        //                            if (!isDefaultIngredientExist)
+        //                            {
+        //                                tempListIngredients.Add(new IngredientBindableModel()
+        //                                {
+        //                                    Title = defaultIngredientModel.Title,
+        //                                    Price = 0,
+        //                                    IsToggled = false,
+        //                                    IsDefault = true,
+        //                                });
+        //                            }
+        //                        }
+        //                    }
 
-                            product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
-                        }
+        //                    product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
+        //                }
 
-                        _isAnyUpDateForCurrentSet = false;
+        //                _isAnyUpDateForCurrentSet = false;
 
-                        SelectedSet = new(SelectedSet);
-                    }
-                }
-            }
-            else
-            {
-                SelectedSet = new(SelectedSet);
-            }
-        }
-
+        //                SelectedSet = new(SelectedSet);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        SelectedSet = new(SelectedSet);
+        //    }
+        //}
         #endregion
     }
 }

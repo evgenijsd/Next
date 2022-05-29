@@ -108,7 +108,7 @@
                 <DataTemplate x:DataType="dto:DishModelDTO">
 
                     <templates:SetItemTemplate
-                        xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseSetPageViewModel}}}"
+                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseSetPageViewModel}}}"
                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>

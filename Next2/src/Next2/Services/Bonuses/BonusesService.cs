@@ -352,14 +352,13 @@ namespace Next2.Services.Bonuses
         {
             var result = new List<SetModel>();
 
-            foreach (var seat in currentOrder.Seats)
-            {
-                foreach (var set in seat.Sets)
-                {
-                    result.Add(_mapper.Map<SetBindableModel, SetModel>(set));
-                }
-            }
-
+            //foreach (var seat in currentOrder.Seats)
+            //{
+            //    foreach (var set in seat.SelectedDishes)
+            //    {
+            //        result.Add(_mapper.Map<SetBindableModel, SetModel>(set));
+            //    }
+            //}
             return result;
         }
 
