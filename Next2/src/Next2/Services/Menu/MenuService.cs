@@ -105,17 +105,17 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientCategoryModel>>> GetIngredientCategoriesAsync()
+        public async Task<AOResult<IEnumerable<IngredientsCategoryModelDTO>>> GetIngredientCategoriesAsync()
         {
-            var result = new AOResult<IEnumerable<IngredientCategoryModel>>();
+            var result = new AOResult<IEnumerable<IngredientsCategoryModelDTO>>();
 
             try
             {
-                var resultData = await _mockService.GetAllAsync<IngredientCategoryModel>();
+                var ingredientsCategories = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/ingredients-categories");
 
-                if (resultData is not null)
+                if (ingredientsCategories.Success && ingredientsCategories.Value is not null)
                 {
-                    result.SetSuccess(resultData);
+                    result.SetSuccess(ingredientsCategories.Value.IngredientsCategories);
                 }
                 else
                 {
@@ -130,17 +130,17 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync(int categoryId)
+        public async Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync()
         {
-            var result = new AOResult<IEnumerable<IngredientModel>>();
+            var result = new AOResult<IEnumerable<IngredientModelDTO>>();
 
             try
             {
-                var resultData = await _mockService.GetAsync<IngredientModel>(row => row.CategoryId == categoryId);
+                var ingredients = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/ingredients");
 
-                if (resultData is not null)
+                if (ingredients.Success && ingredients.Value is not null)
                 {
-                    result.SetSuccess(resultData);
+                    result.SetSuccess(ingredients.Value.Ingredients);
                 }
                 else
                 {
@@ -205,31 +205,30 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync()
-        {
-            var result = new AOResult<IEnumerable<IngredientModel>>();
+        //public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync()
+        //{
+        //    var result = new AOResult<IEnumerable<IngredientModel>>();
 
-            try
-            {
-                var resultData = await _mockService.GetAllAsync<IngredientModel>();
+        //    try
+        //    {
+        //        var resultData = await _mockService.GetAllAsync<IngredientModel>();
 
-                if (resultData is not null)
-                {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
-            }
+        //        if (resultData is not null)
+        //        {
+        //            result.SetSuccess(resultData);
+        //        }
+        //        else
+        //        {
+        //            result.SetFailure();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
+        //    }
 
-            return result;
-        }
-
+        //    return result;
+        //}
         #endregion
     }
 }

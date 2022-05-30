@@ -1,14 +1,15 @@
 ﻿using Next2.Helpers;
 using Next2.Interfaces;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Next2.Models
 {
-    public class SpoilerBindableModel : BindableBase, IBaseModel, ITappable
+    public class SpoilerBindableModel : BindableBase, IBaseApiModel, ITappable
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Title { get; set; }
 

@@ -469,8 +469,8 @@
                     HeightRequest="1"/>
 
                 <StackLayout
-                    Orientation="Horizontal"
-                    xct:TouchEffect.Command="{Binding TapOpenProportionsCommand}">
+                    Orientation="Horizontal">
+                    <!--xct:TouchEffect.Command="{Binding TapOpenProportionsCommand}"-->
 
                     <StackLayout.Triggers>
 

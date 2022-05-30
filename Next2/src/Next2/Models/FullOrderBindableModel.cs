@@ -4,6 +4,7 @@ using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Next2.Models
 {
@@ -41,31 +42,28 @@ namespace Next2.Models
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
-        //public void UpdateTotalSum()
-        //{
-        //    SubTotalPrice = 0;
+        public void UpdateTotalSum()
+        {
+            SubTotalPrice = 0;
 
-        //    foreach (var seat in Seats)
-        //    {
-        //        foreach (var set in seat.SelectedDishes)
-        //        {
-        //            set.IngredientsPrice = 0;
-        //            set.ProductsPrice = 0;
+            foreach (var seat in Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    foreach (var product in dish.SelectedProducts)
+                    {
+                        product.IngredientsPrice += product.AddedIngredients is not null ? product.AddedIngredients.Sum(row => row.Price) : 0;
+                        product.IngredientsPrice += product.ExecutedIngredients is not null ? product.ExecutedIngredients.Sum(row => row.Price) : 0;
+                        product.ProductPrice += product.Product.DefaultPrice;
+                        dish.TotalPrice = dish.SelectedDishProportion.PriceRatio == 1 ? product.IngredientsPrice + product.ProductPrice : (product.IngredientsPrice + product.ProductPrice) * (1 + dish.SelectedDishProportion.PriceRatio);
+                    }
 
-        //            foreach (var product in set.Products)
-        //            {
-        //                set.IngredientsPrice += product.IngredientsPrice;
-        //                set.ProductsPrice += product.SelectedProduct.ProductPrice;
-        //            }
+                    SubTotalPrice += dish.TotalPrice;
+                }
+            }
 
-        //            set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
-
-        //            SubTotalPrice += set.TotalPrice;
-        //        }
-        //    }
-
-        //    PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
-        //    TotalPrice = (decimal)SubTotalPrice + PriceTax;
-        //}
+            PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
+            TotalPrice = (decimal)SubTotalPrice + PriceTax;
+        }
     }
 }

@@ -42,6 +42,10 @@ namespace Next2.Models
 
         public string? Comment { get; set; }
 
+        public decimal IngredientsPrice { get; set; }
+
+        public decimal ProductPrice { get; set; }
+
         public SimpleProductModelDTO Product { get; set; } = new();
 
         public OptionModelDTO? SelectedOptions { get; set; }

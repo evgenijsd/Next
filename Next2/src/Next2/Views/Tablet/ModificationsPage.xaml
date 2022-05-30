@@ -13,7 +13,8 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:views="clr-namespace:Next2.Views" 
+    xmlns:modelsApi="clr-namespace:Next2.Models.API.DTO"
     x:Class="Next2.Views.Tablet.ModificationsPage"
     x:DataType="viewmodels:ModificationsPageViewModel">
 
@@ -38,8 +39,8 @@
                 HeightRequest="1"/>
 
             <StackLayout
-                Orientation="Horizontal"
-                xct:TouchEffect.Command="{Binding TapOpenProportionsCommand}">
+                Orientation="Horizontal">
+                <!--xct:TouchEffect.Command="{Binding TapOpenProportionsCommand}"-->
 
                 <StackLayout.Triggers>
 
@@ -336,10 +337,10 @@
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:IngredientCategoryModel">
+                            <DataTemplate x:DataType="modelsApi:IngredientsCategoryModelDTO">
 
                                 <templates:CategoryItemTemplate
-                                    Text="{Binding Title}"
+                                    Text="{Binding Name}"
                                     HeightRequest="44"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-Medium"
