@@ -323,7 +323,7 @@ namespace Next2.ViewModels
             }
 
             CurrentState = LayoutState.Loading;
-            Thread.Sleep(80);
+            Thread.Sleep(80); // It suspends the thread to hide unwanted animation
             IsSideMenuVisible = true;
         }
 
@@ -662,7 +662,7 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
 
                     CurrentState = LayoutState.Loading;
-                    Thread.Sleep(100);
+                    Thread.Sleep(100); // It suspend the thread to hide unwanted animation
                     IsSideMenuVisible = true;
                 }
                 else
