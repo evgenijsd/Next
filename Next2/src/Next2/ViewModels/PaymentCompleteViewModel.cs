@@ -514,26 +514,26 @@ namespace Next2.ViewModels
 
         private void RecalculateCustomerGiftCardFounds(CustomerBindableModel customer)
         {
-            var totalPrice = Order.GiftCard;
+            var giftCardAmount = Order.GiftCard;
 
             foreach (var giftCard in customer.GiftCards)
             {
-                if (totalPrice != 0)
+                if (giftCardAmount != 0)
                 {
-                    if (giftCard.TotalBalance > totalPrice)
+                    if (giftCard.TotalBalance > giftCardAmount)
                     {
-                        giftCard.TotalBalance -= totalPrice;
-                        totalPrice = 0;
+                        giftCard.TotalBalance -= giftCardAmount;
+                        giftCardAmount = 0;
                     }
-                    else if (giftCard.TotalBalance < totalPrice)
+                    else if (giftCard.TotalBalance < giftCardAmount)
                     {
-                        totalPrice -= giftCard.TotalBalance;
+                        giftCardAmount -= giftCard.TotalBalance;
                         giftCard.TotalBalance = 0;
                     }
-                    else if (giftCard.TotalBalance == totalPrice)
+                    else if (giftCard.TotalBalance == giftCardAmount)
                     {
                         giftCard.TotalBalance = 0;
-                        totalPrice = 0;
+                        giftCardAmount = 0;
                     }
                 }
                 else
