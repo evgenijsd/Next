@@ -328,9 +328,9 @@
 
                                         <templates:ToggleItemTemplate
                                             IsToggle="{Binding IsToggled}"
-                                            Title="{Binding Title}"
+                                            Title="{Binding Name}"
                                             Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                                            ImagePath="{Binding ImagePath}"
+                                            ImagePath="{Binding ImageSource}"
                                             IsVisibleSubtitle="True"
                                             IsVisibleImage="True"
                                             CanTurnOff="True"/>

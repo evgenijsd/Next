@@ -619,6 +619,7 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = seat.SelectedItem;
+
                 foreach (var singleSeat in _orderService.CurrentOrder.Seats)
                 {
                     if (singleSeat.SeatNumber != seat.SeatNumber)
@@ -646,7 +647,7 @@ namespace Next2.ViewModels
 
                 if (_isAnyUpDateForCurrentSet)
                 {
-                    //await InitEditSetDetailsAsync(SelectedSet);
+                    await InitEditSetDetailsAsync(SelectedDish);
                 }
 
                 if (App.IsTablet)
@@ -914,70 +915,73 @@ namespace Next2.ViewModels
             RefreshCurrentOrderAsync();
         }
 
-        //private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
-        //{
-        //    if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
-        //    {
-        //        var result = await _menuService.GetIngredientsAsync();
+        private async Task InitEditSetDetailsAsync(DishBindableModel selectedDish)
+        {
+            if (selectedDish.Dish.Products.Any(x => x.Ingredients.Count() > 0))
+            {
+                var result = await _menuService.GetIngredientsAsync();
+                var resultCategory = await _menuService.GetIngredientCategoriesAsync();
 
-        //        if (result.IsSuccess)
-        //        {
-        //            List<IngredientModel> allIngredientModels = new(result.Result);
+                if (result.IsSuccess && resultCategory.IsSuccess)
+                {
+                    List<IngredientModelDTO> allIngredientModels = new(result.Result);
 
-        //            if (allIngredientModels is not null && SelectedSet is not null)
-        //            {
-        //                foreach (var product in SelectedSet.Products)
-        //                {
-        //                    ObservableCollection<IngredientBindableModel> tempListIngredients = new();
-        //                    List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
-        //                    {
-        //                        Id = row.Id,
-        //                        Title = row.Title,
-        //                        Price = row.Price,
-        //                        IsToggled = true,
-        //                        ImagePath = row.ImagePath,
-        //                    }));
+                    if (allIngredientModels is not null && SelectedDish is not null)
+                    {
+                        foreach (var product in SelectedDish.SelectedProducts)
+                        {
+                            ObservableCollection<SimpleIngredientModelDTO> tempListIngredients = new();
+                            List<SimpleIngredientModelDTO> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.Id == row.Id)).Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                Name = row?.Name,
+                                Price = row.Price,
+                                ImageSource = row?.ImageSource,
+                                IngredientsCategory = _mapper.Map<SimpleIngredientsCategoryModelDTO>(resultCategory.Result.First(x => x.Id == row?.IngredientsCategoryId)),
+                            }));
 
-        //                    foreach (var ingredient in setOfIngredients)
-        //                    {
-        //                        tempListIngredients.Add(ingredient);
-        //                    }
+                            foreach (var ingredient in setOfIngredients)
+                            {
+                                tempListIngredients.Add(ingredient);
+                            }
 
-        //                    if (product.DefaultSelectedIngredients.Count > 0)
-        //                    {
-        //                        foreach (var defaultIngredient in product.DefaultSelectedIngredients)
-        //                        {
-        //                            var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+                            //if (product.DefaultSelectedIngredients.Count > 0)
+                            //{
+                            //    foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+                            //    {
+                            //        var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
 
-        //                            var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+                            //        var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
 
-        //                            if (!isDefaultIngredientExist)
-        //                            {
-        //                                tempListIngredients.Add(new IngredientBindableModel()
-        //                                {
-        //                                    Title = defaultIngredientModel.Title,
-        //                                    Price = 0,
-        //                                    IsToggled = false,
-        //                                    IsDefault = true,
-        //                                });
-        //                            }
-        //                        }
-        //                    }
+                            //        if (!isDefaultIngredientExist)
+                            //        {
+                            //            tempListIngredients.Add(new IngredientBindableModel()
+                            //            {
+                            //                Title = defaultIngredientModel.Title,
+                            //                Price = 0,
+                            //                IsToggled = false,
+                            //                IsDefault = true,
+                            //            });
+                            //        }
+                            //    }
+                            //}
 
-        //                    product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
-        //                }
+                            //product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
+                            product.SelectedIngredients = tempListIngredients;
+                        }
 
-        //                _isAnyUpDateForCurrentSet = false;
+                        _isAnyUpDateForCurrentSet = false;
 
-        //                SelectedSet = new(SelectedSet);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        SelectedSet = new(SelectedSet);
-        //    }
-        //}
+                        SelectedDish = new(SelectedDish);
+                    }
+                }
+            }
+            else
+            {
+                SelectedDish = new(SelectedDish);
+            }
+        }
+
         #endregion
     }
 }

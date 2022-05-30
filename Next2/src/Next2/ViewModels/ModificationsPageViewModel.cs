@@ -250,11 +250,11 @@ namespace Next2.ViewModels
 
             if (_isOrderedByDescendingInventory)
             {
-                Ingredients = new(Ingredients.OrderBy(row => row.Title));
+                Ingredients = new(Ingredients.OrderBy(row => row.Name));
             }
             else
             {
-                Ingredients = new(Ingredients.OrderByDescending(row => row.Title));
+                Ingredients = new(Ingredients.OrderByDescending(row => row.Name));
             }
 
             return Task.CompletedTask;
