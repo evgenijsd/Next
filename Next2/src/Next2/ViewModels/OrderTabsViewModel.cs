@@ -150,20 +150,8 @@ namespace Next2.ViewModels
 
         public void SearchOrders(string searchQuery)
         {
-            SelectedOrder = null;
             SearchQuery = searchQuery;
-
-            if (string.IsNullOrEmpty(SearchQuery))
-            {
-                IsSearchActive = false;
-                IsOrdersRefreshing = true;
-            }
-            else
-            {
-                Orders = new(Orders.Where(
-                    x => x.Number.ToString().Contains(SearchQuery) ||
-                    (!string.IsNullOrEmpty(x.TableNumberOrName) && x.TableNumberOrName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))));
-            }
+            IsOrdersRefreshing = true;
         }
 
         #endregion
@@ -199,7 +187,11 @@ namespace Next2.ViewModels
 
                     Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(displayedOrders);
 
-                    if (!string.IsNullOrEmpty(SearchQuery))
+                    if (string.IsNullOrEmpty(SearchQuery))
+                    {
+                        IsSearchActive = false;
+                    }
+                    else
                     {
                         Orders = new(Orders.Where(x =>
                             x.Number.ToString().Contains(SearchQuery) ||

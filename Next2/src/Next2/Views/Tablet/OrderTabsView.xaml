@@ -256,7 +256,6 @@
             <RefreshView
                 VerticalOptions="FillAndExpand"
                 IsRefreshing="{Binding IsOrdersRefreshing}"
-                IsEnabled="{Binding IsSearchActive, Converter={xct:InvertedBoolConverter}}"
                 Command="{Binding RefreshOrdersCommand}">
 
                 <StackLayout>

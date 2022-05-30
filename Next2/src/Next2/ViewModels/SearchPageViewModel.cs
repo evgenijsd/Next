@@ -68,7 +68,7 @@ namespace Next2.ViewModels
 
         private Task OnGoBackCommandAsync(string? done)
         {
-            var searchQuery = done ?? string.Empty;
+            var searchQuery = done ?? SearchLine;
 
             var parameters = new NavigationParameters
             {
