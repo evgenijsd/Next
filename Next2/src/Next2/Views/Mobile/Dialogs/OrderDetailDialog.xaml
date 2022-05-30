@@ -64,7 +64,8 @@
             </StackLayout>
 
             <!-- SET LIST -->
-            <CollectionView Margin="0, 14, 0, 0" ItemsSource="{Binding Seats}">
+            <CollectionView Margin="0, 14, 0, 0" 
+                            ItemsSource="{Binding Seats}">
 
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>
