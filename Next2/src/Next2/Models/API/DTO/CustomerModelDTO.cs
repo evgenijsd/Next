@@ -18,6 +18,6 @@ namespace Next2.Models.API.DTO
 
         public string? MembershipId { get; set; }
 
-        public IEnumerable<Guid>? GiftCardsId { get; set; }
+        public IEnumerable<GiftCardModelDTO>? GiftCards { get; set; }
     }
 }

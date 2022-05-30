@@ -135,28 +135,11 @@ namespace Next2.ViewModels
                 {
                     _allCustomers = customers;
                     DisplayedCustomers = SearchCustomers(SearchText);
-                    await AddGiftCardsToDisplayedCustomersAsync();
                     SelectCurrentCustomer();
                 }
             }
 
             IsRefreshing = false;
-        }
-
-        private async Task AddGiftCardsToDisplayedCustomersAsync()
-        {
-            if (App.IsTablet)
-            {
-                foreach (var customer in DisplayedCustomers)
-                {
-                    var result = await _customersService.GetGiftCardsCustomerAsync(customer.GiftCardsId);
-
-                    if (result.IsSuccess)
-                    {
-                        customer.GiftCards = result.Result.ToList();
-                    }
-                }
-            }
         }
 
         private void SelectCurrentCustomer()
@@ -179,12 +162,6 @@ namespace Next2.ViewModels
             if (customer is CustomerBindableModel selectedCustomer)
             {
                 SelectedCustomer = customer;
-                var res = await _customersService.GetGiftCardsCustomerAsync(selectedCustomer.GiftCardsId);
-
-                if (res.IsSuccess)
-                {
-                    selectedCustomer.GiftCards = res.Result.ToList();
-                }
 
                 var param = new DialogParameters { { Constants.DialogParameterKeys.MODEL, selectedCustomer } };
 
