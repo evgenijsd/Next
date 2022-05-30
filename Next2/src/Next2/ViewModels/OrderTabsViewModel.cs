@@ -50,20 +50,20 @@ namespace Next2.ViewModels
 
         public string SearchQuery { get; set; } = string.Empty;
 
-        public bool IsNothingFound { get; set; }
+        public bool IsNothingFound => IsSearchActive && !Orders.Any();
 
         public bool IsSearchActive { get; set; }
 
-        public bool IsTabsSelected { get; set; }
+        public bool IsTabsModeSelected { get; set; }
 
-        public bool IsOrdersNotReceived => !IsSearchActive && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
+        public bool IsPreloadStateActive => !IsSearchActive && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
         public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
 
         private ICommand _switchToOrdersCommand;
-        public ICommand SwitchTotOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchTotOrdersCommand);
+        public ICommand SwitchToOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchToOrdersCommand);
 
         private ICommand _switchToTabsComamnd;
         public ICommand SwitchToTabsComamnd => _switchToTabsComamnd ??= new Command(OnSwitchToTabsComamnd);
@@ -77,8 +77,8 @@ namespace Next2.ViewModels
         private ICommand _refreshOrdersCommand;
         public ICommand RefreshOrdersCommand => _refreshOrdersCommand ??= new AsyncCommand(OnRefreshOrdersCommandAsync);
 
-        private ICommand _orderTabSortingChangeCommand;
-        public ICommand ChangeOrderSortingCommand => _orderTabSortingChangeCommand ??= new Command<EOrdersSortingType>(OnChangeOrderSortingCommand);
+        private ICommand _changeSortOrderCommand;
+        public ICommand ChangeSortOrderCommand => _changeSortOrderCommand ??= new Command<EOrdersSortingType>(OnChangeSortOrderCommand);
 
         private ICommand _selectOrderCommand;
         public ICommand SelectOrderCommand => _selectOrderCommand ??= new Command<SimpleOrderBindableModel?>(OnSelectOrderCommand);
@@ -102,7 +102,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
-                IsSearchActive = IsNothingFound = false;
+                IsSearchActive = false;
                 IsOrdersRefreshing = true;
             }
         }
@@ -113,7 +113,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
-                IsSearchActive = IsNothingFound = false;
+                IsSearchActive = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
                 _lastSavedOrderId = Guid.Empty;
@@ -131,16 +131,6 @@ namespace Next2.ViewModels
             else
             {
                 IsOrdersRefreshing = true;
-            }
-        }
-
-        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
-        {
-            base.OnPropertyChanged(args);
-
-            if (args.PropertyName is nameof(IsSearchActive) or nameof(Orders))
-            {
-                IsNothingFound = IsSearchActive && !Orders.Any();
             }
         }
 
@@ -179,11 +169,11 @@ namespace Next2.ViewModels
                     var pendingOrders = gettingOrdersResult.Result
                         .Where(x => x.OrderStatus == EOrderStatus.Pending);
 
-                    var displayedOrders = IsTabsSelected
+                    var displayedOrders = IsTabsModeSelected
                         ? pendingOrders.Where(x => x.IsTab)
                         : pendingOrders.Where(x => !x.IsTab).OrderBy(x => x.TableNumber);
 
-                    var mapper = new Mapper(GetOrderConfig(IsTabsSelected));
+                    var mapper = new Mapper(GetOrderConfig(IsTabsModeSelected));
 
                     Orders = mapper.Map<IEnumerable<SimpleOrderModelDTO>, ObservableCollection<SimpleOrderBindableModel>>(displayedOrders);
 
@@ -206,12 +196,18 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ShowInfoDialog("SomethingWentWrong", "Error");
+                    await ShowInfoDialog(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["SomethingWentWrong"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
             else
             {
-                await ShowInfoDialog("NoInternetConnection", "Error");
+                await ShowInfoDialog(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
             }
 
             if (!isOrdersLoaded)
@@ -249,9 +245,9 @@ namespace Next2.ViewModels
                 : $"{LocalizationResourceManager.Current["Table"]} {tableNumber}";
         }
 
-        private void OnSwitchTotOrdersCommand()
+        private void OnSwitchToOrdersCommand()
         {
-            if (IsTabsSelected)
+            if (IsTabsModeSelected)
             {
                 ChangeTab(false);
             }
@@ -259,19 +255,18 @@ namespace Next2.ViewModels
 
         private void OnSwitchToTabsComamnd()
         {
-            if (!IsTabsSelected)
+            if (!IsTabsModeSelected)
             {
                 ChangeTab(true);
             }
         }
 
-        private void ChangeTab(bool isTab)
+        private void ChangeTab(bool isTabMode)
         {
             SearchQuery = string.Empty;
-            IsSearchActive = false;
 
             Orders = new();
-            IsTabsSelected = isTab;
+            IsTabsModeSelected = isTabMode;
             IsOrdersRefreshing = true;
         }
 
@@ -279,11 +274,11 @@ namespace Next2.ViewModels
         {
             if (Orders.Any() || !string.IsNullOrEmpty(SearchQuery))
             {
-                Func<string, string> searchValidator = IsTabsSelected
+                Func<string, string> searchValidator = IsTabsModeSelected
                     ? _orderService.ApplyNameFilter
                     : _orderService.ApplyNumberFilter;
 
-                var searchHint = IsTabsSelected
+                var searchHint = IsTabsModeSelected
                     ? LocalizationResourceManager.Current["NameOrOrder"]
                     : LocalizationResourceManager.Current["TableNumberOrOrder"];
 
@@ -316,7 +311,7 @@ namespace Next2.ViewModels
 
         private IEnumerable<SimpleOrderBindableModel> GetSortedOrders(IEnumerable<SimpleOrderBindableModel> orders)
         {
-            EOrdersSortingType orderTabSorting = OrderSortingType == EOrdersSortingType.ByCustomerName && IsTabsSelected
+            EOrdersSortingType orderTabSorting = OrderSortingType == EOrdersSortingType.ByCustomerName && IsTabsModeSelected
                 ? EOrdersSortingType.ByTableNumber
                 : OrderSortingType;
 
@@ -331,7 +326,7 @@ namespace Next2.ViewModels
             return orders.OrderBy(comparer);
         }
 
-        private void OnChangeOrderSortingCommand(EOrdersSortingType orderSortingType)
+        private void OnChangeSortOrderCommand(EOrdersSortingType orderSortingType)
         {
             if (OrderSortingType == orderSortingType)
             {
@@ -483,7 +478,7 @@ namespace Next2.ViewModels
             _lastSavedOrderId = orderId;
         }
 
-        private void SetOrderType(bool isTab) => IsTabsSelected = isTab;
+        private void SetOrderType(bool isTab) => IsTabsModeSelected = isTab;
 
         private Task OnGoBackCommandAsync()
         {

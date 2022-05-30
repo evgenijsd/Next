@@ -10,6 +10,6 @@ namespace Next2.Models.API.DTO
 
         public string? Name { get; set; }
 
-        public IEnumerable<Guid>? categoriesId { get; set; }
+        public IEnumerable<Guid>? CategoriesId { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Next2.Models.API
 
         public string? Name { get; set; }
 
-        public double DefaultPrice { get; set; }
+        public decimal DefaultPrice { get; set; }
 
         public string? ImageSource { get; set; }
 

@@ -1,9 +1,10 @@
 ﻿using Next2.Enums;
+using Next2.Interfaces;
 using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleOrderModelDTO
+    public class SimpleOrderModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
@@ -15,7 +16,7 @@ namespace Next2.Models.API.DTO
 
         public bool IsTab { get; set; }
 
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public int? TableNumber { get; set; }
 

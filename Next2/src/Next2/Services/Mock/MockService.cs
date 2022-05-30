@@ -14,8 +14,6 @@ namespace Next2.Services.Mock
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
-        private IList<OrderModel> _orders;
-        private IList<SeatModel> _seats;
         private IList<UserModel> _users;
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
@@ -160,7 +158,6 @@ namespace Next2.Services.Mock
         private async Task InitMocksAsync()
         {
             await Task.WhenAll(
-                InitOrdersAsync(),
                 InitUsersAsync(),
                 InitTaxAsync(),
                 InitBonusAsync(),
@@ -184,9 +181,7 @@ namespace Next2.Services.Mock
                 { typeof(BonusSetModel), _bonusSets },
                 { typeof(BonusModel), _bonuses },
                 { typeof(RewardModel), _rewards },
-                { typeof(OrderModel), _orders },
                 { typeof(UserModel), _users },
-                { typeof(SeatModel), _seats },
                 { typeof(IngredientCategoryModel), _ingredientCategories },
                 { typeof(IngredientOfProductModel), _ingredientsOfProductModel },
                 { typeof(IngredientModel), _ingredients },
@@ -201,9 +196,7 @@ namespace Next2.Services.Mock
             _maxIdentifiers = new Dictionary<Type, int>
             {
                 { typeof(RewardModel), GetMaxId(_rewards) },
-                { typeof(OrderModel), GetMaxId(_orders) },
                 { typeof(UserModel), GetMaxId(_users) },
-                { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
                 { typeof(GiftCardModel), GetMaxId(_giftCards) },
             };
@@ -421,241 +414,6 @@ namespace Next2.Services.Mock
                     SetTitle = "D Pulled Pork Sammy Meal",
                 },
             };
-        });
-
-        private Task InitOrdersAsync() => Task.Run(async () =>
-        {
-            _orders = new List<OrderModel>();
-
-            _orders = new List<OrderModel>
-            {
-                new OrderModel()
-                {
-                    Id = 1,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c6"),
-                        FullName = "Adam Brody",
-                    },
-                    TableNumber = 10,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 1,
-                    Total = 50.2m,
-                    PriceTax = 5.02m,
-                },
-                new OrderModel()
-                {
-                    Id = 2,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c7"),
-                        FullName = "Abraham Linkoln",
-                    },
-                    TableNumber = 9,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 2,
-                    Total = 30.3m,
-                    PriceTax = 3.03m,
-                },
-                new OrderModel()
-                {
-                    Id = 3,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c8"),
-                        FullName = "Aaron Rodgers",
-                    },
-                    TableNumber = 8,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 3,
-                    Total = 40.45m,
-                    PriceTax = 4.05m,
-                },
-                new OrderModel()
-                {
-                    Id = 4,
-                    Customer = new (),
-                    TableNumber = 7,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 4,
-                    Total = 3.67m,
-                    PriceTax = 0.37m,
-                },
-                new OrderModel()
-                {
-                    Id = 5,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c9"),
-                        FullName = "Angel Dias",
-                    },
-                    TableNumber = 6,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 5,
-                    Total = 70.44m,
-                    PriceTax = 7.04m,
-                },
-                new OrderModel()
-                {
-                    Id = 6,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c57c6"),
-                        FullName = "Kaiya Dorwart",
-                    },
-                    TableNumber = 5,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 6,
-                    Total = 6.77m,
-                    PriceTax = 0.68m,
-                },
-                new OrderModel()
-                {
-                    Id = 7,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c67c6"),
-                        FullName = "Lincoln Lipshutz",
-                    },
-                    TableNumber = 4,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 7,
-                    Total = 45.11m,
-                    PriceTax = 4.51m,
-                },
-                new OrderModel()
-                {
-                    Id = 8,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c77c6"),
-                        FullName = "Randy Mango",
-                    },
-                    TableNumber = 3,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 8,
-                    Total = 33.67m,
-                    PriceTax = 3.37m,
-                },
-                new OrderModel()
-                {
-                    Id = 9,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c87c6"),
-                        FullName = "Martin Schleifer",
-                    },
-                    TableNumber = 2,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 9,
-                    Total = 55.16m,
-                    PriceTax = 5.52m,
-                },
-                new OrderModel()
-                {
-                    Id = 10,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c97c6"),
-                        FullName = "Carla Dorwart",
-                    },
-                    TableNumber = 1,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 10,
-                    Total = 97.66m,
-                    PriceTax = 9.77m,
-                },
-                new OrderModel()
-                {
-                    Id = 11,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c48c6"),
-                        FullName = "Davis Septimus",
-                    },
-                    TableNumber = 11,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 11,
-                    Total = 96.00m,
-                    PriceTax = 9.60m,
-                },
-                new OrderModel()
-                {
-                    Id = 12,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c49c6"),
-                        FullName = "Grover Parsons",
-                    },
-                    TableNumber = 12,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 12,
-                    Total = 9.50m,
-                    PriceTax = 0.95m,
-                },
-                new OrderModel()
-                {
-                    Id = 13,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c51c6"),
-                        FullName = "Douglas Moreno",
-                    },
-                    TableNumber = 13,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 13,
-                    Total = 9.40m,
-                    PriceTax = 0.94m,
-                },
-                new OrderModel()
-                {
-                    Id = 14,
-                    Customer = new (),
-                    TableNumber = 14,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 14,
-                    Total = 9.30m,
-                    PriceTax = 0.93m,
-                },
-                new OrderModel()
-                {
-                    Id = 15,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c52c6"),
-                        FullName = "Kenneth Feron",
-                    },
-                    TableNumber = 15,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 15,
-                    Total = 9.20m,
-                    PriceTax = 0.92m,
-                },
-            };
-
-            //    for (int i = 0; i < _orders.Count; i++)
-            //    {
-            //        var orderSeats = _seats.Where(s => s.OrderId == _orders[i].Id);
-            //        var amountsBySeats = orderSeats.Select(x => x.Sets.Select(x => x.Price).Sum());
-
-            //        _orders[i].Total = amountsBySeats.Sum();
-            //    }
-            //});
         });
 
         private Task InitUsersAsync() => Task.Run(() =>
