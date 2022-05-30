@@ -1,7 +1,7 @@
-﻿using Next2.Helpers.DTO;
-using Next2.Helpers.ProcessHelpers;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,7 +15,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<TaxModel>> GetTaxAsync();
 
-        Task<AOResult<int>> GetNewOrderIdAsync();
+        Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
@@ -29,9 +29,9 @@ namespace Next2.Services.Order
 
         string ApplyNameFilter(string text);
 
-        Task<AOResult> CreateNewOrderAsync();
+        Task<AOResult> CreateNewCurrentOrderAsync();
 
-        Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set);
+        Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 
@@ -39,8 +39,10 @@ namespace Next2.Services.Order
 
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
-        Task<AOResult> DeleteSetFromCurrentSeat();
+        Task<AOResult> DeleteDishFromCurrentSeat();
+
         Task<AOResult> AddSeatAsync(SeatModel seat);
+
         Task<AOResult> AddOrderAsync(OrderModel order);
     }
 }

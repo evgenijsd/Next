@@ -15,9 +15,9 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Public properties --
 
-        public float Total { get; set; }
+        public decimal Total { get; set; }
 
-        public float Change { get; set; }
+        public decimal Change { get; set; }
 
         public string InputValue { get; set; }
 
@@ -30,7 +30,7 @@ namespace Next2.ViewModels.Mobile
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.Navigations.TOTAL_SUM, out float sum))
+            if (parameters.TryGetValue(Constants.Navigations.TOTAL_SUM, out decimal sum))
             {
                 Total = sum;
             }
@@ -42,7 +42,7 @@ namespace Next2.ViewModels.Mobile
 
             if (args.PropertyName == nameof(InputValue))
             {
-                if (float.TryParse(InputValue, out float value))
+                if (decimal.TryParse(InputValue, out decimal value))
                 {
                     value /= 100;
                     Change = value > Total ? value - Total : 0;

@@ -10,20 +10,20 @@ namespace Next2.Models
 
         public CustomerModelDTO? Customer { get; set; }
 
-        public int TableNumber { get; set; }
+        public bool IsTab { get; set; }
 
-        public EOrderStatus OrderStatus { get; set; }
+        public int TableNumber { get; set; }
 
         public EOrderType OrderType { get; set; }
 
         public int OrderNumber { get; set; }
 
-        public bool IsTab { get; set; }
-
         public EBonusType BonusType { get; set; } = EBonusType.None;
 
-        public float Total { get; set; }
+        public decimal Total { get; set; }
 
-        public float PriceTax { get; set; }
+        public decimal PriceTax { get; set; }
+
+        public EOrderStatus? OrderStatus { get; set; }
     }
 }

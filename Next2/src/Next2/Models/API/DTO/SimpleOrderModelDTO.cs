@@ -1,7 +1,7 @@
 ﻿using Next2.Enums;
 using System;
 
-namespace Next2.Helpers.DTO
+namespace Next2.Models.API.DTO
 {
     public class SimpleOrderModelDTO
     {

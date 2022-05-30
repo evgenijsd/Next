@@ -69,7 +69,7 @@
                             WidthRequest="80">
 
                             <ffimageloading:CachedImage 
-                                Source="{Binding SelectedSet.ImagePath}"
+                                Source="{Binding SelectedDish.Dish.ImageSource}"
                                 Aspect="AspectFill"/>
 
                         </Frame>
@@ -82,14 +82,14 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding SelectedSet.Title}"
+                            Text="{Binding SelectedDish.Dish.Name}"
                             Margin="0, 0, 0, 0"
                             FontFamily="Barlow-Medium"
                             FontSize="{DynamicResource TSize_i6}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <Label 
-                            Text="{Binding SelectedSet.TotalPrice, StringFormat='$ {0:F2}'}"
+                            Text="{Binding SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
                             Margin="0, 5, 0, 0"
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
@@ -125,7 +125,7 @@
                         Grid.Column="0"
                         Grid.Row="1"
                         VerticalOptions="Start"
-                        Text="{Binding SelectedSet.Portion.Title}"
+                        Text="{Binding SelectedDish.SelectedDishProportion.Proportion.Name}"
                         Margin="0, 5, 0, 10"
                         FontFamily="Barlow-Regular"
                         FontSize="{DynamicResource TSize_i5}"
@@ -135,7 +135,7 @@
                         Grid.Column="1"
                         Grid.Row="1"
                         HorizontalOptions="EndAndExpand"
-                        Text="{Binding SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                        Text="{Binding SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
                         Margin="0, 5, 0, 0"
                         FontFamily="Barlow-SemiBold"
                         FontSize="{DynamicResource TSize_i5}"
@@ -147,13 +147,13 @@
 
                 <templates:ProductItemTemplate 
                     Grid.Row="2"
-                    ItemsSource="{Binding SelectedSet.Products}"
                     FontFamilyProduct="Barlow-Medium"
                     FontSizeProduct="{DynamicResource TSize_i5}"
                     FontFamilyTitle="Barlow-SemiBold"
                     FontSizeTitle="{DynamicResource TSize_i6}"
                     FontFamilyPrice="Barlow-SemiBold"
-                    FontSizePrice="{DynamicResource TSize_i5}"/>
+                    FontSizePrice="{DynamicResource TSize_i5}"
+                    ItemsSource="{Binding SelectedDish.SelectedProducts}"/>
 
                 <!--Row 6 Footer-->
 

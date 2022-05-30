@@ -1,6 +1,8 @@
+using Acr.UserDialogs;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Log;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -61,8 +63,9 @@ namespace Next2.ViewModels.Tablet
 
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
-        //private ICommand _tapSetCommand;
-        //public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<DishModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _tapDishCommand;
+        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
@@ -128,54 +131,50 @@ namespace Next2.ViewModels.Tablet
             Dishes = new(Dishes.Reverse());
         }
 
-        //private async Task OnTapSetCommandAsync(SetModel set)
-        //{
-        //    var portions = await _menuService.GetPortionsSetAsync(set.Id);
+        private async Task OnTapDishCommandAsync(DishModelDTO dish)
+        {
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.DISH, dish },
+                { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
+            };
 
-        //    if (portions.IsSuccess)
-        //    {
-        //        var param = new DialogParameters
-        //        {
-        //            { Constants.DialogParameterKeys.SET, set },
-        //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
-        //        };
+            await PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        }
 
-        //        await PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
-        //    }
-        //}
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.DISH))
+            {
+                if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+                {
+                    var result = await _orderService.AddSetInCurrentOrderAsync(dish);
 
-        //private async void CloseDialogCallback(IDialogParameters dialogResult)
-        //{
-        //    if (dialogResult is not null && dialogResult.ContainsKey(Constants.DialogParameterKeys.SET))
-        //    {
-        //        if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
-        //        {
-        //            var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                    if (result.IsSuccess)
+                    {
+                        if (PopupNavigation.PopupStack.Any())
+                        {
+                            await PopupNavigation.PopAsync();
+                        }
 
-        //            if (result.IsSuccess)
-        //            {
-        //                if (PopupNavigation.PopupStack.Any())
-        //                {
-        //                    await PopupNavigation.PopAsync();
-        //                }
+                        OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
-        //                OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        {
+                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                            Position = ToastPosition.Bottom,
+                        };
 
-        //                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-        //                {
-        //                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-        //                    Position = ToastPosition.Bottom,
-        //                };
+                        UserDialogs.Instance.Toast(toastConfig);
+                    }
+                }
+            }
+            else
+            {
+                await PopupNavigation.PopAsync();
+            }
+        }
 
-        //                UserDialogs.Instance.Toast(toastConfig);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        await PopupNavigation.PopAsync();
-        //    }
-        //}
         private async Task LoadCategoriesAsync()
         {
             if (IsInternetConnected)

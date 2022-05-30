@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Next2.Helpers.DTO
+namespace Next2.Models.API.DTO
 {
     public class SimpleSelectedProductModelDTO
     {
@@ -11,6 +11,6 @@ namespace Next2.Helpers.DTO
 
         public SimpleProductModelDTO Product { get; set; } = new ();
 
-        public List<OptionModelDTO>? SelectdOptions { get; set; }
+        public IEnumerable<OptionModelDTO>? SelectdOptions { get; set; }
     }
 }

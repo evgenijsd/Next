@@ -25,7 +25,7 @@ namespace Next2.Models
 
         public int Points { get; set; }
 
-        public float GiftCardsTotalFund { get; set; }
+        public decimal GiftCardTotal { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 

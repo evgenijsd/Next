@@ -1,6 +1,6 @@
 ﻿using Next2.Enums;
-using Next2.Helpers.DTO;
 using Next2.Interfaces;
+using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;

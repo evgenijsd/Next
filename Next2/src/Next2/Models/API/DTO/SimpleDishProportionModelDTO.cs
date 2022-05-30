@@ -7,7 +7,7 @@ namespace Next2.Models.API.DTO
     {
         public Guid Id { get; set; }
 
-        public double PriceRatio { get; set; }
+        public decimal PriceRatio { get; set; }
 
         public Guid ProportionId { get; set; }
 

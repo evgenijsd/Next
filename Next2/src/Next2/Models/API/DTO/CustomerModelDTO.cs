@@ -48,7 +48,7 @@ namespace Next2.Models.API.DTO
 
         public int GiftCardsCount { get; set; }
 
-        public float GiftCardsTotalFund { get; set; }
+        public decimal GiftCardsTotalFund { get; set; }
 
         public List<GiftCardModel> GiftCards { get; set; } = new();
 
@@ -57,6 +57,5 @@ namespace Next2.Models.API.DTO
         public bool IsUpdatedCustomer { get; set; }
 
         #endregion
-
     }
 }

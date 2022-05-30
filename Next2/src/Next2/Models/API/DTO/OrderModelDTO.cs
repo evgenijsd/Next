@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Next2.Helpers.DTO
+namespace Next2.Models.API.DTO
 {
     public class OrderModelDTO
     {
@@ -40,6 +40,6 @@ namespace Next2.Helpers.DTO
 
         public string? EmployeeId { get; set; }
 
-        public List<SeatModelDTO>? Seats { get; set; }
+        public IEnumerable<SeatModelDTO>? Seats { get; set; }
     }
 }

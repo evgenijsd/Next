@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Next2.Interfaces;
+using System;
 
-namespace Next2.Helpers.DTO
+namespace Next2.Models.API.DTO
 {
-    public class SimpleTableModelDTO
+    public class SimpleTableModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 

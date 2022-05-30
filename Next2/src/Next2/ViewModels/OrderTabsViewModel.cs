@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Helpers.DTO;
 using Next2.Helpers.Events;
+using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -27,7 +27,7 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
 
-        private int _lastSavedOrderId = -1;
+        private Guid _lastSavedOrderId;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
@@ -116,7 +116,7 @@ namespace Next2.ViewModels
                 IsSearchActive = IsNothingFound = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
-                _lastSavedOrderId = 0;
+                _lastSavedOrderId = Guid.Empty;
             }
         }
 
@@ -486,7 +486,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private void SetLastSavedOrderId(int orderId)
+        private void SetLastSavedOrderId(Guid orderId)
         {
             _lastSavedOrderId = orderId;
         }
