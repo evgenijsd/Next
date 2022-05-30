@@ -17,6 +17,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Xamarin.Forms.Internals;
 
 namespace Next2.Services.Order
 {
@@ -272,10 +273,9 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
+        public async Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
-            bool success = true;
 
             try
             {
@@ -283,9 +283,8 @@ namespace Next2.Services.Order
                 {
                     var seat = new SeatBindableModel
                     {
-                        Id = 1,
                         SeatNumber = 1,
-                        Sets = new(),
+                        SelectedDishes = new(),
                         Checked = true,
                         IsFirstSeat = true,
                     };
@@ -295,88 +294,13 @@ namespace Next2.Services.Order
                     CurrentSeat = seat;
                 }
 
-                var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 
-                if (resultProducts is not null)
-                {
-                    set.Products = new();
+                CurrentOrder.SubTotalPrice = CurrentOrder.Seats.Sum(row => row.SelectedDishes.Sum(row => row.TotalPrice));
 
-                    foreach (var product in resultProducts)
-                    {
-                        var newProduct = new ProductBindableModel()
-                        {
-                            Id = product.Id,
-                            ReplacementProducts = new(),
-                            SelectedIngredients = new(),
-                            Title = product.Title,
-                            ImagePath = product.ImagePath,
-                            ProductPrice = product.ProductPrice,
-                            IngredientsPrice = product.IngredientsPrice,
-                            TotalPrice = product.ProductPrice,
-                            Comment = product.Comment,
-                        };
+                CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
 
-                        var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
-
-                        if (resultOptionsProduct is not null)
-                        {
-                            newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
-                            newProduct.Options = new(resultOptionsProduct);
-                        }
-                        else
-                        {
-                            newProduct.SelectedOption = new();
-                            newProduct.Options = new();
-                        }
-
-                        var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
-
-                        foreach (var replacementProduct in resultReplacementProducts)
-                        {
-                            var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
-                            newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
-                        }
-
-                        newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
-
-                        if (newProduct.SelectedProduct is null)
-                        {
-                            newProduct.SelectedProduct = product;
-                        }
-
-                        var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
-
-                        if (selectedIngredients is not null)
-                        {
-                            newProduct.SelectedIngredients = new(selectedIngredients);
-                            newProduct.DefaultSelectedIngredients = new(selectedIngredients);
-                        }
-
-                        set.Products.Add(newProduct);
-
-                        set.IngredientsPrice += newProduct.IngredientsPrice;
-                        set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
-                    }
-
-                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
-
-                    CurrentOrder.TotalPrice += set.TotalPrice;
-                }
-                else
-                {
-                    success = false;
-                }
-
-                if (!success)
-                {
-                    result.SetFailure();
-                }
-
-                //CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
-                //CurrentOrder.SubTotal += set.Portion.Price;
-
-                //CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                //CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
 
                 //if (CurrentOrder.BonusType != Enums.EBonusType.None)
                 //{
@@ -405,9 +329,8 @@ namespace Next2.Services.Order
 
                 var seat = new SeatBindableModel
                 {
-                    Id = CurrentOrder.Seats.Count + 1,
                     SeatNumber = CurrentOrder.Seats.Count + 1,
-                    Sets = new (),
+                    SelectedDishes = new(),
                     Checked = true,
                 };
 
@@ -435,17 +358,20 @@ namespace Next2.Services.Order
 
                 if (isDeleted)
                 {
-                    //for (int i = seat.SeatNumber - 1; i < CurrentOrder.Seats.Count; i++)
-                    //{
-                    //    CurrentOrder.Seats[i].Id--;
-                    //    CurrentOrder.Seats[i].SeatNumber--;
-                    //}
+                    for (int i = seat.SeatNumber - 1; i < CurrentOrder.Seats.Count; i++)
+                    {
+                        CurrentOrder.Seats[i].SeatNumber--;
+                    }
 
-                    //CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
-                    //CurrentOrder.SubTotal -= seat.Sets.Sum(row => row.TotalPrice);
-                    //CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                    //CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                    if (seat.SelectedDishes.Count != 0)
+                    {
+                        CurrentOrder.SubTotalPrice -= seat.SelectedDishes.Sum(row => row.TotalPrice);
+                        CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
+                        CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                    }
+
                     result.SetSuccess();
                 }
             }
@@ -469,14 +395,14 @@ namespace Next2.Services.Order
 
                 if (destinationSeatIndex != -1 && destinationSeat.SeatNumber != sourceSeat.SeatNumber)
                 {
-                    foreach (var item in sourceSeat.Sets)
+                    foreach (var item in sourceSeat.SelectedDishes)
                     {
-                        seats[destinationSeatIndex].Sets.Add(item);
+                        seats[destinationSeatIndex].SelectedDishes.Add(item);
                     }
 
                     int sourceSeatIndex = seats.IndexOf(sourceSeat);
 
-                    seats[sourceSeatIndex].Sets.Clear();
+                    seats[sourceSeatIndex].SelectedDishes.Clear();
 
                     result.SetSuccess();
                 }
@@ -489,26 +415,26 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteSetFromCurrentSeat()
+        public async Task<AOResult> DeleteDishFromCurrentSeat()
         {
             var result = new AOResult();
 
             try
             {
-                SetBindableModel? setTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
-                if (setTobeRemoved is not null)
+                DishBindableModel? dishTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
+                if (dishTobeRemoved is not null)
                 {
-                   // CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
-                   // CurrentOrder.SubTotal -= setTobeRemoved.TotalPrice;
-                   // CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                   // CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
+                    CurrentOrder.SubTotalPrice -= dishTobeRemoved.TotalPrice;
+                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
+                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
                 }
 
                 result.SetSuccess();
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(DeleteSetFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(DeleteDishFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

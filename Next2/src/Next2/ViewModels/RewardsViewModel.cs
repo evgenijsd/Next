@@ -149,36 +149,36 @@ namespace Next2.ViewModels
 
         public void LoadSeats()
         {
-            var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
+            //var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.SelectedDishes.Any());
 
-            Order.Seats.Clear();
+            //Order.Seats.Clear();
 
-            foreach (var seat in bindableSeats)
-            {
-                var freeSets = _mapper.Map<ObservableCollection<FreeSetBindableModel>>(seat.Sets);
+            //foreach (var seat in bindableSeats)
+            //{
+            //    var freeSets = _mapper.Map<ObservableCollection<FreeSetBindableModel>>(seat.SelectedDishes);
 
-                if (App.IsTablet)
-                {
-                    SetProductsNamesForSets(seat.Sets, freeSets);
-                }
+            //    if (App.IsTablet)
+            //    {
+            //        SetProductsNamesForSets(seat.SelectedDishes, freeSets);
+            //    }
 
-                var newSeat = new SeatWithFreeSetsBindableModel
-                {
-                    Id = seat.Id,
-                    SeatNumber = seat.SeatNumber,
-                    Sets = freeSets,
-                };
+            //    var newSeat = new SeatWithFreeSetsBindableModel
+            //    {
+            //        Id = seat.Id,
+            //        SeatNumber = seat.SeatNumber,
+            //        Sets = freeSets,
+            //    };
 
-                Order.Seats.Add(newSeat);
-            }
+            //    Order.Seats.Add(newSeat);
+            //}
         }
 
         private void SetProductsNamesForSets(ObservableCollection<SetBindableModel> setBindables, ObservableCollection<FreeSetBindableModel> freeSets)
         {
-            for (int i = 0; i < setBindables.Count; i++)
-            {
-                freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
-            }
+            //for (int i = 0; i < setBindables.Count; i++)
+            //{
+            //    freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
+            //}
         }
 
         private void ApplyCancelRewardToSet(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel reward)
