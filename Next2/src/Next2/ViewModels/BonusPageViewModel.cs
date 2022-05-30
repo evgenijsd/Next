@@ -129,11 +129,11 @@ namespace Next2.ViewModels
             IEnumerable<CouponModelDTO>? result = null;
             var dishesIds = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Select(x => x.Id);
 
-            var aoResult = await _bonusesService.GetAllBonusesAsync<CouponModelDTO>(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
+            var response = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
 
-            if (aoResult.IsSuccess)
+            if (response.IsSuccess)
             {
-                result = aoResult.Result;
+                result = response.Result;
             }
 
             return result;
@@ -143,11 +143,11 @@ namespace Next2.ViewModels
         {
             IEnumerable<DiscountModelDTO>? result = null;
 
-            var aoResult = await _bonusesService.GetAllBonusesAsync<DiscountModelDTO>(x => x.IsActive);
+            var response = await _bonusesService.GetDiscountsAsync(x => x.IsActive);
 
-            if (aoResult.IsSuccess)
+            if (response.IsSuccess)
             {
-                result = aoResult.Result;
+                result = response.Result;
             }
 
             return result;
@@ -177,7 +177,7 @@ namespace Next2.ViewModels
 
                     foreach (var dish in dishes)
                     {
-                        if (coupon.Dishes.Select(x => x.Id).Contains(dish.Id))
+                        if (coupon.Dishes.Any(x => x.Id == dish.Id))
                         {
                             dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
                         }

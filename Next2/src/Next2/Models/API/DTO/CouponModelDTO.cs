@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Next2.Models.API.DTO
 {
-    public class CouponModelDTO : SimpleCouponModelDTO, IBaseApiModel
+    public class CouponModelDTO : SimpleCouponModelDTO
     {
         public int DiscountPercentage { get; set; }
 

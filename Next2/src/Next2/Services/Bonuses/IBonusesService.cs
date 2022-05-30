@@ -9,8 +9,9 @@ namespace Next2.Services.Bonuses
 {
     public interface IBonusesService
     {
-        Task<AOResult<IEnumerable<T>>> GetAllBonusesAsync<T>(Func<T, bool>? condition = null)
-            where T : IBaseApiModel, new();
+        Task<AOResult<IEnumerable<CouponModelDTO>>> GetCouponsAsync(Func<CouponModelDTO, bool>? condition = null);
+
+        Task<AOResult<IEnumerable<DiscountModelDTO>>> GetDiscountsAsync(Func<DiscountModelDTO, bool>? condition = null);
 
         Task<AOResult<CouponModelDTO>> GetCouponById(Guid id);
 

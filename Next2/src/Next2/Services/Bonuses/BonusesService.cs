@@ -50,39 +50,49 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<T>>> GetAllBonusesAsync<T>(Func<T, bool>? condition = null)
-            where T : IBaseApiModel, new()
+        public async Task<AOResult<IEnumerable<CouponModelDTO>>> GetCouponsAsync(Func<CouponModelDTO, bool>? condition = null)
         {
-            var result = new AOResult<IEnumerable<T>>();
-
-            GenericExecutionResult<GetDiscountsListQueryResult>? discountsResponse;
-            GenericExecutionResult<GetCouponsListQueryResult>? couponsResponse;
-            IEnumerable<T> bonuses = null;
+            var result = new AOResult<IEnumerable<CouponModelDTO>>();
 
             try
             {
-                if (typeof(T) == typeof(DiscountModelDTO))
-                {
-                    discountsResponse = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
-                    bonuses = discountsResponse.Value.Discounts as IEnumerable<T>;
-                }
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
+                var coupons = response?.Value?.Coupons;
 
-                if (typeof(T) == typeof(CouponModelDTO))
-                {
-                    couponsResponse = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
-                    bonuses = couponsResponse?.Value?.Coupons as IEnumerable<T>;
-                }
-
-                if (bonuses is not null)
+                if (response.Success && coupons is not null)
                 {
                     result.SetSuccess(condition == null
-                        ? bonuses
-                        : bonuses.Where(condition));
+                        ? coupons
+                        : coupons.Where(condition));
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAllBonusesAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetCouponsAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<DiscountModelDTO>>> GetDiscountsAsync(Func<DiscountModelDTO, bool>? condition = null)
+        {
+            var result = new AOResult<IEnumerable<DiscountModelDTO>>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
+                var discounts = response?.Value?.Discounts;
+
+                if (response.Success && discounts is not null)
+                {
+                    result.SetSuccess(condition == null
+                        ? discounts
+                        : discounts.Where(condition));
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetDiscountsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
