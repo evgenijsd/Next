@@ -82,7 +82,7 @@
                 Grid.Row="0"
                 CornerRadius="5"
                 Text="{Binding SearchQuery}"
-                Placeholder="{xct:Translate SearchName}"
+                Placeholder="{xct:Translate SearchTableNumber}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
                 BorderColor="{DynamicResource AppColor_i1}"
@@ -97,7 +97,7 @@
                     </DataTrigger>
 
                     <DataTrigger TargetType="controls:SearchButton" Binding="{Binding IsTabsSelected}" Value="True">
-                        <Setter Property="Placeholder" Value="{xct:Translate SearchTableNumber}" />
+                        <Setter Property="Placeholder" Value="{xct:Translate SearchName}" />
                     </DataTrigger>
 
                 </controls:SearchButton.Triggers>
