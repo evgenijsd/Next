@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Interfaces;
+using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -96,6 +98,54 @@ namespace Next2.Services.Bonuses
             }
 
             return result;
+        }
+
+        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder, BonusBindableModel bonus)
+        {
+            if (bonus.Type is EBonusType.Coupone)
+            {
+                var coupon = _mapper.Map<CouponModelDTO>(bonus);
+                coupon.SeatNumbers = currentOrder.Seats.Count;
+                currentOrder.Coupon = coupon;
+                currentOrder.Discount = null;
+
+                var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
+                foreach (var dish in dishes)
+                {
+                    if (coupon.Dishes.Any(x => x.Id == dish.Id))
+                    {
+                        dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
+                    }
+                    else
+                    {
+                        dish.DiscountPrice = dish.SelectedDishProportionPrice;
+                    }
+                }
+
+                currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+                currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+                currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
+            }
+
+            if (bonus.Type is EBonusType.Discount)
+            {
+                currentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
+                currentOrder.Coupon = null;
+
+                var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
+                foreach (var dish in dishes)
+                {
+                    dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
+                }
+
+                currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+                currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+                currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
+            }
+
+            return currentOrder;
         }
 
         //public async Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses)

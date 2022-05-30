@@ -166,48 +166,7 @@ namespace Next2.ViewModels
 
             if (SelectedBonus is not null)
             {
-                if (bonus.Type is EBonusType.Coupone)
-                {
-                    var coupon = _mapper.Map<CouponModelDTO>(bonus);
-                    coupon.SeatNumbers = CurrentOrder.Seats.Count;
-                    CurrentOrder.Coupon = coupon;
-                    CurrentOrder.Discount = null;
-
-                    var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
-
-                    foreach (var dish in dishes)
-                    {
-                        if (coupon.Dishes.Any(x => x.Id == dish.Id))
-                        {
-                            dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
-                        }
-                        else
-                        {
-                            dish.DiscountPrice = dish.SelectedDishProportionPrice;
-                        }
-                    }
-
-                    CurrentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.DiscountPrice * CurrentOrder.TaxCoefficient);
-                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.PriceTax + CurrentOrder.DiscountPrice);
-                }
-
-                if (bonus.Type is EBonusType.Discount)
-                {
-                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
-                    CurrentOrder.Coupon = null;
-
-                    var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
-
-                    foreach (var dish in dishes)
-                    {
-                        dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * bonus.DiscountPercentage / 100);
-                    }
-
-                    CurrentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.DiscountPrice * CurrentOrder.TaxCoefficient);
-                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.PriceTax + CurrentOrder.DiscountPrice);
-                }
+               await _bonusesService.СalculationBonusAsync(CurrentOrder, bonus);
             }
         }
 
