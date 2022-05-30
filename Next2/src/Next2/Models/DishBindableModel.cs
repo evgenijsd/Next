@@ -40,8 +40,6 @@ namespace Next2.Models
 
         public decimal SelectedDishProportionPrice { get; set; }
 
-        public decimal ProductsPrice { get; set; }
-
         public DishModelDTO Dish { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }

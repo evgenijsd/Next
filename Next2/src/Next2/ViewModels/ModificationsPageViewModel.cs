@@ -309,7 +309,18 @@ namespace Next2.ViewModels
             {
                 if (product.Product.Ingredients.Any(row => row.Id == ingridient.Id))
                 {
-                    product?.ExecutedIngredients?.Add(ingridient);
+                    product.ExecutedIngredients.Add(new SimpleIngredientModelDTO()
+                    {
+                        Id = ingridient.Id,
+                        ImageSource = ingridient.ImageSource,
+                        Name = ingridient.Name,
+                        IngredientsCategory = new SimpleIngredientsCategoryModelDTO()
+                        {
+                            Id = ingridient.IngredientsCategory.Id,
+                            Name = ingridient.IngredientsCategory.Name,
+                        },
+                        Price = toggleIngredient.Price,
+                    });
                 }
                 else
                 {
@@ -423,7 +434,7 @@ namespace Next2.ViewModels
                 {
                     Id = row.Id,
                     CategoryId = row.IngredientsCategoryId,
-                    IsToggled = product.AddedIngredients.Any(item => item.Id == row.Id),
+                    IsToggled = product is not null ? product.AddedIngredients.Any(item => item.Id == row.Id) : false,
                     Title = row.Name,
                     Price = row.Price,
                     ImagePath = row.ImageSource,

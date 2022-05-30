@@ -54,6 +54,6 @@ namespace Next2.Models
 
         public ObservableCollection<SimpleIngredientModelDTO>? AddedIngredients { get; set; }
 
-        public ObservableCollection<SimpleIngredientModelDTO>? ExecutedIngredients { get; set; }
+        public ObservableCollection<SimpleIngredientModelDTO>? ExecutedIngredients { get; set; } = new();
     }
 }
