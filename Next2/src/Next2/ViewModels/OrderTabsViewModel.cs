@@ -50,13 +50,13 @@ namespace Next2.ViewModels
 
         public string SearchQuery { get; set; } = string.Empty;
 
-        public bool IsNothingFound => IsSearchActive && !Orders.Any();
+        public bool IsNothingFound => IsSearchModeActive && !Orders.Any();
 
-        public bool IsSearchActive { get; set; }
+        public bool IsSearchModeActive { get; set; }
 
         public bool IsTabsModeSelected { get; set; }
 
-        public bool IsPreloadStateActive => !IsSearchActive && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
+        public bool IsPreloadStateActive => !IsSearchModeActive && (!IsInternetConnected || (IsOrdersRefreshing && !Orders.Any()));
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
@@ -102,7 +102,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
-                IsSearchActive = false;
+                IsSearchModeActive = false;
                 IsOrdersRefreshing = true;
             }
         }
@@ -113,7 +113,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
-                IsSearchActive = false;
+                IsSearchModeActive = false;
                 SearchQuery = string.Empty;
                 SelectedOrder = null;
                 _lastSavedOrderId = Guid.Empty;
@@ -179,7 +179,7 @@ namespace Next2.ViewModels
 
                     if (string.IsNullOrEmpty(SearchQuery))
                     {
-                        IsSearchActive = false;
+                        IsSearchModeActive = false;
                     }
                     else
                     {
@@ -289,7 +289,7 @@ namespace Next2.ViewModels
                     { Constants.Navigations.PLACEHOLDER, searchHint },
                 };
 
-                IsSearchActive = true;
+                IsSearchModeActive = true;
 
                 await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
@@ -300,7 +300,7 @@ namespace Next2.ViewModels
             if (SearchQuery != string.Empty)
             {
                 SearchQuery = string.Empty;
-                IsSearchActive = false;
+                IsSearchModeActive = false;
                 IsOrdersRefreshing = true;
             }
             else
@@ -315,7 +315,7 @@ namespace Next2.ViewModels
                 ? EOrdersSortingType.ByTableNumber
                 : OrderSortingType;
 
-            Func<SimpleOrderBindableModel, object> comparer = orderTabSorting switch
+            Func<SimpleOrderBindableModel, object> sortingSelector = orderTabSorting switch
             {
                 EOrdersSortingType.ByOrderNumber => x => x.Number,
                 EOrdersSortingType.ByTableNumber => x => x.TableNumber,
@@ -323,7 +323,7 @@ namespace Next2.ViewModels
                 _ => throw new NotImplementedException(),
             };
 
-            return orders.OrderBy(comparer);
+            return orders.OrderBy(sortingSelector);
         }
 
         private void OnChangeSortOrderCommand(EOrdersSortingType orderSortingType)
