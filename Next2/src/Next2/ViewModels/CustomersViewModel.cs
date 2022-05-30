@@ -119,7 +119,7 @@ namespace Next2.ViewModels
         {
             IsRefreshing = true;
 
-            var customersAoresult = await _customersService.GetAllCustomersAsync();
+            var customersAoresult = await _customersService.GetCustomersAsync();
 
             if (customersAoresult.IsSuccess)
             {

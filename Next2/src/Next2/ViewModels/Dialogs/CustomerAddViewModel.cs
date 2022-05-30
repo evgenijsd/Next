@@ -96,7 +96,7 @@ namespace Next2.ViewModels.Dialogs
                     Birthday = SelectedDate,
                 };
 
-                var result = await _customersService.AddNewCustomerAsync(newCustomer);
+                var result = await _customersService.CreateCustomerAsync(newCustomer);
 
                 if (result.IsSuccess)
                 {

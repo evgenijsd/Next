@@ -30,9 +30,7 @@ namespace Next2.Services.CustomersService
 
         #region -- ICustomersSerice implementation --
 
-        #region -- Customers Region --
-
-        public async Task<AOResult<Guid>> AddNewCustomerAsync(CustomerBindableModel customer)
+        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel customer)
         {
             var result = new AOResult<Guid>();
             var customerModelDTO = _mapper.Map<CustomerModelDTO>(customer);
@@ -48,7 +46,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(CreateCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -70,7 +68,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddNewCustomerAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(CreateCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -101,7 +99,7 @@ namespace Next2.Services.CustomersService
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<CustomerBindableModel>>> GetAllCustomersAsync(Func<CustomerBindableModel, bool>? condition = null)
+        public async Task<AOResult<IEnumerable<CustomerBindableModel>>> GetCustomersAsync(Func<CustomerBindableModel, bool>? condition = null)
         {
             var result = new AOResult<IEnumerable<CustomerBindableModel>>();
 
@@ -123,7 +121,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetAllCustomersAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetCustomersAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -147,6 +145,10 @@ namespace Next2.Services.CustomersService
                         {
                             giftCards.Add(res.Result);
                         }
+                        else
+                        {
+                            break;
+                        }
                     }
 
                     if (giftCards.Count == guids.Count())
@@ -162,10 +164,6 @@ namespace Next2.Services.CustomersService
 
             return result;
         }
-
-        #endregion
-
-        #region -- Gift Card Region --
 
         public async Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModelDTO giftCard)
         {
@@ -186,7 +184,7 @@ namespace Next2.Services.CustomersService
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddGiftCardToCustomerAsync)}: exception", "The giftcard in-use", ex);
+                result.SetError($"{nameof(AddGiftCardToCustomerAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -259,8 +257,6 @@ namespace Next2.Services.CustomersService
 
             return result;
         }
-
-        #endregion
 
         #endregion
 
