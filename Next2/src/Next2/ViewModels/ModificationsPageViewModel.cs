@@ -31,8 +31,8 @@ namespace Next2.ViewModels
         private bool _isOrderedByDescendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
 
-        private SetBindableModel _selectedSet;
-        private SetBindableModel _currentSet;
+        private DishBindableModel _selectedDish;
+        private DishBindableModel _currentDish;
 
         public ModificationsPageViewModel(
             INavigationService navigationService,
@@ -51,11 +51,11 @@ namespace Next2.ViewModels
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
-            //_indexOfSeat = CurrentOrder.Seats.IndexOf(seat);
-            //_selectedSet = CurrentOrder.Seats[_indexOfSeat].SelectedItem;
-            //_indexOfSelectedSet = seat.SelectedDishes.IndexOf(_selectedSet);
+            _indexOfSeat = CurrentOrder.Seats.IndexOf(seat);
+            _selectedDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            _indexOfSelectedSet = seat.SelectedDishes.IndexOf(_selectedDish);
 
-            //_currentSet = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedSet];
+            _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedSet];
             InitProductsSet();
             InitPortionsSet();
 
@@ -133,18 +133,18 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            //if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
-            //{
-            //    var products = _currentSet.Products;
-            //    var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-            //    var indexProduct = products.IndexOf(product);
+            if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
+            {
+                //var products = _currentSet.Products;
+                //var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                //var indexProduct = products.IndexOf(product);
 
-            //    ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+                //ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
-            //    _currentSet.Products[indexProduct].Comment = text;
+                //_currentSet.Products[indexProduct].Comment = text;
 
-            //    ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
-            //}
+                //ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -423,15 +423,15 @@ namespace Next2.ViewModels
 
         private void InitPortionsSet()
         {
-            var portions = _currentSet.Portions;
+            //var portions = _currentDish..Portions;
 
-            if (portions is not null)
-            {
-                PortionsSet = new(portions);
+            //if (portions is not null)
+            //{
+            //    PortionsSet = new(portions);
 
-                SelectedPortion = PortionsSet.FirstOrDefault(row => row.Id == _selectedSet.Portion.Id);
-                _currentSet.Portion = SelectedPortion;
-            }
+            //    SelectedPortion = PortionsSet.FirstOrDefault(row => row.Id == _selectedDish.Portion.Id);
+            //    _currentSet.Portion = SelectedPortion;
+            //}
         }
 
         private void LoadOptionsProduct()
@@ -507,19 +507,19 @@ namespace Next2.ViewModels
 
         private async Task OnTapOpenProportionsCommandAsync()
         {
-            SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
+            //SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
 
-            for (int i = 0; i < ProductsSet.Count; i++)
-            {
-                ProductsSet[i].SelectedItem = null;
-            }
+            //for (int i = 0; i < ProductsSet.Count; i++)
+            //{
+            //    ProductsSet[i].SelectedItem = null;
+            //}
 
-            SelectedPortion = _currentSet.Portion;
+            //SelectedPortion = _currentSet.Portion;
 
-            if (!App.IsTablet)
-            {
-                await OnCloseMenuCommandAsync();
-            }
+            //if (!App.IsTablet)
+            //{
+            //    await OnCloseMenuCommandAsync();
+            //}
         }
 
         private Task OnOpenMenuCommandAsync()
