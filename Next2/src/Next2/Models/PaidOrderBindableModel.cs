@@ -29,7 +29,7 @@ namespace Next2.Models
 
         public decimal PriceTax { get; set; }
 
-        public TaxModel Tax { get; set; } = new();
+        public decimal TaxCoefficient { get; set; }
 
         public decimal Tip { get; set; }
 
