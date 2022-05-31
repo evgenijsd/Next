@@ -504,19 +504,19 @@ namespace Next2.ViewModels
                 {
                     if (seat.SelectedDishes.Any())
                     {
-                        //var sets = new List<SetModel>(seat.Dishes.Select(x => new SetModel
-                        //{
-                        //    ImagePath = x.ImagePath,
-                        //    Title = x.Title,
-                        //    Price = x.Portion.Price,
-                        //}));
-                        //var newSeat = new SeatModel
-                        //{
-                        //    SeatNumber = seat.SeatNumber,
-                        //    Sets = sets,
-                        //};
+                        var sets = new List<SetModel>(seat.SelectedDishes.Select(x => new SetModel
+                        {
+                            ImagePath = x.Dish.ImageSource,
+                            Title = x.Dish.Name,
+                            Price = x.SelectedDishProportionPrice,
+                        }));
+                        var newSeat = new SeatModel
+                        {
+                            SeatNumber = seat.SeatNumber,
+                            Sets = sets,
+                        };
 
-                        //seats.Add(newSeat);
+                        seats.Add(newSeat);
                     }
                 }
 
