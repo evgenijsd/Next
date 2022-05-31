@@ -29,12 +29,26 @@
                     <StackLayout IsVisible="{Binding AddedIngredients, Converter={xct:ListIsNotNullOrEmptyConverter}}">
                         
                         <BoxView Style="{DynamicResource SeparatorThinnyStyle}"/>
-                        
-                        <Label
-                            Text="{Binding Product.Name, StringFormat='{0}:'}"
-                            TextColor="{DynamicResource AppColor_i1}"
-                            FontSize="{DynamicResource TSize_i5}"
-                            Margin="0, 10, 0, 0"/>
+
+                        <StackLayout Orientation="Horizontal">
+
+                            <Label
+                                Text="{Binding Product.Name}"
+                                TextColor="{DynamicResource AppColor_i1}"
+                                FontSize="{DynamicResource TSize_i5}"
+                                Margin="0, 10, 0, 0"/>
+
+                            <Label 
+                                Text="{Binding Product.DefaultPrice, StringFormat='$ {0:F2}'}"
+                                Margin="0, 10, 0, 0"
+                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizePrice}" 
+                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyPrice}" 
+                                TextColor="{DynamicResource IndicationColor_i1}"
+                                HorizontalOptions="EndAndExpand">
+
+                            </Label>
+
+                        </StackLayout>
 
                         <Label 
                             Margin="0, 10, 0, 0"
@@ -96,8 +110,8 @@
                             </BindableLayout.ItemTemplate>
 
                         </StackLayout>
-                        
-                        <StackLayout BindableLayout.ItemsSource="{Binding ExecutedIngredients}">
+
+                        <StackLayout BindableLayout.ItemsSource="{Binding ExcludedIngredients}">
 
                             <BindableLayout.ItemTemplate>
                                 

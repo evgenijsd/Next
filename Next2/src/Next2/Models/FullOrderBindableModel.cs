@@ -52,10 +52,10 @@ namespace Next2.Models
                 {
                     foreach (var product in dish.SelectedProducts)
                     {
-                        product.IngredientsPrice = product.AddedIngredients is not null ? product.AddedIngredients.Sum(row => row.Price) : 0;
-                        product.IngredientsPrice += product.ExecutedIngredients is not null ? product.ExecutedIngredients.Sum(row => row.Price) : 0;
-                        product.ProductPrice = product.Product.DefaultPrice;
-                        dish.TotalPrice = dish.SelectedDishProportion.PriceRatio == 1 ? product.IngredientsPrice + product.ProductPrice : (product.IngredientsPrice + product.ProductPrice) * (1 + dish.SelectedDishProportion.PriceRatio);
+                        var ingredientsPrice = product.AddedIngredients is not null ? product.AddedIngredients.Sum(row => row.Price) : 0;
+                        ingredientsPrice += product.ExcludedIngredients is not null ? product.ExcludedIngredients.Sum(row => row.Price) : 0;
+                        var productPrice = product.Product.DefaultPrice;
+                        dish.TotalPrice = dish.SelectedDishProportion.PriceRatio == 1 ? ingredientsPrice + productPrice : (ingredientsPrice + productPrice) * (1 + dish.SelectedDishProportion.PriceRatio);
                     }
 
                     SubTotalPrice += dish.TotalPrice;

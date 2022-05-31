@@ -284,7 +284,7 @@ namespace Next2.ViewModels
 
             var ingridient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
-            var isIngridientIsDefaultAndExcluded = product?.ExecutedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
+            var isIngridientIsDefaultAndExcluded = product?.ExcludedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
             if (product is not null)
             {
@@ -305,24 +305,14 @@ namespace Next2.ViewModels
 
                     if (product.Product.Ingredients.Any(row => row.Id == toggleIngredient.Id))
                     {
-                        product.ExecutedIngredients?.Remove(product.ExecutedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id));
-                    }
-                    else
-                    {
-                        product.IngredientsPrice += toggleIngredient.Price;
-                        product.ProductPrice += toggleIngredient.Price;
+                        product.ExcludedIngredients?.Remove(product.ExcludedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id));
                     }
                 }
                 else
                 {
                     if (product.Product.Ingredients.Any(row => row.Id == ingridient.Id))
                     {
-                        product.ExecutedIngredients?.Add(ingridient);
-                    }
-                    else
-                    {
-                        product.IngredientsPrice -= toggleIngredient.Price;
-                        product.ProductPrice -= toggleIngredient.Price;
+                        product.ExcludedIngredients?.Add(ingridient);
                     }
 
                     product?.AddedIngredients?.Remove(ingridient);

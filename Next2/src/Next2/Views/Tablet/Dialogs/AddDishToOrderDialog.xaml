@@ -10,35 +10,19 @@
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    x:Class="Next2.Views.Mobile.Dialogs.AddSetToOrderDialog"
-    x:DataType="viewmodels:AddSetToOrderDialogViewModel">
+    x:Class="Next2.Views.Tablet.Dialogs.AddDishToOrderDialog"
+    x:DataType="viewmodels:AddDishToOrderDialogViewModel">
 
     <Frame
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         CornerRadius="10"
-        Margin="24"
-        HorizontalOptions="FillAndExpand"
-        VerticalOptions="FillAndExpand">
+        HeightRequest="474"
+        WidthRequest="484"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
 
         <StackLayout>
-
-            <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                <Label
-                    Text="{xct:Translate AddItem}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    FontSize="{DynamicResource TSize_i4}"
-                    FontFamily="Barlow-Bold"
-                    Padding="24"
-                    VerticalTextAlignment="Center"/>
-
-                <BoxView
-                    VerticalOptions="Start"
-                    HeightRequest="1"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
-
-            </StackLayout>
 
             <StackLayout
                 VerticalOptions="Start"
@@ -48,12 +32,11 @@
                 <StackLayout>
 
                     <pkView:PancakeView
-                        HeightRequest="56"
+                        HeightRequest="56" 
                         MinimumWidthRequest="56"
                         WidthRequest="56"
                         CornerRadius="8"
-                        HorizontalOptions="StartAndExpand"
-                        VerticalOptions="StartAndExpand">
+                        HorizontalOptions="Start">
 
                         <ffimageloading:CachedImage
                             Aspect="AspectFill"
@@ -71,13 +54,13 @@
                         Text="{Binding Dish.Dish.Name}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i5}"
-                        FontFamily="Barlow-Medium"/>
+                        FontFamily="Barlow-SemiBold"/>
 
                     <Label
                         Text="{Binding Dish.Dish.OriginalPrice, StringFormat='$ {0:F2}'}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i5}"
-                        FontFamily="Barlow-Medium"/>
+                        FontFamily="Barlow-SemiBold"/>
 
                 </StackLayout>
 
@@ -85,6 +68,7 @@
 
             <BoxView
                 VerticalOptions="Start"
+                Margin="24, 0"
                 HeightRequest="1"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
@@ -100,9 +84,9 @@
                         <templates:ToggleItemTemplate
                             State="{Binding .}"
                             IsVisibleSubtitle="True"
-                            Title="{Binding Title }"
+                            Title="{Binding Title}"
                             Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                            BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:AddSetToOrderDialogViewModel}}}"/>
+                            BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:AddDishToOrderDialogViewModel}}}"/>
 
                     </DataTemplate>
 
@@ -116,10 +100,9 @@
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
             <Grid
-                Padding="24"
+                Margin="24"
                 HeightRequest="50"
-                ColumnSpacing="10"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                ColumnSpacing="10">
 
                 <buttons:BorderButton
                     Grid.Column="0"

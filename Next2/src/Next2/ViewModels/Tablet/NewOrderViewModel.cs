@@ -142,7 +142,7 @@ namespace Next2.ViewModels.Tablet
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)

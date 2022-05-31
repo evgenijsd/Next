@@ -258,8 +258,6 @@ namespace Next2.ViewModels
             _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
             AddSeatsCommands();
-
-            SelectedTable = Tables.FirstOrDefault();
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
 
@@ -281,6 +279,8 @@ namespace Next2.ViewModels
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
 
                     Tables = new(tableBindableModels);
+
+                    SelectedTable = SelectedTable.IsAvailable == false ? Tables.FirstOrDefault() : SelectedTable;
                 }
             }
         }

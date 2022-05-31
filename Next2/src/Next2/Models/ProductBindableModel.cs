@@ -35,18 +35,16 @@ namespace Next2.Models
 
             AddedIngredients = product.AddedIngredients;
 
-            ExecutedIngredients = product.ExecutedIngredients;
+            ExcludedIngredients = product.ExcludedIngredients;
         }
 
         public Guid Id { get; set; }
 
         public string? Comment { get; set; }
 
-        public decimal IngredientsPrice { get; set; }
-
-        public decimal ProductPrice { get; set; }
-
         public SimpleProductModelDTO Product { get; set; } = new();
+
+        public decimal ProductPriceBaseOnProportion { get; set; }
 
         public OptionModelDTO? SelectedOptions { get; set; }
 
@@ -54,6 +52,6 @@ namespace Next2.Models
 
         public ObservableCollection<SimpleIngredientModelDTO>? AddedIngredients { get; set; }
 
-        public ObservableCollection<SimpleIngredientModelDTO>? ExecutedIngredients { get; set; } = new();
+        public ObservableCollection<SimpleIngredientModelDTO>? ExcludedIngredients { get; set; } = new();
     }
 }

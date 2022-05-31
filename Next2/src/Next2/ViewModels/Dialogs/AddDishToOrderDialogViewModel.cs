@@ -15,11 +15,11 @@ using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
-    public class AddSetToOrderDialogViewModel : BindableBase
+    public class AddDishToOrderDialogViewModel : BindableBase
     {
         private bool _canExecute = true;
 
-        public AddSetToOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
+        public AddDishToOrderDialogViewModel(DialogParameters param, Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
             CloseCommand = new Command(() => RequestClose(null));
@@ -38,6 +38,10 @@ namespace Next2.ViewModels
                             Name = selectedDishProportionModelDTO.ProportionName,
                         },
                     };
+                    foreach (var selectedProduct in Dish.SelectedProducts)
+                    {
+                        selectedProduct.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1 ? selectedProduct.Product.DefaultPrice : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
+                    }
 
                     Dish.SelectedDishProportionPrice = SelectedProportion.Price;
 
