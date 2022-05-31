@@ -52,7 +52,7 @@ namespace Next2.ViewModels
             _bonusService = bonusService;
             _mapper = mapper;
 
-            CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder); //new(_orderService.CurrentOrder);
+            CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
@@ -284,51 +284,49 @@ namespace Next2.ViewModels
 
             var ingridient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
-            if (ingridient is null)
-            {
-                product?.AddedIngredients?.Add(new SimpleIngredientModelDTO()
-                {
-                    Id = toggleIngredient.Id,
-                    ImageSource = toggleIngredient.ImagePath,
-                    Name = toggleIngredient.Title,
-                    IngredientsCategory = new SimpleIngredientsCategoryModelDTO()
-                    {
-                        Id = SelectedIngredientCategory.id,
-                        Name = SelectedIngredientCategory.Name,
-                    },
-                    Price = toggleIngredient.Price,
-                });
+            var isIngridientIsDefaultAndExcluded = product?.ExecutedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
-                if (!product.Product.Ingredients.Any(row => row.Id == toggleIngredient.Id))
-                {
-                    product.IngredientsPrice += toggleIngredient.Price;
-                    product.ProductPrice += toggleIngredient.Price;
-                }
-            }
-            else
+            if (product is not null)
             {
-                if (product.Product.Ingredients.Any(row => row.Id == ingridient.Id))
+                if (ingridient is null)
                 {
-                    product.ExecutedIngredients.Add(new SimpleIngredientModelDTO()
+                    product?.AddedIngredients?.Add(new SimpleIngredientModelDTO()
                     {
-                        Id = ingridient.Id,
-                        ImageSource = ingridient.ImageSource,
-                        Name = ingridient.Name,
+                        Id = toggleIngredient.Id,
+                        ImageSource = toggleIngredient.ImagePath,
+                        Name = toggleIngredient.Title,
                         IngredientsCategory = new SimpleIngredientsCategoryModelDTO()
                         {
-                            Id = ingridient.IngredientsCategory.Id,
-                            Name = ingridient.IngredientsCategory.Name,
+                            Id = SelectedIngredientCategory.id,
+                            Name = SelectedIngredientCategory.Name,
                         },
                         Price = toggleIngredient.Price,
                     });
+
+                    if (product.Product.Ingredients.Any(row => row.Id == toggleIngredient.Id))
+                    {
+                        product.ExecutedIngredients?.Remove(product.ExecutedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id));
+                    }
+                    else
+                    {
+                        product.IngredientsPrice += toggleIngredient.Price;
+                        product.ProductPrice += toggleIngredient.Price;
+                    }
                 }
                 else
                 {
-                    product.IngredientsPrice -= toggleIngredient.Price;
-                    product.ProductPrice -= toggleIngredient.Price;
-                }
+                    if (product.Product.Ingredients.Any(row => row.Id == ingridient.Id))
+                    {
+                        product.ExecutedIngredients?.Add(ingridient);
+                    }
+                    else
+                    {
+                        product.IngredientsPrice -= toggleIngredient.Price;
+                        product.ProductPrice -= toggleIngredient.Price;
+                    }
 
-                product?.AddedIngredients?.Remove(ingridient);
+                    product?.AddedIngredients?.Remove(ingridient);
+                }
             }
 
             return Task.CompletedTask;
@@ -576,7 +574,7 @@ namespace Next2.ViewModels
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
+            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
 
             if (App.IsTablet)
             {

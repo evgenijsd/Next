@@ -157,12 +157,12 @@ namespace Next2.ViewModels
         {
             if (!App.IsTablet)
             {
-                CurrentOrder = _orderService.CurrentOrder;
-
-                foreach (var seat in CurrentOrder.Seats)
+                foreach (var seat in _orderService.CurrentOrder.Seats)
                 {
                     seat.SelectedItem = null;
                 }
+
+                CurrentOrder = _orderService.CurrentOrder;
             }
 
             if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
@@ -252,10 +252,7 @@ namespace Next2.ViewModels
             _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
             SelectedDish = _seatWithSelectedDish?.SelectedItem;
-            //if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
-            //{
-            //    await InitEditSetDetailsAsync(SelectedSet);
-            //}
+
             _isAnySetChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
             _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
@@ -914,70 +911,6 @@ namespace Next2.ViewModels
             RefreshCurrentOrderAsync();
         }
 
-        //private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
-        //{
-        //    if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
-        //    {
-        //        var result = await _menuService.GetIngredientsAsync();
-
-        //        if (result.IsSuccess)
-        //        {
-        //            List<IngredientModel> allIngredientModels = new(result.Result);
-
-        //            if (allIngredientModels is not null && SelectedSet is not null)
-        //            {
-        //                foreach (var product in SelectedSet.Products)
-        //                {
-        //                    ObservableCollection<IngredientBindableModel> tempListIngredients = new();
-        //                    List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
-        //                    {
-        //                        Id = row.Id,
-        //                        Title = row.Title,
-        //                        Price = row.Price,
-        //                        IsToggled = true,
-        //                        ImagePath = row.ImagePath,
-        //                    }));
-
-        //                    foreach (var ingredient in setOfIngredients)
-        //                    {
-        //                        tempListIngredients.Add(ingredient);
-        //                    }
-
-        //                    if (product.DefaultSelectedIngredients.Count > 0)
-        //                    {
-        //                        foreach (var defaultIngredient in product.DefaultSelectedIngredients)
-        //                        {
-        //                            var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
-
-        //                            var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
-
-        //                            if (!isDefaultIngredientExist)
-        //                            {
-        //                                tempListIngredients.Add(new IngredientBindableModel()
-        //                                {
-        //                                    Title = defaultIngredientModel.Title,
-        //                                    Price = 0,
-        //                                    IsToggled = false,
-        //                                    IsDefault = true,
-        //                                });
-        //                            }
-        //                        }
-        //                    }
-
-        //                    product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
-        //                }
-
-        //                _isAnyUpDateForCurrentSet = false;
-
-        //                SelectedSet = new(SelectedSet);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        SelectedSet = new(SelectedSet);
-        //    }
-        //}
         #endregion
     }
 }

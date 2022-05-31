@@ -65,7 +65,7 @@ namespace Next2.ViewModels.Mobile
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
 
-            SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem; // EXCEPTION out of range!!!!!!!!!!!!!
 
             if (SelectedDish is not null)
             {
