@@ -193,8 +193,9 @@ namespace Next2
             cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
             cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
             cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
-                .ForMember(x => x.OrderStatus, x => x.MapFrom(s => (EOrderStatus)Enum.Parse(typeof(EOrderStatus), s.OrderStatus)))
-                .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
+                    .ForMember(x => x.OrderStatus, x => x.MapFrom(s => (EOrderStatus)Enum.Parse(typeof(EOrderStatus), s.OrderStatus)))
+                    .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)))
+                    .ForMember(x => x.Customer, opt => opt.MapFrom(s => (CustomerModelDTO)s.Customer));
             cfg.CreateMap<FullOrderBindableModel, OrderModel>();
             cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
             cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
