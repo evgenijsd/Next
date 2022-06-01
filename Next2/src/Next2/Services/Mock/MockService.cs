@@ -4,7 +4,6 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +20,7 @@ namespace Next2.Services.Mock
         private IList<BonusSetModel> _bonusSets;
         private IList<RewardModel> _rewards;
         private IList<WorkLogRecordModel> _workLogBook;
-        private IList<GiftCardModel> _giftCards;
+        private IList<GiftCardModelDTO> _giftCards;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -157,8 +156,7 @@ namespace Next2.Services.Mock
                 InitBonusSetAsync(),
                 InitBonusConditionAsync(),
                 IniRewardsAsync(),
-                InitWorkLogBookAsync(),
-                InitGiftCardsAsync());
+                InitWorkLogBookAsync());
 
             _base = new Dictionary<Type, object>
             {
@@ -169,7 +167,7 @@ namespace Next2.Services.Mock
                 { typeof(RewardModel), _rewards },
                 { typeof(UserModel), _users },
                 { typeof(WorkLogRecordModel), _workLogBook },
-                { typeof(GiftCardModel), _giftCards },
+                { typeof(GiftCardModelDTO), _giftCards },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
@@ -177,7 +175,6 @@ namespace Next2.Services.Mock
                 { typeof(RewardModel), GetMaxId(_rewards) },
                 { typeof(UserModel), GetMaxId(_users) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
-                { typeof(GiftCardModel), GetMaxId(_giftCards) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -332,63 +329,63 @@ namespace Next2.Services.Mock
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 2,
                     SetTitle = "B Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                    CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                    CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                    CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c8"),
+                    CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c8"),
+                    CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
                     SetId = 4,
                     SetTitle = "D Pulled Pork Sammy Meal",
                 },
@@ -434,155 +431,6 @@ namespace Next2.Services.Mock
                     UserName = "Waiter",
                     UserType = EUserType.User,
                 },
-            };
-        });
-        private Task InitGiftCardsAsync() => Task.Run(() =>
-        {
-            int id = 7;
-            int giftCardNumber = 107;
-
-            _giftCards = new List<GiftCardModel>
-            {
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 55.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 85.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 5.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 7.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 95.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 85m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 615.50m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 225m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 80m,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
             };
         });
 

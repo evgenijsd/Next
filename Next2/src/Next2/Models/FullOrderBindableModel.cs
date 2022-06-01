@@ -18,7 +18,7 @@ namespace Next2.Models
 
         public SimpleTableModelDTO Table { get; set; } = new();
 
-        public SimpleCustomerModelDTO Customer { get; set; } = new();
+        public CustomerBindableModel Customer { get; set; } = new();
 
         public EOrderStatus? OrderStatus { get; set; }
 

@@ -219,11 +219,11 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid newCustomerId))
             {
-                var customerResult = await _customersService.GetAllCustomersAsync(x => x.Id == newCustomerId);
+                var customerResult = await _customersService.GetCustomersAsync(x => x.Id == newCustomerId);
 
                 if (customerResult.IsSuccess)
                 {
-                    _orderService.CurrentOrder.Customer = new(); // customerResult.Result.FirstOrDefault();
+                    _orderService.CurrentOrder.Customer = customerResult.Result.FirstOrDefault();
 
                     await RefreshPageDataAsync();
                 }
