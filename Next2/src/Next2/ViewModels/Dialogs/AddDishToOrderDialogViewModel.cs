@@ -43,7 +43,7 @@ namespace Next2.ViewModels
                         selectedProduct.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1 ? selectedProduct.Product.DefaultPrice : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
                     }
 
-                    Dish.SelectedDishProportionPrice = SelectedProportion.Price;
+                    Dish.DishPriceBaseOnSelectedProportion = SelectedProportion.Price;
 
                     Dish.TotalPrice = SelectedProportion.Price;
 

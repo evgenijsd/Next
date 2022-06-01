@@ -15,21 +15,6 @@ namespace Next2.Models
         {
         }
 
-        public DishBindableModel(DishBindableModel dish)
-        {
-            Id = dish.Id;
-            TotalPrice = dish.TotalPrice;
-            DiscountPrice = dish.DiscountPrice;
-            SelectedDishProportion = dish.SelectedDishProportion;
-            Dish = dish.Dish;
-            SelectedProducts = new();
-
-            foreach (var selectedProduct in dish?.SelectedProducts)
-            {
-                SelectedProducts.Add(new ProductBindableModel(selectedProduct));
-            }
-        }
-
         public Guid Id { get; set; }
 
         public decimal TotalPrice { get; set; }
@@ -38,7 +23,7 @@ namespace Next2.Models
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
-        public decimal SelectedDishProportionPrice { get; set; }
+        public decimal DishPriceBaseOnSelectedProportion { get; set; }
 
         public DishModelDTO Dish { get; set; } = new();
 

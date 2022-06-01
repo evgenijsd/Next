@@ -155,31 +155,6 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientOfProductModel>>> GetIngredientsOfProductAsync(int productId)
-        {
-            var result = new AOResult<IEnumerable<IngredientOfProductModel>>();
-
-            try
-            {
-                var resultData = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == productId);
-
-                if (resultData is not null)
-                {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetIngredientsOfProductAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public async Task<AOResult<IEnumerable<OptionModel>>> GetOptionsOfProductAsync(int productId)
         {
             var result = new AOResult<IEnumerable<OptionModel>>();
@@ -205,30 +180,6 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        //public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync()
-        //{
-        //    var result = new AOResult<IEnumerable<IngredientModel>>();
-
-        //    try
-        //    {
-        //        var resultData = await _mockService.GetAllAsync<IngredientModel>();
-
-        //        if (resultData is not null)
-        //        {
-        //            result.SetSuccess(resultData);
-        //        }
-        //        else
-        //        {
-        //            result.SetFailure();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
-        //    }
-
-        //    return result;
-        //}
         #endregion
     }
 }

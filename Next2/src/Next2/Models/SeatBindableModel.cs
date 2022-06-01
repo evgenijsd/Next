@@ -9,36 +9,6 @@ namespace Next2.Models
 {
     public class SeatBindableModel : BindableBase, IBaseApiModel
     {
-        public SeatBindableModel()
-        {
-        }
-
-        public SeatBindableModel(SeatBindableModel seat)
-        {
-            Id = seat.Id;
-            SeatNumber = seat.SeatNumber;
-            Checked = seat.Checked;
-            SelectedItem = seat.SelectedItem;
-            IsFirstSeat = seat.IsFirstSeat;
-            SetSelectionCommand = seat.SetSelectionCommand;
-            SeatSelectionCommand = seat.SeatSelectionCommand;
-            SeatDeleteCommand = seat.SeatDeleteCommand;
-            RemoveOrderCommand = seat.RemoveOrderCommand;
-            SelectedDishes = new();
-
-            if (seat.SelectedItem is not null)
-            {
-                foreach (var dish in seat.SelectedDishes)
-                {
-                    if (dish.Id == seat.SelectedItem.Id && dish.SelectedDishProportion == seat.SelectedItem.SelectedDishProportion && dish.TotalPrice == seat.SelectedItem.TotalPrice)
-                    {
-                        var tmpDish = seat.SelectedDishes.IndexOf(dish);
-                        SelectedItem = SelectedDishes[tmpDish];
-                    }
-                }
-            }
-        }
-
         public Guid Id { get; set; }
 
         public int SeatNumber { get; set; }
