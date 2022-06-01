@@ -54,10 +54,8 @@ namespace Next2.Models
                     {
                         var ingredientsPrice = product.AddedIngredients is not null ? product.AddedIngredients.Sum(row => row.Price) : 0;
                         ingredientsPrice += product.ExcludedIngredients is not null ? product.ExcludedIngredients.Sum(row => row.Price) : 0;
-                        var productPrice = product.Product.DefaultPrice;
-                        dish.TotalPrice = dish.SelectedDishProportion.PriceRatio == 1
-                            ? ingredientsPrice + productPrice
-                            : (ingredientsPrice + productPrice) * (1 + dish.SelectedDishProportion.PriceRatio);
+                        var productPrice = product.ProductPriceBaseOnProportion;
+                        dish.TotalPrice = ingredientsPrice + productPrice;
                     }
 
                     SubTotalPrice += dish.TotalPrice;
