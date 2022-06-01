@@ -48,6 +48,18 @@ namespace Next2.Controls.Templates
             set => SetValue(FontFamilyProperty, value);
         }
 
+        public static readonly BindableProperty TextMarginProperty = BindableProperty.Create(
+            propertyName: nameof(TextMargin),
+            returnType: typeof(Thickness),
+            defaultValue: new Thickness(0),
+            declaringType: typeof(SubCategoryItemTemplate));
+
+        public Thickness TextMargin
+        {
+            get => (Thickness)GetValue(TextMarginProperty);
+            set => SetValue(TextMarginProperty, value);
+        }
+
         #endregion
     }
 }
