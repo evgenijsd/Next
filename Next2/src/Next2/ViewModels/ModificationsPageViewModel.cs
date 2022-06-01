@@ -369,7 +369,6 @@ namespace Next2.ViewModels
 
         private void InitReplacementProductsDish()
         {
-            //ReplacementProducts = new ObservableCollection<SimpleProductModelDTO>(_currentDish.Dish.Products);
             var product = _currentDish.Dish;
 
             if (product.Products is var replacementProducts)
