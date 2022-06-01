@@ -485,9 +485,9 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+            bool isAnySetsInOrder = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
-            if (isAnySetsInOrder)
+            if (!isAnySetsInOrder)
             {
                 await RemoveOrderAsync();
 
