@@ -93,7 +93,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatModel">
+                    <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <StackLayout 
                             Padding="20, 18, 20, 0"
@@ -115,15 +115,15 @@
                             </Label>
 
                             <CollectionView
-                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
-                                ItemsSource="{Binding Sets}">
+                                HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
+                                ItemsSource="{Binding SelectedDishes}">
 
                                 <CollectionView.Effects>
                                     <effects:NoOverScrollEffect/>
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:SetModel">
+                                    <DataTemplate x:DataType="models:DishBindableModel">
 
                                         <StackLayout>
                                             <pcView:PancakeView
@@ -143,7 +143,7 @@
 
                                                         <ffimageloading:CachedImage
                                                             Aspect="AspectFill"
-                                                            Source="{Binding ImagePath}"/>
+                                                            Source="{Binding Dish.ImageSource}"/>
 
                                                     </Frame>
 
@@ -157,9 +157,9 @@
                                                             LineBreakMode="TailTruncation"
                                                             FontFamily="Barlow-Medium"
                                                             FontSize="{DynamicResource TSize_i9}"
-                                                            Text="{Binding Title}" />
+                                                            Text="{Binding Dish.Name}" />
 
-                                                        <Label Text="{Binding Price, StringFormat='$ {0:F2}'}" />
+                                                        <Label Text="{Binding  TotalPrice, StringFormat='$ {0:F2}'}" />
 
                                                     </StackLayout>
 

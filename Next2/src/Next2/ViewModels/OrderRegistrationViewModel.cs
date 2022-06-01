@@ -498,27 +498,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                List<SeatModel> seats = new();
-
-                foreach (var seat in CurrentOrder.Seats)
-                {
-                    if (seat.SelectedDishes.Any())
-                    {
-                        var sets = new List<SetModel>(seat.SelectedDishes.Select(x => new SetModel
-                        {
-                            ImagePath = x.Dish.ImageSource,
-                            Title = x.Dish.Name,
-                            Price = x.SelectedDishProportionPrice,
-                        }));
-                        var newSeat = new SeatModel
-                        {
-                            SeatNumber = seat.SeatNumber,
-                            Sets = sets,
-                        };
-
-                        seats.Add(newSeat);
-                    }
-                }
+                List<SeatBindableModel> seats = CurrentOrder.Seats.ToList();
 
                 var param = new DialogParameters
                 {
@@ -842,7 +822,7 @@ namespace Next2.ViewModels
                     {
                         RefreshCurrentOrderAsync();
 
-                        //CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
