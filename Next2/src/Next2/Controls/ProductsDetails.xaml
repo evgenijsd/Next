@@ -3,11 +3,11 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:models="clr-namespace:Next2.Models"
-    xmlns:modelssApi="clr-namespace:Next2.Models.API.DTO"
+    xmlns:modelsApi="clr-namespace:Next2.Models.API.DTO"
     RowDefinitions="auto, auto"
-    x:Class="Next2.Controls.Templates.ProductItemTemplate">
+    x:Class="Next2.Controls.ProductsDetails">
 
     <Grid.Resources>
         <Style x:Key="SeparatorThinnyStyle" TargetType="BoxView" BasedOn="{StaticResource SeparatorStyle_i1}">
@@ -18,7 +18,7 @@
 
     <StackLayout
         Grid.Row="1" 
-        BindableLayout.ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=ItemsSource}">
+        BindableLayout.ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=ItemsSource}">
 
         <BindableLayout.ItemTemplate>
 
@@ -41,8 +41,8 @@
                             <Label 
                                 Text="{Binding Product.DefaultPrice, StringFormat='$ {0:F2}'}"
                                 Margin="0, 10, 0, 0"
-                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizePrice}" 
-                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyPrice}" 
+                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizePrice}" 
+                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyPrice}" 
                                 TextColor="{DynamicResource IndicationColor_i1}"
                                 HorizontalOptions="EndAndExpand">
 
@@ -55,16 +55,16 @@
                             VerticalOptions="Start"
                             Text="{xct:Translate Inventory}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i9}"
-                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeTitle}" 
-                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}"/>
+                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeTitle}" 
+                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyTitle}"/>
 
                         <StackLayout
                             BindableLayout.ItemsSource="{Binding AddedIngredients}"
                             Margin="0, 0, 0, 0">
 
                             <BindableLayout.ItemTemplate>
-                                
-                                <DataTemplate x:DataType="modelssApi:SimpleIngredientModelDTO">
+
+                                <DataTemplate x:DataType="modelsApi:SimpleIngredientModelDTO">
                                     
                                     <Grid 
                                         Grid.Row="1"
@@ -80,8 +80,8 @@
                                             <Label 
                                                 Text="{Binding Name}"
                                                 Margin="0, 5, 0, 0"
-                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeProduct}" 
-                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyProduct}" 
+                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeProduct}" 
+                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyProduct}" 
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                         </StackLayout>
@@ -95,8 +95,8 @@
                                             <Label 
                                                 Text="{Binding Price, StringFormat='$ {0:F2}'}"
                                                 Margin="0, 5, 0, 0"
-                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizePrice}" 
-                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyPrice}" 
+                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizePrice}" 
+                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyPrice}" 
                                                 TextColor="{DynamicResource IndicationColor_i1}">
 
                                             </Label>
@@ -114,8 +114,8 @@
                         <StackLayout BindableLayout.ItemsSource="{Binding ExcludedIngredients}">
 
                             <BindableLayout.ItemTemplate>
-                                
-                                <DataTemplate x:DataType="modelssApi:SimpleIngredientModelDTO">
+
+                                <DataTemplate x:DataType="modelsApi:SimpleIngredientModelDTO">
                                     
                                     <Grid 
                                         Grid.Row="1"
@@ -131,8 +131,8 @@
                                             <Label 
                                                 Text="{Binding Name}"
                                                 Margin="0, 5, 0, 0"
-                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeProduct}" 
-                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyProduct}" 
+                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeProduct}" 
+                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyProduct}" 
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                         </StackLayout>
@@ -146,8 +146,8 @@
                                             <Label 
                                                 Text="{Binding Price, StringFormat='$ {0:F2}'}"
                                                 Margin="0, 5, 0, 0"
-                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizePrice}" 
-                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyPrice}" 
+                                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizePrice}" 
+                                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyPrice}" 
                                                 TextColor="{DynamicResource IndicationColor_i3}">
 
                                             </Label>
@@ -181,8 +181,8 @@
                             Margin="0, 10, 0, 0"
                             VerticalOptions="Start"
                             Text="{xct:Translate Replace}"
-                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeTitle}" 
-                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}" 
+                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeTitle}" 
+                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyTitle}" 
                             TextColor="{DynamicResource TextAndBackgroundColor_i9}"/>
 
                         <StackLayout
@@ -194,8 +194,8 @@
                             <Label
                                 Margin="0, 5, 0, 0"
                                 Text="{Binding Product.Name}"
-                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeProduct}" 
-                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyProduct}" 
+                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeProduct}" 
+                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyProduct}" 
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         </StackLayout>
@@ -209,8 +209,8 @@
                             <Label
                                 Margin="0, 5, 0, 0"
                                 Text="{Binding Product.DefaultPrice, StringFormat='$ {0:F2}'}"
-                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizePrice}" 
-                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyPrice}" 
+                                FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizePrice}" 
+                                FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyPrice}" 
                                 TextColor="{DynamicResource IndicationColor_i1}"/>
 
                         </StackLayout>
@@ -225,8 +225,8 @@
                             Margin="0, 10, 0, 0"
                             VerticalOptions="Start"
                             Text="{xct:Translate Option}"
-                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeTitle}" 
-                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyTitle}" 
+                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeTitle}" 
+                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyTitle}" 
                             TextColor="{DynamicResource TextAndBackgroundColor_i9}">
                             
                             <Label.Triggers>
@@ -242,8 +242,8 @@
                         <Label
                             Margin="0, 5, 0, 10"
                             Text="{Binding SelectedOptions.Name}"
-                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontSizeProduct}" 
-                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:ProductItemTemplate}}, Path=FontFamilyProduct}" 
+                            FontSize="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontSizeProduct}" 
+                            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}, Path=FontFamilyProduct}" 
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                     </StackLayout>

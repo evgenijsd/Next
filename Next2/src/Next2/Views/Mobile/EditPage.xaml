@@ -145,7 +145,7 @@
 
                 <!-- Row 3 Inventory & Replacement & Option -->
 
-                <templates:ProductItemTemplate 
+                <controls:ProductsDetails 
                     Grid.Row="2"
                     FontFamilyProduct="Barlow-Medium"
                     FontSizeProduct="{DynamicResource TSize_i5}"

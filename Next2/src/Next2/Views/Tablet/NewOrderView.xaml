@@ -863,8 +863,8 @@
                                     </Grid>
 
                                     <!-- Row 3 Inventory & Replacement & Option -->
-                                        
-                                    <templates:ProductItemTemplate
+
+                                    <controls:ProductsDetails
                                         Grid.Row="2"
                                         ItemsSource="{Binding OrderRegistrationViewModel.SelectedDish.SelectedProducts}"/>
 
