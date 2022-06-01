@@ -25,7 +25,7 @@ namespace Next2.Models
             Points = customerModel.Points;
             Rewards = customerModel.Rewards;
             GiftCards = customerModel.GiftCards;
-            IsNotRegistratedCustomer = customerModel.IsNotRegistratedCustomer;
+            IsCustomerRegistrated = customerModel.IsCustomerRegistrated;
             IsUpdatedCustomer = customerModel.IsUpdatedCustomer;
         }
 
@@ -51,7 +51,7 @@ namespace Next2.Models
 
         public List<GiftCardModelDTO> GiftCards { get; set; } = new();
 
-        public bool IsNotRegistratedCustomer { get; set; }
+        public bool IsCustomerRegistrated { get; set; }
 
         public bool IsUpdatedCustomer { get; set; }
 

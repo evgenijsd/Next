@@ -86,7 +86,7 @@ namespace Next2.ViewModels.Dialogs
                     var tempCustomerModel = new CustomerBindableModel()
                     {
                         IsUpdatedCustomer = true,
-                        IsNotRegistratedCustomer = true,
+                        IsCustomerRegistrated = false,
                     };
 
                     tempCustomerModel.GiftCards.Add(giftCard);

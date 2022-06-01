@@ -549,7 +549,7 @@ namespace Next2.ViewModels
             {
                 RecalculateCustomerGiftCardFounds(Order.Customer);
 
-                if (!Order.Customer.IsNotRegistratedCustomer)
+                if (Order.Customer.IsCustomerRegistrated)
                 {
                     await _customersService.UpdateCustomerAsync(Order.Customer);
                 }
