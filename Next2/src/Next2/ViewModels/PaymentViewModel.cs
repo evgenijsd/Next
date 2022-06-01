@@ -124,7 +124,7 @@ namespace Next2.ViewModels
                 if (parameters.ContainsKey(Constants.Navigations.GIFT_CARD_ADDED)
                     && _orderService.CurrentOrder.Customer is not null)
                 {
-                    //_orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
+                    _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
                     //Order.BonusType = _orderService.CurrentOrder.BonusType;
                     //Order.Customer = _orderService.CurrentOrder.Customer;
                     //Order.Bonus = _orderService.CurrentOrder.Bonus;

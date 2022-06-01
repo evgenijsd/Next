@@ -36,6 +36,7 @@ using Next2.Services.Rest;
 using Next2.Models.API.DTO;
 using System;
 using Next2.Enums;
+using Next2.Models.API.Commands;
 
 namespace Next2
 {
@@ -201,6 +202,7 @@ namespace Next2
             cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
             cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
             cfg.CreateMap<DishModelDTO, DishBindableModel>();
+            cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
             }).CreateMapper();
         }
 
