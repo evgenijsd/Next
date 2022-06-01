@@ -102,40 +102,31 @@ namespace Next2.Services.Bonuses
 
         public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
+            var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
             if (currentOrder.Coupon is not null)
             {
-                var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
-
                 foreach (var dish in dishes)
                 {
-                    if (currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
-                    {
-                        dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Coupon.DiscountPercentage / 100);
-                    }
-                    else
-                    {
-                        dish.DiscountPrice = dish.SelectedDishProportionPrice;
-                    }
+                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
+                        ? dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Coupon.DiscountPercentage / 100)
+                        : dish.SelectedDishProportionPrice;
+
+                    dish.TotalPrice = (dish.DiscountPrice * currentOrder.TaxCoefficient) + dish.DiscountPrice;
                 }
-
-                currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-                currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
-                currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
             }
-
-            if (currentOrder.Discount is not null)
+            else if (currentOrder.Discount is not null)
             {
-                var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
-
                 foreach (var dish in dishes)
                 {
                     dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Discount.DiscountPercentage / 100);
+                    dish.TotalPrice = (dish.DiscountPrice * currentOrder.TaxCoefficient) + dish.DiscountPrice;
                 }
-
-                currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-                currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
-                currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
             }
+
+            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
 
             return currentOrder;
         }
