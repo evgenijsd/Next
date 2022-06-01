@@ -86,7 +86,7 @@ namespace Next2.ViewModels
                             },
                         })),
                     };
-                    Proportions = dish.DishProportions.Select(row => new Models.API.ProportionModel()
+                    Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.Id,
                         Price = row.PriceRatio == 1 ? dish.OriginalPrice : dish.OriginalPrice * (1 + row.PriceRatio),
@@ -102,9 +102,9 @@ namespace Next2.ViewModels
 
         public DishBindableModel Dish { get; }
 
-        public IEnumerable<Models.API.ProportionModel> Proportions { get; }
+        public IEnumerable<ProportionModel> Proportions { get; }
 
-        public Models.API.ProportionModel SelectedProportion { get; set; }
+        public ProportionModel SelectedProportion { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
