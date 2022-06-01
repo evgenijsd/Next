@@ -28,19 +28,38 @@ namespace Next2.ViewModels
                 {
                     var selectedDishProportionModelDTO = Dish?.Dish.DishProportions.FirstOrDefault(row => row.Id == SelectedProportion?.Id);
 
-                    Dish.SelectedDishProportion = new()
+                    if (selectedDishProportionModelDTO is not null)
                     {
-                        Id = selectedDishProportionModelDTO.ProportionId,
-                        PriceRatio = selectedDishProportionModelDTO.PriceRatio,
-                        Proportion = new ProportionModelDTO()
+                        Dish.SelectedDishProportion = new()
                         {
                             Id = selectedDishProportionModelDTO.ProportionId,
-                            Name = selectedDishProportionModelDTO.ProportionName,
-                        },
-                    };
-                    foreach (var selectedProduct in Dish.SelectedProducts)
+                            PriceRatio = selectedDishProportionModelDTO.PriceRatio,
+                            Proportion = new ProportionModelDTO()
+                            {
+                                Id = selectedDishProportionModelDTO.ProportionId,
+                                Name = selectedDishProportionModelDTO.ProportionName,
+                            },
+                        };
+                    }
+
+                    if (Dish.SelectedProducts is not null)
                     {
-                        selectedProduct.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1 ? selectedProduct.Product.DefaultPrice : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
+                        foreach (var selectedProduct in Dish.SelectedProducts)
+                        {
+                            selectedProduct.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1
+                            ? selectedProduct.Product.DefaultPrice
+                            : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
+
+                            if (selectedProduct.AddedIngredients is not null)
+                            {
+                                foreach (var adedIngredient in selectedProduct.AddedIngredients)
+                                {
+                                    adedIngredient.Price = Dish.SelectedDishProportion.PriceRatio == 1
+                                    ? adedIngredient.Price
+                                    : adedIngredient.Price * (1 + Dish.SelectedDishProportion.PriceRatio);
+                                }
+                            }
+                        }
                     }
 
                     Dish.TotalPrice = SelectedProportion.Price;
@@ -74,7 +93,14 @@ namespace Next2.ViewModels
                         {
                             Id = row.Id,
                             SelectedOptions = row.Options.FirstOrDefault(),
-                            AddedIngredients = new(row.Ingredients),
+                            AddedIngredients = new(row.Ingredients.Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                ImageSource = row.ImageSource,
+                                IngredientsCategory = row.IngredientsCategory,
+                                Name = row.Name,
+                                Price = row.Price,
+                            })),
                             Product = new()
                             {
                                 Id = row.Id,

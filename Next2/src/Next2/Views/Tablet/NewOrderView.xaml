@@ -854,7 +854,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.DishPriceBaseOnSelectedProportion, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
                                                 FontFamily="Barlow-SemiBold"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 TextColor="{DynamicResource IndicationColor_i1}"/>
