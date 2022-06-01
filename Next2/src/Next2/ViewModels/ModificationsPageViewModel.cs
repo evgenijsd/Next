@@ -69,6 +69,8 @@ namespace Next2.ViewModels
 
         public SpoilerBindableModel SelectedProduct { get; set; }
 
+        public SpoilerBindableModel SelectedProductDish { get; set; }
+
         public ObservableCollection<SpoilerBindableModel> ProductsDish { get; set; }
 
         public PortionModel? SelectedPortion { get; set; }
@@ -168,14 +170,14 @@ namespace Next2.ViewModels
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
                         //product.SelectedProduct = SelectedReplacementProduct;
-                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name;
+                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
 
                         _currentDish.TotalPrice = 0;
 
-                        foreach (var item in _currentDish.SelectedProducts)
-                        {
-                            //_currentDish.ToString += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
-                        }
+                        //foreach (var item in _currentDish.SelectedProducts)
+                        //{
+                        //    _currentDish.TotalPrice += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
+                        //}
 
                         //ResetSelectedIngredientsAsync(product);
 
@@ -381,7 +383,7 @@ namespace Next2.ViewModels
                     ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Name));
                 }
 
-                _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == _currentDish?.SelectedProducts?[0].Id);
+                _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == SelectedProduct.Id);
             }
         }
 
