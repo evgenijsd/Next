@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Models.Api.Results
+namespace Next2.Models.API.Results
 {
     public class GetGiftCardsListQueryResult
     {
