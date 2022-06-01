@@ -46,7 +46,7 @@ namespace Next2.ViewModels
                         : EBonusType.Coupone;
             Order.Bonus = _orderService.CurrentOrder.Coupon is null
                         ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
-                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount);
+                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
             Order.SubtotalWithBonus = (decimal)orderService.CurrentOrder.DiscountPrice;
             Order.Subtotal = (decimal)orderService.CurrentOrder.SubTotalPrice;
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
@@ -141,8 +141,7 @@ namespace Next2.ViewModels
 
                     Order.Bonus = _orderService.CurrentOrder.Coupon is null
                         ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
-                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount);
-
+                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
                     Order.Subtotal = (decimal)_orderService.CurrentOrder.SubTotalPrice;
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.TotalPrice;
