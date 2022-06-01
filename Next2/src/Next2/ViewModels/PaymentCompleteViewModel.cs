@@ -404,8 +404,6 @@ namespace Next2.ViewModels
 
         private async Task OnFinishPaymentCommandAsync()
         {
-            await GiftCardFinishPaymentAsync();
-
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
@@ -457,6 +455,7 @@ namespace Next2.ViewModels
 
         private async Task MakePaymentAsync()
         {
+            await GiftCardFinishPaymentAsync();
         }
 
         private async Task OnAddGiftCardCommandAsync()
@@ -478,12 +477,11 @@ namespace Next2.ViewModels
 
                 if (updatedCustomer is not null)
                 {
-                    Order.Customer = new(); // CustomerModel(updatedCustomer);
-                    //Order.Customer = new CustomerModelDTO(updatedCustomer);
+                    Order.Customer = new CustomerBindableModel(updatedCustomer);
+
                     if (Order.Customer.GiftCards.Any())
                     {
-                        Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
-                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                        Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
 
                         if (decimal.TryParse(InputGiftCardFounds, out decimal sum))
                         {
@@ -514,28 +512,28 @@ namespace Next2.ViewModels
             }
         }
 
-        private void RecalculateCustomerGiftCardFounds(CustomerModelDTO customer)
+        private void RecalculateCustomerGiftCardFounds(CustomerBindableModel customer)
         {
-            decimal totalPrice = Order.GiftCard;
+            var giftCardAmount = Order.GiftCard;
 
             foreach (var giftCard in customer.GiftCards)
             {
-                if (totalPrice != 0)
+                if (giftCardAmount != 0)
                 {
-                    if (giftCard.GiftCardFunds > totalPrice)
+                    if (giftCard.TotalBalance > giftCardAmount)
                     {
-                        giftCard.GiftCardFunds -= totalPrice;
-                        totalPrice = 0;
+                        giftCard.TotalBalance -= giftCardAmount;
+                        giftCardAmount = 0;
                     }
-                    else if (giftCard.GiftCardFunds < totalPrice)
+                    else if (giftCard.TotalBalance < giftCardAmount)
                     {
-                        totalPrice -= giftCard.GiftCardFunds;
-                        giftCard.GiftCardFunds = 0;
+                        giftCardAmount -= giftCard.TotalBalance;
+                        giftCard.TotalBalance = 0;
                     }
-                    else if (giftCard.GiftCardFunds == totalPrice)
+                    else if (giftCard.TotalBalance == giftCardAmount)
                     {
-                        giftCard.GiftCardFunds = 0;
-                        totalPrice = 0;
+                        giftCard.TotalBalance = 0;
+                        giftCardAmount = 0;
                     }
                 }
                 else
@@ -551,7 +549,7 @@ namespace Next2.ViewModels
             {
                 RecalculateCustomerGiftCardFounds(Order.Customer);
 
-                if (!Order.Customer.IsNotRegistratedCustomer)
+                if (Order.Customer.IsCustomerRegistrated)
                 {
                     await _customersService.UpdateCustomerAsync(Order.Customer);
                 }
@@ -559,25 +557,16 @@ namespace Next2.ViewModels
                 {
                     foreach (var giftCardModel in Order.Customer.GiftCards)
                     {
-                        if (giftCardModel.GiftCardFunds > 0)
+                        if (giftCardModel.TotalBalance > 0)
                         {
                             await UpdateGiftCardAsync(giftCardModel);
-                        }
-                        else
-                        {
-                            await ActivateGiftCardAsync(giftCardModel);
                         }
                     }
                 }
             }
         }
 
-        private Task ActivateGiftCardAsync(GiftCardModel giftCardModel)
-        {
-            return _customersService.ActivateGiftCardAsync(giftCardModel);
-        }
-
-        private Task UpdateGiftCardAsync(GiftCardModel giftCardModel)
+        private Task UpdateGiftCardAsync(GiftCardModelDTO giftCardModel)
         {
             return _customersService.UpdateGiftCardAsync(giftCardModel);
         }
