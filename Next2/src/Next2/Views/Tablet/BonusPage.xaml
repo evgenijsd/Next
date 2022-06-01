@@ -185,15 +185,23 @@
                                                                                 MinimumWidthRequest="100">
                                                                                 
                                                                                 <Label
-                                                                                    Text="{Binding DiscountPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}"
                                                                                     HorizontalOptions="End"
                                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
                                                                                     LineBreakMode="TailTruncation"
-                                                                                    FontFamily="Barlow-SemiBold" />
+                                                                                    FontFamily="Barlow-SemiBold">
+                                                                                    
+                                                                                    <Label.FormattedText>
+                                                                                        <FormattedString>
+                                                                                            <Span Text="{xct:Translate CurrencySign}" />
+                                                                                            <Span Text=" " />
+                                                                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                                        </FormattedString>
+                                                                                    </Label.FormattedText>
+                                                                                    
+                                                                                </Label>
 
                                                                                 <Label
-                                                                                    Text="{Binding SelectedDishProportionPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}"
                                                                                     Margin="0, 5, 0, 0"
                                                                                     Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                                                     HorizontalOptions="End"
@@ -202,7 +210,15 @@
                                                                                     FontSize="{DynamicResource TSize_i8}"
                                                                                     LineBreakMode="TailTruncation"
                                                                                     FontFamily="Barlow-SemiBold">
-                                                                                    
+
+                                                                                    <Label.FormattedText>
+                                                                                        <FormattedString>
+                                                                                            <Span Text="{xct:Translate CurrencySign}" />
+                                                                                            <Span Text=" " />
+                                                                                            <Span Text="{Binding SelectedDishProportionPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                                        </FormattedString>
+                                                                                    </Label.FormattedText>
+
                                                                                     <Label.Triggers>
                                                                                         
                                                                                         <DataTrigger TargetType="Label" Value="0">
