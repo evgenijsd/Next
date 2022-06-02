@@ -280,9 +280,9 @@ namespace Next2.ViewModels
 
                     Tables = new(tableBindableModels);
 
-                    SelectedTable = !SelectedTable.IsAvailable ?
-                        Tables.FirstOrDefault()
-                        : SelectedTable;
+                    SelectedTable = SelectedTable.IsAvailable
+                        ? SelectedTable
+                        : Tables.FirstOrDefault();
                 }
             }
         }
@@ -484,9 +484,9 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            bool isAnySetsInOrder = !CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+            bool isAnySetsInOrder = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
-            if (isAnySetsInOrder)
+            if (!isAnySetsInOrder)
             {
                 await RemoveOrderAsync();
 
@@ -497,27 +497,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                List<SeatModel> seats = new();
-
-                foreach (var seat in CurrentOrder.Seats)
-                {
-                    if (seat.SelectedDishes.Any())
-                    {
-                        //var sets = new List<SetModel>(seat.Dishes.Select(x => new SetModel
-                        //{
-                        //    ImagePath = x.ImagePath,
-                        //    Title = x.Title,
-                        //    Price = x.Portion.Price,
-                        //}));
-                        //var newSeat = new SeatModel
-                        //{
-                        //    SeatNumber = seat.SeatNumber,
-                        //    Sets = sets,
-                        //};
-
-                        //seats.Add(newSeat);
-                    }
-                }
+                List<SeatBindableModel> seats = CurrentOrder.Seats.ToList();
 
                 var param = new DialogParameters
                 {
@@ -841,7 +821,7 @@ namespace Next2.ViewModels
                     {
                         RefreshCurrentOrderAsync();
 
-                        //CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())

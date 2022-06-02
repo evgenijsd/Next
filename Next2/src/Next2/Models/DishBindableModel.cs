@@ -2,10 +2,7 @@
 using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Next2.Models
 {
@@ -20,6 +17,8 @@ namespace Next2.Models
         public decimal TotalPrice { get; set; }
 
         public decimal DiscountPrice { get; set; }
+
+        public decimal SelectedDishProportionPrice { get; set; }
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 

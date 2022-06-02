@@ -73,7 +73,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatModel">
+                    <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <StackLayout 
                             Padding="15, 6, 15, 0"
@@ -106,15 +106,15 @@
                             </Label>
 
                             <CollectionView
-                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=81}"
-                                ItemsSource="{Binding Sets}">
+                                HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=81}"
+                                ItemsSource="{Binding SelectedDishes}">
 
                                 <CollectionView.Effects>
                                     <effects:NoOverScrollEffect />
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:SetModel">
+                                    <DataTemplate x:DataType="models:DishBindableModel">
 
                                         <StackLayout>
                                             <Frame
@@ -133,7 +133,7 @@
 
                                                         <ffimageloading:CachedImage
                                                             Aspect="AspectFill"
-                                                            Source="{Binding ImagePath}"/>
+                                                            Source="{Binding Dish.ImageSource}"/>
 
                                                     </Frame>
 
@@ -146,9 +146,17 @@
                                                             LineBreakMode="TailTruncation"
                                                             MaxLines="1"
                                                             FontFamily="Barlow-Medium"
-                                                            Text="{Binding Title}" />
+                                                            Text="{Binding Dish.Name}" />
 
-                                                        <Label Text="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}" />
+                                                        <Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{xct:Translate CurrencySign}" />
+                                                                    <Span Text=" " />
+                                                                    <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
 
                                                     </StackLayout>
 

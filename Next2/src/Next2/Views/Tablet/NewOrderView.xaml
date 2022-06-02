@@ -1721,8 +1721,8 @@
 
                             <MultiTrigger TargetType="StackLayout">
                                 <MultiTrigger.Conditions>
-                                    <BindingCondition Binding="{Binding CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
-                                    <BindingCondition Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
                                 </MultiTrigger.Conditions>
 
                                 <Setter Property="IsVisible" Value="False" />
@@ -1775,7 +1775,20 @@
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
                             HorizontalOptions="EndAndExpand"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" >
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon.Name}">
+
+                            <Label.Triggers>
+
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Value="True">
+
+                                    <Setter Property="Text" Value="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" />
+
+                                </DataTrigger>
+                                
+                            </Label.Triggers>
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
