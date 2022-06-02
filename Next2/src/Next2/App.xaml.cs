@@ -95,7 +95,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
-                containerRegistry.RegisterForNavigation<SplitOrderPage, SplitOrderViewModel>();
+                containerRegistry.RegisterForNavigation<TabletViews.SplitOrderPage, SplitOrderViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
@@ -137,6 +137,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSwipeCardPage, WaitingSwipeCardPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.WaitingSignaturePage, WaitingSignaturePageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
+                containerRegistry.RegisterForNavigation<MobileViews.SplitOrderPage, SplitOrderViewModel>();
 
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();

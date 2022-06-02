@@ -19,7 +19,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -372,6 +372,15 @@ namespace Next2.Resources.Strings {
         internal static string Discounts {
             get {
                 return ResourceManager.GetString("Discounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dollar.
+        /// </summary>
+        internal static string Dollar {
+            get {
+                return ResourceManager.GetString("Dollar", resourceCulture);
             }
         }
         
@@ -953,6 +962,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Percentage.
+        /// </summary>
+        internal static string Percentage {
+            get {
+                return ResourceManager.GetString("Percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         internal static string Phone {
@@ -1193,6 +1211,15 @@ namespace Next2.Resources.Strings {
         internal static string Split {
             get {
                 return ResourceManager.GetString("Split", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split Order.
+        /// </summary>
+        internal static string SplitOrder {
+            get {
+                return ResourceManager.GetString("SplitOrder", resourceCulture);
             }
         }
         

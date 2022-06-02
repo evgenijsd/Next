@@ -667,22 +667,23 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
         {
-            var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
+            _navigationService.NavigateAsync(nameof(SplitOrderPage));
+            //var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
 
-            if (user.IsSuccess)
-            {
-                if (user.Result.UserType != EUserType.Admin)
-                {
-                    _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+            //if (user.IsSuccess)
+            //{
+            //    if (user.Result.UserType != EUserType.Admin)
+            //    {
+            //        _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-                    await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
-                }
-                else if (user.Result.UserType == EUserType.Admin)
-                {
-                    IsOrderWithTax = false;
-                    CurrentOrder.TaxCoefficient = 0;
-                }
-            }
+            //        await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
+            //    }
+            //    else if (user.Result.UserType == EUserType.Admin)
+            //    {
+            //        IsOrderWithTax = false;
+            //        CurrentOrder.TaxCoefficient = 0;
+            //    }
+            //}
         }
 
         private void OnTaxEvent(bool isOrderWithTax)

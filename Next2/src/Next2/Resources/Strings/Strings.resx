@@ -604,4 +604,13 @@ A receipt has been printed for you.</value>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
+  <data name="SplitOrder" xml:space="preserve">
+    <value>Split Order</value>
+  </data>
+  <data name="Dollar" xml:space="preserve">
+    <value>Dollar</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
 </root>
