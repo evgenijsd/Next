@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Next2.Models.API.DTO
 {
-    public class CustomerModelDTO : IBaseApiModel
+    public class CustomerModelDTO : SimpleCustomerModelDTO
     {
         public Guid Id { get; set; }
 
