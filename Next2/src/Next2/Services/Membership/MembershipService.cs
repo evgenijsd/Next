@@ -1,4 +1,4 @@
-﻿using Next2.Helpers.API.Results;
+﻿using Next2.Models.API.Results;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API;
 using Next2.Models.API.Commands;
