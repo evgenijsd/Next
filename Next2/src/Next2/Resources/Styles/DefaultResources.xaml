@@ -62,7 +62,12 @@
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
         <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
     </Style>
-    
+
+    <Style x:Key="SeparatorStyle_i4" TargetType="BoxView">
+        <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=4, iOS=4}"/>
+    </Style>
+
     <!-- OTHER -->
     <Style x:Key="TableCellStyle_i1" TargetType="Label">
         <Setter Property="FontFamily" Value="Barlow-Medium" />

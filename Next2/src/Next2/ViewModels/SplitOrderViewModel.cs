@@ -42,6 +42,7 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
             Order = _orderService.CurrentOrder;
+            SelectedDish = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
         }
 
         #endregion

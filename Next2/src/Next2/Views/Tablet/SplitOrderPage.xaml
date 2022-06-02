@@ -120,15 +120,15 @@
 
         <!--Navbar-->
         <StackLayout
-            Grid.Row="0"
+            Grid.Row="0" 
             Grid.ColumnSpan="2">
 
             <controls:CustomNavigationbar 
-            HeightRequest="50" 
-            HeightImage="20" 
-            Padding="15, 0, 0, 0"
-            Title="{xct:Translate Cancel}" 
-            LeftButtonCommand="{Binding GoBackCommand}">
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                HeightRequest="50" 
+                HeightImage="20" 
+                Title="{xct:Translate Cancel}" 
+                LeftButtonCommand="{Binding GoBackCommand}">
 
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
@@ -155,16 +155,15 @@
             </controls:CustomNavigationbar>
 
             <BoxView 
-                Style="{DynamicResource SeparatorStyle_i2}"/>
+                Style="{DynamicResource SeparatorStyle_i4}" />
             
         </StackLayout>
-        
 
         <!--Meal details-->
         <StackLayout
             Grid.Row="1"
             Grid.Column="0"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
                     <Grid RowDefinitions="*, auto">
 
@@ -174,7 +173,7 @@
 
                             <StackLayout Grid.Row="0">
                                 
-                                <!--Edit Order Label-->
+                                <!--Order Label-->
                                 <Label
                                     Margin="30, 10"
                                     HorizontalOptions="Start"
@@ -488,7 +487,7 @@
         <Grid
             Grid.Row="1"
             Grid.Column="1"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
             <Grid.Resources>
                 <Style TargetType="Label">
@@ -570,7 +569,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
-                        <templates:SeatItemTemplate
+                        <controls:SeatItemForSplitOrder
                             ItemsSource="{Binding SelectedDishes}"
                             Padding="18, 9, 18, 0"/>
 
