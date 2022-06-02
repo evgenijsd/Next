@@ -7,6 +7,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:local="clr-namespace:Next2"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:pcView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -93,7 +94,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatModel">
+                    <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <StackLayout 
                             Padding="20, 18, 20, 0"
@@ -115,15 +116,15 @@
                             </Label>
 
                             <CollectionView
-                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
-                                ItemsSource="{Binding Sets}">
+                                HeightRequest="{Binding SelectedDishes, Converter={StaticResource listHeightConverter}, ConverterParameter=70}"
+                                ItemsSource="{Binding SelectedDishes}">
 
                                 <CollectionView.Effects>
                                     <effects:NoOverScrollEffect/>
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:SetModel">
+                                    <DataTemplate x:DataType="models:DishBindableModel">
 
                                         <StackLayout>
                                             <pcView:PancakeView
@@ -143,7 +144,7 @@
 
                                                         <ffimageloading:CachedImage
                                                             Aspect="AspectFill"
-                                                            Source="{Binding ImagePath}"/>
+                                                            Source="{Binding Dish.ImageSource}"/>
 
                                                     </Frame>
 
@@ -157,9 +158,17 @@
                                                             LineBreakMode="TailTruncation"
                                                             FontFamily="Barlow-Medium"
                                                             FontSize="{DynamicResource TSize_i9}"
-                                                            Text="{Binding Title}" />
+                                                            Text="{Binding Dish.Name}" />
 
-                                                        <Label Text="{Binding Price, StringFormat='$ {0:F2}'}" />
+                                                        <Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{xct:Translate CurrencySign}" />
+                                                                    <Span Text=" " />
+                                                                    <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
 
                                                     </StackLayout>
 

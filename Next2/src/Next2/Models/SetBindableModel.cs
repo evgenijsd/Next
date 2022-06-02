@@ -1,5 +1,7 @@
 ﻿using Next2.Interfaces;
+using Next2.Models.API.DTO;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms.Internals;
@@ -61,6 +63,8 @@ namespace Next2.Models
         public string ImagePath { get; set; }
 
         public PortionModel Portion { get; set; }
+
+        public IEnumerable<SimpleCouponModelDTO> Coupons { get; set; }
 
         public ObservableCollection<PortionModel> Portions { get; set; }
 

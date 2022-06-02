@@ -417,8 +417,8 @@
 
                             <DataTrigger
                                 TargetType="Label"
-                                Binding="{Binding CurrentOrder.Discount}"
-                                Value="{x:Static enum:EBonusType.Discount}">
+                                Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Value="True">
 
                                 <Setter Property="Text" Value="{xct:Translate Discount}" />
 
@@ -437,13 +437,13 @@
 
                             <DataTrigger
                                 TargetType="Label"
-                                Binding="{Binding CurrentOrder.Discount}"
-                                Value="{x:Static enum:EBonusType.Discount}">
+                                Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                Value="True">
 
                                 <Setter Property="Text" Value="{Binding CurrentOrder.Discount.Name}" />
 
                             </DataTrigger>
-
+                            
                         </Label.Triggers>
 
                     </Label>
