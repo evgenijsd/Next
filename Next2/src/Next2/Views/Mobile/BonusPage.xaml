@@ -12,6 +12,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:local="clr-namespace:Next2"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.Mobile.BonusPage"
     x:DataType="viewModels:BonusPageViewModel">
@@ -294,7 +295,7 @@
                                                                 MinimumWidthRequest="80">
 
                                                                 <Label
-                                                                    Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
+                                                                    Text="{Binding PriceBonus, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                                                     HorizontalOptions="End"
                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                     FontSize="{DynamicResource TSize_i7}"
@@ -302,7 +303,7 @@
                                                                     FontFamily="Barlow-Medium" />
 
                                                                 <Label
-                                                                    Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
+                                                                    Text="{Binding Portion.Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                                                     Margin="0, 5, 0, 0"
                                                                     Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                                     HorizontalOptions="End"

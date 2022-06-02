@@ -13,6 +13,7 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
+    xmlns:local="clr-namespace:Next2"
     xmlns:views="clr-namespace:Next2.Views" 
     xmlns:modelsApi="clr-namespace:Next2.Models.API.DTO"
     x:Class="Next2.Views.Mobile.ModificationsPage"
@@ -101,7 +102,7 @@
                                         State="{Binding .}"
                                         Title="{Binding Title}"
                                         IsVisibleSubtitle="True"
-                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                        Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                         BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
                                 </controls:CustomFrame>
@@ -191,7 +192,7 @@
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
                                         Title="{Binding Title}"
-                                        Subtitle="{Binding ProductPrice, StringFormat='$ {0:F2}'}"
+                                        Subtitle="{Binding ProductPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                         ImagePath="{Binding ImagePath}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"
@@ -330,7 +331,7 @@
                                         <templates:ToggleItemTemplate
                                             IsToggle="{Binding IsToggled}"
                                             Title="{Binding Title}"
-                                            Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                            Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                             ImagePath="{Binding ImagePath}"
                                             IsVisibleSubtitle="True"
                                             IsVisibleImage="True"

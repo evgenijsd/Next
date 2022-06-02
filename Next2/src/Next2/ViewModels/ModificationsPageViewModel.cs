@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -127,7 +128,7 @@ namespace Next2.ViewModels
         public ICommand ExpandIngredientCategoriesCommand => _expandIngredientCategoriesCommand ??= new AsyncCommand(OnExpandIngredientCategoriesCommandAsync);
 
         private ICommand _changingToggleCommand;
-        public ICommand ChangingToggleCommand => _changingToggleCommand ??= new AsyncCommand<IngredientBindableModel>(OnChangingToggleCommandAsync);
+        public ICommand ChangingToggleCommand => _changingToggleCommand ??= new Command<IngredientBindableModel>(OnChangingToggleCommand);
 
         #endregion
 
@@ -199,7 +200,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedIngredientCategory):
                     if (SelectedIngredientCategory is not null)
                     {
-                        InitIngredientsByCategoryAsync(SelectedIngredientCategory.id).Await();
+                        InitIngredientsByCategoryAsync(SelectedIngredientCategory.Id).Await();
                     }
 
                     break;
@@ -276,28 +277,26 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnChangingToggleCommandAsync(IngredientBindableModel toggleIngredient)
+        private void OnChangingToggleCommand(IngredientBindableModel toggleIngredient)
         {
             toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
 
             var product = _currentDish?.SelectedProducts?[ProductsSet.IndexOf(SelectedProduct)];
 
-            var ingridient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
-
-            var isIngridientIsDefaultAndExcluded = product?.ExcludedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
+            var ingredient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
             if (product is not null)
             {
-                if (ingridient is null)
+                if (ingredient is null)
                 {
-                    product?.AddedIngredients?.Add(new SimpleIngredientModelDTO()
+                    product.AddedIngredients?.Add(new SimpleIngredientModelDTO()
                     {
                         Id = toggleIngredient.Id,
                         ImageSource = toggleIngredient.ImagePath,
                         Name = toggleIngredient.Title,
                         IngredientsCategory = new SimpleIngredientsCategoryModelDTO()
                         {
-                            Id = SelectedIngredientCategory.id,
+                            Id = SelectedIngredientCategory.Id,
                             Name = SelectedIngredientCategory.Name,
                         },
                         Price = toggleIngredient.Price,
@@ -310,16 +309,14 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    if (product.Product.Ingredients.Any(row => row.Id == ingridient.Id))
+                    if (product.Product.Ingredients.Any(row => row.Id == ingredient.Id))
                     {
-                        product.ExcludedIngredients?.Add(ingridient);
+                        product.ExcludedIngredients?.Add(ingredient);
                     }
 
-                    product?.AddedIngredients?.Remove(ingridient);
+                    product?.AddedIngredients?.Remove(ingredient);
                 }
             }
-
-            return Task.CompletedTask;
         }
 
         private void InitProductsSet()
@@ -399,7 +396,10 @@ namespace Next2.ViewModels
             {
                 var ingredientCategories = await _menuService.GetIngredientCategoriesAsync();
 
-                _allIngredientCategories = ingredientCategories.Result;
+                if (ingredientCategories.IsSuccess)
+                {
+                    _allIngredientCategories = ingredientCategories.Result;
+                }
             }
 
             IngredientCategories = new(_allIngredientCategories);

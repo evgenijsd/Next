@@ -6,6 +6,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:local="clr-namespace:Next2"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
@@ -184,7 +185,7 @@
                                                                                 MinimumWidthRequest="100">
                                                                                 
                                                                                 <Label
-                                                                                    Text="{Binding PriceBonus, StringFormat='$ {0:F2}'}"
+                                                                                    Text="{Binding PriceBonus, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                                                                     HorizontalOptions="End"
                                                                                     TextColor="{DynamicResource IndicationColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
@@ -192,7 +193,7 @@
                                                                                     FontFamily="Barlow-SemiBold" />
 
                                                                                 <Label
-                                                                                    Text="{Binding Portion.Price, StringFormat='$ {0:F2}'}"
+                                                                                    Text="{Binding Portion.Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                                                                     Margin="0, 5, 0, 0"
                                                                                     Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                                                     HorizontalOptions="End"

@@ -280,7 +280,9 @@ namespace Next2.ViewModels
 
                     Tables = new(tableBindableModels);
 
-                    SelectedTable = SelectedTable.IsAvailable == false ? Tables.FirstOrDefault() : SelectedTable;
+                    SelectedTable = !SelectedTable.IsAvailable ?
+                        Tables.FirstOrDefault()
+                        : SelectedTable;
                 }
             }
         }

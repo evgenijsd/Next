@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SeatItemTemplate"
+    xmlns:local="clr-namespace:Next2"
     x:DataType="models:SeatBindableModel">
 
     <BoxView
@@ -187,7 +188,7 @@
                                     MaxLines="1"/>
 
                                 <Label
-                                    Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}"
+                                    Text="{Binding TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                     FontSize="{DynamicResource TSize_i5}"
                                     FontFamily="Barlow-SemiBold"/>
 

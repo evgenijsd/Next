@@ -48,6 +48,8 @@ namespace Next2.Models
 
         public OptionModelDTO? SelectedOptions { get; set; }
 
+        public bool IsProductReplaced { get; set; }
+
         public ObservableCollection<SimpleIngredientModelDTO>? SelectedIngredients { get; set; }
 
         public ObservableCollection<SimpleIngredientModelDTO>? AddedIngredients { get; set; }

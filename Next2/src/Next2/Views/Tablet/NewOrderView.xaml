@@ -800,7 +800,7 @@
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                                 Margin="0, 5, 0, 0"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-SemiBold"
@@ -854,7 +854,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                                 FontFamily="Barlow-SemiBold"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 TextColor="{DynamicResource IndicationColor_i1}"/>

@@ -396,7 +396,7 @@
                                                 FontFamily="Barlow-Regular"
                                                 FontSize="{DynamicResource TSize_i8}"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                Text="{Binding Total, StringFormat='$ {0:F2}'}" />
+                                                Text="{Binding Total, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}" />
 
                                             <Label
                                                 Grid.Column="4"
