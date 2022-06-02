@@ -95,6 +95,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<TabletViews.PaymentPage, PaymentViewModel>();
                 containerRegistry.RegisterForNavigation<InputTextPage, InputTextPageViewModel>();
                 containerRegistry.RegisterForNavigation<TabletViews.ModificationsPage, ModificationsPageViewModel>();
+                containerRegistry.RegisterForNavigation<SplitOrderPage, SplitOrderViewModel>();
 
                 containerRegistry.RegisterSingleton<NewOrderViewModel>();
                 containerRegistry.RegisterSingleton<HoldItemsViewModel>();
