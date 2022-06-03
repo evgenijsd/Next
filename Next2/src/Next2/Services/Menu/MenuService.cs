@@ -18,7 +18,7 @@ namespace Next2.Services.Menu
     {
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
-        private readonly string query = "{Constants.API.HOST_URL}/api/ingredients-categories";
+        private readonly string query = $"{Constants.API.HOST_URL}/api/ingredients-categories";
         private IMockService _mockService;
 
         public MenuService(
