@@ -42,12 +42,27 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
             Order = _orderService.CurrentOrder;
+            var seats = Order.Seats;
+
+            foreach (var seat in seats)
+            {
+                seat.SetSelectionCommand = new AsyncCommand<object>(OnDishSelectionCommand);
+            }
+
             SelectedDish = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            Order.Seats.FirstOrDefault().SelectedItem = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
         }
 
         #endregion
 
         #region -- Private Helpers --
+
+        private Task OnDishSelectionCommand(object? arg)
+        {
+            var seat = arg as SeatBindableModel;
+            SelectedDish = seat.SelectedItem;
+            return Task.CompletedTask;
+        }
 
         private async Task OnGoBackCommandAsync()
         {
