@@ -47,16 +47,16 @@ namespace Next2.ViewModels
                         foreach (var selectedProduct in Dish.SelectedProducts)
                         {
                             selectedProduct.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1
-                            ? selectedProduct.Product.DefaultPrice
-                            : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
+                                ? selectedProduct.Product.DefaultPrice
+                                : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
 
                             if (selectedProduct.AddedIngredients is not null)
                             {
                                 foreach (var adedIngredient in selectedProduct.AddedIngredients)
                                 {
                                     adedIngredient.Price = Dish.SelectedDishProportion.PriceRatio == 1
-                                    ? adedIngredient.Price
-                                    : adedIngredient.Price * (1 + Dish.SelectedDishProportion.PriceRatio);
+                                        ? adedIngredient.Price
+                                        : adedIngredient.Price * (1 + Dish.SelectedDishProportion.PriceRatio);
                                 }
                             }
                         }
@@ -117,7 +117,9 @@ namespace Next2.ViewModels
                     Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.Id,
-                        Price = row.PriceRatio == 1 ? dish.OriginalPrice : dish.OriginalPrice * (1 + row.PriceRatio),
+                        Price = row.PriceRatio == 1
+                            ? dish.OriginalPrice :
+                            dish.OriginalPrice * (1 + row.PriceRatio),
                         Title = row.ProportionName,
                     });
 

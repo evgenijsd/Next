@@ -424,7 +424,9 @@ namespace Next2.ViewModels
                     CategoryId = row.IngredientsCategoryId,
                     IsToggled = product is not null ? product.AddedIngredients.Any(item => item.Id == row.Id) : false,
                     Title = row.Name,
-                    Price = _currentDish.SelectedDishProportion.PriceRatio == 1 ? row.Price : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
+                    Price = _currentDish.SelectedDishProportion.PriceRatio == 1
+                                ? row.Price
+                                : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
                     ImagePath = row.ImageSource,
                     ChangingToggle = ChangingToggleCommand,
                 }));
