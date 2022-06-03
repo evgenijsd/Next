@@ -541,25 +541,25 @@ namespace Next2.ViewModels
 
         private async Task OnSaveCommandAsync()
         {
-            //_orderService.CurrentOrder = CurrentOrder;
+            _orderService.CurrentOrder = CurrentOrder;
             //_orderService.CurrentOrder.UpdateTotalSum();
             //CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-            //_orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
+            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 
-            //if (App.IsTablet)
-            //{
-            //    var parameters = new NavigationParameters
-            //    {
-            //        { Constants.Navigations.REFRESH_ORDER, true },
-            //        { Constants.Navigations.SET_MODIFIED, true },
-            //    };
+            if (App.IsTablet)
+            {
+                var parameters = new NavigationParameters
+                {
+                    { Constants.Navigations.REFRESH_ORDER, true },
+                    { Constants.Navigations.SET_MODIFIED, true },
+                };
 
-            //    await _navigationService.GoBackAsync(parameters);
-            //}
-            //else
-            //{
-            //    await _navigationService.GoBackAsync();
-            //}
+                await _navigationService.GoBackAsync(parameters);
+            }
+            else
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         #endregion
