@@ -17,15 +17,15 @@ namespace Next2.Models
 
         public SimpleTableModelDTO Table { get; set; } = new();
 
-        public SimpleCustomerModelDTO Customer { get; set; } = new();
+        public CustomerBindableModel Customer { get; set; } = new();
 
         public EOrderStatus? OrderStatus { get; set; }
 
         public EOrderType? OrderType { get; set; }
 
-        public SimpleDiscountModelDTO Discount { get; set; } = new();
+        public DiscountModelDTO Discount { get; set; }
 
-        public SimpleCouponModelDTO Coupon { get; set; } = new();
+        public CouponModelDTO Coupon { get; set; }
 
         public decimal TaxCoefficient { get; set; }
 

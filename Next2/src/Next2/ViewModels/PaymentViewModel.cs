@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
@@ -21,6 +22,7 @@ namespace Next2.ViewModels
     public class PaymentViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
         private decimal _subtotalWithBonus;
 
@@ -33,15 +35,20 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+            _mapper = mapper;
 
-            //Order.BonusType = orderService.CurrentOrder.BonusType;
-            //Order.Bonus = orderService.CurrentOrder.Bonus;
-            //Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
-            //Order.Subtotal = orderService.CurrentOrder.SubTotal;
-            //Order.PriceTax = orderService.CurrentOrder.PriceTax;
-            //Order.Tax = orderService.CurrentOrder.Tax;
-            //Order.Total = orderService.CurrentOrder.Total;
-            //Order.Customer = orderService.CurrentOrder.Customer;
+            Order.BonusType = _orderService.CurrentOrder.Coupon is null
+                        ? EBonusType.Discount
+                        : EBonusType.Coupone;
+            Order.Bonus = _orderService.CurrentOrder.Coupon is null
+                        ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
+                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
+            Order.SubtotalWithBonus = (decimal)orderService.CurrentOrder.DiscountPrice;
+            Order.Subtotal = (decimal)orderService.CurrentOrder.SubTotalPrice;
+            Order.PriceTax = orderService.CurrentOrder.PriceTax;
+            Order.TaxCoefficient = orderService.CurrentOrder.TaxCoefficient;
+            Order.Total = orderService.CurrentOrder.TotalPrice;
+            Order.Customer = orderService.CurrentOrder.Customer;
             _subtotalWithBonus = Order.BonusType == EBonusType.None
                 ? Order.Subtotal
                 : Order.SubtotalWithBonus;
@@ -118,15 +125,22 @@ namespace Next2.ViewModels
                 if (parameters.ContainsKey(Constants.Navigations.GIFT_CARD_ADDED)
                     && _orderService.CurrentOrder.Customer is not null)
                 {
-                    //_orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
-                    //Order.BonusType = _orderService.CurrentOrder.BonusType;
-                    //Order.Customer = _orderService.CurrentOrder.Customer;
-                    //Order.Bonus = _orderService.CurrentOrder.Bonus;
-                    //Order.Subtotal = _orderService.CurrentOrder.SubTotal;
-                    //Order.PriceTax = _orderService.CurrentOrder.PriceTax;
-                    //Order.Total = _orderService.CurrentOrder.Total;
-                    //Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
-                    //Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
+                    _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
+
+                    Order.BonusType = _orderService.CurrentOrder.Coupon is null
+                        ? EBonusType.Discount
+                        : EBonusType.Coupone;
+
+                    Order.Customer = _orderService.CurrentOrder.Customer;
+
+                    Order.Bonus = _orderService.CurrentOrder.Coupon is null
+                        ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
+                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
+                    Order.Subtotal = (decimal)_orderService.CurrentOrder.SubTotalPrice;
+                    Order.PriceTax = _orderService.CurrentOrder.PriceTax;
+                    Order.Total = _orderService.CurrentOrder.TotalPrice;
+                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
+                    Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                 }
 
                 if (Order.Customer is not null && Order.Customer.GiftCards.Any())

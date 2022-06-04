@@ -1,14 +1,10 @@
-﻿using AutoMapper;
-using Next2.Models;
-using Next2.Models.API.DTO;
+﻿using Next2.Models;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,7 +46,7 @@ namespace Next2.ViewModels.Mobile
 
         public bool IsErrorNotificationVisible { get; set; }
 
-        public CustomerModelDTO? Customer { get; set; }
+        public CustomerBindableModel? Customer { get; set; }
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand = new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
@@ -122,7 +118,7 @@ namespace Next2.ViewModels.Mobile
 
             if (_orderService.CurrentOrder.Customer is not null)
             {
-                Customer = new(); //(_orderService.CurrentOrder.Customer);
+                Customer = _orderService.CurrentOrder.Customer;
 
                 if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
                 {

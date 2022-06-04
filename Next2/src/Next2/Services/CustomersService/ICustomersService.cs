@@ -9,20 +9,22 @@ namespace Next2.Services.CustomersService
 {
     public interface ICustomersService
     {
-        Task<AOResult<IEnumerable<CustomerModelDTO>>> GetAllCustomersAsync(Func<CustomerModelDTO, bool>? condition = null);
+        Task<AOResult<IEnumerable<CustomerBindableModel>>> GetCustomersAsync(Func<CustomerBindableModel, bool>? condition = null);
 
-        Task<AOResult<CustomerModelDTO>> GetCustomerByIdAsync(Guid id);
+        Task<AOResult<CustomerBindableModel>> GetCustomerByIdAsync(Guid id);
 
-        Task<AOResult<Guid>> AddNewCustomerAsync(CustomerModelDTO customer);
+        Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel customer);
 
-        Task<AOResult<GiftCardModel>> GetGiftCardByNumberAsync(int giftCardNumber);
+        Task<AOResult<GiftCardModelDTO>> GetGiftCardByNumberAsync(string giftCardNumber);
 
-        Task<AOResult> ActivateGiftCardAsync(GiftCardModel giftCard);
+        Task<AOResult> AddGiftCardToCustomerAsync(CustomerBindableModel customer, GiftCardModelDTO giftCard);
 
-        Task<AOResult> AddGiftCardToCustomerAsync(CustomerModelDTO customer, GiftCardModel giftCard);
+        Task<AOResult> UpdateGiftCardAsync(GiftCardModelDTO giftCard);
 
-        Task<AOResult> UpdateGiftCardAsync(GiftCardModel giftCard);
+        Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer);
 
-        Task<AOResult> UpdateCustomerAsync(CustomerModelDTO customer);
+        Task<AOResult<IEnumerable<GiftCardModelDTO>>> GetGiftCardsCustomerAsync(IEnumerable<Guid> guids);
+
+        Task<AOResult<GiftCardModelDTO>> GetGiftCardByIdAsync(Guid id);
     }
 }

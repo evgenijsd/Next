@@ -13,7 +13,7 @@ namespace Next2.Models
 
         public bool IsUnsavedChangesExist { get; set; }
 
-        public CustomerModelDTO? Customer { get; set; }
+        public CustomerBindableModel? Customer { get; set; }
 
         public ObservableCollection<RewardBindabledModel> Rewards { get; set; } = new ();
 
@@ -29,7 +29,7 @@ namespace Next2.Models
 
         public decimal PriceTax { get; set; }
 
-        public TaxModel Tax { get; set; } = new();
+        public decimal TaxCoefficient { get; set; }
 
         public decimal Tip { get; set; }
 

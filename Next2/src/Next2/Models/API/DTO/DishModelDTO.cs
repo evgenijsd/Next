@@ -23,5 +23,7 @@ namespace Next2.Models.API.DTO
         public IEnumerable<SimpleProductModelDTO>? Products { get; set; }
 
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
+
+        public IEnumerable<SimpleCouponModelDTO>? Coupons { get; set; }
     }
 }

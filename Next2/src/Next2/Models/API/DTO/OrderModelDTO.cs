@@ -33,9 +33,9 @@ namespace Next2.Models.API.DTO
 
         public bool IsCashPayment { get; set; }
 
-        public SimpleCouponModelDTO Coupon { get; set; } = new ();
+        public DiscountModelDTO Discount { get; set; } = new();
 
-        public SimpleDiscountModelDTO Discount { get; set; } = new ();
+        public CouponModelDTO Coupon { get; set; } = new();
 
         public SimpleCustomerModelDTO Customer { get; set; } = new ();
 

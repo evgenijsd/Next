@@ -1,280 +1,108 @@
 ﻿using Next2.Models;
-using Next2.Models.API.DTO;
-using Next2.Services.Mock;
 using System.Collections.Generic;
 
 namespace Next2.Services
 {
     public static class CustomersMock
     {
-        public static List<CustomerModelDTO> Create()
+        public static List<CustomerBindableModel> Create()
         {
-            return new List<CustomerModelDTO>()
+            return new List<CustomerBindableModel>()
             {
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Adam Brody",
-                    Email = "adambrody@gmail.com",
-                    Phone = "4561125298",
                     Points = 221,
                     Rewards = 4,
-                    GiftCardsCount = 2,
-                    GiftCardsTotalFund = 60.50m,
-                    GiftCards = new List<GiftCardModel>
-                    {
-                        new GiftCardModel()
-                        {
-                            Id = 1,
-                            GiftCardFunds = 20m,
-                            GiftCardNumber = 100,
-                            IsRegistered = true,
-                        },
-                        new GiftCardModel()
-                        {
-                            Id = 2,
-                            GiftCardFunds = 40.50m,
-                            GiftCardNumber = 101,
-                            IsRegistered = true,
-                        },
-                    },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Abraham Linkoln",
-                    Email = "abrahamlinkoln@gmail.com",
-                    Phone = "7723031228",
                     Points = 22,
                     Rewards = 3,
-                    GiftCardsCount = 2,
-                    GiftCardsTotalFund = 66m,
-                    GiftCards = new List<GiftCardModel>
-                    {
-                        new GiftCardModel()
-                        {
-                            Id = 3,
-                            GiftCardFunds = 25.50m,
-                            GiftCardNumber = 103,
-                            IsRegistered = true,
-                        },
-                        new GiftCardModel()
-                        {
-                            Id = 4,
-                            GiftCardFunds = 40.50m,
-                            GiftCardNumber = 104,
-                            IsRegistered = true,
-                        },
-                    },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Aaron Rodgers",
-                    Email = "aaronrodgers@gmail.com",
-                    Phone = "7139018114",
                     Points = 108,
                     Rewards = 2,
-                    GiftCardsCount = 2,
-                    GiftCardsTotalFund = 106m,
-                    GiftCards = new List<GiftCardModel>
-                    {
-                        new GiftCardModel()
-                        {
-                            Id = 5,
-                            GiftCardFunds = 65.50m,
-                            GiftCardNumber = 105,
-                            IsRegistered = true,
-                        },
-                        new GiftCardModel()
-                        {
-                            Id = 6,
-                            GiftCardFunds = 40.50m,
-                            GiftCardNumber = 106,
-                            IsRegistered = true,
-                        },
-                    },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Kierra Bergson",
-                    Email = "kierrabergson@yaho.com",
-                    Phone = "7095025598",
                     Points = 451,
                     Rewards = 0,
-                    GiftCardsCount = 17,
-                    GiftCardsTotalFund = 50.02m,
-                    GiftCards = new List<GiftCardModel>
-                    {
-                        new GiftCardModel()
-                        {
-                            Id = 7,
-                            GiftCardFunds = 30m,
-                            GiftCardNumber = 107,
-                            IsRegistered = true,
-                        },
-                    },
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Angel Dias",
-                    Email = "Diazzz@yaho.com",
-                    Phone = "7329028298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Kaiya Dorwart",
-                    Email = "KaDor@gmail.com",
-                    Phone = "4449126298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Lincoln Lipshutz",
-                    Email = "liliputz@yaho.com",
-                    Phone = "4529558228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Randy Mango",
-                    Email = "mango_jango@gmail.com",
-                    Phone = "3324562363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Martin Schleifer",
-                    Email = "MartSh@gmail.com",
-                    Phone = "7329028298",
                     Points = 221,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Carla Dorwart",
-                    Email = "Carla_123@gmail.com",
-                    Phone = "7323028538",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Davis Septimus",
-                    Email = "DavSept@gmail.com",
-                    Phone = "7339018244",
                     Points = 108,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Grover Parsons",
-                    Email = "groverpars@yaho.com",
-                    Phone = "7095025598",
                     Points = 451,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Douglas Moreno",
-                    Email = "douglasreno@yaho.com",
-                    Phone = "7329028298",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Colin Nichols",
-                    Email = "colinic@gmail.com",
-                    Phone = "4449126298",
                     Points = 34,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Kenneth Feron",
-                    Email = "kenny@yaho.com",
-                    Phone = "4529558228",
                     Points = 35,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Geoffrey Kim",
-                    Email = "geokim@gmail.com",
-                    Phone = "3324562363",
                     Points = 123,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Fiona Cole",
-                    Email = "fiona12@gmail.com",
-                    Phone = "7329028298",
                     Points = 221,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Yeom Woong",
-                    Email = "yeo@gmail.com",
-                    Phone = "7323028538",
                     Points = 22,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
-                new CustomerModelDTO()
+                new CustomerBindableModel()
                 {
-                    FullName = "Do Soon-Bok",
-                    Email = "soon-book@gmail.com",
-                    Phone = "7339018244",
                     Points = 108,
                     Rewards = 0,
-                    GiftCardsCount = 0,
-                    GiftCardsTotalFund = 0,
-                    GiftCards = new(),
                 },
             };
         }
