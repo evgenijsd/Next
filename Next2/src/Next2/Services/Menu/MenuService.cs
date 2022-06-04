@@ -9,6 +9,7 @@ using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -105,21 +106,18 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientCategoryModel>>> GetIngredientCategoriesAsync()
+        public async Task<AOResult<IEnumerable<IngredientsCategoryModelDTO>>> GetIngredientCategoriesAsync()
         {
-            var result = new AOResult<IEnumerable<IngredientCategoryModel>>();
+            var result = new AOResult<IEnumerable<IngredientsCategoryModelDTO>>();
 
             try
             {
-                var resultData = await _mockService.GetAllAsync<IngredientCategoryModel>();
+                var query = $"{Constants.API.HOST_URL}/api/ingredients-categories";
+                var resultData = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
 
-                if (resultData is not null)
+                if (resultData.Success && resultData?.Value?.IngredientsCategories is not null)
                 {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
+                    result.SetSuccess(resultData.Value.IngredientsCategories);
                 }
             }
             catch (Exception ex)
@@ -130,21 +128,18 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync(int categoryId)
+        public async Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync(Guid categoryId)
         {
-            var result = new AOResult<IEnumerable<IngredientModel>>();
+            var result = new AOResult<IEnumerable<IngredientModelDTO>>();
 
             try
             {
-                var resultData = await _mockService.GetAsync<IngredientModel>(row => row.CategoryId == categoryId);
+                var query = $"{Constants.API.HOST_URL}/api/ingredients";
+                var resultData = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
 
-                if (resultData is not null)
+                if (resultData.Success && resultData?.Value?.Ingredients is not null)
                 {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
+                    result.SetSuccess(resultData.Value.Ingredients.Where(row => row.IngredientsCategoryId == categoryId));
                 }
             }
             catch (Exception ex)
@@ -205,21 +200,18 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync()
+        public async Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync()
         {
-            var result = new AOResult<IEnumerable<IngredientModel>>();
+            var result = new AOResult<IEnumerable<IngredientModelDTO>>();
 
             try
             {
-                var resultData = await _mockService.GetAllAsync<IngredientModel>();
+                var query = $"{Constants.API.HOST_URL}/api/ingredients";
+                var resultData = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
 
-                if (resultData is not null)
+                if (resultData.Success && resultData?.Value?.Ingredients is not null)
                 {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
+                    result.SetSuccess(resultData.Value.Ingredients);
                 }
             }
             catch (Exception ex)

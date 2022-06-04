@@ -599,6 +599,7 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = seat.SelectedItem;
+
                 foreach (var singleSeat in _orderService.CurrentOrder.Seats)
                 {
                     if (singleSeat.SeatNumber != seat.SeatNumber)
@@ -626,7 +627,7 @@ namespace Next2.ViewModels
 
                 if (_isAnyUpDateForCurrentSet)
                 {
-                    //await InitEditSetDetailsAsync(SelectedSet);
+                    //await InitEditSetDetailsAsync(SelectedDish);
                 }
 
                 if (App.IsTablet)
