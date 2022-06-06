@@ -495,31 +495,6 @@
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
                 </Style>
 
-                <Style x:Key="SemiBold24LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                </Style>
-
-                <Style x:Key="SemiBold18LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
-                </Style>
-
-                <Style x:Key="Medium18LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                </Style>
-
-                <Style x:Key="Medium16LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                </Style>
-
-                <Style x:Key="Medium14LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                </Style>
-
                 <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="HeightRequest" Value="36"/>
@@ -529,24 +504,6 @@
                     <Setter Property="BackgroundColor" Value="Transparent"/>
                 </Style>
 
-                <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
-                    <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                    <Setter Property="CornerRadius" Value="6"/>
-                    <Setter Property="Padding" Value="8, 6"/>
-                    <Setter Property="IconHeight" Value="18"/>
-                    <Setter Property="Border">
-                        <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                    <Setter Property="TextWidth" Value="30"/>
-                    <Setter Property="IconSizes" Value="24"/>
-                </Style>
             </Grid.Resources>
 
             <CollectionView

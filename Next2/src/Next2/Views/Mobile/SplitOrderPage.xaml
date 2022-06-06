@@ -20,65 +20,12 @@
 
         <!-- Seats LIST -->
         <StackLayout
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
         <StackLayout.Resources>
                 <Style TargetType="Label">
                     <Setter Property="VerticalOptions" Value="Center"/>
                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-                </Style>
-
-                <Style x:Key="SemiBold24LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                </Style>
-
-                <Style x:Key="SemiBold18LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i6}"/>
-                </Style>
-
-                <Style x:Key="Medium18LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                </Style>
-
-                <Style x:Key="Medium16LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                </Style>
-
-                <Style x:Key="Medium14LabelStyle" TargetType="Label">
-                    <Setter Property="FontFamily" Value="Barlow-Medium"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                </Style>
-
-                <Style x:Key="BorderButtonStyle_i2" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="HeightRequest" Value="36"/>
-                    <Setter Property="FontFamily" Value="Barlow-Semibold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                    <Setter Property="CornerRadius" Value="4"/>
-                    <Setter Property="BackgroundColor" Value="Transparent"/>
-                </Style>
-
-                <Style x:Key="IconBorderButtonStyle_i2" TargetType="buttons:IconBorderButton" BasedOn="{StaticResource IconBorderButtonStyle_i1}">
-                    <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-                    <Setter Property="CornerRadius" Value="6"/>
-                    <Setter Property="Padding" Value="8, 6"/>
-                    <Setter Property="IconHeight" Value="18"/>
-                    <Setter Property="Border">
-                        <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <Style x:Key="CustomStepperStyle_i1" TargetType="controls:CustomStepper">
-                    <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
-                    <Setter Property="TextWidth" Value="30"/>
-                    <Setter Property="IconSizes" Value="24"/>
                 </Style>
             </StackLayout.Resources>
 
@@ -86,7 +33,7 @@
         <StackLayout>
 
             <controls:CustomNavigationbar 
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 HeightRequest="50" 
                 HeightImage="20" 
                 Title="{xct:Translate Cancel}" 
@@ -121,7 +68,7 @@
         <!--SeatList-->
         <CollectionView
                 VerticalScrollBarVisibility="Always"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 ItemsSource="{Binding Order.Seats}">
 
                 <CollectionView.Effects>
@@ -140,6 +87,8 @@
 
                         <controls:SeatItemForSplitOrder
                             ItemsSource="{Binding SelectedDishes}"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                            SubItemColor="{DynamicResource TextAndBackgroundColor_i5}"
                             Padding="18, 9, 18, 0"/>
 
                     </DataTemplate>
@@ -152,119 +101,59 @@
             Grid.Row="1"
             HeightRequest="90"
             VerticalOptions="EndAndExpand"
-            ColumnDefinitions="0.35*, 0.29*, 0.35*"
-            RowDefinitions="0.26*, auto"
-            ColumnSpacing="12">
+            RowDefinitions="0.3*, *, 0.3*">
+
+            <Grid.Resources>
+                <Style TargetType="buttons:BorderButton">
+                    <Setter Property="Grid.Row" Value="1"/>
+                    <Setter Property="WidthRequest" Value="156"/>
+                    <Setter Property="HeightRequest" Value="51"/>
+                    <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                    <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}"/>
+                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+                </Style>
+            </Grid.Resources>
 
             <BoxView
-                                Grid.Row="0"
-                                Grid.ColumnSpan="3"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                HeightRequest="1"
-                                VerticalOptions="Start"/>
+              Grid.Row="0"
+              Grid.ColumnSpan="3"
+              BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+              HeightRequest="1"
+              VerticalOptions="Start"/>
 
-            <buttons:BorderButton
-                VerticalOptions="StartAndExpand"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Padding="0"
-                                Margin="24, 24, 0, 24"
-                                Style="{DynamicResource BorderButtonStyle_i2}"
-                                FontSize="{DynamicResource TSize_i7}"
-                                Background="{DynamicResource IndicationColor_i5}"
-                                Text="{xct:Translate Percentage}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="AdaptiveBottomButton">
-
-                            <VisualState Name="Medium">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1024"/>
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                                    <Setter Property="HeightRequest" Value="45"/>
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
-
-            </buttons:BorderButton>
-
-            <buttons:BorderButton
-                                Grid.Row="1"
-                VerticalOptions="CenterAndExpand"
-                                Grid.Column="1"
-                                Margin="0, 24"
-                                Padding="0"
-                                Style="{DynamicResource BorderButtonStyle_i2}"
-                                FontSize="{DynamicResource TSize_i7}"
-                                Background="{DynamicResource IndicationColor_i7}"
-                                Text="{xct:Translate Dollar}">
-
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="AdaptiveBottomButton">
-
-                            <VisualState Name="Medium">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1024"/>
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                                    <Setter Property="HeightRequest" Value="45"/>
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
+            <buttons:BorderButton 
+                Margin="24, 0, 0, 0"
+                Grid.Column="0"
+                Background="{DynamicResource IndicationColor_i5}"
+                Text="{xct:Translate Percentage}">
 
             </buttons:BorderButton>
 
             <buttons:BorderButton 
-                VerticalOptions="CenterAndExpand"
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="0, 24, 24, 24"
+                Margin="12, 0"
                 Padding="0"
-                Style="{DynamicResource BorderButtonStyle_i2}"
-                FontSize="{DynamicResource TSize_i7}"
+                Grid.Column="1"
+                Background="{DynamicResource IndicationColor_i7}"
+                Text="{xct:Translate Dollar}">
+
+            </buttons:BorderButton>
+
+            <buttons:BorderButton 
+                Margin="0, 0, 24, 0"
+                Grid.Column="2"
                 Background="{DynamicResource AppColor_i1}"
                 Text="{xct:Translate Seats}">
 
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup Name="AdaptiveBottomButton">
-
-                            <VisualState Name="Medium">
-
-                                <VisualState.StateTriggers>
-                                    <AdaptiveTrigger MinWindowWidth="1024"/>
-                                </VisualState.StateTriggers>
-
-                                <VisualState.Setters>
-                                    <Setter Property="FontSize" Value="{DynamicResource TSize_i5}"/>
-                                    <Setter Property="HeightRequest" Value="45"/>
-                                </VisualState.Setters>
-
-                            </VisualState>
-
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
-
             </buttons:BorderButton>
+
+            <BoxView
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
+                HeightRequest="1"
+                VerticalOptions="End"/>
 
         </Grid>
 

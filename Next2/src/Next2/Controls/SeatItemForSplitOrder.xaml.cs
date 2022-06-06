@@ -39,6 +39,17 @@ namespace Next2.Controls
             set => SetValue(HeightListProperty, value);
         }
 
+        public static readonly BindableProperty SubItemColorProperty = BindableProperty.Create(
+            propertyName: nameof(SubItemColor),
+            returnType: typeof(Color),
+            declaringType: typeof(SeatItemForSplitOrder));
+
+        public Color SubItemColor
+        {
+            get => (Color)GetValue(SubItemColorProperty);
+            set => SetValue(SubItemColorProperty, value);
+        }
+
         #endregion
 
         #region -- Private methods --
