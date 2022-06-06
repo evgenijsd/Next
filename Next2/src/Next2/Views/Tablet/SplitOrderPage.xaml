@@ -527,6 +527,8 @@
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <controls:SeatItemForSplitOrder
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            SubItemColor="{DynamicResource TextAndBackgroundColor_i4}"
                             ItemsSource="{Binding SelectedDishes}"
                             Padding="18, 9, 18, 0"/>
 
