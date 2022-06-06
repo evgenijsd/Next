@@ -4,15 +4,181 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
-    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs" xmlns:controls="clr-namespace:Next2.Controls" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="Next2.Views.Tablet.Dialogs.SplitOrderDialog" 
     x:DataType="dialogs:CustomerAddViewModel">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label 
-                Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Frame    
+            CornerRadius="8"
+            WidthRequest="567" HeightRequest="500" 
+            HorizontalOptions="Center" VerticalOptions="Center"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"  
+            BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
+
+            <Grid 
+            RowDefinitions="0.13*, 0.13*, 0.59*, 0.15*">
+
+                <Label 
+                Grid.Row="0" 
+                Margin="18, 0, 0, 0"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontSize="18" 
+                Text="Split by Percentage"
+                VerticalTextAlignment="Center"/>
+
+                <BoxView 
+                Grid.Row="0"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                HeightRequest="2" 
+                VerticalOptions="EndAndExpand"/>
+
+                <StackLayout
+                    Grid.Row="1" Padding="18 ,0, 18, 0"
+                    Orientation="Horizontal" 
+                    VerticalOptions="Center" Spacing="15">
+
+                    <ffimageloading:CachedImage
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Start" 
+                    Aspect="Fill"
+                    WidthRequest="42"
+                    Source="https://cdn.pixabay.com/photo/2022/04/23/18/23/meadow-7152269_960_720.jpg" 
+                    HeightRequest="42" />
+
+                    <StackLayout>
+                        <Label Text="Dish Name" TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                        <Label Text="$ 34.5" TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                    </StackLayout>
+
+                </StackLayout>
+
+                <BoxView 
+                Margin="18 ,0, 18, 0"
+                Grid.Row="1"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                HeightRequest="1" 
+                VerticalOptions="EndAndExpand"/>
+
+                <!--Body-->
+                <Grid Grid.Row="2" 
+                  Padding="18" 
+                  RowSpacing="18">
+
+                    <BoxView 
+                Grid.Column="1" Grid.RowSpan="3"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                HeightRequest="500" 
+                WidthRequest="2" 
+                HorizontalOptions="Start"
+                VerticalOptions="StartAndExpand"/>
+
+                    <StackLayout 
+                    Grid.Column="1" 
+                    Grid.Row="0" 
+                    Spacing="16" 
+                    Margin="18,0,0,0">
+
+                        <Label 
+                        Text="Select Value" 
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+                        FontSize="14" FontFamily="Barlow-SemiBold"/>
+
+                        <StackLayout 
+                        Spacing="12"
+                        Orientation="Horizontal">
+
+                            <Frame  
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                            WidthRequest="80" 
+                            HeightRequest="32">
+                                <Label 
+                            Text="25 %" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            </Frame>
+
+                            <Frame  
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" WidthRequest="80" HeightRequest="32">
+                                <Label 
+                            Text="50 %" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            </Frame>
+
+                            <Frame  
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" WidthRequest="80" HeightRequest="32">
+                                <Label 
+                            Text="75 %" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
+                            </Frame>
+
+                        </StackLayout>
+
+                    </StackLayout>
+
+                    <controls:CustomStepper 
+                    Grid.Column="1" 
+                    Grid.Row="1" 
+                    VerticalOptions="StartAndExpand"
+                    Value="20"
+                    ValueFormat="{}{0} %"
+                    MaxValue="100"
+                    MinValue="0" 
+                    TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+                    FontSize="36" Padding="32,0,14,0"
+                    />
+
+
+
+                </Grid>
+
+
+                <!--Buttons-->
+                <BoxView 
+                Grid.Row="3"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" 
+                HeightRequest="2" 
+                VerticalOptions="StartAndExpand"/>
+
+                <StackLayout 
+                Orientation="Horizontal" 
+                Spacing="12"
+                Padding="18"
+                Grid.Row="3">
+
+                    <Frame 
+                    BorderColor="{DynamicResource AppColor_i1}" 
+                    Padding="0" VerticalOptions="FillAndExpand" CornerRadius="5"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    HorizontalOptions="FillAndExpand">
+
+                        <Label 
+                        Text="Cancel" 
+                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" 
+                        VerticalTextAlignment="Center" 
+                        HorizontalTextAlignment="Center"/>
+
+                    </Frame>
+
+                    <Frame 
+                    Padding="0" VerticalOptions="FillAndExpand" 
+                    BackgroundColor="{DynamicResource IndicationColor_i1}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    Opacity="0.32"
+                    CornerRadius="5"
+                    HorizontalOptions="FillAndExpand">
+
+                        <Label 
+                        Text="Split" 
+                        VerticalTextAlignment="Center" 
+                        HorizontalTextAlignment="Center"/>
+
+                    </Frame>
+
+                </StackLayout>
+
+            </Grid>
+
+        </Frame>
     </ContentPage.Content>
+    
 </rg:PopupPage>
