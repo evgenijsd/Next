@@ -124,10 +124,9 @@ namespace Next2.Services.Bonuses
                 }
             }
 
-            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
-            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
-
+            //currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+            //currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+            //currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
             return currentOrder;
         }
 

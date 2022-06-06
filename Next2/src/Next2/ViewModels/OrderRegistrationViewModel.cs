@@ -465,7 +465,7 @@ namespace Next2.ViewModels
                             destinationSeat.Checked = true;
                             if (CurrentState == LayoutState.Success)
                             {
-                                //SelectedSet = destinationSeat.SelectedItem = destinationSeat.Dishes.FirstOrDefault();
+                                SelectedDish = destinationSeat.SelectedItem = destinationSeat.SelectedDishes.FirstOrDefault();
                             }
 
                             RefreshCurrentOrderAsync();

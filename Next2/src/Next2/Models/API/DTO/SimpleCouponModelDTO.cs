@@ -5,6 +5,8 @@ namespace Next2.Models.API.DTO
 {
     public class SimpleCouponModelDTO : SimpleDiscountModelDTO
     {
-        public int SeatNumbers { get; set; }
+        public int DiscountPercentage { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

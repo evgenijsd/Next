@@ -38,6 +38,8 @@ namespace Next2.Models
             ExcludedIngredients = product.ExcludedIngredients;
         }
 
+        public bool IsProductReplaced { get; set; }
+
         public Guid Id { get; set; }
 
         public string? Comment { get; set; }
@@ -47,8 +49,6 @@ namespace Next2.Models
         public decimal ProductPriceBaseOnProportion { get; set; }
 
         public OptionModelDTO? SelectedOptions { get; set; }
-
-        public bool IsProductReplaced { get; set; }
 
         public ObservableCollection<SimpleIngredientModelDTO>? SelectedIngredients { get; set; }
 

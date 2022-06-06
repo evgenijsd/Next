@@ -144,7 +144,7 @@
 
                                                         <ffimageloading:CachedImage
                                                             Aspect="AspectFill"
-                                                            Source="{Binding Dish.ImageSource}"/>
+                                                            Source="{Binding ImageSource}"/>
 
                                                     </Frame>
 
@@ -158,7 +158,7 @@
                                                             LineBreakMode="TailTruncation"
                                                             FontFamily="Barlow-Medium"
                                                             FontSize="{DynamicResource TSize_i9}"
-                                                            Text="{Binding Dish.Name}" />
+                                                            Text="{Binding Name}" />
 
                                                         <Label>
                                                             <Label.FormattedText>

@@ -18,7 +18,6 @@ namespace Next2.Services.Menu
     {
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
-        private readonly string query = $"{Constants.API.HOST_URL}/api/ingredients-categories";
         private IMockService _mockService;
 
         public MenuService(
@@ -112,6 +111,8 @@ namespace Next2.Services.Menu
 
             try
             {
+                var query = $"{Constants.API.HOST_URL}/api/ingredients-categories";
+
                 var ingredientsCategories = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
 
                 if (ingredientsCategories.Success && ingredientsCategories.Value is not null)

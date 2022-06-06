@@ -172,7 +172,7 @@
 
                                 <ffimageloading:CachedImage
                                     Aspect="AspectFill"
-                                    Source="{Binding Dish.ImageSource}"/>
+                                    Source="{Binding ImageSource}"/>
 
                             </pancakeview:PancakeView>
 
@@ -181,7 +181,7 @@
                                 Margin="0, 16, 16, 16">
 
                                 <Label
-                                    Text="{Binding Dish.Name}"
+                                    Text="{Binding Name}"
                                     FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-Medium"
                                     LineBreakMode="TailTruncation"

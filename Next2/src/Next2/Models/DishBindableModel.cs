@@ -2,6 +2,7 @@
 using Next2.Models.API.DTO;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Next2.Models
@@ -14,15 +15,21 @@ namespace Next2.Models
 
         public Guid Id { get; set; }
 
+        public Guid DishId { get; set; }
+
+        public string? Name { get; set; }
+
+        public string? ImageSource { get; set; }
+
         public decimal TotalPrice { get; set; }
 
         public decimal DiscountPrice { get; set; }
 
         public decimal SelectedDishProportionPrice { get; set; }
 
-        public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
+        public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
 
-        public DishModelDTO Dish { get; set; } = new();
+        public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
     }

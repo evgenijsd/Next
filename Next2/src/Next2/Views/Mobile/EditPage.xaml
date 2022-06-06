@@ -70,7 +70,7 @@
                             WidthRequest="80">
 
                             <ffimageloading:CachedImage 
-                                Source="{Binding SelectedDish.Dish.ImageSource}"
+                                Source="{Binding SelectedDish.ImageSource}"
                                 Aspect="AspectFill"/>
 
                         </Frame>
@@ -83,7 +83,7 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding SelectedDish.Dish.Name}"
+                            Text="{Binding SelectedDish.Name}"
                             Margin="0, 0, 0, 0"
                             FontFamily="Barlow-Medium"
                             FontSize="{DynamicResource TSize_i6}"

@@ -26,7 +26,7 @@ namespace Next2.ViewModels
             TapAddCommand = new Command(
                 execute: () =>
                 {
-                    var selectedDishProportion = Dish?.Dish.DishProportions.FirstOrDefault(row => row.Id == SelectedProportion?.Id);
+                    var selectedDishProportion = Dish?.DishProportions.FirstOrDefault(row => row.Id == SelectedProportion?.Id);
 
                     if (selectedDishProportion is not null)
                     {
@@ -89,8 +89,12 @@ namespace Next2.ViewModels
                     Dish = new DishBindableModel()
                     {
                         Id = dish.Id,
+                        DishId = dish.Id,
+                        Name = dish.Name,
+                        ImageSource = dish.ImageSource,
+                        TotalPrice = dish.OriginalPrice,
                         DiscountPrice = discountPrice,
-                        Dish = dish,
+                        DishProportions = dish.DishProportions,
                         SelectedProducts = new (dish.Products.Where(row => row.Id == dish.DefaultProductId).Select(row => new ProductBindableModel()
                         {
                             Id = row.Id,

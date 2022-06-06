@@ -41,7 +41,7 @@
 
                         <ffimageloading:CachedImage
                             Aspect="AspectFill"
-                            Source="{Binding Dish.Dish.ImageSource}"/>
+                            Source="{Binding Dish.ImageSource}"/>
 
                     </pkView:PancakeView>
 
@@ -52,13 +52,13 @@
                     HorizontalOptions="Start">
 
                     <Label
-                        Text="{Binding Dish.Dish.Name}"
+                        Text="{Binding Dish.Name}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"/>
 
                     <Label
-                        Text="{Binding Dish.Dish.OriginalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
+                        Text="{Binding Dish.TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"/>

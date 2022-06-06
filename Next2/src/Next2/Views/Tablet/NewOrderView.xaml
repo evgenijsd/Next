@@ -778,7 +778,7 @@
                                                 WidthRequest="80">
 
                                                 <ffimageloading:CachedImage 
-                                                    Source="{Binding OrderRegistrationViewModel.SelectedDish.Dish.ImageSource}"
+                                                    Source="{Binding OrderRegistrationViewModel.SelectedDish.ImageSource}"
                                                     Aspect="AspectFill"/>
 
                                             </Frame>
@@ -793,7 +793,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.Dish.Name}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.Name}"
                                                 Margin="0"
                                                 FontSize="{DynamicResource TSize_i4_5}"
                                                 FontFamily="Barlow-Medium"
