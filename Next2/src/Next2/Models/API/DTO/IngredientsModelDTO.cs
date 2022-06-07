@@ -3,7 +3,7 @@ using System;
 
 namespace Next2.Models.API.DTO
 {
-    public class SimpleIngredientModelDTO : IBaseApiModel
+    public class IngredientModelDTO : IBaseApiModel
     {
         public Guid Id { get; set; }
 
@@ -13,6 +13,6 @@ namespace Next2.Models.API.DTO
 
         public string? ImageSource { get; set; }
 
-        public SimpleIngredientsCategoryModelDTO IngredientsCategory { get; set; } = new();
+        public Guid IngredientsCategoryId { get; set; }
     }
 }

@@ -475,6 +475,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expand.
         /// </summary>
         internal static string Expand {
@@ -769,6 +778,15 @@ namespace Next2.Resources.Strings {
         internal static string NoItemsInCategory {
             get {
                 return ResourceManager.GetString("NoItemsInCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not defined.
+        /// </summary>
+        internal static string NotDefined {
+            get {
+                return ResourceManager.GetString("NotDefined", resourceCulture);
             }
         }
         
@@ -1202,6 +1220,15 @@ namespace Next2.Resources.Strings {
         internal static string SomeIssues {
             get {
                 return ResourceManager.GetString("SomeIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong.
+        /// </summary>
+        internal static string SomethingWentWrong {
+            get {
+                return ResourceManager.GetString("SomethingWentWrong", resourceCulture);
             }
         }
         

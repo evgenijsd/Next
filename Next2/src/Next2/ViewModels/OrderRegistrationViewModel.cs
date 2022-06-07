@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -33,7 +34,6 @@ namespace Next2.ViewModels
     public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
 
         private readonly IOrderService _orderService;
@@ -57,7 +57,6 @@ namespace Next2.ViewModels
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
@@ -66,7 +65,6 @@ namespace Next2.ViewModels
             IMenuService menuService)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;
@@ -319,8 +317,9 @@ namespace Next2.ViewModels
                 }
             }
 
-            IsSideMenuVisible = true;
             CurrentState = LayoutState.Loading;
+            Thread.Sleep(80); // It suspends the thread to hide unwanted animation
+            IsSideMenuVisible = true;
         }
 
         private Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
@@ -372,7 +371,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
                     : new Views.Mobile.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback);
 
-                await _popupNavigation.PushAsync(deleteSeatDialog);
+                await PopupNavigation.PushAsync(deleteSeatDialog);
             }
             else
             {
@@ -475,7 +474,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
@@ -515,7 +514,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
                     : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
-                await _popupNavigation.PushAsync(removeOrderDialog);
+                await PopupNavigation.PushAsync(removeOrderDialog);
             }
         }
 
@@ -539,12 +538,12 @@ namespace Next2.ViewModels
                         ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
                         : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback);
 
-                    await _popupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                    await PopupNavigation.PushAsync(orderDeletionConfirmationDialog);
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 
@@ -556,11 +555,11 @@ namespace Next2.ViewModels
                 {
                     await RemoveOrderAsync();
 
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
@@ -599,6 +598,7 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = seat.SelectedItem;
+
                 foreach (var singleSeat in _orderService.CurrentOrder.Seats)
                 {
                     if (singleSeat.SeatNumber != seat.SeatNumber)
@@ -626,7 +626,7 @@ namespace Next2.ViewModels
 
                 if (_isAnyUpDateForCurrentSet)
                 {
-                    //await InitEditSetDetailsAsync(SelectedSet);
+                    //await InitEditSetDetailsAsync(SelectedDish);
                 }
 
                 if (App.IsTablet)
@@ -634,8 +634,9 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
 
-                    IsSideMenuVisible = false;
-                    CurrentState = LayoutState.Success;
+                    CurrentState = LayoutState.Loading;
+                    Thread.Sleep(100); // It suspend the thread to hide unwanted animation
+                    IsSideMenuVisible = true;
                 }
                 else
                 {
@@ -773,12 +774,12 @@ namespace Next2.ViewModels
                 new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync) :
                 new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
             {
                 if (isMovedOrderAccepted)
                 {
@@ -786,7 +787,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private async Task OnOpenModifyCommandAsync()
@@ -808,7 +809,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
@@ -856,7 +857,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private Task OnPayCommandAsync()
@@ -890,7 +891,7 @@ namespace Next2.ViewModels
             }
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(true);
 
             RefreshCurrentOrderAsync();
         }

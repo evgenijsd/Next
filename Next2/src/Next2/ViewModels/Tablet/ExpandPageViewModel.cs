@@ -21,20 +21,17 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly IPopupNavigation _popupNavigation;
 
         private bool _shouldOrderDishesByDESC;
 
         public ExpandPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IMenuService menuService,
-            IPopupNavigation popupNavigation)
+            IMenuService menuService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -101,7 +98,7 @@ namespace Next2.ViewModels.Tablet
                 { Constants.DialogParameterKeys.DISH, dish },
             };
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            await PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -128,7 +125,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 

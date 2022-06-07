@@ -15,13 +15,13 @@ namespace Next2.Services.Menu
 
         Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId);
 
-        Task<AOResult<IEnumerable<IngredientCategoryModel>>> GetIngredientCategoriesAsync();
+        Task<AOResult<IEnumerable<IngredientsCategoryModelDTO>>> GetIngredientCategoriesAsync();
 
-        Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync(int categoryId);
+        Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync(Guid categoryId);
 
         Task<AOResult<IEnumerable<IngredientOfProductModel>>> GetIngredientsOfProductAsync(int productId);
 
         //Task<AOResult<IEnumerable<OptionModel>>> GetOptionsOfProductAsync(int productId);
-        Task<AOResult<IEnumerable<IngredientModel>>> GetIngredientsAsync();
+        Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync();
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Next2.Views.Mobile;
 using Prism.Navigation;
-using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;

@@ -107,6 +107,7 @@ namespace Next2
                 containerRegistry.RegisterSingleton<OrderRegistrationViewModel>();
 
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
+                containerRegistry.RegisterDialog<TabletViews.Dialogs.InfoDialog, InfoDialogViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<TabletViews.Dialogs.MembershipEditDialog, MembershipEditDialogViewModel>();
@@ -139,6 +140,7 @@ namespace Next2
                 containerRegistry.RegisterForNavigation<MobileViews.TaxRemoveConfirmPage, TaxRemoveConfirmPageViewModel>();
                 containerRegistry.RegisterForNavigation<MobileViews.SplitOrderPage, SplitOrderViewModel>();
 
+                containerRegistry.RegisterDialog<MobileViews.Dialogs.ConfirmDialog, ConfirmViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerAddDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.CustomerInfoDialog, CustomerInfoViewModel>();
                 containerRegistry.RegisterDialog<MobileViews.Dialogs.FinishPaymentDialog, FinishPaymentDialogViewModel>();
@@ -179,33 +181,39 @@ namespace Next2
 
         #endregion
 
-        #region --- Private helpers --
+        #region -- Public static methods --
+
+        public static T Resolve<T>() => Current.Container.Resolve<T>();
+
+        #endregion
+
+        #region -- Private helpers --
 
         private IMapper CreateMapper()
         {
             return new MapperConfiguration(cfg =>
             {
-            cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
-            cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
-            cfg.CreateMap<SetModel, FreeSetBindableModel>();
-            cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
-            cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
-            cfg.CreateMap<SeatBindableModel, SeatModel>();
-            cfg.CreateMap<RewardModel, RewardBindabledModel>();
-            cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
-            cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
-            cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
-            cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
-                    .ForMember(x => x.OrderStatus, x => x.MapFrom(s => (EOrderStatus)Enum.Parse(typeof(EOrderStatus), s.OrderStatus)))
-                    .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)))
-                    .ForMember(x => x.Customer, opt => opt.MapFrom(s => (CustomerModelDTO)s.Customer));
-            cfg.CreateMap<FullOrderBindableModel, OrderModel>();
-            cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
-            cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
-            cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
-            cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
-            cfg.CreateMap<DishModelDTO, DishBindableModel>();
-            cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
+                cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
+                cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
+                cfg.CreateMap<SetModel, FreeSetBindableModel>();
+                cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
+                cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
+                cfg.CreateMap<SeatBindableModel, SeatModel>();
+                cfg.CreateMap<RewardModel, RewardBindabledModel>();
+                cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
+                cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
+                cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
+                cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
+                    .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
+                cfg.CreateMap<FullOrderBindableModel, OrderModel>();
+                cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
+                cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
+                cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
+                cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
+                cfg.CreateMap<DishModelDTO, DishBindableModel>();
+                cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
+                cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
+                cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
             }).CreateMapper();
         }
 

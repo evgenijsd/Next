@@ -22,7 +22,6 @@ namespace Next2.ViewModels
 {
     public class RewardsViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
@@ -30,7 +29,6 @@ namespace Next2.ViewModels
 
         public RewardsViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customersService,
@@ -40,7 +38,6 @@ namespace Next2.ViewModels
             Action<EPaymentSteps> goToPaymentStep)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
@@ -215,7 +212,7 @@ namespace Next2.ViewModels
 
         private async void AddNewCustomerDialogCallBackAsync(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid newCustomerId))
             {
@@ -238,7 +235,7 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync, _customersService)
                 : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync, _customersService);
 
-            return _popupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private Task OnSelectRewardCommandAsync(RewardBindabledModel? selectedReward)
