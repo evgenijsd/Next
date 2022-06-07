@@ -49,7 +49,7 @@
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2100;
             public const int DAYS_IN_CALENDAR = 42;
-            public const float TAX_PERCENTAGE = 20;
+            public const decimal TAX_PERCENTAGE = 20;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int EMPLOYEE_ID_LENGTH = 6;
         }
@@ -73,7 +73,7 @@
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
-            public const string SEARCH_QUERY = "SearchQuery";
+            public const string SEARCH_QUERY = "SEARCH_QUERY";
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
             public const string CURRENT_ORDER = "CURRENT_ORDER";
@@ -146,6 +146,8 @@
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
+            public const string DISH = "DISH";
+            public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
         }
 
         public static class API

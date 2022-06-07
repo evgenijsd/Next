@@ -1,6 +1,5 @@
 ﻿using Next2.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace Next2.Models.API.DTO
 {
@@ -10,10 +9,10 @@ namespace Next2.Models.API.DTO
 
         public string? Name { get; set; }
 
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         public string? ImageSource { get; set; }
 
-        public IEnumerable<SimpleIngredientsCategoryModelDTO>? IngredientsCategory { get; set; }
+        public SimpleIngredientsCategoryModelDTO IngredientsCategory { get; set; } = new();
     }
 }

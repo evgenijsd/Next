@@ -1,4 +1,5 @@
 ﻿using Next2.Interfaces;
+using System;
 
 namespace Next2.Models
 {
@@ -22,6 +23,6 @@ namespace Next2.Models
 
         public string Title { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

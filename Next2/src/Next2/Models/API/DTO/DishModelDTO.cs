@@ -10,18 +10,20 @@ namespace Next2.Models.API.DTO
 
         public string? Name { get; set; }
 
-        public double OriginalPrice { get; set; }
+        public decimal OriginalPrice { get; set; }
 
         public string? ImageSource { get; set; }
 
         public Guid DefaultProductId { get; set; }
 
-        public SimpleCategoryModelDTO Category { get; set; }
+        public SimpleCategoryModelDTO Category { get; set; } = new();
 
-        public SimpleSubcategoryModelDTO Subcategory { get; set; }
+        public SimpleSubcategoryModelDTO Subcategory { get; set; } = new();
 
         public IEnumerable<SimpleProductModelDTO>? Products { get; set; }
 
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
+
+        public IEnumerable<SimpleCouponModelDTO>? Coupons { get; set; }
     }
 }

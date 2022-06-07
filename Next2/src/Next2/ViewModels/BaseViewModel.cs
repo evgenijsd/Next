@@ -30,13 +30,13 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        protected Task ShowInfoDialog(string titleTextKey, string descriptionTextKey, string closeTextKey = "Ok")
+        protected Task ShowInfoDialog(string titleText, string descriptionText, string okText)
         {
             var parameters = new DialogParameters
             {
-                { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current[titleTextKey] },
-                { Constants.DialogParameterKeys.DESCRIPTION,  LocalizationResourceManager.Current[descriptionTextKey] },
-                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current[closeTextKey] },
+                { Constants.DialogParameterKeys.TITLE, titleText },
+                { Constants.DialogParameterKeys.DESCRIPTION,  descriptionText },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, okText },
             };
 
             PopupPage infoDialog = App.IsTablet

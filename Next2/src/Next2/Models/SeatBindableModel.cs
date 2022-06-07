@@ -1,12 +1,13 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
 namespace Next2.Models
 {
-    public class SeatBindableModel : BindableBase, IBaseModel
+    public class SeatBindableModel : BindableBase, IBaseApiModel
     {
         public SeatBindableModel()
         {
@@ -23,33 +24,28 @@ namespace Next2.Models
             SeatSelectionCommand = seat.SeatSelectionCommand;
             SeatDeleteCommand = seat.SeatDeleteCommand;
             RemoveOrderCommand = seat.RemoveOrderCommand;
-            Sets = new();
-
-            foreach (var set in seat.Sets)
-            {
-                Sets.Add(new SetBindableModel(set));
-            }
+            SelectedDishes = new();
 
             if (seat.SelectedItem is not null)
             {
-                foreach (var set in seat.Sets)
+                foreach (var dish in seat.SelectedDishes)
                 {
-                    if (set.Id == seat.SelectedItem.Id && set.Portion == seat.SelectedItem.Portion && set.TotalPrice == seat.SelectedItem.TotalPrice && set.Title == seat.SelectedItem.Title)
+                    if (dish.Id == seat.SelectedItem.Id && dish.SelectedDishProportion == seat.SelectedItem.SelectedDishProportion && dish.TotalPrice == seat.SelectedItem.TotalPrice)
                     {
-                        var tmpSet = seat.Sets.IndexOf(set);
-                        SelectedItem = Sets[tmpSet];
+                        var tmpDish = seat.SelectedDishes.IndexOf(dish);
+                        SelectedItem = SelectedDishes[tmpDish];
                     }
                 }
             }
         }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public int SeatNumber { get; set; }
 
         public bool Checked { get; set; }
 
-        public SetBindableModel? SelectedItem { get; set; }
+        public DishBindableModel? SelectedItem { get; set; }
 
         public bool IsFirstSeat { get; set; }
 
@@ -61,6 +57,6 @@ namespace Next2.Models
 
         public ICommand RemoveOrderCommand { get; set; }
 
-        public ObservableCollection<SetBindableModel> Sets { get; set; }
+        public ObservableCollection<DishBindableModel> SelectedDishes { get; set; }
     }
 }

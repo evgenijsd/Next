@@ -566,9 +566,8 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <templates:SetItemTemplate
-                                        xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
-                                        xct:TouchEffect.CommandParameter="{Binding .}"
-                                        x:DataType="models:SetModel"/>
+                                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:NewOrderViewModel}}}"
+                                        xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -624,6 +623,7 @@
                                     <templates:SubCategoryItemTemplate
                                         HeightRequest="50"
                                         MinimumHeightRequest="50"
+                                        TextMargin="18, 0, 18, 6"
                                         Text="{Binding Name}"
                                         FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-Medium">
@@ -778,7 +778,7 @@
                                                 WidthRequest="80">
 
                                                 <ffimageloading:CachedImage 
-                                                    Source="{Binding OrderRegistrationViewModel.SelectedSet.ImagePath}"
+                                                    Source="{Binding OrderRegistrationViewModel.SelectedDish.Dish.ImageSource}"
                                                     Aspect="AspectFill"/>
 
                                             </Frame>
@@ -793,14 +793,14 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Title}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.Dish.Name}"
                                                 Margin="0"
                                                 FontSize="{DynamicResource TSize_i4_5}"
                                                 FontFamily="Barlow-Medium"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.TotalPrice, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
                                                 Margin="0, 5, 0, 0"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-SemiBold"
@@ -839,7 +839,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Title}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.SelectedDishProportion.Proportion.Name}"
                                                 Margin="0, 5, 0, 10"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 FontFamily="Barlow-Medium"
@@ -854,7 +854,7 @@
                                             Orientation="Vertical">
 
                                             <Label 
-                                                Text="{Binding OrderRegistrationViewModel.SelectedSet.Portion.Price, StringFormat='$ {0:F2}'}"
+                                                Text="{Binding OrderRegistrationViewModel.SelectedDish.SelectedDishProportionPrice, StringFormat='$ {0:F2}'}"
                                                 FontFamily="Barlow-SemiBold"
                                                 FontSize="{DynamicResource TSize_i5}"
                                                 TextColor="{DynamicResource IndicationColor_i1}"/>
@@ -867,9 +867,9 @@
                                         
                                     <templates:ProductItemTemplate
                                         Grid.Row="2"
-                                        ItemsSource="{Binding OrderRegistrationViewModel.SelectedSet.Products}"/>
+                                        ItemsSource="{Binding OrderRegistrationViewModel.SelectedDish.SelectedProducts}"/>
 
-                                    <!-- Row 6 Footer-->
+                                     <!--Row 6 Footer-->
 
                                     <Grid Grid.Row="3" />
 
@@ -1123,7 +1123,7 @@
                     <Label.FormattedText>
                         <FormattedString>
                             <Span Text="{xct:Translate Order}" />
-                            <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Id, StringFormat='{} #{0}'}" />
+                            <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Number, StringFormat='{} #{0}'}" />
                         </FormattedString>
                     </Label.FormattedText>
 
@@ -1269,7 +1269,7 @@
                 <controls:CustomStepper
                     IsEnabled="{Binding OrderRegistrationViewModel.CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                     Style="{DynamicResource CustomStepperStyle_i1}"
-                    MaxValue="{x:Static local:Constants+Limits.MAX_TABLE_SEATS}"
+                    MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
 
@@ -1539,7 +1539,7 @@
                     <DataTemplate x:DataType="models:SeatBindableModel">
 
                         <templates:SeatItemTemplate
-                            ItemsSource="{Binding Sets}"
+                            ItemsSource="{Binding SelectedDishes}"
                             Padding="18, 9, 18, 0"/>
 
                     </DataTemplate>
@@ -1685,7 +1685,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.SubTotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1719,15 +1719,16 @@
 
                         <StackLayout.Triggers>
 
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType, Converter={xct:EnumToIntConverter}}"
-                                Value="0">
+                            <MultiTrigger TargetType="StackLayout">
+                                <MultiTrigger.Conditions>
+                                    <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                    <BindingCondition Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNullOrEmptyConverter}}" Value="True" />
+                                </MultiTrigger.Conditions>
 
                                 <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
+                                
+                            </MultiTrigger>
+                            
                         </StackLayout.Triggers>
 
                         <Label
@@ -1760,8 +1761,8 @@
 
                                 <DataTrigger
                                     TargetType="Label"
-                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.BonusType}"
-                                    Value="{x:Static enum:EBonusType.Discount}">
+                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Value="True">
 
                                     <Setter Property="Text" Value="{xct:Translate Discount}" />
 
@@ -1774,7 +1775,20 @@
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
                             HorizontalOptions="EndAndExpand"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Bonus.Name}" >
+                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon.Name}">
+
+                            <Label.Triggers>
+
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Value="True">
+
+                                    <Setter Property="Text" Value="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" />
+
+                                </DataTrigger>
+                                
+                            </Label.Triggers>
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
@@ -1916,7 +1930,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Total, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.TotalPrice, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -1971,14 +1985,16 @@
                     Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Order}"
-                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"/>
+                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Pending}"/>
 
                 <buttons:BorderButton
                     Grid.Column="1"
                     Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Tab}"
-                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"/>
+                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Preparing}"/>
 
                 <buttons:BorderButton
                     Grid.Column="2"

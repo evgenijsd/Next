@@ -245,7 +245,7 @@
                                     FontFamily="Barlow-Bold"
                                     FontSize="{DynamicResource TSize_i3}"
                                     HorizontalOptions="Center"
-                                    Text="{Binding Customer.GiftCardsCount}"
+                                    Text="{Binding Customer.GiftCards.Count}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
 
                             </StackLayout>

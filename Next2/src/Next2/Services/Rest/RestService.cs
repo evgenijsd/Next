@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Next2.Models.API;
+using Next2.Models.API.Queries;
+using Next2.Models.API.Results;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;

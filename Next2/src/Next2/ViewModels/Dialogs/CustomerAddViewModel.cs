@@ -88,7 +88,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (CanAddNewCustomer)
             {
-                var newCustomer = new CustomerModelDTO()
+                var newCustomer = new CustomerBindableModel()
                 {
                     Email = Email,
                     FullName = Name,
@@ -96,7 +96,7 @@ namespace Next2.ViewModels.Dialogs
                     Birthday = SelectedDate,
                 };
 
-                var result = await _customersService.AddNewCustomerAsync(newCustomer);
+                var result = await _customersService.CreateCustomerAsync(newCustomer);
 
                 if (result.IsSuccess)
                 {

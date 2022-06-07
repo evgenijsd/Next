@@ -209,7 +209,7 @@
                                     </DataTrigger>
 
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
-                                        <Setter Property="Text" Value="{Binding Order.Customer.GiftCardsCount}"/>
+                                        <Setter Property="Text" Value="{Binding Order.Customer.GiftCards.Count}"/>
                                     </DataTrigger>
                                     
                                 </Label.Triggers>
@@ -784,7 +784,7 @@
 
                 <StackLayout
                     Orientation="Horizontal"
-                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
+                    IsVisible="{Binding Order.Tip, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label
                         Text="{xct:Translate Tip}"
@@ -834,7 +834,7 @@
 
                 <StackLayout
                     Orientation="Horizontal"
-                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource floatToBoolConverter}}">
+                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label
                         Text="{xct:Translate GiftCards}"

@@ -11,7 +11,7 @@ namespace Next2.Models
 
         public string ImagePath { get; set; }
 
-        public float Price { get; set; }
+        public decimal Price { get; set; }
 
         public bool IsFree { get; set; }
 

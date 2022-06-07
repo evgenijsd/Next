@@ -34,6 +34,9 @@ using Next2.Services.Bonuses;
 using Next2.Services.Log;
 using Next2.Services.Rest;
 using Next2.Models.API.DTO;
+using System;
+using Next2.Enums;
+using Next2.Models.API.Commands;
 
 namespace Next2
 {
@@ -196,12 +199,19 @@ namespace Next2
                 cfg.CreateMap<SeatBindableModel, SeatModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
-                cfg.CreateMap<BonusModel, BonusBindableModel>();
-                cfg.CreateMap<BonusBindableModel, BonusModel>();
+                cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
+                cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
+                cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
+                    .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
                 cfg.CreateMap<FullOrderBindableModel, OrderModel>();
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
                 cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
+                cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
+                cfg.CreateMap<DishModelDTO, DishBindableModel>();
+                cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
+                cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
+                cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
             }).CreateMapper();
         }
 

@@ -85,7 +85,7 @@ namespace Next2.ViewModels.Mobile
         {
             await PopupNavigation.PopAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out float value))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out decimal value))
             {
                 SelectedTipItem.Value = value;
                 SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value:F2}";

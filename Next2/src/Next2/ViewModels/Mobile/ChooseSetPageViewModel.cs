@@ -1,8 +1,11 @@
+using Acr.UserDialogs;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
@@ -43,8 +46,9 @@ namespace Next2.ViewModels.Mobile
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
-        //private ICommand _tapSetCommand;
-        //public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _tapDishCommand;
+        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
@@ -85,45 +89,42 @@ namespace Next2.ViewModels.Mobile
             Dishes = new(Dishes.Reverse());
         }
 
-        //private async Task OnTapSetCommandAsync(SetModel set)
-        //{
-        //    var portions = await _menuService.GetPortionsSetAsync(set.Id);
+        private async Task OnTapDishCommandAsync(DishModelDTO dish)
+        {
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.DISH, dish },
+                { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
+            };
 
-        //    if (portions.IsSuccess)
-        //    {
-        //        var param = new DialogParameters
-        //        {
-        //            { Constants.DialogParameterKeys.SET, set },
-        //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
-        //        };
+            await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        }
 
-        //        await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
-        //    }
-        //}
-        //private async void CloseDialogCallback(IDialogParameters dialogResult)
-        //{
-        //    if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
-        //    {
-        //        await _orderService.AddSetInCurrentOrderAsync(set);
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+            {
+                await _orderService.AddSetInCurrentOrderAsync(dish);
 
-        //        if (PopupNavigation.PopupStack.Any())
-        //        {
-        //            await PopupNavigation.PopAsync();
-        //        }
+                if (PopupNavigation.PopupStack.Any())
+                {
+                    await PopupNavigation.PopAsync();
+                }
 
-        //        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-        //        {
-        //            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-        //            Position = ToastPosition.Bottom,
-        //        };
+                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
 
-        //        UserDialogs.Instance.Toast(toastConfig);
-        //    }
-        //    else
-        //    {
-        //        await PopupNavigation.PopAsync();
-        //    }
-        //}
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            else
+            {
+                await PopupNavigation.PopAsync();
+            }
+        }
+
         private async Task LoadDishesAsync()
         {
             if (IsInternetConnected)

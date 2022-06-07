@@ -4,7 +4,6 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +13,6 @@ namespace Next2.Services.Mock
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
-        private IList<OrderModel> _orders;
-        private IList<SeatModel> _seats;
         private IList<UserModel> _users;
         private IList<TaxModel> _tax;
         private IList<BonusModel> _bonuses;
@@ -30,7 +27,7 @@ namespace Next2.Services.Mock
         private IList<IngredientModel> _ingredients;
         private IList<IngredientOfProductModel> _ingredientsOfProductModel;
         private IList<WorkLogRecordModel> _workLogBook;
-        private IList<GiftCardModel> _giftCards;
+        private IList<GiftCardModelDTO> _giftCards;
 
         private Dictionary<Type, object> _base;
         private Dictionary<Type, int> _maxIdentifiers;
@@ -160,7 +157,6 @@ namespace Next2.Services.Mock
         private async Task InitMocksAsync()
         {
             await Task.WhenAll(
-                InitOrdersAsync(),
                 InitUsersAsync(),
                 InitTaxAsync(),
                 InitBonusAsync(),
@@ -174,8 +170,7 @@ namespace Next2.Services.Mock
                 InitIngredientCategoriesAsync(),
                 InitIngredientsAsync(),
                 InitWorkLogBookAsync(),
-                InitIngredientsOfProductAsync(),
-                InitGiftCardsAsync());
+                InitIngredientsOfProductAsync());
 
             _base = new Dictionary<Type, object>
             {
@@ -184,9 +179,7 @@ namespace Next2.Services.Mock
                 { typeof(BonusSetModel), _bonusSets },
                 { typeof(BonusModel), _bonuses },
                 { typeof(RewardModel), _rewards },
-                { typeof(OrderModel), _orders },
                 { typeof(UserModel), _users },
-                { typeof(SeatModel), _seats },
                 { typeof(IngredientCategoryModel), _ingredientCategories },
                 { typeof(IngredientOfProductModel), _ingredientsOfProductModel },
                 { typeof(IngredientModel), _ingredients },
@@ -195,17 +188,14 @@ namespace Next2.Services.Mock
                 { typeof(ProductModel), _products },
                 { typeof(OptionModel), _optionsProduct },
                 { typeof(WorkLogRecordModel), _workLogBook },
-                { typeof(GiftCardModel), _giftCards },
+                { typeof(GiftCardModelDTO), _giftCards },
             };
 
             _maxIdentifiers = new Dictionary<Type, int>
             {
                 { typeof(RewardModel), GetMaxId(_rewards) },
-                { typeof(OrderModel), GetMaxId(_orders) },
                 { typeof(UserModel), GetMaxId(_users) },
-                { typeof(SeatModel), GetMaxId(_seats) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
-                { typeof(GiftCardModel), GetMaxId(_giftCards) },
             };
 
             _initCompletionSource.TrySetResult(true);
@@ -224,7 +214,7 @@ namespace Next2.Services.Mock
                 {
                     Id = 1,
                     Name = "Tax",
-                    Value = 0.1f,
+                    Value = 0.1m,
                 },
             };
         });
@@ -311,42 +301,42 @@ namespace Next2.Services.Mock
                 {
                     Id = 1,
                     Name = "10% Off",
-                    Value = 0.1f,
+                    Value = 0.1m,
                     Type = EBonusValueType.Percent,
                 },
                 new BonusModel
                 {
                     Id = 2,
                     Name = "$ 2.00 Off",
-                    Value = 2.0f,
+                    Value = 2.0m,
                     Type = EBonusValueType.Value,
                 },
                 new BonusModel
                 {
                     Id = 3,
                     Name = "50% Off BigMack",
-                    Value = 0.5f,
+                    Value = 0.5m,
                     Type = EBonusValueType.Percent,
                 },
                 new BonusModel
                 {
                     Id = 4,
                     Name = "$ 5.00 Off",
-                    Value = 5f,
+                    Value = 5m,
                     Type = EBonusValueType.Value,
                 },
                 new BonusModel
                 {
                     Id = 5,
                     Name = "BOGO Buy 1 and get 1 free",
-                    Value = 1.0f,
+                    Value = 1.0m,
                     Type = EBonusValueType.Percent,
                 },
                 new BonusModel
                 {
                     Id = 6,
                     Name = "GoodNeighbor",
-                    Value = 1.0f,
+                    Value = 1.0m,
                     Type = EBonusValueType.Percent,
                 },
             };
@@ -360,302 +350,67 @@ namespace Next2.Services.Mock
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 2,
                     SetTitle = "B Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c6"),
+                    CustomerId = new Guid("05c541cf-a5b7-4c50-aed4-e30afd4be1b2"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                    CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                    CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c7"),
+                    CustomerId = new Guid("0777f536-3be6-4baf-b436-83541a21989c"),
                     SetId = 3,
                     SetTitle = "C Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c8"),
+                    CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
                     SetId = 1,
                     SetTitle = "A Pulled Pork Sammy Meal",
                 },
                 new RewardModel
                 {
                     Id = rewardId++,
-                    CustomerId = new Guid("0b214de7895849568eed28f9ba2c47c8"),
+                    CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
                     SetId = 4,
                     SetTitle = "D Pulled Pork Sammy Meal",
                 },
             };
-        });
-
-        private Task InitOrdersAsync() => Task.Run(async () =>
-        {
-            _orders = new List<OrderModel>();
-
-            _orders = new List<OrderModel>
-            {
-                new OrderModel()
-                {
-                    Id = 1,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c6"),
-                        FullName = "Adam Brody",
-                    },
-                    TableNumber = 10,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 1,
-                    Total = 50.2f,
-                    PriceTax = 5.02f,
-                },
-                new OrderModel()
-                {
-                    Id = 2,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c7"),
-                        FullName = "Abraham Linkoln",
-                    },
-                    TableNumber = 9,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 2,
-                    Total = 30.3f,
-                    PriceTax = 3.03f,
-                },
-                new OrderModel()
-                {
-                    Id = 3,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c8"),
-                        FullName = "Aaron Rodgers",
-                    },
-                    TableNumber = 8,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 3,
-                    Total = 40.45f,
-                    PriceTax = 4.05f,
-                },
-                new OrderModel()
-                {
-                    Id = 4,
-                    Customer = new (),
-                    TableNumber = 7,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 4,
-                    Total = 3.67f,
-                    PriceTax = 0.37f,
-                },
-                new OrderModel()
-                {
-                    Id = 5,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c47c9"),
-                        FullName = "Angel Dias",
-                    },
-                    TableNumber = 6,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 5,
-                    Total = 70.44f,
-                    PriceTax = 7.04f,
-                },
-                new OrderModel()
-                {
-                    Id = 6,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c57c6"),
-                        FullName = "Kaiya Dorwart",
-                    },
-                    TableNumber = 5,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 6,
-                    Total = 6.77f,
-                    PriceTax = 0.68f,
-                },
-                new OrderModel()
-                {
-                    Id = 7,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c67c6"),
-                        FullName = "Lincoln Lipshutz",
-                    },
-                    TableNumber = 4,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 7,
-                    Total = 45.11f,
-                    PriceTax = 4.51f,
-                },
-                new OrderModel()
-                {
-                    Id = 8,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c77c6"),
-                        FullName = "Randy Mango",
-                    },
-                    TableNumber = 3,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 8,
-                    Total = 33.67f,
-                    PriceTax = 3.37f,
-                },
-                new OrderModel()
-                {
-                    Id = 9,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c87c6"),
-                        FullName = "Martin Schleifer",
-                    },
-                    TableNumber = 2,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 9,
-                    Total = 55.16f,
-                    PriceTax = 5.52f,
-                },
-                new OrderModel()
-                {
-                    Id = 10,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c97c6"),
-                        FullName = "Carla Dorwart",
-                    },
-                    TableNumber = 1,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 10,
-                    Total = 97.66f,
-                    PriceTax = 9.77f,
-                },
-                new OrderModel()
-                {
-                    Id = 11,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c48c6"),
-                        FullName = "Davis Septimus",
-                    },
-                    TableNumber = 11,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 11,
-                    Total = 96.00f,
-                    PriceTax = 9.60f,
-                },
-                new OrderModel()
-                {
-                    Id = 12,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c49c6"),
-                        FullName = "Grover Parsons",
-                    },
-                    TableNumber = 12,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 12,
-                    Total = 9.50f,
-                    PriceTax = 0.95f,
-                },
-                new OrderModel()
-                {
-                    Id = 13,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c51c6"),
-                        FullName = "Douglas Moreno",
-                    },
-                    TableNumber = 13,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 13,
-                    Total = 9.40f,
-                    PriceTax = 0.94f,
-                },
-                new OrderModel()
-                {
-                    Id = 14,
-                    Customer = new (),
-                    TableNumber = 14,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 14,
-                    Total = 9.30f,
-                    PriceTax = 0.93f,
-                },
-                new OrderModel()
-                {
-                    Id = 15,
-                    Customer = new CustomerModelDTO
-                    {
-                        Id = new Guid("0b214de7895849568eed28f9ba2c52c6"),
-                        FullName = "Kenneth Feron",
-                    },
-                    TableNumber = 15,
-                    OrderStatus = EOrderStatus.Pending,
-                    OrderType = EOrderType.DineIn,
-                    OrderNumber = 15,
-                    Total = 9.20f,
-                    PriceTax = 0.92f,
-                },
-            };
-
-            //    for (int i = 0; i < _orders.Count; i++)
-            //    {
-            //        var orderSeats = _seats.Where(s => s.OrderId == _orders[i].Id);
-            //        var amountsBySeats = orderSeats.Select(x => x.Sets.Select(x => x.Price).Sum());
-
-            //        _orders[i].Total = amountsBySeats.Sum();
-            //    }
-            //});
         });
 
         private Task InitUsersAsync() => Task.Run(() =>
@@ -1542,14 +1297,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 41.3f,
+                    Price = 41.3m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 56.3f,
+                    Price = 56.3m,
                 },
                 new PortionModel()
                 {
@@ -1563,7 +1318,7 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Small",
-                    Price = 29.4f,
+                    Price = 29.4m,
                 },
                 new PortionModel()
                 {
@@ -1591,14 +1346,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1612,14 +1367,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1633,14 +1388,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1654,14 +1409,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1675,14 +1430,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1696,14 +1451,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1717,14 +1472,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1738,14 +1493,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1759,14 +1514,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1780,14 +1535,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1801,14 +1556,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1822,14 +1577,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1843,14 +1598,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1864,14 +1619,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1885,14 +1640,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1906,14 +1661,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1927,14 +1682,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1948,14 +1703,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1969,14 +1724,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -1990,14 +1745,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
                 new PortionModel()
                 {
@@ -2011,14 +1766,14 @@ namespace Next2.Services.Mock
                     Id = id++,
                     SetId = setId,
                     Title = "Medium",
-                    Price = 44.7f,
+                    Price = 44.7m,
                 },
                 new PortionModel()
                 {
                     Id = id++,
                     SetId = setId++,
                     Title = "Large",
-                    Price = 57.8f,
+                    Price = 57.8m,
                 },
             };
         });
@@ -2294,8 +2049,8 @@ namespace Next2.Services.Mock
                     DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    ProductPrice = 10.5f,
-                    TotalPrice = 10.5f,
+                    ProductPrice = 10.5m,
+                    TotalPrice = 10.5m,
                 },
                 new()
                 {
@@ -2305,8 +2060,8 @@ namespace Next2.Services.Mock
                     DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    ProductPrice = 30.8f,
-                    TotalPrice = 30.8f,
+                    ProductPrice = 30.8m,
+                    TotalPrice = 30.8m,
                 },
                 new()
                 {
@@ -2316,8 +2071,8 @@ namespace Next2.Services.Mock
                     DefaultProductId = id,
                     Title = "Product " + id++,
                     ImagePath = "https://static.onecms.io/wp-content/uploads/sites/9/2021/05/19/urdaburger-FT-RECIPE0621.jpg",
-                    ProductPrice = 16.4f,
-                    TotalPrice = 16.4f,
+                    ProductPrice = 16.4m,
+                    TotalPrice = 16.4m,
                 },
                 new()
                 {
@@ -3464,156 +3219,6 @@ namespace Next2.Services.Mock
                     ProductId = productId++,
                     Title = "Medium",
                 },
-            };
-        });
-
-        private Task InitGiftCardsAsync() => Task.Run(() =>
-        {
-            int id = 7;
-            int giftCardNumber = 107;
-
-            _giftCards = new List<GiftCardModel>
-            {
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 55.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 85.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 5.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 7.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 95.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 85f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 15.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 65f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 25.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 615.50f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 225f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
-                 new()
-                 {
-                     Id = id++,
-                     GiftCardFunds = 80f,
-                     GiftCardNumber = giftCardNumber++,
-                     IsRegistered = false,
-                 },
             };
         });
 

@@ -12,6 +12,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Mobile.ModificationsPage"
@@ -101,7 +102,7 @@
                                         Title="{Binding Title}"
                                         IsVisibleSubtitle="True"
                                         Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                                        BindableLayout="{Binding SelectedPortion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
+                                        BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
                                 </controls:CustomFrame>
 
@@ -179,7 +180,7 @@
                         
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:ProductModel">
+                            <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
 
                                 <Frame
                                     Padding="16, 4"
@@ -189,9 +190,9 @@
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
-                                        Title="{Binding Title}"
-                                        Subtitle="{Binding ProductPrice, StringFormat='$ {0:F2}'}"
-                                        ImagePath="{Binding ImagePath}"
+                                        Title="{Binding Name}"
+                                        Subtitle="{Binding DefaultPrice, StringFormat='$ {0:F2}'}"
+                                        ImagePath="{Binding ImageSource}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"
                                         BindableLayout="{Binding SelectedReplacementProduct, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
@@ -328,9 +329,9 @@
 
                                         <templates:ToggleItemTemplate
                                             IsToggle="{Binding IsToggled}"
-                                            Title="{Binding Title}"
+                                            Title="{Binding Name}"
                                             Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
-                                            ImagePath="{Binding ImagePath}"
+                                            ImagePath="{Binding ImageSource}"
                                             IsVisibleSubtitle="True"
                                             IsVisibleImage="True"
                                             CanTurnOff="True"/>
@@ -519,7 +520,7 @@
                     HeightRequest="1"/>
 
                 <CollectionView
-                    ItemsSource="{Binding ProductsSet}"
+                    ItemsSource="{Binding ProductsDish}"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never">
 

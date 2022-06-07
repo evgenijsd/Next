@@ -14,9 +14,9 @@ namespace Next2.Helpers
 
         public string Text { get; set; } = string.Empty;
 
-        public float PercentTip { get; set; }
+        public decimal PercentTip { get; set; }
 
-        public float Value { get; set; }
+        public decimal Value { get; set; }
 
         public ICommand TapCommand { get; set; }
     }

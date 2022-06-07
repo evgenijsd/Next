@@ -2,99 +2,70 @@
 using Next2.Interfaces;
 using Next2.Models.API.DTO;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Next2.Models
 {
-    public class FullOrderBindableModel : BindableBase, IBaseModel
+    public class FullOrderBindableModel : BindableBase, IBaseApiModel
     {
-        public FullOrderBindableModel()
-        {
-        }
+        public Guid Id { get; set; }
 
-        public FullOrderBindableModel(FullOrderBindableModel order)
-        {
-            Id = order.Id;
-            OrderNumber = order.OrderNumber;
-            IsTab = order.IsTab;
-            Table = order.Table;
-            Customer = order.Customer;
-            CustomerName = order.CustomerName;
-            OrderStatus = order.OrderStatus;
-            OrderType = order.OrderType;
-            Bonus = order.Bonus;
-            BonusType = order.BonusType;
-            SubTotal = order.SubTotal;
-            Tax = order.Tax;
-            PriceWithBonus = order.PriceWithBonus;
-            PriceTax = order.PriceTax;
-            Total = order.Total;
-            Seats = new();
-
-            foreach (var seat in order.Seats)
-            {
-                Seats.Add(new SeatBindableModel(seat));
-            }
-        }
-
-        public void UpdateTotalSum()
-        {
-            SubTotal = 0;
-
-            foreach (var seat in Seats)
-            {
-                foreach (var set in seat.Sets)
-                {
-                    set.IngredientsPrice = 0;
-                    set.ProductsPrice = 0;
-
-                    foreach (var product in set.Products)
-                    {
-                        set.IngredientsPrice += product.IngredientsPrice;
-                        set.ProductsPrice += product.SelectedProduct.ProductPrice;
-                    }
-
-                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
-
-                    SubTotal += set.TotalPrice;
-                }
-            }
-
-            PriceTax = SubTotal * Tax.Value;
-            Total = SubTotal + PriceTax;
-        }
-
-        public int Id { get; set; }
-
-        public int OrderNumber { get; set; }
+        public int Number { get; set; }
 
         public bool IsTab { get; set; }
 
-        public TableBindableModel Table { get; set; } = new();
+        public SimpleTableModelDTO Table { get; set; } = new();
 
-        public CustomerModelDTO? Customer { get; set; }
+        public CustomerBindableModel Customer { get; set; } = new();
 
-        public string? CustomerName { get; set; }
+        public EOrderStatus? OrderStatus { get; set; }
 
-        public EOrderStatus OrderStatus { get; set; }
+        public EOrderType? OrderType { get; set; }
 
-        public EOrderType OrderType { get; set; }
+        public DiscountModelDTO Discount { get; set; }
 
-        public EBonusType BonusType { get; set; } = EBonusType.None;
+        public CouponModelDTO Coupon { get; set; }
 
-        public BonusBindableModel Bonus { get; set; } = new();
+        public decimal TaxCoefficient { get; set; }
 
-        public TaxModel Tax { get; set; } = new();
+        public decimal? SubTotalPrice { get; set; }
 
-        public float SubTotal { get; set; }
+        public decimal? DiscountPrice { get; set; }
 
-        public float PriceWithBonus { get; set; } = 0f;
+        public decimal PriceTax { get; set; }
 
-        public float PriceTax { get; set; }
+        public decimal TotalPrice { get; set; }
 
-        public float Total { get; set; }
+        public string? EmployeeId { get; set; }
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
+
+        //public void UpdateTotalSum()
+        //{
+        //    SubTotalPrice = 0;
+
+        //    foreach (var seat in Seats)
+        //    {
+        //        foreach (var set in seat.SelectedDishes)
+        //        {
+        //            set.IngredientsPrice = 0;
+        //            set.ProductsPrice = 0;
+
+        //            foreach (var product in set.Products)
+        //            {
+        //                set.IngredientsPrice += product.IngredientsPrice;
+        //                set.ProductsPrice += product.SelectedProduct.ProductPrice;
+        //            }
+
+        //            set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
+
+        //            SubTotalPrice += set.TotalPrice;
+        //        }
+        //    }
+
+        //    PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
+        //    TotalPrice = (decimal)SubTotalPrice + PriceTax;
+        //}
     }
 }

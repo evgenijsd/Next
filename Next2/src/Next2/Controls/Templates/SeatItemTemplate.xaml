@@ -123,7 +123,7 @@
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="models:SetBindableModel">
+            <DataTemplate x:DataType="models:DishBindableModel">
 
                 <StackLayout
                     Padding="0, 0, 0, 7"
@@ -171,7 +171,7 @@
 
                                 <ffimageloading:CachedImage
                                     Aspect="AspectFill"
-                                    Source="{Binding ImagePath}"/>
+                                    Source="{Binding Dish.ImageSource}"/>
 
                             </pancakeview:PancakeView>
 
@@ -180,7 +180,7 @@
                                 Margin="0, 16, 16, 16">
 
                                 <Label
-                                    Text="{Binding Title}"
+                                    Text="{Binding Dish.Name}"
                                     FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-Medium"
                                     LineBreakMode="TailTruncation"
