@@ -173,6 +173,9 @@
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\Dialogs\TipValueDialog.xaml.cs">
       <DependentUpon>TipValueDialog.xaml</DependentUpon>
     </Compile>
@@ -222,6 +225,9 @@
     </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
       <DependentUpon>MembershipEditDialog.xaml</DependentUpon>

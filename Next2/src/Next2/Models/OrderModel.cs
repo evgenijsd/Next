@@ -14,8 +14,6 @@ namespace Next2.Models
 
         public int TableNumber { get; set; }
 
-        public string OrderStatus { get; set; }
-
         public EOrderType OrderType { get; set; }
 
         public int OrderNumber { get; set; }
@@ -26,6 +24,6 @@ namespace Next2.Models
 
         public decimal PriceTax { get; set; }
 
-        public EOrderStatus? PaymentStatus;
+        public EOrderStatus? OrderStatus { get; set; }
     }
 }

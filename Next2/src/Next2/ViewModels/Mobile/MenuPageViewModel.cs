@@ -22,7 +22,6 @@ namespace Next2.ViewModels.Mobile
     public class MenuPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
-
         private readonly IOrderService _orderService;
 
         private readonly IPopupNavigation _popupNavigation;
@@ -74,7 +73,7 @@ namespace Next2.ViewModels.Mobile
             {
                 PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
 
-                await _popupNavigation.PushAsync(confirmDialog);
+                await PopupNavigation.PushAsync(confirmDialog);
             }
 
             SelectedMenuItem = MenuItems.FirstOrDefault();

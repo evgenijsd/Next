@@ -11,7 +11,6 @@ using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -25,7 +24,6 @@ namespace Next2.ViewModels
 {
     public class PaymentCompleteViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
@@ -38,14 +36,12 @@ namespace Next2.ViewModels
 
         public PaymentCompleteViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             ICustomersService customersService,
             IOrderService orderService,
             IMapper mapper,
             PaidOrderBindableModel order)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _customersService = customersService;
             _orderService = orderService;
             _mapper = mapper;
@@ -389,7 +385,7 @@ namespace Next2.ViewModels
             {
                 PopupPage confirmDialog = new Views.Tablet.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
 
-                await _popupNavigation.PushAsync(confirmDialog);
+                await PopupNavigation.PushAsync(confirmDialog);
             }
             else
             {
@@ -424,7 +420,7 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.FinishPaymentDialog(param, callback)
                 : new Views.Mobile.Dialogs.FinishPaymentDialog(param, callback);
 
-            await _popupNavigation.PushAsync(popupPage);
+            await PopupNavigation.PushAsync(popupPage);
         }
 
         private Task<bool> SendReceiptAsync(IDialogParameters par)
@@ -464,12 +460,12 @@ namespace Next2.ViewModels
 
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, GiftCardViewDialogCallBack);
 
-            await _popupNavigation.PushAsync(popupPage);
+            await PopupNavigation.PushAsync(popupPage);
         }
 
         private async void GiftCardViewDialogCallBack(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.ContainsKey(Constants.DialogParameterKeys.GIFT_CARD_ADDED))
             {

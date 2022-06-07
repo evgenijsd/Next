@@ -1,4 +1,4 @@
-﻿namespace Next2.Models.API
+﻿namespace Next2.Models.API.Queries
 {
     public class LoginQuery
     {

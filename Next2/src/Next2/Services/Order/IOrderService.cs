@@ -1,7 +1,7 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using System;
 using Next2.Models.API.DTO;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +19,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
-        Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync();
+        Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync();
 
         Task<AOResult> DeleteOrderAsync(int orderId);
 

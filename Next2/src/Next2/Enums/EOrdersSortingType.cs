@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Next2.Enums
 {
-    public enum EOrderTabSorting
+    public enum EOrdersSortingType
     {
         ByCustomerName,
         ByTableNumber,
