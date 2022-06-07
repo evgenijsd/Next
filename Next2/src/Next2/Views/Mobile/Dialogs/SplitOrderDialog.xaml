@@ -1,18 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-    <!--MOBILE-->
-<rg:PopupPage 
+<!--  MOBILE  -->
+<rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
-    x:Class="Next2.Views.Mobile.Dialogs.SplitOrderDialog" 
-    x:DataType="dialogs:CustomerAddViewModel">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label 
-                Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
-</rg:PopupPage>
+    x:Class="Next2.Views.Mobile.Dialogs.SplitOrderDialog"
+    x:DataType="dialogs:SplitOrderDialogViewModel" />

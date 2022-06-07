@@ -384,7 +384,7 @@
                                 FontSize="{DynamicResource TSize_i7}"
                                 Background="{DynamicResource IndicationColor_i5}"
                                 Text="{xct:Translate Percentage}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                TextColor="{DynamicResource TextAndBackgroundColor_i3}" xct:TouchEffect.Command="{Binding SplitByPercentageCommand}">
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>

@@ -8,18 +8,24 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Next2.Services.Order;
 using System.Linq;
+using Rg.Plugins.Popup.Contracts;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
 
 namespace Next2.ViewModels
 {
     public class SplitOrderViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
+        private readonly IPopupNavigation _popupNavigation;
         public SplitOrderViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
+            _popupNavigation = popupNavigation;
         }
 
         #region -- Public Properties --
@@ -31,8 +37,10 @@ namespace Next2.ViewModels
         public IEnumerable<FullOrderBindableModel> Orders { get; set; }
 
         private ICommand _goBackCommand;
-
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+
+        private ICommand _splitByPercentageCommand;
+        public ICommand SplitByPercentageCommand => _splitByPercentageCommand ??= new AsyncCommand(OnSplitByPercentageCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -56,6 +64,19 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Private Helpers --
+
+        private async Task OnSplitByPercentageCommand()
+        {
+            var param = new DialogParameters
+            {
+            };
+
+            PopupPage popupPage = App.IsTablet
+                ? new Views.Tablet.Dialogs.SplitOrderDialog(param, (IDialogParameters dialogResult) => _popupNavigation.PopAsync())
+                : new Views.Mobile.Dialogs.SplitOrderDialog(param, (IDialogParameters dialogResult) => _popupNavigation.PopAsync());
+
+            await _popupNavigation.PushAsync(popupPage);
+        }
 
         private Task OnDishSelectionCommand(object? arg)
         {
