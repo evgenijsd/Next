@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -318,8 +319,9 @@ namespace Next2.ViewModels
                 }
             }
 
-            IsSideMenuVisible = true;
             CurrentState = LayoutState.Loading;
+            Thread.Sleep(80); // It suspends the thread to hide unwanted animation
+            IsSideMenuVisible = true;
         }
 
         private Task OnSeatSelectionCommandAsync(SeatBindableModel seat)
@@ -598,6 +600,7 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = seat.SelectedItem;
+
                 foreach (var singleSeat in _orderService.CurrentOrder.Seats)
                 {
                     if (singleSeat.SeatNumber != seat.SeatNumber)
@@ -625,7 +628,7 @@ namespace Next2.ViewModels
 
                 if (_isAnyUpDateForCurrentSet)
                 {
-                    //await InitEditSetDetailsAsync(SelectedSet);
+                    //await InitEditSetDetailsAsync(SelectedDish);
                 }
 
                 if (App.IsTablet)
@@ -633,8 +636,9 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
 
-                    IsSideMenuVisible = false;
                     CurrentState = LayoutState.Success;
+                    Thread.Sleep(100); // It suspend the thread to hide unwanted animation
+                    IsSideMenuVisible = true;
                 }
                 else
                 {

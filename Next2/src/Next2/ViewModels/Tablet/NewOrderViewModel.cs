@@ -151,7 +151,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    var result = await _orderService.AddSetInCurrentOrderAsync(dish);
+                    var result = await _orderService.AddDishInCurrentOrderAsync(dish);
 
                     if (result.IsSuccess)
                     {

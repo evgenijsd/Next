@@ -13,11 +13,11 @@ namespace Next2.Models
 
         public bool IsToggled { get; set; }
 
-        public string? Title { get; set; }
+        public string? Name { get; set; }
 
         public decimal Price { get; set; }
 
-        public string? ImagePath { get; set; }
+        public string? ImageSource { get; set; }
 
         public bool IsDefault { get; set; }
 

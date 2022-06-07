@@ -1,6 +1,8 @@
-﻿using Next2.Interfaces;
+﻿using Acr.UserDialogs;
+using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
@@ -99,6 +101,7 @@ namespace Next2.ViewModels.Tablet
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.DISH, dish },
+                { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
             await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
@@ -110,20 +113,20 @@ namespace Next2.ViewModels.Tablet
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    //var result = await _orderService.AddSetInCurrentOrderAsync(set);
+                    var result = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                    //if (result.IsSuccess)
-                    //{
-                    //    await _popupNavigation.PopAsync();
+                    if (result.IsSuccess)
+                    {
+                        await _popupNavigation.PopAsync();
 
-                    //    var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                    //    {
-                    //        Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                    //        Position = ToastPosition.Bottom,
-                    //    };
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        {
+                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                            Position = ToastPosition.Bottom,
+                        };
 
-                    //    UserDialogs.Instance.Toast(toastConfig);
-                    //}
+                        UserDialogs.Instance.Toast(toastConfig);
+                    }
                 }
             }
             else

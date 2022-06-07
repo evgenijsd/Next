@@ -9,6 +9,7 @@ using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace Next2.Services.Menu
 
             try
             {
-                var categories = await _restService.RequestAsync<Models.API.GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
+                var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
 
                 if (categories.Success && categories.Value.Categories is not null)
                 {
@@ -65,7 +66,7 @@ namespace Next2.Services.Menu
             {
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{categoryId}.{subcategoryId}";
 
-                var resultGettingDishes = await _restService.RequestAsync<Models.API.GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
+                var resultGettingDishes = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
 
                 if (resultGettingDishes.Success)
                 {
@@ -75,31 +76,6 @@ namespace Next2.Services.Menu
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetDishesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId)
-        {
-            var result = new AOResult<IEnumerable<PortionModel>>();
-
-            try
-            {
-                var portions = await _mockService.GetAsync<PortionModel>(row => row.SetId == setId);
-
-                if (portions is not null)
-                {
-                    result.SetSuccess(portions);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetPortionsSetAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -115,7 +91,7 @@ namespace Next2.Services.Menu
 
                 var ingredientsCategories = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
 
-                if (ingredientsCategories.Success && ingredientsCategories.Value is not null)
+                if (ingredientsCategories.Success && ingredientsCategories.Value?.IngredientsCategories is not null)
                 {
                     result.SetSuccess(ingredientsCategories.Value.IngredientsCategories);
                 }
@@ -138,7 +114,8 @@ namespace Next2.Services.Menu
 
             try
             {
-                var ingredients = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/ingredients");
+                var query = $"{Constants.API.HOST_URL}/api/ingredients";
+                var ingredients = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
 
                 if (ingredients.Success && ingredients.Value is not null)
                 {
@@ -152,31 +129,6 @@ namespace Next2.Services.Menu
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<OptionModel>>> GetOptionsOfProductAsync(int productId)
-        {
-            var result = new AOResult<IEnumerable<OptionModel>>();
-
-            try
-            {
-                var resultData = await _mockService.GetAsync<OptionModel>(row => row.ProductId == productId);
-
-                if (resultData is not null)
-                {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetOptionsOfProductAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

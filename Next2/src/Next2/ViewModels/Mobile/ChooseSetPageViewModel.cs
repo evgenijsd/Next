@@ -108,7 +108,7 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                await _orderService.AddSetInCurrentOrderAsync(dish);
+                await _orderService.AddDishInCurrentOrderAsync(dish);
 
                 if (_popupNavigation.PopupStack.Any())
                 {

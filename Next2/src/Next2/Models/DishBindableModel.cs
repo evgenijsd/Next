@@ -31,6 +31,8 @@ namespace Next2.Models
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
+        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new ();
+
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
     }
 }

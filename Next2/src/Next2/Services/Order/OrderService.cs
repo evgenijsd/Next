@@ -273,7 +273,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish)
+        public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
 
@@ -310,7 +310,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AddDishInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

@@ -31,7 +31,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> CreateNewCurrentOrderAsync();
 
-        Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish);
+        Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 

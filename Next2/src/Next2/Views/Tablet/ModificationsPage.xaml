@@ -13,6 +13,7 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:local="clr-namespace:Next2"
+    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views" 
     xmlns:modelsApi="clr-namespace:Next2.Models.API.DTO"
@@ -90,7 +91,7 @@
                 HeightRequest="1"/>
 
             <CollectionView
-                ItemsSource="{Binding ProductsSet}"
+                ItemsSource="{Binding ProductsDish}"
                 VerticalScrollBarVisibility="Never"
                 HorizontalScrollBarVisibility="Never">
 
@@ -273,7 +274,7 @@
                         
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:ProductModel">
+                            <DataTemplate x:DataType="modelsDTO:SimpleProductModelDTO">
 
                                 <Frame
                                     Padding="16, 4"
@@ -283,9 +284,9 @@
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
-                                        Title="{Binding Title}"
-                                        Subtitle="{Binding ProductPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
-                                        ImagePath="{Binding ImagePath}"
+                                        Title="{Binding Name}"
+                                        Subtitle="{Binding DefaultPrice, StringFormat='$ {0:F2}'}"
+                                        ImagePath="{Binding ImageSource}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"
                                         BindableLayout="{Binding SelectedReplacementProduct, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
@@ -402,9 +403,9 @@
 
                                     <templates:ToggleItemTemplate
                                         IsToggle="{Binding IsToggled}"
-                                        Title="{Binding Title}"
-                                        Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
-                                        ImagePath="{Binding ImagePath}"
+                                        Title="{Binding Name}"
+                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                        ImagePath="{Binding ImageSource}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"
                                         CanTurnOff="True"/>
