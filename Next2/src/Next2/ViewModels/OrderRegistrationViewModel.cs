@@ -637,9 +637,9 @@ namespace Next2.ViewModels
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
                     _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
 
-                    CurrentState = LayoutState.Loading;
+                    CurrentState = LayoutState.Success;
                     Thread.Sleep(100); // It suspend the thread to hide unwanted animation
-                    IsSideMenuVisible = true;
+                    IsSideMenuVisible = false;
                 }
                 else
                 {

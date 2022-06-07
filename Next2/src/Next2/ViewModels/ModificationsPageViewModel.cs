@@ -27,7 +27,7 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
 
         private int _indexOfSeat;
-        private int _indexOfSelectedSet;
+        private int _indexOfSelectedDish;
 
         private bool _isOrderedByDescendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
@@ -54,9 +54,9 @@ namespace Next2.ViewModels
 
             _indexOfSeat = CurrentOrder.Seats.IndexOf(seat);
             _selectedDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem;
-            _indexOfSelectedSet = seat.SelectedDishes.IndexOf(_selectedDish);
+            _indexOfSelectedDish = seat.SelectedDishes.IndexOf(_selectedDish);
 
-            _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedSet];
+            _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish];
             InitProductsDish();
             InitPortionsSet();
 
@@ -169,7 +169,22 @@ namespace Next2.ViewModels
                         var products = _currentDish.Dish.Products;
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
-                        //product.SelectedProduct = SelectedReplacementProduct;
+                        CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish].SelectedProducts[0] = new ProductBindableModel()
+                        {
+                            Id = SelectedReplacementProduct.Id,
+                            SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
+                            AddedIngredients = new(SelectedReplacementProduct.Ingredients),
+                            Product = new()
+                            {
+                                Id = SelectedReplacementProduct.Id,
+                                DefaultPrice = SelectedReplacementProduct.DefaultPrice,
+                                ImageSource = SelectedReplacementProduct.ImageSource,
+                                Ingredients = SelectedReplacementProduct.Ingredients,
+                                Name = SelectedReplacementProduct.Name,
+                                Options = SelectedReplacementProduct.Options,
+                            },
+                        };
+
                         ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
 
                         _currentDish.TotalPrice = 0;
@@ -542,7 +557,7 @@ namespace Next2.ViewModels
         private async Task OnSaveCommandAsync()
         {
             _orderService.CurrentOrder = CurrentOrder;
-            //_orderService.CurrentOrder.UpdateTotalSum();
+            _orderService.CurrentOrder.UpdateTotalSum();
             //CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Id == _orderService?.CurrentSeat?.Id);
 

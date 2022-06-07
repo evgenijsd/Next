@@ -41,31 +41,30 @@ namespace Next2.Models
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
-        //public void UpdateTotalSum()
-        //{
-        //    SubTotalPrice = 0;
+        public void UpdateTotalSum()
+        {
+            SubTotalPrice = 0;
 
-        //    foreach (var seat in Seats)
-        //    {
-        //        foreach (var set in seat.SelectedDishes)
-        //        {
-        //            set.IngredientsPrice = 0;
-        //            set.ProductsPrice = 0;
+            foreach (var seat in Seats)
+            {
+                foreach (var set in seat.SelectedDishes)
+                {
+                    //set.IngredientsPrice = 0;
+                    set.TotalPrice = 0;
 
-        //            foreach (var product in set.Products)
-        //            {
-        //                set.IngredientsPrice += product.IngredientsPrice;
-        //                set.ProductsPrice += product.SelectedProduct.ProductPrice;
-        //            }
+                    foreach (var product in set.SelectedProducts)
+                    {
+                        //set.IngredientsPrice += product.IngredientsPrice;
+                        set.TotalPrice += product.Product.DefaultPrice;
+                    }
 
-        //            set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
+                    //set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
+                    SubTotalPrice += set.TotalPrice;
+                }
+            }
 
-        //            SubTotalPrice += set.TotalPrice;
-        //        }
-        //    }
-
-        //    PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
-        //    TotalPrice = (decimal)SubTotalPrice + PriceTax;
-        //}
+            PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
+            TotalPrice = (decimal)SubTotalPrice + PriceTax;
+        }
     }
 }
