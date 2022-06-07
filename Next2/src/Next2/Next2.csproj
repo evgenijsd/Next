@@ -176,6 +176,9 @@
     <Compile Update="Views\Mobile\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Mobile\Dialogs\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Mobile\Dialogs\TipValueDialog.xaml.cs">
       <DependentUpon>TipValueDialog.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,9 @@
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml.cs">
       <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
+	</Compile>
+    <Compile Update="Views\Tablet\Dialogs\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
       <DependentUpon>MembershipEditDialog.xaml</DependentUpon>

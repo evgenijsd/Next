@@ -11,7 +11,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -22,7 +21,6 @@ namespace Next2.ViewModels
 {
     public class PaymentViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
 
@@ -30,14 +28,12 @@ namespace Next2.ViewModels
 
         public PaymentViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customerService,
             IRewardsService rewardsService)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
             _mapper = mapper;
 
@@ -65,7 +61,6 @@ namespace Next2.ViewModels
 
             RewardsViewModel = new(
                 navigationService,
-                popupNavigation,
                 mapper,
                 orderService,
                 customerService,
@@ -76,7 +71,6 @@ namespace Next2.ViewModels
 
             PaymentCompleteViewModel = new(
                 navigationService,
-                popupNavigation,
                 customerService,
                 orderService,
                 mapper,
@@ -218,7 +212,7 @@ namespace Next2.ViewModels
                         ? new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync)
                         : new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync);
 
-                    await _popupNavigation.PushAsync(confirmDialog);
+                    await PopupNavigation.PushAsync(confirmDialog);
                 }
                 else
                 {
@@ -231,7 +225,7 @@ namespace Next2.ViewModels
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
 
                 if (isExitConfirmed)
                 {

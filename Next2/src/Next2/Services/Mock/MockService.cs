@@ -11,7 +11,7 @@ namespace Next2.Services.Mock
 {
     public class MockService : IMockService
     {
-        private readonly TaskCompletionSource<bool> _initCompletionSource = new ();
+        private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
         private IList<UserModel> _users;
         private IList<TaxModel> _tax;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Next2.Models.API
+namespace Next2.Models.API.Results
 {
     public class LoginQueryResultExecutionResult
     {

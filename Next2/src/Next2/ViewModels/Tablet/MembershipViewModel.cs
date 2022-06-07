@@ -28,7 +28,6 @@ namespace Next2.ViewModels.Tablet
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IPopupNavigation _popupNavigation;
 
         private MembershipModelDTO _member;
         private List<MemberBindableModel> _allMembers = new();
@@ -37,14 +36,12 @@ namespace Next2.ViewModels.Tablet
             IMapper mapper,
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IMembershipService membershipService,
-            IPopupNavigation popupNavigation)
+            IMembershipService membershipService)
             : base(navigationService)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
             _membershipService = membershipService;
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -227,13 +224,13 @@ namespace Next2.ViewModels.Tablet
 
                 PopupPage popupPage = new Views.Tablet.Dialogs.MembershipEditDialog(parameters, MembershipEditDialogCallBack, _mapper);
 
-                await _popupNavigation.PushAsync(popupPage);
+                await PopupNavigation.PushAsync(popupPage);
             }
         }
 
         private async void MembershipEditDialogCallBack(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.UPDATE, out MemberBindableModel member))
             {
@@ -249,7 +246,7 @@ namespace Next2.ViewModels.Tablet
                 };
 
                 PopupPage confirmDialog = new ConfirmDialog(confirmDialogParameters, CloseConfirmDialogUpdateCallback);
-                await _popupNavigation.PushAsync(confirmDialog);
+                await PopupNavigation.PushAsync(confirmDialog);
             }
         }
 
@@ -261,7 +258,7 @@ namespace Next2.ViewModels.Tablet
                 await RefreshMembersAsync();
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         #endregion
