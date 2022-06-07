@@ -9,8 +9,24 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:Next2.Models"
     x:Class="Next2.Views.Tablet.Dialogs.SplitOrderDialog"
     x:DataType="dialogs:SplitOrderDialogViewModel">
+
+    <rg:PopupPage.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+            </Style>
+
+            <Style TargetType="BoxView">
+                <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+            </Style>
+
+        </ResourceDictionary>
+    </rg:PopupPage.Resources>
 
     <Frame
         CornerRadius="8"
@@ -26,17 +42,16 @@
             <Label
                 Grid.Row="0"
                 Margin="18, 0, 0, 0"
-                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontSize="18"
                 Text="Split by Percentage"
                 VerticalTextAlignment="Center" />
 
             <BoxView
                 Grid.Row="0"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="2"
                 VerticalOptions="EndAndExpand" />
 
+            <!--  dish info  -->
             <StackLayout
                 Grid.Row="1"
                 Padding="18 ,0, 18, 0"
@@ -47,18 +62,25 @@
                 <ffimageloading:CachedImage
                     VerticalOptions="Center"
                     HorizontalOptions="Start"
+                    xct:CornerRadiusEffect.CornerRadius="8"
                     Aspect="Fill"
                     WidthRequest="42"
-                    Source="https://cdn.pixabay.com/photo/2022/04/23/18/23/meadow-7152269_960_720.jpg"
+                    Source="{Binding SelectedDish.Dish.ImageSource}"
                     HeightRequest="42" />
 
                 <StackLayout>
-                    <Label
-                        Text="Dish Name"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
-                    <Label
-                        Text="$ 34.5"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+
+                    <Label Text="{Binding SelectedDish.Dish.Name}" />
+                    <Label Text="{Binding SelectedDish.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="$ " />
+                                <Span Text="{Binding SelectedDish.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
                 </StackLayout>
 
             </StackLayout>
@@ -66,7 +88,6 @@
             <BoxView
                 Margin="18 ,0, 18, 0"
                 Grid.Row="1"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="1"
                 VerticalOptions="EndAndExpand" />
 
@@ -79,7 +100,6 @@
                 <BoxView
                     Grid.Column="1"
                     Grid.RowSpan="3"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                     HeightRequest="500"
                     WidthRequest="2"
                     HorizontalOptions="Start"
@@ -94,7 +114,6 @@
 
                     <Label
                         Text="Select Value"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontSize="14"
                         FontFamily="Barlow-SemiBold" />
 
@@ -103,16 +122,15 @@
                         Orientation="Horizontal">
 
                         <Frame
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                             WidthRequest="80"
                             HeightRequest="32"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                             xct:TouchEffect.CommandParameter="25">
                             <Label
                                 Text="25 %"
                                 VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                HorizontalTextAlignment="Center" />
                         </Frame>
 
                         <Frame
@@ -124,8 +142,7 @@
                             <Label
                                 Text="50 %"
                                 VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                HorizontalTextAlignment="Center" />
                         </Frame>
 
                         <Frame
@@ -137,8 +154,7 @@
                             <Label
                                 Text="75 %"
                                 VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                HorizontalTextAlignment="Center" />
                         </Frame>
 
                     </StackLayout>
@@ -166,7 +182,6 @@
                         Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
                         HorizontalTextAlignment="Center"
                         VerticalOptions="CenterAndExpand"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontFamily="Barlow-Bold"
                         Margin="0, 0, 0, 8"
                         WidthRequest="80"
@@ -201,7 +216,6 @@
                         HorizontalOptions="Start"
                         VerticalOptions="Start"
                         Text="Split Total"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         FontFamily="Barlow-SemiBold"
                         FontSize="18" />
 
@@ -209,11 +223,87 @@
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Start"
                         Text="$ 2.50"
-                        TextColor="#3CD47D"
+                        TextColor="{DynamicResource IndicationColor_i1}"
                         FontFamily="Barlow-SemiBold"
                         FontSize="18" />
 
                 </StackLayout>
+
+                <!--  left side  -->
+                <CollectionView
+                    Grid.Column="0"
+                    Grid.RowSpan="3"
+                    ItemsSource="{Binding Seats}"
+                    VerticalScrollBarVisibility="Never"
+                    Margin="0, 0, 18, 0"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                    <CollectionView.Header>
+                        <Label Text="Seats" />
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                            Orientation="Vertical"
+                            ItemSpacing="9" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SeatBindableModel">
+
+                            <Frame
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                CornerRadius="5"
+                                Padding="18"
+                                HeightRequest="50"
+                                WidthRequest="250">
+
+                                <StackLayout Orientation="Horizontal">
+
+                                    <StackLayout
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Spacing="6">
+
+                                        <Label Text="{Binding SeatNumber}">
+
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Seat " />
+                                                    <Span Text="{Binding SeatNumber}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+
+                                        <Label>
+
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="$ " />
+                                                    <Span Text="{Binding SelectedItem.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+
+                                        </Label>
+
+                                    </StackLayout>
+
+                                    <ffimageloading:CachedImage
+                                        Source="ic_check_box_unhecked_24x24"
+                                        HorizontalOptions="EndAndExpand"
+                                        VerticalOptions="Start" />
+
+                                </StackLayout>
+
+
+                            </Frame>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
 
             </Grid>
 
@@ -221,7 +311,6 @@
             <!--  Buttons  -->
             <BoxView
                 Grid.Row="3"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                 HeightRequest="2"
                 VerticalOptions="StartAndExpand" />
 
@@ -241,7 +330,6 @@
 
                     <Label
                         Text="Cancel"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         VerticalTextAlignment="Center"
                         HorizontalTextAlignment="Center" />
 
@@ -259,7 +347,8 @@
                     <Label
                         Text="Split"
                         VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center"
+                        TextColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
                 </Frame>
 

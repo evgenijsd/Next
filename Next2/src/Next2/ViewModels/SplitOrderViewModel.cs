@@ -11,6 +11,7 @@ using System.Linq;
 using Rg.Plugins.Popup.Contracts;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
+using AutoMapper;
 
 namespace Next2.ViewModels
 {
@@ -18,14 +19,17 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
+        private readonly IMapper _mapper;
         public SplitOrderViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
+            IMapper mapper,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
             _popupNavigation = popupNavigation;
+            _mapper = mapper;
         }
 
         #region -- Public Properties --
@@ -49,7 +53,7 @@ namespace Next2.ViewModels
         public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            Order = _orderService.CurrentOrder;
+            Order = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
             var seats = Order.Seats;
 
             foreach (var seat in seats)
@@ -58,7 +62,7 @@ namespace Next2.ViewModels
             }
 
             SelectedDish = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-            Order.Seats.FirstOrDefault().SelectedItem = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            //Order.Seats.FirstOrDefault().SelectedItem = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
         }
 
         #endregion
@@ -69,6 +73,8 @@ namespace Next2.ViewModels
         {
             var param = new DialogParameters
             {
+                { Constants.DialogParameterKeys.MODEL, Order },
+                { Constants.DialogParameterKeys.DISH, SelectedDish },
             };
 
             PopupPage popupPage = App.IsTablet
