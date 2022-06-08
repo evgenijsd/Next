@@ -1,9 +1,11 @@
-﻿using Next2.Models;
+﻿using AutoMapper;
+using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,13 +35,17 @@ namespace Next2.ViewModels.Dialogs
 
         public DishBindableModel SelectedDish { get; set; }
 
+        public SeatBindableModel SelectedSeat { get; set; }
+
         public ObservableCollection<SeatBindableModel> Seats { get; set; }
 
         public FullOrderBindableModel Order { get; set; }
 
         public decimal SplitValue { get; set; }
 
-        public decimal SplitTotal { get; set; }
+        public decimal SplitTotal => Seats == null || Seats.Count() == 0
+                ? 0
+                : Seats.Sum(x => x.SelectedItem.TotalPrice);
 
         public Action<IDialogParameters> RequestClose;
 
@@ -58,6 +64,33 @@ namespace Next2.ViewModels.Dialogs
 
         #endregion
 
+        #region -- Overrides --
+
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+            switch (args.PropertyName)
+            {
+                case nameof(SelectedSeat):
+                    {
+                        SplitValue = decimal.Round(SelectedSeat.SelectedItem.TotalPrice / SelectedDish.TotalPrice * 100);
+                        Calculate();
+                        break;
+                    }
+
+                case nameof(SplitValue):
+                    {
+                        Calculate();
+                        break;
+                    }
+
+                default:
+                    break;
+            }
+        }
+
+        #endregion
+
         #region -- Private Helpers --
 
         private void LoadData(IDialogParameters param)
@@ -68,15 +101,15 @@ namespace Next2.ViewModels.Dialogs
             if (isAllParamExist)
             {
                 Order = order;
-                SelectedDish = selectedDish;
-                var seats = Order.Seats.Where(x => x.SelectedDishes.All(x => x.Id != SelectedDish.Id));
+                SelectedDish = new DishBindableModel(selectedDish);
 
-                foreach (var seat in seats)
+                var seats = Order.Seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel
                 {
-                    seat.SeatSelectionCommand = new AsyncCommand(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
-                    seat.SelectedItem = SelectedDish;
-                    seat.SelectedItem.TotalPrice = 0;
-                }
+                    Id = x.Id,
+                    SeatNumber = x.SeatNumber,
+                    SeatSelectionCommand = new AsyncCommand(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false),
+                    SelectedItem = new DishBindableModel(selectedDish) { TotalPrice = 0, },
+                });
 
                 Seats = new ObservableCollection<SeatBindableModel>(seats);
             }
@@ -112,6 +145,34 @@ namespace Next2.ViewModels.Dialogs
             }
 
             return Task.CompletedTask;
+        }
+
+        private void Calculate()
+        {
+            if (SelectedSeat is not null)
+            {
+                var price = (SplitValue * SelectedDish.TotalPrice) / 100;
+                var otherSeats = Seats.Where(x => x.SeatNumber != SelectedSeat.SeatNumber && x.SelectedItem.TotalPrice != 0);
+                var splitTotalPrise = price + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+
+                if (splitTotalPrise <= SelectedDish.TotalPrice)
+                {
+                    SelectedSeat.SelectedItem.TotalPrice = price;
+
+                    RaisePropertyChanged(nameof(SplitTotal));
+                }
+                else
+                {
+                    SelectedSeat.SelectedItem.TotalPrice = price;
+
+                    foreach (var seat in otherSeats)
+                    {
+                        seat.SelectedItem.TotalPrice = 0;
+                    }
+
+                    RaisePropertyChanged(nameof(SplitTotal));
+                }
+            }
         }
 
         #endregion

@@ -58,11 +58,13 @@ namespace Next2.ViewModels
 
             foreach (var seat in seats)
             {
-                seat.SetSelectionCommand = new AsyncCommand<object>(OnDishSelectionCommand);
+                seat.SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false);
+                seat.Checked = false;
             }
 
             SelectedDish = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-            //Order.Seats.FirstOrDefault().SelectedItem = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            Order.Seats.FirstOrDefault().SelectedItem = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            Order.Seats.FirstOrDefault().Checked = true;
         }
 
         #endregion
@@ -84,10 +86,25 @@ namespace Next2.ViewModels
             await _popupNavigation.PushAsync(popupPage);
         }
 
-        private Task OnDishSelectionCommand(object? arg)
+        private bool isOneTime = true;
+        private Task OnDishSelectionCommand(object? sender)
         {
-            var seat = arg as SeatBindableModel;
-            SelectedDish = seat.SelectedItem;
+            if (isOneTime)
+            {
+                isOneTime = false;
+                var seat = sender as SeatBindableModel;
+
+                foreach (var item in Order.Seats.Where(x => x.SeatNumber != seat.SeatNumber))
+                {
+                    item.SelectedItem = null;
+                    item.Checked = false;
+                }
+
+                SelectedDish = seat.SelectedItem;
+                seat.Checked = true;
+                isOneTime = true;
+            }
+
             return Task.CompletedTask;
         }
 

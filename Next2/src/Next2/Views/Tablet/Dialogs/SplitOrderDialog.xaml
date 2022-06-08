@@ -10,6 +10,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:effects="clr-namespace:Next2.Effects"
     x:Class="Next2.Views.Tablet.Dialogs.SplitOrderDialog"
     x:DataType="dialogs:SplitOrderDialogViewModel">
 
@@ -169,7 +170,7 @@
                     HorizontalOptions="CenterAndExpand"
                     VerticalOptions="End"
                     Padding="18, 0, 0, 0"
-                    Spacing="32">
+                    Spacing="26">
 
                     <ffimageloading:CachedImage
                         Source="ic_minus_primary_32x32.png"
@@ -184,7 +185,7 @@
                         VerticalOptions="CenterAndExpand"
                         FontFamily="Barlow-Bold"
                         Margin="0, 0, 0, 8"
-                        WidthRequest="80"
+                        WidthRequest="92"
                         FontSize="36" />
 
                     <ffimageloading:CachedImage
@@ -222,10 +223,18 @@
                     <Label
                         HorizontalOptions="EndAndExpand"
                         VerticalOptions="Start"
-                        Text="$ 2.50"
                         TextColor="{DynamicResource IndicationColor_i1}"
                         FontFamily="Barlow-SemiBold"
-                        FontSize="18" />
+                        FontSize="18">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="$ " />
+                                <Span Text="{Binding SplitTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
 
                 </StackLayout>
 
@@ -234,9 +243,15 @@
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     ItemsSource="{Binding Seats}"
+                    SelectedItem="{Binding SelectedSeat}"
+                    SelectionMode="Single"
                     VerticalScrollBarVisibility="Never"
                     Margin="0, 0, 18, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+
+                    <CollectionView.Effects>
+                        <effects:NoOverScrollEffect />
+                    </CollectionView.Effects>
 
                     <CollectionView.Header>
                         <Label Text="Seats" />
@@ -251,54 +266,84 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:SeatBindableModel">
 
-                            <Frame
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                CornerRadius="5"
-                                Padding="18"
-                                HeightRequest="50"
-                                WidthRequest="250">
+                            <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+                                <Frame
+                                    x:Name="frame"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    CornerRadius="8"
+                                    Padding="18"
+                                    HeightRequest="50"
+                                    WidthRequest="250">
 
-                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center"
+                                            Spacing="6">
 
-                                    <StackLayout
-                                        HorizontalOptions="Start"
-                                        VerticalOptions="Center"
-                                        Spacing="6">
+                                            <Label Text="{Binding SeatNumber}">
 
-                                        <Label Text="{Binding SeatNumber}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="Seat " />
+                                                        <Span Text="{Binding SeatNumber}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
 
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="Seat " />
-                                                    <Span Text="{Binding SeatNumber}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
+                                            </Label>
 
-                                        </Label>
+                                            <Label>
 
-                                        <Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="$ " />
+                                                        <Span Text="{Binding SelectedItem.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
 
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span Text="$ " />
-                                                    <Span Text="{Binding SelectedItem.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
+                                            </Label>
 
-                                        </Label>
+                                        </StackLayout>
+
+                                        <ffimageloading:CachedImage
+                                            x:Name="checkBox"
+                                            Source="ic_check_box_unhecked_24x24"
+                                            HorizontalOptions="EndAndExpand"
+                                            VerticalOptions="Start" />
 
                                     </StackLayout>
 
-                                    <ffimageloading:CachedImage
-                                        Source="ic_check_box_unhecked_24x24"
-                                        HorizontalOptions="EndAndExpand"
-                                        VerticalOptions="Start" />
+                                </Frame>
 
-                                </StackLayout>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+
+                                        <VisualState Name="Selected">
+
+                                            <VisualState.Setters>
+                                                <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                        <VisualState Name="Normal">
+
+                                            <VisualState.Setters>
+                                                <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                                <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
+                                            </VisualState.Setters>
+
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </StackLayout>
 
 
-                            </Frame>
+
+
 
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
