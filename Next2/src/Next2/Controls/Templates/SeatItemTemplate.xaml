@@ -187,7 +187,7 @@
                                     MaxLines="1"/>
 
                                 <Label
-                                    Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}"
+                                    Text="{Binding DiscountPrice, StringFormat='$ {0:F2}'}"
                                     FontSize="{DynamicResource TSize_i5}"
                                     FontFamily="Barlow-SemiBold"/>
 
