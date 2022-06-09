@@ -7,6 +7,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:local="clr-namespace:Next2"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SeatItemTemplate"
     x:DataType="models:SeatBindableModel">
@@ -187,9 +188,18 @@
                                     MaxLines="1"/>
 
                                 <Label
-                                    Text="{Binding DiscountPrice, StringFormat='$ {0:F2}'}"
                                     FontSize="{DynamicResource TSize_i5}"
-                                    FontFamily="Barlow-SemiBold"/>
+                                    FontFamily="Barlow-SemiBold">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
 
                             </StackLayout>
 

@@ -81,10 +81,10 @@ namespace Next2.ViewModels
 
                 var seats = CurrentOrder.Seats.Select(x => new SeatBindableModel(x)
                 {
-                    SelectedDishes = new ObservableCollection<DishBindableModel>(x.SelectedDishes.Select(x => new DishBindableModel(x)))
+                    SelectedDishes = new (x.SelectedDishes.Select(x => new DishBindableModel(x))),
                 });
 
-                CurrentOrder.Seats = new ObservableCollection<SeatBindableModel>(seats);
+                CurrentOrder.Seats = new (seats);
 
                 var coupons = await GetCoupons();
 
