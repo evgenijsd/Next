@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Next2.Enums;
 using Next2.Models;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -32,6 +33,8 @@ namespace Next2.ViewModels.Dialogs
         }
 
         #region -- Public Properties --
+
+        public ESplitOrderConditions Condition { get; set; }
 
         public DishBindableModel SelectedDish { get; set; }
 
@@ -96,17 +99,19 @@ namespace Next2.ViewModels.Dialogs
         private void LoadData(IDialogParameters param)
         {
             var isAllParamExist = param.TryGetValue(Constants.DialogParameterKeys.MODEL, out FullOrderBindableModel order)
-                & param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish);
+                & param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish)
+                & param.TryGetValue(Constants.DialogParameterKeys.DESCRIPTION, out ESplitOrderConditions condition);
 
             if (isAllParamExist)
             {
+                Condition = condition;
                 Order = order;
                 SelectedDish = new DishBindableModel(selectedDish);
 
-                var seats = Order.Seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel
+                var seats = Order.Seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
                 {
-                    Id = x.Id,
                     SeatNumber = x.SeatNumber,
+                    Id = x.Id,
                     SeatSelectionCommand = new AsyncCommand(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false),
                     SelectedItem = new DishBindableModel(selectedDish) { TotalPrice = 0, },
                 });
@@ -161,17 +166,18 @@ namespace Next2.ViewModels.Dialogs
 
                     RaisePropertyChanged(nameof(SplitTotal));
                 }
-                else
-                {
-                    SelectedSeat.SelectedItem.TotalPrice = price;
 
-                    foreach (var seat in otherSeats)
-                    {
-                        seat.SelectedItem.TotalPrice = 0;
-                    }
+                //else
+                //{
+                //    SelectedSeat.SelectedItem.TotalPrice = price;
 
-                    RaisePropertyChanged(nameof(SplitTotal));
-                }
+                //    foreach (var seat in otherSeats)
+                //    {
+                //        seat.SelectedItem.TotalPrice = 0;
+                //    }
+
+                //    RaisePropertyChanged(nameof(SplitTotal));
+                //}
             }
         }
 

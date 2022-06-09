@@ -12,6 +12,8 @@ using Rg.Plugins.Popup.Contracts;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
 using AutoMapper;
+using System.Collections.ObjectModel;
+using Next2.Enums;
 
 namespace Next2.ViewModels
 {
@@ -43,8 +45,8 @@ namespace Next2.ViewModels
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
 
-        private ICommand _splitByPercentageCommand;
-        public ICommand SplitByPercentageCommand => _splitByPercentageCommand ??= new AsyncCommand(OnSplitByPercentageCommand, allowsMultipleExecutions: false);
+        private ICommand _splitByCommand;
+        public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -54,12 +56,16 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
             Order = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
-            var seats = Order.Seats;
+            var seats = new ObservableCollection<SeatBindableModel>();
 
-            foreach (var seat in seats)
+            foreach (var seat in Order.Seats)
             {
-                seat.SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false);
-                seat.Checked = false;
+                var newSeat = new SeatBindableModel(seat)
+                {
+                    SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
+                    Checked = false,
+                    SelectedDishes = new ObservableCollection<DishBindableModel>(seat.SelectedDishes.Select(x => new DishBindableModel(x)))
+                };
             }
 
             SelectedDish = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
@@ -71,10 +77,11 @@ namespace Next2.ViewModels
 
         #region -- Private Helpers --
 
-        private async Task OnSplitByPercentageCommand()
+        private async Task OnSplitByCommand(ESplitOrderConditions condition)
         {
             var param = new DialogParameters
             {
+                { Constants.DialogParameterKeys.DESCRIPTION, condition },
                 { Constants.DialogParameterKeys.MODEL, Order },
                 { Constants.DialogParameterKeys.DISH, SelectedDish },
             };

@@ -782,20 +782,20 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not defined.
-        /// </summary>
-        internal static string NotDefined {
-            get {
-                return ResourceManager.GetString("NotDefined", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No Receipt.
         /// </summary>
         internal static string NoReceipt {
             get {
                 return ResourceManager.GetString("NoReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not defined.
+        /// </summary>
+        internal static string NotDefined {
+            get {
+                return ResourceManager.GetString("NotDefined", resourceCulture);
             }
         }
         
@@ -1202,6 +1202,15 @@ namespace Next2.Resources.Strings {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Value.
+        /// </summary>
+        internal static string SetValue {
+            get {
+                return ResourceManager.GetString("SetValue", resourceCulture);
             }
         }
         

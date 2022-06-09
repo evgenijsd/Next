@@ -622,4 +622,7 @@ A receipt has been printed for you.</value>
   <data name="NotDefined" xml:space="preserve">
     <value>Not defined</value>
   </data>
+  <data name="SetValue" xml:space="preserve">
+    <value>Set Value</value>
+  </data>
 </root>

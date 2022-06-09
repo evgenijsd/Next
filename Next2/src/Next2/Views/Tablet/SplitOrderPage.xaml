@@ -9,6 +9,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -375,7 +376,8 @@
                         Background="{DynamicResource IndicationColor_i5}"
                         Text="{xct:Translate Percentage}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                        xct:TouchEffect.Command="{Binding SplitByPercentageCommand}">
+                        xct:TouchEffect.Command="{Binding SplitByCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByPercents}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
                                 <VisualStateGroup Name="AdaptiveBottomButton">
@@ -407,6 +409,8 @@
                         Style="{DynamicResource BorderButtonStyle_i2}"
                         FontSize="{DynamicResource TSize_i7}"
                         Background="{DynamicResource IndicationColor_i7}"
+                        xct:TouchEffect.Command="{Binding SplitByCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByDollar}"
                         Text="{xct:Translate Dollar}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
@@ -439,6 +443,8 @@
                         Style="{DynamicResource BorderButtonStyle_i2}"
                         FontSize="{DynamicResource TSize_i7}"
                         Background="{DynamicResource AppColor_i1}"
+                        xct:TouchEffect.Command="{Binding SplitByCommand}"
+                        xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.BySeats}"
                         Text="{xct:Translate Seats}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>

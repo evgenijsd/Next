@@ -6,10 +6,13 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:templates="clr-namespace:Next2.Controls.Templates"
+    xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:local="clr-namespace:Next2"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:effects="clr-namespace:Next2.Effects"
     x:Class="Next2.Views.Tablet.Dialogs.SplitOrderDialog"
     x:DataType="dialogs:SplitOrderDialogViewModel">
@@ -106,137 +109,167 @@
                     HorizontalOptions="Start"
                     VerticalOptions="StartAndExpand" />
 
-                <!--  values  -->
-                <StackLayout
+                <sc:StateContainer
+                    State="{Binding Condition}"
                     Grid.Column="1"
                     Grid.Row="0"
-                    Spacing="16"
-                    Margin="18,0,0,0">
+                    Grid.RowSpan="3">
 
-                    <Label
-                        Text="Select Value"
-                        FontSize="14"
-                        FontFamily="Barlow-SemiBold" />
+                    <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByPercents}">
 
-                    <StackLayout
-                        Spacing="12"
-                        Orientation="Horizontal">
+                        <Grid>
 
-                        <Frame
-                            WidthRequest="80"
-                            HeightRequest="32"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                            xct:TouchEffect.Command="{Binding SelectValueCommand}"
-                            xct:TouchEffect.CommandParameter="25">
-                            <Label
-                                Text="25 %"
-                                VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center" />
-                        </Frame>
+                            <!--  values  -->
+                            <StackLayout
+                                Grid.Row="0"
+                                Spacing="16"
+                                Margin="18,0,0,0">
 
-                        <Frame
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                            WidthRequest="80"
-                            HeightRequest="32"
-                            xct:TouchEffect.Command="{Binding SelectValueCommand}"
-                            xct:TouchEffect.CommandParameter="50">
-                            <Label
-                                Text="50 %"
-                                VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center" />
-                        </Frame>
+                                <Label
+                                    Text="Select Value"
+                                    FontSize="14"
+                                    FontFamily="Barlow-SemiBold" />
 
-                        <Frame
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                            WidthRequest="80"
-                            HeightRequest="32"
-                            xct:TouchEffect.Command="{Binding SelectValueCommand}"
-                            xct:TouchEffect.CommandParameter="75">
-                            <Label
-                                Text="75 %"
-                                VerticalTextAlignment="Center"
-                                HorizontalTextAlignment="Center" />
-                        </Frame>
+                                <StackLayout
+                                    Spacing="12"
+                                    Orientation="Horizontal">
 
-                    </StackLayout>
+                                    <Frame
+                                        WidthRequest="80"
+                                        HeightRequest="32"
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                        xct:TouchEffect.Command="{Binding SelectValueCommand}"
+                                        xct:TouchEffect.CommandParameter="25">
+                                        <Label
+                                            Text="25 %"
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="Center" />
+                                    </Frame>
 
-                </StackLayout>
+                                    <Frame
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                        WidthRequest="80"
+                                        HeightRequest="32"
+                                        xct:TouchEffect.Command="{Binding SelectValueCommand}"
+                                        xct:TouchEffect.CommandParameter="50">
+                                        <Label
+                                            Text="50 %"
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="Center" />
+                                    </Frame>
 
-                <!--  stepper  -->
-                <StackLayout
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="End"
-                    Padding="18, 0, 0, 0"
-                    Spacing="26">
+                                    <Frame
+                                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                        WidthRequest="80"
+                                        HeightRequest="32"
+                                        xct:TouchEffect.Command="{Binding SelectValueCommand}"
+                                        xct:TouchEffect.CommandParameter="75">
+                                        <Label
+                                            Text="75 %"
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="Center" />
+                                    </Frame>
 
-                    <ffimageloading:CachedImage
-                        Source="ic_minus_primary_32x32.png"
-                        VerticalOptions="CenterAndExpand"
-                        HeightRequest="27"
-                        WidthRequest="27"
-                        xct:TouchEffect.Command="{Binding DecrementCommand}" />
+                                </StackLayout>
 
-                    <Label
-                        Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
-                        HorizontalTextAlignment="Center"
-                        VerticalOptions="CenterAndExpand"
-                        FontFamily="Barlow-Bold"
-                        Margin="0, 0, 0, 8"
-                        WidthRequest="92"
-                        FontSize="36" />
+                            </StackLayout>
 
-                    <ffimageloading:CachedImage
-                        Source="ic_plus_primary_32x32.png"
-                        VerticalOptions="CenterAndExpand"
-                        HeightRequest="27"
-                        WidthRequest="27"
-                        xct:TouchEffect.Command="{Binding IncrementCommand}" />
+                            <!--  stepper  -->
+                            <StackLayout
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalOptions="CenterAndExpand"
+                                Padding="18, 0, 0, 0"
+                                Spacing="26">
 
-                </StackLayout>
+                                <ffimageloading:CachedImage
+                                    Source="ic_minus_primary_32x32.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    HeightRequest="27"
+                                    WidthRequest="27"
+                                    xct:TouchEffect.Command="{Binding DecrementCommand}" />
 
-                <!--  split total  -->
-                <BoxView
-                    Grid.Column="1"
-                    Grid.Row="2"
-                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                    HeightRequest="1"
-                    Margin="18, 0, 0, 0"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Start" />
+                                <Label
+                                    Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalOptions="CenterAndExpand"
+                                    FontFamily="Barlow-Bold"
+                                    Margin="0, 0, 0, 8"
+                                    WidthRequest="92"
+                                    FontSize="36" />
 
-                <StackLayout
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    Padding="18, 18, 0, 0">
+                                <ffimageloading:CachedImage
+                                    Source="ic_plus_primary_32x32.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    HeightRequest="27"
+                                    WidthRequest="27"
+                                    xct:TouchEffect.Command="{Binding IncrementCommand}" />
 
-                    <Label
-                        HorizontalOptions="Start"
-                        VerticalOptions="Start"
-                        Text="Split Total"
-                        FontFamily="Barlow-SemiBold"
-                        FontSize="18" />
+                            </StackLayout>
 
-                    <Label
-                        HorizontalOptions="EndAndExpand"
-                        VerticalOptions="Start"
-                        TextColor="{DynamicResource IndicationColor_i1}"
-                        FontFamily="Barlow-SemiBold"
-                        FontSize="18">
+                            <!--  split total  -->
+                            <BoxView
+                                Grid.Row="2"
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                HeightRequest="1"
+                                Margin="18, 0, 0, 0"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="Start" />
 
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="$ " />
-                                <Span Text="{Binding SplitTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
-                            </FormattedString>
-                        </Label.FormattedText>
+                            <StackLayout
+                                Grid.Row="2"
+                                Orientation="Horizontal"
+                                Padding="18, 18, 0, 0">
 
-                    </Label>
+                                <Label
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Start"
+                                    Text="Split Total"
+                                    FontFamily="Barlow-SemiBold"
+                                    FontSize="18" />
 
-                </StackLayout>
+                                <Label
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="Start"
+                                    TextColor="{DynamicResource IndicationColor_i1}"
+                                    FontFamily="Barlow-SemiBold"
+                                    FontSize="18">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="$ " />
+                                            <Span Text="{Binding SplitTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
+
+                            </StackLayout>
+
+                        </Grid>
+
+                    </sc:StateCondition>
+
+                    <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByDollar}">
+
+                        <templates:CustomNumericKeyboardTemplate
+                            Margin="18, 0, 0, 0"
+                            PlaceHolder="{xct:Translate SetValue}"
+                            VerticalOptions="Fill"
+                            HorizontalOptions="Fill"
+                            IsNumericMode="True"
+                            IsTextRightToLeft="True"
+                            Value="{Binding SplitValue}"
+                            ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
+                            BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}" />
+
+                    </sc:StateCondition>
+
+
+                    <sc:StateCondition State="{Static enums:ESplitOrderConditions.BySeats}" />
+
+                </sc:StateContainer>
+
 
                 <!--  left side  -->
                 <CollectionView
@@ -340,10 +373,6 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </StackLayout>
-
-
-
-
 
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
