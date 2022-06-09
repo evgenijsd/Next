@@ -17,6 +17,7 @@ namespace Next2.Models
             Id = dish.Id;
             TotalPrice = dish.TotalPrice;
             DiscountPrice = dish.DiscountPrice;
+            SelectedDishProportionPrice = dish.SelectedDishProportionPrice;
             SelectedDishProportion = dish.SelectedDishProportion;
             Dish = dish.Dish;
             SelectedProducts = new();
