@@ -89,9 +89,6 @@ namespace Next2.ViewModels
         private ICommand _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
-
         #endregion
 
         #region -- Overrides --
@@ -479,11 +476,6 @@ namespace Next2.ViewModels
         }
 
         private void SetOrderType(bool isTab) => IsTabsModeSelected = isTab;
-
-        private Task OnGoBackCommandAsync()
-        {
-            return _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}/{nameof(MenuPage)}");
-        }
 
         private string CreateRandomCustomerName()
         {
