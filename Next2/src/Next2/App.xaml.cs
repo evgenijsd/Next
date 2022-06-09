@@ -37,6 +37,7 @@ using Next2.Models.API.DTO;
 using System;
 using Next2.Enums;
 using Next2.Models.API.Commands;
+using Next2.Models.API;
 
 namespace Next2
 {

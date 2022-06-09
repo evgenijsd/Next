@@ -13,6 +13,25 @@ namespace Next2.Models
         {
         }
 
+        public DishBindableModel(DishBindableModel dish)
+        {
+            Id = dish.Id;
+            DishId = dish.DishId;
+            Name = dish.Name;
+            ImageSource = dish.ImageSource;
+            TotalPrice = dish.TotalPrice;
+            DiscountPrice = dish.DiscountPrice;
+            SelectedDishProportionPrice = dish.SelectedDishProportionPrice;
+            DishProportions = dish.DishProportions;
+            SelectedDishProportion = dish.SelectedDishProportion;
+            foreach (var product in dish.Products)
+            {
+                Products.Add(product);
+            }
+
+            SelectedProducts = dish.SelectedProducts;
+        }
+
         public Guid Id { get; set; }
 
         public Guid DishId { get; set; }

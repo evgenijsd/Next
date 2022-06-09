@@ -60,6 +60,8 @@ namespace Next2.ViewModels.Mobile
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
 
+            SelectedDish = new();
+
             SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
         }
 

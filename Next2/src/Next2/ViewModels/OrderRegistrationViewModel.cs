@@ -249,7 +249,14 @@ namespace Next2.ViewModels
 
             _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
+            SelectedDish = new();
+
             SelectedDish = _seatWithSelectedDish?.SelectedItem;
+
+            if (SelectedDish is not null)
+            {
+                SelectedDish.SelectedProducts.Select(row => row.ProductPriceBaseOnProportion = row.ProductPriceBaseOnProportion);
+            }
 
             _isAnySetChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 

@@ -871,7 +871,18 @@
 
                                      <!--Row 6 Footer-->
 
-                                    <Grid Grid.Row="3" />
+                                    <Grid Grid.Row="3">
+                                        <!--<CollectionView ItemsSource="{Binding OrderRegistrationViewModel.SelectedDish.Products}">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="models:ProductBindableModel">
+
+                                                    <controls:ProductsDetails
+                                                          />
+
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>-->
+                                    </Grid>
 
                                 </Grid>
 

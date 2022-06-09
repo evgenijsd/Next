@@ -50,6 +50,8 @@ namespace Next2.Models
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
+                    decimal totalProductsPrice = 0;
+
                     foreach (var product in dish.SelectedProducts)
                     {
                         var ingredientsPrice = product.AddedIngredients is not null
@@ -59,8 +61,10 @@ namespace Next2.Models
                             ? product.ExcludedIngredients.Sum(row => row.Price)
                             : 0;
                         var productPrice = product.ProductPriceBaseOnProportion;
-                        dish.TotalPrice = ingredientsPrice + productPrice;
+                        totalProductsPrice += ingredientsPrice + productPrice;
                     }
+
+                    dish.TotalPrice = totalProductsPrice;
 
                     SubTotalPrice += dish.TotalPrice;
                 }
