@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
     public class SeatBindableModel : BindableBase, IBaseApiModel
     {

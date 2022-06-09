@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
@@ -35,7 +36,6 @@ namespace Next2.ViewModels
         private bool _isOrderedByDescendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
 
-        private DishBindableModel _selectedDish;
         private DishBindableModel _currentDish;
 
         private IEnumerable<IngredientModelDTO>? _allIngredients;
@@ -57,12 +57,7 @@ namespace Next2.ViewModels
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
             var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
-
-            _indexOfSeat = CurrentOrder.Seats.IndexOf(seat);
-            _selectedDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem;
-            _indexOfSelectedDish = seat.SelectedDishes.IndexOf(_selectedDish);
-
-            _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish];
+            _currentDish = seat.SelectedDishes.FirstOrDefault(row => row == seat.SelectedItem);
             InitProductsDish();
             SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
         }
@@ -599,7 +594,7 @@ namespace Next2.ViewModels
                 ProductsDish[i].SelectedItem = null;
             }
 
-            SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == _selectedDish.SelectedDishProportion.Proportion.Id);
+            SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == _currentDish.SelectedDishProportion.Proportion.Id);
 
             if (!App.IsTablet)
             {

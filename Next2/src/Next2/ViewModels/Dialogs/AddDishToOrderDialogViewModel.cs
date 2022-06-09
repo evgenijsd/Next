@@ -2,6 +2,7 @@
 using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -44,15 +45,15 @@ namespace Next2.ViewModels
 
                     if (Dish.SelectedProducts is not null)
                     {
-                        foreach (var selectedProduct in Dish.SelectedProducts)
+                        foreach (var product in Dish.SelectedProducts)
                         {
-                            selectedProduct.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1
-                                ? selectedProduct.Product.DefaultPrice
-                                : selectedProduct.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
+                            product.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1
+                                ? product.Product.DefaultPrice
+                                : product.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
 
-                            if (selectedProduct.AddedIngredients is not null)
+                            if (product.AddedIngredients is not null)
                             {
-                                foreach (var adedIngredient in selectedProduct.AddedIngredients)
+                                foreach (var adedIngredient in product.AddedIngredients)
                                 {
                                     adedIngredient.Price = Dish.SelectedDishProportion.PriceRatio == 1
                                         ? adedIngredient.Price
@@ -124,8 +125,8 @@ namespace Next2.ViewModels
                         Id = row.ProportionId,
                         ProportionId = row.ProportionId,
                         Price = row.PriceRatio == 1
-                            ? dish.OriginalPrice :
-                            dish.OriginalPrice * (1 + row.PriceRatio),
+                            ? dish.OriginalPrice
+                            : dish.OriginalPrice * (1 + row.PriceRatio),
                         ProportionName = row.ProportionName,
                     });
 

@@ -16,6 +16,7 @@ using Next2.Views.Mobile;
 using Next2.Services.Menu;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Next2.Models.Bindables;
 
 namespace Next2.ViewModels.Mobile
 {

@@ -3,7 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Windows.Input;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
     public class IngredientBindableModel : BindableBase, IBaseApiModel
     {

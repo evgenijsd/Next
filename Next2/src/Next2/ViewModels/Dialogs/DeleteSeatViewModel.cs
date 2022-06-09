@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;

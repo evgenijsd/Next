@@ -6,7 +6,8 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:models="clr-namespace:Next2.Models" 
     xmlns:local="clr-namespace:Next2"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -73,7 +74,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatBindableModel">
+                    <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
 
                         <StackLayout 
                             Padding="15, 6, 15, 0"
@@ -114,7 +115,7 @@
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:DishBindableModel">
+                                    <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
                                         <StackLayout>
                                             <Frame

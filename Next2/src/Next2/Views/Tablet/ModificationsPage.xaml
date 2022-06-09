@@ -12,6 +12,7 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables" 
     xmlns:local="clr-namespace:Next2"
     xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
@@ -96,7 +97,7 @@
                 HorizontalScrollBarVisibility="Never">
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SpoilerBindableModel">
+                    <DataTemplate x:DataType="modelsBindable:SpoilerBindableModel">
 
                         <StackLayout>
 
@@ -393,7 +394,7 @@
 
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:IngredientBindableModel">
+                            <DataTemplate x:DataType="modelsBindable:IngredientBindableModel">
 
                                 <Frame
                                     Padding="16, 4"

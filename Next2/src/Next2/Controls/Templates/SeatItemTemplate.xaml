@@ -6,11 +6,11 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SeatItemTemplate"
     xmlns:local="clr-namespace:Next2"
-    x:DataType="models:SeatBindableModel">
+    x:DataType="modelsBindable:SeatBindableModel">
 
     <BoxView
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -124,7 +124,7 @@
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="models:DishBindableModel">
+            <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
                 <StackLayout
                     Padding="0, 0, 0, 7"

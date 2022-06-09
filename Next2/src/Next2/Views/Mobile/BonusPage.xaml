@@ -9,6 +9,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:enum="clr-namespace:Next2.Enums"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -229,8 +230,8 @@
                     <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
                         
                         <BindableLayout.ItemTemplate>
-                            
-                            <DataTemplate x:DataType="models:SeatBindableModel">
+
+                            <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
 
                                 <StackLayout Margin="0, 0, 0, 15">
                                     
@@ -250,7 +251,7 @@
 
                                             <BindableLayout.ItemTemplate>
 
-                                                <DataTemplate x:DataType="models:DishBindableModel">
+                                                <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
                                                     <StackLayout>
 
