@@ -573,15 +573,9 @@ namespace Next2.ViewModels
 
             if (result.IsSuccess)
             {
-                NumberOfSeats = 0;
-
-                if (App.IsTablet)
-                {
-                    IsSideMenuVisible = true;
-                    CurrentState = LayoutState.Loading;
-                }
-
-                RefreshCurrentOrderAsync();
+                InitOrderTypes();
+                await RefreshTablesAsync();
+                await RefreshCurrentOrderAsync();
             }
         }
 
