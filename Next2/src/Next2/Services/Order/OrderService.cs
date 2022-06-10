@@ -289,6 +289,8 @@ namespace Next2.Services.Order
                     CurrentSeat = seat;
                 }
 
+                dish.DiscountPrice = dish.SelectedDishProportionPrice;
+
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 
                 CurrentOrder.SubTotalPrice = CurrentOrder.Seats.Sum(row => row.SelectedDishes.Sum(row => row.TotalPrice));
