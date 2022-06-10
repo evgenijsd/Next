@@ -237,7 +237,7 @@ namespace Next2.ViewModels
                         var products = _currentDish.SelectedProducts;
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
 
-                        products[products.IndexOf(product)].SelectedOptions = SelectedOption;
+                        product.SelectedOptions = SelectedOption;
                     }
 
                     break;
@@ -325,7 +325,7 @@ namespace Next2.ViewModels
         {
             toggleIngredient.IsToggled = !toggleIngredient.IsToggled;
 
-            var product = _currentDish?.SelectedProducts?[ProductsDish.IndexOf(SelectedProduct)];
+            var product = _currentDish?.SelectedProducts?.FirstOrDefault();
 
             var ingredient = product?.AddedIngredients.FirstOrDefault(row => row.Id == toggleIngredient.Id);
 
@@ -464,7 +464,7 @@ namespace Next2.ViewModels
         {
             if (_allIngredients is not null)
             {
-                var product = _currentDish?.SelectedProducts?[ProductsDish.IndexOf(SelectedProduct)];
+                var product = _currentDish?.SelectedProducts?.FirstOrDefault();
 
                 Ingredients = new(_allIngredients.Where(row => row.IngredientsCategoryId == categoryId).Select(row => new IngredientBindableModel()
                 {
@@ -497,6 +497,7 @@ namespace Next2.ViewModels
         private void InitProportionDish()
         {
             var portions = _currentDish.DishProportions;
+            var selectedDishProportionId = _currentDish.SelectedDishProportion.Proportion.Id;
 
             if (portions is not null)
             {
@@ -509,7 +510,7 @@ namespace Next2.ViewModels
                     ProportionName = row.ProportionName,
                 }));
 
-                SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == _currentDish.SelectedDishProportion.Proportion.Id);
+                SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == selectedDishProportionId);
             }
         }
 
@@ -519,14 +520,15 @@ namespace Next2.ViewModels
             {
                 var products = _currentDish.SelectedProducts;
                 var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                var indexProduct = products.IndexOf(product);
 
-                var options = products[indexProduct].Product.Options;
+                var options = product.Product.Options;
 
                 if (options is not null)
                 {
                     OptionsProduct = new(options);
-                    SelectedOption = product.SelectedOptions is null ? options.FirstOrDefault() : products[indexProduct].SelectedOptions;
+                    SelectedOption = product.SelectedOptions is null
+                        ? options.FirstOrDefault()
+                        : product.SelectedOptions;
                 }
             }
         }
@@ -623,20 +625,15 @@ namespace Next2.ViewModels
             //CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
 
+            var parameters = new NavigationParameters();
+
             if (App.IsTablet)
             {
-                var parameters = new NavigationParameters
-                {
-                    { Constants.Navigations.REFRESH_ORDER, true },
-                    { Constants.Navigations.SET_MODIFIED, true },
-                };
+                parameters.Add(Constants.Navigations.REFRESH_ORDER, true);
+                parameters.Add(Constants.Navigations.SET_MODIFIED, true);
+            }
 
-                await _navigationService.GoBackAsync(parameters);
-            }
-            else
-            {
-                await _navigationService.GoBackAsync();
-            }
+            await _navigationService.GoBackAsync(parameters);
         }
 
         private decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio)

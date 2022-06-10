@@ -44,10 +44,6 @@ namespace Next2.Services.Menu
                 {
                     result.SetSuccess(categories.Value.Categories);
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
@@ -94,10 +90,6 @@ namespace Next2.Services.Menu
                 {
                     result.SetSuccess(ingredientsCategories.Value.IngredientsCategories);
                 }
-                else
-                {
-                    result.SetFailure();
-                }
             }
             catch (Exception ex)
             {
@@ -119,10 +111,6 @@ namespace Next2.Services.Menu
                 if (ingredients.Success && ingredients.Value is not null)
                 {
                     result.SetSuccess(ingredients.Value.Ingredients);
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)

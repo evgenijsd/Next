@@ -19,7 +19,7 @@
 
     <StackLayout
         Grid.Row="1" 
-        BindableLayout.ItemsSource="{Binding ItemsSource,Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}}">
+        BindableLayout.ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}}">
 
         <BindableLayout.ItemTemplate>
 

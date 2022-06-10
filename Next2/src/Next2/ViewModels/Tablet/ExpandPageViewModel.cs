@@ -52,7 +52,7 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapDishCommand;
-        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommand, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
@@ -94,7 +94,7 @@ namespace Next2.ViewModels.Tablet
             Dishes = new(Dishes.Reverse());
         }
 
-        private async Task OnTapDishCommandAsync(DishModelDTO dish)
+        private Task OnTapDishCommand(DishModelDTO dish)
         {
             var param = new DialogParameters
             {
@@ -102,7 +102,7 @@ namespace Next2.ViewModels.Tablet
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            await PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
