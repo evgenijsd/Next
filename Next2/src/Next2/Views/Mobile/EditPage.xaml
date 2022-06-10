@@ -84,7 +84,6 @@
 
                         <Label 
                             Text="{Binding SelectedDish.Name}"
-                            Margin="0, 0, 0, 0"
                             FontFamily="Barlow-Medium"
                             FontSize="{DynamicResource TSize_i6}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>

@@ -94,7 +94,9 @@
                             </BoxView>
 
                             <Label
-                                Text="{Binding SeatNumber}">
+                                Text="{Binding SeatNumber}"
+                                FontFamily="Barlow-Medium"
+                                FontSize="{DynamicResource TSize_i7}">
 
                                 <Label.FormattedText>
                                     <FormattedString>
@@ -147,9 +149,12 @@
                                                             LineBreakMode="TailTruncation"
                                                             MaxLines="1"
                                                             FontFamily="Barlow-Medium"
-                                                            Text="{Binding Name}" />
+                                                            FontSize="{DynamicResource TSize_i7}"
+                                                            Text="{Binding Name}"/>
 
-                                                        <Label>
+                                                        <Label                                 
+                                                            FontFamily="Barlow-Medium"
+                                                            FontSize="{DynamicResource TSize_i7}">
                                                             <Label.FormattedText>
                                                                 <FormattedString>
                                                                     <Span Text="{xct:Translate CurrencySign}" />

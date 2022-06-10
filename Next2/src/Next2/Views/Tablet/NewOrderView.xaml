@@ -795,7 +795,6 @@
 
                                             <Label 
                                                 Text="{Binding OrderRegistrationViewModel.SelectedDish.Name}"
-                                                Margin="0"
                                                 FontSize="{DynamicResource TSize_i4_5}"
                                                 FontFamily="Barlow-Medium"
                                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -872,18 +871,7 @@
 
                                      <!--Row 6 Footer-->
 
-                                    <Grid Grid.Row="3">
-                                        <!--<CollectionView ItemsSource="{Binding OrderRegistrationViewModel.SelectedDish.Products}">
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate x:DataType="models:ProductBindableModel">
-
-                                                    <controls:ProductsDetails
-                                                          />
-
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>-->
-                                    </Grid>
+                                    <Grid Grid.Row="3"/>
 
                                 </Grid>
 
