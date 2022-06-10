@@ -47,7 +47,7 @@ namespace Next2.ViewModels
                     {
                         foreach (var product in Dish.SelectedProducts)
                         {
-                            product.ProductPriceBaseOnProportion = Dish.SelectedDishProportion.PriceRatio == 1
+                            product.Price = Dish.SelectedDishProportion.PriceRatio == 1
                                 ? product.Product.DefaultPrice
                                 : product.Product.DefaultPrice * (1 + Dish.SelectedDishProportion.PriceRatio);
 

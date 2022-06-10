@@ -188,9 +188,18 @@
                                     MaxLines="1"/>
 
                                 <Label
-                                    Text="{Binding TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                     FontSize="{DynamicResource TSize_i5}"
-                                    FontFamily="Barlow-SemiBold"/>
+                                    FontFamily="Barlow-SemiBold">
+
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{xct:Translate CurrencySign}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+
+                                </Label>
 
                             </StackLayout>
 

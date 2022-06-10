@@ -80,6 +80,10 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
+                var seats = _mapper.Map<ObservableCollection<SeatBindableModel>>(CurrentOrder.Seats);
+
+                CurrentOrder.Seats = new (seats);
+
                 var coupons = await GetCoupons();
 
                 if (coupons is not null)

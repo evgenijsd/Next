@@ -46,7 +46,7 @@ namespace Next2.Models.Bindables
 
         public SimpleProductModelDTO Product { get; set; } = new();
 
-        public decimal ProductPriceBaseOnProportion { get; set; }
+        public decimal Price { get; set; }
 
         public OptionModelDTO? SelectedOptions { get; set; }
 

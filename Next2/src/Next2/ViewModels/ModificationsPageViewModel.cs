@@ -182,7 +182,7 @@ namespace Next2.ViewModels
 
                         foreach (var product in _currentDish.SelectedProducts)
                         {
-                            product.ProductPriceBaseOnProportion = SelectedProportion.PriceRatio == 1
+                            product.Price = SelectedProportion.PriceRatio == 1
                                 ? product.Product.DefaultPrice
                                 : product.Product.DefaultPrice * (1 + SelectedProportion.PriceRatio);
 

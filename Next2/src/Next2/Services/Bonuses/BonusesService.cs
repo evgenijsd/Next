@@ -105,6 +105,11 @@ namespace Next2.Services.Bonuses
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
+            foreach (var dish in dishes)
+            {
+                dish.DiscountPrice = dish.SelectedDishProportionPrice;
+            }
+
             if (currentOrder.Coupon is not null)
             {
                 foreach (var dish in dishes)

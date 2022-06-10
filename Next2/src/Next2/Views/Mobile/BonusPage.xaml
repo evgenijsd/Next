@@ -336,9 +336,9 @@
 
                                                                             <DataTrigger.Binding>
                                                                                 <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
-                                                                                    
-                                                                                    <Binding Path="TotalPrice" />
-                                                                                    <Binding Path="PriceBonus" />
+
+                                                                                    <Binding Path="SelectedDishProportionPrice" />
+                                                                                    <Binding Path="DiscountPrice" />
                                                                                     
                                                                                 </MultiBinding>
                                                                             </DataTrigger.Binding>

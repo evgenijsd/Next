@@ -61,7 +61,7 @@ namespace Next2.Models.Bindables
                         ingredientsPrice += product.ExcludedIngredients is not null
                             ? product.ExcludedIngredients.Sum(row => row.Price)
                             : 0;
-                        var productPrice = product.ProductPriceBaseOnProportion;
+                        var productPrice = product.Price;
                         totalProductsPrice += ingredientsPrice + productPrice;
                     }
 
