@@ -18,24 +18,24 @@ namespace Next2.Controls.Templates
 
         public static readonly BindableProperty BindableLayoutProperty = BindableProperty.Create(
             propertyName: nameof(BindableLayout),
-            returnType: typeof(IBaseModel),
+            returnType: typeof(IBaseApiModel),
             declaringType: typeof(ToggleItemTemplate),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public IBaseModel? BindableLayout
+        public IBaseApiModel? BindableLayout
         {
-            get => (IBaseModel)GetValue(BindableLayoutProperty);
+            get => (IBaseApiModel)GetValue(BindableLayoutProperty);
             set => SetValue(BindableLayoutProperty, value);
         }
 
         public static readonly BindableProperty StateProperty = BindableProperty.Create(
             propertyName: nameof(State),
-            returnType: typeof(IBaseModel),
+            returnType: typeof(IBaseApiModel),
             declaringType: typeof(ToggleItemTemplate));
 
-        public IBaseModel? State
+        public IBaseApiModel? State
         {
-            get => (IBaseModel)GetValue(StateProperty);
+            get => (IBaseApiModel)GetValue(StateProperty);
             set => SetValue(StateProperty, value);
         }
 

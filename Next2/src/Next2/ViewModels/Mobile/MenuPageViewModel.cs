@@ -4,6 +4,9 @@ using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,19 +22,22 @@ namespace Next2.ViewModels.Mobile
     public class MenuPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
-
         private readonly IOrderService _orderService;
+
+        private readonly IPopupNavigation _popupNavigation;
 
         private MenuItemBindableModel _oldSelectedMenuItem;
 
         public MenuPageViewModel(
             INavigationService navigationService,
             IMenuService menuService,
+            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
+            _popupNavigation = popupNavigation;
 
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
@@ -47,7 +53,7 @@ namespace Next2.ViewModels.Mobile
 
         public MenuItemBindableModel SelectedMenuItem { get; set; }
 
-        public ObservableCollection<CategoryModel> CategoriesItems { get; set; }
+        public ObservableCollection<CategoryModel> Categories { get; set; }
 
         private ICommand _tapCategoryCommand;
         public ICommand TapCategoryCommand => _tapCategoryCommand ??= new AsyncCommand<CategoryModel>(OnTapCategoryCommandAsync, allowsMultipleExecutions: false);
@@ -61,8 +67,15 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters is not null && parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+            {
+                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog((IDialogParameters par) => _popupNavigation.PopAsync());
+
+                await PopupNavigation.PushAsync(confirmDialog);
+            }
+
             SelectedMenuItem = MenuItems.FirstOrDefault();
             _oldSelectedMenuItem = SelectedMenuItem;
 
@@ -141,7 +154,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultCategories.IsSuccess)
                 {
-                    CategoriesItems = new(resultCategories.Result);
+                    Categories = new(resultCategories.Result);
                 }
             }
         }

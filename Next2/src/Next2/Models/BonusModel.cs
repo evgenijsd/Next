@@ -9,7 +9,7 @@ namespace Next2.Models
 
         public string Name { get; set; } = string.Empty;
 
-        public float Value { get; set; }
+        public decimal Value { get; set; }
 
         public EBonusValueType Type { get; set; }
     }

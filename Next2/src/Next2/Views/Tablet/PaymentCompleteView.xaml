@@ -209,7 +209,7 @@
                                     </DataTrigger>
 
                                     <DataTrigger TargetType="Label" Binding="{Binding Order.Customer, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
-                                        <Setter Property="Text" Value="{Binding Order.Customer.GiftCardCount}"/>
+                                        <Setter Property="Text" Value="{Binding Order.Customer.GiftCards.Count}"/>
                                     </DataTrigger>
                                     
                                 </Label.Triggers>
@@ -784,7 +784,7 @@
 
                 <StackLayout
                     Orientation="Horizontal"
-                    IsVisible="{Binding Order.Tip, Converter={StaticResource floatToBoolConverter}}">
+                    IsVisible="{Binding Order.Tip, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label
                         Text="{xct:Translate Tip}"
@@ -834,7 +834,7 @@
 
                 <StackLayout
                     Orientation="Horizontal"
-                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource floatToBoolConverter}}">
+                    IsVisible="{Binding Order.GiftCard, Converter={StaticResource decimalToBoolConverter}}">
 
                     <Label
                         Text="{xct:Translate GiftCards}"
@@ -925,10 +925,45 @@
                 FontFamily="Barlow-SemiBold"
                 BackgroundColor="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
+                Command="{Binding FinishPaymentCommand}"
                 CornerRadius="4"
                 Padding="0, 10"
-                Margin="15"
-                Command="{Binding FinishPaymentCommand}"/>
+                IsEnabled="False"
+                Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                Margin="15">
+
+                <buttons:BorderButton.Triggers>
+                    
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding BitmapSignature, Converter={xct:IsNotNullOrEmptyConverter}}" 
+                        Value="true">
+                        
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="IsEnabled" Value="true"/>
+                    </DataTrigger>
+                    
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton" 
+                        Binding="{Binding IsCleared}"
+                        Value="true">
+
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                    
+                    <DataTrigger 
+                        TargetType="buttons:BorderButton"
+                        Binding="{Binding Order.Total, Converter={StaticResource floatToBoolConverter}}" 
+                        Value="false">
+                        
+                        <Setter Property="Opacity" Value="1"/>
+                        <Setter Property="IsEnabled" Value="true"/>
+                    </DataTrigger>
+                    
+                </buttons:BorderButton.Triggers>
+                
+            </buttons:BorderButton>
 
         </StackLayout>
 

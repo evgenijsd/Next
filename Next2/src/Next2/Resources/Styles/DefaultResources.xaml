@@ -185,7 +185,7 @@
     <!-- CONVERTERS -->
     <converters:TimeToFormattedStringConverter x:Key="timeToFormattedStringConverter"/>
     <converters:ListHeightConverter x:Key="listHeightConverter" />
-    <converters:FloatToBoolConverter x:Key="floatToBoolConverter" />
+    <converters:DecimalToBoolConverter x:Key="decimalToBoolConverter" />
     <converters:FormattedPhoneConverter x:Key="formattedPhoneConverter" />
 
 </ResourceDictionary>

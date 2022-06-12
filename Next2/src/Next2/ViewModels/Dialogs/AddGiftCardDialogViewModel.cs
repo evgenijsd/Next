@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Prism.Mvvm;
@@ -24,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
         {
             _orderService = orderService;
             _customersService = customersService;
-            Customer = _orderService.CurrentOrder.Customer;
+            Customer = new(); // _orderService.CurrentOrder.Customer;
             RequestClose = requestClose;
         }
 
@@ -32,7 +33,7 @@ namespace Next2.ViewModels.Dialogs
 
         public string InputGiftCardNumber { get; set; } = string.Empty;
 
-        public CustomerModel? Customer { get; set; }
+        public CustomerBindableModel? Customer { get; set; }
 
         public bool IsGiftCardNotExists { get; set; }
 
@@ -57,57 +58,47 @@ namespace Next2.ViewModels.Dialogs
 
         private async Task OnAddGiftCardCommandAsync()
         {
-            if (int.TryParse(InputGiftCardNumber, out int giftCardNumber))
+            var dialogParameters = new DialogParameters() { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+
+            var giftCardModel = await _customersService.GetGiftCardByNumberAsync(InputGiftCardNumber);
+
+            if (giftCardModel.IsSuccess)
             {
-                var dialogParameters = new DialogParameters() { { Constants.DialogParameterKeys.GIFT_CARD_ADDED, true } };
+                IsGiftCardNotExists = false;
 
-                var giftCardModel = await _customersService.GetGiftCardByNumberAsync(giftCardNumber);
+                var giftCard = giftCardModel.Result;
 
-                if (giftCardModel.IsSuccess)
+                if (Customer is not null)
                 {
-                    IsGiftCardNotExists = false;
+                    var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
 
-                    var giftCard = giftCardModel.Result;
-
-                    if (Customer is not null)
+                    if (isGiftCardAdded.IsSuccess)
                     {
-                        var isGiftCardAdded = await _customersService.AddGiftCardToCustomerAsync(Customer, giftCard);
-
-                        if (isGiftCardAdded.IsSuccess)
-                        {
-                            if (!Customer.IsNotRegistratedCustomer)
-                            {
-                                await _customersService.ActivateGiftCardAsync(giftCard);
-                            }
-
-                            RequestClose(dialogParameters);
-                        }
-                        else
-                        {
-                            IsGiftCardNotExists = true;
-                        }
+                        RequestClose(dialogParameters);
                     }
                     else
                     {
-                        var tempCustomerModel = new CustomerModel()
-                        {
-                            GiftCardTotal = giftCard.GiftCardFunds,
-                            GiftCardCount = 1,
-                            IsUpdatedCustomer = true,
-                            IsNotRegistratedCustomer = true,
-                        };
-
-                        tempCustomerModel.GiftCards.Add(giftCard);
-
-                        _orderService.CurrentOrder.Customer = tempCustomerModel;
-
-                        RequestClose(dialogParameters);
+                        IsGiftCardNotExists = true;
                     }
                 }
                 else
                 {
-                    IsGiftCardNotExists = true;
+                    var tempCustomerModel = new CustomerBindableModel()
+                    {
+                        IsUpdatedCustomer = true,
+                        IsCustomerRegistrated = false,
+                    };
+
+                    tempCustomerModel.GiftCards.Add(giftCard);
+
+                    _orderService.CurrentOrder.Customer = tempCustomerModel;
+
+                    RequestClose(dialogParameters);
                 }
+            }
+            else
+            {
+                IsGiftCardNotExists = true;
             }
         }
 

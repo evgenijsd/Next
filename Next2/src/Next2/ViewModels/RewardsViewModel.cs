@@ -22,7 +22,6 @@ namespace Next2.ViewModels
 {
     public class RewardsViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
@@ -30,7 +29,6 @@ namespace Next2.ViewModels
 
         public RewardsViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customersService,
@@ -40,7 +38,6 @@ namespace Next2.ViewModels
             Action<EPaymentSteps> goToPaymentStep)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _mapper = mapper;
             _orderService = orderService;
             _customersService = customersService;
@@ -115,7 +112,7 @@ namespace Next2.ViewModels
         public async Task RefreshPageDataAsync()
         {
             Order.Id = _orderService.CurrentOrder.Id;
-            Order.Customer = _orderService.CurrentOrder.Customer;
+            Order.Customer = new(); // _orderService.CurrentOrder.Customer;
 
             if (Order.Customer is null)
             {
@@ -149,36 +146,36 @@ namespace Next2.ViewModels
 
         public void LoadSeats()
         {
-            var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.Sets.Any());
+            //var bindableSeats = _orderService.CurrentOrder.Seats.Where(x => x.SelectedDishes.Any());
 
-            Order.Seats.Clear();
+            //Order.Seats.Clear();
 
-            foreach (var seat in bindableSeats)
-            {
-                var freeSets = _mapper.Map<ObservableCollection<FreeSetBindableModel>>(seat.Sets);
+            //foreach (var seat in bindableSeats)
+            //{
+            //    var freeSets = _mapper.Map<ObservableCollection<FreeSetBindableModel>>(seat.SelectedDishes);
 
-                if (App.IsTablet)
-                {
-                    SetProductsNamesForSets(seat.Sets, freeSets);
-                }
+            //    if (App.IsTablet)
+            //    {
+            //        SetProductsNamesForSets(seat.SelectedDishes, freeSets);
+            //    }
 
-                var newSeat = new SeatWithFreeSetsBindableModel
-                {
-                    Id = seat.Id,
-                    SeatNumber = seat.SeatNumber,
-                    Sets = freeSets,
-                };
+            //    var newSeat = new SeatWithFreeSetsBindableModel
+            //    {
+            //        Id = seat.Id,
+            //        SeatNumber = seat.SeatNumber,
+            //        Sets = freeSets,
+            //    };
 
-                Order.Seats.Add(newSeat);
-            }
+            //    Order.Seats.Add(newSeat);
+            //}
         }
 
         private void SetProductsNamesForSets(ObservableCollection<SetBindableModel> setBindables, ObservableCollection<FreeSetBindableModel> freeSets)
         {
-            for (int i = 0; i < setBindables.Count; i++)
-            {
-                freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
-            }
+            //for (int i = 0; i < setBindables.Count; i++)
+            //{
+            //    freeSets[i].ProductNames = string.Join(", ", setBindables[i].Products.Select(x => x.Title));
+            //}
         }
 
         private void ApplyCancelRewardToSet(ObservableCollection<SeatWithFreeSetsBindableModel> seats, RewardBindabledModel reward)
@@ -215,11 +212,11 @@ namespace Next2.ViewModels
 
         private async void AddNewCustomerDialogCallBackAsync(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int newCustomerId))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid newCustomerId))
             {
-                var customerResult = await _customersService.GetAllCustomersAsync(x => x.Id == newCustomerId);
+                var customerResult = await _customersService.GetCustomersAsync(x => x.Id == newCustomerId);
 
                 if (customerResult.IsSuccess)
                 {
@@ -238,7 +235,7 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync, _customersService)
                 : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddNewCustomerDialogCallBackAsync, _customersService);
 
-            return _popupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private Task OnSelectRewardCommandAsync(RewardBindabledModel? selectedReward)

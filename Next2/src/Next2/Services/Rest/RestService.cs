@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Next2.Models.API;
+using Next2.Models.API.Queries;
+using Next2.Models.API.Results;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
@@ -24,9 +26,14 @@ namespace Next2.Services.Rest
 
         public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
+            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
+            {
+                await RefreshTokenIfNeeded();
 
-            using (var response = await MakeRequestAsync(method, requestUrl, null, additionalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
+                additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
+            }
+
+            using (var response = await MakeRequestAsync(method, requestUrl, null, additionalHeaders).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
@@ -38,9 +45,14 @@ namespace Next2.Services.Rest
 
         public async Task<T> RequestAsync<T>(HttpMethod method, string requestUrl, object requestBody, Dictionary<string, string> additionalHeaders = null, bool isIgnoreRefreshToken = false)
         {
-            additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
+            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
+            {
+                await RefreshTokenIfNeeded();
 
-            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additionalHeaders, isIgnoreRefreshToken).ConfigureAwait(false))
+                additionalHeaders = GenerateAuthorizationHeader(additionalHeaders);
+            }
+
+            using (var response = await MakeRequestAsync(method, requestUrl, requestBody, additionalHeaders).ConfigureAwait(false))
             {
                 ThrowIfNotSuccess(response);
 
@@ -69,7 +81,7 @@ namespace Next2.Services.Rest
             }
         }
 
-        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null, bool isIgnoreRefreshToken = false)
+        private async Task<HttpResponseMessage> MakeRequestAsync(HttpMethod method, string requestUrl, object requestBody = null, Dictionary<string, string> additioalHeaders = null)
         {
             var client = new HttpClient();
 
@@ -97,20 +109,12 @@ namespace Next2.Services.Rest
                 }
             }
 
-            if (_settingsManager.IsAuthorizationComplete && !isIgnoreRefreshToken)
-            {
-                await RefreshTokenIfNeeded();
-            }
-
             return await client.SendAsync(request).ConfigureAwait(false);
         }
 
-        private async Task RefreshTokenIfNeeded()
+        private Task RefreshTokenIfNeeded()
         {
-            if (_settingsManager.TokenExpirationDate < DateTime.Now)
-            {
-                await RefreshTokenAsync();
-            }
+            return _settingsManager.TokenExpirationDate < DateTime.Now ? RefreshTokenAsync() : Task.CompletedTask;
         }
 
         private Task RefreshTokenAsync()
@@ -144,7 +148,7 @@ namespace Next2.Services.Rest
 
             try
             {
-                var resultData = await RequestAsync<RefreshTokenQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
+                var resultData = await RequestAsync<GenericExecutionResult<RefreshTokenQuery>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
 
                 if (resultData.Success)
                 {

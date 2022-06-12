@@ -30,7 +30,6 @@ namespace Next2.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
-        private readonly IPopupNavigation _popupNavigation;
         private ECustomersSorting _sortCriterion;
 
         private List<CustomerBindableModel> _allCustomers = new();
@@ -40,15 +39,13 @@ namespace Next2.ViewModels
             IEventAggregator eventAggregator,
             INavigationService navigationService,
             ICustomersService customersService,
-            IOrderService orderService,
-            IPopupNavigation popupNavigation)
+            IOrderService orderService)
             : base(navigationService)
         {
             _mapper = mapper;
             _eventAggregator = eventAggregator;
             _customersService = customersService;
             _orderService = orderService;
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public Properties --
@@ -119,11 +116,11 @@ namespace Next2.ViewModels
         {
             IsRefreshing = true;
 
-            var customersAoresult = await _customersService.GetAllCustomersAsync();
+            var customersAoresult = await _customersService.GetCustomersAsync();
 
             if (customersAoresult.IsSuccess)
             {
-                var customers = _mapper.Map<List<CustomerBindableModel>>(customersAoresult.Result.OrderBy(x => x.Name));
+                var customers = customersAoresult.Result.ToList();
 
                 foreach (var item in customers)
                 {
@@ -135,7 +132,6 @@ namespace Next2.ViewModels
                 {
                     _allCustomers = customers;
                     DisplayedCustomers = SearchCustomers(SearchText);
-
                     SelectCurrentCustomer();
                 }
             }
@@ -170,13 +166,13 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback)
                     : new Views.Mobile.Dialogs.CustomerInfoDialog(param, CloseCustomerInfoDialogCallback);
 
-                await _popupNavigation.PushAsync(customerInfoDialog);
+                await PopupNavigation.PushAsync(customerInfoDialog);
             }
         }
 
         private async void CloseCustomerInfoDialogCallback(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isCustomerSelected) && isCustomerSelected)
             {
@@ -188,7 +184,7 @@ namespace Next2.ViewModels
         {
             if (SelectedCustomer is not null)
             {
-                _orderService.CurrentOrder.Customer = _mapper.Map<CustomerBindableModel, CustomerModel>(SelectedCustomer);
+                _orderService.CurrentOrder.Customer = SelectedCustomer;
 
                 if (App.IsTablet)
                 {
@@ -216,14 +212,14 @@ namespace Next2.ViewModels
                 ? new Views.Tablet.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService)
                 : new Views.Mobile.Dialogs.CustomerAddDialog(param, AddCustomerDialogCallBack, _customersService);
 
-            return _popupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddCustomerDialogCallBack(IDialogParameters param)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
-            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out int customerId))
+            if (param.TryGetValue(Constants.DialogParameterKeys.CUSTOMER_ID, out Guid customerId))
             {
                 await RefreshAsync();
 
@@ -244,7 +240,7 @@ namespace Next2.ViewModels
 
                 Func<CustomerBindableModel, object> comparer = criterion switch
                 {
-                    ECustomersSorting.ByName => x => x.Name,
+                    ECustomersSorting.ByName => x => x.FullName,
                     ECustomersSorting.ByPoints => x => x.Points,
                     ECustomersSorting.ByPhoneNumber => x => x.Phone,
                     _ => throw new NotImplementedException(),
@@ -288,10 +284,10 @@ namespace Next2.ViewModels
 
         private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
         {
-            bool containsName(CustomerBindableModel x) => x.Name.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
+            bool containsName(CustomerBindableModel x) => x.FullName.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
             bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
 
-            return _mapper.Map<ObservableCollection<CustomerBindableModel>>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
+            return new ObservableCollection<CustomerBindableModel>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
         }
 
         private Task OnClearSearchCommandAsync()

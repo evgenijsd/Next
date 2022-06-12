@@ -19,16 +19,11 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
-
         private TipItem _noTipItem;
 
-        public TipsPageViewModel(
-            INavigationService navigationService,
-            IPopupNavigation popupNavigation)
+        public TipsPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
         }
 
         #region -- Public properties --
@@ -78,7 +73,7 @@ namespace Next2.ViewModels.Mobile
             {
                 PopupPage popupPage = new Views.Mobile.Dialogs.TipValueDialog(TipViewDialogCallBack);
 
-                await _popupNavigation.PushAsync(popupPage);
+                await PopupNavigation.PushAsync(popupPage);
             }
             else if (sender is ETipType eTip && eTip == ETipType.NoTip)
             {
@@ -88,9 +83,9 @@ namespace Next2.ViewModels.Mobile
 
         private async void TipViewDialogCallBack(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
-            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out float value))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, out decimal value))
             {
                 SelectedTipItem.Value = value;
                 SelectedTipItem.Text = LocalizationResourceManager.Current["CurrencySign"] + $" {value:F2}";

@@ -1,5 +1,4 @@
 ﻿using Prism.Navigation;
-using SkiaSharp;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;

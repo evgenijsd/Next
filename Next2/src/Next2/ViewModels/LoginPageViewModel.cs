@@ -1,11 +1,10 @@
-using Next2.Enums;
-using Next2.Helpers;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -73,7 +72,7 @@ namespace Next2.ViewModels
         {
             if (_authenticationService.IsAuthorizationComplete)
             {
-                await _orderService.CreateNewOrderAsync();
+                await _orderService.CreateNewCurrentOrderAsync();
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
@@ -131,7 +130,7 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    await _orderService.CreateNewOrderAsync();
+                    await _orderService.CreateNewCurrentOrderAsync();
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
 

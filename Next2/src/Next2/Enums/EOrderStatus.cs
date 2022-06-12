@@ -7,6 +7,5 @@
         Closed,
         Canceled,
         Deleted,
-        None,
     }
 }

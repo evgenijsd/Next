@@ -23,26 +23,21 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
-        private readonly IPopupNavigation _popupNavigation;
         private int _indexOfSeat;
 
         public EditPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IPopupNavigation popupNavigation,
             IMenuService menuService)
           : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
-
             _orderService = orderService;
-
             _menuService = menuService;
         }
 
         #region -- Public properties --
 
-        public SetBindableModel? SelectedSet { get; set; }
+        public DishBindableModel? SelectedDish { get; set; }
 
         private ICommand _openModifyCommand;
         public ICommand OpenModifyCommand => _openModifyCommand ??= new AsyncCommand(OnOpenModifyCommandAsync);
@@ -65,11 +60,11 @@ namespace Next2.ViewModels.Mobile
 
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
 
-            SelectedSet = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
+            SelectedDish = _orderService.CurrentOrder.Seats[_indexOfSeat].SelectedItem;
 
-            if (SelectedSet is not null)
+            if (SelectedDish is not null)
             {
-                await InitEditSetDetailsAsync(SelectedSet);
+                //await InitEditSetDetailsAsync(SelectedSet);
             }
         }
 
@@ -100,20 +95,20 @@ namespace Next2.ViewModels.Mobile
 
             PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteSetDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isSetRemovingAccepted))
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
-                if (isSetRemovingAccepted)
+                if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteSetFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeat();
 
                     if (result.IsSuccess)
                     {
-                        await _popupNavigation.PopAsync();
+                        await PopupNavigation.PopAsync();
 
                         var navigationParameters = new NavigationParameters
                         {
@@ -124,76 +119,76 @@ namespace Next2.ViewModels.Mobile
                 }
                 else
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 
         private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
         {
-            if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
-            {
-                var result = await _menuService.GetIngredientsAsync();
+            //if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
+            //{
+            //    var result = await _menuService.GetIngredientsAsync();
 
-                if (result.IsSuccess)
-                {
-                    List<IngredientModel> allIngredientModels = new(result.Result);
+            //    if (result.IsSuccess)
+            //    {
+            //        List<IngredientModel> allIngredientModels = new(result.Result);
 
-                    if (allIngredientModels is not null && SelectedSet is not null)
-                    {
-                        foreach (var product in SelectedSet.Products)
-                        {
-                            ObservableCollection<IngredientBindableModel> tempListIngredients = new();
-                            List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
-                            {
-                                Id = row.Id,
-                                Title = row.Title,
-                                Price = row.Price,
-                                IsToggled = true,
-                                ImagePath = row.ImagePath,
-                            }));
+            //        if (allIngredientModels is not null && SelectedSet is not null)
+            //        {
+            //            foreach (var product in SelectedSet.Products)
+            //            {
+            //                ObservableCollection<IngredientBindableModel> tempListIngredients = new();
+            //                List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
+            //                {
+            //                    Id = row.Id,
+            //                    Title = row.Title,
+            //                    Price = row.Price,
+            //                    IsToggled = true,
+            //                    ImagePath = row.ImagePath,
+            //                }));
 
-                            foreach (var ingredient in setOfIngredients)
-                            {
-                                tempListIngredients.Add(ingredient);
-                            }
+            //                foreach (var ingredient in setOfIngredients)
+            //                {
+            //                    tempListIngredients.Add(ingredient);
+            //                }
 
-                            if (product.DefaultSelectedIngredients.Count > 0)
-                            {
-                                foreach (var defaultIngredient in product.DefaultSelectedIngredients)
-                                {
-                                    var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
+            //                if (product.DefaultSelectedIngredients.Count > 0)
+            //                {
+            //                    foreach (var defaultIngredient in product.DefaultSelectedIngredients)
+            //                    {
+            //                        var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
 
-                                    var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
+            //                        var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
 
-                                    if (!isDefaultIngredientExist)
-                                    {
-                                        tempListIngredients.Add(new IngredientBindableModel()
-                                        {
-                                            Title = defaultIngredientModel.Title,
-                                            Price = 0,
-                                            IsToggled = false,
-                                            IsDefault = true,
-                                        });
-                                    }
-                                }
-                            }
+            //                        if (!isDefaultIngredientExist)
+            //                        {
+            //                            tempListIngredients.Add(new IngredientBindableModel()
+            //                            {
+            //                                Title = defaultIngredientModel.Title,
+            //                                Price = 0,
+            //                                IsToggled = false,
+            //                                IsDefault = true,
+            //                            });
+            //                        }
+            //                    }
+            //                }
 
-                            product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
-                        }
+            //                product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
+            //            }
 
-                        SelectedSet = new(SelectedSet);
-                    }
-                }
-            }
-            else
-            {
-                SelectedSet = new(SelectedSet);
-            }
+            //            SelectedSet = new(SelectedSet);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    SelectedSet = new(SelectedSet);
+            //}
         }
         #endregion
 

@@ -7,9 +7,10 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
-    xmlns:views="clr-namespace:Next2.Views" 
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:dto="clr-namespace:Next2.Models.API.DTO"
+    xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
+    xmlns:views="clr-namespace:Next2.Views"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
     x:Class="Next2.Views.Mobile.ChooseSetPage"
     x:DataType="viewModels:ChooseSetPageViewModel">
@@ -86,8 +87,8 @@
         <CollectionView
             Margin="15, 10, 15, 0"
             VerticalOptions="FillAndExpand"
-            VerticalScrollBarVisibility="Never">
-            <!--ItemsSource="{Binding SetsItems}"-->
+            VerticalScrollBarVisibility="Never"
+            ItemsSource="{Binding Dishes}">
 
             <CollectionView.Effects>
                 <effects:NoOverScrollEffect/>
@@ -103,15 +104,15 @@
 
             </CollectionView.ItemsLayout>
 
-            <!--<CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:SetModel">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:DishModelDTO">
 
                     <templates:SetItemTemplate
-                        xct:TouchEffect.Command="{Binding TapSetCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseSetPageViewModel}}}"
+                        xct:TouchEffect.Command="{Binding TapDishCommand, Source={RelativeSource AncestorType={x:Type viewModels:ChooseSetPageViewModel}}}"
                         xct:TouchEffect.CommandParameter="{Binding .}"/>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>-->
+            </CollectionView.ItemTemplate>
 
         </CollectionView>
 
@@ -120,7 +121,7 @@
         <CollectionView
             HeightRequest="60"
             VerticalOptions="End"
-            ItemsSource="{Binding SubcategoriesItems}"
+            ItemsSource="{Binding Subcategories}"
             SelectedItem="{Binding SelectedSubcategoriesItem}"
             VerticalScrollBarVisibility="Never"
             SelectionMode="Single"
@@ -144,6 +145,7 @@
 
                     <templates:SubCategoryItemTemplate
                         HeightRequest="54"
+                        TextMargin="18, 0, 18, 6"
                         Text="{Binding Name}"
                         FontSize="{DynamicResource TSize_i6}"
                         FontFamily="Barlow-Medium"/>

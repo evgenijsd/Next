@@ -546,7 +546,7 @@ for the order.</value>
     <value>Leave your signature
 to complete the payment.</value>
   </data>
-  <data name="PaymentComplete" xml:space="preserve">
+  <data name="PaymentCompleteExclamation" xml:space="preserve">
     <value>Payment complete!</value>
   </data>
   <data name="ThankYouVisiting" xml:space="preserve">
@@ -558,6 +558,15 @@ A receipt has been printed for you.</value>
   </data>
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>
+  </data>
+  <data name="NoReceipt" xml:space="preserve">
+    <value>No Receipt</value>
+  </data>
+  <data name="PaymentComplete" xml:space="preserve">
+    <value>Payment complete</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
   </data>
   <data name="Tip" xml:space="preserve">
     <value>Tip</value>
@@ -594,5 +603,14 @@ A receipt has been printed for you.</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="NotDefined" xml:space="preserve">
+    <value>Not defined</value>
   </data>
 </root>

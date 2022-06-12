@@ -1,18 +1,16 @@
-﻿using Acr.UserDialogs;
+using Acr.UserDialogs;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
-using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -24,21 +22,17 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IMenuService _menuService;
 
-        private readonly IPopupNavigation _popupNavigation;
-
         private readonly IOrderService _orderService;
 
-        private bool _order;
+        private bool _shouldOrderDishesByDESC;
 
         public ChooseSetPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
         }
 
@@ -46,13 +40,15 @@ namespace Next2.ViewModels.Mobile
 
         public CategoryModel SelectedCategoriesItem { get; set; }
 
-        //public ObservableCollection<SetModel> SetsItems { get; set; }
-        public ObservableCollection<SubcategoryModel> SubcategoriesItems { get; set; }
+        public ObservableCollection<DishModelDTO> Dishes { get; set; }
+
+        public ObservableCollection<SubcategoryModel> Subcategories { get; set; }
 
         public SubcategoryModel SelectedSubcategoriesItem { get; set; }
 
-        //private ICommand _tapSetCommand;
-        //public ICommand TapSetCommand => _tapSetCommand ??= new AsyncCommand<SetModel>(OnTapSetCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _tapDishCommand;
+        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
+
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
 
@@ -78,7 +74,7 @@ namespace Next2.ViewModels.Mobile
                     Task.Run(LoadSubcategoriesAsync);
                     break;
                 case nameof(SelectedSubcategoriesItem):
-                    Task.Run(LoadSetsAsync);
+                    Task.Run(LoadDishesAsync);
                     break;
             }
         }
@@ -89,81 +85,74 @@ namespace Next2.ViewModels.Mobile
 
         private async Task OnTapSortCommandAsync()
         {
-            _order = !_order;
-            await LoadSetsAsync();
+            _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
+            Dishes = new(Dishes.Reverse());
         }
 
-        //private async Task OnTapSetCommandAsync(SetModel set)
-        //{
-        //    var portions = await _menuService.GetPortionsSetAsync(set.Id);
-
-        //    if (portions.IsSuccess)
-        //    {
-        //        var param = new DialogParameters
-        //        {
-        //            { Constants.DialogParameterKeys.SET, set },
-        //            { Constants.DialogParameterKeys.PORTIONS, portions.Result },
-        //        };
-
-        //        await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
-        //    }
-        //}
-        //private async void CloseDialogCallback(IDialogParameters dialogResult)
-        //{
-        //    if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.SET, out SetBindableModel set))
-        //    {
-        //        await _orderService.AddSetInCurrentOrderAsync(set);
-
-        //        if (_popupNavigation.PopupStack.Any())
-        //        {
-        //            await _popupNavigation.PopAsync();
-        //        }
-
-        //        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-        //        {
-        //            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-        //            Position = ToastPosition.Bottom,
-        //        };
-
-        //        UserDialogs.Instance.Toast(toastConfig);
-        //    }
-        //    else
-        //    {
-        //        await _popupNavigation.PopAsync();
-        //    }
-        //}
-        private async Task LoadSetsAsync()
+        private async Task OnTapDishCommandAsync(DishModelDTO dish)
         {
-            //if (IsInternetConnected)
-            //{
-            //    var resultSets = await _menuService.GetSetsAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+            var param = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.DISH, dish },
+                { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
+            };
 
-            //    if (resultSets.IsSuccess)
-            //    {
-            //        if (_order)
-            //        {
-            //            SetsItems = new(resultSets.Result.OrderByDescending(row => row.Title));
-            //        }
-            //        else
-            //        {
-            //            SetsItems = new(resultSets.Result.OrderBy(row => row.Title));
-            //        }
-            //    }
-            //}
+            await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+        }
+
+        private async void CloseDialogCallback(IDialogParameters dialogResult)
+        {
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
+            {
+                await _orderService.AddSetInCurrentOrderAsync(dish);
+
+                if (PopupNavigation.PopupStack.Any())
+                {
+                    await PopupNavigation.PopAsync();
+                }
+
+                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                {
+                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                    Position = ToastPosition.Bottom,
+                };
+
+                UserDialogs.Instance.Toast(toastConfig);
+            }
+            else
+            {
+                await PopupNavigation.PopAsync();
+            }
+        }
+
+        private async Task LoadDishesAsync()
+        {
+            if (IsInternetConnected)
+            {
+                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+
+                if (resultGettingDishes.IsSuccess)
+                {
+                    Dishes = _shouldOrderDishesByDESC
+                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
+                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+                }
+            }
         }
 
         private async Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
-                SubcategoriesItems = new(SelectedCategoriesItem.Subcategories);
+                Subcategories = new(SelectedCategoriesItem.Subcategories);
 
-                SubcategoriesItems.Insert(0, new SubcategoryModel()
+                Subcategories.Insert(0, new SubcategoryModel()
                 {
+                    Id = Guid.Empty,
                     Name = LocalizationResourceManager.Current["All"],
                 });
 
-                SelectedSubcategoriesItem = SubcategoriesItems.FirstOrDefault();
+                SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
         }
 

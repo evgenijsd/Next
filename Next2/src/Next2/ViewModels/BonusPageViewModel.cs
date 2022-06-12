@@ -2,10 +2,12 @@
 using Next2.Enums;
 using Next2.Helpers.Events;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.Bonuses;
 using Next2.Services.Order;
 using Prism.Events;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -75,28 +77,38 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
-                CurrentOrder = _mapper.Map<FullOrderBindableModel, FullOrderBindableModel>(currentOrder);
+                CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                _bonuses = await _bonusesService.GetActiveBonusesAsync(CurrentOrder);
-
-                if (_bonuses.Count > 0)
+                var seats = CurrentOrder.Seats.Select(x => new SeatBindableModel(x)
                 {
-                    Discounts = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveDiscountsAsync(_bonuses));
-                    Coupons = _mapper.Map<IEnumerable<BonusModel>, ObservableCollection<BonusBindableModel>>(await _bonusesService.GetActiveCouponesAsync(_bonuses));
+                    SelectedDishes = new (x.SelectedDishes.Select(x => new DishBindableModel(x))),
+                });
 
-                    if (CurrentOrder.BonusType != EBonusType.None)
-                    {
-                        SelectedBonus = CurrentOrder.BonusType == EBonusType.Coupone ? Coupons.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id) : Discounts.FirstOrDefault(x => x.Id == CurrentOrder.Bonus.Id);
-                    }
+                CurrentOrder.Seats = new (seats);
+
+                var coupons = await GetCoupons();
+
+                if (coupons is not null)
+                {
+                    Coupons = _mapper.Map<IEnumerable<CouponModelDTO>, ObservableCollection<BonusBindableModel>>(coupons);
 
                     foreach (var coupon in Coupons)
                     {
                         coupon.TapCommand = TapSelectBonusCommand;
+                        coupon.Type = EBonusType.Coupone;
                     }
+                }
+
+                var discounts = await GetDiscounts();
+
+                if (discounts is not null)
+                {
+                    Discounts = _mapper.Map<IEnumerable<DiscountModelDTO>, ObservableCollection<BonusBindableModel>>(discounts);
 
                     foreach (var discount in Discounts)
                     {
                         discount.TapCommand = TapSelectBonusCommand;
+                        discount.Type = EBonusType.Discount;
                     }
                 }
 
@@ -119,6 +131,35 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
+        private async Task<IEnumerable<CouponModelDTO>>? GetCoupons()
+        {
+            IEnumerable<CouponModelDTO>? result = null;
+            var dishesIds = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Select(x => x.Id);
+
+            var response = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
+
+            if (response.IsSuccess)
+            {
+                result = response.Result;
+            }
+
+            return result;
+        }
+
+        private async Task<IEnumerable<DiscountModelDTO>> GetDiscounts()
+        {
+            IEnumerable<DiscountModelDTO>? result = null;
+
+            var response = await _bonusesService.GetDiscountsAsync(x => x.IsActive);
+
+            if (response.IsSuccess)
+            {
+                result = response.Result;
+            }
+
+            return result;
+        }
+
         private async Task OnApplyBonusCommandAsync()
         {
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Publish(CurrentOrder);
@@ -128,17 +169,25 @@ namespace Next2.ViewModels
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            CurrentOrder.BonusType = EBonusType.None;
-
             SelectedBonus = bonus == SelectedBonus ? null : bonus;
 
-            if (SelectedBonus is not null)
+            if (bonus is not null)
             {
-                CurrentOrder.BonusType = Discounts.Any(x => x.Id == SelectedBonus.Id) ? EBonusType.Discount : EBonusType.Coupone;
-                CurrentOrder.Bonus = SelectedBonus;
-
-                CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+                if (bonus.Type is EBonusType.Coupone)
+                {
+                    var coupon = _mapper.Map<CouponModelDTO>(bonus);
+                    coupon.SeatNumbers = CurrentOrder.Seats.Count;
+                    CurrentOrder.Coupon = coupon;
+                    CurrentOrder.Discount = null;
+                }
+                else if (bonus.Type is EBonusType.Discount)
+                {
+                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
+                    CurrentOrder.Coupon = null;
+                }
             }
+
+            await _bonusesService.СalculationBonusAsync(CurrentOrder);
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
@@ -158,7 +207,6 @@ namespace Next2.ViewModels
         private Task OnRemoveSelectionBonusCommandAsync()
         {
             SelectedBonus = null;
-
             return Task.CompletedTask;
         }
 

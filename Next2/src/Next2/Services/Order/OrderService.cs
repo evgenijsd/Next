@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.Api.Commands;
-using Next2.Models.API;
+using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
+using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
+using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,17 +22,22 @@ namespace Next2.Services.Order
     public class OrderService : IOrderService
     {
         private readonly IMockService _mockService;
+        private readonly ISettingsManager _settingsManager;
+        private readonly IRestService _restService;
         private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
         private readonly IRestService _restService;
 
         public OrderService(
             IMockService mockService,
-            IBonusesService bonusesService,
             IRestService restService,
+            IBonusesService bonusesService,
+            ISettingsManager settingsManager,
             IMapper mapper)
         {
             _mockService = mockService;
+            _settingsManager = settingsManager;
+            _restService = restService;
             _bonusService = bonusesService;
             _mapper = mapper;
             _restService = restService;
@@ -40,7 +47,7 @@ namespace Next2.Services.Order
 
         #region -- Public properties --
 
-        public FullOrderBindableModel CurrentOrder { get; set; } = new ();
+        public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public SeatBindableModel? CurrentSeat { get; set; }
 
@@ -74,46 +81,52 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<int>> GetNewOrderIdAsync()
+        public async Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync()
         {
-            var result = new AOResult<int>();
+            var result = new AOResult<Guid>();
 
             try
             {
-                int newOrderId = _mockService.MaxIdentifier<OrderModel>() + 1;
+                var requestBody = new CreateOrderCommand
+                {
+                    EmployeeId = _settingsManager.UserId.ToString(),
+                };
 
-                result.SetSuccess(newOrderId);
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, query, requestBody);
+
+                if (resultCreate?.Value?.Id is not null)
+                {
+                    result.SetSuccess(resultCreate.Value.Id);
+                }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetNewOrderIdAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(CreateNewOrderAndGetIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<TableModel>>> GetFreeTablesAsync()
+        public async Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync()
         {
-            var result = new AOResult<IEnumerable<TableModel>>();
+            var result = new AOResult<IEnumerable<TableModelDTO>>();
 
             try
             {
-                var allTables = await _mockService.GetAllAsync<TableModel>();
+                var query = $"{Constants.API.HOST_URL}/api/tables/available";
+                var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, query);
 
-                if (allTables is not null)
+                if (freeTables.Success)
                 {
-                    var allOrders = await _mockService.GetAllAsync<OrderModel>();
-
-                    if (allOrders is not null)
+                    if (freeTables?.Value?.Tables is not null)
                     {
-                        var freeTables = allTables.Where(table => allOrders
-                            .All(order => order.TableNumber != table.TableNumber || order.OrderStatus is Constants.OrderStatus.CANCELLED or Constants.OrderStatus.PAYED));
-
-                        if (freeTables is not null)
-                        {
-                            result.SetSuccess(freeTables);
-                        }
+                        result.SetSuccess(freeTables.Value.Tables);
                     }
+                }
+                else
+                {
+                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -124,21 +137,18 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync()
         {
-            var result = new AOResult<IEnumerable<OrderModel>>();
+            var result = new AOResult<IEnumerable<SimpleOrderModelDTO>>();
 
             try
             {
-                var orders = await _mockService.GetAsync<OrderModel>(x => x.Id != 0);
+                string query = $"{Constants.API.HOST_URL}/api/orders";
+                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderListQueryResultResult>>(HttpMethod.Get, query);
 
-                if (orders is not null)
+                if (responce.Success)
                 {
-                    result.SetSuccess(orders);
-                }
-                else
-                {
-                    result.SetFailure(Strings.NotFoundOrders);
+                    result.SetSuccess(responce.Value.Orders);
                 }
             }
             catch (Exception ex)
@@ -212,37 +222,39 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> CreateNewOrderAsync()
+        public async Task<AOResult> CreateNewCurrentOrderAsync()
         {
             var result = new AOResult();
 
             try
             {
-                var orderId = await GetNewOrderIdAsync();
+                var orderId = await CreateNewOrderAndGetIdAsync();
                 var availableTables = await GetFreeTablesAsync();
 
                 if (orderId.IsSuccess && availableTables.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
 
-                    CurrentOrder = new();
+                    var query = $"{Constants.API.HOST_URL}/api/orders/{orderId.Result}";
+                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+
+                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.Seats = new();
 
-                    var tax = await GetTaxAsync();
+                    //var tax = await GetTaxAsync();
 
-                    if (tax.IsSuccess)
-                    {
-                        CurrentOrder.Tax = tax.Result;
-                    }
+                    //if (tax.IsSuccess)
+                    //{
+                    //    CurrentOrder.Tax = tax.Result;
+                    //}
 
-                    CurrentOrder.Id = orderId.Result;
-                    CurrentOrder.OrderNumber = orderId.Result;
-                    CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
-                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    CurrentOrder.Table = tableBindableModels.FirstOrDefault();
+                    //CurrentOrder.Id = orderId.Result;
+                    //CurrentOrder.OrderNumber = orderId.Result;
+                    //CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
+                    //CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
 
-                    CurrentSeat = null;
-
+                    //CurrentSeat = null;
                     result.SetSuccess();
                 }
                 else
@@ -252,16 +264,15 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CreateNewOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(CreateNewCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult> AddSetInCurrentOrderAsync(SetBindableModel set)
+        public async Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
-            bool success = true;
 
             try
             {
@@ -269,9 +280,8 @@ namespace Next2.Services.Order
                 {
                     var seat = new SeatBindableModel
                     {
-                        Id = 1,
                         SeatNumber = 1,
-                        Sets = new(),
+                        SelectedDishes = new(),
                         Checked = true,
                         IsFirstSeat = true,
                     };
@@ -281,94 +291,20 @@ namespace Next2.Services.Order
                     CurrentSeat = seat;
                 }
 
-                var resultProducts = await _mockService.GetAsync<ProductModel>(row => row.SetId == set.Id);
+                dish.DiscountPrice = dish.SelectedDishProportionPrice;
 
-                if (resultProducts is not null)
-                {
-                    set.Products = new();
+                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 
-                    foreach (var product in resultProducts)
-                    {
-                        var newProduct = new ProductBindableModel()
-                        {
-                            Id = product.Id,
-                            ReplacementProducts = new(),
-                            SelectedIngredients = new(),
-                            Title = product.Title,
-                            ImagePath = product.ImagePath,
-                            ProductPrice = product.ProductPrice,
-                            IngredientsPrice = product.IngredientsPrice,
-                            TotalPrice = product.ProductPrice,
-                            Comment = product.Comment,
-                        };
+                CurrentOrder.SubTotalPrice = CurrentOrder.Seats.Sum(row => row.SelectedDishes.Sum(row => row.TotalPrice));
 
-                        var resultOptionsProduct = await _mockService.GetAsync<OptionModel>(row => row.ProductId == product.Id);
+                CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
 
-                        if (resultOptionsProduct is not null)
-                        {
-                            newProduct.SelectedOption = resultOptionsProduct.FirstOrDefault(row => row.Id == product.DefaultOptionId);
-                            newProduct.Options = new(resultOptionsProduct);
-                        }
-                        else
-                        {
-                            newProduct.SelectedOption = new();
-                            newProduct.Options = new();
-                        }
+                CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
 
-                        var resultReplacementProducts = await _mockService.GetAsync<ReplacementProductModel>(row => row.ReplacementProductId == product.Id);
-
-                        foreach (var replacementProduct in resultReplacementProducts)
-                        {
-                            var itemProduct = await _mockService.GetAsync<ProductModel>(row => row.Id == replacementProduct.ProductId);
-                            newProduct.ReplacementProducts.Add(itemProduct.FirstOrDefault());
-                        }
-
-                        newProduct.SelectedProduct = newProduct.ReplacementProducts.FirstOrDefault(row => row.Id == product.DefaultProductId);
-
-                        if (newProduct.SelectedProduct is null)
-                        {
-                            newProduct.SelectedProduct = product;
-                        }
-
-                        var selectedIngredients = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == newProduct.SelectedProduct.Id);
-
-                        if (selectedIngredients is not null)
-                        {
-                            newProduct.SelectedIngredients = new(selectedIngredients);
-                            newProduct.DefaultSelectedIngredients = new(selectedIngredients);
-                        }
-
-                        set.Products.Add(newProduct);
-
-                        set.IngredientsPrice += newProduct.IngredientsPrice;
-                        set.ProductsPrice += newProduct.SelectedProduct.ProductPrice;
-                    }
-
-                    set.TotalPrice = set.IngredientsPrice + set.Portion.Price;
-
-                    CurrentOrder.Total += set.TotalPrice;
-                }
-                else
-                {
-                    success = false;
-                }
-
-                if (!success)
-                {
-                    result.SetFailure();
-                }
-
-                CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].Sets.Add(set);
-                CurrentOrder.SubTotal += set.Portion.Price;
-
-                CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
-
-                if (CurrentOrder.BonusType != Enums.EBonusType.None)
-                {
-                    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-                }
-
+                //if (CurrentOrder.BonusType != Enums.EBonusType.None)
+                //{
+                //    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+                //}
                 result.SetSuccess();
             }
             catch (Exception ex)
@@ -392,9 +328,8 @@ namespace Next2.Services.Order
 
                 var seat = new SeatBindableModel
                 {
-                    Id = CurrentOrder.Seats.Count + 1,
                     SeatNumber = CurrentOrder.Seats.Count + 1,
-                    Sets = new (),
+                    SelectedDishes = new(),
                     Checked = true,
                 };
 
@@ -424,15 +359,17 @@ namespace Next2.Services.Order
                 {
                     for (int i = seat.SeatNumber - 1; i < CurrentOrder.Seats.Count; i++)
                     {
-                        CurrentOrder.Seats[i].Id--;
                         CurrentOrder.Seats[i].SeatNumber--;
                     }
 
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
 
-                    CurrentOrder.SubTotal -= seat.Sets.Sum(row => row.TotalPrice);
-                    CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                    if (seat.SelectedDishes.Count != 0)
+                    {
+                        CurrentOrder.SubTotalPrice -= seat.SelectedDishes.Sum(row => row.TotalPrice);
+                        CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
+                        CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                    }
 
                     result.SetSuccess();
                 }
@@ -457,14 +394,14 @@ namespace Next2.Services.Order
 
                 if (destinationSeatIndex != -1 && destinationSeat.SeatNumber != sourceSeat.SeatNumber)
                 {
-                    foreach (var item in sourceSeat.Sets)
+                    foreach (var item in sourceSeat.SelectedDishes)
                     {
-                        seats[destinationSeatIndex].Sets.Add(item);
+                        seats[destinationSeatIndex].SelectedDishes.Add(item);
                     }
 
                     int sourceSeatIndex = seats.IndexOf(sourceSeat);
 
-                    seats[sourceSeatIndex].Sets.Clear();
+                    seats[sourceSeatIndex].SelectedDishes.Clear();
 
                     result.SetSuccess();
                 }
@@ -477,26 +414,26 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteSetFromCurrentSeat()
+        public async Task<AOResult> DeleteDishFromCurrentSeat()
         {
             var result = new AOResult();
 
             try
             {
-                SetBindableModel? setTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
-                if (setTobeRemoved is not null)
+                DishBindableModel? dishTobeRemoved = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null)?.SelectedItem;
+                if (dishTobeRemoved is not null)
                 {
-                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).Sets.Remove(setTobeRemoved);
-                    CurrentOrder.SubTotal -= setTobeRemoved.TotalPrice;
-                    CurrentOrder.PriceTax = CurrentOrder.SubTotal * CurrentOrder.Tax.Value;
-                    CurrentOrder.Total = CurrentOrder.SubTotal + CurrentOrder.PriceTax;
+                    CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
+                    CurrentOrder.SubTotalPrice -= dishTobeRemoved.TotalPrice;
+                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
+                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
                 }
 
                 result.SetSuccess();
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(DeleteSetFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(DeleteDishFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

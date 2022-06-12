@@ -1,5 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -87,15 +88,15 @@ namespace Next2.ViewModels.Dialogs
         {
             if (CanAddNewCustomer)
             {
-                var newCustomer = new CustomerModel()
+                var newCustomer = new CustomerBindableModel()
                 {
                     Email = Email,
-                    Name = Name,
+                    FullName = Name,
                     Phone = Phone,
                     Birthday = SelectedDate,
                 };
 
-                var result = await _customersService.AddNewCustomerAsync(newCustomer);
+                var result = await _customersService.CreateCustomerAsync(newCustomer);
 
                 if (result.IsSuccess)
                 {

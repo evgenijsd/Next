@@ -20,12 +20,10 @@ namespace Next2.ViewModels.Tablet
     public class MenuPageViewModel : BaseViewModel
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
 
         public MenuPageViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IAuthenticationService authenticationService,
             NewOrderViewModel newOrderViewModel,
             HoldItemsViewModel holdItemsViewModel,
@@ -45,7 +43,6 @@ namespace Next2.ViewModels.Tablet
             CustomersViewModel = customersViewModel;
             SettingsViewModel = settingsViewModel;
             _authenticationService = authenticationService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
 
             InitMenuItems();
@@ -91,12 +88,19 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
             if (parameters is not null)
             {
+                if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
+                {
+                    PopupPage confirmDialog = new Views.Tablet.Dialogs.PaymentCompleteDialog((IDialogParameters par) => PopupNavigation.PopAsync());
+
+                    await PopupNavigation.PushAsync(confirmDialog);
+                }
+
                 if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
                 {
                     NewOrderViewModel.OrderRegistrationViewModel.OnNavigatedTo(parameters);
@@ -104,7 +108,12 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
                 {
-                    NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                    await NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                }
+
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_QUERY, out string searchQuery))
+                {
+                    OrderTabsViewModel.SearchOrders(searchQuery);
                 }
             }
         }
@@ -201,7 +210,7 @@ namespace Next2.ViewModels.Tablet
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(dialogParameters, CloseDialogCallback);
 
-            return _popupNavigation.PushAsync(confirmDialog);
+            return PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -210,7 +219,7 @@ namespace Next2.ViewModels.Tablet
             {
                 if (result)
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
 
                     await _authenticationService.LogoutAsync();
 
@@ -225,7 +234,7 @@ namespace Next2.ViewModels.Tablet
                 }
                 else
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
         }

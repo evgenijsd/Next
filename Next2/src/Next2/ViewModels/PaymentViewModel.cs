@@ -2,6 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
@@ -10,7 +11,6 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,45 +21,46 @@ namespace Next2.ViewModels
 {
     public class PaymentViewModel : BaseViewModel
     {
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
+        private readonly IMapper _mapper;
 
-        private float _subtotalWithBonus;
+        private decimal _subtotalWithBonus;
 
         public PaymentViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             ICustomersService customerService,
             IRewardsService rewardsService)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
+            _mapper = mapper;
 
-            Order.BonusType = orderService.CurrentOrder.BonusType;
-            Order.Bonus = orderService.CurrentOrder.Bonus;
-            Order.SubtotalWithBonus = orderService.CurrentOrder.PriceWithBonus;
-            Order.Subtotal = orderService.CurrentOrder.SubTotal;
+            Order.BonusType = _orderService.CurrentOrder.Coupon is null
+                        ? EBonusType.Discount
+                        : EBonusType.Coupone;
+            Order.Bonus = _orderService.CurrentOrder.Coupon is null
+                        ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
+                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
+            Order.SubtotalWithBonus = (decimal)orderService.CurrentOrder.DiscountPrice;
+            Order.Subtotal = (decimal)orderService.CurrentOrder.SubTotalPrice;
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
-            Order.Tax = orderService.CurrentOrder.Tax;
-            Order.Total = orderService.CurrentOrder.Total;
+            Order.TaxCoefficient = orderService.CurrentOrder.TaxCoefficient;
+            Order.Total = orderService.CurrentOrder.TotalPrice;
             Order.Customer = orderService.CurrentOrder.Customer;
-
             _subtotalWithBonus = Order.BonusType == EBonusType.None
                 ? Order.Subtotal
                 : Order.SubtotalWithBonus;
 
             if (Order.Customer is not null && Order.Customer.GiftCards.Any())
             {
-                Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
                 Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
             }
 
-            RewardsViewModel = new (
+            RewardsViewModel = new(
                 navigationService,
-                popupNavigation,
                 mapper,
                 orderService,
                 customerService,
@@ -68,17 +69,17 @@ namespace Next2.ViewModels
                 NavigateAsync,
                 GoToPaymentStep);
 
-            PaymentCompleteViewModel = new (
+            PaymentCompleteViewModel = new(
                 navigationService,
-                popupNavigation,
                 customerService,
                 orderService,
+                mapper,
                 Order);
         }
 
         #region -- Public properties --
 
-        public PaidOrderBindableModel Order { get; set; } = new ();
+        public PaidOrderBindableModel Order { get; set; } = new();
 
         public EPaymentSteps PaymentStep { get; set; }
 
@@ -114,7 +115,7 @@ namespace Next2.ViewModels
             }
             else if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string inputValue))
             {
-                if (float.TryParse(inputValue, out float sum))
+                if (decimal.TryParse(inputValue, out decimal sum))
                 {
                     Order.Cash = sum / 100;
                 }
@@ -125,13 +126,20 @@ namespace Next2.ViewModels
                     && _orderService.CurrentOrder.Customer is not null)
                 {
                     _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
-                    Order.BonusType = _orderService.CurrentOrder.BonusType;
+
+                    Order.BonusType = _orderService.CurrentOrder.Coupon is null
+                        ? EBonusType.Discount
+                        : EBonusType.Coupone;
+
                     Order.Customer = _orderService.CurrentOrder.Customer;
-                    Order.Bonus = _orderService.CurrentOrder.Bonus;
-                    Order.Subtotal = _orderService.CurrentOrder.SubTotal;
+
+                    Order.Bonus = _orderService.CurrentOrder.Coupon is null
+                        ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
+                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
+                    Order.Subtotal = (decimal)_orderService.CurrentOrder.SubTotalPrice;
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
-                    Order.Total = _orderService.CurrentOrder.Total;
-                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardTotal;
+                    Order.Total = _orderService.CurrentOrder.TotalPrice;
+                    Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
                     Order.RemainingGiftCardsTotalFunds = Order.GiftCardsTotalFunds;
                 }
 
@@ -140,7 +148,7 @@ namespace Next2.ViewModels
                     Order.Total += Order.GiftCard;
                     Order.GiftCard = 0;
 
-                    if (float.TryParse(inputAmountValue, out float sum))
+                    if (decimal.TryParse(inputAmountValue, out decimal sum))
                     {
                         sum /= 100;
 
@@ -164,9 +172,7 @@ namespace Next2.ViewModels
             }
             else if (parameters.ContainsKey(Constants.Navigations.PAYMENT_COMPLETE))
             {
-                PopupPage confirmDialog = new Views.Mobile.Dialogs.PaymentCompleteDialog(ClosePaymentCompleteCallbackAsync);
-
-                await _popupNavigation.PushAsync(confirmDialog);
+                PaymentCompleteViewModel.IsPaymentComplete = true;
             }
             else
             {
@@ -206,7 +212,7 @@ namespace Next2.ViewModels
                         ? new Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync)
                         : new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmExitFromPaymentCallbackAsync);
 
-                    await _popupNavigation.PushAsync(confirmDialog);
+                    await PopupNavigation.PushAsync(confirmDialog);
                 }
                 else
                 {
@@ -219,7 +225,7 @@ namespace Next2.ViewModels
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isExitConfirmed))
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
 
                 if (isExitConfirmed)
                 {
