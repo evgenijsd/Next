@@ -80,10 +80,9 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                var seats = _mapper.Map<ObservableCollection<SeatBindableModel>>(CurrentOrder.Seats);
+                //var seats = _mapper.Map<ObservableCollection<SeatBindableModel>>(CurrentOrder.Seats);
 
-                CurrentOrder.Seats = new (seats);
-
+                //CurrentOrder.Seats = seats;
                 var coupons = await GetCoupons();
 
                 if (coupons is not null)
@@ -169,21 +168,22 @@ namespace Next2.ViewModels
         {
             SelectedBonus = bonus == SelectedBonus ? null : bonus;
 
-            //if (bonus is not null)
-            //{
-            //    if (bonus.Type is EBonusType.Coupone)
-            //    {
-            //        var coupon = _mapper.Map<CouponModelDTO>(bonus);
-            //        coupon.SeatNumbers = CurrentOrder.Seats.Count;
-            //        CurrentOrder.Coupon = coupon;
-            //        CurrentOrder.Discount = null;
-            //    }
-            //    else if (bonus.Type is EBonusType.Discount)
-            //    {
-            //        CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
-            //        CurrentOrder.Coupon = null;
-            //    }
-            //}
+            if (bonus is not null)
+            {
+                if (bonus.Type is EBonusType.Coupone)
+                {
+                    var coupon = _mapper.Map<CouponModelDTO>(bonus);
+                    coupon.SeatNumbers = CurrentOrder.Seats.Count;
+                    CurrentOrder.Coupon = coupon;
+                    CurrentOrder.Discount = null;
+                }
+                else if (bonus.Type is EBonusType.Discount)
+                {
+                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
+                    CurrentOrder.Coupon = null;
+                }
+            }
+
             await _bonusesService.СalculationBonusAsync(CurrentOrder);
         }
 

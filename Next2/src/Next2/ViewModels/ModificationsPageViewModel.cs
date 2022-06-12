@@ -56,8 +56,13 @@ namespace Next2.ViewModels
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
-            var seat = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
-            _currentDish = seat.SelectedDishes.FirstOrDefault(row => row == seat.SelectedItem);
+            var selectedDish = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null).SelectedItem;
+
+            if (selectedDish is not null)
+            {
+                _currentDish = selectedDish;
+            }
+
             InitProductsDish();
             SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
         }
@@ -622,7 +627,7 @@ namespace Next2.ViewModels
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
-            //CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+            CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
 
             var parameters = new NavigationParameters();

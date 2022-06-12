@@ -595,34 +595,13 @@ namespace Next2.ViewModels
                     {
                         item.SelectedItem = null;
                     }
+                    else
+                    {
+                        item.SelectedItem = seat.SelectedItem;
+                    }
                 }
 
                 SelectedDish = seat.SelectedItem;
-
-                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
-                {
-                    if (singleSeat.SeatNumber != seat.SeatNumber)
-                    {
-                        singleSeat.SelectedItem = null;
-                    }
-                    else
-                    {
-                        singleSeat.SelectedItem = seat.SelectedItem;
-                    }
-                }
-
-                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
-                {
-                    if (singleSeat.SeatNumber != seat.SeatNumber)
-                    {
-                        singleSeat.SelectedItem = null;
-                    }
-                    else
-                    {
-                        var seatIndex = _orderService.CurrentOrder.Seats.IndexOf(singleSeat);
-                        _orderService.CurrentOrder.Seats[seatIndex].SelectedItem = seat.SelectedItem;
-                    }
-                }
 
                 if (App.IsTablet)
                 {
