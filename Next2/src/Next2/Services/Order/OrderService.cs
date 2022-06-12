@@ -26,7 +26,6 @@ namespace Next2.Services.Order
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusService;
         private readonly IMapper _mapper;
-        private readonly IRestService _restService;
 
         public OrderService(
             IMockService mockService,
@@ -240,6 +239,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.Seats = new();
+                    CurrentOrder.Open = DateTime.Now;
 
                     //var tax = await GetTaxAsync();
 
