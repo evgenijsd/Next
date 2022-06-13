@@ -14,6 +14,7 @@ using Rg.Plugins.Popup.Pages;
 using AutoMapper;
 using System.Collections.ObjectModel;
 using Next2.Enums;
+using Next2.Models.Bindables;
 
 namespace Next2.ViewModels
 {
@@ -60,11 +61,11 @@ namespace Next2.ViewModels
 
             foreach (var seat in Order.Seats)
             {
-                var newSeat = new SeatBindableModel(seat)
+                var newSeat = new SeatBindableModel()
                 {
                     SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
                     Checked = false,
-                    SelectedDishes = new ObservableCollection<DishBindableModel>(seat.SelectedDishes.Select(x => new DishBindableModel(x)))
+                    SelectedDishes = new ObservableCollection<DishBindableModel>(seat.SelectedDishes.Select(x => new DishBindableModel()))
                 };
             }
 

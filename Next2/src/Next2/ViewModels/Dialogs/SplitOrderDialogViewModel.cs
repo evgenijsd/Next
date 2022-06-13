@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using Next2.Models.Bindables;
 
 namespace Next2.ViewModels.Dialogs
 {
@@ -29,7 +30,7 @@ namespace Next2.ViewModels.Dialogs
             AcceptCommand = new Command(() => RequestClose(null));
             DeclineCommand = new Command(() => RequestClose(null));
 
-            LoadData(param);
+            //LoadData(param);
         }
 
         #region -- Public Properties --
@@ -106,14 +107,14 @@ namespace Next2.ViewModels.Dialogs
             {
                 Condition = condition;
                 Order = order;
-                SelectedDish = new DishBindableModel(selectedDish);
+                SelectedDish = new DishBindableModel();
 
                 var seats = Order.Seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
                 {
                     SeatNumber = x.SeatNumber,
                     Id = x.Id,
                     SeatSelectionCommand = new AsyncCommand(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false),
-                    SelectedItem = new DishBindableModel(selectedDish) { TotalPrice = 0, },
+                    SelectedItem = new DishBindableModel() { TotalPrice = 0, },
                 });
 
                 Seats = new ObservableCollection<SeatBindableModel>(seats);
@@ -166,18 +167,6 @@ namespace Next2.ViewModels.Dialogs
 
                     RaisePropertyChanged(nameof(SplitTotal));
                 }
-
-                //else
-                //{
-                //    SelectedSeat.SelectedItem.TotalPrice = price;
-
-                //    foreach (var seat in otherSeats)
-                //    {
-                //        seat.SelectedItem.TotalPrice = 0;
-                //    }
-
-                //    RaisePropertyChanged(nameof(SplitTotal));
-                //}
             }
         }
 
