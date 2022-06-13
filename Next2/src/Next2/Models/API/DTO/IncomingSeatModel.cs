@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Next2.Models.API.DTO;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Next2.Models.Api.DTO
+namespace Next2.Models.API.DTO
 {
     public class IncomingSeatModel
     {
         public int Number { get; set; }
+
         public IEnumerable<IncomingSelectedDishModel> SelectedDishes { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Next2.Enums;
-using Next2.Models.Api.DTO;
+using Next2.Models.API.DTO;
 using Next2.Models.API.Commands;
 using Next2.Models.Bindables;
 using System;
 using System.Linq;
 
-namespace Next2.Helpers.Extensions
+namespace Next2.Extensions
 {
     public static class OrderExtension
     {
@@ -20,7 +20,7 @@ namespace Next2.Helpers.Extensions
                     DiscountPrice = x.DiscountPrice,
                     DishId = x.DishId,
                     SelectedDishProportionId = x.SelectedDishProportion.Id,
-                    selectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
+                    SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
                         AddedIngredientsId = x.AddedIngredients.Select(x => x.Id),
