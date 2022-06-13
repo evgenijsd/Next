@@ -45,7 +45,6 @@
         {
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
-            public const int MAX_TABLE_SEATS = 10;
             public const int LOGIN_LENGTH = 6;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;

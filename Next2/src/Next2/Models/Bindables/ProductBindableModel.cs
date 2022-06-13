@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
     public class ProductBindableModel : IBaseApiModel
     {
@@ -35,8 +35,10 @@ namespace Next2.Models
 
             AddedIngredients = product.AddedIngredients;
 
-            ExecutedIngredients = product.ExecutedIngredients;
+            ExcludedIngredients = product.ExcludedIngredients;
         }
+
+        public bool IsProductReplaced { get; set; }
 
         public Guid Id { get; set; }
 
@@ -44,12 +46,14 @@ namespace Next2.Models
 
         public SimpleProductModelDTO Product { get; set; } = new();
 
+        public decimal Price { get; set; }
+
         public OptionModelDTO? SelectedOptions { get; set; }
 
         public ObservableCollection<SimpleIngredientModelDTO>? SelectedIngredients { get; set; }
 
         public ObservableCollection<SimpleIngredientModelDTO>? AddedIngredients { get; set; }
 
-        public ObservableCollection<SimpleIngredientModelDTO>? ExecutedIngredients { get; set; }
+        public ObservableCollection<SimpleIngredientModelDTO>? ExcludedIngredients { get; set; } = new();
     }
 }

@@ -7,6 +7,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:local="clr-namespace:Next2"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -94,7 +95,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatBindableModel">
+                    <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
 
                         <StackLayout 
                             Padding="20, 18, 20, 0"
@@ -124,7 +125,7 @@
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:DishBindableModel">
+                                    <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
                                         <StackLayout>
                                             <pcView:PancakeView
@@ -144,7 +145,7 @@
 
                                                         <ffimageloading:CachedImage
                                                             Aspect="AspectFill"
-                                                            Source="{Binding Dish.ImageSource}"/>
+                                                            Source="{Binding ImageSource}"/>
 
                                                     </Frame>
 
@@ -158,9 +159,12 @@
                                                             LineBreakMode="TailTruncation"
                                                             FontFamily="Barlow-Medium"
                                                             FontSize="{DynamicResource TSize_i9}"
-                                                            Text="{Binding Dish.Name}" />
+                                                            Text="{Binding Name}" />
 
-                                                        <Label>
+                                                        <Label
+                                                            FontFamily="Barlow-Medium"
+                                                            FontSize="{DynamicResource TSize_i9}">
+                                                            
                                                             <Label.FormattedText>
                                                                 <FormattedString>
                                                                     <Span Text="{xct:Translate CurrencySign}" />
@@ -168,6 +172,7 @@
                                                                     <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                                                 </FormattedString>
                                                             </Label.FormattedText>
+                                                            
                                                         </Label>
 
                                                     </StackLayout>

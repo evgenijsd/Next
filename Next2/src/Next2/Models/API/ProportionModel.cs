@@ -9,7 +9,11 @@ namespace Next2.Models.API
     {
         public Guid Id { get; set; }
 
-        public string? Title { get; set; }
+        public Guid ProportionId { get; set; }
+
+        public decimal PriceRatio { get; set; }
+
+        public string? ProportionName { get; set; }
 
         public decimal Price { get; set; }
     }
