@@ -1,6 +1,7 @@
 using Acr.UserDialogs;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -97,14 +98,14 @@ namespace Next2.ViewModels.Mobile
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                await _orderService.AddSetInCurrentOrderAsync(dish);
+                await _orderService.AddDishInCurrentOrderAsync(dish);
 
                 if (PopupNavigation.PopupStack.Any())
                 {

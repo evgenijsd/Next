@@ -2,6 +2,7 @@
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

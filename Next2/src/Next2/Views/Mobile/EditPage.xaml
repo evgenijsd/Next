@@ -9,6 +9,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:local="clr-namespace:Next2"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Mobile"
     xmlns:views="clr-namespace:Next2.Views"
     x:Class="Next2.Views.Mobile.EditPage"
@@ -69,7 +70,7 @@
                             WidthRequest="80">
 
                             <ffimageloading:CachedImage 
-                                Source="{Binding SelectedDish.Dish.ImageSource}"
+                                Source="{Binding SelectedDish.ImageSource}"
                                 Aspect="AspectFill"/>
 
                         </Frame>
@@ -82,14 +83,13 @@
                         Orientation="Vertical">
 
                         <Label 
-                            Text="{Binding SelectedDish.Dish.Name}"
-                            Margin="0, 0, 0, 0"
+                            Text="{Binding SelectedDish.Name}"
                             FontFamily="Barlow-Medium"
                             FontSize="{DynamicResource TSize_i6}"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"/>
 
                         <Label 
-                            Text="{Binding SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
+                            Text="{Binding SelectedDish.TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                             Margin="0, 5, 0, 0"
                             FontFamily="Barlow-SemiBold"
                             FontSize="{DynamicResource TSize_i6}"
@@ -135,7 +135,7 @@
                         Grid.Column="1"
                         Grid.Row="1"
                         HorizontalOptions="EndAndExpand"
-                        Text="{Binding SelectedDish.TotalPrice, StringFormat='$ {0:F2}'}"
+                        Text="{Binding SelectedDish.TotalPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                         Margin="0, 5, 0, 0"
                         FontFamily="Barlow-SemiBold"
                         FontSize="{DynamicResource TSize_i5}"
@@ -145,7 +145,7 @@
 
                 <!-- Row 3 Inventory & Replacement & Option -->
 
-                <templates:ProductItemTemplate 
+                <controls:ProductsDetails 
                     Grid.Row="2"
                     FontFamilyProduct="Barlow-Medium"
                     FontSizeProduct="{DynamicResource TSize_i5}"
