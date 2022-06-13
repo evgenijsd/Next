@@ -489,6 +489,11 @@ namespace Next2.Services.Order
             try
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/orders", order);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value);
+                }
             }
             catch (Exception ex)
             {
