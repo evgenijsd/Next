@@ -120,6 +120,7 @@ namespace Next2.ViewModels
                             },
                         })),
                     };
+
                     Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
                         Id = row.ProportionId,
@@ -130,7 +131,9 @@ namespace Next2.ViewModels
                         ProportionName = row.ProportionName,
                     });
 
-                    SelectedProportion = Proportions.FirstOrDefault();
+                    Proportions = Proportions.OrderBy(x => x.Price);
+
+                    SelectedProportion = Proportions.FirstOrDefault(x => x.Price == dish.OriginalPrice);
                 }
             }
         }
