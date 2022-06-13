@@ -3,6 +3,7 @@ using Next2.Enums;
 using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Services.Bonuses;
 using Next2.Services.Order;
 using Prism.Events;
@@ -79,13 +80,9 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                var seats = CurrentOrder.Seats.Select(x => new SeatBindableModel(x)
-                {
-                    SelectedDishes = new (x.SelectedDishes.Select(x => new DishBindableModel(x))),
-                });
+                //var seats = _mapper.Map<ObservableCollection<SeatBindableModel>>(CurrentOrder.Seats);
 
-                CurrentOrder.Seats = new (seats);
-
+                //CurrentOrder.Seats = seats;
                 var coupons = await GetCoupons();
 
                 if (coupons is not null)

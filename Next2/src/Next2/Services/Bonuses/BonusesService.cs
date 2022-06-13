@@ -6,6 +6,7 @@ using Next2.Models;
 using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Rest;
 using System;
@@ -129,10 +130,9 @@ namespace Next2.Services.Bonuses
                 }
             }
 
-            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
-            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
-            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
-
+            //currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+            //currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+            //currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
             return currentOrder;
         }
 

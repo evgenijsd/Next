@@ -2,6 +2,7 @@
 using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,15 +25,13 @@ namespace Next2.Services.Order
 
         Task<AOResult> DeleteOrderAsync(int orderId);
 
-        Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderdId);
-
         string ApplyNumberFilter(string text);
 
         string ApplyNameFilter(string text);
 
         Task<AOResult> CreateNewCurrentOrderAsync();
 
-        Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish);
+        Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
         Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
 

@@ -4,6 +4,7 @@ using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
@@ -181,27 +182,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderId)
-        {
-            var result = new AOResult<IEnumerable<SeatModel>>();
-
-            try
-            {
-                var seats = await _mockService.GetAsync<SeatModel>(x => x.OrderId == orderId);
-
-                if (seats is not null)
-                {
-                    result.SetSuccess(seats);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSeatsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new(Constants.Validators.NUMBER);
@@ -270,7 +250,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish)
+        public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
 
@@ -309,7 +289,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AddDishInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
