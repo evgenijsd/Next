@@ -134,7 +134,8 @@
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Split}"
-                    IsVisible="{Binding IsTabsModeSelected}"/>
+                    IsVisible="{Binding IsTabsModeSelected}" 
+                    xct:TouchEffect.Command="{Binding SplitCommand}"  />
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"

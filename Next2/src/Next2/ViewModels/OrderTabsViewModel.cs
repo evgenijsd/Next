@@ -89,6 +89,9 @@ namespace Next2.ViewModels
         private ICommand _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _splitCommand;
+        public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -490,6 +493,16 @@ namespace Next2.ViewModels
             string surname = surnames[random.Next(3)];
 
             return name + " " + surname;
+        }
+
+        private async Task OnSplitCommandAsync()
+        {
+            var param = new NavigationParameters
+            {
+                { Constants.Navigations.ORDER, SelectedOrder },
+            };
+
+            await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
         }
 
         #endregion
