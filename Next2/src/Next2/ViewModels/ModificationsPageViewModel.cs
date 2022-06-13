@@ -217,10 +217,8 @@ namespace Next2.ViewModels
                 case nameof(SelectedReplacementProduct):
                     if (SelectedReplacementProduct is not null)
                     {
-                        var products = _currentDish.Products;
-                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-
-                        CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish].SelectedProducts[0] = new ProductBindableModel()
+                        var product = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish].SelectedProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+                        product = new ProductBindableModel()
                         {
                             Id = SelectedReplacementProduct.Id,
                             SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
@@ -439,9 +437,9 @@ namespace Next2.ViewModels
 
         private void InitReplacementProductsDish()
         {
-            var product = _currentDish;
+            var dish = _currentDish;
 
-            if (product.Products is var replacementProducts)
+            if (dish.Products is var replacementProducts)
             {
                 if (_isOrderedByDescendingReplacementProducts)
                 {
