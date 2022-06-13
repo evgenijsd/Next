@@ -155,8 +155,8 @@
     <Compile Update="Controls\Templates\MenuItemTemplate.xaml.cs">
       <DependentUpon>MenuItemTemplate.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Controls\Templates\ProductItemTemplate.xaml.cs">
-      <DependentUpon>ProductItemTemplate.xaml</DependentUpon>
+    <Compile Update="Controls\ProductsDetails.xaml.cs">
+      <DependentUpon>ProductsDetails.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\Mobile\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
@@ -172,6 +172,12 @@
     </Compile>
     <Compile Update="Controls\Templates\Tablet\FreeSetItemTemplate.xaml.cs">
       <DependentUpon>FreeSetItemTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\AddDishToOrderDialog.xaml.cs">
+      <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Mobile\Dialogs\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Mobile\Dialogs\TipValueDialog.xaml.cs">
       <DependentUpon>TipValueDialog.xaml</DependentUpon>
@@ -222,6 +228,12 @@
     </Compile>
     <Compile Update="Views\Mobile\OrderTabsPage.xaml.cs">
       <DependentUpon>OrderTabsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml.cs">
+      <DependentUpon>AddDishToOrderDialog.xaml</DependentUpon>
+	</Compile>
+    <Compile Update="Views\Tablet\Dialogs\InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Tablet\Dialogs\MembershipEditDialog.xaml.cs">
       <DependentUpon>MembershipEditDialog.xaml</DependentUpon>
@@ -310,7 +322,7 @@
     <EmbeddedResource Update="Controls\Spoiler.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\ProductItemTemplate.xaml">
+    <EmbeddedResource Update="Controls\ProductsDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\SeatItemTemplate.xaml">
@@ -481,7 +493,7 @@
     <EmbeddedResource Update="Views\Mobile\ChooseSetPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Tablet\Dialogs\AddSetToOrderDialog.xaml">
+    <EmbeddedResource Update="Views\Tablet\Dialogs\AddDishToOrderDialog.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Tablet\MenuPageMenuPage.xaml">

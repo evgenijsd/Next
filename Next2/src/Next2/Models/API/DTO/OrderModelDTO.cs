@@ -15,13 +15,13 @@ namespace Next2.Models.API.DTO
 
         public bool IsTab { get; set; }
 
-        public SimpleTableModelDTO Table { get; set; } = new();
+        public SimpleTableModelDTO Table { get; set; } = new ();
 
         public DateTime Open { get; set; }
 
         public DateTime? Close { get; set; }
 
-        public string? OrderStatus { get; set; }
+        public EOrderStatus OrderStatus { get; set; }
 
         public decimal TaxCoefficient { get; set; }
 
@@ -37,7 +37,7 @@ namespace Next2.Models.API.DTO
 
         public CouponModelDTO Coupon { get; set; } = new();
 
-        public SimpleCustomerModelDTO Customer { get; set; } = new();
+        public SimpleCustomerModelDTO Customer { get; set; } = new ();
 
         public string? EmployeeId { get; set; }
 

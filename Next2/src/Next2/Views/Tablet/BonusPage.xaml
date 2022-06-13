@@ -6,13 +6,14 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:local="clr-namespace:Next2"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:models="clr-namespace:Next2.Models" 
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:local="clr-namespace:Next2"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.Tablet.BonusPage"
     x:DataType="viewModels:BonusPageViewModel">
@@ -120,8 +121,8 @@
                                     <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
                                         
                                         <BindableLayout.ItemTemplate>
-                                            
-                                            <DataTemplate x:DataType="models:SeatBindableModel">
+
+                                            <DataTemplate x:DataType="modelsBindable:SeatBindableModel">
 
                                                 <StackLayout>
                                                     
@@ -141,7 +142,7 @@
                                                             
                                                             <BindableLayout.ItemTemplate>
 
-                                                                <DataTemplate x:DataType="models:DishBindableModel">
+                                                                <DataTemplate x:DataType="modelsBindable:DishBindableModel">
                                                                         
                                                                     <StackLayout>
                                                                         
@@ -152,7 +153,7 @@
                                                                                 CornerRadius="5">
 
                                                                                 <ffimageloading:CachedImage
-                                                                                    Source="{Binding Dish.ImageSource}"
+                                                                                    Source="{Binding ImageSource}"
                                                                                     HeightRequest="45"
                                                                                     WidthRequest="45"
                                                                                     Aspect="AspectFill" />
@@ -162,14 +163,14 @@
                                                                             <StackLayout HorizontalOptions="FillAndExpand" >
                                                                                 
                                                                                 <Label
-                                                                                    Text="{Binding Dish.Name}"
+                                                                                    Text="{Binding Name}"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                                                                     FontSize="{DynamicResource TSize_i8}"
                                                                                     LineBreakMode="TailTruncation"
                                                                                     FontFamily="Barlow-Regular" />
 
                                                                                 <Label
-                                                                                    Text="{Binding Dish.Name}"
+                                                                                    Text="{Binding Name}"
                                                                                     Margin="0, 5, 0, 0"
                                                                                     Opacity="{DynamicResource OpacityWhenDisabled_i2}"
                                                                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -225,8 +226,8 @@
                                                                                             
                                                                                             <DataTrigger.Binding>
                                                                                                 <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
-                                                                                                    
-                                                                                                    <Binding Path="TotalPrice" />
+
+                                                                                                    <Binding Path="SelectedDishProportionPrice" />
                                                                                                     <Binding Path="DiscountPrice" />
                                                                                                     
                                                                                                 </MultiBinding>

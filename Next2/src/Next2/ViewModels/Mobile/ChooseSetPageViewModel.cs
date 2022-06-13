@@ -1,6 +1,7 @@
 using Acr.UserDialogs;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
@@ -22,8 +23,6 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IMenuService _menuService;
 
-        private readonly IPopupNavigation _popupNavigation;
-
         private readonly IOrderService _orderService;
 
         private bool _shouldOrderDishesByDESC;
@@ -31,12 +30,10 @@ namespace Next2.ViewModels.Mobile
         public ChooseSetPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
         }
 
@@ -101,18 +98,18 @@ namespace Next2.ViewModels.Mobile
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            await _popupNavigation.PushAsync(new Views.Mobile.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            await PopupNavigation.PushAsync(new Views.Mobile.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                await _orderService.AddSetInCurrentOrderAsync(dish);
+                await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                if (_popupNavigation.PopupStack.Any())
+                if (PopupNavigation.PopupStack.Any())
                 {
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
 
                 var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
@@ -125,7 +122,7 @@ namespace Next2.ViewModels.Mobile
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 

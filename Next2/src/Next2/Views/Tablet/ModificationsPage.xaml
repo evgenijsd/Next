@@ -12,9 +12,12 @@
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables" 
+    xmlns:local="clr-namespace:Next2"
     xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
-    xmlns:views="clr-namespace:Next2.Views"
+    xmlns:views="clr-namespace:Next2.Views" 
+    xmlns:modelsApi="clr-namespace:Next2.Models.API"
     x:Class="Next2.Views.Tablet.ModificationsPage"
     x:DataType="viewmodels:ModificationsPageViewModel">
 
@@ -41,7 +44,7 @@
             <StackLayout
                 Orientation="Horizontal"
                 xct:TouchEffect.Command="{Binding TapOpenProportionsCommand}">
-
+                
                 <StackLayout.Triggers>
 
                     <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedProduct.SelectedItem.State}" Value="Proportions">
@@ -94,7 +97,7 @@
                 HorizontalScrollBarVisibility="Never">
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SpoilerBindableModel">
+                    <DataTemplate x:DataType="modelsBindable:SpoilerBindableModel">
 
                         <StackLayout>
 
@@ -163,7 +166,7 @@
                         Margin="40, 16"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
-                        ItemsSource="{Binding PortionsSet}">
+                        ItemsSource="{Binding PortionsDish}">
 
                         <CollectionView.ItemsLayout>
 
@@ -180,8 +183,8 @@
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
-                        
-                            <DataTemplate x:DataType="models:PortionModel">
+
+                            <DataTemplate x:DataType="modelsApi:ProportionModel">
 
                                 <Frame
                                     Padding="16, 4"
@@ -191,9 +194,9 @@
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
-                                        Title="{Binding Title}"
+                                        Title="{Binding ProportionName}"
                                         IsVisibleSubtitle="True"
-                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                        Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                         BindableLayout="{Binding SelectedProportion, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
                                     
                                 </Frame>
@@ -283,7 +286,7 @@
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
                                         Title="{Binding Name}"
-                                        Subtitle="{Binding DefaultPrice, StringFormat='$ {0:F2}'}"
+                                        Subtitle="{Binding DefaultPrice, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                         ImagePath="{Binding ImageSource}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"
@@ -337,10 +340,10 @@
                         </CollectionView.Effects>
 
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:IngredientCategoryModel">
+                            <DataTemplate x:DataType="modelsDTO:IngredientsCategoryModelDTO">
 
                                 <templates:CategoryItemTemplate
-                                    Text="{Binding Title}"
+                                    Text="{Binding Name}"
                                     HeightRequest="44"
                                     FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-Medium"
@@ -391,7 +394,7 @@
 
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:IngredientBindableModel">
+                            <DataTemplate x:DataType="modelsBindable:IngredientBindableModel">
 
                                 <Frame
                                     Padding="16, 4"
@@ -402,7 +405,7 @@
                                     <templates:ToggleItemTemplate
                                         IsToggle="{Binding IsToggled}"
                                         Title="{Binding Name}"
-                                        Subtitle="{Binding Price, StringFormat='$ {0:F2}'}"
+                                        Subtitle="{Binding Price, StringFormat={x:Static local:Constants+Formats.CASH_FORMAT}}"
                                         ImagePath="{Binding ImageSource}"
                                         IsVisibleSubtitle="True"
                                         IsVisibleImage="True"
@@ -454,7 +457,7 @@
 
                         <CollectionView.ItemTemplate>
 
-                            <DataTemplate x:DataType="models:OptionModel">
+                            <DataTemplate x:DataType="modelsDTO:OptionModelDTO">
 
                                 <Frame
                                     Padding="16, 4"
@@ -464,7 +467,7 @@
 
                                     <templates:ToggleItemTemplate
                                         State="{Binding .}"
-                                        Title="{Binding Title}"
+                                        Title="{Binding Name}"
                                         BindableLayout="{Binding SelectedOption, Source={RelativeSource AncestorType={x:Type viewmodels:ModificationsPageViewModel}}}"/>
 
                                 </Frame>

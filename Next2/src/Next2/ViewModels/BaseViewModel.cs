@@ -1,9 +1,11 @@
 ﻿using Next2.Interfaces;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.ComponentModel;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
 
 namespace Next2.ViewModels
@@ -18,6 +20,33 @@ namespace Next2.ViewModels
         {
             _navigationService = navigationService;
         }
+
+        #region -- Public properties --
+
+        private IPopupNavigation _popupNavigation;
+        public IPopupNavigation PopupNavigation => _popupNavigation ??= App.Resolve<IPopupNavigation>();
+
+        #endregion
+
+        #region -- Private helpers --
+
+        protected Task ShowInfoDialog(string titleText, string descriptionText, string okText)
+        {
+            var parameters = new DialogParameters
+            {
+                { Constants.DialogParameterKeys.TITLE, titleText },
+                { Constants.DialogParameterKeys.DESCRIPTION,  descriptionText },
+                { Constants.DialogParameterKeys.OK_BUTTON_TEXT, okText },
+            };
+
+            PopupPage infoDialog = App.IsTablet
+                ? new Views.Tablet.Dialogs.InfoDialog(parameters, () => PopupNavigation.PopAsync())
+                : new Views.Mobile.Dialogs.InfoDialog(parameters, () => PopupNavigation.PopAsync());
+
+            return PopupNavigation.PushAsync(infoDialog);
+        }
+
+        #endregion
 
         #region -- IDestructible implementation --
 

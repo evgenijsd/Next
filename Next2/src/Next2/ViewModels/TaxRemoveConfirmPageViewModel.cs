@@ -5,6 +5,7 @@ using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Contracts;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -20,6 +21,7 @@ namespace Next2.ViewModels
 
         public TaxRemoveConfirmPageViewModel(
             INavigationService navigationService,
+            IPopupNavigation popupNavigation,
             IUserService userService,
             IAuthenticationService authenticationService,
             IEventAggregator eventAggregator)

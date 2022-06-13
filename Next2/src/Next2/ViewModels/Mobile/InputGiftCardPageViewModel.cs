@@ -18,16 +18,13 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IOrderService _orderService;
         private readonly ICustomersService _customersService;
-        private readonly IPopupNavigation _popupNavigation;
 
         public InputGiftCardPageViewModel(
             INavigationService navigationService,
-            IPopupNavigation popupNavigation,
             IOrderService orderService,
             ICustomersService customersService)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
             _customersService = customersService;
 
@@ -112,12 +109,12 @@ namespace Next2.ViewModels.Mobile
 
             PopupPage popupPage = new Views.Mobile.Dialogs.AddGiftCardDialog(_orderService, _customersService, AddGiftCardDialogCallback);
 
-            return _popupNavigation.PushAsync(popupPage);
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async void AddGiftCardDialogCallback(IDialogParameters parameters)
         {
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (_orderService.CurrentOrder.Customer is not null)
             {

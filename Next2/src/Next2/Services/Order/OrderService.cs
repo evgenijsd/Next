@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
@@ -17,7 +17,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Xamarin.Forms.Internals;
 
 namespace Next2.Services.Order
 {
@@ -137,21 +136,18 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<OrderModel>>> GetOrdersAsync()
+        public async Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync()
         {
-            var result = new AOResult<IEnumerable<OrderModel>>();
+            var result = new AOResult<IEnumerable<SimpleOrderModelDTO>>();
 
             try
             {
-                var orders = await _mockService.GetAsync<OrderModel>(x => x.Id != 0);
+                string query = $"{Constants.API.HOST_URL}/api/orders";
+                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderListQueryResultResult>>(HttpMethod.Get, query);
 
-                if (orders is not null)
+                if (responce.Success)
                 {
-                    result.SetSuccess(orders);
-                }
-                else
-                {
-                    result.SetFailure(Strings.NotFoundOrders);
+                    result.SetSuccess(responce.Value.Orders);
                 }
             }
             catch (Exception ex)
@@ -180,27 +176,6 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<SeatModel>>> GetSeatsAsync(int orderId)
-        {
-            var result = new AOResult<IEnumerable<SeatModel>>();
-
-            try
-            {
-                var seats = await _mockService.GetAsync<SeatModel>(x => x.OrderId == orderId);
-
-                if (seats is not null)
-                {
-                    result.SetSuccess(seats);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSeatsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -273,7 +248,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> AddSetInCurrentOrderAsync(DishBindableModel dish)
+        public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
         {
             var result = new AOResult();
 
@@ -294,6 +269,8 @@ namespace Next2.Services.Order
                     CurrentSeat = seat;
                 }
 
+                dish.DiscountPrice = dish.SelectedDishProportionPrice;
+
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 
                 CurrentOrder.SubTotalPrice = CurrentOrder.Seats.Sum(row => row.SelectedDishes.Sum(row => row.TotalPrice));
@@ -310,7 +287,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(AddSetInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(AddDishInCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

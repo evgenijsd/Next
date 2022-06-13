@@ -1,6 +1,5 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
@@ -39,15 +38,11 @@ namespace Next2.Services.Menu
 
             try
             {
-                var categories = await _restService.RequestAsync<Models.API.GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
+                var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
 
                 if (categories.Success && categories.Value.Categories is not null)
                 {
                     result.SetSuccess(categories.Value.Categories);
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -66,7 +61,7 @@ namespace Next2.Services.Menu
             {
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{categoryId}.{subcategoryId}";
 
-                var resultGettingDishes = await _restService.RequestAsync<Models.API.GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
+                var resultGettingDishes = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
 
                 if (resultGettingDishes.Success)
                 {
@@ -81,31 +76,6 @@ namespace Next2.Services.Menu
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<PortionModel>>> GetPortionsSetAsync(int setId)
-        {
-            var result = new AOResult<IEnumerable<PortionModel>>();
-
-            try
-            {
-                var portions = await _mockService.GetAsync<PortionModel>(row => row.SetId == setId);
-
-                if (portions is not null)
-                {
-                    result.SetSuccess(portions);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetPortionsSetAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public async Task<AOResult<IEnumerable<IngredientsCategoryModelDTO>>> GetIngredientCategoriesAsync()
         {
             var result = new AOResult<IEnumerable<IngredientsCategoryModelDTO>>();
@@ -113,88 +83,17 @@ namespace Next2.Services.Menu
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/ingredients-categories";
-                var resultData = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
 
-                if (resultData.Success && resultData?.Value?.IngredientsCategories is not null)
+                var ingredientsCategories = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
+
+                if (ingredientsCategories.Success && ingredientsCategories.Value?.IngredientsCategories is not null)
                 {
-                    result.SetSuccess(resultData.Value.IngredientsCategories);
+                    result.SetSuccess(ingredientsCategories.Value.IngredientsCategories);
                 }
             }
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetIngredientCategoriesAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync(Guid categoryId)
-        {
-            var result = new AOResult<IEnumerable<IngredientModelDTO>>();
-
-            try
-            {
-                var query = $"{Constants.API.HOST_URL}/api/ingredients";
-                var resultData = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
-
-                if (resultData.Success && resultData?.Value?.Ingredients is not null)
-                {
-                    result.SetSuccess(resultData.Value.Ingredients.Where(row => row.IngredientsCategoryId == categoryId));
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<IngredientOfProductModel>>> GetIngredientsOfProductAsync(int productId)
-        {
-            var result = new AOResult<IEnumerable<IngredientOfProductModel>>();
-
-            try
-            {
-                var resultData = await _mockService.GetAsync<IngredientOfProductModel>(row => row.ProductId == productId);
-
-                if (resultData is not null)
-                {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetIngredientsOfProductAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult<IEnumerable<OptionModel>>> GetOptionsOfProductAsync(int productId)
-        {
-            var result = new AOResult<IEnumerable<OptionModel>>();
-
-            try
-            {
-                var resultData = await _mockService.GetAsync<OptionModel>(row => row.ProductId == productId);
-
-                if (resultData is not null)
-                {
-                    result.SetSuccess(resultData);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetOptionsOfProductAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -207,11 +106,11 @@ namespace Next2.Services.Menu
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/ingredients";
-                var resultData = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
+                var ingredients = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
 
-                if (resultData.Success && resultData?.Value?.Ingredients is not null)
+                if (ingredients.Success && ingredients.Value is not null)
                 {
-                    result.SetSuccess(resultData.Value.Ingredients);
+                    result.SetSuccess(ingredients.Value.Ingredients);
                 }
             }
             catch (Exception ex)

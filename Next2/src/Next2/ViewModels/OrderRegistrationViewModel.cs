@@ -4,6 +4,7 @@ using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
@@ -34,7 +35,6 @@ namespace Next2.ViewModels
     public class OrderRegistrationViewModel : BaseViewModel
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
 
         private readonly IOrderService _orderService;
@@ -58,7 +58,6 @@ namespace Next2.ViewModels
         public OrderRegistrationViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IPopupNavigation popupNavigation,
             IMapper mapper,
             IOrderService orderService,
             IUserService userService,
@@ -67,7 +66,6 @@ namespace Next2.ViewModels
             IMenuService menuService)
             : base(navigationService)
         {
-            _popupNavigation = popupNavigation;
             _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;
@@ -158,12 +156,12 @@ namespace Next2.ViewModels
         {
             if (!App.IsTablet)
             {
-                CurrentOrder = _orderService.CurrentOrder;
-
-                foreach (var seat in CurrentOrder.Seats)
+                foreach (var seat in _orderService.CurrentOrder.Seats)
                 {
                     seat.SelectedItem = null;
                 }
+
+                CurrentOrder = _orderService.CurrentOrder;
             }
 
             if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
@@ -252,18 +250,15 @@ namespace Next2.ViewModels
 
             _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
+            SelectedDish = new();
+
             SelectedDish = _seatWithSelectedDish?.SelectedItem;
-            //if (SelectedSet is not null && _isAnyUpDateForCurrentSet)
-            //{
-            //    await InitEditSetDetailsAsync(SelectedSet);
-            //}
+
             _isAnySetChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
             _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
             AddSeatsCommands();
-
-            SelectedTable = Tables.FirstOrDefault();
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
 
@@ -285,6 +280,10 @@ namespace Next2.ViewModels
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
 
                     Tables = new(tableBindableModels);
+
+                    SelectedTable = SelectedTable.IsAvailable
+                        ? SelectedTable
+                        : Tables.FirstOrDefault();
                 }
             }
         }
@@ -374,7 +373,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback)
                     : new Views.Mobile.Dialogs.DeleteSeatDialog(param, CloseDeleteSeatDialogCallback);
 
-                await _popupNavigation.PushAsync(deleteSeatDialog);
+                await PopupNavigation.PushAsync(deleteSeatDialog);
             }
             else
             {
@@ -424,7 +423,6 @@ namespace Next2.ViewModels
                             if (App.IsTablet)
                             {
                                 _firstSeat.Checked = true;
-                                //SelectedSet = _firstNotEmptySeat.SelectedItem = (CurrentState == LayoutState.Success) ? _firstNotEmptySeat.Dishes.FirstOrDefault() : _firstNotEmptySeat.SelectedItem = null;
                             }
                             else
                             {
@@ -437,7 +435,6 @@ namespace Next2.ViewModels
 
                                 _firstSeat.Checked = true;
 
-                                //SelectedSet = _firstSeat.Dishes.FirstOrDefault();
                                 RefreshCurrentOrderAsync();
                             }
                         }
@@ -468,7 +465,7 @@ namespace Next2.ViewModels
                             destinationSeat.Checked = true;
                             if (CurrentState == LayoutState.Success)
                             {
-                                //SelectedSet = destinationSeat.SelectedItem = destinationSeat.Dishes.FirstOrDefault();
+                                SelectedDish = destinationSeat.SelectedItem = destinationSeat.SelectedDishes.FirstOrDefault();
                             }
 
                             RefreshCurrentOrderAsync();
@@ -477,7 +474,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
@@ -517,7 +514,7 @@ namespace Next2.ViewModels
                     ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
                     : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
 
-                await _popupNavigation.PushAsync(removeOrderDialog);
+                await PopupNavigation.PushAsync(removeOrderDialog);
             }
         }
 
@@ -541,12 +538,12 @@ namespace Next2.ViewModels
                         ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback)
                         : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseOrderDeletionConfirmationDialogCallback);
 
-                    await _popupNavigation.PushAsync(orderDeletionConfirmationDialog);
+                    await PopupNavigation.PushAsync(orderDeletionConfirmationDialog);
                 }
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 
@@ -558,11 +555,11 @@ namespace Next2.ViewModels
                 {
                     await RemoveOrderAsync();
 
-                    await _popupNavigation.PopAsync();
+                    await PopupNavigation.PopAsync();
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
 
             if (!App.IsTablet && !CurrentOrder.Seats.Any())
             {
@@ -598,45 +595,16 @@ namespace Next2.ViewModels
                     {
                         item.SelectedItem = null;
                     }
+                    else
+                    {
+                        item.SelectedItem = seat.SelectedItem;
+                    }
                 }
 
                 SelectedDish = seat.SelectedItem;
 
-                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
-                {
-                    if (singleSeat.SeatNumber != seat.SeatNumber)
-                    {
-                        singleSeat.SelectedItem = null;
-                    }
-                    else
-                    {
-                        singleSeat.SelectedItem = seat.SelectedItem;
-                    }
-                }
-
-                foreach (var singleSeat in _orderService.CurrentOrder.Seats)
-                {
-                    if (singleSeat.SeatNumber != seat.SeatNumber)
-                    {
-                        singleSeat.SelectedItem = null;
-                    }
-                    else
-                    {
-                        var seatIndex = _orderService.CurrentOrder.Seats.IndexOf(singleSeat);
-                        _orderService.CurrentOrder.Seats[seatIndex].SelectedItem = seat.SelectedItem;
-                    }
-                }
-
-                if (_isAnyUpDateForCurrentSet)
-                {
-                    //await InitEditSetDetailsAsync(SelectedDish);
-                }
-
                 if (App.IsTablet)
                 {
-                    _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber != seat.SeatNumber).Select(x => x.SelectedItem == null);
-                    _orderService.CurrentOrder.Seats.Where(x => x.SeatNumber == seat.SeatNumber).Select(x => x.SelectedItem == seat.SelectedItem);
-
                     CurrentState = LayoutState.Success;
                     Thread.Sleep(100); // It suspend the thread to hide unwanted animation
                     IsSideMenuVisible = false;
@@ -776,12 +744,12 @@ namespace Next2.ViewModels
                 new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync) :
                 new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
         {
-            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted))
+            if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isMovedOrderAccepted) && isMovedOrderAccepted)
             {
                 if (isMovedOrderAccepted)
                 {
@@ -789,7 +757,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private async Task OnOpenModifyCommandAsync()
@@ -811,7 +779,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync);
 
-            await _popupNavigation.PushAsync(confirmDialog);
+            await PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
@@ -859,7 +827,7 @@ namespace Next2.ViewModels
                 }
             }
 
-            await _popupNavigation.PopAsync();
+            await PopupNavigation.PopAsync();
         }
 
         private Task OnPayCommandAsync()
@@ -893,75 +861,11 @@ namespace Next2.ViewModels
             }
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(_orderPaymentStatus);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(true);
 
             RefreshCurrentOrderAsync();
         }
 
-        //private async Task InitEditSetDetailsAsync(SetBindableModel selectedSet)
-        //{
-        //    if (selectedSet.Products.Any(x => x.SelectedIngredients.Count > 0) || selectedSet.Products.Any(x => x.DefaultSelectedIngredients.Count > 0))
-        //    {
-        //        var result = await _menuService.GetIngredientsAsync();
-
-        //        if (result.IsSuccess)
-        //        {
-        //            List<IngredientModel> allIngredientModels = new(result.Result);
-
-        //            if (allIngredientModels is not null && SelectedSet is not null)
-        //            {
-        //                foreach (var product in SelectedSet.Products)
-        //                {
-        //                    ObservableCollection<IngredientBindableModel> tempListIngredients = new();
-        //                    List<IngredientBindableModel> setOfIngredients = new(allIngredientModels.Where(row => product.SelectedIngredients.Any(item => item.IngredientId == row.Id)).Select(row => new IngredientBindableModel()
-        //                    {
-        //                        Id = row.Id,
-        //                        Title = row.Title,
-        //                        Price = row.Price,
-        //                        IsToggled = true,
-        //                        ImagePath = row.ImagePath,
-        //                    }));
-
-        //                    foreach (var ingredient in setOfIngredients)
-        //                    {
-        //                        tempListIngredients.Add(ingredient);
-        //                    }
-
-        //                    if (product.DefaultSelectedIngredients.Count > 0)
-        //                    {
-        //                        foreach (var defaultIngredient in product.DefaultSelectedIngredients)
-        //                        {
-        //                            var defaultIngredientModel = allIngredientModels.FirstOrDefault(row => row.Id == defaultIngredient.IngredientId);
-
-        //                            var isDefaultIngredientExist = product.SelectedIngredients.Where(x => x.IngredientId == defaultIngredient.IngredientId).FirstOrDefault() is not null;
-
-        //                            if (!isDefaultIngredientExist)
-        //                            {
-        //                                tempListIngredients.Add(new IngredientBindableModel()
-        //                                {
-        //                                    Title = defaultIngredientModel.Title,
-        //                                    Price = 0,
-        //                                    IsToggled = false,
-        //                                    IsDefault = true,
-        //                                });
-        //                            }
-        //                        }
-        //                    }
-
-        //                    product.DetailedSelectedIngredientModels = tempListIngredients.Count > 0 ? tempListIngredients : product.DetailedSelectedIngredientModels;
-        //                }
-
-        //                _isAnyUpDateForCurrentSet = false;
-
-        //                SelectedSet = new(SelectedSet);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        SelectedSet = new(SelectedSet);
-        //    }
-        //}
         #endregion
     }
 }

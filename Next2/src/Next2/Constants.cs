@@ -43,7 +43,6 @@
         {
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
-            public const int MAX_TABLE_SEATS = 10;
             public const int LOGIN_LENGTH = 6;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
@@ -73,6 +72,7 @@
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
+            public const string SEARCH_QUERY = "SEARCH_QUERY";
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
             public const string CURRENT_ORDER = "CURRENT_ORDER";
@@ -117,13 +117,6 @@
            @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
         }
 
-        public static class OrderStatus
-        {
-            public const string IN_PROGRESS = "In progress";
-            public const string CANCELLED = "Cancelled";
-            public const string PAYED = "Payed";
-        }
-
         public static class DialogParameterKeys
         {
             public const string MESSAGE = "MESSAGE";
@@ -144,7 +137,6 @@
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
-            public const string ACTION_ON_ORDER = "ACTION_ON_ORDER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";
             public const string OK_BUTTON_TEXT_COLOR = "OK_BUTTON_TEXT_COLOR";
@@ -155,13 +147,6 @@
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
             public const string DISH = "DISH";
             public const string DISCOUNT_PRICE = "DISCOUNT_PRICE";
-        }
-
-        public static class PaymentOrderStatus
-        {
-            public const string IN_PROGRESS = "In progress";
-            public const string CANCELLED = "Cancelled";
-            public const string PAYED = "Payed";
         }
 
         public static class API

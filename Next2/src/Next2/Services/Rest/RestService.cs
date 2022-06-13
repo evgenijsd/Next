@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Next2.Models.API;
+using Next2.Models.API.Queries;
+using Next2.Models.API.Results;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
@@ -146,7 +148,7 @@ namespace Next2.Services.Rest
 
             try
             {
-                var resultData = await RequestAsync<RefreshTokenQueryResultExecutionResult>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
+                var resultData = await RequestAsync<GenericExecutionResult<RefreshTokenQuery>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
 
                 if (resultData.Success)
                 {

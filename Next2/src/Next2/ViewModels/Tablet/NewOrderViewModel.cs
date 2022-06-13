@@ -2,6 +2,7 @@ using Acr.UserDialogs;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Log;
 using Next2.Services.Menu;
@@ -25,7 +26,6 @@ namespace Next2.ViewModels.Tablet
     public class NewOrderViewModel : BaseViewModel, IPageActionsHandler
     {
         private readonly IMenuService _menuService;
-        private readonly IPopupNavigation _popupNavigation;
         private readonly IOrderService _orderService;
         private readonly ILogService _logService;
 
@@ -34,14 +34,12 @@ namespace Next2.ViewModels.Tablet
         public NewOrderViewModel(
             INavigationService navigationService,
             IMenuService menuService,
-            IPopupNavigation popupNavigation,
             OrderRegistrationViewModel orderRegistrationViewModel,
             ILogService logService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
-            _popupNavigation = popupNavigation;
             _orderService = orderService;
             _logService = logService;
 
@@ -67,7 +65,7 @@ namespace Next2.ViewModels.Tablet
         public SubcategoryModel? SelectedSubcategoriesItem { get; set; }
 
         private ICommand _tapDishCommand;
-        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TapDishCommand => _tapDishCommand ??= new AsyncCommand<DishModelDTO>(OnTapDishCommand, allowsMultipleExecutions: false);
 
         private ICommand _tapSortCommand;
         public ICommand TapSortCommand => _tapSortCommand ??= new AsyncCommand(OnTapSortCommandAsync, allowsMultipleExecutions: false);
@@ -134,7 +132,7 @@ namespace Next2.ViewModels.Tablet
             Dishes = new(Dishes.Reverse());
         }
 
-        private async Task OnTapDishCommandAsync(DishModelDTO dish)
+        private Task OnTapDishCommand(DishModelDTO dish)
         {
             var param = new DialogParameters
             {
@@ -142,7 +140,7 @@ namespace Next2.ViewModels.Tablet
                 { Constants.DialogParameterKeys.DISCOUNT_PRICE, _orderService.CurrentOrder.DiscountPrice },
             };
 
-            await _popupNavigation.PushAsync(new Views.Tablet.Dialogs.AddSetToOrderDialog(param, CloseDialogCallback));
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.AddDishToOrderDialog(param, CloseDialogCallback));
         }
 
         private async void CloseDialogCallback(IDialogParameters dialogResult)
@@ -151,13 +149,13 @@ namespace Next2.ViewModels.Tablet
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    var result = await _orderService.AddSetInCurrentOrderAsync(dish);
+                    var result = await _orderService.AddDishInCurrentOrderAsync(dish);
 
                     if (result.IsSuccess)
                     {
-                        if (_popupNavigation.PopupStack.Any())
+                        if (PopupNavigation.PopupStack.Any())
                         {
-                            await _popupNavigation.PopAsync();
+                            await PopupNavigation.PopAsync();
                         }
 
                         OrderRegistrationViewModel.RefreshCurrentOrderAsync();
@@ -174,7 +172,7 @@ namespace Next2.ViewModels.Tablet
             }
             else
             {
-                await _popupNavigation.PopAsync();
+                await PopupNavigation.PopAsync();
             }
         }
 
@@ -230,9 +228,9 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnEmployeeTimeClockPopupCallCommandAsync()
         {
-            return _popupNavigation
+            return PopupNavigation
                 .PushAsync(new Views.Tablet.Dialogs
-                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => _popupNavigation.PopAsync()));
+                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
         }
 
         #endregion
