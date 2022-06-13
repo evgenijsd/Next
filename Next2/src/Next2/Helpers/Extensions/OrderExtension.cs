@@ -25,7 +25,7 @@ namespace Next2.Helpers.Extensions
                         ProductId = x.Product.Id,
                         AddedIngredientsId = x.AddedIngredients.Select(x => x.Id),
                         SelectedIngredientsId = x.SelectedIngredients.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients.Select(x => x.Id), //????????????????
+                        ExcludedIngredientsId = x.ExcludedIngredients.Select(x => x.Id),
                         Comment = x.Comment,
                         SelectedOptionsId = new Guid[1] { x.SelectedOptions.Id },
                     }),
