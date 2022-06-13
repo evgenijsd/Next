@@ -195,7 +195,7 @@
                                         <FormattedString>
                                             <Span Text="{xct:Translate CurrencySign}" />
                                             <Span Text=" " />
-                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                         </FormattedString>
                                     </Label.FormattedText>
 
