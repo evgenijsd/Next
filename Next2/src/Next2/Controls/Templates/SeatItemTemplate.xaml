@@ -6,11 +6,11 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
-    xmlns:local="clr-namespace:Next2"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.Templates.SeatItemTemplate"
-    x:DataType="models:SeatBindableModel">
+    xmlns:local="clr-namespace:Next2"
+    x:DataType="modelsBindable:SeatBindableModel">
 
     <BoxView
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -124,7 +124,7 @@
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="models:DishBindableModel">
+            <DataTemplate x:DataType="modelsBindable:DishBindableModel">
 
                 <StackLayout
                     Padding="0, 0, 0, 7"
@@ -172,7 +172,7 @@
 
                                 <ffimageloading:CachedImage
                                     Aspect="AspectFill"
-                                    Source="{Binding Dish.ImageSource}"/>
+                                    Source="{Binding ImageSource}"/>
 
                             </pancakeview:PancakeView>
 
@@ -181,7 +181,7 @@
                                 Margin="0, 16, 16, 16">
 
                                 <Label
-                                    Text="{Binding Dish.Name}"
+                                    Text="{Binding Name}"
                                     FontSize="{DynamicResource TSize_i6}"
                                     FontFamily="Barlow-Medium"
                                     LineBreakMode="TailTruncation"
@@ -195,7 +195,7 @@
                                         <FormattedString>
                                             <Span Text="{xct:Translate CurrencySign}" />
                                             <Span Text=" " />
-                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                         </FormattedString>
                                     </Label.FormattedText>
 

@@ -2,7 +2,7 @@
 using Prism.Mvvm;
 using System;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
     public class TableBindableModel : BindableBase, IBaseApiModel
     {

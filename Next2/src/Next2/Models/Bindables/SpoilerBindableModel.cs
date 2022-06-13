@@ -5,7 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Next2.Models
+namespace Next2.Models.Bindables
 {
     public class SpoilerBindableModel : BindableBase, IBaseApiModel, ITappable
     {
