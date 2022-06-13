@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using Next2.Enums;
-using Next2.Models;
+﻿using Next2.Enums;
 using Next2.Models.Api.DTO;
 using Next2.Models.API.Commands;
+using Next2.Models.Bindables;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Next2.Helpers.Extensions
 {
@@ -21,14 +18,14 @@ namespace Next2.Helpers.Extensions
                 {
                     TotalPrice = x.TotalPrice,
                     DiscountPrice = x.DiscountPrice,
-                    DishId = x.Dish.Id,
+                    DishId = x.DishId,
                     SelectedDishProportionId = x.SelectedDishProportion.Id,
                     selectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
                         AddedIngredientsId = x.AddedIngredients.Select(x => x.Id),
                         SelectedIngredientsId = x.SelectedIngredients.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExecutedIngredients.Select(x => x.Id), //????????????????
+                        ExcludedIngredientsId = x.ExcludedIngredients.Select(x => x.Id), //????????????????
                         Comment = x.Comment,
                         SelectedOptionsId = new Guid[1] { x.SelectedOptions.Id },
                     }),
