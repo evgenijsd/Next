@@ -570,13 +570,13 @@ namespace Next2.ViewModels
                         InitIngredientCategoriesAsync().Await();
                         break;
                     case ESubmenuItemsModifactions.Comment:
-                        var products = _currentDish.Products.ToList();
+                        var products = _currentDish.SelectedProducts.ToList();
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                         var indexProduct = products.IndexOf(product);
 
                         var navigationParameters = new NavigationParameters()
                         {
-                            //{ Constants.Navigations.INPUT_VALUE, _currentSet.Products[indexProduct].Comment },
+                            { Constants.Navigations.INPUT_VALUE, _currentDish?.SelectedProducts[indexProduct].Comment },
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 
