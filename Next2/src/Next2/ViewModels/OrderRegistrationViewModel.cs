@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
@@ -570,10 +571,10 @@ namespace Next2.ViewModels
         private async Task RemoveOrderAsync()
         {
             CurrentOrder.OrderStatus = EOrderStatus.Deleted;
-            // Update order method
+            var updateRes = await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
             var result = await _orderService.CreateNewCurrentOrderAsync();
 
-            if (result.IsSuccess)
+            if (result.IsSuccess && updateRes.IsSuccess)
             {
                 InitOrderTypes();
                 await RefreshTablesAsync();
