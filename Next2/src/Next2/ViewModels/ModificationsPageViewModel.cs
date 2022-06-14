@@ -153,15 +153,14 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
-                //var products = _currentSet.Products;
-                //var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                //var indexProduct = products.IndexOf(product);
+                var products = _currentDish.SelectedProducts;
+                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                var indexProduct = products.IndexOf(product);
 
-                //ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+                ProductsDish[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
-                //_currentSet.Products[indexProduct].Comment = text;
-
-                //ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
+                _currentDish.SelectedProducts[indexProduct].Comment = text;
+                ProductsDish[indexProduct].SelectedItem = ProductsDish[indexProduct].Items.FirstOrDefault();
             }
         }
 

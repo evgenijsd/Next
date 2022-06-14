@@ -130,7 +130,9 @@ namespace Next2.ViewModels
                         ProportionName = row.ProportionName,
                     });
 
-                    SelectedProportion = Proportions.FirstOrDefault();
+                    Proportions = Proportions.OrderBy(x => x.Price);
+
+                    SelectedProportion = Proportions.FirstOrDefault(x => x.Price == dish.OriginalPrice);
                 }
             }
         }
