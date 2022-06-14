@@ -219,20 +219,10 @@ namespace Next2.Services.Order
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.Seats = new();
 
-                    //var tax = await GetTaxAsync();
-
-                    //if (tax.IsSuccess)
-                    //{
-                    //    CurrentOrder.Tax = tax.Result;
-                    //}
-
-                    //CurrentOrder.Id = orderId.Result;
-                    //CurrentOrder.OrderNumber = orderId.Result;
-                    //CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
-                    //CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
+                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
-
-                    //CurrentSeat = null;
+                    CurrentSeat = null;
                     result.SetSuccess();
                 }
                 else

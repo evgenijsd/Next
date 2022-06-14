@@ -211,6 +211,7 @@ namespace Next2
                 cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
                 cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
                 cfg.CreateMap<DishModelDTO, DishBindableModel>();
+                cfg.CreateMap<DishBindableModel, DishBindableModel>();
                 cfg.CreateMap<SeatBindableModel, SeatBindableModel>();
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();

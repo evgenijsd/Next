@@ -152,13 +152,13 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
-                var products = _currentDish.Products;
+                var products = _currentDish.SelectedProducts;
                 var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                 var indexProduct = products.IndexOf(product);
 
                 ProductsDish[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
-                //_currentDish.Products[indexProduct].Comment = text;
+                _currentDish.SelectedProducts[indexProduct].Comment = text;
                 ProductsDish[indexProduct].SelectedItem = ProductsDish[indexProduct].Items.FirstOrDefault();
             }
         }
@@ -241,11 +241,6 @@ namespace Next2.ViewModels
                         SelectedProduct.Id = (Guid)SelectedReplacementProduct?.Id;
 
                         _currentDish.SelectedProducts[index].Price = SelectedReplacementProduct.DefaultPrice;
-
-                        foreach (var item in _currentDish.SelectedProducts)
-                        {
-                            _currentDish.TotalPrice += item.Product.DefaultPrice + item.Price;
-                        }
                     }
 
                     break;
@@ -555,13 +550,13 @@ namespace Next2.ViewModels
                         InitIngredientCategoriesAsync().Await();
                         break;
                     case ESubmenuItemsModifactions.Comment:
-                        var products = _currentDish.Products.ToList();
+                        var products = _currentDish.SelectedProducts.ToList();
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                         var indexProduct = products.IndexOf(product);
 
                         var navigationParameters = new NavigationParameters()
                         {
-                            //{ Constants.Navigations.INPUT_VALUE, _currentSet.Products[indexProduct].Comment },
+                            { Constants.Navigations.INPUT_VALUE, _currentDish?.SelectedProducts[indexProduct].Comment },
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 
