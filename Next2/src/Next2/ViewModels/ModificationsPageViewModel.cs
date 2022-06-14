@@ -85,13 +85,12 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; }
 
-        private SimpleProductModelDTO _selectedReplacementProduct = new();
-        public SimpleProductModelDTO? SelectedReplacementProduct
-        {
-            get => _selectedReplacementProduct;
-            set => SetProperty(ref _selectedReplacementProduct, value);
-        }
-
+        //private SimpleProductModelDTO _selectedReplacementProduct = new();
+        public SimpleProductModelDTO? SelectedReplacementProduct { get; set; }
+        //{
+        //    get => _selectedReplacementProduct;
+        //    set => SetProperty(ref _selectedReplacementProduct, value);
+        //}
         public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; }
 
         public IngredientsCategoryModelDTO? SelectedIngredientCategory { get; set; }
@@ -153,15 +152,14 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
-                //var products = _currentSet.Products;
-                //var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                //var indexProduct = products.IndexOf(product);
+                var products = _currentDish.Products;
+                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                var indexProduct = products.IndexOf(product);
 
-                //ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+                ProductsDish[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
-                //_currentSet.Products[indexProduct].Comment = text;
-
-                //ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
+                //_currentDish.Products[indexProduct].Comment = text;
+                ProductsDish[indexProduct].SelectedItem = ProductsDish[indexProduct].Items.FirstOrDefault();
             }
         }
 
@@ -214,11 +212,17 @@ namespace Next2.ViewModels
                     }
 
                     break;
+
                 case nameof(SelectedReplacementProduct):
                     if (SelectedReplacementProduct is not null)
                     {
-                        var product = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish].SelectedProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
-                        product = new ProductBindableModel()
+                        var products = _currentDish.SelectedProducts;
+                        var product = products.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+
+                        //product = SelectedReplacementProduct;
+                        //var product = _currentDish.SelectedProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+                        var index = _currentDish.SelectedProducts.IndexOf(product);
+                        _currentDish.SelectedProducts[index] = new ProductBindableModel()
                         {
                             Id = SelectedReplacementProduct.Id,
                             SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
@@ -233,19 +237,15 @@ namespace Next2.ViewModels
                                 Options = SelectedReplacementProduct.Options,
                             },
                         };
-
                         ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
+                        SelectedProduct.Id = (Guid)SelectedReplacementProduct?.Id;
 
-                        _currentDish.TotalPrice = 0;
+                        _currentDish.SelectedProducts[index].Price = SelectedReplacementProduct.DefaultPrice;
 
-                        //foreach (var item in _currentDish.SelectedProducts)
-                        //{
-                        //    _currentDish.TotalPrice += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
-                        //}
-
-                        //ResetSelectedIngredientsAsync(product);
-
-                        //ResetSelectedOptionsAsync(product);
+                        foreach (var item in _currentDish.SelectedProducts)
+                        {
+                            _currentDish.TotalPrice += item.Product.DefaultPrice + item.Price;
+                        }
                     }
 
                     break;
@@ -272,35 +272,6 @@ namespace Next2.ViewModels
         #endregion
 
         #region --Private methods--
-
-        //private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
-        //{
-        //    var ingridients = await _menuService.GetIngredientsOfProductAsync(product.SelectedProduct.Id);
-
-        //    if (ingridients.IsSuccess)
-        //    {
-        //        product.SelectedIngredients = new(ingridients.Result);
-        //        product.DefaultSelectedIngredients = new(ingridients.Result);
-        //    }
-        //}
-        private async Task ResetSelectedOptionsAsync(ProductBindableModel product)
-        {
-            //var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
-
-            //if (options.IsSuccess)
-            //{
-            //    if (options.Result is not null)
-            //    {
-            //        product.SelectedOption = options.Result.FirstOrDefault(row => row.Id == product.SelectedProduct.DefaultOptionId);
-            //        product.Options = new(options.Result);
-            //    }
-            //    else
-            //    {
-            //        product.SelectedOption = new();
-            //        product.Options = new();
-            //    }
-            //}
-        }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()
         {
@@ -450,7 +421,7 @@ namespace Next2.ViewModels
                     ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Name));
                 }
 
-                _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
             }
         }
 
