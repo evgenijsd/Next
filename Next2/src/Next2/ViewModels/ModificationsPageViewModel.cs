@@ -219,14 +219,13 @@ namespace Next2.ViewModels
                         var products = _currentDish.SelectedProducts;
                         var product = products.FirstOrDefault(x => x.Id == SelectedProduct.Id);
 
-                        //product = SelectedReplacementProduct;
-                        //var product = _currentDish.SelectedProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
                         var index = _currentDish.SelectedProducts.IndexOf(product);
                         _currentDish.SelectedProducts[index] = new ProductBindableModel()
                         {
                             Id = SelectedReplacementProduct.Id,
                             SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
                             AddedIngredients = new(SelectedReplacementProduct.Ingredients),
+                            Price = SelectedReplacementProduct.DefaultPrice,
                             Product = new()
                             {
                                 Id = SelectedReplacementProduct.Id,
@@ -239,8 +238,6 @@ namespace Next2.ViewModels
                         };
                         ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
                         SelectedProduct.Id = (Guid)SelectedReplacementProduct?.Id;
-
-                        _currentDish.SelectedProducts[index].Price = SelectedReplacementProduct.DefaultPrice;
                     }
 
                     break;
