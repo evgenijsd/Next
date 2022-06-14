@@ -19,6 +19,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public int CursorPosition { get; set; }
+
         public bool IsOrderTabsSelected { get; set; } = true;
 
         public Func<string, string> ApplySearchFilter;
@@ -27,8 +29,8 @@ namespace Next2.ViewModels
 
         public string Placeholder { get; set; } = string.Empty;
 
-        private ICommand _GoBackCommand;
-        public ICommand GoBackCommand => _GoBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand<string>(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -44,6 +46,7 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.SEARCH, out string searchLine))
             {
                 SearchLine = searchLine ?? string.Empty;
+                CursorPosition = SearchLine.Length;
             }
 
             if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
