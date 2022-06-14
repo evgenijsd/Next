@@ -195,9 +195,16 @@
                                         <FormattedString>
                                             <Span Text="{xct:Translate CurrencySign}" />
                                             <Span Text=" " />
-                                            <Span Text="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                            <Span Text="{Binding TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
                                         </FormattedString>
                                     </Label.FormattedText>
+
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsDiscountPriseShow, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}" Value="true">
+                                            <Setter Property="Text" Value="{Binding DiscountPrice, StringFormat={Static local:Constants+Formats.CASH_FORMAT}}"/>
+                                        </DataTrigger>
+
+                                    </Label.Triggers>
 
                                 </Label>
 
