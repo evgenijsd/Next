@@ -40,7 +40,9 @@ namespace Next2.ViewModels
 
         public SimpleOrderBindableModel Order { get; set; }
 
-        public SelectedDishModelDTO SelectedDish { get; set; }
+        public DishBindableModel SelectedDish { get; set; }
+
+        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
@@ -59,22 +61,21 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.ORDER, out SimpleOrderBindableModel order))
             {
                 Order = order;
-                SelectedDish = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-               // Order.Seats.FirstOrDefault().SelectedItem = Order.Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+
+                foreach (var seat in Order.Seats)
+                {
+                    var newSeat = new SeatBindableModel()
+                    {
+                        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
+                        Checked = false,
+                        SelectedDishes = _mapper.Map<ObservableCollection<DishBindableModel>>(seat.SelectedDishes),
+                    };
+                    Seats.Add(newSeat);
+                }
+
+                SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+                Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
             }
-
-            //Order = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
-            //var seats = new ObservableCollection<SeatBindableModel>();
-
-            //foreach (var seat in Order.Seats)
-            //{
-            //    var newSeat = new SeatBindableModel()
-            //    {
-            //        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
-            //        Checked = false,
-            //        SelectedDishes = new ObservableCollection<DishBindableModel>(seat.SelectedDishes.Select(x => new DishBindableModel()))
-            //    };
-            //}
         }
 
         #endregion
@@ -105,12 +106,13 @@ namespace Next2.ViewModels
                 isOneTime = false;
                 var seat = sender as SeatBindableModel;
 
-                //foreach (var item in Order.Seats.Where(x => x.SeatNumber != seat.SeatNumber))
-                //{
-                //    item.SelectedItem = null;
-                //    item.Checked = false;
-                //}
-                //SelectedDish = seat.SelectedItem;
+                foreach (var item in Seats.Where(x => x.SeatNumber != seat.SeatNumber))
+                {
+                    item.SelectedItem = null;
+                    item.Checked = false;
+                }
+
+                SelectedDish = seat.SelectedItem;
                 seat.Checked = true;
                 isOneTime = true;
             }

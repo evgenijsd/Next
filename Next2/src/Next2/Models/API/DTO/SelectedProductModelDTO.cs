@@ -18,6 +18,6 @@ namespace Next2.Models.API.DTO
 
         public IEnumerable<SimpleIngredientModelDTO>? AddedIngredients { get; set; }
 
-        public IEnumerable<SimpleIngredientModelDTO>? ExecutedIngredients { get; set; }
+        public IEnumerable<SimpleIngredientModelDTO>? ExcludedIngredients { get; set; }
     }
 }

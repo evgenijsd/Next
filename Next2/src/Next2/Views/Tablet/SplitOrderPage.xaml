@@ -504,7 +504,7 @@
                 Grid.Row="0"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                ItemsSource="{Binding Order.Seats}">
+                ItemsSource="{Binding Seats}">
 
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect />
