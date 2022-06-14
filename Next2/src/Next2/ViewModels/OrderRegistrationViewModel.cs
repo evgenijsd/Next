@@ -572,9 +572,8 @@ namespace Next2.ViewModels
         {
             CurrentOrder.OrderStatus = EOrderStatus.Deleted;
             var updateRes = await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
-            var result = await _orderService.CreateNewCurrentOrderAsync();
-
-            if (result.IsSuccess && updateRes.IsSuccess)
+           // var result = await _orderService.CreateNewCurrentOrderAsync();
+            if (updateRes.IsSuccess)
             {
                 InitOrderTypes();
                 await RefreshTablesAsync();

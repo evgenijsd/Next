@@ -42,6 +42,6 @@ namespace Next2.Models.API.Commands
 
         public string EmployeeId { get; set; }
 
-        public IEnumerable<IncomingSeatModel>? Seats { get; set; }
+        public IEnumerable<IncomingSeatModel?> Seats { get; set; }
     }
 }

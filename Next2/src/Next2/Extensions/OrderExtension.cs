@@ -4,6 +4,7 @@ using Next2.Models.API.Commands;
 using Next2.Models.Bindables;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Next2.Extensions
 {
@@ -23,36 +24,35 @@ namespace Next2.Extensions
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
-                        AddedIngredientsId = x.AddedIngredients.Select(x => x.Id),
-                        SelectedIngredientsId = x.SelectedIngredients.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients.Select(x => x.Id),
-                        Comment = x.Comment,
+                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
+                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
+                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
+                        Comment = x?.Comment,
                         SelectedOptionsId = new Guid[1] { x.SelectedOptions.Id },
                     }),
                 }),
             });
 
-            UpdateOrderCommand command = new()
-            {
-                Id = order.Id,
-                Number = order.Number,
-                OrderType = (EOrderType)order.OrderType,
-                IsTab = order.IsTab,
-                TableId = order.Table.Id,
-                Open = order.Open,
-                Close = order.Close,
-                OrderStatus = (EOrderStatus)order.OrderStatus,
-                TaxCoefficient = order.TaxCoefficient,
-                TotalPrice = order.TotalPrice,
-                DiscountPrice = order.DiscountPrice,
-                DiscountId = order?.Discount.Id,
-                CouponId = order?.Coupon.Id,
-                SubTotalPrice = order.SubTotalPrice,
-                IsCashPayment = order.IsCashPayment,
-                CustomerId = order?.Customer.Id,
-                EmployeeId = order.EmployeeId,
-                Seats = seats,
-            };
+            UpdateOrderCommand command = new();
+
+            command.Id = order.Id;
+            command.Number = order.Number;
+            command.OrderType = (EOrderType)order.OrderType;
+            command.IsTab = order.IsTab;
+            command.TableId = order?.Table.Id;
+            command.Open = order.Open;
+            command.Close = order?.Close;
+            command.OrderStatus = (EOrderStatus)order?.OrderStatus;
+            command.TaxCoefficient = order.TaxCoefficient;
+            command.TotalPrice = order.TotalPrice;
+            command.DiscountPrice = order?.DiscountPrice;
+            command.DiscountId = order?.Discount?.Id;
+            command.CouponId = order?.Coupon?.Id;
+            command.SubTotalPrice = order?.SubTotalPrice;
+            command.IsCashPayment = order.IsCashPayment;
+            command.CustomerId = order?.Customer?.Id;
+            command.EmployeeId = order?.EmployeeId;
+            command.Seats = seats;
 
             return command;
         }
