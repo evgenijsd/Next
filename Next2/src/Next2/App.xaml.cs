@@ -195,6 +195,7 @@ namespace Next2
             {
                 cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
                 cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
+                cfg.CreateMap<CustomerBindableModel, UpdateCustomerCommand>().ReverseMap();
                 cfg.CreateMap<SetModel, FreeSetBindableModel>();
                 cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
                 cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
