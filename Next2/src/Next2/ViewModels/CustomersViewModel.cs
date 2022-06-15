@@ -109,9 +109,9 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchQuery))
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchCustomer))
             {
-                SetSearchQuery(searchQuery);
+                SetSearchQuery(searchCustomer);
             }
         }
 
