@@ -499,7 +499,7 @@ namespace Next2.ViewModels
         {
             var param = new NavigationParameters
             {
-                { Constants.Navigations.ORDER, SelectedOrder },
+                { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
             };
 
             await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);

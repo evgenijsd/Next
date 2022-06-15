@@ -14,7 +14,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns:models="clr-namespace:Next2.Models.API.DTO"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons" xmlns:models1="clr-namespace:Next2.Models.Bindables"
     x:DataType="viewModels:SplitOrderViewModel">
 
     <views:BaseContentPage.Resources>
@@ -518,7 +518,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatModelDTO">
+                    <DataTemplate x:DataType="models1:SeatBindableModel">
 
                         <controls:SeatItemForSplitOrder
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"

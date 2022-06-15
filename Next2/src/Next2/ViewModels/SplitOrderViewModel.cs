@@ -45,7 +45,7 @@ namespace Next2.ViewModels
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         private ICommand _goBackCommand;
-        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _splitByCommand;
         public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommand, allowsMultipleExecutions: false);
@@ -54,13 +54,15 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public async override void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.ORDER, out SimpleOrderBindableModel order))
+            SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+
+            if (parameters.TryGetValue(Constants.Navigations.ORDER, out Guid id))
             {
-                Order = order;
 
                 foreach (var seat in Order.Seats)
                 {
