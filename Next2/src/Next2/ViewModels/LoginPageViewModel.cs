@@ -74,7 +74,18 @@ namespace Next2.ViewModels
 
             if (_authenticationService.IsAuthorizationComplete)
             {
-                await _orderService.CreateNewCurrentOrderAsync();
+                var lastOrderId = await _orderService.GetCurrentOrderLastSession(_authenticationService.AuthorizedUserId.ToString());
+
+                if (lastOrderId.IsSuccess)
+                {
+                    //get order by id
+                    await _orderService.GetOrderByIdAsync(lastOrderId.Result);
+                }
+                else
+                {
+                    await _orderService.CreateNewCurrentOrderAsync();
+                    _orderService.SaveEmployeeAndOrderIdPairs(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                }
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
@@ -136,7 +147,17 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    await _orderService.CreateNewCurrentOrderAsync();
+                    var lastOrderId = await _orderService.GetCurrentOrderLastSession(_authenticationService.AuthorizedUserId.ToString());
+
+                    if (lastOrderId.IsSuccess)
+                    {
+                        await _orderService.GetOrderByIdAsync(lastOrderId.Result);
+                    }
+                    else
+                    {
+                        await _orderService.CreateNewCurrentOrderAsync();
+                        _orderService.SaveEmployeeAndOrderIdPairs(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                    }
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
 

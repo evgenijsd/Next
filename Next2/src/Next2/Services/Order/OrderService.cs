@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API.Commands;
@@ -229,6 +230,63 @@ namespace Next2.Services.Order
                 else
                 {
                     result.SetFailure();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(CreateNewCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<Guid>> GetCurrentOrderLastSession(string employeeId)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                if (_settingsManager?.LastCurrentOrderIds != string.Empty)
+                {
+                    var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+
+                    if (lastCurrentOrderIds.ContainsKey(employeeId))
+                    {
+                        result.SetSuccess(lastCurrentOrderIds[employeeId]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetCurrentOrderLastSession)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public void SaveEmployeeAndOrderIdPairs(string employeeId, Guid lastSessionOrderId)
+        {
+            var employeeIdAndOrderIdLastSessionPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+
+            employeeIdAndOrderIdLastSessionPairs.Add(employeeId, lastSessionOrderId);
+
+            _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdLastSessionPairs);
+        }
+
+        public async Task<AOResult> GetOrderByIdAsync(Guid orderId)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
+                var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+                if (order.Success)
+                {
+                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
+                    CurrentOrder.Seats = new();
+
+                    result.SetSuccess();
                 }
             }
             catch (Exception ex)
