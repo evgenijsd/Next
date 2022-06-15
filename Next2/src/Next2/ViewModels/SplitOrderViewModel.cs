@@ -54,27 +54,24 @@ namespace Next2.ViewModels
 
         #region -- Overrides --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-            Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-
-            if (parameters.TryGetValue(Constants.Navigations.ORDER, out Guid id))
+            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid id))
             {
+                var response = await _orderService.GetOrderByIdAsync(id);
 
-                foreach (var seat in Order.Seats)
-                {
-                    var newSeat = new SeatBindableModel()
-                    {
-                        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
-                        Checked = false,
-                        SelectedDishes = _mapper.Map<ObservableCollection<DishBindableModel>>(seat.SelectedDishes),
-                    };
-                    Seats.Add(newSeat);
-                }
-
+                //foreach (var seat in Order.Seats)
+                //{
+                //    var newSeat = new SeatBindableModel()
+                //    {
+                //        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
+                //        Checked = false,
+                //        SelectedDishes = _mapper.Map<ObservableCollection<DishBindableModel>>(seat.SelectedDishes),
+                //    };
+                //    Seats.Add(newSeat);
+                //}
                 SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
                 Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
             }

@@ -570,7 +570,7 @@ namespace Next2.ViewModels
 
         private async Task RemoveOrderAsync()
         {
-            CurrentOrder.OrderStatus = EOrderStatus.Canceled;
+            CurrentOrder.OrderStatus = EOrderStatus.Deleted;
             var updateRes = await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
             if (updateRes.IsSuccess)
             {

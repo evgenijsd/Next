@@ -23,6 +23,8 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync();
 
+        Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid id);
+
         Task<AOResult> DeleteOrderAsync(int orderId);
 
         string ApplyNumberFilter(string text);
