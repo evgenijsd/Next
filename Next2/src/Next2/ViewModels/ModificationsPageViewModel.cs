@@ -179,7 +179,7 @@ namespace Next2.ViewModels
                             PriceRatio = SelectedProportion.PriceRatio,
                             Proportion = new ProportionModelDTO()
                             {
-                                Id = SelectedProportion.Id,
+                                Id = SelectedProportion.ProportionId,
                                 Name = SelectedProportion.ProportionName,
                             },
                         };
