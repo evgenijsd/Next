@@ -20,7 +20,7 @@ namespace Next2.Extensions
                     TotalPrice = x.TotalPrice,
                     DiscountPrice = x.DiscountPrice,
                     DishId = x.DishId,
-                    SelectedDishProportionId = x.SelectedDishProportion.Id,
+                    SelectedDishProportionId = x.SelectedDishProportion.Proportion.Id,
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
