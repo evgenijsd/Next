@@ -85,12 +85,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; }
 
-        //private SimpleProductModelDTO _selectedReplacementProduct = new();
         public SimpleProductModelDTO? SelectedReplacementProduct { get; set; }
-        //{
-        //    get => _selectedReplacementProduct;
-        //    set => SetProperty(ref _selectedReplacementProduct, value);
-        //}
+
         public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; }
 
         public IngredientsCategoryModelDTO? SelectedIngredientCategory { get; set; }
@@ -225,7 +221,7 @@ namespace Next2.ViewModels
                             Id = SelectedReplacementProduct.Id,
                             SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
                             AddedIngredients = new(SelectedReplacementProduct.Ingredients),
-                            Price = SelectedReplacementProduct.DefaultPrice,
+                            Price = СalculatePriceOfProportion(SelectedReplacementProduct.DefaultPrice),
                             Product = new()
                             {
                                 Id = SelectedReplacementProduct.Id,
@@ -238,6 +234,11 @@ namespace Next2.ViewModels
                         };
                         ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
                         SelectedProduct.Id = (Guid)SelectedReplacementProduct?.Id;
+
+                        foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
+                        {
+                            ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
+                        }
                     }
 
                     break;
@@ -264,6 +265,13 @@ namespace Next2.ViewModels
         #endregion
 
         #region --Private methods--
+
+        private decimal СalculatePriceOfProportion(decimal price)
+        {
+            return _currentDish.SelectedDishProportion.PriceRatio == 1
+                ? price
+                : price * (1 + SelectedProportion.PriceRatio);
+        }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()
         {
