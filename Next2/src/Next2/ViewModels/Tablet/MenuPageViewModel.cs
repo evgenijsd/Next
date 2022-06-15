@@ -3,6 +3,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -230,7 +231,8 @@ namespace Next2.ViewModels.Tablet
                         { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
                     };
 
-                    await _navigationService.GoBackToRootAsync(navigationParameters);
+                    //await _navigationService.GoBackToRootAsync(navigationParameters);
+                    await _navigationService.NavigateAsync($"{nameof(LoginPage)}");
                 }
                 else
                 {

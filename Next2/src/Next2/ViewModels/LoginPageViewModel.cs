@@ -68,15 +68,21 @@ namespace Next2.ViewModels
             }
         }
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override async Task InitializeAsync(INavigationParameters parameters)
         {
+            base.InitializeAsync(parameters);
+
             if (_authenticationService.IsAuthorizationComplete)
             {
                 await _orderService.CreateNewCurrentOrderAsync();
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
-            else if (parameters.TryGetValue(Constants.Navigations.EMPLOYEE_ID, out string inputtedEmployeeId))
+        }
+
+        public override async void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (parameters.TryGetValue(Constants.Navigations.EMPLOYEE_ID, out string inputtedEmployeeId))
             {
                 CheckEmployeeId(inputtedEmployeeId);
 
