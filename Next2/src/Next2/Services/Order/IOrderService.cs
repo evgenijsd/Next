@@ -51,6 +51,6 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddOrderAsync(OrderModel order);
 
-        void SaveEmployeeAndOrderIdPairs(string employeeId, Guid lastSessionOrderId);
+        Task<AOResult> SaveEmployeeAndOrderIdPairsAsync(string employeeId, Guid lastSessionOrderId);
     }
 }

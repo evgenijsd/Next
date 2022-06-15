@@ -84,7 +84,7 @@ namespace Next2.ViewModels
                 else
                 {
                     await _orderService.CreateNewCurrentOrderAsync();
-                    _orderService.SaveEmployeeAndOrderIdPairs(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                    await _orderService.SaveEmployeeAndOrderIdPairsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
                 }
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
@@ -156,7 +156,7 @@ namespace Next2.ViewModels
                     else
                     {
                         await _orderService.CreateNewCurrentOrderAsync();
-                        _orderService.SaveEmployeeAndOrderIdPairs(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                        await _orderService.SaveEmployeeAndOrderIdPairsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
                     }
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");

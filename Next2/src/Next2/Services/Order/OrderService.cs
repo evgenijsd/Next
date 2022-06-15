@@ -264,13 +264,33 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public void SaveEmployeeAndOrderIdPairs(string employeeId, Guid lastSessionOrderId)
+        public async Task<AOResult> SaveEmployeeAndOrderIdPairsAsync(string employeeId, Guid lastSessionOrderId)
         {
-            var employeeIdAndOrderIdLastSessionPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+            var result = new AOResult();
 
-            employeeIdAndOrderIdLastSessionPairs.Add(employeeId, lastSessionOrderId);
+            try
+            {
+                var employeeIdAndOrderIdLastSessionPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
 
-            _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdLastSessionPairs);
+                employeeIdAndOrderIdLastSessionPairs = employeeIdAndOrderIdLastSessionPairs is null ? new() : employeeIdAndOrderIdLastSessionPairs;
+
+                var currentPairsNumber = employeeIdAndOrderIdLastSessionPairs.Count();
+
+                employeeIdAndOrderIdLastSessionPairs.Add(employeeId, lastSessionOrderId);
+
+                _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdLastSessionPairs);
+
+                if (employeeIdAndOrderIdLastSessionPairs.Count() > currentPairsNumber && !string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
+                {
+                    result.SetSuccess();
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetOrderByIdAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
         }
 
         public async Task<AOResult> GetOrderByIdAsync(Guid orderId)
@@ -285,13 +305,16 @@ namespace Next2.Services.Order
                 {
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.Seats = new();
+                    CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
+                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    CurrentSeat = null;
 
                     result.SetSuccess();
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CreateNewCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetOrderByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
