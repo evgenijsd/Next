@@ -38,7 +38,7 @@ namespace Next2.ViewModels
 
         #region -- Public Properties --
 
-        public SimpleOrderBindableModel Order { get; set; }
+        public OrderModelDTO Order { get; set; }
 
         public DishBindableModel SelectedDish { get; set; }
 
