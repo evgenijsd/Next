@@ -27,7 +27,6 @@ namespace Next2.ViewModels
     public class CustomersViewModel : BaseViewModel
     {
         private readonly IMapper _mapper;
-        private readonly IEventAggregator _eventAggregator;
         private readonly ICustomersService _customersService;
         private readonly IOrderService _orderService;
         private ECustomersSorting _sortCriterion;
@@ -36,14 +35,12 @@ namespace Next2.ViewModels
 
         public CustomersViewModel(
             IMapper mapper,
-            IEventAggregator eventAggregator,
             INavigationService navigationService,
             ICustomersService customersService,
             IOrderService orderService)
             : base(navigationService)
         {
             _mapper = mapper;
-            _eventAggregator = eventAggregator;
             _customersService = customersService;
             _orderService = orderService;
         }
@@ -106,6 +103,27 @@ namespace Next2.ViewModels
             {
                 AnyCustomersLoaded = _allCustomers.Any();
             }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchQuery))
+            {
+                SetSearchQuery(searchQuery);
+            }
+        }
+
+        #endregion
+
+        #region -- Public helpers --
+
+        public void SetSearchQuery(string searchCustomer)
+        {
+            SearchText = searchCustomer;
+
+            DisplayedCustomers = SearchCustomers(SearchText);
         }
 
         #endregion
@@ -256,36 +274,25 @@ namespace Next2.ViewModels
         {
             if (DisplayedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
+               Func<string, string> searchValidator = _orderService.ApplyNameFilter;
 
-                Func<string, string> searchValidator = _orderService.ApplyNameFilter;
-
-                var parameters = new NavigationParameters()
+               var parameters = new NavigationParameters()
                 {
-                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.SEARCH_CUSTOMER, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
                     { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
 
-                ClearSearch();
+               ClearSearch();
 
-                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+               await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
-        }
-
-        private void OnSearchEvent(string searchLine)
-        {
-            SearchText = searchLine;
-
-            DisplayedCustomers = SearchCustomers(SearchText);
-
-            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
         }
 
         private ObservableCollection<CustomerBindableModel> SearchCustomers(string searchLine)
         {
             bool containsName(CustomerBindableModel x) => x.FullName.Contains(searchLine, StringComparison.OrdinalIgnoreCase);
-            bool containsPhone(CustomerBindableModel x) => x.Phone.Replace("-", string.Empty).Contains(searchLine);
+            bool containsPhone(CustomerBindableModel x) => x.Phone.Contains(searchLine);
 
             return new ObservableCollection<CustomerBindableModel>(_allCustomers.Where(x => containsName(x) || containsPhone(x)));
         }
