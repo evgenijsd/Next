@@ -143,9 +143,9 @@ namespace Next2.Services.Order
             try
             {
                 string query = $"{Constants.API.HOST_URL}/api/orders";
-                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderListQueryResultResult>>(HttpMethod.Get, query);
+                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrdersListQueryResult>>(HttpMethod.Get, query);
 
-                if (responce.Success)
+                if (responce.Success && responce.Value?.Orders is not null)
                 {
                     result.SetSuccess(responce.Value.Orders);
                 }
@@ -153,6 +153,28 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetOrdersAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<IEnumerable<SeatModelDTO>>> GetSeatsByOrderId(Guid orderId)
+        {
+            var result = new AOResult<IEnumerable<SeatModelDTO>>();
+
+            try
+            {
+                string query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
+                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (responce.Success && responce?.Value?.Order?.Seats is not null)
+                {
+                    result.SetSuccess(responce.Value.Order.Seats);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetSeatsByOrderId)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

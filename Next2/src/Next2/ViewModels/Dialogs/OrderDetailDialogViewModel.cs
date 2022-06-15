@@ -1,4 +1,5 @@
 ﻿using Next2.Models;
+using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -34,7 +35,7 @@ namespace Next2.ViewModels.Dialogs
 
         public Color OkButtonTextColor { get; set; }
 
-        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
+        public ObservableCollection<SeatModelDTO> Seats { get; set; } = new();
 
         public bool IsOrderDetailsDisplayed { get; set; }
 
@@ -56,7 +57,7 @@ namespace Next2.ViewModels.Dialogs
             if (dialogParameters is not null
                 && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ORDER_NUMBER, out int orderNumber))
             {
-                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out IEnumerable<SeatBindableModel> seats))
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out IEnumerable<SeatModelDTO> seats))
                 {
                     OrderNumber = orderNumber;
 

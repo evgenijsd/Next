@@ -429,29 +429,46 @@ namespace Next2.ViewModels
         {
             if (SelectedOrder is not null)
             {
-                //var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+                if (IsInternetConnected)
+                {
+                    var seatsResult = await _orderService.GetSeatsByOrderId(SelectedOrder.Id);
 
-                //if (seatsResult.IsSuccess)
-                //{
-                //    var seats = seatsResult.Result;
+                    if (seatsResult.IsSuccess)
+                    {
+                        var seats = seatsResult.Result;
 
-                //    var param = new DialogParameters
-                //    {
-                //        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.OrderNumber },
-                //        { Constants.DialogParameterKeys.SEATS,  seats },
-                //        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
-                //        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] },
-                //        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
-                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
-                //    };
+                        var param = new DialogParameters
+                        {
+                            { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
+                            { Constants.DialogParameterKeys.SEATS,  seats },
+                            { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
+                            { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i1"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i6"] },
+                        };
 
-                //    PopupPage deleteSeatDialog = App.IsTablet
-                //        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
-                //        : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
+                        PopupPage deleteSeatDialog = App.IsTablet
+                            ? new Views.Tablet.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync)
+                            : new Views.Mobile.Dialogs.OrderDetailDialog(param, ClosePrintOrderDialogCallbackAsync);
 
-                //    await PopupNavigation.PushAsync(deleteSeatDialog);
-                //}
+                        await PopupNavigation.PushAsync(deleteSeatDialog);
+                    }
+                    else
+                    {
+                        await ShowInfoDialog(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["SomethingWentWrong"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+                }
+                else
+                {
+                    await ShowInfoDialog(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
             }
         }
 
