@@ -71,11 +71,6 @@
     <DefineConstants>TRACE;STAGE;NETSTANDARD;NETSTANDARD2_0;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Extensions\**" />
-    <EmbeddedResource Remove="Extensions\**" />
-    <None Remove="Extensions\**" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Controls\CalendarGridCollectionView2.cs" />
     <Compile Remove="Controls\CalendarTab2.xaml.cs" />
   </ItemGroup>

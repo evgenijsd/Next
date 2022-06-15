@@ -53,6 +53,8 @@
             public const decimal TAX_PERCENTAGE = 20;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
             public const int EMPLOYEE_ID_LENGTH = 6;
+            public const int COMMENT_LENGTH = 250;
+            public const int MAX_QUERY_LENGTH = 100;
         }
 
         public static class LayoutOrderTabs

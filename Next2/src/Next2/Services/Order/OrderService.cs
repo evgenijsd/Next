@@ -40,6 +40,7 @@ namespace Next2.Services.Order
             _restService = restService;
             _bonusService = bonusesService;
             _mapper = mapper;
+            _restService = restService;
 
             CurrentOrder.Seats = new ();
         }
@@ -219,20 +220,10 @@ namespace Next2.Services.Order
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.Seats = new();
 
-                    //var tax = await GetTaxAsync();
-
-                    //if (tax.IsSuccess)
-                    //{
-                    //    CurrentOrder.Tax = tax.Result;
-                    //}
-
-                    //CurrentOrder.Id = orderId.Result;
-                    //CurrentOrder.OrderNumber = orderId.Result;
-                    //CurrentOrder.OrderStatus = Constants.OrderStatus.IN_PROGRESS;
-                    //CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
+                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
-
-                    //CurrentSeat = null;
+                    CurrentSeat = null;
                     result.SetSuccess();
                 }
                 else
@@ -475,6 +466,27 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(AddOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/orders", order);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

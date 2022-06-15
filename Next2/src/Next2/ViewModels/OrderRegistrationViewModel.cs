@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
@@ -191,7 +192,7 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    if(SelectedTable is not null)
+                    if (SelectedTable is not null)
                     {
                         _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
                     }
@@ -569,19 +570,18 @@ namespace Next2.ViewModels
 
         private async Task RemoveOrderAsync()
         {
-            var result = await _orderService.CreateNewCurrentOrderAsync();
-
-            if (result.IsSuccess)
+            CurrentOrder.OrderStatus = EOrderStatus.Canceled;
+            var updateRes = await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            if (updateRes.IsSuccess)
             {
-                NumberOfSeats = 0;
+                var result = await _orderService.CreateNewCurrentOrderAsync();
 
-                if (App.IsTablet)
+                if (result.IsSuccess)
                 {
-                    IsSideMenuVisible = true;
-                    CurrentState = LayoutState.Loading;
+                    InitOrderTypes();
+                    await RefreshTablesAsync();
+                    await RefreshCurrentOrderAsync();
                 }
-
-                RefreshCurrentOrderAsync();
             }
         }
 

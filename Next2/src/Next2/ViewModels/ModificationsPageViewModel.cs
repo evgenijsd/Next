@@ -153,15 +153,14 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.INPUT_VALUE, out string text))
             {
-                //var products = _currentSet.Products;
-                //var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
-                //var indexProduct = products.IndexOf(product);
+                var products = _currentDish.SelectedProducts;
+                var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                var indexProduct = products.IndexOf(product);
 
-                //ProductsSet[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
+                ProductsDish[indexProduct].Items[3].CanShowDot = !string.IsNullOrWhiteSpace(text);
 
-                //_currentSet.Products[indexProduct].Comment = text;
-
-                //ProductsSet[indexProduct].SelectedItem = ProductsSet[indexProduct].Items.FirstOrDefault();
+                _currentDish.SelectedProducts[indexProduct].Comment = text;
+                ProductsDish[indexProduct].SelectedItem = ProductsDish[indexProduct].Items.FirstOrDefault();
             }
         }
 
@@ -176,7 +175,7 @@ namespace Next2.ViewModels
                     {
                         _currentDish.SelectedDishProportion = new DishProportionModelDTO()
                         {
-                            Id = SelectedProportion.ProportionId,
+                            Id = SelectedProportion.Id,
                             PriceRatio = SelectedProportion.PriceRatio,
                             Proportion = new ProportionModelDTO()
                             {
@@ -502,20 +501,20 @@ namespace Next2.ViewModels
         private void InitProportionDish()
         {
             var portions = _currentDish.DishProportions;
-            var selectedDishProportionId = _currentDish.SelectedDishProportion.Proportion.Id;
+            var selectedDishProportionId = _currentDish.SelectedDishProportion.Id;
 
             if (portions is not null)
             {
                 PortionsDish = new(_currentDish.DishProportions.Select(row => new ProportionModel()
                 {
-                    Id = row.ProportionId,
+                    Id = row.Id,
                     ProportionId = row.ProportionId,
                     PriceRatio = row.PriceRatio,
                     Price = CalculateDishPriceBaseOnProportion(_currentDish, row.PriceRatio),
                     ProportionName = row.ProportionName,
                 }));
 
-                SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == selectedDishProportionId);
+                SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == selectedDishProportionId);
             }
         }
 
@@ -571,13 +570,13 @@ namespace Next2.ViewModels
                         InitIngredientCategoriesAsync().Await();
                         break;
                     case ESubmenuItemsModifactions.Comment:
-                        var products = _currentDish.Products.ToList();
+                        var products = _currentDish.SelectedProducts.ToList();
                         var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
                         var indexProduct = products.IndexOf(product);
 
                         var navigationParameters = new NavigationParameters()
                         {
-                            //{ Constants.Navigations.INPUT_VALUE, _currentSet.Products[indexProduct].Comment },
+                            { Constants.Navigations.INPUT_VALUE, _currentDish?.SelectedProducts[indexProduct].Comment },
                             { Constants.Navigations.PLACEHOLDER, Strings.CommentForOrder },
                         };
 
@@ -601,7 +600,7 @@ namespace Next2.ViewModels
                 ProductsDish[i].SelectedItem = null;
             }
 
-            SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == _currentDish.SelectedDishProportion.Proportion.Id);
+            SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == _currentDish.SelectedDishProportion.Id);
 
             if (!App.IsTablet)
             {

@@ -37,7 +37,7 @@
 
             <Label
                 Grid.Column="0"
-                Text="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}"
+                Text="{xct:Translate OrderTabs}"
                 Margin="30, 0, 0, 0"
                 VerticalOptions="CenterAndExpand"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
