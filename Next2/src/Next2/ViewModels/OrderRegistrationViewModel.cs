@@ -591,10 +591,10 @@ namespace Next2.ViewModels
             //    {
             //        var fullorder = await _orderService.GetOrderByIdAsync(order.Id);
 
-            //        if (fullorder.Result.Number != 1851)
+            //        if (fullorder.Result.Number != 1851 && fullorder.Result.TotalPrice != 0)
             //        {
             //            var or = fullorder.Result.ToUpdateOrderCommand();
-            //            or.OrderStatus = EOrderStatus.Deleted;
+            //            or.OrderStatus = EOrderStatus.Pending;
             //            var res = await _orderService.UpdateOrderAsync(or);
             //        }
             //    }

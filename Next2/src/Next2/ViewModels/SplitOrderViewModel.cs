@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using Next2.Enums;
 using Next2.Models.Bindables;
 using Next2.Models.API.DTO;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -62,16 +63,36 @@ namespace Next2.ViewModels
             {
                 var response = await _orderService.GetOrderByIdAsync(id);
 
-                //foreach (var seat in Order.Seats)
-                //{
-                //    var newSeat = new SeatBindableModel()
-                //    {
-                //        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand, allowsMultipleExecutions: false),
-                //        Checked = false,
-                //        SelectedDishes = _mapper.Map<ObservableCollection<DishBindableModel>>(seat.SelectedDishes),
-                //    };
-                //    Seats.Add(newSeat);
-                //}
+                if (response.IsSuccess)
+                {
+                    Order = response.Result;
+                    Seats = new(Order.Seats.Select(x => new SeatBindableModel()
+                    {
+                        IsFirstSeat = x.Id == Order.Seats.First().Id,
+                        Checked = false,
+                        Id = x.Id,
+                        SeatNumber = x.Number,
+                        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand),
+                        SelectedDishes = new(x.SelectedDishes.Select(y => new DishBindableModel()
+                        {
+                            DiscountPrice = y.DiscountPrice,
+                            DishId = y.DishId,
+                            Id = y.Id,
+                            ImageSource = y.ImageSource,
+                            Name = y.Name,
+                            TotalPrice = y.TotalPrice,
+                            SelectedDishProportion = y.SelectedDishProportion,
+                            SelectedProducts = new(y.SelectedProducts.Select(x => new ProductBindableModel()
+                            {
+                                Id = x.Id,
+                                Price = x.Product.DefaultPrice,
+                                Comment = x.Comment,
+                                Product = x.Product,
+                            })),
+                        })),
+                    }));
+                }
+
                 SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
                 Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
             }
