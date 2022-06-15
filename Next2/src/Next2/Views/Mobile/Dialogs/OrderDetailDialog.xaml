@@ -94,7 +94,7 @@
                             </BoxView>
 
                             <Label
-                                Text="{Binding SeatNumber}"
+                                Text="{Binding Number}"
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i7}">
 
