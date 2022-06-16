@@ -1,4 +1,5 @@
-﻿using Next2.Helpers.Events;
+﻿using Next2.Enums;
+using Next2.Helpers.Events;
 using Prism.Events;
 using Prism.Navigation;
 using Rg.Plugins.Popup.Contracts;
@@ -12,6 +13,8 @@ namespace Next2.ViewModels
 {
     public class SearchPageViewModel : BaseViewModel
     {
+        private ESearchType _searchType;
+
         public SearchPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
@@ -49,6 +52,20 @@ namespace Next2.ViewModels
                 CursorPosition = SearchLine.Length;
             }
 
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_MEMBER, out string searchMember))
+            {
+                SearchLine = searchMember ?? string.Empty;
+                CursorPosition = SearchLine.Length;
+                _searchType = ESearchType.Member;
+            }
+
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchCustomer))
+            {
+                SearchLine = searchCustomer ?? string.Empty;
+                CursorPosition = SearchLine.Length;
+                _searchType = ESearchType.Customer;
+            }
+
             if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
             {
                 Placeholder = placeholder;
@@ -72,10 +89,24 @@ namespace Next2.ViewModels
         private Task OnGoBackCommandAsync(string? done)
         {
             var searchQuery = done ?? SearchLine;
+            string constantNavigation;
+
+            if (_searchType == ESearchType.Member)
+            {
+                constantNavigation = Constants.Navigations.SEARCH_MEMBER;
+            }
+            else if (_searchType == ESearchType.Customer)
+            {
+                constantNavigation = Constants.Navigations.SEARCH_CUSTOMER;
+            }
+            else
+            {
+                constantNavigation = Constants.Navigations.SEARCH_QUERY;
+            }
 
             var parameters = new NavigationParameters
             {
-                { Constants.Navigations.SEARCH_QUERY, searchQuery },
+                { constantNavigation, searchQuery },
             };
 
             return _navigationService.GoBackAsync(parameters);

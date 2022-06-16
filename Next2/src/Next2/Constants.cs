@@ -77,6 +77,8 @@
         {
             public const string SEARCH = "SEARCH";
             public const string SEARCH_QUERY = "SEARCH_QUERY";
+            public const string SEARCH_MEMBER = "SEARCH_MEMBER";
+            public const string SEARCH_CUSTOMER = "SEARCH_CUSTOMER";
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
             public const string CURRENT_ORDER = "CURRENT_ORDER";

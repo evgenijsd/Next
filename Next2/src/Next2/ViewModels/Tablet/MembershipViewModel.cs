@@ -27,7 +27,6 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMapper _mapper;
         private readonly IMembershipService _membershipService;
-        private readonly IEventAggregator _eventAggregator;
 
         private MembershipModelDTO _member;
         private List<MemberBindableModel> _allMembers = new();
@@ -40,7 +39,6 @@ namespace Next2.ViewModels.Tablet
             : base(navigationService)
         {
             _mapper = mapper;
-            _eventAggregator = eventAggregator;
             _membershipService = membershipService;
         }
 
@@ -100,6 +98,17 @@ namespace Next2.ViewModels.Tablet
 
             ClearSearch();
             AnyMembersLoaded = false;
+        }
+
+        #endregion
+
+        #region -- Public helpers --
+
+        public void SetSearchQuery(string searchMember)
+        {
+            SearchText = searchMember;
+
+            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
         }
 
         #endregion
@@ -169,12 +178,10 @@ namespace Next2.ViewModels.Tablet
         {
             if (DisplayMembers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-                _eventAggregator.GetEvent<EventSearch>().Subscribe(OnSearchEvent);
-
                 Func<string, string> searchValidator = _membershipService.ApplyNameFilter;
                 var parameters = new NavigationParameters()
                 {
-                    { Constants.Navigations.SEARCH, SearchText },
+                    { Constants.Navigations.SEARCH_MEMBER, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
                     { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
@@ -185,19 +192,10 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private void OnSearchEvent(string searchLine)
+        private List<MemberBindableModel> SearchMembers(string searchText)
         {
-            SearchText = searchLine;
-
-            DisplayMembers = new(GetSortedMembers(SearchMembers(SearchText)));
-
-            _eventAggregator.GetEvent<EventSearch>().Unsubscribe(OnSearchEvent);
-        }
-
-        private List<MemberBindableModel> SearchMembers(string searchLine)
-        {
-            bool containsName(MemberBindableModel x) => x.Customer.FullName.ToLower().Contains(searchLine.ToLower());
-            bool containsPhone(MemberBindableModel x) => x.Customer.Phone.Replace("-", string.Empty).Contains(searchLine);
+            bool containsName(MemberBindableModel x) => x.Customer.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+            bool containsPhone(MemberBindableModel x) => x.Customer.Phone.Contains(searchText);
 
             return _allMembers.Where(x => containsName(x) || containsPhone(x)).ToList();
         }
