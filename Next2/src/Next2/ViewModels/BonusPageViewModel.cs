@@ -84,7 +84,7 @@ namespace Next2.ViewModels
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
-                    var selectedDishes = ClonSelectedDishes(CurrentOrder.Seats);
+                    var selectedDishes = CloneSelectedDishes(CurrentOrder.Seats);
                     var newSeat = _mapper.Map<SeatBindableModel>(seat);
                     newSeat.SelectedDishes = new(selectedDishes);
 
@@ -217,7 +217,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private IEnumerable<DishBindableModel> ClonSelectedDishes(IEnumerable<SeatBindableModel> seats)
+        private IEnumerable<DishBindableModel> CloneSelectedDishes(IEnumerable<SeatBindableModel> seats)
         {
             var selectedDishes = seats.SelectMany(x => x.SelectedDishes.Select(x => new DishBindableModel
             {
