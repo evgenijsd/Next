@@ -77,7 +77,7 @@ namespace Next2.Services.CustomersService
         public async Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer)
         {
             var result = new AOResult();
-            var customerModelDTO = _mapper.Map<CustomerModelDTO>(customer);
+            var customerModelDTO = _mapper.Map<UpdateCustomerCommand>(customer);
 
             try
             {

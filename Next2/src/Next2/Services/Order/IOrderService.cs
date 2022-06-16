@@ -1,5 +1,6 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
@@ -31,6 +32,8 @@ namespace Next2.Services.Order
         Task<AOResult> CreateNewCurrentOrderAsync();
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
+
+        Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
 
         Task<AOResult> AddSeatInCurrentOrderAsync();
 

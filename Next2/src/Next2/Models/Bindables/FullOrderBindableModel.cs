@@ -17,6 +17,12 @@ namespace Next2.Models.Bindables
 
         public bool IsTab { get; set; }
 
+        public DateTime Open { get; set; }
+
+        public DateTime? Close { get; set; }
+
+        public bool IsCashPayment { get; set; }
+
         public SimpleTableModelDTO Table { get; set; } = new();
 
         public CustomerBindableModel Customer { get; set; } = new();

@@ -107,7 +107,8 @@ namespace Next2.Services.Bonuses
 
             foreach (var dish in dishes)
             {
-                dish.DiscountPrice = dish.SelectedDishProportionPrice;
+                dish.DiscountPrice = dish.TotalPrice;
+                dish.SelectedDishProportionPrice = dish.TotalPrice;
             }
 
             if (currentOrder.Coupon is not null)
@@ -118,7 +119,7 @@ namespace Next2.Services.Bonuses
                         ? dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Coupon.DiscountPercentage / 100)
                         : dish.SelectedDishProportionPrice;
 
-                    dish.TotalPrice = (dish.DiscountPrice * currentOrder.TaxCoefficient) + dish.DiscountPrice;
+                    dish.TotalPrice = dish.DiscountPrice;
                 }
             }
             else if (currentOrder.Discount is not null)
@@ -126,7 +127,7 @@ namespace Next2.Services.Bonuses
                 foreach (var dish in dishes)
                 {
                     dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Discount.DiscountPercentage / 100);
-                    dish.TotalPrice = (dish.DiscountPrice * currentOrder.TaxCoefficient) + dish.DiscountPrice;
+                    dish.TotalPrice = dish.DiscountPrice;
                 }
             }
 

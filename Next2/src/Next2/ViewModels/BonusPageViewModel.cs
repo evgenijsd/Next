@@ -83,9 +83,10 @@ namespace Next2.ViewModels
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
-                    var selectedDishes = _mapper.Map<ObservableCollection<DishBindableModel>>(seat.SelectedDishes);
+                    var selectedDishes = CloneSelectedDishes(CurrentOrder.Seats);
                     var newSeat = _mapper.Map<SeatBindableModel>(seat);
-                    newSeat.SelectedDishes = selectedDishes;
+                    newSeat.SelectedDishes = new(selectedDishes);
+
                     seats.Add(newSeat);
                 }
 
@@ -231,6 +232,26 @@ namespace Next2.ViewModels
         {
             SelectedBonus = null;
             return Task.CompletedTask;
+        }
+
+        private IEnumerable<DishBindableModel> CloneSelectedDishes(IEnumerable<SeatBindableModel> seats)
+        {
+            var selectedDishes = seats.SelectMany(x => x.SelectedDishes.Select(x => new DishBindableModel
+            {
+                Id = x.Id,
+                DiscountPrice = x.DiscountPrice,
+                ImageSource = x.ImageSource,
+                Name = x.Name,
+                SelectedDishProportionPrice = x.SelectedDishProportionPrice,
+                TotalPrice = x.TotalPrice,
+                SelectedDishProportion = x.SelectedDishProportion,
+                DishId = x.DishId,
+                DishProportions = x.DishProportions,
+                Products = x.Products,
+                SelectedProducts = x.SelectedProducts,
+            }));
+
+            return selectedDishes;
         }
 
         #endregion
