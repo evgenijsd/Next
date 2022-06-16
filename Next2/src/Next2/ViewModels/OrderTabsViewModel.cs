@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -60,7 +61,7 @@ namespace Next2.ViewModels
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
-        public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
+        public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new();
 
         private ICommand _switchToOrdersCommand;
         public ICommand SwitchToOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchToOrdersCommand);
@@ -327,13 +328,13 @@ namespace Next2.ViewModels
         {
             if (OrderSortingType == orderSortingType)
             {
-                Orders = new (Orders.Reverse());
+                Orders = new(Orders.Reverse());
             }
             else
             {
                 OrderSortingType = orderSortingType;
 
-                Orders = new (GetSortedOrders(Orders));
+                Orders = new(GetSortedOrders(Orders));
             }
         }
 
@@ -346,33 +347,50 @@ namespace Next2.ViewModels
         {
             if (SelectedOrder is not null)
             {
-                //var seatsResult = await _orderService.GetSeatsAsync(SelectedOrder.Id);
+                if (IsInternetConnected)
+                {
+                    var seatsResult = await _orderService.GetSeatsByOrderId(SelectedOrder.Id);
 
-                //if (seatsResult.IsSuccess)
-                //{
-                //    var seats = seatsResult.Result;
+                    if (seatsResult.IsSuccess)
+                    {
+                        var seats = seatsResult.Result;
 
-                //    var param = new DialogParameters
-                //    {
-                //        { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
-                //        { Constants.DialogParameterKeys.SEATS,  seats },
-                //        { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
-                //        { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
-                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
-                //        { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
-                //        { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
-                //    };
+                        var parameters = new DialogParameters
+                        {
+                            { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
+                            { Constants.DialogParameterKeys.SEATS,  seats },
+                            { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
+                            { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_BACKGROUND, Application.Current.Resources["IndicationColor_i3"] },
+                            { Constants.DialogParameterKeys.OK_BUTTON_TEXT_COLOR, Application.Current.Resources["TextAndBackgroundColor_i1"] },
+                        };
 
-                //    PopupPage deleteSeatDialog = App.IsTablet
-                //        ? new Views.Tablet.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync)
-                //        : new Views.Mobile.Dialogs.OrderDetailDialog(param, CloseDeleteOrderDialogCallbackAsync);
+                        PopupPage deleteSeatDialog = App.IsTablet
+                            ? new Views.Tablet.Dialogs.OrderDetailDialog(parameters, CloseRemoveOrderDialogCallbackAsync)
+                            : new Views.Mobile.Dialogs.OrderDetailDialog(parameters, CloseRemoveOrderDialogCallbackAsync);
 
-                //    await PopupNavigation.PushAsync(deleteSeatDialog);
-                //}
+                        await PopupNavigation.PushAsync(deleteSeatDialog);
+                    }
+                    else
+                    {
+                        await ShowInfoDialog(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["SomethingWentWrong"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+                }
+                else
+                {
+                    await ShowInfoDialog(
+                        LocalizationResourceManager.Current["Error"] + "1",
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
+                }
             }
         }
 
-        private async void CloseDeleteOrderDialogCallbackAsync(IDialogParameters parameters)
+        private async void CloseRemoveOrderDialogCallbackAsync(IDialogParameters parameters)
         {
             if (parameters is not null
                 && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderDeletionConfirmationRequestCalled))
@@ -389,8 +407,8 @@ namespace Next2.ViewModels
                     };
 
                     PopupPage confirmDialog = App.IsTablet
-                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback)
-                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseConfirmDialogCallback);
+                        ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(confirmDialogParameters, CloseRemoveConfirmationDialogCallback)
+                        : new Next2.Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseRemoveConfirmationDialogCallback);
 
                     await PopupNavigation.PushAsync(confirmDialog);
                 }
@@ -401,28 +419,55 @@ namespace Next2.ViewModels
             }
         }
 
-        private async void CloseConfirmDialogCallback(IDialogParameters parameters)
+        private async void CloseRemoveConfirmationDialogCallback(IDialogParameters parameters)
         {
-            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted))
+            if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isOrderRemovingAccepted)
+                && isOrderRemovingAccepted && SelectedOrder is not null)
             {
-                //if (isOrderRemovingAccepted && SelectedOrder is not null)
-                //{
-                //    int removalOrderId = SelectedOrder.Id;
-                //    var result = await _orderService.DeleteOrderAsync(removalOrderId);
+                if (IsInternetConnected)
+                {
+                    var orderResult = await _orderService.GetOrderByIdAsync(SelectedOrder.Id);
 
-                //    if (result.IsSuccess)
-                //    {
-                //        var removalBindableOrder = Orders.FirstOrDefault(x => x.Id == SelectedOrder.Id);
+                    if (orderResult.IsSuccess)
+                    {
+                        var orderToBeUpdated = orderResult.Result;
+                        orderToBeUpdated.OrderStatus = EOrderStatus.Pending;
 
-                //        await LoadDataAsync();
-                //        SelectedOrder = null;
-                //    }
+                        var updateOrderCommand = orderToBeUpdated.ToUpdateOrderCommand();
+                        var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
-                //    await PopupNavigation.PopAsync();
-                //}
+                        if (updateOrderResult.IsSuccess)
+                        {
+                            var orderIdToBeRemoved = SelectedOrder.Id;
+                            var orderToBeRemoved = Orders.FirstOrDefault(x => x.Id == orderIdToBeRemoved);
+
+                            SelectedOrder = null;
+                            Orders.Remove(orderToBeRemoved);
+
+                            if (!Orders.Any())
+                            {
+                                await OnClearSearchResultCommandAsync();
+                            }
+
+                            await PopupNavigation.PopAsync();
+                        }
+                    }
+                    else
+                    {
+                        await ShowInfoDialog(
+                            LocalizationResourceManager.Current["Error"],
+                            LocalizationResourceManager.Current["SomethingWentWrong"],
+                            LocalizationResourceManager.Current["Ok"]);
+                    }
+                }
             }
-
-            await PopupNavigation.PopAsync();
+            else
+            {
+                await ShowInfoDialog(
+                    LocalizationResourceManager.Current["Error"] + "3",
+                    LocalizationResourceManager.Current["NoInternetConnection"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
         }
 
         private async Task OnPrintCommandAsync()
