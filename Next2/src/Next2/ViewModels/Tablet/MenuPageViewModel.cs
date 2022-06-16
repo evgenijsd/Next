@@ -120,6 +120,11 @@ namespace Next2.ViewModels.Tablet
                 {
                     MembershipViewModel.SetSearchQuery(searchMember);
                 }
+
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchCustomer))
+                {
+                    CustomersViewModel.SetSearchQuery(searchCustomer);
+                }
             }
         }
 

@@ -59,6 +59,13 @@ namespace Next2.ViewModels
                 _searchType = ESearchType.Member;
             }
 
+            if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchCustomer))
+            {
+                SearchLine = searchCustomer ?? string.Empty;
+                CursorPosition = SearchLine.Length;
+                _searchType = ESearchType.Customer;
+            }
+
             if (parameters.TryGetValue(Constants.Navigations.PLACEHOLDER, out string placeholder))
             {
                 Placeholder = placeholder;
@@ -87,6 +94,10 @@ namespace Next2.ViewModels
             if (_searchType == ESearchType.Member)
             {
                 constantNavigation = Constants.Navigations.SEARCH_MEMBER;
+            }
+            else if (_searchType == ESearchType.Customer)
+            {
+                constantNavigation = Constants.Navigations.SEARCH_CUSTOMER;
             }
             else
             {
