@@ -98,7 +98,9 @@ namespace Next2.ViewModels
                         Products = x.Products,
                         SelectedProducts = x.SelectedProducts,
                     }));
+
                     var newSeat = _mapper.Map<SeatBindableModel>(seat);
+
                     newSeat.SelectedDishes = new(selectedDishes);
                     seats.Add(newSeat);
                 }
