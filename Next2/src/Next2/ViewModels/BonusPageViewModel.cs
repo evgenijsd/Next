@@ -8,7 +8,6 @@ using Next2.Services.Bonuses;
 using Next2.Services.Order;
 using Prism.Events;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -120,6 +119,17 @@ namespace Next2.ViewModels
 
                 HeightCoupons = Coupons.Count * _heightBonus;
                 HeightDiscounts = Discounts.Count * _heightBonus;
+
+                if (CurrentOrder.Coupon is not null)
+                {
+                    var couponId = CurrentOrder.Coupon.Id;
+                    SelectedBonus = Coupons.FirstOrDefault(row => row.Id == couponId);
+                }
+                else if(CurrentOrder.Discount is not null)
+                {
+                    var discountId = CurrentOrder.Discount.Id;
+                    SelectedBonus = Discounts.FirstOrDefault(row => row.Id == discountId);
+                }
             }
         }
 
@@ -129,7 +139,9 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(SelectedBonus))
             {
-                Title = SelectedBonus is null ? string.Empty : SelectedBonus.Name;
+                Title = SelectedBonus is null
+                    ? string.Empty
+                    : SelectedBonus.Name;
             }
         }
 
@@ -183,6 +195,7 @@ namespace Next2.ViewModels
                 {
                     var coupon = _mapper.Map<CouponModelDTO>(bonus);
                     coupon.SeatNumbers = CurrentOrder.Seats.Count;
+
                     CurrentOrder.Coupon = coupon;
                     CurrentOrder.Discount = null;
                 }
@@ -200,11 +213,15 @@ namespace Next2.ViewModels
         {
             if (bonusType == EBonusType.Coupone)
             {
-                HeightCoupons = HeightCoupons == 0 ? Coupons.Count * _heightBonus : 0;
+                HeightCoupons = HeightCoupons == 0
+                    ? Coupons.Count * _heightBonus
+                    : 0;
             }
             else
             {
-                HeightDiscounts = HeightDiscounts == 0 ? Discounts.Count * _heightBonus : 0;
+                HeightDiscounts = HeightDiscounts == 0
+                    ? Discounts.Count * _heightBonus
+                    : 0;
             }
 
             return Task.CompletedTask;
