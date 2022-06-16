@@ -212,10 +212,17 @@ namespace Next2.ViewModels
                 case nameof(SelectedReplacementProduct):
                     if (SelectedReplacementProduct is not null)
                     {
-                        var products = _currentDish.SelectedProducts;
-                        var product = products.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+                        int index = 0;
+                        foreach (var product in _currentDish.SelectedProducts)
+                        {
+                            if (product.Id == SelectedProduct.Id)
+                            {
+                                break;
+                            }
 
-                        var index = _currentDish.SelectedProducts.IndexOf(product);
+                            index++;
+                        }
+
                         _currentDish.SelectedProducts[index] = new ProductBindableModel()
                         {
                             Id = SelectedReplacementProduct.Id,
