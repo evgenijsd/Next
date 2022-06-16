@@ -219,7 +219,6 @@ namespace Next2.Services.Order
                     var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
 
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
-                    CurrentOrder.Seats = new();
 
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
@@ -278,10 +277,7 @@ namespace Next2.Services.Order
 
                 _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdLastSessionPairs);
 
-                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
-                {
-                    result.SetSuccess();
-                }
+                result.SetSuccess();
             }
             catch (Exception ex)
             {
@@ -482,69 +478,6 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(DeleteDishFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult> AddSeatAsync(SeatModel seat)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                if (seat is not null)
-                {
-                    var seatId = await _mockService.AddAsync(seat);
-                    if (seatId >= 0)
-                    {
-                        result.SetSuccess();
-                    }
-                    else
-                    {
-                        result.SetFailure();
-                    }
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(AddSeatAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult> AddOrderAsync(OrderModel order)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                if (order is not null)
-                {
-                    var orderId = await _mockService.AddAsync(order);
-
-                    if (orderId >= 0)
-                    {
-                        result.SetSuccess();
-                    }
-                    else
-                    {
-                        result.SetFailure();
-                    }
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(AddOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
