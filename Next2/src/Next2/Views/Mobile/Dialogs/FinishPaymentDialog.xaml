@@ -183,7 +183,8 @@
 
                             <Span Text="- " />
                             <Span Text="{Binding Order.Bonus.DiscountPercentage}" />
-                            <Span Text="% Off" />
+                            <Span Text="% " />
+                            <Span Text="{xct:Translate Off}" />
 
                         </FormattedString>
                     </Label.FormattedText>

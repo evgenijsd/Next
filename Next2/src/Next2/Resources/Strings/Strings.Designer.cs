@@ -19,7 +19,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -773,20 +773,20 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not defined.
-        /// </summary>
-        internal static string NotDefined {
-            get {
-                return ResourceManager.GetString("NotDefined", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No Receipt.
         /// </summary>
         internal static string NoReceipt {
             get {
                 return ResourceManager.GetString("NoReceipt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not defined.
+        /// </summary>
+        internal static string NotDefined {
+            get {
+                return ResourceManager.GetString("NotDefined", resourceCulture);
             }
         }
         
@@ -832,6 +832,15 @@ namespace Next2.Resources.Strings {
         internal static string NumberOf {
             get {
                 return ResourceManager.GetString("NumberOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        internal static string Off {
+            get {
+                return ResourceManager.GetString("Off", resourceCulture);
             }
         }
         
