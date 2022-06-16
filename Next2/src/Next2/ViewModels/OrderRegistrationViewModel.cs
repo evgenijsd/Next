@@ -609,7 +609,7 @@ namespace Next2.ViewModels
                 {
                     CurrentState = LayoutState.Success;
                     Thread.Sleep(100); // It suspend the thread to hide unwanted animation
-                    IsSideMenuVisible = true;
+                    IsSideMenuVisible = false;
                 }
                 else
                 {

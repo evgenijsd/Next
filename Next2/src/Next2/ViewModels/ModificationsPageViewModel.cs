@@ -85,12 +85,7 @@ namespace Next2.ViewModels
 
         public ObservableCollection<OptionModelDTO> OptionsProduct { get; set; }
 
-        private SimpleProductModelDTO _selectedReplacementProduct = new();
-        public SimpleProductModelDTO? SelectedReplacementProduct
-        {
-            get => _selectedReplacementProduct;
-            set => SetProperty(ref _selectedReplacementProduct, value);
-        }
+        public SimpleProductModelDTO? SelectedReplacementProduct { get; set; }
 
         public ObservableCollection<SimpleProductModelDTO> ReplacementProducts { get; set; }
 
@@ -213,25 +208,44 @@ namespace Next2.ViewModels
                     }
 
                     break;
+
                 case nameof(SelectedReplacementProduct):
                     if (SelectedReplacementProduct is not null)
                     {
-                        var products = _currentDish.Products;
-                        var product = products.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                        int index = 0;
+                        foreach (var product in _currentDish.SelectedProducts)
+                        {
+                            if (product.Id == SelectedProduct.Id)
+                            {
+                                break;
+                            }
 
-                        //product.SelectedProduct = SelectedReplacementProduct;
-                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
+                            index++;
+                        }
 
-                        _currentDish.TotalPrice = 0;
+                        _currentDish.SelectedProducts[index] = new ProductBindableModel()
+                        {
+                            Id = SelectedReplacementProduct.Id,
+                            SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
+                            AddedIngredients = new(SelectedReplacementProduct.Ingredients),
+                            Price = СalculatePriceOfProportion(SelectedReplacementProduct.DefaultPrice),
+                            Product = new()
+                            {
+                                Id = SelectedReplacementProduct.Id,
+                                DefaultPrice = SelectedReplacementProduct.DefaultPrice,
+                                ImageSource = SelectedReplacementProduct.ImageSource,
+                                Ingredients = SelectedReplacementProduct.Ingredients,
+                                Name = SelectedReplacementProduct.Name,
+                                Options = SelectedReplacementProduct.Options,
+                            },
+                        };
+                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
+                        SelectedProduct.Id = SelectedReplacementProduct.Id;
 
-                        //foreach (var item in _currentDish.SelectedProducts)
-                        //{
-                        //    _currentDish.TotalPrice += item.SelectedProduct.ProductPrice + item.IngredientsPrice;
-                        //}
-
-                        //ResetSelectedIngredientsAsync(product);
-
-                        //ResetSelectedOptionsAsync(product);
+                        foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
+                        {
+                            ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
+                        }
                     }
 
                     break;
@@ -259,33 +273,11 @@ namespace Next2.ViewModels
 
         #region --Private methods--
 
-        //private async Task ResetSelectedIngredientsAsync(ProductBindableModel product)
-        //{
-        //    var ingridients = await _menuService.GetIngredientsOfProductAsync(product.SelectedProduct.Id);
-
-        //    if (ingridients.IsSuccess)
-        //    {
-        //        product.SelectedIngredients = new(ingridients.Result);
-        //        product.DefaultSelectedIngredients = new(ingridients.Result);
-        //    }
-        //}
-        private async Task ResetSelectedOptionsAsync(ProductBindableModel product)
+        private decimal СalculatePriceOfProportion(decimal price)
         {
-            //var options = await _menuService.GetOptionsOfProductAsync(product.SelectedProduct.Id);
-
-            //if (options.IsSuccess)
-            //{
-            //    if (options.Result is not null)
-            //    {
-            //        product.SelectedOption = options.Result.FirstOrDefault(row => row.Id == product.SelectedProduct.DefaultOptionId);
-            //        product.Options = new(options.Result);
-            //    }
-            //    else
-            //    {
-            //        product.SelectedOption = new();
-            //        product.Options = new();
-            //    }
-            //}
+            return _currentDish.SelectedDishProportion.PriceRatio == 1
+                ? price
+                : price * (1 + SelectedProportion.PriceRatio);
         }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()
@@ -423,9 +415,9 @@ namespace Next2.ViewModels
 
         private void InitReplacementProductsDish()
         {
-            var product = _currentDish;
+            var dish = _currentDish;
 
-            if (product.Products is var replacementProducts)
+            if (dish.Products is var replacementProducts)
             {
                 if (_isOrderedByDescendingReplacementProducts)
                 {
@@ -436,7 +428,7 @@ namespace Next2.ViewModels
                     ReplacementProducts = new(replacementProducts.OrderByDescending(row => row.Name));
                 }
 
-                _selectedReplacementProduct = ReplacementProducts.FirstOrDefault(row => row.Id == SelectedProduct.Id);
+                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
             }
         }
 
