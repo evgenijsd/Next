@@ -120,6 +120,17 @@ namespace Next2.ViewModels
 
                 HeightCoupons = Coupons.Count * _heightBonus;
                 HeightDiscounts = Discounts.Count * _heightBonus;
+
+                if (CurrentOrder.Coupon is not null)
+                {
+                    var idCoupon = CurrentOrder.Coupon.Id;
+                    SelectedBonus = Coupons.FirstOrDefault(row => row.Id == idCoupon);
+                }
+                else if(CurrentOrder.Discount is not null)
+                {
+                    var idDiscount = CurrentOrder.Discount.Id;
+                    SelectedBonus = Discounts.FirstOrDefault(row => row.Id == idDiscount);
+                }
             }
         }
 
@@ -200,11 +211,15 @@ namespace Next2.ViewModels
         {
             if (bonusType == EBonusType.Coupone)
             {
-                HeightCoupons = HeightCoupons == 0 ? Coupons.Count * _heightBonus : 0;
+                HeightCoupons = HeightCoupons == 0
+                    ? Coupons.Count * _heightBonus
+                    : 0;
             }
             else
             {
-                HeightDiscounts = HeightDiscounts == 0 ? Discounts.Count * _heightBonus : 0;
+                HeightDiscounts = HeightDiscounts == 0
+                    ? Discounts.Count * _heightBonus
+                    : 0;
             }
 
             return Task.CompletedTask;
