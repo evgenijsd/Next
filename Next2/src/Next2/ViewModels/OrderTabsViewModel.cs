@@ -431,7 +431,7 @@ namespace Next2.ViewModels
                     if (orderResult.IsSuccess)
                     {
                         var orderToBeUpdated = orderResult.Result;
-                        orderToBeUpdated.OrderStatus = EOrderStatus.Pending;
+                        orderToBeUpdated.OrderStatus = EOrderStatus.Deleted;
 
                         var updateOrderCommand = orderToBeUpdated.ToUpdateOrderCommand();
                         var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
@@ -450,23 +450,22 @@ namespace Next2.ViewModels
                             }
 
                             await PopupNavigation.PopAsync();
+                            await PopupNavigation.PopAsync();
                         }
                     }
-                    else
-                    {
-                        await ShowInfoDialog(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
-                    }
+                }
+                else
+                {
+                    await PopupNavigation.PopAsync();
+                    await ShowInfoDialog(
+                        LocalizationResourceManager.Current["Error"],
+                        LocalizationResourceManager.Current["NoInternetConnection"],
+                        LocalizationResourceManager.Current["Ok"]);
                 }
             }
             else
             {
-                await ShowInfoDialog(
-                    LocalizationResourceManager.Current["Error"] + "3",
-                    LocalizationResourceManager.Current["NoInternetConnection"],
-                    LocalizationResourceManager.Current["Ok"]);
+                await PopupNavigation.PopAsync();
             }
         }
 
