@@ -274,18 +274,18 @@ namespace Next2.ViewModels
         {
             if (DisplayedCustomers.Any() || !string.IsNullOrEmpty(SearchText))
             {
-               Func<string, string> searchValidator = _orderService.ApplyNameFilter;
+                Func<string, string> searchValidator = _orderService.ApplyNameFilter;
 
-               var parameters = new NavigationParameters()
+                var parameters = new NavigationParameters()
                 {
                     { Constants.Navigations.SEARCH_CUSTOMER, SearchText },
                     { Constants.Navigations.FUNC, searchValidator },
                     { Constants.Navigations.PLACEHOLDER, LocalizationResourceManager.Current["NameOrPhone"] },
                 };
 
-               ClearSearch();
+                ClearSearch();
 
-               await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
+                await _navigationService.NavigateAsync(nameof(SearchPage), parameters);
             }
         }
 
