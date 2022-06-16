@@ -115,6 +115,16 @@ namespace Next2.ViewModels.Tablet
                 {
                     OrderTabsViewModel.SearchOrders(searchQuery);
                 }
+
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_MEMBER, out string searchMember))
+                {
+                    MembershipViewModel.SetSearchQuery(searchMember);
+                }
+
+                if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchCustomer))
+                {
+                    CustomersViewModel.SetSearchQuery(searchCustomer);
+                }
             }
         }
 

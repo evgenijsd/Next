@@ -40,6 +40,7 @@ namespace Next2.Services.Order
             _restService = restService;
             _bonusService = bonusesService;
             _mapper = mapper;
+            _restService = restService;
 
             CurrentOrder.Seats = new ();
         }
@@ -465,6 +466,27 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(AddOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/orders", order);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

@@ -41,7 +41,11 @@ namespace Next2.Models
 
         public string? MembershipId { get; set; }
 
-        public IEnumerable<Guid>? GiftCardsId { get; set; }
+        public IEnumerable<Guid>? GiftCardsId
+        {
+            get => GiftCards.Select(x => x.Id);
+            set => GiftCardsId = value;
+        }
 
         public int Rewards { get; set; }
 

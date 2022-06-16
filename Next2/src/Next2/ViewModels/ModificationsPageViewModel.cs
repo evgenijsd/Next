@@ -170,7 +170,7 @@ namespace Next2.ViewModels
                     {
                         _currentDish.SelectedDishProportion = new DishProportionModelDTO()
                         {
-                            Id = SelectedProportion.ProportionId,
+                            Id = SelectedProportion.Id,
                             PriceRatio = SelectedProportion.PriceRatio,
                             Proportion = new ProportionModelDTO()
                             {
@@ -486,20 +486,20 @@ namespace Next2.ViewModels
         private void InitProportionDish()
         {
             var portions = _currentDish.DishProportions;
-            var selectedDishProportionId = _currentDish.SelectedDishProportion.Proportion.Id;
+            var selectedDishProportionId = _currentDish.SelectedDishProportion.Id;
 
             if (portions is not null)
             {
                 PortionsDish = new(_currentDish.DishProportions.Select(row => new ProportionModel()
                 {
-                    Id = row.ProportionId,
+                    Id = row.Id,
                     ProportionId = row.ProportionId,
                     PriceRatio = row.PriceRatio,
                     Price = CalculateDishPriceBaseOnProportion(_currentDish, row.PriceRatio),
                     ProportionName = row.ProportionName,
                 }));
 
-                SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == selectedDishProportionId);
+                SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == selectedDishProportionId);
             }
         }
 
@@ -585,7 +585,7 @@ namespace Next2.ViewModels
                 ProductsDish[i].SelectedItem = null;
             }
 
-            SelectedProportion = PortionsDish.FirstOrDefault(row => row.ProportionId == _currentDish.SelectedDishProportion.Proportion.Id);
+            SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == _currentDish.SelectedDishProportion.Id);
 
             if (!App.IsTablet)
             {

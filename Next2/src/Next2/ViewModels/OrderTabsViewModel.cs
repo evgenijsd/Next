@@ -60,7 +60,7 @@ namespace Next2.ViewModels
 
         public SimpleOrderBindableModel? SelectedOrder { get; set; }
 
-        public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new ();
+        public ObservableCollection<SimpleOrderBindableModel> Orders { get; set; } = new();
 
         private ICommand _switchToOrdersCommand;
         public ICommand SwitchToOrdersCommand => _switchToOrdersCommand ??= new Command(OnSwitchToOrdersCommand);
@@ -327,13 +327,13 @@ namespace Next2.ViewModels
         {
             if (OrderSortingType == orderSortingType)
             {
-                Orders = new (Orders.Reverse());
+                Orders = new(Orders.Reverse());
             }
             else
             {
                 OrderSortingType = orderSortingType;
 
-                Orders = new (GetSortedOrders(Orders));
+                Orders = new(GetSortedOrders(Orders));
             }
         }
 
