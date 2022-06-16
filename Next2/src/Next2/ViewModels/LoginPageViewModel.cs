@@ -74,17 +74,16 @@ namespace Next2.ViewModels
 
             if (_authenticationService.IsAuthorizationComplete)
             {
-                var lastOrderId = await _orderService.GetCurrentOrderLastSession(_authenticationService.AuthorizedUserId.ToString());
+                var lastOrderId = await _orderService.GetCurrentOrderLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
 
                 if (lastOrderId.IsSuccess)
                 {
-                    //get order by id
-                    await _orderService.GetOrderByIdAsync(lastOrderId.Result);
+                    await _orderService.SetLastSessionOrderToCurrentOrder(lastOrderId.Result);
                 }
                 else
                 {
                     await _orderService.CreateNewCurrentOrderAsync();
-                    await _orderService.SaveEmployeeAndOrderIdPairsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
                 }
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
@@ -147,16 +146,16 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    var lastOrderId = await _orderService.GetCurrentOrderLastSession(_authenticationService.AuthorizedUserId.ToString());
+                    var lastOrderId = await _orderService.GetCurrentOrderLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
 
                     if (lastOrderId.IsSuccess)
                     {
-                        await _orderService.GetOrderByIdAsync(lastOrderId.Result);
+                        await _orderService.SetLastSessionOrderToCurrentOrder(lastOrderId.Result);
                     }
                     else
                     {
                         await _orderService.CreateNewCurrentOrderAsync();
-                        await _orderService.SaveEmployeeAndOrderIdPairsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                        await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
                     }
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");

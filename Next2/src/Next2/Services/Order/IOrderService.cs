@@ -23,9 +23,9 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync();
 
-        Task<AOResult<Guid>> GetCurrentOrderLastSession(string employeeId);
+        Task<AOResult<Guid>> GetCurrentOrderLastSessionAsync(string employeeId);
 
-        Task<AOResult> GetOrderByIdAsync(Guid orderId);
+        Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
 
         Task<AOResult> DeleteOrderAsync(int orderId);
 
@@ -51,6 +51,6 @@ namespace Next2.Services.Order
 
         Task<AOResult> AddOrderAsync(OrderModel order);
 
-        Task<AOResult> SaveEmployeeAndOrderIdPairsAsync(string employeeId, Guid lastSessionOrderId);
+        Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
     }
 }

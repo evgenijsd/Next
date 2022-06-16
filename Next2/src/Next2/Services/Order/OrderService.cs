@@ -240,7 +240,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> GetCurrentOrderLastSession(string employeeId)
+        public async Task<AOResult<Guid>> GetCurrentOrderLastSessionAsync(string employeeId)
         {
             var result = new AOResult<Guid>();
 
@@ -258,13 +258,13 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetCurrentOrderLastSession)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetCurrentOrderLastSessionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult> SaveEmployeeAndOrderIdPairsAsync(string employeeId, Guid lastSessionOrderId)
+        public async Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId)
         {
             var result = new AOResult();
 
@@ -274,26 +274,24 @@ namespace Next2.Services.Order
 
                 employeeIdAndOrderIdLastSessionPairs = employeeIdAndOrderIdLastSessionPairs is null ? new() : employeeIdAndOrderIdLastSessionPairs;
 
-                var currentPairsNumber = employeeIdAndOrderIdLastSessionPairs.Count();
-
                 employeeIdAndOrderIdLastSessionPairs.Add(employeeId, lastSessionOrderId);
 
                 _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdLastSessionPairs);
 
-                if (employeeIdAndOrderIdLastSessionPairs.Count() > currentPairsNumber && !string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
+                if (!string.IsNullOrEmpty(_settingsManager.LastCurrentOrderIds))
                 {
                     result.SetSuccess();
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetOrderByIdAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SaveCurrentOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult> GetOrderByIdAsync(Guid orderId)
+        public async Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId)
         {
             var result = new AOResult();
 
@@ -301,10 +299,10 @@ namespace Next2.Services.Order
             {
                 var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
                 var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+
                 if (order.Success)
                 {
                     CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
-                    CurrentOrder.Seats = new();
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentSeat = null;
@@ -314,7 +312,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetOrderByIdAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SetLastSessionOrderToCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
