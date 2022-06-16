@@ -383,7 +383,7 @@ namespace Next2.ViewModels
                 else
                 {
                     await ShowInfoDialog(
-                        LocalizationResourceManager.Current["Error"] + "1",
+                        LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
                 }
@@ -443,6 +443,7 @@ namespace Next2.ViewModels
 
                             SelectedOrder = null;
                             Orders.Remove(orderToBeRemoved);
+                            Orders = new (Orders);
 
                             if (!Orders.Any())
                             {
