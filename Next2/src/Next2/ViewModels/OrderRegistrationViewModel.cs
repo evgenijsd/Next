@@ -790,7 +790,7 @@ namespace Next2.ViewModels
             {
                 if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteDishFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeatAsync();
 
                     if (result.IsSuccess)
                     {

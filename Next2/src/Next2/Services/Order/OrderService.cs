@@ -460,7 +460,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteDishFromCurrentSeat()
+        public async Task<AOResult> DeleteDishFromCurrentSeatAsync()
         {
             var result = new AOResult();
 
@@ -479,7 +479,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(DeleteDishFromCurrentSeat)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(DeleteDishFromCurrentSeatAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

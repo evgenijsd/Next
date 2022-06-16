@@ -45,7 +45,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
-        Task<AOResult> DeleteDishFromCurrentSeat();
+        Task<AOResult> DeleteDishFromCurrentSeatAsync();
 
         Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
     }
