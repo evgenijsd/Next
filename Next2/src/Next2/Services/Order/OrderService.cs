@@ -239,7 +239,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> GetCurrentOrderLastSessionAsync(string employeeId)
+        public async Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId)
         {
             var result = new AOResult<Guid>();
 
@@ -257,7 +257,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetCurrentOrderLastSessionAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetCurrentOrderIdLastSessionAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

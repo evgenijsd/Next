@@ -74,7 +74,7 @@ namespace Next2.ViewModels
 
             if (_authenticationService.IsAuthorizationComplete)
             {
-                var lastOrderId = await _orderService.GetCurrentOrderLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
+                var lastOrderId = await _orderService.GetCurrentOrderIdLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
 
                 if (lastOrderId.IsSuccess)
                 {
@@ -146,7 +146,7 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    var lastOrderId = await _orderService.GetCurrentOrderLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
+                    var lastOrderId = await _orderService.GetCurrentOrderIdLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
 
                     if (lastOrderId.IsSuccess)
                     {
