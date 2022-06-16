@@ -239,8 +239,8 @@ namespace Next2.ViewModels
                                 Options = SelectedReplacementProduct.Options,
                             },
                         };
-                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct?.Name;
-                        SelectedProduct.Id = (Guid)SelectedReplacementProduct?.Id;
+                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
+                        SelectedProduct.Id = SelectedReplacementProduct.Id;
 
                         foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
                         {
