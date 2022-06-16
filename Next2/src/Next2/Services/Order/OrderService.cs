@@ -269,13 +269,15 @@ namespace Next2.Services.Order
 
             try
             {
-                var employeeIdAndOrderIdLastSessionPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+                var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
 
-                employeeIdAndOrderIdLastSessionPairs = employeeIdAndOrderIdLastSessionPairs is null ? new() : employeeIdAndOrderIdLastSessionPairs;
+                employeeIdAndOrderIdPairs = employeeIdAndOrderIdPairs is null
+                    ? new()
+                    : employeeIdAndOrderIdPairs;
 
-                employeeIdAndOrderIdLastSessionPairs.Add(employeeId, lastSessionOrderId);
+                employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
 
-                _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdLastSessionPairs);
+                _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdPairs);
 
                 result.SetSuccess();
             }
