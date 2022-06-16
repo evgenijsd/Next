@@ -27,17 +27,17 @@ namespace Next2.ViewModels
             TapAddCommand = new Command(
                 execute: () =>
                 {
-                    var selectedDishProportion = Dish?.DishProportions.FirstOrDefault(row => row.ProportionId == SelectedProportion?.Id);
+                    var selectedDishProportion = Dish?.DishProportions.FirstOrDefault(row => row.Id == SelectedProportion?.Id);
 
                     if (selectedDishProportion is not null)
                     {
                         Dish.SelectedDishProportion = new()
                         {
-                            Id = selectedDishProportion.ProportionId,
+                            Id = selectedDishProportion.Id,
                             PriceRatio = selectedDishProportion.PriceRatio,
                             Proportion = new ProportionModelDTO()
                             {
-                                Id = selectedDishProportion.ProportionId,
+                                Id = selectedDishProportion.Id,
                                 Name = selectedDishProportion.ProportionName,
                             },
                         };
@@ -122,7 +122,7 @@ namespace Next2.ViewModels
                     };
                     Proportions = dish.DishProportions.Select(row => new ProportionModel()
                     {
-                        Id = row.ProportionId,
+                        Id = row.Id,
                         ProportionId = row.ProportionId,
                         Price = row.PriceRatio == 1
                             ? dish.OriginalPrice

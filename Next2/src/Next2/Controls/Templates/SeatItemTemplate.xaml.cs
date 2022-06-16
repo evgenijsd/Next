@@ -41,18 +41,6 @@ namespace Next2.Controls.Templates
             set => SetValue(HeightListProperty, value);
         }
 
-        public static readonly BindableProperty IsDiscountPriseShowProperty = BindableProperty.Create(
-            propertyName: nameof(IsDiscountPriseShow),
-            returnType: typeof(bool),
-            defaultValue: false,
-            declaringType: typeof(SeatItemTemplate));
-
-        public bool IsDiscountPriseShow
-        {
-            get => (bool)GetValue(IsDiscountPriseShowProperty);
-            set => SetValue(IsDiscountPriseShowProperty, value);
-        }
-
         #endregion
 
         #region -- Private methods --
