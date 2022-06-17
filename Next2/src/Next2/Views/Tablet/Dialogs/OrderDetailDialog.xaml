@@ -6,8 +6,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models.API.DTO"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:local="clr-namespace:Next2"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -95,7 +94,7 @@
                 </CollectionView.Effects>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:SeatModelDTO">
+                    <DataTemplate x:DataType="bindableModels:SeatBindableModel">
 
                         <StackLayout 
                             Padding="20, 18, 20, 0"
@@ -104,13 +103,13 @@
                             <Label
                                 FontFamily="Barlow-Medium"
                                 FontSize="{DynamicResource TSize_i9}"
-                                Text="{Binding Number}">
+                                Text="{Binding SeatNumber}">
 
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="{xct:Translate Seat}"/>
                                         <Span Text=" "/>
-                                        <Span Text="{Binding Number}"/>
+                                        <Span Text="{Binding SeatNumber}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
 
@@ -125,7 +124,7 @@
                                 </CollectionView.Effects>
 
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:SelectedDishModelDTO">
+                                    <DataTemplate x:DataType="bindableModels:DishBindableModel">
 
                                         <StackLayout>
                                             <pcView:PancakeView

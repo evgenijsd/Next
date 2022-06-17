@@ -37,7 +37,6 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
-
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
@@ -353,7 +352,17 @@ namespace Next2.ViewModels
 
                     if (seatsResult.IsSuccess)
                     {
-                        var seats = seatsResult.Result;
+                        var seats = new ObservableCollection<SeatBindableModel>(seatsResult.Result.Select(x => new SeatBindableModel
+                        {
+                            SeatNumber = x.Number,
+                            SelectedDishes = new ObservableCollection<DishBindableModel>(
+                                x.SelectedDishes.Select(y => new DishBindableModel()
+                                {
+                                    TotalPrice = y.TotalPrice,
+                                    ImageSource = y.ImageSource,
+                                    Name = y.Name,
+                                })),
+                        }));
 
                         var parameters = new DialogParameters
                         {

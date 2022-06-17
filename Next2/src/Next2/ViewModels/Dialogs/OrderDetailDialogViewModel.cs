@@ -34,8 +34,7 @@ namespace Next2.ViewModels.Dialogs
         public Color OkButtonBackgroundColor { get; set; }
 
         public Color OkButtonTextColor { get; set; }
-
-        public ObservableCollection<SeatModelDTO> Seats { get; set; } = new();
+        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         public bool IsOrderDetailsDisplayed { get; set; }
 
@@ -57,7 +56,7 @@ namespace Next2.ViewModels.Dialogs
             if (dialogParameters is not null
                 && dialogParameters.TryGetValue(Constants.DialogParameterKeys.ORDER_NUMBER, out int orderNumber))
             {
-                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out IEnumerable<SeatModelDTO> seats))
+                if (dialogParameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out IEnumerable<SeatBindableModel> seats))
                 {
                     OrderNumber = orderNumber;
 
