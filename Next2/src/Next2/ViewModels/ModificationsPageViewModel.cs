@@ -504,7 +504,7 @@ namespace Next2.ViewModels
                     PriceRatio = row.PriceRatio,
                     Price = CalculateDishPriceBaseOnProportion(_currentDish, row.PriceRatio),
                     ProportionName = row.ProportionName,
-                }));
+                }).OrderBy(row => row.Price));
 
                 SelectedProportion = PortionsDish.FirstOrDefault(row => row.Id == selectedDishProportionId);
             }

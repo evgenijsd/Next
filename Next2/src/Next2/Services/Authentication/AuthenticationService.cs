@@ -82,7 +82,6 @@ namespace Next2.Services.Authentication
                         _settingsManager.Token = response.Value.Tokens.AccessToken;
                         _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
                         _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
-
                         result.SetSuccess();
                     }
                 }
