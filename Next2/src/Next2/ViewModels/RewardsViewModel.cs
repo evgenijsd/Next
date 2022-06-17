@@ -112,7 +112,7 @@ namespace Next2.ViewModels
         public async Task RefreshPageDataAsync()
         {
             Order.Id = _orderService.CurrentOrder.Id;
-            Order.Customer = new(); // _orderService.CurrentOrder.Customer;
+            Order.Customer = _orderService.CurrentOrder.Customer;
 
             if (Order.Customer is null)
             {

@@ -1984,17 +1984,17 @@
                     Grid.Column="0"
                     Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i5}"
-                    Text="{xct:Translate Order}"
-                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Pending}"/>
+                    Text="{xct:Translate Order}"/>
+                <!--xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.OrderCommand}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Pending}"-->
 
                 <buttons:BorderButton
                     Grid.Column="1"
                     Style="{DynamicResource BorderButtonStyle_i2}"
                     BorderColor="{DynamicResource IndicationColor_i7}"
-                    Text="{xct:Translate Tab}"
-                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
-                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Preparing}"/>
+                    Text="{xct:Translate Tab}"/>
+                <!--xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.TabCommand}"
+                    xct:TouchEffect.CommandParameter="{x:Static enum:EOrderStatus.Preparing}"-->
 
                 <buttons:BorderButton
                     Grid.Column="2"
@@ -2002,8 +2002,8 @@
                     Background="{DynamicResource IndicationColor_i1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Text="{xct:Translate Pay}"
-                    Command="{Binding OrderRegistrationViewModel.PayCommand}" />
+                    Text="{xct:Translate Pay}"/>
+                <!--Command="{Binding OrderRegistrationViewModel.PayCommand}"--> 
 
             </Grid>
 

@@ -37,14 +37,29 @@ namespace Next2.ViewModels
             _orderService = orderService;
             _mapper = mapper;
 
-            Order.BonusType = _orderService.CurrentOrder.Coupon is null
-                        ? EBonusType.Discount
-                        : EBonusType.Coupone;
-            Order.Bonus = _orderService.CurrentOrder.Coupon is null
-                        ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
-                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
-            Order.SubtotalWithBonus = (decimal)orderService.CurrentOrder.DiscountPrice;
-            Order.Subtotal = (decimal)orderService.CurrentOrder.SubTotalPrice;
+            if (_orderService.CurrentOrder.Discount is null && _orderService.CurrentOrder.Coupon is null)
+            {
+                Order.BonusType = EBonusType.None;
+            }
+            else
+            {
+                Order.BonusType = _orderService.CurrentOrder.Coupon is null
+                    ? EBonusType.Discount
+                    : EBonusType.Coupone;
+
+                Order.Bonus = _orderService.CurrentOrder.Coupon is null
+                    ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
+                    : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
+            }
+
+            Order.SubtotalWithBonus = _orderService.CurrentOrder.DiscountPrice == null
+                ? 0
+                : (decimal)_orderService.CurrentOrder.DiscountPrice;
+
+            Order.Subtotal = _orderService.CurrentOrder.SubTotalPrice == null
+                ? 0
+                : (decimal)_orderService.CurrentOrder.SubTotalPrice;
+
             Order.PriceTax = orderService.CurrentOrder.PriceTax;
             Order.TaxCoefficient = orderService.CurrentOrder.TaxCoefficient;
             Order.Total = orderService.CurrentOrder.TotalPrice;
@@ -127,16 +142,19 @@ namespace Next2.ViewModels
                 {
                     _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
 
-                    Order.BonusType = _orderService.CurrentOrder.Coupon is null
-                        ? EBonusType.Discount
-                        : EBonusType.Coupone;
+                    //Order.BonusType = _orderService.CurrentOrder.Coupon is null
+                    //    ? EBonusType.Discount
+                    //    : EBonusType.Coupone;
 
-                    Order.Customer = _orderService.CurrentOrder.Customer;
+                    //Order.Customer = _orderService.CurrentOrder.Customer;
 
-                    Order.Bonus = _orderService.CurrentOrder.Coupon is null
-                        ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
-                        : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
-                    Order.Subtotal = (decimal)_orderService.CurrentOrder.SubTotalPrice;
+                    //Order.Bonus = _orderService.CurrentOrder.Coupon is null
+                    //    ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
+                    //    : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
+                    Order.Subtotal = _orderService.CurrentOrder.SubTotalPrice == null
+                        ? 0
+                        : (decimal)_orderService.CurrentOrder.SubTotalPrice;
+
                     Order.PriceTax = _orderService.CurrentOrder.PriceTax;
                     Order.Total = _orderService.CurrentOrder.TotalPrice;
                     Order.GiftCardsTotalFunds = Order.Customer.GiftCardsTotalFund;
