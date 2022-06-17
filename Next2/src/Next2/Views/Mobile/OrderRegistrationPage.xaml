@@ -166,7 +166,6 @@
             </Label>
 
             <controls:CustomStepper
-                IsEnabled="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
                 DecrementCommand="{Binding DeleteLastSeatCommand}"/>
