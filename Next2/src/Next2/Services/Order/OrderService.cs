@@ -271,9 +271,7 @@ namespace Next2.Services.Order
             {
                 var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
 
-                employeeIdAndOrderIdPairs = employeeIdAndOrderIdPairs is null
-                    ? new()
-                    : employeeIdAndOrderIdPairs;
+                employeeIdAndOrderIdPairs ??= new();
 
                 employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
 

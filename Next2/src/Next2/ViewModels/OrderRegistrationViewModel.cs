@@ -576,9 +576,9 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                var result = await _orderService.CreateNewCurrentOrderAsync();
+                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
 
-                if (result.IsSuccess)
+                if (createNewCurrentOrderResult.IsSuccess)
                 {
                     InitOrderTypes();
                     await RefreshTablesAsync();
