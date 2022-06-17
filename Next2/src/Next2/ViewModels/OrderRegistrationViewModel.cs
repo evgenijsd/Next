@@ -214,9 +214,9 @@ namespace Next2.ViewModels
                     IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
                     break;
                 case nameof(IsOrderWithTax):
-                    if (!IsOrderWithTax)
+                    if (!IsOrderWithTax && CurrentOrder.DiscountPrice is not null && CurrentOrder.SubTotalPrice is not null)
                     {
-                        CurrentOrder.TotalPrice = CurrentOrder.Coupon != null || CurrentOrder.Discount != null
+                        CurrentOrder.TotalPrice = (CurrentOrder.Coupon != null || CurrentOrder.Discount != null)
                             ? (decimal)CurrentOrder.DiscountPrice
                             : (decimal)CurrentOrder.SubTotalPrice;
                         CurrentOrder.PriceTax = 0;

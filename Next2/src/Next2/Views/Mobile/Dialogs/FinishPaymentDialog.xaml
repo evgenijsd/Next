@@ -232,8 +232,14 @@
                         <FormattedString>
 
                             <Span Text="+ " />
-                            <Span Text="{Binding Order.Tip}" />
+                            <Span Text="{Binding TipAsAPercentage}" />
+                            <Span Text="% " />
+                            <Span Text="(" />
+
                             <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Tip}" />
+                            <Span Text=")" />
 
                         </FormattedString>
                     </Label.FormattedText>

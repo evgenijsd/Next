@@ -280,7 +280,7 @@ namespace Next2.ViewModels
         {
             return _currentDish.SelectedDishProportion.PriceRatio == 1
                 ? price
-                : price * (1 + SelectedProportion.PriceRatio);
+                : price * (1 + _currentDish.SelectedDishProportion.PriceRatio);
         }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()

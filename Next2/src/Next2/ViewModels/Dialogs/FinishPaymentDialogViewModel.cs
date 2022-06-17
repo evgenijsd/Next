@@ -31,6 +31,10 @@ namespace Next2.ViewModels.Dialogs
 
         public EBonusType BonusType { get; set; }
 
+        public int TipAsAPercentage { get; set; }
+
+        public decimal Tip { get; set; }
+
         private ICommand _finishPaymentCommand;
         public ICommand FinishPaymentCommand => _finishPaymentCommand ??= new AsyncCommand<EPaymentReceiptOptions>(OnFinishPaymentCommandAsync, allowsMultipleExecutions: false);
 
@@ -44,6 +48,8 @@ namespace Next2.ViewModels.Dialogs
             {
                 Order = order;
                 BonusType = Order.BonusType;
+                Tip = Math.Round(Order.Tip, 2);
+                TipAsAPercentage = decimal.ToInt32(Order.Tip / Order.Total * 100);
             }
         }
 
