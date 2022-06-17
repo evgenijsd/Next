@@ -273,6 +273,11 @@ namespace Next2.Services.Order
 
                 employeeIdAndOrderIdPairs ??= new();
 
+                if (employeeIdAndOrderIdPairs.ContainsKey(employeeId))
+                {
+                    employeeIdAndOrderIdPairs.Remove(employeeId);
+                }
+
                 employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
 
                 _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdPairs);

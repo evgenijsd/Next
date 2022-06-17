@@ -453,21 +453,19 @@ namespace Next2.ViewModels
 
         private async Task CloseOrderAsync()
         {
-            //var order = _orderService.CurrentOrder;
-            //order.IsCashPayment = Order.Cash > 0;
-            //order.OrderStatus = EOrderStatus.Closed;
-            //order.Close = DateTime.Now;
+            var order = _orderService.CurrentOrder;
+            order.IsCashPayment = Order.Cash > 0;
+            order.OrderStatus = EOrderStatus.Closed;
+            order.Close = DateTime.Now;
 
-            //var updateOrderCommand = order.ToUpdateOrderCommand();
-            //var updateResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            var updateOrderCommand = order.ToUpdateOrderCommand();
+            var updateResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
-            //if (updateResult.IsSuccess)
-            //{
-            //    _orderService.CurrentOrder = new();
-            //    _orderService.CurrentSeat = new();
-            //    await _orderService.CreateNewCurrentOrderAsync();
-            //    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
-            //}
+            if (updateResult.IsSuccess)
+            {
+                await _orderService.CreateNewCurrentOrderAsync();
+                await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+            }
         }
 
         private async Task OnAddGiftCardCommandAsync()
