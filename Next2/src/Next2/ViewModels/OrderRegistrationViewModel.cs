@@ -181,7 +181,6 @@ namespace Next2.ViewModels
             base.InitializeAsync(parameters);
 
             InitOrderTypes();
-            await RefreshTablesAsync();
             await RefreshCurrentOrderAsync();
         }
 
@@ -194,7 +193,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if (SelectedTable is not null)
                     {
-                        _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
+                        _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
                     }
 
                     break;
@@ -282,9 +281,9 @@ namespace Next2.ViewModels
 
                     Tables = new(tableBindableModels);
 
-                    SelectedTable = SelectedTable.IsAvailable
-                        ? SelectedTable
-                        : Tables.FirstOrDefault();
+                    SelectedTable = CurrentOrder.Table is null
+                        ? Tables.FirstOrDefault()
+                        : Tables.FirstOrDefault(x => x.TableNumber == CurrentOrder.Table.Number);
                 }
             }
         }
@@ -581,7 +580,6 @@ namespace Next2.ViewModels
                 if (createNewCurrentOrderResult.IsSuccess)
                 {
                     InitOrderTypes();
-                    await RefreshTablesAsync();
                     await RefreshCurrentOrderAsync();
                 }
             }
@@ -794,7 +792,7 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
-                        RefreshCurrentOrderAsync();
+                        await RefreshCurrentOrderAsync();
 
                         CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
