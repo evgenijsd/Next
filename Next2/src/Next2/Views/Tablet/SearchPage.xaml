@@ -3,6 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -11,53 +12,62 @@
     x:Class="Next2.Views.Tablet.SearchPage"
     x:DataType="viewModels:SearchPageViewModel">
 
-    <ContentPage.Content>
+    <Grid RowDefinitions="65, *">
 
-        <Grid RowDefinitions="65, *">
+        <controls:CustomNavigationbar
+            Grid.Row="0"
+            Margin="15, 0, 0, 0"
+            VerticalOptions="Center"
+            Title="{xct:Translate Search}"
+            HeightImage="18"
+            FontSize="{DynamicResource TSize_i7}"
+            LeftButtonCommand="{Binding GoBackCommand}" />
 
-            <controls:CustomNavigationbar
-                Grid.Row="0"
-                Margin="15, 0, 0, 0"
-                VerticalOptions="Center"
-                Title="{xct:Translate Search}"
-                HeightImage="18"
-                FontSize="{DynamicResource TSize_i7}"
-                LeftButtonCommand="{Binding GoBackCommand}" />
+        <StackLayout
+            Grid.Row="1"
+            Padding="30, 40, 30, 20"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
 
-            <StackLayout
-                Grid.Row="1"
-                Padding="30, 40, 30, 20"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}">
+            <controls:NoActionMenuEntry
+                Text="{Binding SearchLine}"
+                Placeholder="{Binding Placeholder}"
+                FontSize="{DynamicResource TSize_i4}"
+                FontFamily="Barlow-Regular"
+                ReturnCommand="{Binding GoBackCommand}"
+                ReturnCommandParameter="{Binding SearchLine}"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                ReturnType="Done"
+                MaxLength="{x:Static local:Constants+Limits.MAX_QUERY_LENGTH}"
+                PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}"
+                CursorPosition="{Binding CursorPosition}"
+                x:Name="searchEntry">
 
-                <controls:NoActionMenuEntry
-                    Text="{Binding SearchLine}"
-                    Placeholder="{Binding Placeholder}"
-                    FontSize="{DynamicResource TSize_i4}"
-                    FontFamily="Barlow-Regular"
-                    ReturnCommand="{Binding GoBackCommand}"
-                    ReturnCommandParameter="{Binding SearchLine}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    ReturnType="Done"
-                    MaxLength="100"
-                    PlaceholderColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    x:Name="searchEntry">
+                <controls:NoActionMenuEntry.Triggers>
 
-                    <controls:NoActionMenuEntry.Triggers>
+                    <DataTrigger
+                        TargetType="controls:NoActionMenuEntry"
+                        Binding="{Binding SearchLine}"
+                        Value="">
                         
-                        <DataTrigger TargetType="controls:NoActionMenuEntry" Binding="{Binding SearchLine}" Value="">
-                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
-                        </DataTrigger>
+                        <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                        
+                    </DataTrigger>
 
-                        <DataTrigger TargetType="controls:NoActionMenuEntry" Binding="{Binding IsOrderTabsSelected}" Value="False">
-                            <Setter Property="Placeholder" Value="{xct:Translate NameOrOrder}" />
-                        </DataTrigger>
+                    <DataTrigger
+                        TargetType="controls:NoActionMenuEntry"
+                        Binding="{Binding IsOrderTabsSelected}"
+                        Value="False">
+                        
+                        <Setter Property="Placeholder" Value="{xct:Translate NameOrOrder}" />
+                        
+                    </DataTrigger>
 
-                    </controls:NoActionMenuEntry.Triggers>
-                    
-                </controls:NoActionMenuEntry>
-                
-            </StackLayout>
+                </controls:NoActionMenuEntry.Triggers>
 
-        </Grid>
-    </ContentPage.Content>
+            </controls:NoActionMenuEntry>
+
+        </StackLayout>
+
+    </Grid>
+    
 </views:BaseContentPage>

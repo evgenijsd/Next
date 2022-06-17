@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
@@ -191,7 +192,7 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    if(SelectedTable is not null)
+                    if (SelectedTable is not null)
                     {
                         _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
                     }
@@ -569,19 +570,20 @@ namespace Next2.ViewModels
 
         private async Task RemoveOrderAsync()
         {
-            var result = await _orderService.CreateNewCurrentOrderAsync();
+            CurrentOrder.OrderStatus = EOrderStatus.Deleted;
+            var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
-            if (result.IsSuccess)
+            if (updateOrderResult.IsSuccess)
             {
-                NumberOfSeats = 0;
+                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
 
-                if (App.IsTablet)
+                if (createNewCurrentOrderResult.IsSuccess)
                 {
-                    IsSideMenuVisible = true;
-                    CurrentState = LayoutState.Loading;
+                    InitOrderTypes();
+                    await RefreshTablesAsync();
+                    await RefreshCurrentOrderAsync();
                 }
-
-                RefreshCurrentOrderAsync();
             }
         }
 
@@ -607,7 +609,7 @@ namespace Next2.ViewModels
                 {
                     CurrentState = LayoutState.Success;
                     Thread.Sleep(100); // It suspend the thread to hide unwanted animation
-                    IsSideMenuVisible = true;
+                    IsSideMenuVisible = false;
                 }
                 else
                 {
@@ -788,7 +790,7 @@ namespace Next2.ViewModels
             {
                 if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteDishFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeatAsync();
 
                     if (result.IsSuccess)
                     {
