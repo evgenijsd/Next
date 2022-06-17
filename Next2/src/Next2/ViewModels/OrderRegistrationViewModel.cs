@@ -576,9 +576,9 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                var result = await _orderService.CreateNewCurrentOrderAsync();
+                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
 
-                if (result.IsSuccess)
+                if (createNewCurrentOrderResult.IsSuccess)
                 {
                     InitOrderTypes();
                     await RefreshTablesAsync();
@@ -609,7 +609,7 @@ namespace Next2.ViewModels
                 {
                     CurrentState = LayoutState.Success;
                     Thread.Sleep(100); // It suspend the thread to hide unwanted animation
-                    IsSideMenuVisible = true;
+                    IsSideMenuVisible = false;
                 }
                 else
                 {
@@ -790,7 +790,7 @@ namespace Next2.ViewModels
             {
                 if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteDishFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeatAsync();
 
                     if (result.IsSuccess)
                     {

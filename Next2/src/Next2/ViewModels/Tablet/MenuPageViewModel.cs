@@ -3,6 +3,7 @@ using Next2.Helpers;
 using Next2.Models;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
+using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 
 namespace Next2.ViewModels.Tablet
@@ -233,6 +235,8 @@ namespace Next2.ViewModels.Tablet
 
                     await _authenticationService.LogoutAsync();
 
+                    NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
+
                     _orderService.CurrentOrder = new();
 
                     var navigationParameters = new NavigationParameters
@@ -240,7 +244,7 @@ namespace Next2.ViewModels.Tablet
                         { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
                     };
 
-                    await _navigationService.GoBackToRootAsync(navigationParameters);
+                    await _navigationService.NavigateAsync($"{nameof(LoginPage)}");
                 }
                 else
                 {
