@@ -101,33 +101,44 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
+        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder, bool isFirstBonus = true)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
             foreach (var dish in dishes)
             {
-                dish.DiscountPrice = dish.TotalPrice;
-                dish.SelectedDishProportionPrice = dish.TotalPrice;
-            }
-
-            if (currentOrder.Coupon is not null)
-            {
-                foreach (var dish in dishes)
+                if (isFirstBonus)
                 {
-                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Coupon.DiscountPercentage / 100)
-                        : dish.SelectedDishProportionPrice;
-
-                    dish.TotalPrice = dish.DiscountPrice;
+                    dish.SelectedDishProportionPrice = dish.TotalPrice;
                 }
-            }
-            else if (currentOrder.Discount is not null)
-            {
-                foreach (var dish in dishes)
+                else
                 {
-                    dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Discount.DiscountPercentage / 100);
-                    dish.TotalPrice = dish.DiscountPrice;
+                    dish.TotalPrice = dish.SelectedDishProportionPrice;
+                }
+
+                dish.DiscountPrice = dish.TotalPrice;
+            }
+
+            if (isFirstBonus)
+            {
+                if (currentOrder.Coupon is not null)
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
+                            ? dish.TotalPrice - (dish.TotalPrice * currentOrder.Coupon.DiscountPercentage / 100)
+                            : dish.TotalPrice;
+
+                        dish.TotalPrice = dish.DiscountPrice;
+                    }
+                }
+                else if (currentOrder.Discount is not null)
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * currentOrder.Discount.DiscountPercentage / 100);
+                        dish.TotalPrice = dish.DiscountPrice;
+                    }
                 }
             }
 

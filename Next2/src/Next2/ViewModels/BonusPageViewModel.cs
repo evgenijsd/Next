@@ -192,6 +192,11 @@ namespace Next2.ViewModels
 
             if (bonus is not null)
             {
+                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+                {
+                    await _bonusesService.СalculationBonusAsync(CurrentOrder, false);
+                }
+
                 if (bonus.Type is EBonusType.Coupone)
                 {
                     var coupon = _mapper.Map<CouponModelDTO>(bonus);
