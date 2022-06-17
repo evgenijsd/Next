@@ -223,28 +223,31 @@ namespace Next2.ViewModels
                             index++;
                         }
 
-                        _currentDish.SelectedProducts[index] = new ProductBindableModel()
+                        if (_currentDish.SelectedProducts[index].Id != SelectedReplacementProduct.Id)
                         {
-                            Id = SelectedReplacementProduct.Id,
-                            SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
-                            AddedIngredients = new(SelectedReplacementProduct.Ingredients),
-                            Price = СalculatePriceOfProportion(SelectedReplacementProduct.DefaultPrice),
-                            Product = new()
+                            _currentDish.SelectedProducts[index] = new ProductBindableModel()
                             {
                                 Id = SelectedReplacementProduct.Id,
-                                DefaultPrice = SelectedReplacementProduct.DefaultPrice,
-                                ImageSource = SelectedReplacementProduct.ImageSource,
-                                Ingredients = SelectedReplacementProduct.Ingredients,
-                                Name = SelectedReplacementProduct.Name,
-                                Options = SelectedReplacementProduct.Options,
-                            },
-                        };
-                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
-                        SelectedProduct.Id = SelectedReplacementProduct.Id;
+                                SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
+                                AddedIngredients = new(SelectedReplacementProduct.Ingredients),
+                                Price = СalculatePriceOfProportion(SelectedReplacementProduct.DefaultPrice),
+                                Product = new()
+                                {
+                                    Id = SelectedReplacementProduct.Id,
+                                    DefaultPrice = SelectedReplacementProduct.DefaultPrice,
+                                    ImageSource = SelectedReplacementProduct.ImageSource,
+                                    Ingredients = SelectedReplacementProduct.Ingredients,
+                                    Name = SelectedReplacementProduct.Name,
+                                    Options = SelectedReplacementProduct.Options,
+                                },
+                            };
+                            ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
+                            SelectedProduct.Id = SelectedReplacementProduct.Id;
 
-                        foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
-                        {
-                            ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
+                            foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
+                            {
+                                ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
+                            }
                         }
                     }
 
@@ -277,7 +280,7 @@ namespace Next2.ViewModels
         {
             return _currentDish.SelectedDishProportion.PriceRatio == 1
                 ? price
-                : price * (1 + SelectedProportion.PriceRatio);
+                : price * (1 + _currentDish.SelectedDishProportion.PriceRatio);
         }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()
