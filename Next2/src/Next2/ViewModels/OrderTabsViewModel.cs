@@ -352,7 +352,7 @@ namespace Next2.ViewModels
 
                     if (orderResult.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats;
+                        var seats = orderResult.Result.Seats.OrderBy(x => x.Number);
                         var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
 
                         var parameters = new DialogParameters
@@ -480,7 +480,7 @@ namespace Next2.ViewModels
 
                     if (orderResult.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats;
+                        var seats = orderResult.Result.Seats.OrderBy(x => x.Number);
                         var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
 
                         var param = new DialogParameters
