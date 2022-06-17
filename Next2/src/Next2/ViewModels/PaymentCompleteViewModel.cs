@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Helpers;
+using Next2.Extensions;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Services.CustomersService;
@@ -407,7 +408,8 @@ namespace Next2.ViewModels
 
             Action<IDialogParameters> callback = async (IDialogParameters par) =>
             {
-                await MakePaymentAsync();
+                await GiftCardFinishPaymentAsync();
+                await CloseOrderAsync();
                 var navigationParameters = await SendReceiptAsync(par)
                     ? new NavigationParameters { { Constants.Navigations.PAYMENT_COMPLETE, string.Empty } }
                     : null;
@@ -449,9 +451,23 @@ namespace Next2.ViewModels
             return Task.FromResult(isReceiptPrint);
         }
 
-        private async Task MakePaymentAsync()
+        private async Task CloseOrderAsync()
         {
-            await GiftCardFinishPaymentAsync();
+            //var order = _orderService.CurrentOrder;
+            //order.IsCashPayment = Order.Cash > 0;
+            //order.OrderStatus = EOrderStatus.Closed;
+            //order.Close = DateTime.Now;
+
+            //var updateOrderCommand = order.ToUpdateOrderCommand();
+            //var updateResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            //if (updateResult.IsSuccess)
+            //{
+            //    _orderService.CurrentOrder = new();
+            //    _orderService.CurrentSeat = new();
+            //    await _orderService.CreateNewCurrentOrderAsync();
+            //    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+            //}
         }
 
         private async Task OnAddGiftCardCommandAsync()
