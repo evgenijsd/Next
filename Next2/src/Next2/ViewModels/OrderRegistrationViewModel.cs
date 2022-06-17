@@ -498,7 +498,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                List<SeatBindableModel> seats = CurrentOrder.Seats.ToList();
+                List<SeatBindableModel> seats = CurrentOrder.Seats.Where(x => x.SelectedDishes.Any()).ToList();
 
                 var param = new DialogParameters
                 {

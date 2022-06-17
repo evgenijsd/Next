@@ -13,7 +13,6 @@ using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -348,26 +347,17 @@ namespace Next2.ViewModels
             {
                 if (IsInternetConnected)
                 {
-                    var seatsResult = await _orderService.GetSeatsByOrderId(SelectedOrder.Id);
+                    var orderResult = await _orderService.GetOrderByIdAsync(SelectedOrder.Id);
 
-                    if (seatsResult.IsSuccess)
+                    if (orderResult.IsSuccess)
                     {
-                        var seats = new ObservableCollection<SeatBindableModel>(seatsResult.Result.Select(x => new SeatBindableModel
-                        {
-                            SeatNumber = x.Number,
-                            SelectedDishes = new ObservableCollection<DishBindableModel>(
-                                x.SelectedDishes.Select(y => new DishBindableModel()
-                                {
-                                    TotalPrice = y.TotalPrice,
-                                    ImageSource = y.ImageSource,
-                                    Name = y.Name,
-                                })),
-                        }));
+                        var seats = orderResult.Result.Seats;
+                        var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
 
                         var parameters = new DialogParameters
                         {
                             { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
-                            { Constants.DialogParameterKeys.SEATS,  seats },
+                            { Constants.DialogParameterKeys.SEATS,  bindableSeats },
                             { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Remove"] },
                             { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                             { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
@@ -485,16 +475,17 @@ namespace Next2.ViewModels
             {
                 if (IsInternetConnected)
                 {
-                    var seatsResult = await _orderService.GetSeatsByOrderId(SelectedOrder.Id);
+                    var orderResult = await _orderService.GetOrderByIdAsync(SelectedOrder.Id);
 
-                    if (seatsResult.IsSuccess)
+                    if (orderResult.IsSuccess)
                     {
-                        var seats = seatsResult.Result;
+                        var seats = orderResult.Result.Seats;
+                        var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
 
                         var param = new DialogParameters
                         {
                             { Constants.DialogParameterKeys.ORDER_NUMBER, SelectedOrder.Number },
-                            { Constants.DialogParameterKeys.SEATS,  seats },
+                            { Constants.DialogParameterKeys.SEATS,  bindableSeats },
                             { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["Print"] },
                             { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                             { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Print"] },

@@ -182,28 +182,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<IEnumerable<SeatModelDTO>>> GetSeatsByOrderId(Guid orderId)
-        {
-            var result = new AOResult<IEnumerable<SeatModelDTO>>();
-
-            try
-            {
-                string query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
-                var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
-
-                if (responce.Success && responce?.Value?.Order?.Seats is not null)
-                {
-                    result.SetSuccess(responce.Value.Order.Seats);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetSeatsByOrderId)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public async Task<AOResult> DeleteOrderAsync(int orderId)
         {
             var result = new AOResult();
