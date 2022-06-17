@@ -33,7 +33,7 @@ namespace Next2.Extensions
                 }),
             });
 
-            UpdateOrderCommand command = new()
+            UpdateOrderCommand updateOrderCommand = new()
             {
                 Id = order.Id,
                 Number = order.Number,
@@ -55,7 +55,7 @@ namespace Next2.Extensions
                 Seats = seats,
             };
 
-            return command;
+            return updateOrderCommand;
         }
 
         public static UpdateOrderCommand ToUpdateOrderCommand(this OrderModelDTO order)

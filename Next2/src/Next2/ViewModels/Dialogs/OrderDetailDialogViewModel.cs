@@ -34,6 +34,7 @@ namespace Next2.ViewModels.Dialogs
         public Color OkButtonBackgroundColor { get; set; }
 
         public Color OkButtonTextColor { get; set; }
+
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
 
         public bool IsOrderDetailsDisplayed { get; set; }

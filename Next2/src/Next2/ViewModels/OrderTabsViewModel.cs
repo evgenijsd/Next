@@ -36,6 +36,7 @@ namespace Next2.ViewModels
             : base(navigationService)
         {
             _orderService = orderService;
+
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);

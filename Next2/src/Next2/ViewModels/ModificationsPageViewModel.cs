@@ -212,7 +212,8 @@ namespace Next2.ViewModels
                 case nameof(SelectedReplacementProduct):
                     if (SelectedReplacementProduct is not null)
                     {
-                        int index = 0;
+                        int selectedProductIndex = 0;
+
                         foreach (var product in _currentDish.SelectedProducts)
                         {
                             if (product.Id == SelectedProduct.Id)
@@ -220,12 +221,12 @@ namespace Next2.ViewModels
                                 break;
                             }
 
-                            index++;
+                            selectedProductIndex++;
                         }
 
-                        if (_currentDish.SelectedProducts[index].Id != SelectedReplacementProduct.Id)
+                        if (_currentDish.SelectedProducts[selectedProductIndex].Id != SelectedReplacementProduct.Id)
                         {
-                            _currentDish.SelectedProducts[index] = new ProductBindableModel()
+                            _currentDish.SelectedProducts[selectedProductIndex] = new ()
                             {
                                 Id = SelectedReplacementProduct.Id,
                                 SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
@@ -241,10 +242,11 @@ namespace Next2.ViewModels
                                     Options = SelectedReplacementProduct.Options,
                                 },
                             };
+
                             ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
                             SelectedProduct.Id = SelectedReplacementProduct.Id;
 
-                            foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
+                            foreach (var ingredient in _currentDish.SelectedProducts[selectedProductIndex].AddedIngredients)
                             {
                                 ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
                             }
