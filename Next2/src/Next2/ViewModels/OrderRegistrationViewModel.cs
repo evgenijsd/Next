@@ -132,10 +132,10 @@ namespace Next2.ViewModels
         public ICommand RemoveTaxFromOrderCommand => _removeTaxFromOrderCommand ??= new AsyncCommand(OnRemoveTaxFromOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _orderCommand;
-        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand<bool>(OnOrderCommandAsync, allowsMultipleExecutions: false);
+        public ICommand OrderCommand => _orderCommand ??= new AsyncCommand(OnOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _tabCommand;
-        public ICommand TabCommand => _tabCommand ??= new AsyncCommand<bool>(OnTabCommandAsync, allowsMultipleExecutions: false);
+        public ICommand TabCommand => _tabCommand ??= new AsyncCommand(OnTabCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _payCommand;
         public ICommand PayCommand => _payCommand ??= new AsyncCommand(OnPayCommandAsync, allowsMultipleExecutions: false);
@@ -216,9 +216,19 @@ namespace Next2.ViewModels
                 case nameof(IsOrderWithTax):
                     if (!IsOrderWithTax)
                     {
-                        CurrentOrder.TotalPrice = CurrentOrder.Coupon != null || CurrentOrder.Discount != null
-                            ? (decimal)CurrentOrder.DiscountPrice
-                            : (decimal)CurrentOrder.SubTotalPrice;
+                        if (CurrentOrder.Coupon != null || CurrentOrder.Discount != null)
+                        {
+                            CurrentOrder.TotalPrice = CurrentOrder.DiscountPrice is not null
+                                ? (decimal)CurrentOrder.DiscountPrice
+                                : 0;
+                        }
+                        else
+                        {
+                            CurrentOrder.TotalPrice = CurrentOrder.SubTotalPrice is not null
+                                ? (decimal)CurrentOrder.SubTotalPrice
+                                : 0;
+                        }
+
                         CurrentOrder.PriceTax = 0;
                     }
 
@@ -671,68 +681,23 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOrderCommandAsync(bool isTab)
+        private async Task OnOrderCommandAsync()
         {
-            List<SeatModel> seats = new();
+            var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
+            updateOrderCommand.OrderStatus = EOrderStatus.Preparing;
 
-            bool isAllSeatSaved = true;
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
-            //foreach (var seat in CurrentOrder.Seats)
-            //{
-            //    if (seat.Sets.Any())
-            //    {
-            //        var sets = new List<SetModel>(seat.Sets.Select(x => new SetModel
-            //        {
-            //            Id = x.Id,
-            //            SubcategoryId = x.SubcategoryId,
-            //            Title = x.Title,
-            //            Price = x.Portion.Price,
-            //            ImagePath = x.ImagePath,
-            //        }));
+            if (updateOrderResult.IsSuccess)
+            {
+                await _orderService.CreateNewCurrentOrderAsync();
+            }
 
-            //        var newSeat = new SeatModel
-            //        {
-            //            OrderId = CurrentOrder.Id,
-            //            SeatNumber = seat.SeatNumber,
-            //            Sets = sets,
-            //        };
-
-            //        var isSuccessSeatResult = await _orderService.AddSeatAsync(newSeat);
-
-            //        await RefreshTablesAsync();
-
-            //        if (!isSuccessSeatResult.IsSuccess)
-            //        {
-            //            isAllSeatSaved = !isAllSeatSaved;
-            //            break;
-            //        }
-            //    }
-            //}
-
-            //if (isAllSeatSaved)
-            //{
-            //    CurrentOrder.PaymentStatus = _orderPaymentStatus;
-
-            //    var config = new MapperConfiguration(cfg => cfg.CreateMap<FullOrderBindableModel, OrderModel>()
-            //    .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Table.TableNumber))
-            //    .ForMember(x => x.Customer, s => s.MapFrom(x => x.Customer)));
-
-            //    var mapper = new Mapper(config);
-
-            //    var order = mapper.Map<FullOrderBindableModel, OrderModel>(CurrentOrder);
-
-            //    var isSuccessOrderResult = await _orderService.AddOrderAsync(order);
-
-            //    if (isSuccessOrderResult.IsSuccess)
-            //    {
-            //        IsOrderSavedNotificationVisible = true;
-            //        CurrentOrder.Seats = new();
-            //        await _orderService.CreateNewOrderAsync();
-            //    }
-            //}
+            IsOrderSavedNotificationVisible = true;
+            CurrentOrder.Seats = new();
         }
 
-        private async Task OnTabCommandAsync(bool isTab)
+        private async Task OnTabCommandAsync()
         {
             var parameters = new DialogParameters
             {
@@ -755,7 +720,7 @@ namespace Next2.ViewModels
             {
                 if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync(true);
+                    await OnOrderCommandAsync();
                 }
             }
 
