@@ -13,11 +13,11 @@
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
+    xmlns:mobile="clr-namespace:Next2.Views.Mobile"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
     x:Class="Next2.Views.Mobile.OrderTabsPage"
-    x:DataType="viewModels:OrderTabsViewModel"
-    x:Name="view">
+    x:DataType="viewModels:OrderTabsViewModel">
 
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
 
@@ -89,13 +89,32 @@
 
             </controls:SearchButton>
 
-            <yummy:PancakeView x:Name="pancake"
+            <yummy:PancakeView
                 Grid.Row="3"
                 VerticalOptions="Start"                
                 CornerRadius="10,10,0,0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Margin="17, 0"
                 IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
+
+                <yummy:PancakeView.Triggers>
+                    
+                    <DataTrigger TargetType="yummy:PancakeView" Value="0">
+
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
+
+                                <Binding Path="Orders.Count" />
+                                <Binding Path="IndexLastVisibleElement" Source="{x:RelativeSource AncestorType={x:Type mobile:OrderTabsPage}}" />
+
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+
+                        <Setter Property="CornerRadius" Value="10" />
+
+                    </DataTrigger>
+                    
+                </yummy:PancakeView.Triggers>
 
                 <StackLayout>
 
@@ -182,16 +201,15 @@
                         IsRefreshing="{Binding IsOrdersRefreshing}"
                         Command="{Binding RefreshOrdersCommand}">
 
-                        <CollectionView
-                            x:Name="collectionView"
-                            SelectionChanged="collectionView_SelectionChanged"
-                            SizeChanged="collectionView_SizeChanged"
+                        <CollectionView                           
                             ItemsSource="{Binding Orders}"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedOrder}"
                             HeightRequest="400"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            VerticalScrollBarVisibility="Never">
+                            VerticalScrollBarVisibility="Never"
+                            Scrolled="collectionView_Scrolled"
+                            x:Name="collectionView">
 
                             <CollectionView.Triggers>
                                 <DataTrigger TargetType="CollectionView" Binding="{Binding IsPreloadStateActive}" Value="False">

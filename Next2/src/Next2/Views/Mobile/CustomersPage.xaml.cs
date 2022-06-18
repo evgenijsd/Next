@@ -8,5 +8,12 @@ namespace Next2.Views.Mobile
         {
             InitializeComponent();
         }
+
+        public int IndexLastVisibleElement { get; set; }
+
+        private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
+        {
+            IndexLastVisibleElement = e.LastVisibleItemIndex + 1;
+        }
     }
 }

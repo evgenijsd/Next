@@ -10,6 +10,8 @@ namespace Next2.Views.Mobile
             InitializeComponent();
         }
 
+        public int IndexLastVisibleElement { get; set; }
+
         private void collectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (collectionView?.SelectedItem != null)
@@ -18,11 +20,9 @@ namespace Next2.Views.Mobile
             }
         }
 
-        private void collectionView_SizeChanged(object sender, EventArgs e)
+        private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            var x = collectionView.Height;
-            var y = view.Height;
-            int i = 0;
+            IndexLastVisibleElement = e.LastVisibleItemIndex + 1;
         }
     }
 }
