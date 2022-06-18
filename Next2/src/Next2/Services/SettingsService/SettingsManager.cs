@@ -35,5 +35,11 @@ namespace Next2.Services.SettingsService
             get => Preferences.Get(nameof(TokenExpirationDate), DateTime.Now);
             set => Preferences.Set(nameof(TokenExpirationDate), value);
         }
+
+        public string LastCurrentOrderIds
+        {
+            get => Preferences.Get(nameof(LastCurrentOrderIds), string.Empty);
+            set => Preferences.Set(nameof(LastCurrentOrderIds), value);
+        }
     }
 }

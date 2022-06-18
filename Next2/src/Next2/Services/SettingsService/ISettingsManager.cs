@@ -13,5 +13,7 @@ namespace Next2.Services.SettingsService
         string? RefreshToken { get; set; }
 
         DateTime TokenExpirationDate { get; set; }
+
+        string? LastCurrentOrderIds { get; set; }
     }
 }
