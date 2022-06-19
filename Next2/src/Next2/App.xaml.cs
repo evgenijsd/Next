@@ -196,26 +196,25 @@ namespace Next2
                 cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
                 cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<CustomerBindableModel, UpdateCustomerCommand>().ReverseMap();
-                cfg.CreateMap<SetModel, FreeSetBindableModel>();
-                cfg.CreateMap<SetModel, SetBindableModel>().ReverseMap();
-                cfg.CreateMap<SetBindableModel, FreeSetBindableModel>();
-                cfg.CreateMap<SeatBindableModel, SeatModel>();
                 cfg.CreateMap<RewardModel, RewardBindabledModel>();
                 cfg.CreateMap<MemberBindableModel, MemberBindableModel>();
                 cfg.CreateMap<DiscountModelDTO, BonusBindableModel>().ReverseMap();
                 cfg.CreateMap<CouponModelDTO, BonusBindableModel>().ReverseMap();
                 cfg.CreateMap<OrderModelDTO, FullOrderBindableModel>()
                     .ForMember(x => x.OrderType, x => x.MapFrom(s => (EOrderType)Enum.Parse(typeof(EOrderType), s.OrderType)));
-                cfg.CreateMap<FullOrderBindableModel, OrderModel>();
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
+                cfg.CreateMap<SeatBindableModel, SeatBindableModel>();
+                cfg.CreateMap<DishBindableModel, DishBindableModel>();
+                cfg.CreateMap<ProductBindableModel, ProductBindableModel>()
+                    .AfterMap((s, d) => d.Product = s.Product);
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
                 cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
                 cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
                 cfg.CreateMap<DishModelDTO, DishBindableModel>();
-                cfg.CreateMap<SeatBindableModel, SeatBindableModel>();
                 cfg.CreateMap<SimpleIngredientsCategoryModelDTO, IngredientsCategoryModelDTO>();
                 cfg.CreateMap<ProductBindableModel, SimpleProductModelDTO>().ReverseMap();
                 cfg.CreateMap<GiftCardModelDTO, UpdateGiftCardCommand>().ReverseMap();
+                cfg.CreateMap<SimpleProductModelDTO, SimpleProductModelDTO>();
             }).CreateMapper();
         }
 
