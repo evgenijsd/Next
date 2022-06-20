@@ -32,7 +32,7 @@ namespace Next2.ViewModels
         private int _indexOfSeat;
         private int _indexOfSelectedDish;
 
-        private bool _isOrderedByDescendingReplacementProducts = true;
+        private bool _isOrderedByAscendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
 
         private DishBindableModel _currentDish;
@@ -57,7 +57,7 @@ namespace Next2.ViewModels
 
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
             _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
-            _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem ?? new());
+            _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
 
             _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
 
@@ -287,7 +287,7 @@ namespace Next2.ViewModels
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()
         {
-            _isOrderedByDescendingReplacementProducts = !_isOrderedByDescendingReplacementProducts;
+            _isOrderedByAscendingReplacementProducts = !_isOrderedByAscendingReplacementProducts;
 
             InitReplacementProductsDish();
 
@@ -424,7 +424,7 @@ namespace Next2.ViewModels
 
             if (products is not null)
             {
-                if (_isOrderedByDescendingReplacementProducts)
+                if (_isOrderedByAscendingReplacementProducts)
                 {
                     ReplacementProducts = _mapper.Map<ObservableCollection<SimpleProductModelDTO>>(products.OrderBy(row => row.Name));
                 }
@@ -435,7 +435,8 @@ namespace Next2.ViewModels
 
                 foreach (var product in ReplacementProducts)
                 {
-                    product.DefaultPrice = СalculateProductPriceOfProportion(products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice);
+                    var defaultProductPrice = products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice;
+                    product.DefaultPrice = СalculateProductPriceOfProportion(defaultProductPrice);
                 }
 
                 SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
@@ -479,8 +480,8 @@ namespace Next2.ViewModels
                     IsToggled = product is not null ? product.AddedIngredients.Any(item => item.Id == row.Id) : false,
                     Name = row.Name,
                     Price = _currentDish?.SelectedDishProportion.PriceRatio == 1
-                                ? row.Price
-                                : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
+                        ? row.Price
+                        : row.Price * (1 + _currentDish.SelectedDishProportion.PriceRatio),
                     ImageSource = row.ImageSource,
                     ChangingToggle = ChangingToggleCommand,
                 }));
@@ -546,7 +547,7 @@ namespace Next2.ViewModels
             if (item?.SelectedItem is not null)
             {
                 SelectedProduct = item;
-                _isOrderedByDescendingReplacementProducts = true;
+                _isOrderedByAscendingReplacementProducts = true;
                 _isOrderedByDescendingInventory = true;
 
                 var index = ProductsDish.IndexOf(item);
