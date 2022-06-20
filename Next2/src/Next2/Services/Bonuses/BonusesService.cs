@@ -101,7 +101,7 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public void ResetСalculationBonusAsync(FullOrderBindableModel currentOrder)
+        public void ResetСalculationBonus(FullOrderBindableModel currentOrder)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
@@ -117,7 +117,7 @@ namespace Next2.Services.Bonuses
             currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
         }
 
-        public void СalculationBonusAsync(FullOrderBindableModel currentOrder)
+        public void СalculationBonus(FullOrderBindableModel currentOrder)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 

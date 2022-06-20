@@ -373,8 +373,8 @@ namespace Next2.Services.Order
 
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
-                    _bonusService.ResetСalculationBonusAsync(CurrentOrder);
-                    _bonusService.СalculationBonusAsync(CurrentOrder);
+                    _bonusService.ResetСalculationBonus(CurrentOrder);
+                    _bonusService.СalculationBonus(CurrentOrder);
                 }
 
                 result.SetSuccess();

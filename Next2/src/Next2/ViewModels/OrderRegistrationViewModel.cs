@@ -775,7 +775,7 @@ namespace Next2.ViewModels
                     {
                         await RefreshCurrentOrderAsync();
 
-                        _bonusesService.СalculationBonusAsync(CurrentOrder);
+                        _bonusesService.СalculationBonus(CurrentOrder);
 
                         if (CurrentState == LayoutState.Success)
                         {

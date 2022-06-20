@@ -194,7 +194,7 @@ namespace Next2.ViewModels
             {
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
-                    _bonusesService.ResetСalculationBonusAsync(CurrentOrder);
+                    _bonusesService.ResetСalculationBonus(CurrentOrder);
                 }
 
                 if (bonus.Type is EBonusType.Coupone)
@@ -212,7 +212,7 @@ namespace Next2.ViewModels
                 }
             }
 
-             _bonusesService.СalculationBonusAsync(CurrentOrder);
+             _bonusesService.СalculationBonus(CurrentOrder);
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
