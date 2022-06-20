@@ -222,20 +222,22 @@ namespace Next2.ViewModels
 
                         if (_currentDish.SelectedProducts[selectedProductIndex].Id != SelectedReplacementProduct.Id)
                         {
+                            var selectedProduct = _currentDish.Products.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
+
                             _currentDish.SelectedProducts[selectedProductIndex] = new ()
                             {
                                 Id = SelectedReplacementProduct.Id,
                                 SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
                                 AddedIngredients = new(SelectedReplacementProduct.Ingredients),
-                                Price = СalculateProductPriceOfProportion(SelectedReplacementProduct.DefaultPrice),
+                                Price = SelectedReplacementProduct.DefaultPrice,
                                 Product = new()
                                 {
-                                    Id = SelectedReplacementProduct.Id,
-                                    DefaultPrice = SelectedReplacementProduct.DefaultPrice,
-                                    ImageSource = SelectedReplacementProduct.ImageSource,
-                                    Ingredients = SelectedReplacementProduct.Ingredients,
-                                    Name = SelectedReplacementProduct.Name,
-                                    Options = SelectedReplacementProduct.Options,
+                                    Id = selectedProduct.Id,
+                                    DefaultPrice = selectedProduct.DefaultPrice,
+                                    ImageSource = selectedProduct.ImageSource,
+                                    Ingredients = selectedProduct.Ingredients,
+                                    Name = selectedProduct.Name,
+                                    Options = selectedProduct.Options,
                                 },
                             };
 
@@ -436,7 +438,7 @@ namespace Next2.ViewModels
                     product.DefaultPrice = СalculateProductPriceOfProportion(products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice);
                 }
 
-                SelectedReplacementProduct = _currentDish.Products.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
             }
         }
 
@@ -646,7 +648,6 @@ namespace Next2.ViewModels
         private decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio)
         {
             decimal ingredientsPrice = 0;
-            decimal productsPrice = 0;
             decimal dishPrice = 0;
 
             foreach (var product in dish.SelectedProducts ?? new())
@@ -660,8 +661,6 @@ namespace Next2.ViewModels
                 {
                     ingredientsPrice += _allIngredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price;
                 }
-
-                productsPrice += product.Product.DefaultPrice;
             }
 
             dishPrice = ingredientsPrice + dish.SelectedProducts.Sum(row => row.Product.DefaultPrice);
