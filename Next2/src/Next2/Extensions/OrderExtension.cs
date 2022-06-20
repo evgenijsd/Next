@@ -1,10 +1,9 @@
 ﻿using Next2.Enums;
-using Next2.Models.API.DTO;
 using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Next2.Extensions
 {
@@ -39,7 +38,7 @@ namespace Next2.Extensions
                 Number = order.Number,
                 OrderType = (EOrderType)order.OrderType,
                 IsTab = order.IsTab,
-                TableId = order?.Table.Id,
+                TableId = order?.Table?.Id,
                 Open = order.Open,
                 Close = order?.Close,
                 OrderStatus = (EOrderStatus)order?.OrderStatus,

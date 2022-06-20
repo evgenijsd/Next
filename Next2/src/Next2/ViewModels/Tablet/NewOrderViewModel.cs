@@ -158,7 +158,7 @@ namespace Next2.ViewModels.Tablet
                             await PopupNavigation.PopAsync();
                         }
 
-                        OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
                         var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                         {
