@@ -5,6 +5,8 @@ namespace Next2.Views.Mobile
 {
     public partial class OrderTabsPage : BaseContentPage
     {
+        private double _viewItemHeight;
+
         public OrderTabsPage()
         {
             InitializeComponent();
@@ -22,7 +24,15 @@ namespace Next2.Views.Mobile
 
         private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
-            IndexLastVisibleElement = e.LastVisibleItemIndex + 1;
+            if (_viewItemHeight == 0f && collectionView.ItemTemplate.CreateContent() is View view)
+            {
+                _viewItemHeight = view.HeightRequest;
+            }
+
+            if (_viewItemHeight > 0)
+            {
+                IndexLastVisibleElement = (int)((collectionView.Height + e.VerticalOffset) / _viewItemHeight);
+            }
         }
     }
 }

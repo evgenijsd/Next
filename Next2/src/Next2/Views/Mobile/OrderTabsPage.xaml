@@ -92,7 +92,7 @@
             <yummy:PancakeView
                 Grid.Row="3"
                 VerticalOptions="Start"                
-                CornerRadius="10,10,0,0"
+                CornerRadius="10, 10, 0, 0"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                 Margin="17, 0"
                 IsVisible="{Binding IsNothingFound, Converter={xct:InvertedBoolConverter}}">
