@@ -630,12 +630,13 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnOpenDiscountSelectionCommandAsync()
+        private Task OnOpenDiscountSelectionCommandAsync()
         {
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Subscribe(BonusEventCommand);
 
             var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
-            await _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
+
+            return _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
         }
 
         private void BonusEventCommand(FullOrderBindableModel currentOrder)
@@ -681,30 +682,26 @@ namespace Next2.ViewModels
         private async Task SaveCurrentOrderAsync(bool isTab)
         {
             var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
+            updateOrderCommand.IsTab = isTab;
 
-            if (updateOrderCommand is not null)
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            if (updateOrderResult.IsSuccess)
             {
-                updateOrderCommand.IsTab = isTab;
+                await _orderService.CreateNewCurrentOrderAsync();
+                await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
 
-                var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
-
-                if (updateOrderResult.IsSuccess)
-                {
-                    await _orderService.CreateNewCurrentOrderAsync();
-                    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
-
-                    IsOrderSavedNotificationVisible = true;
-                    CurrentOrder.Seats = new();
-                }
+                IsOrderSavedNotificationVisible = true;
+                CurrentOrder.Seats = new();
             }
         }
 
-        private async Task OnOrderCommandAsync()
+        private Task OnOrderCommandAsync()
         {
-            await SaveCurrentOrderAsync(false);
+            return SaveCurrentOrderAsync(false);
         }
 
-        private async Task OnTabCommandAsync()
+        private Task OnTabCommandAsync()
         {
             var parameters = new DialogParameters
             {
@@ -718,7 +715,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync)
                 : new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
-            await PopupNavigation.PushAsync(confirmDialog);
+            return PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseMovedOrderDialogCallbackAsync(IDialogParameters dialogResult)
@@ -734,12 +731,12 @@ namespace Next2.ViewModels
             await PopupNavigation.PopAsync();
         }
 
-        private async Task OnOpenModifyCommandAsync()
+        private Task OnOpenModifyCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(Views.Tablet.ModificationsPage));
+            return _navigationService.NavigateAsync(nameof(ModificationsPage));
         }
 
-        private async Task OnOpenRemoveCommandAsync()
+        private Task OnOpenRemoveCommandAsync()
         {
             var parameters = new DialogParameters
             {
@@ -753,7 +750,7 @@ namespace Next2.ViewModels
                 ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync)
                 : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync);
 
-            await PopupNavigation.PushAsync(confirmDialog);
+            return PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)

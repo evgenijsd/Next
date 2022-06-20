@@ -1,10 +1,9 @@
 ﻿using Next2.Enums;
-using Next2.Models.API.DTO;
 using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Next2.Extensions
 {
@@ -24,9 +23,9 @@ namespace Next2.Extensions
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
-                        AddedIngredientsId = x?.AddedIngredients?.Select(x => x.Id),
-                        SelectedIngredientsId = x?.SelectedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x?.ExcludedIngredients?.Select(x => x.Id),
+                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
+                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
+                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
                         Comment = x?.Comment,
                         SelectedOptionsId = new Guid[1] { x.SelectedOptions.Id },
                     }),
