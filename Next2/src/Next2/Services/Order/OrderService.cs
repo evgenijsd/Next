@@ -26,7 +26,7 @@ namespace Next2.Services.Order
         private readonly IMockService _mockService;
         private readonly ISettingsManager _settingsManager;
         private readonly IRestService _restService;
-        private readonly IBonusesService _bonusService;
+        private readonly IBonusesService _bonusesService;
         private readonly IMapper _mapper;
 
         public OrderService(
@@ -39,7 +39,7 @@ namespace Next2.Services.Order
             _mockService = mockService;
             _settingsManager = settingsManager;
             _restService = restService;
-            _bonusService = bonusesService;
+            _bonusesService = bonusesService;
             _mapper = mapper;
             _restService = restService;
 
@@ -371,10 +371,12 @@ namespace Next2.Services.Order
 
                 CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
 
-                //if (CurrentOrder.BonusType != Enums.EBonusType.None)
-                //{
-                //    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-                //}
+                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+                {
+                    _bonusesService.ResetСalculationBonus(CurrentOrder);
+                    _bonusesService.СalculationBonus(CurrentOrder);
+                }
+
                 result.SetSuccess();
             }
             catch (Exception ex)
