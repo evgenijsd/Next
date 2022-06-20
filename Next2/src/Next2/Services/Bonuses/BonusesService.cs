@@ -101,7 +101,7 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<FullOrderBindableModel> ResetСalculationBonusAsync(FullOrderBindableModel currentOrder)
+        public async void ResetСalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
@@ -115,11 +115,9 @@ namespace Next2.Services.Bonuses
             currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
             currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
             currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
-
-            return currentOrder;
         }
 
-        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
+        public async void СalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
@@ -153,8 +151,6 @@ namespace Next2.Services.Bonuses
             currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
             currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
             currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
-
-            return currentOrder;
         }
 
         //public async Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses)

@@ -623,7 +623,7 @@ namespace Next2.ViewModels
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
-            CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+            _bonusService.СalculationBonusAsync(CurrentOrder);
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
 
             var parameters = new NavigationParameters();

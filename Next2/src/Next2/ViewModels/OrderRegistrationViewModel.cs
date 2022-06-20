@@ -580,7 +580,9 @@ namespace Next2.ViewModels
 
                 if (createNewCurrentOrderResult.IsSuccess)
                 {
-                    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                    var key = _orderService.CurrentOrder.EmployeeId;
+                    var value = _orderService.CurrentOrder.Id;
+                    await _orderService.SaveCurrentOrderIdToSettingsAsync(key, value);
                     InitOrderTypes();
                     await RefreshCurrentOrderAsync();
                 }
@@ -635,7 +637,8 @@ namespace Next2.ViewModels
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
-            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.Id == _orderService.CurrentSeat.Id);
+            var currentSeatId = _orderService?.CurrentSeat.Id;
+            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.Id == currentSeatId);
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
 
@@ -796,7 +799,7 @@ namespace Next2.ViewModels
                     {
                         await RefreshCurrentOrderAsync();
 
-                        CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+                        _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
