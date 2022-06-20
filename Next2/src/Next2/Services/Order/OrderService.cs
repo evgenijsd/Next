@@ -246,11 +246,8 @@ namespace Next2.Services.Order
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
                     CurrentSeat = null;
+
                     result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -297,10 +294,12 @@ namespace Next2.Services.Order
 
                 if (employeeIdAndOrderIdPairs.ContainsKey(employeeId))
                 {
-                    employeeIdAndOrderIdPairs.Remove(employeeId);
+                    employeeIdAndOrderIdPairs[employeeId] = lastSessionOrderId;
                 }
-
-                employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
+                else
+                {
+                    employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
+                }
 
                 _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdPairs);
 
