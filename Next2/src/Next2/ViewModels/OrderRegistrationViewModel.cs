@@ -15,7 +15,6 @@ using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -181,7 +180,6 @@ namespace Next2.ViewModels
             base.InitializeAsync(parameters);
 
             InitOrderTypes();
-            await RefreshTablesAsync();
             await RefreshCurrentOrderAsync();
         }
 
@@ -194,7 +192,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if (SelectedTable is not null)
                     {
-                        _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
+                        _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
                     }
 
                     break;
@@ -214,7 +212,7 @@ namespace Next2.ViewModels
                     IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
                     break;
                 case nameof(IsOrderWithTax):
-                    if (!IsOrderWithTax)
+                    if (!IsOrderWithTax && CurrentOrder.DiscountPrice is not null && CurrentOrder.SubTotalPrice is not null)
                     {
                         if (CurrentOrder.Coupon != null || CurrentOrder.Discount != null)
                         {
@@ -292,9 +290,9 @@ namespace Next2.ViewModels
 
                     Tables = new(tableBindableModels);
 
-                    SelectedTable = SelectedTable.IsAvailable
-                        ? SelectedTable
-                        : Tables.FirstOrDefault();
+                    SelectedTable = CurrentOrder.Table is null
+                        ? Tables.FirstOrDefault()
+                        : Tables.FirstOrDefault(x => x.TableNumber == CurrentOrder.Table.Number);
                 }
             }
         }
@@ -508,7 +506,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                List<SeatBindableModel> seats = CurrentOrder.Seats.ToList();
+                List<SeatBindableModel> seats = CurrentOrder.Seats.Where(x => x.SelectedDishes.Any()).ToList();
 
                 var param = new DialogParameters
                 {
@@ -591,7 +589,6 @@ namespace Next2.ViewModels
                 if (createNewCurrentOrderResult.IsSuccess)
                 {
                     InitOrderTypes();
-                    await RefreshTablesAsync();
                     await RefreshCurrentOrderAsync();
                 }
             }

@@ -166,7 +166,6 @@
             </Label>
 
             <controls:CustomStepper
-                IsEnabled="{Binding CurrentOrder.Seats.Count, Converter={xct:IntToBoolConverter}}"
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
                 DecrementCommand="{Binding DeleteLastSeatCommand}"/>
@@ -540,8 +539,8 @@
                 Background="{DynamicResource IndicationColor_i1}"
                 BorderColor="{DynamicResource IndicationColor_i1}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                Text="{xct:Translate Pay}"
-                xct:TouchEffect.Command="{Binding PayCommand }" />
+                Text="{xct:Translate Pay}"/>
+            <!--xct:TouchEffect.Command="{Binding PayCommand }"--> 
 
         </Grid>
 

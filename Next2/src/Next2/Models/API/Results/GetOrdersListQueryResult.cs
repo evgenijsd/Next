@@ -5,6 +5,6 @@ namespace Next2.Models.API.Results
 {
     public class GetOrdersListQueryResult
     {
-        public IEnumerable<OrderModelDTO>? Orders { get; set; }
+        public List<SimpleOrderModelDTO> Orders { get; set; } = new ();
     }
 }

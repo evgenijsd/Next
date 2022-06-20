@@ -212,7 +212,8 @@ namespace Next2.ViewModels
                 case nameof(SelectedReplacementProduct):
                     if (SelectedReplacementProduct is not null)
                     {
-                        int index = 0;
+                        int selectedProductIndex = 0;
+
                         foreach (var product in _currentDish.SelectedProducts)
                         {
                             if (product.Id == SelectedProduct.Id)
@@ -220,31 +221,35 @@ namespace Next2.ViewModels
                                 break;
                             }
 
-                            index++;
+                            selectedProductIndex++;
                         }
 
-                        _currentDish.SelectedProducts[index] = new ProductBindableModel()
+                        if (_currentDish.SelectedProducts[selectedProductIndex].Id != SelectedReplacementProduct.Id)
                         {
-                            Id = SelectedReplacementProduct.Id,
-                            SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
-                            AddedIngredients = new(SelectedReplacementProduct.Ingredients),
-                            Price = СalculatePriceOfProportion(SelectedReplacementProduct.DefaultPrice),
-                            Product = new()
+                            _currentDish.SelectedProducts[selectedProductIndex] = new ()
                             {
                                 Id = SelectedReplacementProduct.Id,
-                                DefaultPrice = SelectedReplacementProduct.DefaultPrice,
-                                ImageSource = SelectedReplacementProduct.ImageSource,
-                                Ingredients = SelectedReplacementProduct.Ingredients,
-                                Name = SelectedReplacementProduct.Name,
-                                Options = SelectedReplacementProduct.Options,
-                            },
-                        };
-                        ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
-                        SelectedProduct.Id = SelectedReplacementProduct.Id;
+                                SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
+                                AddedIngredients = new(SelectedReplacementProduct.Ingredients),
+                                Price = СalculatePriceOfProportion(SelectedReplacementProduct.DefaultPrice),
+                                Product = new()
+                                {
+                                    Id = SelectedReplacementProduct.Id,
+                                    DefaultPrice = SelectedReplacementProduct.DefaultPrice,
+                                    ImageSource = SelectedReplacementProduct.ImageSource,
+                                    Ingredients = SelectedReplacementProduct.Ingredients,
+                                    Name = SelectedReplacementProduct.Name,
+                                    Options = SelectedReplacementProduct.Options,
+                                },
+                            };
 
-                        foreach (var ingredient in _currentDish.SelectedProducts[index].AddedIngredients)
-                        {
-                            ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
+                            ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
+                            SelectedProduct.Id = SelectedReplacementProduct.Id;
+
+                            foreach (var ingredient in _currentDish.SelectedProducts[selectedProductIndex].AddedIngredients)
+                            {
+                                ingredient.Price = СalculatePriceOfProportion(ingredient.Price);
+                            }
                         }
                     }
 
@@ -277,7 +282,7 @@ namespace Next2.ViewModels
         {
             return _currentDish.SelectedDishProportion.PriceRatio == 1
                 ? price
-                : price * (1 + SelectedProportion.PriceRatio);
+                : price * (1 + _currentDish.SelectedDishProportion.PriceRatio);
         }
 
         private Task OnChangingOrderSortReplacementProductsCommandAsync()

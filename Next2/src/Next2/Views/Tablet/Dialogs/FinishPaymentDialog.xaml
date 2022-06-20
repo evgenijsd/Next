@@ -97,9 +97,31 @@
                     Text="{xct:Translate Coupon}">
 
                     <Label.Triggers>
-                        <DataTrigger Binding="{Binding Order.BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.Discount}">
+                        <DataTrigger Binding="{Binding BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.Discount}">
 
                             <Setter Property="Text" Value="{xct:Translate Discount}" />
+
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.None}">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+
+                    </Label.Triggers>
+
+                </Label>
+
+                <Label
+                    FontFamily="Barlow-Medium"
+                    Style="{DynamicResource LabelStyle}"
+                    Text="{xct:Translate Tax}">
+
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding Order.PriceTax}" TargetType="Label" Value="0">
+
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>
@@ -109,12 +131,17 @@
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
-                    Text="{xct:Translate Tax}" />
+                    Text="{xct:Translate Tip}">
 
-                <Label
-                    FontFamily="Barlow-Medium"
-                    Style="{DynamicResource LabelStyle}"
-                    Text="{xct:Translate Tip}" />
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding Order.Tip}" TargetType="Label" Value="0">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </Label.Triggers>
+
+                </Label>
 
             </StackLayout>
 
@@ -150,15 +177,17 @@
                         <FormattedString>
 
                             <Span Text="- " />
-                            <Span Text="{Binding Order.Bonus.Name}" />
+                            <Span Text="{Binding Order.Bonus.DiscountPercentage}" />
+                            <Span Text="% " />
+                            <Span Text="{xct:Translate Off}" />
 
                         </FormattedString>
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger Binding="{Binding Order.Bonus.Name.Length}" TargetType="Label" Value="0">
+                        <DataTrigger TargetType="Label" Binding="{Binding Order.Bonus, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
 
-                            <Setter Property="Text" Value="0" />
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>
@@ -181,9 +210,9 @@
                     </Label.FormattedText>
 
                     <Label.Triggers>
-                        <DataTrigger Binding="{Binding Order.PriceTax}" TargetType="Label"  Value="0">
+                        <DataTrigger Binding="{Binding Order.PriceTax}" TargetType="Label" Value="0">
 
-                            <Setter Property="Text" Value="0" />
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>
@@ -198,8 +227,14 @@
                         <FormattedString>
 
                             <Span Text="+ " />
-                            <Span Text="{Binding Order.Tip}" />
+                            <Span Text="{Binding TipAsAPercentage}" />
+                            <Span Text="% " />
+                            <Span Text="(" />
+
                             <Span Text="{xct:Translate CurrencySign}" />
+                            <Span Text=" " />
+                            <Span Text="{Binding Tip}" />
+                            <Span Text=")" />
 
                         </FormattedString>
                     </Label.FormattedText>
@@ -207,7 +242,7 @@
                     <Label.Triggers>
                         <DataTrigger Binding="{Binding Order.Tip}" TargetType="Label" Value="0">
 
-                            <Setter Property="Text" Value="0" />
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>
@@ -230,17 +265,47 @@
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
-                    Text="{xct:Translate Cash}" />
+                    Text="{xct:Translate Cash}">
+
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding Order.Cash}" TargetType="Label" Value="0">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </Label.Triggers>
+
+                </Label>
 
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
-                    Text="{xct:Translate GiftCards}" />
+                    Text="{xct:Translate GiftCards}">
+
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding Order.GiftCard}" TargetType="Label" Value="0">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </Label.Triggers>
+
+                </Label>
 
                 <Label
                     FontFamily="Barlow-Medium"
                     Style="{DynamicResource LabelStyle}"
-                    Text="{xct:Translate Change}" />
+                    Text="{xct:Translate Change}">
+
+                    <Label.Triggers>
+                        <DataTrigger Binding="{Binding Order.Change}" TargetType="Label" Value="0">
+
+                            <Setter Property="IsVisible" Value="false" />
+
+                        </DataTrigger>
+                    </Label.Triggers>
+
+                </Label>
 
                 <Label
                     FontFamily="Barlow-Regular"
@@ -274,7 +339,7 @@
                     <Label.Triggers>
                         <DataTrigger Binding="{Binding Order.Cash}" TargetType="Label" Value="0">
 
-                            <Setter Property="Text" Value="0" />
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>
@@ -298,7 +363,7 @@
                     <Label.Triggers>
                         <DataTrigger Binding="{Binding Order.GiftCard}" TargetType="Label" Value="0">
 
-                            <Setter Property="Text" Value="0" />
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>
@@ -322,7 +387,7 @@
                     <Label.Triggers>
                         <DataTrigger Binding="{Binding Order.Change}" TargetType="Label" Value="0">
 
-                            <Setter Property="Text" Value="0" />
+                            <Setter Property="IsVisible" Value="false" />
 
                         </DataTrigger>
                     </Label.Triggers>

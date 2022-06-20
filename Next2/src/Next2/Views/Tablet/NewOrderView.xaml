@@ -2000,8 +2000,8 @@
                     Background="{DynamicResource IndicationColor_i1}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    Text="{xct:Translate Pay}"
-                    Command="{Binding OrderRegistrationViewModel.PayCommand}" />
+                    Text="{xct:Translate Pay}"/>
+                <!--Command="{Binding OrderRegistrationViewModel.PayCommand}"--> 
 
             </Grid>
 

@@ -23,6 +23,8 @@ namespace Next2.Services.Order
 
         Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync();
 
+        Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid orderId);
+
         Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
 
         Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
