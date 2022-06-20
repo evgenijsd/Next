@@ -592,6 +592,7 @@ namespace Next2.ViewModels
                 {
                     var employeeId = _orderService.CurrentOrder.EmployeeId;
                     var orderId = _orderService.CurrentOrder.Id;
+
                     await _orderService.SaveCurrentOrderIdToSettingsAsync(employeeId, orderId);
 
                     InitOrderTypes();
