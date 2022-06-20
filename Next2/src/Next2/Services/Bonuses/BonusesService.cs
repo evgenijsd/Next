@@ -101,44 +101,51 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder, bool isFirstBonus = true)
+        public async Task<FullOrderBindableModel> ResetСalculationBonusAsync(FullOrderBindableModel currentOrder)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
             foreach (var dish in dishes)
             {
-                if (isFirstBonus)
-                {
-                    dish.SelectedDishProportionPrice = dish.TotalPrice;
-                }
-                else
-                {
-                    dish.TotalPrice = dish.SelectedDishProportionPrice;
-                }
-
+                dish.TotalPrice = dish.SelectedDishProportionPrice;
                 dish.DiscountPrice = dish.TotalPrice;
             }
 
-            if (isFirstBonus)
-            {
-                if (currentOrder.Coupon is not null)
-                {
-                    foreach (var dish in dishes)
-                    {
-                        dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                            ? dish.TotalPrice - (dish.TotalPrice * currentOrder.Coupon.DiscountPercentage / 100)
-                            : dish.TotalPrice;
+            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+            currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
+            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
 
-                        dish.TotalPrice = dish.DiscountPrice;
-                    }
-                }
-                else if (currentOrder.Discount is not null)
+            return currentOrder;
+        }
+
+        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
+        {
+            var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
+            foreach (var dish in dishes)
+            {
+                dish.SelectedDishProportionPrice = dish.TotalPrice;
+                dish.DiscountPrice = dish.TotalPrice;
+            }
+
+            if (currentOrder.Coupon is not null)
+            {
+                foreach (var dish in dishes)
                 {
-                    foreach (var dish in dishes)
-                    {
-                        dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * currentOrder.Discount.DiscountPercentage / 100);
-                        dish.TotalPrice = dish.DiscountPrice;
-                    }
+                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
+                        ? dish.TotalPrice - (dish.TotalPrice * currentOrder.Coupon.DiscountPercentage / 100)
+                        : dish.TotalPrice;
+
+                    dish.TotalPrice = dish.DiscountPrice;
+                }
+            }
+            else if (currentOrder.Discount is not null)
+            {
+                foreach (var dish in dishes)
+                {
+                    dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * currentOrder.Discount.DiscountPercentage / 100);
+                    dish.TotalPrice = dish.DiscountPrice;
                 }
             }
 

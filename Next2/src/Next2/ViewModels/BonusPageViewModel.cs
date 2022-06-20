@@ -194,7 +194,7 @@ namespace Next2.ViewModels
             {
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
-                    await _bonusesService.СalculationBonusAsync(CurrentOrder, false);
+                    await _bonusesService.ResetСalculationBonusAsync(CurrentOrder);
                 }
 
                 if (bonus.Type is EBonusType.Coupone)

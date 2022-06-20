@@ -22,6 +22,8 @@ namespace Next2.Services.Bonuses
         //Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses);
 
         //Task<IEnumerable<BonusModel>> GetActiveDiscountsAsync(List<BonusModel> bonuses);
-        Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder, bool isFirstBonus = true);
+        Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder);
+
+        Task<FullOrderBindableModel> ResetСalculationBonusAsync(FullOrderBindableModel currentOrder);
     }
 }

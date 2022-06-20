@@ -374,7 +374,7 @@ namespace Next2.Services.Order
 
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
-                    await _bonusService.СalculationBonusAsync(CurrentOrder, false);
+                    await _bonusService.ResetСalculationBonusAsync(CurrentOrder);
                     CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
                 }
 
