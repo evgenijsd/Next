@@ -29,6 +29,9 @@ namespace Next2.ViewModels
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
 
+        private int _indexOfSeat;
+        private int _indexOfSelectedDish;
+
         private bool _isOrderedByDescendingReplacementProducts = true;
         private bool _isOrderedByDescendingInventory = true;
 
@@ -52,7 +55,11 @@ namespace Next2.ViewModels
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
 
-            _currentDish = CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null).SelectedItem ?? new();
+            var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+            _indexOfSeat = _orderService.CurrentOrder.Seats.IndexOf(seat);
+            _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem ?? new());
+
+            _currentDish = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
 
             InitProductsDish();
             SelectedProduct = new() { SelectedItem = new() { State = ESubmenuItemsModifactions.Proportions } };
@@ -617,10 +624,11 @@ namespace Next2.ViewModels
 
         private async Task OnSaveCommandAsync()
         {
+            CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish] = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
-            CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
+            _orderService.CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+            _orderService.CurrentSeat = CurrentOrder.Seats[_indexOfSeat];
 
             var parameters = new NavigationParameters();
 
