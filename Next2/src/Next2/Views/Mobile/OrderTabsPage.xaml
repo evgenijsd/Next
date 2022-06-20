@@ -310,6 +310,7 @@
         <StackLayout
             VerticalOptions="EndAndExpand"
             HeightRequest="142"
+            MinimumHeightRequest="142"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
             IsVisible="{Binding SelectedOrder, Converter={xct:IsNotNullOrEmptyConverter}}">
 

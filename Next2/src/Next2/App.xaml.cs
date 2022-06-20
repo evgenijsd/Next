@@ -195,7 +195,8 @@ namespace Next2
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TableModelDTO, TableBindableModel>().ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
+                cfg.CreateMap<TableModelDTO, TableBindableModel>()
+                    .ForMember(x => x.TableNumber, s => s.MapFrom(x => x.Number));
                 cfg.CreateMap<CustomerModelDTO, CustomerBindableModel>().ReverseMap();
                 cfg.CreateMap<CustomerBindableModel, UpdateCustomerCommand>().ReverseMap();
                 cfg.CreateMap<SetModel, FreeSetBindableModel>();
@@ -212,7 +213,8 @@ namespace Next2
                 cfg.CreateMap<FullOrderBindableModel, FullOrderBindableModel>();
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
                 cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
-                cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>();
+                cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>()
+                    .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber));
                 cfg.CreateMap<DishModelDTO, DishBindableModel>();
                 cfg.CreateMap<SelectedDishModelDTO, DishBindableModel>().ReverseMap();
                 cfg.CreateMap<SelectedProductModelDTO, ProductBindableModel>().ReverseMap();

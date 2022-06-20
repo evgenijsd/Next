@@ -15,7 +15,6 @@ using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
@@ -181,7 +180,6 @@ namespace Next2.ViewModels
             base.InitializeAsync(parameters);
 
             InitOrderTypes();
-            await RefreshTablesAsync();
             await RefreshCurrentOrderAsync();
         }
 
@@ -194,7 +192,7 @@ namespace Next2.ViewModels
                 case nameof(SelectedTable):
                     if (SelectedTable is not null)
                     {
-                        _orderService.CurrentOrder.Table = _mapper.Map<TableBindableModel, SimpleTableModelDTO>(SelectedTable);
+                        _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
                     }
 
                     break;
@@ -214,9 +212,9 @@ namespace Next2.ViewModels
                     IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
                     break;
                 case nameof(IsOrderWithTax):
-                    if (!IsOrderWithTax)
+                    if (!IsOrderWithTax && CurrentOrder.DiscountPrice is not null && CurrentOrder.SubTotalPrice is not null)
                     {
-                        CurrentOrder.TotalPrice = CurrentOrder.Coupon != null || CurrentOrder.Discount != null
+                        CurrentOrder.TotalPrice = (CurrentOrder.Coupon != null || CurrentOrder.Discount != null)
                             ? (decimal)CurrentOrder.DiscountPrice
                             : (decimal)CurrentOrder.SubTotalPrice;
                         CurrentOrder.PriceTax = 0;
@@ -282,9 +280,9 @@ namespace Next2.ViewModels
 
                     Tables = new(tableBindableModels);
 
-                    SelectedTable = SelectedTable.IsAvailable
-                        ? SelectedTable
-                        : Tables.FirstOrDefault();
+                    SelectedTable = CurrentOrder.Table is null
+                        ? Tables.FirstOrDefault()
+                        : Tables.FirstOrDefault(x => x.TableNumber == CurrentOrder.Table.Number);
                 }
             }
         }
@@ -498,7 +496,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                List<SeatBindableModel> seats = CurrentOrder.Seats.ToList();
+                List<SeatBindableModel> seats = CurrentOrder.Seats.Where(x => x.SelectedDishes.Any()).ToList();
 
                 var param = new DialogParameters
                 {
@@ -576,12 +574,11 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                var result = await _orderService.CreateNewCurrentOrderAsync();
+                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
 
-                if (result.IsSuccess)
+                if (createNewCurrentOrderResult.IsSuccess)
                 {
                     InitOrderTypes();
-                    await RefreshTablesAsync();
                     await RefreshCurrentOrderAsync();
                 }
             }
@@ -628,7 +625,7 @@ namespace Next2.ViewModels
                 {
                     CurrentState = LayoutState.Success;
                     Thread.Sleep(100); // It suspend the thread to hide unwanted animation
-                    IsSideMenuVisible = true;
+                    IsSideMenuVisible = false;
                 }
                 else
                 {
@@ -809,11 +806,11 @@ namespace Next2.ViewModels
             {
                 if (isDishRemovingAccepted)
                 {
-                    var result = await _orderService.DeleteDishFromCurrentSeat();
+                    var result = await _orderService.DeleteDishFromCurrentSeatAsync();
 
                     if (result.IsSuccess)
                     {
-                        RefreshCurrentOrderAsync();
+                        await RefreshCurrentOrderAsync();
 
                         CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
                         if (CurrentState == LayoutState.Success)

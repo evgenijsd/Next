@@ -954,7 +954,7 @@
                     
                     <DataTrigger 
                         TargetType="buttons:BorderButton"
-                        Binding="{Binding Order.Total, Converter={StaticResource floatToBoolConverter}}" 
+                        Binding="{Binding Order.Total, Converter={StaticResource decimalToBoolConverter}}" 
                         Value="false">
                         
                         <Setter Property="Opacity" Value="1"/>
