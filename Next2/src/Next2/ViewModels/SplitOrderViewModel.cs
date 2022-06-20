@@ -88,6 +88,10 @@ namespace Next2.ViewModels
                                 Price = x.Product.DefaultPrice,
                                 Comment = x.Comment,
                                 Product = x.Product,
+                                AddedIngredients = new(x.AddedIngredients),
+                                ExcludedIngredients = new(x.ExcludedIngredients),
+                                SelectedIngredients = new(x.SelectedIngredients),
+                                SelectedOptions = x.SelectedOptions.FirstOrDefault(),
                             })),
                         })),
                     }));
@@ -107,7 +111,7 @@ namespace Next2.ViewModels
             var param = new DialogParameters
             {
                 { Constants.DialogParameterKeys.DESCRIPTION, condition },
-                { Constants.DialogParameterKeys.MODEL, Order },
+                { Constants.DialogParameterKeys.SEATS, Seats },
                 { Constants.DialogParameterKeys.DISH, SelectedDish },
             };
 

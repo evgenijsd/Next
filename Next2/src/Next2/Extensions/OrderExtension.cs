@@ -80,11 +80,12 @@ namespace Next2.Extensions
                 }),
             });
 
+            Enum.TryParse(order.OrderType, out EOrderType type);
             UpdateOrderCommand command = new()
             {
                 Id = order.Id,
                 Number = order.Number,
-                OrderType = (EOrderType)Enum.Parse(typeof(EOrderType), order.OrderType),
+                OrderType = type,
                 IsTab = order.IsTab,
                 TableId = order?.Table?.Id,
                 Open = order.Open,
@@ -101,52 +102,6 @@ namespace Next2.Extensions
                 EmployeeId = order?.EmployeeId,
                 Seats = seats,
             };
-
-            return command;
-        }
-
-        public static UpdateOrderCommand ToUpdateOrderCommand(this OrderModelDTO order)
-        {
-            UpdateOrderCommand command = new();
-            Enum.TryParse(order.OrderType, out EOrderType type);
-
-            command.Id = order.Id;
-            command.Number = order.Number;
-            command.OrderType = type;
-            command.IsTab = order.IsTab;
-            command.TableId = order?.Table?.Id;
-            command.Open = order.Open;
-            command.Close = order?.Close;
-            command.OrderStatus = (EOrderStatus)order?.OrderStatus;
-            command.TaxCoefficient = order.TaxCoefficient;
-            command.TotalPrice = order.TotalPrice;
-            command.DiscountPrice = order?.DiscountPrice;
-            command.DiscountId = order?.Discount?.Id;
-            command.CouponId = order?.Coupon?.Id;
-            command.SubTotalPrice = order?.SubTotalPrice;
-            command.IsCashPayment = order.IsCashPayment;
-            command.CustomerId = order?.Customer?.Id;
-            command.EmployeeId = order?.EmployeeId;
-            command.Seats = order?.Seats?.Select(x => new IncomingSeatModel()
-            {
-                Number = x.Number,
-                SelectedDishes = x.SelectedDishes?.Select(x => new IncomingSelectedDishModel()
-                {
-                    DiscountPrice = x?.DiscountPrice,
-                    DishId = x.DishId,
-                    SelectedDishProportionId = x.SelectedDishProportion.Id,
-                    TotalPrice = x.TotalPrice,
-                    SelectedProducts = x?.SelectedProducts?.Select(x => new IncomingSelectedProductModel()
-                    {
-                        AddedIngredientsId = x?.AddedIngredients?.Select(x => x.Id),
-                        Comment = x?.Comment,
-                        ExcludedIngredientsId = x?.ExcludedIngredients?.Select(x => x.Id),
-                        ProductId = x?.Product.Id,
-                        SelectedIngredientsId = x?.SelectedIngredients?.Select(x => x.Id),
-                        SelectedOptionsId = x?.SelectedOptions?.Select(x => x.Id),
-                    }),
-                }),
-            });
 
             return command;
         }

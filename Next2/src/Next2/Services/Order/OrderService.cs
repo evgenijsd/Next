@@ -530,27 +530,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid id)
-        {
-            var result = new AOResult<OrderModelDTO>();
-
-            try
-            {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/orders/{id}");
-
-                if (response.Success)
-                {
-                    result.SetSuccess(response.Value.Order);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         #endregion
     }
 }

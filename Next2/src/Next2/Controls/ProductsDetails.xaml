@@ -211,7 +211,7 @@
                             
                             <Label.Triggers>
                                 
-                                <DataTrigger TargetType="Label" Binding="{Binding Options}" Value="null">
+                                <DataTrigger TargetType="Label" Binding="{Binding SelectedOptions}" Value="null">
                                     <Setter Property="IsVisible" Value="False"/>
                                 </DataTrigger>
 

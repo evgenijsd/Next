@@ -14,6 +14,7 @@ using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Next2.Models.Bindables;
+using Next2.Models.API.DTO;
 
 namespace Next2.ViewModels.Dialogs
 {
@@ -28,9 +29,8 @@ namespace Next2.ViewModels.Dialogs
             RequestClose = requestClose;
 
             AcceptCommand = new Command(() => RequestClose(null));
-            DeclineCommand = new Command(() => RequestClose(null));
 
-            //LoadData(param);
+            LoadData(param);
         }
 
         #region -- Public Properties --
@@ -43,7 +43,7 @@ namespace Next2.ViewModels.Dialogs
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; }
 
-        public FullOrderBindableModel Order { get; set; }
+        public OrderModelDTO Order { get; set; }
 
         public decimal SplitValue { get; set; }
 
@@ -62,9 +62,13 @@ namespace Next2.ViewModels.Dialogs
         private ICommand _decrementCommand;
         public ICommand DecrementCommand => _decrementCommand ??= new AsyncCommand(OnDecrementCommandAsync, allowsMultipleExecutions: false);
 
-        public ICommand DeclineCommand { get; }
-
         public ICommand AcceptCommand { get; }
+
+        private ICommand _cancelCommand;
+        public ICommand CancelCommand => _cancelCommand ??= new Command(() => RequestClose(null));
+
+        private ICommand _splitCommand;
+        public ICommand SplitCommand => _splitCommand ??= new Command(() => RequestClose(null));
 
         #endregion
 
@@ -99,17 +103,16 @@ namespace Next2.ViewModels.Dialogs
 
         private void LoadData(IDialogParameters param)
         {
-            var isAllParamExist = param.TryGetValue(Constants.DialogParameterKeys.MODEL, out FullOrderBindableModel order)
+            var isAllParamExist = param.TryGetValue(Constants.DialogParameterKeys.SEATS, out ObservableCollection<SeatBindableModel> seats)
                 & param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish)
                 & param.TryGetValue(Constants.DialogParameterKeys.DESCRIPTION, out ESplitOrderConditions condition);
 
             if (isAllParamExist)
             {
                 Condition = condition;
-                Order = order;
-                SelectedDish = new DishBindableModel();
+                SelectedDish = selectedDish;
 
-                var seats = Order.Seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
+                var newSeats = seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
                 {
                     SeatNumber = x.SeatNumber,
                     Id = x.Id,
@@ -117,7 +120,7 @@ namespace Next2.ViewModels.Dialogs
                     SelectedItem = new DishBindableModel() { TotalPrice = 0, },
                 });
 
-                Seats = new ObservableCollection<SeatBindableModel>(seats);
+                Seats = new ObservableCollection<SeatBindableModel>(newSeats);
             }
         }
 
