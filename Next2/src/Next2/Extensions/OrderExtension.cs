@@ -24,9 +24,9 @@ namespace Next2.Extensions
                     SelectedProducts = x.SelectedProducts.Select(x => new IncomingSelectedProductModel()
                     {
                         ProductId = x.Product.Id,
-                        AddedIngredientsId = x.AddedIngredients?.Select(x => x.Id),
-                        SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
-                        ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
+                        AddedIngredientsId = x?.AddedIngredients?.Select(x => x.Id),
+                        SelectedIngredientsId = x?.SelectedIngredients?.Select(x => x.Id),
+                        ExcludedIngredientsId = x?.ExcludedIngredients?.Select(x => x.Id),
                         Comment = x?.Comment,
                         SelectedOptionsId = new Guid[1] { x.SelectedOptions.Id },
                     }),
@@ -39,7 +39,7 @@ namespace Next2.Extensions
                 Number = order.Number,
                 OrderType = (EOrderType)order.OrderType,
                 IsTab = order.IsTab,
-                TableId = order?.Table.Id,
+                TableId = order?.Table?.Id,
                 Open = order.Open,
                 Close = order?.Close,
                 OrderStatus = (EOrderStatus)order?.OrderStatus,

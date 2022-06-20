@@ -91,7 +91,7 @@ namespace Next2.ViewModels
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
-        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Id);
+        public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Number);
 
         public ObservableCollection<OrderTypeBindableModel> OrderTypes { get; set; } = new();
 
@@ -681,20 +681,30 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnOrderCommandAsync()
+        private async Task SaveCurrentOrderAsync(bool isTab)
         {
             var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
-            updateOrderCommand.OrderStatus = EOrderStatus.Preparing;
 
-            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
-
-            if (updateOrderResult.IsSuccess)
+            if (updateOrderCommand is not null)
             {
-                await _orderService.CreateNewCurrentOrderAsync();
-            }
+                updateOrderCommand.IsTab = isTab;
 
-            IsOrderSavedNotificationVisible = true;
-            CurrentOrder.Seats = new();
+                var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+                if (updateOrderResult.IsSuccess)
+                {
+                    await _orderService.CreateNewCurrentOrderAsync();
+                    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+
+                    IsOrderSavedNotificationVisible = true;
+                    CurrentOrder.Seats = new();
+                }
+            }
+        }
+
+        private async Task OnOrderCommandAsync()
+        {
+            await SaveCurrentOrderAsync(false);
         }
 
         private async Task OnTabCommandAsync()
@@ -707,9 +717,9 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Complete"] },
             };
 
-            PopupPage confirmDialog = App.IsTablet ?
-                new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync) :
-                new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
+            PopupPage confirmDialog = App.IsTablet
+                ? new Next2.Views.Tablet.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync)
+                : new Next2.Views.Mobile.Dialogs.MovedOrderToOrderTabsDialog(parameters, CloseMovedOrderDialogCallbackAsync);
 
             await PopupNavigation.PushAsync(confirmDialog);
         }
@@ -720,7 +730,7 @@ namespace Next2.ViewModels
             {
                 if (isMovedOrderAccepted)
                 {
-                    await OnOrderCommandAsync();
+                    await SaveCurrentOrderAsync(true);
                 }
             }
 
@@ -759,9 +769,10 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
-                        RefreshCurrentOrderAsync();
+                        await RefreshCurrentOrderAsync();
 
                         CurrentOrder = await _bonusesService.СalculationBonusAsync(CurrentOrder);
+
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
@@ -808,9 +819,7 @@ namespace Next2.ViewModels
 
         private Task OnHideOrderNotificationCommnadAsync()
         {
-            RefreshCurrentOrderAsync();
-
-            return Task.CompletedTask;
+            return RefreshCurrentOrderAsync();
         }
 
         private async Task OnGoToOrderTabsCommandAsync()
@@ -830,7 +839,7 @@ namespace Next2.ViewModels
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
             _eventAggregator.GetEvent<OrderMovedEvent>().Publish(true);
 
-            RefreshCurrentOrderAsync();
+            await RefreshCurrentOrderAsync();
         }
 
         #endregion
