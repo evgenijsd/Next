@@ -624,7 +624,9 @@ namespace Next2.ViewModels
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             _bonusesService.СalculationBonus(CurrentOrder);
-            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
+
+            var seatNumber = _orderService?.CurrentSeat?.SeatNumber;
+            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == seatNumber);
 
             var parameters = new NavigationParameters();
 
