@@ -569,6 +569,8 @@ namespace Next2.ViewModels
         private async Task RemoveOrderAsync()
         {
             CurrentOrder.OrderStatus = EOrderStatus.Deleted;
+            CurrentOrder.Close = DateTime.Now;
+
             var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
             var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
@@ -578,6 +580,7 @@ namespace Next2.ViewModels
 
                 if (createNewCurrentOrderResult.IsSuccess)
                 {
+                    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
                     InitOrderTypes();
                     await RefreshCurrentOrderAsync();
                 }
