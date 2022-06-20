@@ -436,7 +436,7 @@ namespace Next2.ViewModels
                     product.DefaultPrice = СalculateProductPriceOfProportion(products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice);
                 }
 
-                SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
+                SelectedReplacementProduct = _currentDish.Products.FirstOrDefault(x => x.Id == SelectedProduct.Id);
             }
         }
 
@@ -626,7 +626,7 @@ namespace Next2.ViewModels
 
         private async Task OnSaveCommandAsync()
         {
-            CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish] = CurrentOrder.Seats[_indexOfSeat].SelectedItem ?? new();
+            CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish] = _currentDish;
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
             _orderService.CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
