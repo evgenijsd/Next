@@ -26,7 +26,7 @@ namespace Next2.ViewModels
     public class ModificationsPageViewModel : BaseViewModel
     {
         private readonly IOrderService _orderService;
-        private readonly IBonusesService _bonusService;
+        private readonly IBonusesService _bonusesService;
         private readonly IMenuService _menuService;
         private readonly IMapper _mapper;
 
@@ -51,7 +51,7 @@ namespace Next2.ViewModels
         {
             _orderService = orderService;
             _menuService = menuService;
-            _bonusService = bonusService;
+            _bonusesService = bonusService;
             _mapper = mapper;
 
             CurrentOrder = _mapper.Map<FullOrderBindableModel>(_orderService.CurrentOrder);
@@ -623,8 +623,10 @@ namespace Next2.ViewModels
         {
             _orderService.CurrentOrder = CurrentOrder;
             _orderService.CurrentOrder.UpdateTotalSum();
-            CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == _orderService?.CurrentSeat?.SeatNumber);
+            _bonusesService.СalculationBonus(CurrentOrder);
+
+            var seatNumber = _orderService?.CurrentSeat?.SeatNumber;
+            _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == seatNumber);
 
             var parameters = new NavigationParameters();
 

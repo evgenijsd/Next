@@ -101,14 +101,30 @@ namespace Next2.Services.Bonuses
             return result;
         }
 
-        public async Task<FullOrderBindableModel> СalculationBonusAsync(FullOrderBindableModel currentOrder)
+        public void ResetСalculationBonus(FullOrderBindableModel currentOrder)
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
             foreach (var dish in dishes)
             {
+                dish.TotalPrice = dish.SelectedDishProportionPrice;
                 dish.DiscountPrice = dish.TotalPrice;
+            }
+
+            currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+            currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
+            currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
+            currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
+        }
+
+        public void СalculationBonus(FullOrderBindableModel currentOrder)
+        {
+            var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
+
+            foreach (var dish in dishes)
+            {
                 dish.SelectedDishProportionPrice = dish.TotalPrice;
+                dish.DiscountPrice = dish.TotalPrice;
             }
 
             if (currentOrder.Coupon is not null)
@@ -116,8 +132,8 @@ namespace Next2.Services.Bonuses
                 foreach (var dish in dishes)
                 {
                     dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Coupon.DiscountPercentage / 100)
-                        : dish.SelectedDishProportionPrice;
+                        ? dish.TotalPrice - (dish.TotalPrice * currentOrder.Coupon.DiscountPercentage / 100)
+                        : dish.TotalPrice;
 
                     dish.TotalPrice = dish.DiscountPrice;
                 }
@@ -126,7 +142,7 @@ namespace Next2.Services.Bonuses
             {
                 foreach (var dish in dishes)
                 {
-                    dish.DiscountPrice = dish.SelectedDishProportionPrice - (dish.SelectedDishProportionPrice * currentOrder.Discount.DiscountPercentage / 100);
+                    dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * currentOrder.Discount.DiscountPercentage / 100);
                     dish.TotalPrice = dish.DiscountPrice;
                 }
             }
@@ -135,8 +151,6 @@ namespace Next2.Services.Bonuses
             currentOrder.SubTotalPrice = currentOrder.DiscountPrice;
             currentOrder.PriceTax = (decimal)(currentOrder.DiscountPrice * currentOrder.TaxCoefficient);
             currentOrder.TotalPrice = (decimal)(currentOrder.PriceTax + currentOrder.DiscountPrice);
-
-            return currentOrder;
         }
 
         //public async Task<IEnumerable<BonusModel>> GetActiveCouponesAsync(List<BonusModel> bonuses)
