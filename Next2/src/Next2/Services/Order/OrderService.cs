@@ -26,7 +26,7 @@ namespace Next2.Services.Order
         private readonly IMockService _mockService;
         private readonly ISettingsManager _settingsManager;
         private readonly IRestService _restService;
-        private readonly IBonusesService _bonusService;
+        private readonly IBonusesService _bonusesService;
         private readonly IMapper _mapper;
 
         public OrderService(
@@ -39,7 +39,7 @@ namespace Next2.Services.Order
             _mockService = mockService;
             _settingsManager = settingsManager;
             _restService = restService;
-            _bonusService = bonusesService;
+            _bonusesService = bonusesService;
             _mapper = mapper;
             _restService = restService;
 
@@ -373,8 +373,8 @@ namespace Next2.Services.Order
 
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
-                    _bonusService.ResetСalculationBonus(CurrentOrder);
-                    _bonusService.СalculationBonus(CurrentOrder);
+                    _bonusesService.ResetСalculationBonus(CurrentOrder);
+                    _bonusesService.СalculationBonus(CurrentOrder);
                 }
 
                 result.SetSuccess();
