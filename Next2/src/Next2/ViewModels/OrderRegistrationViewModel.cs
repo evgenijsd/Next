@@ -632,7 +632,7 @@ namespace Next2.ViewModels
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
-
+            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.Id == _orderService.CurrentSeat.Id);
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
 

@@ -372,10 +372,12 @@ namespace Next2.Services.Order
 
                 CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
 
-                //if (CurrentOrder.BonusType != Enums.EBonusType.None)
-                //{
-                //    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
-                //}
+                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+                {
+                    await _bonusService.СalculationBonusAsync(CurrentOrder, false);
+                    CurrentOrder = await _bonusService.СalculationBonusAsync(CurrentOrder);
+                }
+
                 result.SetSuccess();
             }
             catch (Exception ex)
