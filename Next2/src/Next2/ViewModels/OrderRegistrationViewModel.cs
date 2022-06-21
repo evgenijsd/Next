@@ -673,6 +673,7 @@ namespace Next2.ViewModels
                 {
                     IsOrderWithTax = false;
                     CurrentOrder.TaxCoefficient = 0;
+                    CurrentOrder.UpdateTotalSum();
                 }
             }
         }
@@ -686,6 +687,7 @@ namespace Next2.ViewModels
             if (!IsOrderWithTax)
             {
                 CurrentOrder.TaxCoefficient = 0;
+                CurrentOrder.UpdateTotalSum();
             }
         }
 
