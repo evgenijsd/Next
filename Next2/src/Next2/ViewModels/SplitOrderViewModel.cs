@@ -70,7 +70,6 @@ namespace Next2.ViewModels
                     {
                         IsFirstSeat = x.Id == Order.Seats.First().Id,
                         Checked = false,
-                        Id = x.Id,
                         SeatNumber = x.Number,
                         SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand),
                         SelectedDishes = new(x.SelectedDishes.Select(y => new DishBindableModel()
@@ -94,7 +93,7 @@ namespace Next2.ViewModels
                                 SelectedOptions = x.SelectedOptions.FirstOrDefault(),
                             })),
                         })),
-                    }));
+                    }).OrderBy(x => x.SeatNumber));
                 }
 
                 SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();

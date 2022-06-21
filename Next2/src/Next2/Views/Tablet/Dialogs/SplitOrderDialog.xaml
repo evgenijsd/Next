@@ -259,7 +259,8 @@
                             HorizontalOptions="Fill"
                             IsNumericMode="True"
                             IsTextRightToLeft="True"
-                            Value="{Binding SplitValue}"
+                            MaxLength="5"
+                            Value="{Binding SplitValueString, Mode=TwoWay}"
                             ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
                             BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}" />
 

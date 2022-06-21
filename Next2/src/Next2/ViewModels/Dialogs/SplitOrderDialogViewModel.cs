@@ -18,7 +18,7 @@ using Next2.Models.API.DTO;
 
 namespace Next2.ViewModels.Dialogs
 {
-     public class SplitOrderDialogViewModel : BindableBase
+    public class SplitOrderDialogViewModel : BindableBase
     {
         private decimal _maxValue = 100;
 
@@ -46,6 +46,8 @@ namespace Next2.ViewModels.Dialogs
         public OrderModelDTO Order { get; set; }
 
         public decimal SplitValue { get; set; }
+
+        public string SplitValueString { get; set; }
 
         public decimal SplitTotal => Seats == null || Seats.Count() == 0
                 ? 0
@@ -81,14 +83,31 @@ namespace Next2.ViewModels.Dialogs
             {
                 case nameof(SelectedSeat):
                     {
-                        SplitValue = decimal.Round(SelectedSeat.SelectedItem.TotalPrice / SelectedDish.TotalPrice * 100);
-                        Calculate();
+                        if (Condition == ESplitOrderConditions.ByPercents)
+                        {
+                            SplitValue = decimal.Round(SelectedSeat.SelectedItem.TotalPrice / SelectedDish.TotalPrice * 100);
+                            //CalculateByPercentage();
+                        }
+                        else if (Condition == ESplitOrderConditions.ByDollar)
+                        {
+                        }
+
                         break;
                     }
 
                 case nameof(SplitValue):
                     {
-                        Calculate();
+                        if (Condition == ESplitOrderConditions.ByPercents)
+                        {
+                            CalculateByPercentage();
+                        }
+
+                        break;
+                    }
+
+                case nameof(SplitValueString):
+                    {
+                        CalculateByDollar();
                         break;
                     }
 
@@ -115,7 +134,6 @@ namespace Next2.ViewModels.Dialogs
                 var newSeats = seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
                 {
                     SeatNumber = x.SeatNumber,
-                    Id = x.Id,
                     SeatSelectionCommand = new AsyncCommand(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false),
                     SelectedItem = new DishBindableModel() { TotalPrice = 0, },
                 });
@@ -156,11 +174,29 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private void Calculate()
+        private void CalculateByPercentage()
         {
             if (SelectedSeat is not null)
             {
-                var price = (SplitValue * SelectedDish.TotalPrice) / 100;
+                var price = SplitValue * SelectedDish.TotalPrice / 100;
+                var otherSeats = Seats.Where(x => x.SeatNumber != SelectedSeat.SeatNumber && x.SelectedItem.TotalPrice != 0);
+                var splitTotalPrise = price + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+
+                if (splitTotalPrise <= SelectedDish.TotalPrice)
+                {
+                    SelectedSeat.SelectedItem.TotalPrice = price;
+
+                    RaisePropertyChanged(nameof(SplitTotal));
+                }
+            }
+        }
+
+        private void CalculateByDollar()
+        {
+            if (SelectedSeat is not null)
+            {
+                decimal.TryParse(SplitValueString, out decimal price);
+                price *= Convert.ToDecimal(0.01);
                 var otherSeats = Seats.Where(x => x.SeatNumber != SelectedSeat.SeatNumber && x.SelectedItem.TotalPrice != 0);
                 var splitTotalPrise = price + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
