@@ -83,7 +83,7 @@ namespace Next2.ViewModels
 
                 foreach (var seat in CurrentOrder.Seats)
                 {
-                    var selectedDishes = CloneSelectedDishes(CurrentOrder.Seats);
+                    var selectedDishes = CloneSelectedDishes(seat);
                     var newSeat = _mapper.Map<SeatBindableModel>(seat);
                     newSeat.SelectedDishes = new(selectedDishes);
 
@@ -126,7 +126,7 @@ namespace Next2.ViewModels
                     var couponId = CurrentOrder.Coupon.Id;
                     SelectedBonus = Coupons.FirstOrDefault(row => row.Id == couponId);
                 }
-                else if(CurrentOrder.Discount is not null)
+                else if (CurrentOrder.Discount is not null)
                 {
                     var discountId = CurrentOrder.Discount.Id;
                     SelectedBonus = Discounts.FirstOrDefault(row => row.Id == discountId);
@@ -153,13 +153,17 @@ namespace Next2.ViewModels
         private async Task<IEnumerable<CouponModelDTO>>? GetCoupons()
         {
             IEnumerable<CouponModelDTO>? result = null;
-            var dishesIds = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Select(x => x.Id);
 
-            var response = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
-
-            if (response.IsSuccess)
+            if (CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Any())
             {
-                result = response.Result;
+                var dishesIds = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Select(x => x.Id);
+
+                var response = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
+
+                if (response.IsSuccess)
+                {
+                    result = response.Result;
+                }
             }
 
             return result;
@@ -169,11 +173,14 @@ namespace Next2.ViewModels
         {
             IEnumerable<DiscountModelDTO>? result = null;
 
-            var response = await _bonusesService.GetDiscountsAsync(x => x.IsActive);
-
-            if (response.IsSuccess)
+            if (CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Any())
             {
-                result = response.Result;
+                var response = await _bonusesService.GetDiscountsAsync(x => x.IsActive);
+
+                if (response.IsSuccess)
+                {
+                    result = response.Result;
+                }
             }
 
             return result;
@@ -212,7 +219,7 @@ namespace Next2.ViewModels
                 }
             }
 
-             _bonusesService.СalculationBonus(CurrentOrder);
+            _bonusesService.СalculationBonus(CurrentOrder);
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
@@ -239,9 +246,9 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private IEnumerable<DishBindableModel> CloneSelectedDishes(IEnumerable<SeatBindableModel> seats)
+        private IEnumerable<DishBindableModel> CloneSelectedDishes(SeatBindableModel seat)
         {
-            var selectedDishes = seats.SelectMany(x => x.SelectedDishes.Select(x => new DishBindableModel
+            var selectedDishes = seat.SelectedDishes.Select(x => new DishBindableModel
             {
                 Id = x.Id,
                 DiscountPrice = x.DiscountPrice,
@@ -254,7 +261,7 @@ namespace Next2.ViewModels
                 DishProportions = x.DishProportions,
                 Products = x.Products,
                 SelectedProducts = x.SelectedProducts,
-            }));
+            });
 
             return selectedDishes;
         }
