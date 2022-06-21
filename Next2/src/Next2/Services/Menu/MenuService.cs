@@ -78,9 +78,22 @@ namespace Next2.Services.Menu
                             : orderService.CurrentOrder.Discount.DiscountPercentage;
                     }
 
-                    foreach (var dish in resultGettingDishes.Value.Dishes)
+                    if (orderService.CurrentOrder.Coupon is not null)
                     {
-                        dish.OriginalPrice = dish.OriginalPrice - (dish.OriginalPrice * bonusPercentage / 100);
+                        foreach (var dish in resultGettingDishes.Value.Dishes)
+                        {
+                            if (orderService.CurrentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
+                            {
+                                dish.OriginalPrice = dish.OriginalPrice - (dish.OriginalPrice * bonusPercentage / 100);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var dish in resultGettingDishes.Value.Dishes)
+                        {
+                            dish.OriginalPrice = dish.OriginalPrice - (dish.OriginalPrice * bonusPercentage / 100);
+                        }
                     }
                 }
             }
