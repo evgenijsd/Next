@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Helpers.Events;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -8,6 +9,7 @@ using Next2.Services.Log;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Tablet;
+using Prism.Events;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
@@ -28,6 +30,7 @@ namespace Next2.ViewModels.Tablet
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
         private readonly ILogService _logService;
+        private readonly IEventAggregator _eventAggregator;
 
         private bool _shouldOrderDishesByDESC;
 
@@ -36,16 +39,19 @@ namespace Next2.ViewModels.Tablet
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
             ILogService logService,
+            IEventAggregator eventAggregator,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _logService = logService;
+            _eventAggregator = eventAggregator;
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
             orderRegistrationViewModel.RefreshCurrentOrderAsync();
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Subscribe(BonusEventCommand);
         }
 
         #region -- Public properties --
@@ -100,6 +106,7 @@ namespace Next2.ViewModels.Tablet
             Dishes = new();
             Subcategories = new();
             Categories = new();
+            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -231,6 +238,11 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation
                 .PushAsync(new Views.Tablet.Dialogs
                 .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
+        }
+
+        private async void BonusEventCommand(FullOrderBindableModel obj)
+        {
+            await LoadDishesAsync();
         }
 
         #endregion
