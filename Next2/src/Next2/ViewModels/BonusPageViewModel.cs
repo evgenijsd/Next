@@ -152,38 +152,40 @@ namespace Next2.ViewModels
 
         private async Task<IEnumerable<CouponModelDTO>>? GetCoupons()
         {
-            IEnumerable<CouponModelDTO>? result = null;
+            IEnumerable<CouponModelDTO>? coupons = null;
+            var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
-            if (CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Any())
+            if (dishes.Any())
             {
-                var dishesIds = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Select(x => x.Id);
+                var dishesIds = dishes.Select(x => x.Id);
 
-                var response = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
+                var couponResult = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
 
-                if (response.IsSuccess)
+                if (couponResult.IsSuccess)
                 {
-                    result = response.Result;
+                    coupons = couponResult.Result;
                 }
             }
 
-            return result;
+            return coupons;
         }
 
         private async Task<IEnumerable<DiscountModelDTO>> GetDiscounts()
         {
-            IEnumerable<DiscountModelDTO>? result = null;
+            IEnumerable<DiscountModelDTO>? discounts = null;
+            var dishes = CurrentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
-            if (CurrentOrder.Seats.SelectMany(x => x.SelectedDishes).Any())
+            if (dishes.Any())
             {
-                var response = await _bonusesService.GetDiscountsAsync(x => x.IsActive);
+                var discountResult = await _bonusesService.GetDiscountsAsync(x => x.IsActive);
 
-                if (response.IsSuccess)
+                if (discountResult.IsSuccess)
                 {
-                    result = response.Result;
+                    discounts = discountResult.Result;
                 }
             }
 
-            return result;
+            return discounts;
         }
 
         private async Task OnApplyBonusCommandAsync()

@@ -19,16 +19,19 @@ namespace Next2.Services.Menu
     {
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
+        private readonly IOrderService _orderService;
         private IMockService _mockService;
 
         public MenuService(
             IMockService mockService,
             IRestService restService,
+            IOrderService orderService,
             ISettingsManager settingsManager)
         {
             _mockService = mockService;
             _restService = restService;
             _settingsManager = settingsManager;
+            _orderService = orderService;
         }
 
         #region -- IMenuService implementation --
@@ -68,31 +71,32 @@ namespace Next2.Services.Menu
                 {
                     result.SetSuccess(resultGettingDishes.Value.Dishes);
 
-                    var orderService = App.Resolve<IOrderService>();
-                    decimal bonusPercentage = 0;
-
-                    if (orderService.CurrentOrder.Discount is not null || orderService.CurrentOrder.Coupon is not null)
+                    if (_orderService.CurrentOrder.Discount is not null || _orderService.CurrentOrder.Coupon is not null)
                     {
-                        bonusPercentage = orderService.CurrentOrder.Coupon is not null
-                            ? orderService.CurrentOrder.Coupon.DiscountPercentage
-                            : orderService.CurrentOrder.Discount.DiscountPercentage;
-                    }
+                        decimal bonusPercentage = 0;
 
-                    if (orderService.CurrentOrder.Coupon is not null)
-                    {
-                        foreach (var dish in resultGettingDishes.Value.Dishes)
+                        bonusPercentage = _orderService.CurrentOrder.Coupon is not null
+                            ? _orderService.CurrentOrder.Coupon.DiscountPercentage
+                            : _orderService.CurrentOrder.Discount.DiscountPercentage;
+
+                        decimal percentage = bonusPercentage / Convert.ToDecimal(100);
+
+                        if (_orderService.CurrentOrder.Coupon is not null)
                         {
-                            if (orderService.CurrentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
+                            foreach (var dish in resultGettingDishes.Value.Dishes)
                             {
-                                dish.OriginalPrice = dish.OriginalPrice - (dish.OriginalPrice * bonusPercentage / 100);
+                                if (_orderService.CurrentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
+                                {
+                                    dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        foreach (var dish in resultGettingDishes.Value.Dishes)
+                        else
                         {
-                            dish.OriginalPrice = dish.OriginalPrice - (dish.OriginalPrice * bonusPercentage / 100);
+                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            {
+                                dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                            }
                         }
                     }
                 }
