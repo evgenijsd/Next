@@ -191,15 +191,15 @@
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                 IndexLastVisible="{Binding IndexLastVisibleElement}">
 
-                                <CollectionView.Effects>
+                                <controls:CustomCollectionView.Effects>
                                     <effects:NoOverScrollEffect />
-                                </CollectionView.Effects>
+                                </controls:CustomCollectionView.Effects>
 
-                                <CollectionView.Behaviors>
+                                <controls:CustomCollectionView.Behaviors>
                                     <behaviors:GetIndexLastElementBehavior />
-                                </CollectionView.Behaviors>
+                                </controls:CustomCollectionView.Behaviors>
 
-                                <CollectionView.ItemTemplate>
+                                <controls:CustomCollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:CustomerBindableModel">
 
                                         <Grid
@@ -265,7 +265,7 @@
                                         </Grid>
 
                                     </DataTemplate>
-                                </CollectionView.ItemTemplate>
+                                </controls:CustomCollectionView.ItemTemplate>
 
                             </controls:CustomCollectionView>
 
