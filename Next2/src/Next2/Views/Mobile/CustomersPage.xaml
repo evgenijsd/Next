@@ -10,7 +10,7 @@
     xmlns:models="clr-namespace:Next2.Models"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
-    xmlns:mobile="clr-namespace:Next2.Views.Mobile"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
     x:Class="Next2.Views.Mobile.CustomersPage"
@@ -168,7 +168,7 @@
                                     <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="x0 - x1">
 
                                         <Binding Path="DisplayedCustomers.Count" />
-                                        <Binding Path="IndexLastVisibleElement" Source="{x:RelativeSource AncestorType={x:Type mobile:CustomersPage}}" />
+                                        <Binding Path="IndexLastVisibleElement" />
 
                                     </MultiBinding>
                                 </DataTrigger.Binding>
@@ -183,18 +183,21 @@
                             IsRefreshing="{Binding IsRefreshing}"
                             Command="{Binding RefreshCommand}">
 
-                            <CollectionView
+                            <controls:CustomCollectionView
                                 VerticalScrollBarVisibility="Never"
                                 SelectionMode="Single"
                                 ItemsSource="{Binding DisplayedCustomers}"
                                 SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                                Scrolled="collectionView_Scrolled"
-                                x:Name="collectionView">
+                                IndexLastVisible="{Binding IndexLastVisibleElement}">
 
                                 <CollectionView.Effects>
                                     <effects:NoOverScrollEffect />
                                 </CollectionView.Effects>
+
+                                <CollectionView.Behaviors>
+                                    <behaviors:GetIndexLastElementBehavior />
+                                </CollectionView.Behaviors>
 
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:CustomerBindableModel">
@@ -264,7 +267,7 @@
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
 
-                            </CollectionView>
+                            </controls:CustomCollectionView>
 
                         </RefreshView>
 
