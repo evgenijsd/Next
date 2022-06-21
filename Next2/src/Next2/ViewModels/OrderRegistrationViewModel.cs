@@ -607,7 +607,7 @@ namespace Next2.ViewModels
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
-                    if (item.Id != seat.Id)
+                    if (item.SeatNumber != seat.SeatNumber)
                     {
                         item.SelectedItem = null;
                     }
@@ -651,8 +651,8 @@ namespace Next2.ViewModels
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
 
-            var currentSeatId = _orderService?.CurrentSeat.Id;
-            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.Id == currentSeatId);
+            var currentSeatNumber = _orderService?.CurrentSeat.SeatNumber;
+            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
 
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
