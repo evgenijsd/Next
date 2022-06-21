@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Extensions;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -153,26 +154,47 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        if (PopupNavigation.PopupStack.Any())
+                        bool responce = await UpdateCurrentOrder(_orderService.CurrentOrder);
+
+                        if (responce)
                         {
-                            await PopupNavigation.PopAsync();
+                            if (PopupNavigation.PopupStack.Any())
+                            {
+                                await PopupNavigation.PopAsync();
+                            }
+
+                            await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+
+                            var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                            {
+                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                                Position = ToastPosition.Bottom,
+                            };
+
+                            UserDialogs.Instance.Toast(toastConfig);
                         }
-
-                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-
-                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                        {
-                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                            Position = ToastPosition.Bottom,
-                        };
-
-                        UserDialogs.Instance.Toast(toastConfig);
                     }
                 }
             }
             else
             {
                 await PopupNavigation.PopAsync();
+            }
+        }
+
+        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
+        {
+            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            if (updateOrderResult.IsSuccess)
+            {
+                await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

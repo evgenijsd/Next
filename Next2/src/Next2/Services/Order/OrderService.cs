@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API.Commands;
@@ -324,7 +325,8 @@ namespace Next2.Services.Order
 
                 if (order.Success)
                 {
-                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
+                    CurrentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
+                    //CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     CurrentSeat = null;
