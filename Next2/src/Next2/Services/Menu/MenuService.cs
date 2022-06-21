@@ -4,6 +4,7 @@ using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
+using Next2.Services.Order;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
@@ -66,6 +67,21 @@ namespace Next2.Services.Menu
                 if (resultGettingDishes.Success)
                 {
                     result.SetSuccess(resultGettingDishes.Value.Dishes);
+
+                    var orderService = App.Resolve<IOrderService>();
+                    decimal bonusPercentage = 0;
+
+                    if (orderService.CurrentOrder.Discount is not null || orderService.CurrentOrder.Coupon is not null)
+                    {
+                        bonusPercentage = orderService.CurrentOrder.Coupon is not null
+                            ? orderService.CurrentOrder.Coupon.DiscountPercentage
+                            : orderService.CurrentOrder.Discount.DiscountPercentage;
+                    }
+
+                    foreach (var dish in resultGettingDishes.Value.Dishes)
+                    {
+                        dish.OriginalPrice = dish.OriginalPrice - (dish.OriginalPrice * bonusPercentage / 100);
+                    }
                 }
             }
             catch (Exception ex)

@@ -105,10 +105,28 @@ namespace Next2.Services.Bonuses
         {
             var dishes = currentOrder.Seats.SelectMany(x => x.SelectedDishes);
 
-            foreach (var dish in dishes)
+            if (currentOrder.Coupon is not null)
             {
-                dish.TotalPrice = dish.SelectedDishProportionPrice;
-                dish.DiscountPrice = dish.TotalPrice;
+                foreach (var dish in dishes)
+                {
+                    decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
+
+                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
+                        ? dish.TotalPrice / (1 - percentage)
+                        : dish.TotalPrice;
+
+                    dish.TotalPrice = dish.DiscountPrice;
+                }
+            }
+            else if (currentOrder.Discount is not null)
+            {
+                foreach (var dish in dishes)
+                {
+                    decimal percentage = currentOrder.Discount.DiscountPercentage / Convert.ToDecimal(100);
+
+                    dish.DiscountPrice = dish.TotalPrice / (1 - percentage);
+                    dish.TotalPrice = dish.DiscountPrice;
+                }
             }
 
             currentOrder.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
@@ -131,8 +149,10 @@ namespace Next2.Services.Bonuses
             {
                 foreach (var dish in dishes)
                 {
+                    decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
+
                     dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.TotalPrice - (dish.TotalPrice * currentOrder.Coupon.DiscountPercentage / 100)
+                        ? dish.TotalPrice - (dish.TotalPrice * percentage)
                         : dish.TotalPrice;
 
                     dish.TotalPrice = dish.DiscountPrice;
@@ -142,7 +162,8 @@ namespace Next2.Services.Bonuses
             {
                 foreach (var dish in dishes)
                 {
-                    dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * currentOrder.Discount.DiscountPercentage / 100);
+                    decimal percentage = currentOrder.Discount.DiscountPercentage / Convert.ToDecimal(100);
+                    dish.DiscountPrice = dish.TotalPrice - (dish.TotalPrice * percentage);
                     dish.TotalPrice = dish.DiscountPrice;
                 }
             }
