@@ -220,11 +220,13 @@ namespace Next2.ViewModels
                             selectedProductIndex++;
                         }
 
-                        if (_currentDish.SelectedProducts[selectedProductIndex].Id != SelectedReplacementProduct.Id)
-                        {
-                            var selectedProduct = _currentDish.Products.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
+                        var selectedProductCurrent = _currentDish.SelectedProducts[selectedProductIndex];
 
-                            _currentDish.SelectedProducts[selectedProductIndex] = new ()
+                        if (selectedProductCurrent.Id != SelectedReplacementProduct.Id)
+                        {
+                            var selectedProductDefault = _currentDish.Products.FirstOrDefault(x => x.Id == SelectedReplacementProduct.Id);
+
+                            selectedProductCurrent = new ()
                             {
                                 Id = SelectedReplacementProduct.Id,
                                 SelectedOptions = SelectedReplacementProduct.Options.FirstOrDefault(),
@@ -232,22 +234,31 @@ namespace Next2.ViewModels
                                 Price = SelectedReplacementProduct.DefaultPrice,
                                 Product = new()
                                 {
-                                    Id = selectedProduct.Id,
-                                    DefaultPrice = selectedProduct.DefaultPrice,
-                                    ImageSource = selectedProduct.ImageSource,
-                                    Ingredients = selectedProduct.Ingredients,
-                                    Name = selectedProduct.Name,
-                                    Options = selectedProduct.Options,
+                                    Id = selectedProductDefault.Id,
+                                    DefaultPrice = selectedProductDefault.DefaultPrice,
+                                    ImageSource = selectedProductDefault.ImageSource,
+                                    Ingredients = selectedProductDefault.Ingredients,
+                                    Name = selectedProductDefault.Name,
+                                    Options = selectedProductDefault.Options,
                                 },
                             };
 
                             ProductsDish[ProductsDish.IndexOf(SelectedProduct)].Title = SelectedReplacementProduct.Name ?? string.Empty;
                             SelectedProduct.Id = SelectedReplacementProduct.Id;
 
-                            foreach (var ingredient in _currentDish.SelectedProducts[selectedProductIndex].AddedIngredients)
+                            foreach (var addedIngredient in selectedProductCurrent.AddedIngredients ?? new())
                             {
-                                ingredient.Price = СalculateProductPriceOfProportion(ingredient.Price);
+                                var price = _allIngredients.FirstOrDefault(row => row.Id == addedIngredient.Id).Price;
+                                addedIngredient.Price = СalculatePriceOfProportion(price);
                             }
+
+                            foreach (var excludedIngredient in selectedProductCurrent.ExcludedIngredients ?? new())
+                            {
+                                var price = _allIngredients.FirstOrDefault(row => row.Id == excludedIngredient.Id).Price;
+                                excludedIngredient.Price = СalculatePriceOfProportion(price);
+                            }
+
+                            _currentDish.SelectedProducts[selectedProductIndex] = selectedProductCurrent;
                         }
                     }
 
@@ -276,7 +287,7 @@ namespace Next2.ViewModels
 
         #region --Private methods--
 
-        private decimal СalculateProductPriceOfProportion(decimal price)
+        private decimal СalculatePriceOfProportion(decimal price)
         {
             var priceRatio = _currentDish.SelectedDishProportion.PriceRatio;
 
@@ -436,7 +447,7 @@ namespace Next2.ViewModels
                 foreach (var product in ReplacementProducts)
                 {
                     var defaultProductPrice = products.FirstOrDefault(x => x.Id == product.Id).DefaultPrice;
-                    product.DefaultPrice = СalculateProductPriceOfProportion(defaultProductPrice);
+                    product.DefaultPrice = СalculatePriceOfProportion(defaultProductPrice);
                 }
 
                 SelectedReplacementProduct = ReplacementProducts.FirstOrDefault(x => x.Id == SelectedProduct.Id);
