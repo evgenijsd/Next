@@ -47,11 +47,11 @@ namespace Next2.ViewModels.Dialogs
 
         public decimal SplitValue { get; set; }
 
-        public string SplitValueString { get; set; }
-
         public decimal SplitTotal => Seats == null || Seats.Count() == 0
                 ? 0
                 : Seats.Sum(x => x.SelectedItem.TotalPrice);
+
+        public bool IsSplitAvailable { get; set; }
 
         public Action<IDialogParameters> RequestClose;
 
@@ -70,7 +70,7 @@ namespace Next2.ViewModels.Dialogs
         public ICommand CancelCommand => _cancelCommand ??= new Command(() => RequestClose(null));
 
         private ICommand _splitCommand;
-        public ICommand SplitCommand => _splitCommand ??= new Command(() => RequestClose(null));
+        public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -79,6 +79,7 @@ namespace Next2.ViewModels.Dialogs
         protected override void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             base.OnPropertyChanged(args);
+
             switch (args.PropertyName)
             {
                 case nameof(SelectedSeat):
@@ -86,10 +87,10 @@ namespace Next2.ViewModels.Dialogs
                         if (Condition == ESplitOrderConditions.ByPercents)
                         {
                             SplitValue = decimal.Round(SelectedSeat.SelectedItem.TotalPrice / SelectedDish.TotalPrice * 100);
-                            //CalculateByPercentage();
                         }
                         else if (Condition == ESplitOrderConditions.ByDollar)
                         {
+                            SplitValue = SelectedSeat.SelectedItem.TotalPrice;
                         }
 
                         break;
@@ -101,13 +102,13 @@ namespace Next2.ViewModels.Dialogs
                         {
                             CalculateByPercentage();
                         }
+                        else if (Condition == ESplitOrderConditions.ByDollar)
+                        {
+                            CalculateByDollar();
+                        }
 
-                        break;
-                    }
+                        IsSplitAvailable = SplitTotal > 0;
 
-                case nameof(SplitValueString):
-                    {
-                        CalculateByDollar();
                         break;
                     }
 
@@ -174,6 +175,11 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
+        private Task OnSplitCommandAsync()
+        {
+            return Task.CompletedTask;
+        }
+
         private void CalculateByPercentage()
         {
             if (SelectedSeat is not null)
@@ -195,16 +201,12 @@ namespace Next2.ViewModels.Dialogs
         {
             if (SelectedSeat is not null)
             {
-                decimal.TryParse(SplitValueString, out decimal price);
-                price *= Convert.ToDecimal(0.01);
                 var otherSeats = Seats.Where(x => x.SeatNumber != SelectedSeat.SeatNumber && x.SelectedItem.TotalPrice != 0);
-                var splitTotalPrise = price + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+                var splitTotalPrise = SplitValue + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
                 if (splitTotalPrise <= SelectedDish.TotalPrice)
                 {
-                    SelectedSeat.SelectedItem.TotalPrice = price;
-
-                    RaisePropertyChanged(nameof(SplitTotal));
+                    SelectedSeat.SelectedItem.TotalPrice = SplitValue;
                 }
             }
         }

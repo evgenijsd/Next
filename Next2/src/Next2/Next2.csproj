@@ -308,6 +308,9 @@
     <EmbeddedResource Update="Controls\FormattedLabel.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\NumericKeyboard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\PortionItemTemplate.xaml">
           <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
