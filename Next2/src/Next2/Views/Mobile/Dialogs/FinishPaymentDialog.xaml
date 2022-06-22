@@ -195,25 +195,8 @@
                 <Label
                     HorizontalOptions="EndAndExpand"
                     IsVisible="{Binding Order.Tip, Converter={StaticResource decimalToBoolConverter}}"
-                    Style="{DynamicResource LabelStyle}">
-
-                    <Label.FormattedText>
-                        <FormattedString>
-
-                            <Span Text="+ " />
-                            <Span Text="{Binding TipAsAPercentage}" />
-                            <Span Text="% " />
-                            <Span Text="(" />
-
-                            <Span Text="{xct:Translate CurrencySign}" />
-                            <Span Text=" " />
-                            <Span Text="{Binding Tip}" />
-                            <Span Text=")" />
-
-                        </FormattedString>
-                    </Label.FormattedText>
-
-                </Label>
+                    Style="{DynamicResource LabelStyle}" 
+                    Text="{Binding TipValue}"/>
 
             </StackLayout>
 
