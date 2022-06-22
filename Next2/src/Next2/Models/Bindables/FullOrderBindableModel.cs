@@ -23,7 +23,7 @@ namespace Next2.Models.Bindables
 
         public bool IsCashPayment { get; set; }
 
-        public SimpleTableModelDTO Table { get; set; } = new();
+        public SimpleTableModelDTO? Table { get; set; } = new();
 
         public CustomerBindableModel? Customer { get; set; } = new();
 

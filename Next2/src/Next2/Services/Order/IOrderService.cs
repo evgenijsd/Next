@@ -29,8 +29,6 @@ namespace Next2.Services.Order
 
         Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
 
-        Task<AOResult> DeleteOrderAsync(int orderId);
-
         string ApplyNumberFilter(string text);
 
         string ApplyNameFilter(string text);

@@ -183,29 +183,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteOrderAsync(int orderId)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                var removalOrder = await _mockService.FindAsync<OrderModel>(x => x.Id == orderId);
-
-                if (removalOrder is not null)
-                {
-                    await _mockService.RemoveAsync(removalOrder);
-
-                    result.SetSuccess();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new(Constants.Validators.NUMBER);
@@ -327,10 +304,8 @@ namespace Next2.Services.Order
                 {
                     CurrentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
                     //CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
-                    CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
-                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    CurrentSeat = null;
-
+                    //CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
+                    //CurrentOrder.OrderType = Enums.EOrderType.DineIn;
                     result.SetSuccess();
                 }
             }
@@ -348,7 +323,7 @@ namespace Next2.Services.Order
 
             try
             {
-                if (CurrentSeat is null)
+                if (CurrentSeat is null || CurrentOrder.Seats.Count == 0)
                 {
                     var seat = new SeatBindableModel
                     {
@@ -364,6 +339,11 @@ namespace Next2.Services.Order
                 }
 
                 dish.DiscountPrice = dish.SelectedDishProportionPrice;
+
+                if (CurrentSeat is null)
+                {
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
+                }
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 

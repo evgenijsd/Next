@@ -154,6 +154,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
+                        await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                         bool responce = await UpdateCurrentOrder(_orderService.CurrentOrder);
 
                         if (responce)
@@ -162,8 +163,6 @@ namespace Next2.ViewModels.Tablet
                             {
                                 await PopupNavigation.PopAsync();
                             }
-
-                            await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
 
                             var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                             {
@@ -187,15 +186,7 @@ namespace Next2.ViewModels.Tablet
             var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
             var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
-            if (updateOrderResult.IsSuccess)
-            {
-                await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return updateOrderResult.IsSuccess;
         }
 
         private async Task LoadCategoriesAsync()

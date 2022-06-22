@@ -43,7 +43,7 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = string.Empty;
 
-        public DateTime CurrentDateTime { get; set; }
+        public DateTime CurrentDateTime { get; set; } = DateTime.Now;
 
         private ICommand _ClearCommand;
         public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
@@ -117,7 +117,6 @@ namespace Next2.ViewModels
 
         private Task OnClearCommandAsync()
         {
-            EmployeeId = string.Empty;
             IsInvalidEmployeeId = false;
 
             return Task.CompletedTask;

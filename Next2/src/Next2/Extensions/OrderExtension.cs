@@ -115,16 +115,33 @@ namespace Next2.Extensions
                 Open = order.Open,
                 Close = order.Close,
                 IsCashPayment = order.IsCashPayment,
-                Table = order.Table,
-                Customer = new(),
+                Table = order.Table is not null
+                    ? new()
+                    {
+                         Id = order.Table.Id,
+                         Number = order.Table.Number,
+                         SeatNumbers = order.Table.SeatNumbers,
+                    }
+                    : null,
+                Customer = order.Customer is not null
+                    ? new()
+                    {
+                        Id = order.Customer.Id,
+                        FullName = order.Customer?.FullName,
+                        Phone = order.Customer?.Phone,
+                    }
+                    : null,
                 OrderStatus = order.OrderStatus,
                 OrderType = (EOrderType?)Enum.Parse(typeof(EOrderType), order.OrderType),
                 Discount = order.Discount,
                 Coupon = order.Coupon,
                 TaxCoefficient = order.TaxCoefficient,
-                SubTotalPrice = order.SubTotalPrice,
                 DiscountPrice = order.DiscountPrice,
+                SubTotalPrice = order.SubTotalPrice,
                 TotalPrice = order.TotalPrice,
+                PriceTax = order.SubTotalPrice is not null
+                    ? (decimal)order.SubTotalPrice * order.TaxCoefficient
+                    : new(),
                 EmployeeId = order.EmployeeId,
                 Seats = new(order.Seats.Select(row => new SeatBindableModel()
                 {

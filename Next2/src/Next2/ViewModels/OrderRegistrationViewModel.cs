@@ -190,9 +190,11 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    if (SelectedTable is not null)
+                    if (SelectedTable is not null && SelectedTable.TableNumber != CurrentOrder.Table?.Number)
                     {
                         _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
+                        var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
+                        var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
                     }
 
                     break;
@@ -292,7 +294,12 @@ namespace Next2.ViewModels
 
                     SelectedTable = CurrentOrder.Table is null
                         ? Tables.FirstOrDefault()
-                        : Tables.FirstOrDefault(x => x.TableNumber == CurrentOrder.Table.Number);
+                        : new()
+                        {
+                            Id = CurrentOrder.Table.Id,
+                            SeatNumbers = CurrentOrder.Table.SeatNumbers,
+                            TableNumber = CurrentOrder.Table.Number,
+                        };
                 }
             }
         }
