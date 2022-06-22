@@ -147,6 +147,8 @@ namespace Next2.Extensions
                 {
                     Id = row.Id,
                     SeatNumber = row.Number,
+                    IsFirstSeat = row.Number == 1,
+                    Checked = row.Number == 1,
                     SelectedDishes = new(row.SelectedDishes.Select(row => new DishBindableModel()
                     {
                         Id = row.Id,

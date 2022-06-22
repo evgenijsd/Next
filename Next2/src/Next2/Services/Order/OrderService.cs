@@ -302,10 +302,14 @@ namespace Next2.Services.Order
 
                 if (order.Success)
                 {
-                    CurrentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
-                    //CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
-                    //CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
-                    //CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    var currentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
+
+                    if (currentOrder is not null)
+                    {
+                        currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
+                        CurrentOrder = currentOrder;
+                    }
+
                     result.SetSuccess();
                 }
             }
@@ -323,7 +327,7 @@ namespace Next2.Services.Order
 
             try
             {
-                if (CurrentSeat is null || CurrentOrder.Seats.Count == 0)
+                if (CurrentSeat is null && CurrentOrder.Seats.Count == 0)
                 {
                     var seat = new SeatBindableModel
                     {
