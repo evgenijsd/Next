@@ -25,6 +25,9 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
         private readonly IMapper _mapper;
+
+        private bool isOneTime = true;
+
         public SplitOrderViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
@@ -49,7 +52,7 @@ namespace Next2.ViewModels
         public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _splitByCommand;
-        public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommand, allowsMultipleExecutions: false);
+        public ICommand SplitByCommand => _splitByCommand ??= new AsyncCommand<ESplitOrderConditions>(OnSplitByCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -96,8 +99,7 @@ namespace Next2.ViewModels
                     }).OrderBy(x => x.SeatNumber));
                 }
 
-                SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-                Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+                SelectFirstDish();
             }
         }
 
@@ -105,7 +107,7 @@ namespace Next2.ViewModels
 
         #region -- Private Helpers --
 
-        private async Task OnSplitByCommand(ESplitOrderConditions condition)
+        private async Task OnSplitByCommandAsync(ESplitOrderConditions condition)
         {
             var param = new DialogParameters
             {
@@ -115,13 +117,58 @@ namespace Next2.ViewModels
             };
 
             PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.SplitOrderDialog(param, (IDialogParameters dialogResult) => _popupNavigation.PopAsync())
-                : new Views.Mobile.Dialogs.SplitOrderDialog(param, (IDialogParameters dialogResult) => _popupNavigation.PopAsync());
+                ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
+                : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
 
             await _popupNavigation.PushAsync(popupPage);
         }
 
-        private bool isOneTime = true;
+        private async void SplitOrderDialogCallBack(IDialogParameters dialogResult)
+        {
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SEATS, out List<SeatBindableModel> seats))
+            {
+                foreach (var seat in Seats)
+                {
+                    var incSeat = seats.FirstOrDefault(x => x.SeatNumber == seat.SeatNumber);
+
+                    if (incSeat is not null)
+                    {
+                        var dish = SelectedDish.Clone() as DishBindableModel;
+                        dish.TotalPrice = incSeat.SelectedItem.TotalPrice;
+                        seat.SelectedDishes.Add(dish);
+                    }
+                }
+
+                if (SelectedDish.TotalPrice == 0)
+                {
+                    var seat = Seats.FirstOrDefault(x => x.SelectedDishes.Any(x => x.TotalPrice == 0));
+
+                    seat.SelectedDishes.Remove(SelectedDish);
+
+                    if (seat.SelectedDishes.Count == 0)
+                    {
+                        Seats.Remove(seat);
+                    }
+                }
+
+                RaisePropertyChanged(nameof(Seats));
+                SelectFirstDish();
+            }
+
+            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
+            {
+            }
+
+            await _popupNavigation.PopAsync();
+        }
+
+        private void SelectFirstDish()
+        {
+            SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+            Seats.FirstOrDefault().Checked = true;
+        }
+
         private Task OnDishSelectionCommand(object? sender)
         {
             if (isOneTime)

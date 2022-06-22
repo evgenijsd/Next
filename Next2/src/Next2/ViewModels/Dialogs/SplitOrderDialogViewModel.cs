@@ -21,15 +21,13 @@ namespace Next2.ViewModels.Dialogs
     public class SplitOrderDialogViewModel : BindableBase
     {
         private decimal _maxValue = 100;
+        private List<int[]> _splitGroupList = new();
 
         public SplitOrderDialogViewModel(
             DialogParameters param,
             Action<IDialogParameters> requestClose)
         {
             RequestClose = requestClose;
-
-            AcceptCommand = new Command(() => RequestClose(null));
-
             LoadData(param);
         }
 
@@ -40,6 +38,8 @@ namespace Next2.ViewModels.Dialogs
         public DishBindableModel SelectedDish { get; set; }
 
         public SeatBindableModel SelectedSeat { get; set; }
+
+        public List<object> SelectedSeats { get; set; } = new();
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; }
 
@@ -177,6 +177,41 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnSplitCommandAsync()
         {
+            if (Condition == ESplitOrderConditions.BySeats)
+            {
+                var seats = SelectedSeats.Select(x => x as SeatBindableModel);
+                var seatNumbers = seats.Select(x => x.SeatNumber).ToArray();
+                _splitGroupList.Add(seatNumbers);
+
+                foreach (var seat in seats)
+                {
+                    Seats.Remove(seat);
+                }
+
+                SelectedSeats = new();
+
+                if (Seats.Count == 0)
+                {
+                    DialogParameters param = new()
+                    {
+                        { Constants.DialogParameterKeys.SPLIT_GROUPS, _splitGroupList },
+                    };
+
+                    RequestClose.Invoke(param);
+                }
+            }
+            else
+            {
+                SelectedDish.TotalPrice -= SplitTotal;
+
+                DialogParameters param = new()
+                {
+                    { Constants.DialogParameterKeys.SEATS, Seats.Where(x => x.SelectedItem.TotalPrice > 0).ToList() },
+                };
+
+                RequestClose.Invoke(param);
+            }
+
             return Task.CompletedTask;
         }
 

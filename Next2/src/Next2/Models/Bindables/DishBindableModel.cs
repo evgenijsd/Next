@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Next2.Models.Bindables
 {
-    public class DishBindableModel : BindableBase, IBaseApiModel
+    public class DishBindableModel : BindableBase, IBaseApiModel, ICloneable
     {
         public Guid Id { get; set; }
 
@@ -27,8 +27,26 @@ namespace Next2.Models.Bindables
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
 
-        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new ();
+        public ObservableCollection<SimpleProductModelDTO>? Products { get; set; } = new();
 
         public ObservableCollection<ProductBindableModel>? SelectedProducts { get; set; }
+
+        public object Clone()
+        {
+            return new DishBindableModel()
+            {
+                Id = Id,
+
+                Name = Name,
+                ImageSource = ImageSource,
+                TotalPrice = TotalPrice,
+                DiscountPrice = DiscountPrice,
+                SelectedDishProportionPrice = SelectedDishProportionPrice,
+                DishProportions = DishProportions,
+                SelectedDishProportion = SelectedDishProportion,
+                Products = Products,
+                SelectedProducts = SelectedProducts,
+            };
+        }
     }
 }

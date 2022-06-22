@@ -308,6 +308,9 @@
                     <CollectionView.Triggers>
                         <DataTrigger TargetType="CollectionView" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
                             <Setter Property="Margin" Value="0"/>
+                            <Setter Property="SelectedItem" Value="null"/>
+                            <Setter Property="SelectionMode" Value="Multiple"/>
+                            <Setter Property="SelectedItems" Value="{Binding SelectedSeats}"/>
                             
                         </DataTrigger>
                     </CollectionView.Triggers>
