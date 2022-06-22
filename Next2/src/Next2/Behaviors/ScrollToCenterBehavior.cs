@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace Next2.Behaviors
 {
-    public class ScrollToBehavior : Behavior<View>
+    public class ScrollToCenterBehavior : Behavior<View>
     {
         private CustomCollectionView _collection = new();
 

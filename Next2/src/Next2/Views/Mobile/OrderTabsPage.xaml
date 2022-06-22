@@ -222,7 +222,7 @@
 
                             <controls:CustomCollectionView.Behaviors>
                                 <behaviors:GetIndexLastElementBehavior />
-                                <behaviors:ScrollToBehavior />
+                                <behaviors:ScrollToCenterBehavior />
                             </controls:CustomCollectionView.Behaviors>
 
                             <controls:CustomCollectionView.ItemTemplate>
