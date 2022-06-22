@@ -208,8 +208,7 @@
                             HeightRequest="400"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             VerticalScrollBarVisibility="Never"
-                            IndexLastVisible="{Binding IndexLastVisibleElement}"
-                            x:Name="collectionView">
+                            IndexLastVisible="{Binding IndexLastVisibleElement}">
 
                             <controls:CustomCollectionView.Triggers>
                                 <DataTrigger TargetType="CollectionView" Binding="{Binding IsPreloadStateActive}" Value="False">
@@ -223,6 +222,7 @@
 
                             <controls:CustomCollectionView.Behaviors>
                                 <behaviors:GetIndexLastElementBehavior />
+                                <behaviors:ScrollToBehavior />
                             </controls:CustomCollectionView.Behaviors>
 
                             <controls:CustomCollectionView.ItemTemplate>
