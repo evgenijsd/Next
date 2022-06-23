@@ -48,5 +48,9 @@ namespace Next2.Services.Order
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
 
         Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
+
+        Task<AOResult<DishModelDTO>> GetDishById(Guid dishId);
+
+        FullOrderBindableModel AddAdditionalDishesInformationToOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes);
     }
 }

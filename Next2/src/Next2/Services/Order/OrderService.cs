@@ -299,18 +299,27 @@ namespace Next2.Services.Order
             {
                 var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
                 var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
-
                 if (order.Success)
                 {
                     var currentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
 
                     if (currentOrder is not null)
                     {
+                        List<Task<AOResult<DishModelDTO>>> tasks = new();
+                        var dishesId = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
+
+                        foreach (var dishId in dishesId)
+                        {
+                            tasks.Add(GetDishById(dishId));
+                        }
+
+                        var results = await Task.WhenAll(tasks);
+
+                        AddAdditionalDishesInformationToOrder(currentOrder, results);
                         currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
                         CurrentOrder = currentOrder;
+                        result.SetSuccess();
                     }
-
-                    result.SetSuccess();
                 }
             }
             catch (Exception ex)
@@ -319,6 +328,56 @@ namespace Next2.Services.Order
             }
 
             return result;
+        }
+
+        public async Task<AOResult<DishModelDTO>> GetDishById(Guid dishId)
+        {
+            var result = new AOResult<DishModelDTO>();
+
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/dishes/{dishId}";
+                var dishResult = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (dishResult.Success)
+                {
+                    if (dishResult?.Value?.Dish is not null)
+                    {
+                        result.SetSuccess(dishResult.Value.Dish);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetDishById)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public FullOrderBindableModel AddAdditionalDishesInformationToOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes)
+        {
+            List<DishModelDTO> dishModels = new();
+
+            foreach (var dish in dishes)
+            {
+                if (dish.IsSuccess)
+                {
+                    dishModels.Add(dish.Result);
+                }
+            }
+
+            foreach (var seat in currentOrder.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    var source = dishModels.Find(row => row.Id == dish.DishId);
+                    dish.DishProportions = source.DishProportions;
+                    dish.Products = new(source.Products);
+                }
+            }
+
+            return currentOrder;
         }
 
         public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)

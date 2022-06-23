@@ -153,6 +153,7 @@ namespace Next2.Extensions
                     {
                         Id = row.Id,
                         DishId = row.DishId,
+                        SelectedDishProportionPrice = row.TotalPrice,
                         Name = row.Name,
                         ImageSource = row.ImageSource,
                         TotalPrice = row.TotalPrice,
@@ -169,7 +170,7 @@ namespace Next2.Extensions
                         },
                         SelectedProducts = new(row.SelectedProducts.Select(row => new ProductBindableModel()
                         {
-                            Id = row.Id,
+                            Id = row.Product.Id, 
                             Comment = new(row.Comment),
                             Product = new SimpleProductModelDTO()
                             {
@@ -216,6 +217,19 @@ namespace Next2.Extensions
                     })),
                 })),
             };
+
+            foreach (var seat in fullOrderBindableModel.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    foreach (var product in dish.SelectedProducts)
+                    {
+                        product.Price = dish.SelectedDishProportion.PriceRatio == 1
+                            ? product.Product.DefaultPrice
+                            : product.Product.DefaultPrice * (1 + dish.SelectedDishProportion.PriceRatio);
+                    }
+                }
+            }
 
             return fullOrderBindableModel;
         }
