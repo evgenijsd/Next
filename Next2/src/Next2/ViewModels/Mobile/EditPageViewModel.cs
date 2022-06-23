@@ -25,6 +25,7 @@ namespace Next2.ViewModels.Mobile
         private readonly IOrderService _orderService;
         private readonly IMenuService _menuService;
         private int _indexOfSeat;
+        private bool _isModifiedDish;
 
         public EditPageViewModel(
             INavigationService navigationService,
@@ -49,6 +50,9 @@ namespace Next2.ViewModels.Mobile
         private ICommand _openHoldSelectionCommand;
         public ICommand OpenHoldSelectionCommand => _openHoldSelectionCommand ??= new AsyncCommand(OnOpenHoldSelectionCommandAsync);
 
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommandAsync);
+
         #endregion
 
         #region -- Overrides --
@@ -56,6 +60,11 @@ namespace Next2.ViewModels.Mobile
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.DISH_MODIFIED, out bool isModifiedDish))
+            {
+                _isModifiedDish = isModifiedDish;
+            }
 
             var seat = _orderService.CurrentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
@@ -110,7 +119,7 @@ namespace Next2.ViewModels.Mobile
 
                         var navigationParameters = new NavigationParameters
                         {
-                            { nameof(Constants.Navigations.DELETE_SET), Constants.Navigations.DELETE_SET },
+                            { nameof(Constants.Navigations.DELETE_DISH), Constants.Navigations.DELETE_DISH },
                         };
                         await _navigationService.GoBackAsync(navigationParameters);
                     }
@@ -124,6 +133,18 @@ namespace Next2.ViewModels.Mobile
             {
                 await PopupNavigation.PopAsync();
             }
+        }
+
+        private Task OnGoBackCommandAsync()
+        {
+            var navigationParam = new NavigationParameters();
+
+            if (_isModifiedDish)
+            {
+                navigationParam.Add(Constants.Navigations.DISH_MODIFIED, _isModifiedDish);
+            }
+
+            return _navigationService.GoBackAsync(navigationParam);
         }
 
         #endregion
