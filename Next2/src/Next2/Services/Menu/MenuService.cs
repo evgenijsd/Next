@@ -4,6 +4,7 @@ using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
+using Next2.Services.Order;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
@@ -18,16 +19,19 @@ namespace Next2.Services.Menu
     {
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
+        private readonly IOrderService _orderService;
         private IMockService _mockService;
 
         public MenuService(
             IMockService mockService,
             IRestService restService,
+            IOrderService orderService,
             ISettingsManager settingsManager)
         {
             _mockService = mockService;
             _restService = restService;
             _settingsManager = settingsManager;
+            _orderService = orderService;
         }
 
         #region -- IMenuService implementation --
@@ -66,6 +70,35 @@ namespace Next2.Services.Menu
                 if (resultGettingDishes.Success)
                 {
                     result.SetSuccess(resultGettingDishes.Value.Dishes);
+
+                    if (_orderService.CurrentOrder.Discount is not null || _orderService.CurrentOrder.Coupon is not null)
+                    {
+                        decimal bonusPercentage = 0;
+
+                        bonusPercentage = _orderService.CurrentOrder.Coupon is not null
+                            ? _orderService.CurrentOrder.Coupon.DiscountPercentage
+                            : _orderService.CurrentOrder.Discount.DiscountPercentage;
+
+                        decimal percentage = bonusPercentage / Convert.ToDecimal(100);
+
+                        if (_orderService.CurrentOrder.Coupon is not null)
+                        {
+                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            {
+                                if (_orderService.CurrentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
+                                {
+                                    dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            {
+                                dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)

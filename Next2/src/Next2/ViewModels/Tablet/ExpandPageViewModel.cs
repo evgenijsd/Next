@@ -116,20 +116,17 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        bool isOrderUpdated = await UpdateCurrentOrder(_orderService.CurrentOrder);
+                        await _orderService.UpdateOrderAsync(_orderService.CurrentOrder.ToUpdateOrderCommand());
 
-                        if (isOrderUpdated)
+                        await PopupNavigation.PopAsync();
+
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
                         {
-                            await PopupNavigation.PopAsync();
+                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                            Position = ToastPosition.Bottom,
+                        };
 
-                            var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                            {
-                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                                Position = ToastPosition.Bottom,
-                            };
-
-                            UserDialogs.Instance.Toast(toastConfig);
-                        }
+                        UserDialogs.Instance.Toast(toastConfig);
                     }
                 }
             }
@@ -183,14 +180,6 @@ namespace Next2.ViewModels.Tablet
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
-        }
-
-        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
-        {
-            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
-            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
-
-            return updateOrderResult.IsSuccess;
         }
 
         #endregion

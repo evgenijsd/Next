@@ -145,7 +145,6 @@ namespace Next2.Extensions
                 EmployeeId = order.EmployeeId,
                 Seats = new(order.Seats.Select(row => new SeatBindableModel()
                 {
-                    Id = row.Id,
                     SeatNumber = row.Number,
                     IsFirstSeat = row.Number == 1,
                     Checked = row.Number == 1,

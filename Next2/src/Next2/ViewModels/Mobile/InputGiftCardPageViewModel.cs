@@ -28,7 +28,7 @@ namespace Next2.ViewModels.Mobile
             _orderService = orderService;
             _customersService = customersService;
 
-            Customer = new(); // _orderService.CurrentOrder.Customer;
+            Customer = _orderService.CurrentOrder.Customer;
 
             if (Customer is not null && Customer.GiftCards.Any())
             {

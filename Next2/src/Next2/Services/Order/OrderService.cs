@@ -299,6 +299,7 @@ namespace Next2.Services.Order
             {
                 var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
                 var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+
                 if (order.Success)
                 {
                     var currentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
@@ -315,9 +316,11 @@ namespace Next2.Services.Order
 
                         var results = await Task.WhenAll(tasks);
 
-                        AddAdditionalDishesInformationToOrder(currentOrder, results);
+                        AddAdditionalDishesInformationToCurrentOrder(currentOrder, results);
+
                         currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
                         CurrentOrder = currentOrder;
+
                         result.SetSuccess();
                     }
                 }
@@ -355,7 +358,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public FullOrderBindableModel AddAdditionalDishesInformationToOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes)
+        public FullOrderBindableModel AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes)
         {
             List<DishModelDTO> dishModels = new();
 
@@ -371,7 +374,8 @@ namespace Next2.Services.Order
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
-                    var source = dishModels.Find(row => row.Id == dish.DishId);
+                    var dishId = dish.DishId;
+                    var source = dishModels.FirstOrDefault(row => row.Id == dishId);
                     dish.DishProportions = source.DishProportions;
                     dish.Products = new(source.Products);
                 }
