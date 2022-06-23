@@ -24,6 +24,6 @@ namespace Next2.Models.Bindables
 
         public ICommand RemoveOrderCommand { get; set; }
 
-        public ObservableCollection<DishBindableModel> SelectedDishes { get; set; }
+        public ObservableCollection<DishBindableModel> SelectedDishes { get; set; } = new();
     }
 }
