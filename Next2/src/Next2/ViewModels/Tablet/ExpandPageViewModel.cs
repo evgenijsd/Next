@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Next2.Extensions;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -115,15 +116,20 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        await PopupNavigation.PopAsync();
+                        bool isOrderUpdated = await UpdateCurrentOrder(_orderService.CurrentOrder);
 
-                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        if (isOrderUpdated)
                         {
-                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                            Position = ToastPosition.Bottom,
-                        };
+                            await PopupNavigation.PopAsync();
 
-                        UserDialogs.Instance.Toast(toastConfig);
+                            var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                            {
+                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                                Position = ToastPosition.Bottom,
+                            };
+
+                            UserDialogs.Instance.Toast(toastConfig);
+                        }
                     }
                 }
             }
@@ -177,6 +183,14 @@ namespace Next2.ViewModels.Tablet
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
+        }
+
+        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
+        {
+            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            return updateOrderResult.IsSuccess;
         }
 
         #endregion

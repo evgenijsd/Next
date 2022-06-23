@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Extensions;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -105,20 +106,28 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                await _orderService.AddDishInCurrentOrderAsync(dish);
+                var result = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                if (PopupNavigation.PopupStack.Any())
+                if (result.IsSuccess)
                 {
-                    await PopupNavigation.PopAsync();
+                    bool isOrderUpdated = await UpdateCurrentOrder(_orderService.CurrentOrder);
+
+                    if (isOrderUpdated)
+                    {
+                        if (PopupNavigation.PopupStack.Any())
+                        {
+                            await PopupNavigation.PopAsync();
+                        }
+
+                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        {
+                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                            Position = ToastPosition.Bottom,
+                        };
+
+                        UserDialogs.Instance.Toast(toastConfig);
+                    }
                 }
-
-                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                {
-                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                    Position = ToastPosition.Bottom,
-                };
-
-                UserDialogs.Instance.Toast(toastConfig);
             }
             else
             {
@@ -155,6 +164,14 @@ namespace Next2.ViewModels.Mobile
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
+        }
+
+        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
+        {
+            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            return updateOrderResult.IsSuccess;
         }
 
         #endregion

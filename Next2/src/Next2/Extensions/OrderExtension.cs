@@ -170,7 +170,7 @@ namespace Next2.Extensions
                         },
                         SelectedProducts = new(row.SelectedProducts.Select(row => new ProductBindableModel()
                         {
-                            Id = row.Product.Id, 
+                            Id = row.Product.Id,
                             Comment = new(row.Comment),
                             Product = new SimpleProductModelDTO()
                             {

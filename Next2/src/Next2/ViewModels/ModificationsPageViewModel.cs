@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API;
@@ -637,6 +638,8 @@ namespace Next2.ViewModels
             }
 
             await _navigationService.GoBackAsync(parameters);
+
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio)

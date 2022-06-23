@@ -155,9 +155,9 @@ namespace Next2.ViewModels.Tablet
                     if (result.IsSuccess)
                     {
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                        bool responce = await UpdateCurrentOrder(_orderService.CurrentOrder);
+                        bool isOrderUpdated = await UpdateCurrentOrder(_orderService.CurrentOrder);
 
-                        if (responce)
+                        if (isOrderUpdated)
                         {
                             if (PopupNavigation.PopupStack.Any())
                             {
@@ -179,14 +179,6 @@ namespace Next2.ViewModels.Tablet
             {
                 await PopupNavigation.PopAsync();
             }
-        }
-
-        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
-        {
-            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
-            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
-
-            return updateOrderResult.IsSuccess;
         }
 
         private async Task LoadCategoriesAsync()
@@ -244,6 +236,14 @@ namespace Next2.ViewModels.Tablet
             return PopupNavigation
                 .PushAsync(new Views.Tablet.Dialogs
                 .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
+        }
+
+        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
+        {
+            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            return updateOrderResult.IsSuccess;
         }
 
         #endregion
