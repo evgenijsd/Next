@@ -1,22 +1,21 @@
-﻿using Prism.Navigation;
+﻿using AutoMapper;
+using Next2.Enums;
+using Next2.Extensions;
+using Next2.Models.API.Commands;
+using Next2.Models.API.DTO;
+using Next2.Models.Bindables;
+using Next2.Services.Order;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
 using System;
-using Next2.Models;
 using System.Collections.Generic;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Next2.Services.Order;
-using System.Linq;
-using Rg.Plugins.Popup.Contracts;
-using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Pages;
-using AutoMapper;
-using System.Collections.ObjectModel;
-using Next2.Enums;
-using Next2.Models.Bindables;
-using Next2.Models.API.DTO;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -24,20 +23,18 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
-        private readonly IMapper _mapper;
 
         private bool isOneTime = true;
+        private int _selectedSeatNumber = 0;
 
         public SplitOrderViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
-            IMapper mapper,
             IOrderService orderService)
             : base(navigationService)
         {
             _orderService = orderService;
             _popupNavigation = popupNavigation;
-            _mapper = mapper;
         }
 
         #region -- Public Properties --
@@ -69,37 +66,18 @@ namespace Next2.ViewModels
                 if (response.IsSuccess)
                 {
                     Order = response.Result;
-                    Seats = new(Order.Seats.Select(x => new SeatBindableModel()
-                    {
-                        IsFirstSeat = x.Id == Order.Seats.First().Id,
-                        Checked = false,
-                        SeatNumber = x.Number,
-                        SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand),
-                        SelectedDishes = new(x.SelectedDishes.Select(y => new DishBindableModel()
-                        {
-                            DiscountPrice = y.DiscountPrice,
-                            DishId = y.DishId,
-                            Id = y.Id,
-                            ImageSource = y.ImageSource,
-                            Name = y.Name,
-                            TotalPrice = y.TotalPrice,
-                            SelectedDishProportion = y.SelectedDishProportion,
-                            SelectedProducts = new(y.SelectedProducts.Select(x => new ProductBindableModel()
-                            {
-                                Id = x.Id,
-                                Price = x.Product.DefaultPrice,
-                                Comment = x.Comment,
-                                Product = x.Product,
-                                AddedIngredients = new(x.AddedIngredients),
-                                ExcludedIngredients = new(x.ExcludedIngredients),
-                                SelectedIngredients = new(x.SelectedIngredients),
-                                SelectedOptions = x.SelectedOptions.FirstOrDefault(),
-                            })),
-                        })),
-                    }).OrderBy(x => x.SeatNumber));
-                }
 
-                SelectFirstDish();
+                    var seats = Order.Seats.ToSeatsBindableModels();
+
+                    Seats = new(seats);
+
+                    foreach (var seat in Seats)
+                    {
+                        seat.SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
+                    }
+
+                    SelectFirstDish();
+                }
             }
         }
 
@@ -157,9 +135,114 @@ namespace Next2.ViewModels
 
             if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
+                await SplitOrderBySeats(groupList);
             }
 
             await _popupNavigation.PopAsync();
+        }
+
+        private async Task SplitOrderBySeats(IList<int[]> groupList)
+        {
+            foreach (var group in groupList)
+            {
+                var seats = Seats.Where(s => group.Any(x => x == s.SeatNumber));
+                var outSeats = seats.ToSeatsModelsDTO();
+
+                if (group.Contains(_selectedSeatNumber))
+                {
+                    Order.Seats = outSeats;
+                    CalculateOrderPrices(Order);
+                    var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
+
+                    if (!updateResult.IsSuccess)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    Enum.TryParse(Order.OrderType, out EOrderType orderType);
+
+                    var createOrderCommand = new CreateOrderCommand
+                    {
+                        OrderType = orderType,
+                        EmployeeId = Order?.EmployeeId,
+                        IsTab = Order.IsTab,
+                        TableId = Order?.Table?.Id
+                    };
+
+                    var orderIdResult = await _orderService.CreateNewOrderAndGetIdAsync();
+
+                    if (orderIdResult.IsSuccess)
+                    {
+                        var incOrderResult = await _orderService.GetOrderByIdAsync(orderIdResult.Result);
+
+                        if (incOrderResult.IsSuccess)
+                        {
+                            var order = incOrderResult.Result;
+                            await CopyCurrentOrderDataTo(order);
+                            order.Seats = outSeats;
+                            CalculateOrderPrices(order);
+                            var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
+                            if (!updateResult.IsSuccess)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void CalculateOrderPrices(OrderModelDTO order)
+        {
+            var dishes = order.Seats.SelectMany(x => x.SelectedDishes);
+
+            foreach (var dish in dishes)
+            {
+                dish.DiscountPrice = dish.TotalPrice;
+            }
+
+            order.TotalPrice = dishes.Sum(x => x.TotalPrice);
+            order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
+        }
+
+        private async Task CopyCurrentOrderDataTo(OrderModelDTO order)
+        {
+            if (await UpdateTableAsync())
+            {
+                order.IsCashPayment = Order.IsCashPayment;
+                order.IsTab = Order.IsTab;
+                order.Open = Order.Open;
+                order.OrderStatus = Order.OrderStatus;
+                order.TaxCoefficient = Order.TaxCoefficient;
+                order.OrderType = Order.OrderType;
+                order.Open = DateTime.Now;
+                order.Coupon = Order.Coupon;
+                order.Discount = Order.Discount;
+                order.TotalPrice = Order.TotalPrice;
+                order.Table = new SimpleTableModelDTO
+                {
+                    Id = Order.Table.Id,
+                    Number = Order.Table.Number,
+                    SeatNumbers = Order.Table.SeatNumbers,
+                };
+            }
+        }
+
+        private async Task<bool> UpdateTableAsync()
+        {
+            UpdateTableCommand command = new()
+            {
+                Id = Order.Table.Id,
+                Number = Order.Table.Number,
+                SeatNumbers = Order.Table.SeatNumbers,
+                IsAvailable = true,
+            };
+
+            var createTableResult = await _orderService.UpdateTableAsync(command);
+
+            return createTableResult.IsSuccess;
         }
 
         private void SelectFirstDish()
@@ -183,6 +266,7 @@ namespace Next2.ViewModels
                 }
 
                 SelectedDish = seat.SelectedItem;
+                _selectedSeatNumber = seat.SeatNumber;
                 seat.Checked = true;
                 isOneTime = true;
             }

@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Next2.Models.Bindables
 {
@@ -38,13 +39,52 @@ namespace Next2.Models.Bindables
                 Id = Id,
 
                 Name = Name,
+                DishId = DishId,
                 ImageSource = ImageSource,
                 TotalPrice = TotalPrice,
                 DiscountPrice = DiscountPrice,
                 SelectedDishProportionPrice = SelectedDishProportionPrice,
-                DishProportions = DishProportions,
-                SelectedDishProportion = SelectedDishProportion,
-                Products = Products,
+                DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
+                {
+                    Id = x.Id,
+                    PriceRatio = x.PriceRatio,
+                    ProportionId = x.ProportionId,
+                    ProportionName = x?.ProportionName,
+                }),
+                SelectedDishProportion = new DishProportionModelDTO
+                {
+                    Id = SelectedDishProportion.Id,
+                    PriceRatio = SelectedDishProportion.PriceRatio,
+                    Proportion = new ProportionModelDTO
+                    {
+                        Id = SelectedDishProportion.Proportion.Id,
+                        Name = SelectedDishProportion.Proportion?.Name,
+                    },
+                },
+                Products = new(Products.Select(x => new SimpleProductModelDTO
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    DefaultPrice = x.DefaultPrice,
+                    ImageSource = x.ImageSource,
+                    Ingredients = x.Ingredients.Select(x => new SimpleIngredientModelDTO
+                    {
+                        Id = x.Id,
+                        ImageSource = x.ImageSource,
+                        Name = x.Name,
+                        IngredientsCategory = new SimpleIngredientsCategoryModelDTO
+                        {
+                            Name = x.IngredientsCategory.Name,
+                            Id = x.IngredientsCategory.Id,
+                        },
+                        Price = x.Price,
+                    }),
+                    Options = x.Options.Select(x => new OptionModelDTO
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                    }),
+                })),
                 SelectedProducts = SelectedProducts,
             };
         }

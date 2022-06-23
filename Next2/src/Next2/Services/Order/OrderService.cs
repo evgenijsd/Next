@@ -532,6 +532,27 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/tables", command);
+
+                if (response.Success)
+                {
+                    result.SetSuccess(response.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateTableAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

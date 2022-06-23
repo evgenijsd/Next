@@ -50,5 +50,7 @@ namespace Next2.Services.Order
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
 
         Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
+
+        Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command);
     }
 }

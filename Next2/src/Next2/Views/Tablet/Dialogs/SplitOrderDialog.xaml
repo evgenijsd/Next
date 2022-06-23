@@ -296,6 +296,7 @@
 
                 <!--  left side  -->
                 <CollectionView
+                    x:Name="collection"
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     ItemsSource="{Binding Seats}"
@@ -310,6 +311,8 @@
                             <Setter Property="Margin" Value="0"/>
                             <Setter Property="SelectedItem" Value="null"/>
                             <Setter Property="SelectionMode" Value="Multiple"/>
+                            <Setter Property="SelectionChangedCommand" Value="{Binding SelectCommand}"/>
+                            <Setter Property="SelectionChangedCommandParameter" Value="{Reference collection}"/>
                             <Setter Property="SelectedItems" Value="{Binding SelectedSeats}"/>
                             
                         </DataTrigger>
