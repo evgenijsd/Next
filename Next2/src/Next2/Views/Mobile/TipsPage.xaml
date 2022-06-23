@@ -169,7 +169,7 @@
                                 <MultiTrigger.Conditions>
 
                                     <BindingCondition
-                                        Binding="{Binding SelectedTipItem.Value, Converter={StaticResource floatToBoolConverter}}"
+                                        Binding="{Binding SelectedTipItem.Value, Converter={StaticResource decimalToBoolConverter}}"
                                         Value="True" />
 
                                     <BindingCondition
