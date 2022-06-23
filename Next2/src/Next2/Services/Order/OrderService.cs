@@ -222,7 +222,6 @@ namespace Next2.Services.Order
 
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
                     CurrentSeat = null;
 
                     result.SetSuccess();
@@ -291,18 +290,17 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId)
+        public async Task<AOResult> SetLastSessionOrderToCurrentOrderParallelAsync(Guid orderId)
         {
             var result = new AOResult();
 
             try
             {
-                var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
-                var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+                var orderResult = await GetOrderByIdAsync(orderId);
 
-                if (order.Success)
+                if (orderResult.IsSuccess)
                 {
-                    var currentOrder = order?.Value?.Order?.OrderDTOToFullOrderBindableModel();
+                    var currentOrder = orderResult.Result.OrderDTOToFullOrderBindableModel();
 
                     if (currentOrder is not null)
                     {
@@ -311,7 +309,7 @@ namespace Next2.Services.Order
 
                         foreach (var dishId in dishesId)
                         {
-                            tasks.Add(GetDishById(dishId));
+                            tasks.Add(GetDishByIdAsync(dishId));
                         }
 
                         var results = await Task.WhenAll(tasks);
@@ -327,13 +325,13 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(SetLastSessionOrderToCurrentOrder)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SetLastSessionOrderToCurrentOrderParallelAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult<DishModelDTO>> GetDishById(Guid dishId)
+        public async Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId)
         {
             var result = new AOResult<DishModelDTO>();
 
@@ -352,30 +350,22 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetDishById)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetDishByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public FullOrderBindableModel AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes)
+        public FullOrderBindableModel AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
         {
-            List<DishModelDTO> dishModels = new();
-
-            foreach (var dish in dishes)
-            {
-                if (dish.IsSuccess)
-                {
-                    dishModels.Add(dish.Result);
-                }
-            }
+            var dishes = dishesResult.Select(row => row.Result);
 
             foreach (var seat in currentOrder.Seats)
             {
                 foreach (var dish in seat.SelectedDishes)
                 {
                     var dishId = dish.DishId;
-                    var source = dishModels.FirstOrDefault(row => row.Id == dishId);
+                    var source = dishes.FirstOrDefault(row => row.Id == dishId);
                     dish.DishProportions = source.DishProportions;
                     dish.Products = new(source.Products);
                 }

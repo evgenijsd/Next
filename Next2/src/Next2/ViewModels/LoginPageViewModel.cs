@@ -78,7 +78,7 @@ namespace Next2.ViewModels
 
                 if (lastOrderId.IsSuccess)
                 {
-                    await _orderService.SetLastSessionOrderToCurrentOrder(lastOrderId.Result);
+                    await _orderService.SetLastSessionOrderToCurrentOrderParallelAsync(lastOrderId.Result);
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace Next2.ViewModels
 
                     if (lastOrderId.IsSuccess)
                     {
-                        await _orderService.SetLastSessionOrderToCurrentOrder(lastOrderId.Result);
+                        await _orderService.SetLastSessionOrderToCurrentOrderParallelAsync(lastOrderId.Result);
                     }
                     else
                     {

@@ -27,7 +27,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
 
-        Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
+        Task<AOResult> SetLastSessionOrderToCurrentOrderParallelAsync(Guid orderId);
 
         string ApplyNumberFilter(string text);
 
@@ -49,7 +49,7 @@ namespace Next2.Services.Order
 
         Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
 
-        Task<AOResult<DishModelDTO>> GetDishById(Guid dishId);
+        Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
 
         FullOrderBindableModel AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes);
     }
