@@ -53,7 +53,6 @@ namespace Next2.ViewModels
         private SeatBindableModel _seatWithSelectedDish;
         private EOrderStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
-        private bool _isAnyUpDateForCurrentSet = true;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -173,9 +172,9 @@ namespace Next2.ViewModels
                 CurrentOrder = _orderService.CurrentOrder;
             }
 
-            if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
+            if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
             {
-                _isAnyUpDateForCurrentSet = true;
+                await RefreshCurrentOrderAsync();
             }
 
             if (CurrentOrder.TaxCoefficient == 0)
@@ -186,7 +185,7 @@ namespace Next2.ViewModels
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            base.InitializeAsync(parameters);
+            await base.InitializeAsync(parameters);
 
             InitOrderTypes();
             await RefreshCurrentOrderAsync();
@@ -628,7 +627,7 @@ namespace Next2.ViewModels
             {
                 foreach (var item in CurrentOrder.Seats)
                 {
-                    if (item.Id != seat.Id)
+                    if (item.SeatNumber != seat.SeatNumber)
                     {
                         item.SelectedItem = null;
                     }
@@ -672,8 +671,8 @@ namespace Next2.ViewModels
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
 
-            var currentSeatId = _orderService?.CurrentSeat.Id;
-            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.Id == currentSeatId);
+            var currentSeatNumber = _orderService?.CurrentSeat.SeatNumber;
+            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
 
             _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
@@ -694,6 +693,7 @@ namespace Next2.ViewModels
                 {
                     IsOrderWithTax = false;
                     CurrentOrder.TaxCoefficient = 0;
+                    CurrentOrder.UpdateTotalSum();
                 }
             }
         }
@@ -707,6 +707,7 @@ namespace Next2.ViewModels
             if (!IsOrderWithTax)
             {
                 CurrentOrder.TaxCoefficient = 0;
+                CurrentOrder.UpdateTotalSum();
             }
         }
 

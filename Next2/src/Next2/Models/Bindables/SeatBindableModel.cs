@@ -6,10 +6,8 @@ using System.Windows.Input;
 
 namespace Next2.Models.Bindables
 {
-    public class SeatBindableModel : BindableBase, IBaseApiModel
+    public class SeatBindableModel : BindableBase
     {
-        public Guid Id { get; set; }
-
         public int SeatNumber { get; set; }
 
         public bool Checked { get; set; }
@@ -26,6 +24,6 @@ namespace Next2.Models.Bindables
 
         public ICommand RemoveOrderCommand { get; set; }
 
-        public ObservableCollection<DishBindableModel> SelectedDishes { get; set; }
+        public ObservableCollection<DishBindableModel> SelectedDishes { get; set; } = new();
     }
 }

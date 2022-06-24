@@ -44,6 +44,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public int IndexLastVisibleElement { get; set; }
+
         public bool IsOrdersRefreshing { get; set; }
 
         public EOrdersSortingType OrderSortingType { get; set; }
