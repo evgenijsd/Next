@@ -304,17 +304,20 @@ namespace Next2.Services.Order
 
                     if (currentOrder is not null)
                     {
-                        List<Task<AOResult<DishModelDTO>>> tasks = new();
-                        var dishesId = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
-
-                        foreach (var dishId in dishesId)
+                        if (currentOrder.Seats.Any(row => row.SelectedDishes.Any()))
                         {
-                            tasks.Add(GetDishByIdAsync(dishId));
+                            List<Task<AOResult<DishModelDTO>>> tasks = new();
+                            var dishesId = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
+
+                            foreach (var dishId in dishesId)
+                            {
+                                tasks.Add(GetDishByIdAsync(dishId));
+                            }
+
+                            var results = await Task.WhenAll(tasks);
+
+                            AddAdditionalDishesInformationToCurrentOrder(currentOrder, results);
                         }
-
-                        var results = await Task.WhenAll(tasks);
-
-                        AddAdditionalDishesInformationToCurrentOrder(currentOrder, results);
 
                         currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
                         CurrentOrder = currentOrder;
