@@ -136,7 +136,7 @@ namespace Next2.ViewModels.Dialogs
                     newSeats = seats.Select(x => new SeatBindableModel()
                     {
                         SeatNumber = x.SeatNumber,
-                        SelectedItem = new DishBindableModel() { TotalPrice = 0, },
+                        SelectedItem = new DishBindableModel() { TotalPrice = x.SelectedDishes.Sum(x => x.TotalPrice), },
                     });
                 }
                 else

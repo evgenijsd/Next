@@ -129,8 +129,7 @@ namespace Next2.ViewModels
                     }
                 }
 
-                RaisePropertyChanged(nameof(Seats));
-                SelectFirstDish();
+                await RefreshDisplay();
             }
 
             if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
@@ -192,6 +191,8 @@ namespace Next2.ViewModels
                     }
                 }
             }
+
+            await OnGoBackCommandAsync();
         }
 
         private void CalculateOrderPrices(OrderModelDTO order)
@@ -269,6 +270,23 @@ namespace Next2.ViewModels
                 _selectedSeatNumber = seat.SeatNumber;
                 seat.Checked = true;
                 isOneTime = true;
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task RefreshDisplay()
+        {
+            var imageSource = SelectedDish.ImageSource;
+            SelectedDish.ImageSource = null;
+            SelectedDish.ImageSource = imageSource;
+
+            var seats = new ObservableCollection<SeatBindableModel>(Seats);
+            Seats = new();
+
+            foreach (var seat in seats)
+            {
+                Seats.Add(seat);
             }
 
             return Task.CompletedTask;
