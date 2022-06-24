@@ -27,7 +27,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
 
-        Task<AOResult> SetLastSessionOrderToCurrentOrderParallelAsync(Guid orderId);
+        Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
         string ApplyNumberFilter(string text);
 

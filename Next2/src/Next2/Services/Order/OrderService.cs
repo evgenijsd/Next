@@ -290,7 +290,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> SetLastSessionOrderToCurrentOrderParallelAsync(Guid orderId)
+        public async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
         {
             var result = new AOResult();
 
@@ -328,7 +328,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(SetLastSessionOrderToCurrentOrderParallelAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SetCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -361,7 +361,7 @@ namespace Next2.Services.Order
 
         private void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
         {
-            var dishes = dishesResult.Select(row => row.Result);
+            var dishes = dishesResult.Where(row => row.IsSuccess).Select(row => row.Result);
 
             foreach (var seat in currentOrder.Seats)
             {
@@ -369,8 +369,12 @@ namespace Next2.Services.Order
                 {
                     var dishId = dish.DishId;
                     var source = dishes.FirstOrDefault(row => row.Id == dishId);
-                    dish.DishProportions = source.DishProportions;
-                    dish.Products = new(source.Products);
+
+                    if (source is not null)
+                    {
+                        dish.DishProportions = source.DishProportions;
+                        dish.Products = new(source.Products);
+                    }
                 }
             }
         }
