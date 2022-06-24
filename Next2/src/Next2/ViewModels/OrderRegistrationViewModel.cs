@@ -153,15 +153,6 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
-            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid idOfOrderToBeEdited))
-            {
-                var orderResult = await _orderService.LoadOrderToCurrentOrderById(idOfOrderToBeEdited);
-
-                if (orderResult.IsSuccess)
-                {
-                }
-            }
-
             if (!App.IsTablet)
             {
                 foreach (var seat in _orderService.CurrentOrder.Seats)
@@ -186,6 +177,25 @@ namespace Next2.ViewModels
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
             await base.InitializeAsync(parameters);
+
+            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid idOfOrderToBeEdited))
+            {
+                var orderResult = await _orderService.GetOrderByIdAsync(idOfOrderToBeEdited);
+
+                if (orderResult.IsSuccess)
+                {
+                    _orderService.CurrentOrder = orderResult.Result.ToFullOrderBindableModel();
+
+                    foreach (var seats in CurrentOrder.Seats)
+                    {
+                        foreach (var dish in seats.SelectedDishes)
+                        {
+                            dish.DishProportions = null;
+                            dish.Products = null;
+                        }
+                    }
+                }
+            }
 
             InitOrderTypes();
             await RefreshCurrentOrderAsync();
@@ -294,18 +304,18 @@ namespace Next2.ViewModels
 
                 if (freeTablesResult.IsSuccess)
                 {
-                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
+                    var tableBindableModels = _mapper.Map<ICollection<TableBindableModel>>(freeTablesResult.Result);
 
-                    if (CurrentOrder.Table != null && !Tables.Any(x => x.TableNumber == CurrentOrder.Table?.Number))
+                    if (CurrentOrder.Table is not null && !tableBindableModels.Any(x => x.TableNumber == CurrentOrder.Table?.Number))
                     {
-                        Tables.Add(new TableBindableModel
+                        tableBindableModels.Add(new TableBindableModel
                         {
                             Id = CurrentOrder.Table.Id,
                             TableNumber = CurrentOrder.Table.Number,
                             SeatNumbers = CurrentOrder.Table.SeatNumbers,
                         });
 
-                        tableBindableModels = new(tableBindableModels.OrderBy(x => x.TableNumber));
+                        tableBindableModels = tableBindableModels.OrderBy(x => x.TableNumber).ToList();
                     }
 
                     Tables = new(tableBindableModels);

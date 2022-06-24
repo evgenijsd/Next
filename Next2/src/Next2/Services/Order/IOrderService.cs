@@ -17,8 +17,6 @@ namespace Next2.Services.Order
 
         Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
 
-        Task<AOResult> LoadOrderToCurrentOrderById(Guid orderId);
-
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
         Task<AOResult<IEnumerable<SimpleOrderModelDTO>>> GetOrdersAsync();

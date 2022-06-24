@@ -108,77 +108,130 @@ namespace Next2.Extensions
 
         public static FullOrderBindableModel ToFullOrderBindableModel(this OrderModelDTO order)
         {
-            FullOrderBindableModel bindableOrder = null;
-
-            try
+            FullOrderBindableModel fullOrderBindableModel = new()
             {
-                var seats = order.Seats.Select(x => new SeatBindableModel()
-                {
-                    SeatNumber = x.Number,
-                    SelectedDishes = new(x.SelectedDishes.Select(x => new DishBindableModel()
+                Id = order.Id,
+                Number = order.Number,
+                IsTab = order.IsTab,
+                Open = order.Open,
+                Close = order.Close,
+                IsCashPayment = order.IsCashPayment,
+                Table = order.Table is not null
+                    ? new()
                     {
-                        Id = x.Id,
-                        ImageSource = x.ImageSource,
-                        Name = x.Name,
-                        TotalPrice = x.TotalPrice,
-                        DiscountPrice = x.DiscountPrice,
-                        DishId = x.DishId,
+                        Id = order.Table.Id,
+                        Number = order.Table.Number,
+                        SeatNumbers = order.Table.SeatNumbers,
+                    }
+                    : null,
+                Customer = order.Customer is not null
+                    ? new()
+                    {
+                        Id = order.Customer.Id,
+                        FullName = order.Customer?.FullName,
+                        Phone = order.Customer?.Phone,
+                    }
+                    : null,
+                OrderStatus = order.OrderStatus,
+                OrderType = (EOrderType?)Enum.Parse(typeof(EOrderType), order.OrderType),
+                Discount = order.Discount,
+                Coupon = order.Coupon,
+                TaxCoefficient = order.TaxCoefficient,
+                DiscountPrice = order.DiscountPrice,
+                SubTotalPrice = order.SubTotalPrice,
+                TotalPrice = order.TotalPrice,
+                PriceTax = order.SubTotalPrice is not null
+                    ? (decimal)order.SubTotalPrice * order.TaxCoefficient
+                    : new(),
+                EmployeeId = order.EmployeeId,
+                Seats = new(order.Seats.OrderBy(x => x.Number).Select(row => new SeatBindableModel()
+                {
+                    SeatNumber = row.Number,
+                    IsFirstSeat = row.Number == 1,
+                    Checked = row.Number == 1,
+                    SelectedDishes = new(row.SelectedDishes.Select(row => new DishBindableModel()
+                    {
+                        Id = row.Id,
+                        DishId = row.DishId,
+                        SelectedDishProportionPrice = row.TotalPrice,
+                        Name = row.Name,
+                        ImageSource = row.ImageSource,
+                        TotalPrice = row.TotalPrice,
+                        DiscountPrice = row.DiscountPrice,
                         SelectedDishProportion = new()
                         {
-                            Id = x.SelectedDishProportion.Id,
-                            PriceRatio = x.SelectedDishProportion.PriceRatio,
+                            Id = row.SelectedDishProportion.Id,
+                            PriceRatio = row.SelectedDishProportion.PriceRatio,
                             Proportion = new()
                             {
-                                Id = x.SelectedDishProportion.Id,
-                                Name = "Not defined",
+                                Id = row.SelectedDishProportion.Proportion.Id,
+                                Name = row.SelectedDishProportion.Proportion.Name,
                             },
                         },
-                        SelectedProducts = new(x.SelectedProducts.Select(x => new ProductBindableModel()
+                        SelectedProducts = new(row.SelectedProducts.Select(row => new ProductBindableModel()
                         {
-                            Comment = x?.Comment,
-                            Product = x.Product,
-                            SelectedOptions = x?.SelectedOptions.FirstOrDefault(),
-                            SelectedIngredients = new(x?.SelectedIngredients),
-                            AddedIngredients = new(x.AddedIngredients),
-                            ExcludedIngredients = new(x.ExcludedIngredients),
+                            Id = row.Product.Id,
+                            Comment = new(row.Comment),
+                            Product = new SimpleProductModelDTO()
+                            {
+                                Id = row.Product.Id,
+                                DefaultPrice = row.Product.DefaultPrice,
+                                Name = row.Product.Name,
+                                ImageSource = row.Product.ImageSource,
+                                Ingredients = row.Product.Ingredients.Select(row => new SimpleIngredientModelDTO()
+                                {
+                                    Id = row.Id,
+                                    Name = row.Name,
+                                    Price = row.Price,
+                                    ImageSource = row.ImageSource,
+                                    IngredientsCategory = row.IngredientsCategory,
+                                }),
+                                Options = row.Product.Options,
+                            },
+                            SelectedOptions = row.SelectedOptions.FirstOrDefault(),
+                            SelectedIngredients = new(row.SelectedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                Name = row.Name,
+                                Price = row.Price,
+                                ImageSource = row.ImageSource,
+                                IngredientsCategory = row.IngredientsCategory,
+                            })),
+                            AddedIngredients = new(row.AddedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                Name = row.Name,
+                                Price = row.Price,
+                                ImageSource = row.ImageSource,
+                                IngredientsCategory = row.IngredientsCategory,
+                            })),
+                            ExcludedIngredients = new(row.ExcludedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            {
+                                Id = row.Id,
+                                Name = row.Name,
+                                Price = row.Price,
+                                ImageSource = row.ImageSource,
+                                IngredientsCategory = row.IngredientsCategory,
+                            })),
                         })),
                     })),
-                });
+                })),
+            };
 
-                bindableOrder = new()
-                {
-                    Id = order.Id,
-                    Number = order.Number,
-                    OrderType = (EOrderType)Enum.Parse(typeof(EOrderType), order.OrderType),
-                    IsTab = order.IsTab,
-                    Table = order?.Table,
-                    Open = order.Open,
-                    Close = order?.Close,
-                    OrderStatus = (EOrderStatus)order?.OrderStatus,
-                    TaxCoefficient = order.TaxCoefficient,
-                    TotalPrice = order.TotalPrice,
-                    DiscountPrice = order?.DiscountPrice,
-                    SubTotalPrice = order?.SubTotalPrice,
-                    PriceTax = (decimal)(order.SubTotalPrice * order.TaxCoefficient),
-                    IsCashPayment = order.IsCashPayment,
-                    Coupon = order?.Coupon,
-                    Discount = order?.Discount,
-                    Customer = new()
-                    {
-                        Id = order.Customer is null
-                            ? Guid.Empty
-                            : order.Customer.Id,
-                        FullName = order.Customer?.FullName,
-                    },
-                    EmployeeId = order?.EmployeeId,
-                    Seats = new(seats),
-                };
-            }
-            catch (Exception ex)
+            foreach (var seat in fullOrderBindableModel.Seats)
             {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    foreach (var product in dish.SelectedProducts)
+                    {
+                        product.Price = dish.SelectedDishProportion.PriceRatio == 1
+                            ? product.Product.DefaultPrice
+                            : product.Product.DefaultPrice * (1 + dish.SelectedDishProportion.PriceRatio);
+                    }
+                }
             }
 
-            return bindableOrder;
+            return fullOrderBindableModel;
         }
     }
 }
