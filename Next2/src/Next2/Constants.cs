@@ -101,6 +101,7 @@
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string RESULT = "RESULT";
+            public const string ORDER_ID = "ORDER_ID";
         }
 
         public static class Validators
