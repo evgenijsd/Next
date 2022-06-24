@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Next2.Extensions;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -115,9 +116,11 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
+                        await _orderService.UpdateOrderAsync(_orderService.CurrentOrder.ToUpdateOrderCommand());
+
                         await PopupNavigation.PopAsync();
 
-                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                         {
                             Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                             Position = ToastPosition.Bottom,
