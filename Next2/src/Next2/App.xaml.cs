@@ -181,7 +181,7 @@ namespace Next2
 
         #endregion
 
-        #region -- Public static methods --
+        #region -- Public static helpers --
 
         public static T Resolve<T>() => Current.Container.Resolve<T>();
 

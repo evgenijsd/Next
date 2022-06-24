@@ -15,7 +15,7 @@ namespace Next2.ViewModels
         {
         }
 
-        #region -- Public properties--
+        #region -- Public properties --
 
         public string Text { get; set; }
 

@@ -17,7 +17,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<TaxModel>> GetTaxAsync();
 
-        Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
+        Task<AOResult<OrderModelDTO>> CreateNewOrderAsync();
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
@@ -25,17 +25,13 @@ namespace Next2.Services.Order
 
         Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid orderId);
 
-        Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
-
-        Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
-
-        Task<AOResult> DeleteOrderAsync(int orderId);
+        Task<AOResult> SetCurrentOrder(Guid orderId);
 
         string ApplyNumberFilter(string text);
 
         string ApplyNameFilter(string text);
 
-        Task<AOResult> CreateNewCurrentOrderAsync();
+        Task<AOResult> SetEmptyCurrentOrderAsync();
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
@@ -48,7 +44,5 @@ namespace Next2.Services.Order
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
-
-        Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
     }
 }

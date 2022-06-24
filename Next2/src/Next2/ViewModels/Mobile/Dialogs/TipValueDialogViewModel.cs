@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
 
         #endregion
 
-        #region --Private helpers--
+        #region -- Private helpers --
 
         private Task OnGetTipValueCommandAsync()
         {

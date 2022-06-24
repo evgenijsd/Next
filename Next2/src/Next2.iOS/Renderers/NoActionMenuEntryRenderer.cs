@@ -63,6 +63,5 @@ namespace Next2.iOS.Renderers
         }
 
         #endregion
-
     }
 } 

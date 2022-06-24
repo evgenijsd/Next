@@ -7,6 +7,7 @@ using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Models.Bindables;
 using Next2.Resources.Strings;
+using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
@@ -27,6 +28,7 @@ namespace Next2.Services.Order
         private readonly ISettingsManager _settingsManager;
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusesService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
 
         public OrderService(
@@ -34,6 +36,7 @@ namespace Next2.Services.Order
             IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
+            IAuthenticationService authenticationService,
             IMapper mapper)
         {
             _mockService = mockService;
@@ -42,6 +45,7 @@ namespace Next2.Services.Order
             _bonusesService = bonusesService;
             _mapper = mapper;
             _restService = restService;
+            _authenticationService = authenticationService;
 
             CurrentOrder.Seats = new ();
         }
@@ -82,9 +86,9 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync()
+        public async Task<AOResult<OrderModelDTO>> CreateNewOrderAsync()
         {
-            var result = new AOResult<Guid>();
+            var result = new AOResult<OrderModelDTO>();
 
             try
             {
@@ -94,16 +98,16 @@ namespace Next2.Services.Order
                 };
 
                 var query = $"{Constants.API.HOST_URL}/api/orders";
-                var resultCreate = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, query, requestBody);
+                var creationResult = await _restService.RequestAsync<GenericExecutionResult<OrderModelDTO>>(HttpMethod.Post, query, requestBody);
 
-                if (resultCreate?.Value?.Id is not null)
+                if (creationResult?.Value is not null)
                 {
-                    result.SetSuccess(resultCreate.Value.Id);
+                    result.SetSuccess(creationResult.Value);
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CreateNewOrderAndGetIdAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(CreateNewOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -182,29 +186,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteOrderAsync(int orderId)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                var removalOrder = await _mockService.FindAsync<OrderModel>(x => x.Id == orderId);
-
-                if (removalOrder is not null)
-                {
-                    await _mockService.RemoveAsync(removalOrder);
-
-                    result.SetSuccess();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new(Constants.Validators.NUMBER);
@@ -224,96 +205,59 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> CreateNewCurrentOrderAsync()
+        public async Task<AOResult> SetEmptyCurrentOrderAsync()
         {
             var result = new AOResult();
 
             try
             {
-                var orderId = await CreateNewOrderAndGetIdAsync();
-                var availableTables = await GetFreeTablesAsync();
+                var setEmptyCurrentOrder = false;
+                var employeeId = _authenticationService.AuthorizedUserId.ToString();
 
-                if (orderId.IsSuccess && availableTables.IsSuccess)
+                var lastOrderId = await GetCurrentOrderIdLastSessionAsync(employeeId);
+
+                if (lastOrderId.IsSuccess)
                 {
-                    var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(availableTables.Result);
+                    var orderResult = await GetOrderByIdAsync(lastOrderId.Result);
 
-                    var query = $"{Constants.API.HOST_URL}/api/orders/{orderId.Result}";
-                    var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+                    if (orderResult.IsSuccess)
+                    {
+                        var seats = orderResult.Result.Seats;
 
-                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
+                        if (seats is not null && seats.Count() > 0)
+                        {
+                            await SetCurrentOrder(lastOrderId.Result);
 
-                    CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
-                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
-                    CurrentSeat = null;
+                            setEmptyCurrentOrder = true;
+                        }
+                    }
+                }
 
+                if (!setEmptyCurrentOrder)
+                {
+                    var orderCreationResult = await CreateNewOrderAsync();
+
+                    if (orderCreationResult.IsSuccess)
+                    {
+                        await SaveCurrentOrderIdToSettingsAsync(employeeId, CurrentOrder.Id);
+                        setEmptyCurrentOrder = true;
+                    }
+                }
+
+                if (setEmptyCurrentOrder)
+                {
                     result.SetSuccess();
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CreateNewCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SetEmptyCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
         }
 
-        public async Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId)
-        {
-            var result = new AOResult<Guid>();
-
-            try
-            {
-                if (_settingsManager?.LastCurrentOrderIds != string.Empty)
-                {
-                    var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
-
-                    if (lastCurrentOrderIds.ContainsKey(employeeId))
-                    {
-                        result.SetSuccess(lastCurrentOrderIds[employeeId]);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetCurrentOrderIdLastSessionAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
-
-                employeeIdAndOrderIdPairs ??= new();
-
-                if (employeeIdAndOrderIdPairs.ContainsKey(employeeId))
-                {
-                    employeeIdAndOrderIdPairs[employeeId] = lastSessionOrderId;
-                }
-                else
-                {
-                    employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
-                }
-
-                _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdPairs);
-
-                result.SetSuccess();
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(SaveCurrentOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
-        public async Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId)
+        public async Task<AOResult> SetCurrentOrder(Guid orderId)
         {
             var result = new AOResult();
 
@@ -334,7 +278,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(SetLastSessionOrderToCurrentOrder)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SetCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -527,6 +471,65 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(UpdateOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private async Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId)
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                if (_settingsManager?.LastCurrentOrderIds != string.Empty)
+                {
+                    var lastCurrentOrderIds = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+
+                    if (lastCurrentOrderIds.ContainsKey(employeeId))
+                    {
+                        result.SetSuccess(lastCurrentOrderIds[employeeId]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetCurrentOrderIdLastSessionAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        private async Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var employeeIdAndOrderIdPairs = JsonConvert.DeserializeObject<Dictionary<string, Guid>>(_settingsManager.LastCurrentOrderIds);
+
+                employeeIdAndOrderIdPairs ??= new();
+
+                if (employeeIdAndOrderIdPairs.ContainsKey(employeeId))
+                {
+                    employeeIdAndOrderIdPairs[employeeId] = lastSessionOrderId;
+                }
+                else
+                {
+                    employeeIdAndOrderIdPairs.Add(employeeId, lastSessionOrderId);
+                }
+
+                _settingsManager.LastCurrentOrderIds = JsonConvert.SerializeObject(employeeIdAndOrderIdPairs);
+
+                result.SetSuccess();
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(SaveCurrentOrderIdToSettingsAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

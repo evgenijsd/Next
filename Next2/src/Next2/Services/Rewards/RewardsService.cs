@@ -18,7 +18,7 @@ namespace Next2.Services.Rewards
             _mockService = mockService;
         }
 
-        #region -- IReardsService --
+        #region -- IRewardsService --
 
         public async Task<AOResult<IEnumerable<RewardModel>>> GetCustomersRewards(Guid customerId)
         {

@@ -126,7 +126,7 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {

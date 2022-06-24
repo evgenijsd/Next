@@ -585,15 +585,10 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
+                var createNewCurrentOrderResult = await _orderService.SetEmptyCurrentOrderAsync();
 
                 if (createNewCurrentOrderResult.IsSuccess)
                 {
-                    var employeeId = _orderService.CurrentOrder.EmployeeId;
-                    var orderId = _orderService.CurrentOrder.Id;
-
-                    await _orderService.SaveCurrentOrderIdToSettingsAsync(employeeId, orderId);
-
                     InitOrderTypes();
                     await RefreshCurrentOrderAsync();
                 }
@@ -699,8 +694,7 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                await _orderService.CreateNewCurrentOrderAsync();
-                await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                await _orderService.SetEmptyCurrentOrderAsync();
 
                 IsOrderSavedNotificationVisible = true;
                 CurrentOrder.Seats = new();

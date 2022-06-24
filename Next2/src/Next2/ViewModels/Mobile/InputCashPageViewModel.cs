@@ -56,7 +56,7 @@ namespace Next2.ViewModels.Mobile
 
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private Task OnGoBackCommandAsync()
         {

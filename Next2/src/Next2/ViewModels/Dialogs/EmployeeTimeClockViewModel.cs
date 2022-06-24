@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
             EmployeeId = string.Empty;
         }
 
-        #region --Public Properties--
+        #region -- Public Properties --
 
         public Action<IDialogParameters> RequestClose;
 
@@ -47,7 +47,7 @@ namespace Next2.ViewModels.Dialogs
 
         #endregion
 
-        #region --Private Helpers--
+        #region -- Private helpers --
 
         private async Task OnApplyCommandAsync()
         {
@@ -83,6 +83,5 @@ namespace Next2.ViewModels.Dialogs
         }
 
         #endregion
-
     }
 }
