@@ -180,21 +180,21 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid idOfOrderToBeEdited))
             {
-                var orderResult = await _orderService.GetOrderByIdAsync(idOfOrderToBeEdited);
+                var orderResult = await _orderService.SetCurrentOrderAsync(idOfOrderToBeEdited);
 
-                if (orderResult.IsSuccess)
-                {
-                    _orderService.CurrentOrder = orderResult.Result.ToFullOrderBindableModel();
+                //if (orderResult.IsSuccess)
+                //{
+                //    _orderService.CurrentOrder = orderResult.Result.ToFullOrderBindableModel();
 
-                    foreach (var seats in CurrentOrder.Seats)
-                    {
-                        foreach (var dish in seats.SelectedDishes)
-                        {
-                            dish.DishProportions = null;
-                            dish.Products = null;
-                        }
-                    }
-                }
+                //    foreach (var seats in CurrentOrder.Seats)
+                //    {
+                //        foreach (var dish in seats.SelectedDishes)
+                //        {
+                //            dish.DishProportions = null;
+                //            dish.Products = null;
+                //        }
+                //    }
+                //}
             }
 
             InitOrderTypes();
@@ -208,14 +208,16 @@ namespace Next2.ViewModels
             switch (args.PropertyName)
             {
                 case nameof(SelectedTable):
-                    if (SelectedTable is not null)
+                    if (SelectedTable is not null && SelectedTable.TableNumber != CurrentOrder.Table?.Number)
                     {
                         _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
+                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
                     }
 
                     break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
+                    await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
                     break;
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
@@ -223,6 +225,7 @@ namespace Next2.ViewModels
                         IsOrderSavedNotificationVisible = false;
                         await _orderService.AddSeatInCurrentOrderAsync();
                         AddSeatsCommands();
+                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
                     }
 
                     break;
@@ -246,6 +249,7 @@ namespace Next2.ViewModels
                         }
 
                         CurrentOrder.PriceTax = 0;
+                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
                     }
 
                     break;
@@ -306,23 +310,16 @@ namespace Next2.ViewModels
                 {
                     var tableBindableModels = _mapper.Map<ICollection<TableBindableModel>>(freeTablesResult.Result);
 
-                    if (CurrentOrder.Table is not null && !tableBindableModels.Any(x => x.TableNumber == CurrentOrder.Table?.Number))
-                    {
-                        tableBindableModels.Add(new TableBindableModel
-                        {
-                            Id = CurrentOrder.Table.Id,
-                            TableNumber = CurrentOrder.Table.Number,
-                            SeatNumbers = CurrentOrder.Table.SeatNumbers,
-                        });
-
-                        tableBindableModels = tableBindableModels.OrderBy(x => x.TableNumber).ToList();
-                    }
-
                     Tables = new(tableBindableModels);
 
                     SelectedTable = CurrentOrder.Table is null
                         ? Tables.FirstOrDefault()
-                        : Tables.FirstOrDefault(x => x.TableNumber == CurrentOrder.Table.Number);
+                        : new()
+                        {
+                            Id = CurrentOrder.Table.Id,
+                            SeatNumbers = CurrentOrder.Table.SeatNumbers,
+                            TableNumber = CurrentOrder.Table.Number,
+                        };
                 }
             }
         }
@@ -519,6 +516,8 @@ namespace Next2.ViewModels
             {
                 await _navigationService.GoBackAsync();
             }
+
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private async Task OnRemoveOrderCommandAsync()
@@ -604,6 +603,8 @@ namespace Next2.ViewModels
             {
                 await _navigationService.GoBackAsync();
             }
+
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private async Task RemoveOrderAsync()
@@ -706,6 +707,8 @@ namespace Next2.ViewModels
                     CurrentOrder.UpdateTotalSum();
                 }
             }
+
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private void OnTaxEvent(bool isOrderWithTax)
@@ -842,6 +845,8 @@ namespace Next2.ViewModels
             }
 
             await PopupNavigation.PopAsync();
+
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private Task OnPayCommandAsync()
