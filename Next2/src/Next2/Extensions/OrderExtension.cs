@@ -3,6 +3,7 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -103,6 +104,81 @@ namespace Next2.Extensions
             };
 
             return command;
+        }
+
+        public static FullOrderBindableModel ToFullOrderBindableModel(this OrderModelDTO order)
+        {
+            FullOrderBindableModel bindableOrder = null;
+
+            try
+            {
+                var seats = order.Seats.Select(x => new SeatBindableModel()
+                {
+                    SeatNumber = x.Number,
+                    SelectedDishes = new(x.SelectedDishes.Select(x => new DishBindableModel()
+                    {
+                        Id = x.Id,
+                        ImageSource = x.ImageSource,
+                        Name = x.Name,
+                        TotalPrice = x.TotalPrice,
+                        DiscountPrice = x.DiscountPrice,
+                        DishId = x.DishId,
+                        SelectedDishProportion = new()
+                        {
+                            Id = x.SelectedDishProportion.Id,
+                            PriceRatio = x.SelectedDishProportion.PriceRatio,
+                            Proportion = new()
+                            {
+                                Id = x.SelectedDishProportion.Id,
+                                Name = "Not defined",
+                            },
+                        },
+                        SelectedProducts = new(x.SelectedProducts.Select(x => new ProductBindableModel()
+                        {
+                            Comment = x?.Comment,
+                            Product = x.Product,
+                            SelectedOptions = x?.SelectedOptions.FirstOrDefault(),
+                            SelectedIngredients = new(x?.SelectedIngredients),
+                            AddedIngredients = new(x.AddedIngredients),
+                            ExcludedIngredients = new(x.ExcludedIngredients),
+                        })),
+                    })),
+                });
+
+                bindableOrder = new()
+                {
+                    Id = order.Id,
+                    Number = order.Number,
+                    OrderType = (EOrderType)Enum.Parse(typeof(EOrderType), order.OrderType),
+                    IsTab = order.IsTab,
+                    Table = order?.Table,
+                    Open = order.Open,
+                    Close = order?.Close,
+                    OrderStatus = (EOrderStatus)order?.OrderStatus,
+                    TaxCoefficient = order.TaxCoefficient,
+                    TotalPrice = order.TotalPrice,
+                    DiscountPrice = order?.DiscountPrice,
+                    SubTotalPrice = order?.SubTotalPrice,
+                    PriceTax = (decimal)(order.SubTotalPrice * order.TaxCoefficient),
+                    IsCashPayment = order.IsCashPayment,
+                    Coupon = order?.Coupon,
+                    Discount = order?.Discount,
+                    Customer = new()
+                    {
+                        Id = order.Customer is null
+                            ? Guid.Empty
+                            : order.Customer.Id,
+                        FullName = order.Customer?.FullName,
+                    },
+                    EmployeeId = order?.EmployeeId,
+                    Seats = new(seats),
+                };
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return bindableOrder;
         }
     }
 }

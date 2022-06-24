@@ -89,6 +89,9 @@ namespace Next2.ViewModels
         private ICommand _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _editOrderCommand;
+        public ICommand EditOrderCommand => _editOrderCommand ??= new AsyncCommand(OnEditOrderCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -450,8 +453,7 @@ namespace Next2.ViewModels
                                 await OnClearSearchResultCommandAsync();
                             }
 
-                            await PopupNavigation.PopAsync();
-                            await PopupNavigation.PopAsync();
+                            await PopupNavigation.PopAllAsync();
                         }
                     }
                 }
@@ -530,6 +532,26 @@ namespace Next2.ViewModels
             else
             {
                 await PopupNavigation.PopAsync();
+            }
+        }
+
+        private async Task OnEditOrderCommandAsync()
+        {
+            if (SelectedOrder is not null)
+            {
+                if (App.IsTablet)
+                {
+                }
+                else
+                {
+                    var parameters = new NavigationParameters
+                    {
+                        { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
+                    };
+
+                    await _navigationService.NavigateAsync(
+                        $"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}", parameters);
+                }
             }
         }
 

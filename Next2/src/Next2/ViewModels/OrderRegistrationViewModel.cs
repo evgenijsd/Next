@@ -154,6 +154,15 @@ namespace Next2.ViewModels
 
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
+            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid idOfOrderToBeEdited))
+            {
+                var orderResult = await _orderService.LoadOrderToCurrentOrderById(idOfOrderToBeEdited);
+
+                if (orderResult.IsSuccess)
+                {
+                }
+            }
+
             if (!App.IsTablet)
             {
                 foreach (var seat in _orderService.CurrentOrder.Seats)
@@ -287,6 +296,18 @@ namespace Next2.ViewModels
                 if (freeTablesResult.IsSuccess)
                 {
                     var tableBindableModels = _mapper.Map<ObservableCollection<TableBindableModel>>(freeTablesResult.Result);
+
+                    if (CurrentOrder.Table != null && !Tables.Any(x => x.TableNumber == CurrentOrder.Table?.Number))
+                    {
+                        Tables.Add(new TableBindableModel
+                        {
+                            Id = CurrentOrder.Table.Id,
+                            TableNumber = CurrentOrder.Table.Number,
+                            SeatNumbers = CurrentOrder.Table.SeatNumbers,
+                        });
+
+                        tableBindableModels = new(tableBindableModels.OrderBy(x => x.TableNumber));
+                    }
 
                     Tables = new(tableBindableModels);
 

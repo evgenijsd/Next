@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API.Commands;
@@ -55,32 +56,6 @@ namespace Next2.Services.Order
         #endregion
 
         #region -- IOrderService implementation --
-
-        public async Task<AOResult<TaxModel>> GetTaxAsync()
-        {
-            var result = new AOResult<TaxModel>();
-
-            try
-            {
-                var taxMock = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
-                var tax = new TaxModel() { Id = taxMock.Id, Name = taxMock.Name, Value = taxMock.Value };
-
-                if (tax is not null)
-                {
-                    result.SetSuccess(tax);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetTaxAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
 
         public async Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync()
         {
@@ -182,29 +157,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteOrderAsync(int orderId)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                var removalOrder = await _mockService.FindAsync<OrderModel>(x => x.Id == orderId);
-
-                if (removalOrder is not null)
-                {
-                    await _mockService.RemoveAsync(removalOrder);
-
-                    result.SetSuccess();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new(Constants.Validators.NUMBER);
@@ -244,7 +196,6 @@ namespace Next2.Services.Order
 
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
                     CurrentSeat = null;
 
                     result.SetSuccess();
@@ -253,6 +204,91 @@ namespace Next2.Services.Order
             catch (Exception ex)
             {
                 result.SetError($"{nameof(CreateNewCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult> LoadOrderToCurrentOrderById(Guid orderId)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var orderResult = await GetOrderByIdAsync(orderId);
+
+                if (orderResult.IsSuccess && orderResult.Result is var order)
+                {
+                    var customer = order.Customer is null
+                        ? null
+                        : _mapper.Map<CustomerBindableModel>(order.Customer);
+
+                    var seats = order.Seats
+                        .OrderBy(x => x.Number)
+                        .Select(x => new SeatBindableModel()
+                        {
+                            SeatNumber = x.Number,
+                            SelectedDishes = new(x.SelectedDishes.Select(x => new DishBindableModel()
+                            {
+                                Id = x.Id,
+                                ImageSource = x.ImageSource,
+                                Name = x.Name,
+                                TotalPrice = x.TotalPrice,
+                                DiscountPrice = x.DiscountPrice,
+                                DishId = x.DishId,
+                                SelectedDishProportion = new()
+                                {
+                                    Id = x.SelectedDishProportion.Id,
+                                    PriceRatio = x.SelectedDishProportion.PriceRatio,
+                                    Proportion = new()
+                                    {
+                                        Id = x.SelectedDishProportion.Id,
+                                        Name = "Not defined",
+                                    },
+                                },
+                                SelectedProducts = new(x.SelectedProducts.Select(x => new ProductBindableModel()
+                                {
+                                    Comment = x?.Comment,
+                                    Product = x.Product,
+                                    SelectedOptions = x?.SelectedOptions.FirstOrDefault(),
+                                    SelectedIngredients = new(x?.SelectedIngredients),
+                                    AddedIngredients = new(x.AddedIngredients),
+                                    ExcludedIngredients = new(x.ExcludedIngredients),
+                                })),
+                            })),
+                        });
+
+                    var newFullOrder = new FullOrderBindableModel()
+                    {
+                        Id = order.Id,
+                        Number = order.Number,
+                        IsTab = order.IsTab,
+                        Table = order.Table,
+                        Customer = customer,
+                        OrderStatus = order.OrderStatus,
+                        OrderType = (EOrderType?)Enum.Parse(typeof(EOrderType), order.OrderType),
+                        Discount = order.Discount,
+                        Coupon = order.Coupon,
+                        TaxCoefficient = order.TaxCoefficient,
+                        SubTotalPrice = order.SubTotalPrice,
+                        DiscountPrice = order.DiscountPrice,
+                        PriceTax = (decimal)(order.SubTotalPrice * order.TaxCoefficient),
+                        TotalPrice = order.TotalPrice,
+                        EmployeeId = order.EmployeeId,
+                        Seats = new (seats),
+                    };
+
+                    var firstSeat = newFullOrder.Seats.FirstOrDefault();
+                    firstSeat.IsFirstSeat = true;
+                    firstSeat.Checked = true;
+
+                    CurrentOrder = newFullOrder;
+                    CurrentSeat = firstSeat;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(LoadOrderToCurrentOrderById)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

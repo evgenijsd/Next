@@ -15,9 +15,9 @@ namespace Next2.Services.Order
 
         SeatBindableModel? CurrentSeat { get; set; }
 
-        Task<AOResult<TaxModel>> GetTaxAsync();
-
         Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
+
+        Task<AOResult> LoadOrderToCurrentOrderById(Guid orderId);
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
@@ -28,8 +28,6 @@ namespace Next2.Services.Order
         Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
 
         Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
-
-        Task<AOResult> DeleteOrderAsync(int orderId);
 
         string ApplyNumberFilter(string text);
 

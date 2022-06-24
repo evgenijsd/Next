@@ -128,7 +128,8 @@
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
                     BorderColor="{DynamicResource IndicationColor_i5}"
-                    Text="{xct:Translate Edit}"/>
+                    Text="{xct:Translate Edit}"
+                    xct:TouchEffect.Command="{Binding EditOrderCommand}" />
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"

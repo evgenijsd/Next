@@ -346,7 +346,8 @@
                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                         BorderColor="{DynamicResource IndicationColor_i5}"
                         BackgroundColor="Transparent"
-                        Style="{DynamicResource BorderButtonStyle_i1}" />
+                        Style="{DynamicResource BorderButtonStyle_i1}"
+                        xct:TouchEffect.Command="{Binding EditOrderCommand}" />
 
                     <buttons:BorderButton
                         HorizontalOptions="FillAndExpand"
