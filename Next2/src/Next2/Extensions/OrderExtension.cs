@@ -105,7 +105,7 @@ namespace Next2.Extensions
             return command;
         }
 
-        public static FullOrderBindableModel OrderDTOToFullOrderBindableModel(this OrderModelDTO order)
+        public static FullOrderBindableModel ToFullOrderBindableModel(this OrderModelDTO order)
         {
             FullOrderBindableModel fullOrderBindableModel = new()
             {

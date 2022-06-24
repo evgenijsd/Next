@@ -162,7 +162,7 @@ namespace Next2.ViewModels.Tablet
                     if (result.IsSuccess)
                     {
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
-                        bool isOrderUpdated = await UpdateCurrentOrder(_orderService.CurrentOrder);
+                        bool isOrderUpdated = await UpdateCurrentOrder();
 
                         if (isOrderUpdated)
                         {
@@ -171,7 +171,7 @@ namespace Next2.ViewModels.Tablet
                                 await PopupNavigation.PopAsync();
                             }
 
-                            var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                            var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                             {
                                 Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                                 Position = ToastPosition.Bottom,
@@ -250,9 +250,9 @@ namespace Next2.ViewModels.Tablet
             await LoadDishesAsync();
         }
 
-        private async Task<bool> UpdateCurrentOrder(FullOrderBindableModel currentOrder)
+        private async Task<bool> UpdateCurrentOrder()
         {
-            var updateOrderCommand = currentOrder.ToUpdateOrderCommand();
+            var updateOrderCommand = _orderService.CurrentOrder.ToUpdateOrderCommand();
             var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
             return updateOrderResult.IsSuccess;

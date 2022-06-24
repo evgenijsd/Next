@@ -120,7 +120,7 @@ namespace Next2.ViewModels.Tablet
 
                         await PopupNavigation.PopAsync();
 
-                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                         {
                             Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                             Position = ToastPosition.Bottom,

@@ -300,7 +300,7 @@ namespace Next2.Services.Order
 
                 if (orderResult.IsSuccess)
                 {
-                    var currentOrder = orderResult.Result.OrderDTOToFullOrderBindableModel();
+                    var currentOrder = orderResult.Result.ToFullOrderBindableModel();
 
                     if (currentOrder is not null)
                     {
@@ -359,7 +359,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public FullOrderBindableModel AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
+        public void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
         {
             var dishes = dishesResult.Select(row => row.Result);
 
@@ -373,8 +373,6 @@ namespace Next2.Services.Order
                     dish.Products = new(source.Products);
                 }
             }
-
-            return currentOrder;
         }
 
         public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
@@ -383,7 +381,7 @@ namespace Next2.Services.Order
 
             try
             {
-                if (CurrentSeat is null && CurrentOrder.Seats.Count == 0)
+                if (CurrentSeat is null && !CurrentOrder.Seats.Any())
                 {
                     var seat = new SeatBindableModel
                     {

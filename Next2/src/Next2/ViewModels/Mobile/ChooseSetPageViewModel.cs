@@ -106,9 +106,9 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                var result = await _orderService.AddDishInCurrentOrderAsync(dish);
+                var resultOfAddingDishToCurrentOrder = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                if (result.IsSuccess)
+                if (resultOfAddingDishToCurrentOrder.IsSuccess)
                 {
                     await _orderService.UpdateOrderAsync(_orderService.CurrentOrder.ToUpdateOrderCommand());
 
@@ -117,7 +117,7 @@ namespace Next2.ViewModels.Mobile
                         await PopupNavigation.PopAsync();
                     }
 
-                    var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                    var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
                     {
                         Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
                         Position = ToastPosition.Bottom,

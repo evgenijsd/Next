@@ -51,6 +51,6 @@ namespace Next2.Services.Order
 
         Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
 
-        FullOrderBindableModel AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes);
+        void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes);
     }
 }
