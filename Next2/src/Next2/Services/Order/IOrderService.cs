@@ -50,7 +50,5 @@ namespace Next2.Services.Order
         Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
 
         Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
-
-        void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishes);
     }
 }

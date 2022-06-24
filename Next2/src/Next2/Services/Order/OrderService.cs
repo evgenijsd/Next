@@ -359,7 +359,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
+        private void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
         {
             var dishes = dishesResult.Select(row => row.Result);
 
