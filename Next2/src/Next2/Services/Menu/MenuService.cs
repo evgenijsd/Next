@@ -2,6 +2,7 @@
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Order;
@@ -149,6 +150,31 @@ namespace Next2.Services.Menu
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId)
+        {
+            var result = new AOResult<DishModelDTO>();
+
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/dishes/{dishId}";
+                var dishResult = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (dishResult.Success)
+                {
+                    if (dishResult?.Value?.Dish is not null)
+                    {
+                        result.SetSuccess(dishResult.Value.Dish);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetDishByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

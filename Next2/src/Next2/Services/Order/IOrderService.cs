@@ -25,8 +25,6 @@ namespace Next2.Services.Order
 
         Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid orderId);
 
-        Task<AOResult> SetCurrentOrderAsync(Guid orderId);
-
         string ApplyNumberFilter(string text);
 
         string ApplyNameFilter(string text);
@@ -44,7 +42,5 @@ namespace Next2.Services.Order
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
-
-        Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
     }
 }
