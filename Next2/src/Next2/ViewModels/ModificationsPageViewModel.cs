@@ -654,7 +654,10 @@ namespace Next2.ViewModels
             if (App.IsTablet)
             {
                 parameters.Add(Constants.Navigations.REFRESH_ORDER, true);
-                parameters.Add(Constants.Navigations.SET_MODIFIED, true);
+            }
+            else
+            {
+                parameters.Add(Constants.Navigations.DISH_MODIFIED, true);
             }
 
             await _navigationService.GoBackAsync(parameters);
