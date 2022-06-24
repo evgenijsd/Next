@@ -23,17 +23,17 @@ namespace Next2.Models.Bindables
 
         public bool IsCashPayment { get; set; }
 
-        public SimpleTableModelDTO Table { get; set; } = new();
+        public SimpleTableModelDTO? Table { get; set; } = new();
 
-        public CustomerBindableModel Customer { get; set; } = new();
+        public CustomerBindableModel? Customer { get; set; } = new();
 
         public EOrderStatus? OrderStatus { get; set; }
 
         public EOrderType? OrderType { get; set; }
 
-        public DiscountModelDTO Discount { get; set; }
+        public DiscountModelDTO? Discount { get; set; }
 
-        public CouponModelDTO Coupon { get; set; }
+        public CouponModelDTO? Coupon { get; set; }
 
         public decimal TaxCoefficient { get; set; }
 
