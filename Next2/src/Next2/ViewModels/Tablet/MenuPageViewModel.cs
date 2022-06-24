@@ -103,11 +103,6 @@ namespace Next2.ViewModels.Tablet
                     await PopupNavigation.PushAsync(confirmDialog);
                 }
 
-                if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
-                {
-                    NewOrderViewModel.OrderRegistrationViewModel.OnNavigatedTo(parameters);
-                }
-
                 if (parameters.ContainsKey(Constants.Navigations.REFRESH_ORDER))
                 {
                     await NewOrderViewModel.OrderRegistrationViewModel.RefreshCurrentOrderAsync();

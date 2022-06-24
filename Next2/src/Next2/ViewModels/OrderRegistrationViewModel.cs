@@ -53,7 +53,6 @@ namespace Next2.ViewModels
         private SeatBindableModel _seatWithSelectedDish;
         private EOrderStatus _orderPaymentStatus;
         private bool _isAnySetChosen;
-        private bool _isAnyUpDateForCurrentSet = true;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -164,9 +163,9 @@ namespace Next2.ViewModels
                 CurrentOrder = _orderService.CurrentOrder;
             }
 
-            if (parameters.ContainsKey(Constants.Navigations.SET_MODIFIED))
+            if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
             {
-                _isAnyUpDateForCurrentSet = true;
+                await RefreshCurrentOrderAsync();
             }
 
             if (CurrentOrder.TaxCoefficient == 0)
@@ -177,7 +176,7 @@ namespace Next2.ViewModels
 
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
-            base.InitializeAsync(parameters);
+            await base.InitializeAsync(parameters);
 
             InitOrderTypes();
             await RefreshCurrentOrderAsync();

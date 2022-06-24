@@ -22,7 +22,7 @@
             Padding="0, 0, 0, 0"
             Title="{xct:Translate EditOrder}" 
             FontSize="{DynamicResource TSize_i5}"
-            LeftButtonCommand="{prism:GoBack}"
+            LeftButtonCommand="{Binding GoBackCommand}"
             HeightImage="24"/>
 
         <BoxView
