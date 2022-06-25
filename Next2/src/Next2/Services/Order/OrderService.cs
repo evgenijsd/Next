@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
-using Next2.Enums;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -25,20 +23,17 @@ namespace Next2.Services.Order
 {
     public class OrderService : IOrderService
     {
-        private readonly IMockService _mockService;
         private readonly ISettingsManager _settingsManager;
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusesService;
         private readonly IMapper _mapper;
 
         public OrderService(
-            IMockService mockService,
             IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
             IMapper mapper)
         {
-            _mockService = mockService;
             _settingsManager = settingsManager;
             _restService = restService;
             _bonusesService = bonusesService;
@@ -296,6 +291,7 @@ namespace Next2.Services.Order
 
                         currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
                         CurrentOrder = currentOrder;
+                        CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
 
                         result.SetSuccess();
                     }

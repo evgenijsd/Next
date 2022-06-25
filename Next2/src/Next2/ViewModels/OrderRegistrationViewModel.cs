@@ -866,7 +866,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _navigationService.NavigateAsync(nameof(OrderTabsPage));
+                await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MenuPage)}/{nameof(OrderTabsPage)}");
             }
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
