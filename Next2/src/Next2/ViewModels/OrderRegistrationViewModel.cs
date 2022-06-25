@@ -111,6 +111,8 @@ namespace Next2.ViewModels
 
         public bool IsOrderSavedNotificationVisible { get; set; }
 
+        public bool IsOrderSavingAndPaymentEnabled { get; set; }
+
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommand);
 
@@ -144,8 +146,8 @@ namespace Next2.ViewModels
         private ICommand _hideOrderNotificationCommand;
         public ICommand HideOrderNotificationCommnad => _hideOrderNotificationCommand ??= new AsyncCommand(OnHideOrderNotificationCommnadAsync, allowsMultipleExecutions: false);
 
-        private ICommand _goToOrderTabs;
-        public ICommand GoToOrderTabs => _goToOrderTabs ??= new AsyncCommand(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _goToOrderTabsCommand;
+        public ICommand GoToOrderTabsCommand => _goToOrderTabsCommand ??= new AsyncCommand(OnGoToOrderTabsCommandAsync, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -161,6 +163,7 @@ namespace Next2.ViewModels
                 }
 
                 CurrentOrder = _orderService.CurrentOrder;
+                IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
             }
 
             if (parameters.ContainsKey(Constants.Navigations.DISH_MODIFIED))
@@ -177,25 +180,6 @@ namespace Next2.ViewModels
         public override async Task InitializeAsync(INavigationParameters parameters)
         {
             await base.InitializeAsync(parameters);
-
-            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid idOfOrderToBeEdited))
-            {
-                var orderResult = await _orderService.SetCurrentOrderAsync(idOfOrderToBeEdited);
-
-                //if (orderResult.IsSuccess)
-                //{
-                //    _orderService.CurrentOrder = orderResult.Result.ToFullOrderBindableModel();
-
-                //    foreach (var seats in CurrentOrder.Seats)
-                //    {
-                //        foreach (var dish in seats.SelectedDishes)
-                //        {
-                //            dish.DishProportions = null;
-                //            dish.Products = null;
-                //        }
-                //    }
-                //}
-            }
 
             InitOrderTypes();
             await RefreshCurrentOrderAsync();
@@ -252,6 +236,10 @@ namespace Next2.ViewModels
                         await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
                     }
 
+                    break;
+
+                case nameof(SelectedDish):
+                    IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
                     break;
             }
         }
@@ -446,6 +434,8 @@ namespace Next2.ViewModels
 
                     if (deleteSetsResult.IsSuccess)
                     {
+                        IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+
                         RefreshCurrentOrderAsync();
 
                         NumberOfSeats = CurrentOrder.Seats.Count;
@@ -726,8 +716,8 @@ namespace Next2.ViewModels
 
         private async Task SaveCurrentOrderAsync(bool isTab)
         {
+            CurrentOrder.IsTab = isTab;
             var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
-            updateOrderCommand.IsTab = isTab;
 
             var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 
@@ -878,7 +868,7 @@ namespace Next2.ViewModels
             }
 
             _eventAggregator.GetEvent<OrderSelectedEvent>().Publish(CurrentOrder.Id);
-            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(true);
+            _eventAggregator.GetEvent<OrderMovedEvent>().Publish(CurrentOrder.IsTab);
 
             await RefreshCurrentOrderAsync();
         }

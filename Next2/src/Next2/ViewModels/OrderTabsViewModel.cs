@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Extensions;
+using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -192,9 +193,9 @@ namespace Next2.ViewModels
 
                     isOrdersLoaded = true;
 
-                    //SelectedOrder = _lastSavedOrderId == 0
-                    //    ? null
-                    //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
+                    SelectedOrder = _lastSavedOrderId == Guid.Empty
+                        ? null
+                        : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
                 }
                 else
                 {
@@ -541,18 +542,15 @@ namespace Next2.ViewModels
         {
             if (SelectedOrder is not null)
             {
+                await _orderService.SetCurrentOrderAsync(SelectedOrder.Id);
+
                 if (App.IsTablet)
                 {
+                    MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
                 }
                 else
                 {
-                    var parameters = new NavigationParameters
-                    {
-                        { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
-                    };
-
-                    await _navigationService.NavigateAsync(
-                        $"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}", parameters);
+                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}");
                 }
             }
         }
