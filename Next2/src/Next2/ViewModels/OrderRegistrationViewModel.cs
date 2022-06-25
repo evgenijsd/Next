@@ -85,6 +85,8 @@ namespace Next2.ViewModels
 
         #region -- Public properties --
 
+        public bool IsClockRunning { get; set; }
+
         public LayoutState CurrentState { get; set; }
 
         public FullOrderBindableModel CurrentOrder { get; set; } = new();

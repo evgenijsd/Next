@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -12,13 +13,26 @@
 
     <Grid
         ColumnSpacing="2"
-        BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         ColumnDefinitions="*, 0.45*"
         RowDefinitions="0.10*, *">
 
-        <templates:CustomDateTimePanelTemplate
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-            CurrentDateTime="{Binding CurrentDateTime}"/>
+        <StackLayout
+            Padding="40, 0"
+            Orientation="Horizontal">
+
+            <Label
+                Text="{xct:Translate Welcome}"
+                FontSize="{DynamicResource TSize_i4_5}"
+                VerticalOptions="Center"
+                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                FontFamily="Barlow-Bold" />
+
+            <controls:TimeAndDateBar
+                HorizontalOptions="EndAndExpand"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                IsRunning="True" />
+        </StackLayout>
 
         <ContentView
             Grid.Row="1"
@@ -31,8 +45,7 @@
             <ffimageloading:CachedImage
                 Source="pic_logo_big"
                 Margin="0, 110, 0, 140"
-                Aspect="AspectFit"/>
-                
+                Aspect="AspectFit" />
         </ContentView>
 
         <Grid
@@ -48,9 +61,10 @@
                 VerticalTextAlignment="End"
                 Margin="30, 0, 0, 10"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontFamily="Barlow-SemiBold"/>
+                FontFamily="Barlow-SemiBold" />
 
-            <StackLayout Grid.Row="1">
+            <StackLayout
+                Grid.Row="1">
 
                 <templates:CustomNumericKeyboardTemplate
                     HeightRequest="310"
@@ -60,13 +74,12 @@
                     ScreenKeyboard="{Binding EmployeeId}"
                     PlaceHolder="{xct:Translate TypeEmployeeId}"
                     IsUserLogIn="{Binding IsUserLogIn}"
-                    IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}"/>
-
+                    IsErrorNotificationVisible="{Binding IsInvalidEmployeeId}" />
             </StackLayout>
 
             <StackLayout
                 Grid.Row="2"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <Frame
                 Grid.Row="3"
@@ -81,12 +94,8 @@
                     VerticalTextAlignment="Center"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
                     FontSize="{DynamicResource TSize_i8}"
-                    FontFamily="Barlow-Bold"/>
-
+                    FontFamily="Barlow-Bold" />
             </Frame>
-
         </Grid>
-
     </Grid>
-
 </views:BaseContentPage>

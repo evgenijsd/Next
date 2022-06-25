@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:local="clr-namespace:Next2"
+    Orientation="Horizontal"
+    Spacing="12"
+    x:Class="Next2.Controls.TimeAndDateBar">
+    
+    <StackLayout.Resources>
+        
+        <Style TargetType="Label">
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="FontFamily" Value="Barlow-Medium"/>
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i7}"/>
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+        </Style>
+        
+        <Style TargetType="StackLayout">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Spacing" Value="8"/>
+        </Style>
+        
+    </StackLayout.Resources>
+    
+    <StackLayout>
+        
+        <ffimageloading:CachedImage
+            HeightRequest="20"
+            Source="ic_time_circle_24x24" />
+        
+        <Label
+            WidthRequest="95"
+            Text="{Binding DateTime, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}, StringFormat={Static local:Constants+Formats.SHORT_TIME}}"/>
+        
+    </StackLayout>
+
+    <StackLayout>
+        
+        <ffimageloading:CachedImage
+            HeightRequest="20"
+            Source="ic_calendar_24x24" />
+
+        <Label Text="{Binding DateTime, Source={RelativeSource AncestorType={x:Type controls:TimeAndDateBar}}, StringFormat={Static local:Constants+Formats.LONG_DATE}}"/>
+        
+    </StackLayout>
+    
+</StackLayout>

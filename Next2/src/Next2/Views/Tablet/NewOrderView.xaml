@@ -201,43 +201,11 @@
 
                             </Label>
 
-                            <ffimageloading:CachedImage
-                                Source="ic_time_circle_24x24"
-                                HorizontalOptions="EndAndExpand">
-                                
-                                <ffimageloading:CachedImage.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
-                                </ffimageloading:CachedImage.GestureRecognizers>
-                                
-                            </ffimageloading:CachedImage>
-
-                            <Label
-                                Text="{Binding CurrentDateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_T}}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                VerticalTextAlignment="Center"
-                                Style="{StaticResource labeltSize_i6}"
-                                FontFamily="Barlow-Medium"
-                                Margin="5, 0, 0, 0"
-                                HorizontalTextAlignment="Center"
-                                WidthRequest="100">
-                                
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
-                                </Label.GestureRecognizers>
-                                
-                            </Label>
-
-                            <ffimageloading:CachedImage
-                                Source="ic_calendar_24x24"
-                                Margin="20, 0, 0, 0"/>
-
-                            <Label
-                                Text="{Binding CurrentDateTime, StringFormat={x:Static local:Constants+Formats.DATE_FORMAT_D}}"
-                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                VerticalTextAlignment="Center"
-                                Style="{StaticResource labeltSize_i6}"
-                                FontFamily="Barlow-Medium"
-                                Margin="5, 0, 0, 0"/>
+                            <controls:TimeAndDateBar
+                                Padding="0, 5, 0, 0"
+                                HorizontalOptions="EndAndExpand"
+                                IsRunning="{Binding OrderRegistrationViewModel.IsClockRunning}"
+                                xct:TouchEffect.Command="{Binding EmployeeTimeClockPopupCallCommand}"/>
 
                         </StackLayout>
 

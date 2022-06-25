@@ -11,6 +11,7 @@
     xmlns:models="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels"
     xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     x:Class="Next2.Views.Tablet.OrderTabsView"
     x:DataType="viewModels:OrderTabsViewModel">
 
@@ -261,7 +262,7 @@
 
                 <StackLayout>
                                                     
-                    <controls:CustomScrollBarCollectionView
+                    <controls:CustomCollectionView
                         HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=50}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                         ItemsSource="{Binding Orders}"
@@ -280,6 +281,10 @@
                                 
                         </CollectionView.Effects>
 
+                        <CollectionView.Behaviors>
+                            <behaviors:ScrollToCenterBehavior/>
+                        </CollectionView.Behaviors>
+                        
                         <CollectionView.ItemTemplate>
 
                             <DataTemplate x:DataType="models:SimpleOrderBindableModel">
@@ -413,7 +418,7 @@
 
                         </CollectionView.ItemTemplate>
 
-                    </controls:CustomScrollBarCollectionView>
+                    </controls:CustomCollectionView>
                                                 
                     <!-- NOTHING FOUND STATE -->
                     <yummy:PancakeView
