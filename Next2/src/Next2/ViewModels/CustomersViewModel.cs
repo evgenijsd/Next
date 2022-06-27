@@ -47,6 +47,8 @@ namespace Next2.ViewModels
 
         #region -- Public Properties --
 
+        public int IndexLastVisibleElement { get; set; }
+
         public string SearchText { get; set; } = string.Empty;
 
         public ObservableCollection<CustomerBindableModel> DisplayedCustomers { get; set; } = new();

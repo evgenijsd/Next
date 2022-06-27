@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Extensions;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -105,20 +106,25 @@ namespace Next2.ViewModels.Mobile
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
             {
-                await _orderService.AddDishInCurrentOrderAsync(dish);
+                var resultOfAddingDishToCurrentOrder = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                if (PopupNavigation.PopupStack.Any())
+                if (resultOfAddingDishToCurrentOrder.IsSuccess)
                 {
-                    await PopupNavigation.PopAsync();
+                    await _orderService.UpdateOrderAsync(_orderService.CurrentOrder.ToUpdateOrderCommand());
+
+                    if (PopupNavigation.PopupStack.Any())
+                    {
+                        await PopupNavigation.PopAsync();
+                    }
+
+                    var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                    {
+                        Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                        Position = ToastPosition.Bottom,
+                    };
+
+                    UserDialogs.Instance.Toast(toastConfig);
                 }
-
-                var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
-                {
-                    Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                    Position = ToastPosition.Bottom,
-                };
-
-                UserDialogs.Instance.Toast(toastConfig);
             }
             else
             {

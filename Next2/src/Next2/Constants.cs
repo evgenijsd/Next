@@ -76,6 +76,7 @@
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
+            public const string ORDER_ID = "ORDER_ID";
             public const string SEARCH_QUERY = "SEARCH_QUERY";
             public const string SEARCH_MEMBER = "SEARCH_MEMBER";
             public const string SEARCH_CUSTOMER = "SEARCH_CUSTOMER";
@@ -85,21 +86,17 @@
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
-            public const string SELECTED_SET = "SELECTED_SET";
             public const string SEATS = "SEATS";
             public const string REWARD = "REWARD";
             public const string IS_REWARD_APPLIED = "IS_REWARD_APPLIED";
             public const string GO_TO_REWARDS_POINTS = "GO_TO_REWARDS_POINTS";
             public const string INPUT_VALUE = "INPUT_VALUE";
             public const string PLACEHOLDER = "PLACEHOLDER";
-            public const string ORDER_STATUS = "ORDER_STATUS";
-            public const string GO_TO_NEW_ORDER_PAGE = "GO_TO_NEW_ORDER_PAGE";
-            public const string DELETE_SET = "DELETE_SET";
-            public const string ORDER_ID = "ORDER_ID";
+            public const string DELETE_DISH = "DELETE_DISH";
             public const string TOTAL_SUM = "TOTAL_SUM";
             public const string PAYMENT_COMPLETE = "PAYMENT_COMPLETE";
             public const string SIGNATURE = "SIGNATURE";
-            public const string SET_MODIFIED = "SET_MODIFIED";
+            public const string DISH_MODIFIED = "DISH_MODIFIED";
             public const string TIP_VALUE = "TIP_VALUE";
             public const string TIP_ITEMS = "TIP_ITEMS";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";

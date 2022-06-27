@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using Next2.Extensions;
 using Next2.Helpers.Events;
 using Next2.Interfaces;
 using Next2.Models;
@@ -160,20 +161,24 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        if (PopupNavigation.PopupStack.Any())
-                        {
-                            await PopupNavigation.PopAsync();
-                        }
-
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
+                        bool isOrderUpdated = await UpdateCurrentOrder();
 
-                        var toastConfig = new ToastConfig(Strings.SuccessfullyAddedToOrder)
+                        if (isOrderUpdated)
                         {
-                            Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
-                            Position = ToastPosition.Bottom,
-                        };
+                            if (PopupNavigation.PopupStack.Any())
+                            {
+                                await PopupNavigation.PopAsync();
+                            }
 
-                        UserDialogs.Instance.Toast(toastConfig);
+                            var toastConfig = new ToastConfig(LocalizationResourceManager.Current["SuccessfullyAddedToOrder"])
+                            {
+                                Duration = TimeSpan.FromSeconds(Constants.Limits.TOAST_DURATION),
+                                Position = ToastPosition.Bottom,
+                            };
+
+                            UserDialogs.Instance.Toast(toastConfig);
+                        }
                     }
                 }
             }
@@ -243,6 +248,14 @@ namespace Next2.ViewModels.Tablet
         private async void BonusEventCommand(FullOrderBindableModel obj)
         {
             await LoadDishesAsync();
+        }
+
+        private async Task<bool> UpdateCurrentOrder()
+        {
+            var updateOrderCommand = _orderService.CurrentOrder.ToUpdateOrderCommand();
+            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+
+            return updateOrderResult.IsSuccess;
         }
 
         #endregion

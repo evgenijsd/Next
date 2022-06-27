@@ -406,6 +406,11 @@ namespace Next2.ViewModels
                 { Constants.DialogParameterKeys.PAID_ORDER_BINDABLE_MODEL, Order },
             };
 
+            if (SelectedTipItem != null)
+            {
+                param.Add(Constants.DialogParameterKeys.TIP_VALUE_DIALOG, $"+ {SelectedTipItem.Text}");
+            }
+
             Action<IDialogParameters> callback = async (IDialogParameters par) =>
             {
                 await GiftCardFinishPaymentAsync();

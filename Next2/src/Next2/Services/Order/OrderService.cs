@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
+using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Models.API.Commands;
@@ -182,29 +183,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> DeleteOrderAsync(int orderId)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                var removalOrder = await _mockService.FindAsync<OrderModel>(x => x.Id == orderId);
-
-                if (removalOrder is not null)
-                {
-                    await _mockService.RemoveAsync(removalOrder);
-
-                    result.SetSuccess();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(DeleteOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public string ApplyNumberFilter(string text)
         {
             Regex regexNumber = new(Constants.Validators.NUMBER);
@@ -244,7 +222,6 @@ namespace Next2.Services.Order
 
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    //CurrentOrder.Table = tableBindableModels.FirstOrDefault();
                     CurrentSeat = null;
 
                     result.SetSuccess();
@@ -313,31 +290,93 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId)
+        public async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
         {
             var result = new AOResult();
 
             try
             {
-                var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
-                var order = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
+                var orderResult = await GetOrderByIdAsync(orderId);
 
-                if (order.Success)
+                if (orderResult.IsSuccess)
                 {
-                    CurrentOrder = _mapper.Map<FullOrderBindableModel>(order?.Value?.Order);
-                    CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
-                    CurrentOrder.OrderType = Enums.EOrderType.DineIn;
-                    CurrentSeat = null;
+                    var currentOrder = orderResult.Result.ToFullOrderBindableModel();
 
-                    result.SetSuccess();
+                    if (currentOrder is not null)
+                    {
+                        if (currentOrder.Seats.Any(row => row.SelectedDishes.Any()))
+                        {
+                            List<Task<AOResult<DishModelDTO>>> tasks = new();
+                            var dishesId = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
+
+                            foreach (var dishId in dishesId)
+                            {
+                                tasks.Add(GetDishByIdAsync(dishId));
+                            }
+
+                            var results = await Task.WhenAll(tasks);
+
+                            AddAdditionalDishesInformationToCurrentOrder(currentOrder, results);
+                        }
+
+                        currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
+                        CurrentOrder = currentOrder;
+
+                        result.SetSuccess();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(SetLastSessionOrderToCurrentOrder)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(SetCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
+        }
+
+        public async Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId)
+        {
+            var result = new AOResult<DishModelDTO>();
+
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/dishes/{dishId}";
+                var dishResult = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (dishResult.Success)
+                {
+                    if (dishResult?.Value?.Dish is not null)
+                    {
+                        result.SetSuccess(dishResult.Value.Dish);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetDishByIdAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        private void AddAdditionalDishesInformationToCurrentOrder(FullOrderBindableModel currentOrder, AOResult<DishModelDTO>[] dishesResult)
+        {
+            var dishes = dishesResult.Where(row => row.IsSuccess).Select(row => row.Result);
+
+            foreach (var seat in currentOrder.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    var dishId = dish.DishId;
+                    var source = dishes.FirstOrDefault(row => row.Id == dishId);
+
+                    if (source is not null)
+                    {
+                        dish.DishProportions = source.DishProportions;
+                        dish.Products = new(source.Products);
+                    }
+                }
+            }
         }
 
         public async Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish)
@@ -346,7 +385,7 @@ namespace Next2.Services.Order
 
             try
             {
-                if (CurrentSeat is null)
+                if (CurrentSeat is null && !CurrentOrder.Seats.Any())
                 {
                     var seat = new SeatBindableModel
                     {
@@ -362,6 +401,11 @@ namespace Next2.Services.Order
                 }
 
                 dish.DiscountPrice = dish.SelectedDishProportionPrice;
+
+                if (CurrentSeat is null)
+                {
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
+                }
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 

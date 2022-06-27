@@ -27,9 +27,7 @@ namespace Next2.Services.Order
 
         Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
 
-        Task<AOResult> SetLastSessionOrderToCurrentOrder(Guid orderId);
-
-        Task<AOResult> DeleteOrderAsync(int orderId);
+        Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
         string ApplyNumberFilter(string text);
 
@@ -50,6 +48,8 @@ namespace Next2.Services.Order
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
 
         Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
+
+        Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
 
         Task<AOResult<Guid>> UpdateTableAsync(UpdateTableCommand command);
     }
