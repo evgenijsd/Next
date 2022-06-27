@@ -381,7 +381,7 @@
                         BorderColor="{DynamicResource IndicationColor_i7}"
                         BackgroundColor="Transparent"
                         Style="{DynamicResource BorderButtonStyle_i1}"
-                        IsVisible="{Binding IsTabsModeSelected}" 
+                        IsVisible="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}" 
                         xct:TouchEffect.Command="{Binding SplitCommand}" />
 
                     <buttons:BorderButton
