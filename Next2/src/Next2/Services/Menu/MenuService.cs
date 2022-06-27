@@ -171,12 +171,9 @@ namespace Next2.Services.Menu
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{dishId}";
                 var dishResult = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
 
-                if (dishResult.Success)
+                if (dishResult.Success && dishResult?.Value?.Dish is not null)
                 {
-                    if (dishResult?.Value?.Dish is not null)
-                    {
-                        result.SetSuccess(dishResult.Value.Dish);
-                    }
+                    result.SetSuccess(dishResult.Value.Dish);
                 }
             }
             catch (Exception ex)

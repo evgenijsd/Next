@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Next2.Enums;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
@@ -17,7 +16,6 @@ using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -72,10 +70,6 @@ namespace Next2.Services.Order
                 if (tax is not null)
                 {
                     result.SetSuccess(tax);
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -147,10 +141,6 @@ namespace Next2.Services.Order
                     {
                         result.SetSuccess(freeTables.Value.Tables);
                     }
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -289,16 +279,16 @@ namespace Next2.Services.Order
 
                 if (lastOrderId.IsSuccess)
                 {
-                    await SetCurrentOrderAsync(lastOrderId.Result);
+                    result = await SetCurrentOrderAsync(lastOrderId.Result);
                 }
                 else
                 {
-                    await SetEmptyCurrentOrderAsync();
+                    result = await SetEmptyCurrentOrderAsync();
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(SetCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(OpenLastOrCreateNewOrderAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -609,6 +599,8 @@ namespace Next2.Services.Order
                 if (orderResult.IsSuccess)
                 {
                     await SetCurrentOrderAsync(orderResult.Result);
+
+                    result.SetSuccess();
                 }
             }
             catch (Exception ex)
