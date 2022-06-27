@@ -30,8 +30,7 @@
 
             <controls:TimeAndDateBar
                 HorizontalOptions="EndAndExpand"
-                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                IsRunning="True" />
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}" />
             
         </StackLayout>
 

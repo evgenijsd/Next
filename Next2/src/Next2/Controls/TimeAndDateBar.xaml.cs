@@ -9,6 +9,7 @@ namespace Next2.Controls
         public TimeAndDateBar()
         {
             InitializeComponent();
+            Device.StartTimer(TimeSpan.FromSeconds(1), OnTimerTick);
         }
 
         #region -- Public properties --
@@ -16,6 +17,7 @@ namespace Next2.Controls
         public static readonly BindableProperty IsRunningProperty = BindableProperty.Create(
             propertyName: nameof(IsRunning),
             returnType: typeof(bool),
+            defaultValue: true,
             declaringType: typeof(TimeAndDateBar),
             defaultBindingMode: BindingMode.OneWay);
 
@@ -29,6 +31,8 @@ namespace Next2.Controls
 
         #endregion
 
+        #region -- Overrides --
+
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -39,6 +43,8 @@ namespace Next2.Controls
                 Device.StartTimer(TimeSpan.FromSeconds(1), OnTimerTick);
             }
         }
+
+        #endregion
 
         #region -- Private helpers --
 
