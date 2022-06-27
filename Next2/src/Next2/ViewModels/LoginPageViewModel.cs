@@ -74,7 +74,7 @@ namespace Next2.ViewModels
 
             if (_authenticationService.IsAuthorizationComplete)
             {
-                await _orderService.SetEmptyCurrentOrderAsync();
+                await _orderService.OpenLastOrCreateNewOrderAsync();
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
@@ -135,7 +135,7 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    await _orderService.SetEmptyCurrentOrderAsync();
+                    await _orderService.OpenLastOrCreateNewOrderAsync();
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
 

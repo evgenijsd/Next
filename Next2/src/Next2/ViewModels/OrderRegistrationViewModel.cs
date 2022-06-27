@@ -702,8 +702,8 @@ namespace Next2.ViewModels
 
         private async Task SaveCurrentOrderAsync(bool isTab)
         {
+            CurrentOrder.IsTab = isTab;
             var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
-            updateOrderCommand.IsTab = isTab;
 
             var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
 

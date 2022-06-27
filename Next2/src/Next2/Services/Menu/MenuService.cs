@@ -84,11 +84,16 @@ namespace Next2.Services.Menu
 
                         if (_orderService.CurrentOrder.Coupon is not null)
                         {
-                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            var orderDishes = _orderService.CurrentOrder.Coupon.Dishes;
+
+                            if(orderDishes is not null)
                             {
-                                if (_orderService.CurrentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
+                                foreach (var dish in resultGettingDishes.Value.Dishes)
                                 {
-                                    dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                                    if (orderDishes.Any(x => x.Id == dish.Id))
+                                    {
+                                        dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                                    }
                                 }
                             }
                         }

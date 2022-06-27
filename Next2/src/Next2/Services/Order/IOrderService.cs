@@ -29,8 +29,6 @@ namespace Next2.Services.Order
 
         string ApplyNameFilter(string text);
 
-        Task<AOResult> SetEmptyCurrentOrderAsync();
-
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
         Task<AOResult<Guid>> UpdateOrderAsync(UpdateOrderCommand order);
@@ -42,5 +40,9 @@ namespace Next2.Services.Order
         Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber);
 
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
+
+        Task<AOResult> OpenLastOrCreateNewOrderAsync();
+
+        Task<AOResult> SetEmptyCurrentOrderAsync();
     }
 }

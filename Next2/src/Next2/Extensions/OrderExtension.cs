@@ -36,7 +36,7 @@ namespace Next2.Extensions
             {
                 Id = order.Id,
                 Number = order.Number,
-                OrderType = (EOrderType)order.OrderType,
+                OrderType = (EOrderType)order?.OrderType,
                 IsTab = order.IsTab,
                 TableId = order?.Table?.Id,
                 Open = order.Open,
@@ -118,9 +118,9 @@ namespace Next2.Extensions
                 Table = order.Table is not null
                     ? new()
                     {
-                         Id = order.Table.Id,
-                         Number = order.Table.Number,
-                         SeatNumbers = order.Table.SeatNumbers,
+                        Id = order.Table.Id,
+                        Number = order.Table.Number,
+                        SeatNumbers = order.Table.SeatNumbers,
                     }
                     : null,
                 Customer = order.Customer is not null
@@ -143,12 +143,16 @@ namespace Next2.Extensions
                     ? (decimal)order.SubTotalPrice * order.TaxCoefficient
                     : new(),
                 EmployeeId = order.EmployeeId,
-                Seats = new(order.Seats.Select(row => new SeatBindableModel()
+            };
+
+            fullOrderBindableModel.Seats = order.Seats is null
+                ? new()
+                : new(order.Seats.Select(row => new SeatBindableModel()
                 {
                     SeatNumber = row.Number,
                     IsFirstSeat = row.Number == 1,
                     Checked = row.Number == 1,
-                    SelectedDishes = new(row.SelectedDishes.Select(row => new DishBindableModel()
+                    SelectedDishes = new(row?.SelectedDishes.Select(row => new DishBindableModel()
                     {
                         Id = row.Id,
                         DishId = row.DishId,
@@ -167,7 +171,7 @@ namespace Next2.Extensions
                                 Name = row.SelectedDishProportion.Proportion.Name,
                             },
                         },
-                        SelectedProducts = new(row.SelectedProducts.Select(row => new ProductBindableModel()
+                        SelectedProducts = new(row?.SelectedProducts.Select(row => new ProductBindableModel()
                         {
                             Id = row.Product.Id,
                             Comment = new(row.Comment),
@@ -177,7 +181,7 @@ namespace Next2.Extensions
                                 DefaultPrice = row.Product.DefaultPrice,
                                 Name = row.Product.Name,
                                 ImageSource = row.Product.ImageSource,
-                                Ingredients = row.Product.Ingredients.Select(row => new SimpleIngredientModelDTO()
+                                Ingredients = row.Product?.Ingredients.Select(row => new SimpleIngredientModelDTO()
                                 {
                                     Id = row.Id,
                                     Name = row.Name,
@@ -187,8 +191,8 @@ namespace Next2.Extensions
                                 }),
                                 Options = row.Product.Options,
                             },
-                            SelectedOptions = row.SelectedOptions.FirstOrDefault(),
-                            SelectedIngredients = new(row.SelectedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            SelectedOptions = row?.SelectedOptions.FirstOrDefault(),
+                            SelectedIngredients = new(row?.SelectedIngredients.Select(row => new SimpleIngredientModelDTO()
                             {
                                 Id = row.Id,
                                 Name = row.Name,
@@ -196,7 +200,7 @@ namespace Next2.Extensions
                                 ImageSource = row.ImageSource,
                                 IngredientsCategory = row.IngredientsCategory,
                             })),
-                            AddedIngredients = new(row.AddedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            AddedIngredients = new(row?.AddedIngredients.Select(row => new SimpleIngredientModelDTO()
                             {
                                 Id = row.Id,
                                 Name = row.Name,
@@ -204,7 +208,7 @@ namespace Next2.Extensions
                                 ImageSource = row.ImageSource,
                                 IngredientsCategory = row.IngredientsCategory,
                             })),
-                            ExcludedIngredients = new(row.ExcludedIngredients.Select(row => new SimpleIngredientModelDTO()
+                            ExcludedIngredients = new(row?.ExcludedIngredients.Select(row => new SimpleIngredientModelDTO()
                             {
                                 Id = row.Id,
                                 Name = row.Name,
@@ -214,8 +218,7 @@ namespace Next2.Extensions
                             })),
                         })),
                     })),
-                })),
-            };
+                }));
 
             foreach (var seat in fullOrderBindableModel.Seats)
             {

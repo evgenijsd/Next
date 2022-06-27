@@ -109,13 +109,18 @@ namespace Next2.Services.Bonuses
             {
                 decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
 
-                foreach (var dish in dishes)
-                {
-                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.TotalPrice / (1 - percentage)
-                        : dish.TotalPrice;
+                var couponDishes = currentOrder.Coupon.Dishes;
 
-                    dish.TotalPrice = dish.DiscountPrice;
+                if (couponDishes is not null)
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                            ? dish.TotalPrice / (1 - percentage)
+                            : dish.TotalPrice;
+
+                        dish.TotalPrice = dish.DiscountPrice;
+                    }
                 }
             }
             else if (currentOrder.Discount is not null)
@@ -149,13 +154,18 @@ namespace Next2.Services.Bonuses
             {
                 decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
 
-                foreach (var dish in dishes)
-                {
-                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.TotalPrice - (dish.TotalPrice * percentage)
-                        : dish.TotalPrice;
+                var couponDishes = currentOrder.Coupon.Dishes;
 
-                    dish.TotalPrice = dish.DiscountPrice;
+                if (couponDishes is not null)
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                            ? dish.TotalPrice - (dish.TotalPrice * percentage)
+                            : dish.TotalPrice;
+
+                        dish.TotalPrice = dish.DiscountPrice;
+                    }
                 }
             }
             else if (currentOrder.Discount is not null)
