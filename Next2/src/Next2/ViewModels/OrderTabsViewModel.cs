@@ -359,7 +359,7 @@ namespace Next2.ViewModels
                     if (orderResult.IsSuccess)
                     {
                         var seats = orderResult.Result.Seats;
-                        var bindableSeats = GetSeatsForDisplaying(orderResult.Result.Seats);
+                        var bindableSeats = GetSeatsForDisplaying(seats);
 
                         var parameters = new DialogParameters
                         {
@@ -560,15 +560,18 @@ namespace Next2.ViewModels
         {
             if (SelectedOrder is not null)
             {
-                await _orderService.SetCurrentOrderAsync(SelectedOrder.Id);
+                var resultOfSetCurrentOrder = await _orderService.SetCurrentOrderAsync(SelectedOrder.Id);
 
-                if (App.IsTablet)
+                if (resultOfSetCurrentOrder.IsSuccess)
                 {
-                    MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
-                }
-                else
-                {
-                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}");
+                    if (App.IsTablet)
+                    {
+                        MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                    }
+                    else
+                    {
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}");
+                    }
                 }
             }
         }
