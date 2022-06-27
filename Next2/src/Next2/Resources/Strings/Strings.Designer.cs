@@ -764,6 +764,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet connection.
         /// </summary>
         internal static string NoInternetConnection {
@@ -1256,6 +1265,33 @@ namespace Next2.Resources.Strings {
         internal static string Split {
             get {
                 return ResourceManager.GetString("Split", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split By Dollar.
+        /// </summary>
+        internal static string SplitByDollar {
+            get {
+                return ResourceManager.GetString("SplitByDollar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split By Percentage.
+        /// </summary>
+        internal static string SplitByPercentage {
+            get {
+                return ResourceManager.GetString("SplitByPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split By Seats.
+        /// </summary>
+        internal static string SplitBySeats {
+            get {
+                return ResourceManager.GetString("SplitBySeats", resourceCulture);
             }
         }
         

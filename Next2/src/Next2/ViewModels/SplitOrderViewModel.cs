@@ -76,7 +76,10 @@ namespace Next2.ViewModels
                         seat.SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
                     }
 
-                    SelectFirstDish();
+                    if (App.IsTablet)
+                    {
+                        SelectFirstDish();
+                    }
                 }
             }
         }

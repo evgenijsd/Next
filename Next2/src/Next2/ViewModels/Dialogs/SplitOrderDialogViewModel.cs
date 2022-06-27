@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Resources.Strings;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -50,6 +51,10 @@ namespace Next2.ViewModels.Dialogs
 
         public bool IsSplitAvailable { get; set; }
 
+        public string HeaderText { get; set; }
+
+        public string Step { get; set; } = "First";
+
         public Action<IDialogParameters> RequestClose;
 
         private ICommand _selectValueCommand;
@@ -69,6 +74,9 @@ namespace Next2.ViewModels.Dialogs
 
         private ICommand _selectCommand;
         public ICommand SelectCommand => _selectCommand ??= new Command<object>(OnSelectCommand);
+
+        private ICommand _nextCommand;
+        public ICommand NextCommand => _nextCommand ??= new AsyncCommand(OnNextCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -133,6 +141,8 @@ namespace Next2.ViewModels.Dialogs
 
                 if (condition == ESplitOrderConditions.BySeats)
                 {
+                    HeaderText = Strings.SplitBySeats;
+
                     newSeats = seats.Select(x => new SeatBindableModel()
                     {
                         SeatNumber = x.SeatNumber,
@@ -141,6 +151,10 @@ namespace Next2.ViewModels.Dialogs
                 }
                 else
                 {
+                    HeaderText = condition == ESplitOrderConditions.ByPercents
+                        ? Strings.SplitByPercentage
+                        : Strings.SplitByDollar;
+
                     newSeats = seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
                     {
                         SeatNumber = x.SeatNumber,
@@ -260,6 +274,12 @@ namespace Next2.ViewModels.Dialogs
         {
             var collectionView = sender as CollectionView;
             IsSplitAvailable = collectionView.SelectedItems.Count > 0;
+        }
+
+        private Task OnNextCommand()
+        {
+            Step = "Second";
+            return Task.CompletedTask;
         }
 
         #endregion

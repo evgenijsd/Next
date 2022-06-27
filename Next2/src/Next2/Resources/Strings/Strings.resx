@@ -628,4 +628,16 @@ A receipt has been printed for you.</value>
   <data name="Off" xml:space="preserve">
     <value>Off</value>
   </data>
+  <data name="SplitByDollar" xml:space="preserve">
+    <value>Split By Dollar</value>
+  </data>
+  <data name="SplitByPercentage" xml:space="preserve">
+    <value>Split By Percentage</value>
+  </data>
+  <data name="SplitBySeats" xml:space="preserve">
+    <value>Split By Seats</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>
