@@ -227,7 +227,7 @@
                     Margin="20, 17, 20, 0"
                     VerticalScrollBarVisibility="Never">
 
-                    <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
+                    <StackLayout BindableLayout.ItemsSource="{Binding Seats}">
                         
                         <BindableLayout.ItemTemplate>
 
