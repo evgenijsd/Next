@@ -209,6 +209,7 @@ namespace Next2.ViewModels
                     if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
                     {
                         IsOrderSavedNotificationVisible = false;
+
                         await _orderService.AddSeatInCurrentOrderAsync();
                         AddSeatsCommands();
                         await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
@@ -310,6 +311,12 @@ namespace Next2.ViewModels
                             SeatNumbers = CurrentOrder.Table.SeatNumbers,
                             TableNumber = CurrentOrder.Table.Number,
                         };
+
+                    if (!tableBindableModels.Any(x => x.TableNumber == SelectedTable.TableNumber))
+                    {
+                        Tables.Add(SelectedTable);
+                        Tables = new(Tables.OrderBy(x => x.TableNumber));
+                    }
                 }
             }
         }
@@ -729,6 +736,7 @@ namespace Next2.ViewModels
                 await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
 
                 IsOrderSavedNotificationVisible = true;
+                IsOrderSavingAndPaymentEnabled = false;
                 CurrentOrder.Seats = new();
             }
         }

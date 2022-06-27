@@ -192,6 +192,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    CurrentOrder.SubTotalPrice = 0m;
                     CurrentSeat = null;
 
                     result.SetSuccess();
@@ -418,6 +419,7 @@ namespace Next2.Services.Order
                     SeatNumber = CurrentOrder.Seats.Count + 1,
                     SelectedDishes = new(),
                     Checked = true,
+                    IsFirstSeat = !CurrentOrder.Seats.Any(),
                 };
 
                 CurrentOrder.Seats.Add(seat);

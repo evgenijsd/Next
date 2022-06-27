@@ -1044,7 +1044,17 @@
                     <Setter Property="IconSizes" Value="24"/>
                 </Style>
             </Grid.Resources>
-
+            
+            <Grid.Triggers>
+                <DataTrigger TargetType="Grid" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
+                    <Setter TargetName="seatsNumbersStepper" Property="controls:CustomStepper.IsEnabled" Value="False"/>
+                    <Setter TargetName="tablesDropDownList" Property="controls:DropDownList.IsEnabled" Value="False"/>
+                    <Setter TargetName="tablesDropDownList" Property="controls:DropDownList.Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                    <Setter TargetName="orderTypesDropDownList" Property="controls:DropDownList.IsEnabled" Value="False"/>
+                    <Setter TargetName="orderTypesDropDownList" Property="controls:DropDownList.Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                </DataTrigger>
+            </Grid.Triggers>
+            
             <!-- HEADER, 1 ROW -->
             <StackLayout
                 Grid.Row="0"
@@ -1129,7 +1139,8 @@
                 ScrollBarVisibility="Never"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
-                ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
+                ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}"
+                x:Name="orderTypesDropDownList">
 
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveDropDownList">
@@ -1238,7 +1249,8 @@
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
-                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
+                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"
+                    x:Name="seatsNumbersStepper"/>
 
             </StackLayout>
 
@@ -1252,7 +1264,8 @@
                 ScrollBarVisibility="Never"
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
-                ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
+                ItemsSource="{Binding OrderRegistrationViewModel.Tables}"
+                x:Name="tablesDropDownList">
 
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>

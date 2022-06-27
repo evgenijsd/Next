@@ -358,11 +358,8 @@ namespace Next2.ViewModels
 
                     if (orderResult.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats
-                            .Where(x => x.SelectedDishes.Any())
-                            .OrderBy(x => x.Number);
-
-                        var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
+                        var seats = orderResult.Result.Seats;
+                        var bindableSeats = GetSeatsForDisplaying(orderResult.Result.Seats);
 
                         var parameters = new DialogParameters
                         {
@@ -488,11 +485,8 @@ namespace Next2.ViewModels
 
                     if (orderResult.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats
-                            .Where(x => x.SelectedDishes.Any())
-                            .OrderBy(x => x.Number);
-
-                        var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
+                        var seats = orderResult.Result.Seats;
+                        var bindableSeats = GetSeatsForDisplaying(seats);
 
                         var param = new DialogParameters
                         {
@@ -542,6 +536,24 @@ namespace Next2.ViewModels
             {
                 await PopupNavigation.PopAsync();
             }
+        }
+
+        private List<SeatBindableModel> GetSeatsForDisplaying(IEnumerable<SeatModelDTO>? seats)
+        {
+            List<SeatBindableModel> bindableSeats = new();
+
+            if (seats.Any())
+            {
+                seats = seats
+                    .Where(x => x.SelectedDishes.Any())
+                    .OrderBy(x => x.Number);
+
+                bindableSeats = seats.Select(x => x.ToSeatBindableModel()).ToList();
+
+                bindableSeats[0].IsFirstSeat = true;
+            }
+
+            return bindableSeats;
         }
 
         private async Task OnEditOrderCommandAsync()

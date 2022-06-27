@@ -70,6 +70,16 @@
             </Style>
         </Grid.Resources>
 
+        <Grid.Triggers>
+            <DataTrigger TargetType="Grid" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+                <Setter TargetName="seatsNumbersStepper" Property="controls:CustomStepper.IsEnabled" Value="False"/>
+                <Setter TargetName="tablesDropDownList" Property="controls:DropDownList.IsEnabled" Value="False"/>
+                <Setter TargetName="tablesDropDownList" Property="controls:DropDownList.Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+                <Setter TargetName="orderTypesDropDownList" Property="controls:DropDownList.IsEnabled" Value="False"/>
+                <Setter TargetName="orderTypesDropDownList" Property="controls:DropDownList.Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
+            </DataTrigger>
+        </Grid.Triggers>
+        
         <!-- HEADER, 1 ROW -->
         <StackLayout
             Grid.Row="0"
@@ -110,7 +120,8 @@
             ItemHeight="46.5"
             HeaderText="{Binding SelectedOrderType.Text}"
             SelectedItem="{Binding SelectedOrderType}"
-            ItemsSource="{Binding OrderTypes}">
+            ItemsSource="{Binding OrderTypes}"
+            x:Name="orderTypesDropDownList">
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
@@ -167,7 +178,8 @@
             <controls:CustomStepper
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
-                DecrementCommand="{Binding DeleteLastSeatCommand}"/>
+                DecrementCommand="{Binding DeleteLastSeatCommand}"
+                x:Name="seatsNumbersStepper"/>
 
         </StackLayout>
 
@@ -181,7 +193,8 @@
             ItemHeight="46.5"
             HeaderText="{Binding SelectedTable.TableNumber, StringFormat='Table {0}'}"
             SelectedItem="{Binding SelectedTable}"
-            ItemsSource="{Binding Tables}">
+            ItemsSource="{Binding Tables}"
+            x:Name="tablesDropDownList">
 
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
