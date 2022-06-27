@@ -82,15 +82,17 @@ namespace Next2.Services.Menu
 
                         decimal percentage = bonusPercentage / Convert.ToDecimal(100);
 
+                        var dishes = resultGettingDishes.Value.Dishes;
+
                         if (_orderService.CurrentOrder.Coupon is not null)
                         {
-                            var orderDishes = _orderService.CurrentOrder.Coupon.Dishes;
+                            var couponDishes = _orderService.CurrentOrder.Coupon.Dishes;
 
-                            if(orderDishes is not null)
+                            if (couponDishes is not null)
                             {
-                                foreach (var dish in resultGettingDishes.Value.Dishes)
+                                foreach (var dish in dishes)
                                 {
-                                    if (orderDishes.Any(x => x.Id == dish.Id))
+                                    if (couponDishes.Any(x => x.Id == dish.Id))
                                     {
                                         dish.OriginalPrice -= dish.OriginalPrice * percentage;
                                     }
@@ -99,7 +101,7 @@ namespace Next2.Services.Menu
                         }
                         else
                         {
-                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            foreach (var dish in dishes)
                             {
                                 dish.OriginalPrice -= dish.OriginalPrice * percentage;
                             }

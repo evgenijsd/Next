@@ -32,21 +32,18 @@ namespace Next2.Services.Order
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusesService;
         private readonly IAuthenticationService _authenticationService;
-        private readonly IMapper _mapper;
 
         public OrderService(
             IMockService mockService,
             IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
-            IAuthenticationService authenticationService,
-            IMapper mapper)
+            IAuthenticationService authenticationService)
         {
             _mockService = mockService;
             _settingsManager = settingsManager;
             _restService = restService;
             _bonusesService = bonusesService;
-            _mapper = mapper;
             _restService = restService;
             _authenticationService = authenticationService;
 
@@ -587,12 +584,12 @@ namespace Next2.Services.Order
                     foreach (var dish in seat.SelectedDishes)
                     {
                         var dishId = dish.DishId;
-                        var source = dishes.FirstOrDefault(row => row.Id == dishId);
+                        var sourceDish = dishes.FirstOrDefault(row => row.Id == dishId);
 
-                        if (source is not null)
+                        if (sourceDish is not null)
                         {
-                            dish.DishProportions = source.DishProportions;
-                            dish.Products = new(source.Products);
+                            dish.DishProportions = sourceDish.DishProportions;
+                            dish.Products = new(sourceDish.Products);
                         }
                     }
                 }
