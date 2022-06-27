@@ -79,19 +79,6 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                var seats = new ObservableCollection<SeatBindableModel>();
-
-                foreach (var seat in CurrentOrder.Seats)
-                {
-                    var selectedDishes = CloneSelectedDishes(seat);
-                    var newSeat = _mapper.Map<SeatBindableModel>(seat);
-                    newSeat.SelectedDishes = new(selectedDishes);
-
-                    seats.Add(newSeat);
-                }
-
-                CurrentOrder.Seats = seats;
-
                 var coupons = await GetCoupons();
 
                 if (coupons is not null)
@@ -140,9 +127,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(SelectedBonus))
             {
-                Title = SelectedBonus is null
-                    ? string.Empty
-                    : SelectedBonus.Name;
+                Title = SelectedBonus?.Name ?? string.Empty;
             }
         }
 
@@ -190,12 +175,15 @@ namespace Next2.ViewModels
 
         private async Task OnApplyBonusCommandAsync()
         {
-            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Publish(CurrentOrder);
+            var parameters = new NavigationParameters
+            {
+                { Constants.Navigations.BONUS, CurrentOrder },
+            };
 
-            await _navigationService.GoBackAsync();
+            await _navigationService.GoBackAsync(parameters);
         }
 
-        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
             SelectedBonus = bonus == SelectedBonus ? null : bonus;
 
@@ -222,6 +210,8 @@ namespace Next2.ViewModels
             }
 
             _bonusesService.СalculationBonus(CurrentOrder);
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
@@ -246,26 +236,6 @@ namespace Next2.ViewModels
         {
             SelectedBonus = null;
             return Task.CompletedTask;
-        }
-
-        private IEnumerable<DishBindableModel> CloneSelectedDishes(SeatBindableModel seat)
-        {
-            var selectedDishes = seat.SelectedDishes.Select(x => new DishBindableModel
-            {
-                Id = x.Id,
-                DiscountPrice = x.DiscountPrice,
-                ImageSource = x.ImageSource,
-                Name = x.Name,
-                SelectedDishProportionPrice = x.SelectedDishProportionPrice,
-                TotalPrice = x.TotalPrice,
-                SelectedDishProportion = x.SelectedDishProportion,
-                DishId = x.DishId,
-                DishProportions = x.DishProportions,
-                Products = x.Products,
-                SelectedProducts = x.SelectedProducts,
-            });
-
-            return selectedDishes;
         }
 
         #endregion

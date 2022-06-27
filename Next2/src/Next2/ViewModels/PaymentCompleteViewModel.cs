@@ -355,6 +355,12 @@ namespace Next2.ViewModels
                         {
                             { Constants.Navigations.TIP_ITEMS, TipValueItems },
                         };
+
+                        if (SelectedTipItem != null)
+                        {
+                            navigationParams.Add(Constants.Navigations.TIP_TYPE, SelectedTipItem.TipType);
+                            navigationParams.Add(Constants.Navigations.TIP_VALUE, SelectedTipItem.Value);
+                        }
                     }
 
                     break;

@@ -80,6 +80,7 @@
             public const string FUNC = "FUNC";
             public const string REFRESH_ORDER = "REFRESH_ORDER";
             public const string CURRENT_ORDER = "CURRENT_ORDER";
+            public const string BONUS = "BONUS";
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
@@ -96,6 +97,7 @@
             public const string DISH_MODIFIED = "DISH_MODIFIED";
             public const string TIP_VALUE = "TIP_VALUE";
             public const string TIP_ITEMS = "TIP_ITEMS";
+            public const string TIP_TYPE = "TIP_TYPE";
             public const string GIFT_CARD_FOUNDS = "GIFT_CARD_FOUNDS";
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";

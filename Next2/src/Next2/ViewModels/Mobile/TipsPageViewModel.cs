@@ -19,7 +19,7 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
-        private TipItem _noTipItem;
+        private TipItem _tipItem;
 
         public TipsPageViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -44,6 +44,19 @@ namespace Next2.ViewModels.Mobile
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            var tipType = ETipType.NoTip;
+            var tipValue = 0m;
+
+            if (parameters.TryGetValue(Constants.Navigations.TIP_TYPE, out ETipType tipT))
+            {
+                tipType = tipT;
+            }
+
+            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out decimal tipV))
+            {
+                tipValue = tipV;
+            }
+
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
             {
                 foreach (var item in tipItems)
@@ -53,13 +66,14 @@ namespace Next2.ViewModels.Mobile
                     {
                         TipDisplayItems.Add(item);
                     }
-                    else
+
+                    if (item.TipType == tipType && item.Value == tipValue)
                     {
-                        _noTipItem = item;
+                        _tipItem = item;
                     }
                 }
 
-                SelectedTipItem = _noTipItem;
+                SelectedTipItem = _tipItem;
             }
         }
 
@@ -77,7 +91,7 @@ namespace Next2.ViewModels.Mobile
             }
             else if (sender is ETipType eTip && eTip == ETipType.NoTip)
             {
-                SelectedTipItem = _noTipItem;
+                SelectedTipItem = _tipItem;
             }
         }
 

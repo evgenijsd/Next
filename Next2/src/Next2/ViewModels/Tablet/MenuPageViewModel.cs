@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
+using Next2.Models.Bindables;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -121,6 +122,12 @@ namespace Next2.ViewModels.Tablet
                 if (parameters.TryGetValue(Constants.Navigations.SEARCH_CUSTOMER, out string searchCustomer))
                 {
                     CustomersViewModel.SetSearchQuery(searchCustomer);
+                }
+
+                if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
+                {
+                    NewOrderViewModel.OrderRegistrationViewModel.BonusEventCommand(currentOrder);
+                    NewOrderViewModel.BonusEventCommand(currentOrder);
                 }
             }
         }
