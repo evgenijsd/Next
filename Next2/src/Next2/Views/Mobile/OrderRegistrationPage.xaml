@@ -430,8 +430,16 @@
 
                     <Label
                         Style="{DynamicResource SemiBold24pxLabelStyle}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding BonusName}" />
+                        HorizontalOptions="EndAndExpand">
+                        
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding CurrentOrder.Coupon.Name}" />
+                                <Span Text="{Binding CurrentOrder.Discount.Name}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
+                    </Label>
 
                 </StackLayout>
 

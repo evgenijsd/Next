@@ -126,8 +126,8 @@ namespace Next2.ViewModels.Tablet
 
                 if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
                 {
-                    NewOrderViewModel.OrderRegistrationViewModel.BonusEventCommand(currentOrder);
-                    NewOrderViewModel.BonusEventCommand(currentOrder);
+                    NewOrderViewModel.OrderRegistrationViewModel.SetBonus(currentOrder);
+                    await NewOrderViewModel.LoadDishesAsync();
                 }
             }
         }

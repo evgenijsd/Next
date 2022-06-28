@@ -47,6 +47,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
 
+        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
+
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public BonusBindableModel? SelectedBonus { get; set; }
@@ -192,6 +194,7 @@ namespace Next2.ViewModels
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
                     _bonusesService.ResetСalculationBonus(CurrentOrder);
+                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
                 }
 
                 if (bonus.Type is EBonusType.Coupone)
@@ -199,13 +202,13 @@ namespace Next2.ViewModels
                     var coupon = _mapper.Map<CouponModelDTO>(bonus);
                     coupon.SeatNumbers = CurrentOrder.Seats.Count;
 
-                    CurrentOrder.Coupon = coupon;
                     CurrentOrder.Discount = null;
+                    CurrentOrder.Coupon = coupon;
                 }
                 else if (bonus.Type is EBonusType.Discount)
                 {
-                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
                     CurrentOrder.Coupon = null;
+                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
                 }
             }
 

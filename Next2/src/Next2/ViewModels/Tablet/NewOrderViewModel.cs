@@ -122,9 +122,19 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Public helpers --
 
-        public async void BonusEventCommand(FullOrderBindableModel obj)
+        public async Task LoadDishesAsync()
         {
-            await LoadDishesAsync();
+            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
+            {
+                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
+
+                if (resultGettingDishes.IsSuccess)
+                {
+                    Dishes = _shouldOrderDishesByDESC
+                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
+                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
+                }
+            }
         }
 
         #endregion
@@ -200,21 +210,6 @@ namespace Next2.ViewModels.Tablet
                 {
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
-                }
-            }
-        }
-
-        private async Task LoadDishesAsync()
-        {
-            if (IsInternetConnected && SelectedCategoriesItem is not null && SelectedSubcategoriesItem is not null)
-            {
-                var resultGettingDishes = await _menuService.GetDishesAsync(SelectedCategoriesItem.Id, SelectedSubcategoriesItem.Id);
-
-                if (resultGettingDishes.IsSuccess)
-                {
-                    Dishes = _shouldOrderDishesByDESC
-                        ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
-                        : new(resultGettingDishes.Result.OrderBy(row => row.Name));
                 }
             }
         }

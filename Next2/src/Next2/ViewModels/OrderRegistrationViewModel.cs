@@ -87,8 +87,6 @@ namespace Next2.ViewModels
 
         public LayoutState CurrentState { get; set; }
 
-        public string? BonusName { get; set; }
-
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public string PopUpInfo => string.Format(LocalizationResourceManager.Current["TheOrderWasPlacedTo"], CurrentOrder.Number);
@@ -177,7 +175,7 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
             {
-                BonusEventCommand(currentOrder);
+                SetBonus(currentOrder);
             }
         }
 
@@ -219,8 +217,6 @@ namespace Next2.ViewModels
                     break;
                 case nameof(CurrentOrder):
                     IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
-                    BonusName = CurrentOrder?.Coupon?.Name;
-                    BonusName = BonusName ?? CurrentOrder?.Discount?.Name;
 
                     break;
                 case nameof(IsOrderWithTax):
@@ -251,7 +247,7 @@ namespace Next2.ViewModels
 
         #region -- Public helpers --
 
-        public void BonusEventCommand(FullOrderBindableModel currentOrder)
+        public void SetBonus(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
@@ -259,7 +255,7 @@ namespace Next2.ViewModels
             var currentSeatNumber = _orderService?.CurrentSeat != null
                 ? _orderService?.CurrentSeat.SeatNumber
                 : CurrentOrder.Seats.FirstOrDefault().SeatNumber;
-            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
+            _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
         }
 
         public void InitOrderTypes()

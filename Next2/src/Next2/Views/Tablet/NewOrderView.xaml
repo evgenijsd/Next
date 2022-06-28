@@ -1774,8 +1774,14 @@
 
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding OrderRegistrationViewModel.BonusName}">
+                            HorizontalOptions="EndAndExpand">
+
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon.Name}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" />
+                                </FormattedString>
+                            </Label.FormattedText>
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
