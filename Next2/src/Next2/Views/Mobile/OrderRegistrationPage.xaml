@@ -453,22 +453,15 @@
 
                     <Label
                         Style="{DynamicResource SemiBold24pxLabelStyle}"
-                        HorizontalOptions="EndAndExpand"
-                        Text="{Binding CurrentOrder.Coupon.Name}">
+                        HorizontalOptions="EndAndExpand">
                         
-                        <Label.Triggers>
-
-                            <DataTrigger
-                                TargetType="Label"
-                                Binding="{Binding CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                Value="True">
-
-                                <Setter Property="Text" Value="{Binding CurrentOrder.Discount.Name}" />
-
-                            </DataTrigger>
-                            
-                        </Label.Triggers>
-
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding CurrentOrder.Coupon.Name}" />
+                                <Span Text="{Binding CurrentOrder.Discount.Name}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
                     </Label>
 
                 </StackLayout>

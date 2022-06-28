@@ -177,6 +177,11 @@ namespace Next2.ViewModels
             {
                 IsOrderWithTax = false;
             }
+
+            if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
+            {
+                UpdateOrderWithBonus(currentOrder);
+            }
         }
 
         public override async Task InitializeAsync(INavigationParameters parameters)
@@ -218,6 +223,7 @@ namespace Next2.ViewModels
                     break;
                 case nameof(CurrentOrder):
                     IsOrderWithTax = CurrentOrder.TaxCoefficient > 0;
+
                     break;
                 case nameof(IsOrderWithTax):
                     if (!IsOrderWithTax && CurrentOrder.DiscountPrice is not null && CurrentOrder.SubTotalPrice is not null)
@@ -250,6 +256,18 @@ namespace Next2.ViewModels
         #endregion
 
         #region -- Public helpers --
+
+        public void UpdateOrderWithBonus(FullOrderBindableModel currentOrder)
+        {
+            CurrentOrder = currentOrder;
+            _orderService.CurrentOrder = CurrentOrder;
+
+            var currentSeatNumber = _orderService?.CurrentSeat != null
+                ? _orderService?.CurrentSeat.SeatNumber
+                : CurrentOrder.Seats.FirstOrDefault().SeatNumber;
+
+            _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
+        }
 
         public void InitOrderTypes()
         {
@@ -648,22 +666,9 @@ namespace Next2.ViewModels
 
         private Task OnOpenDiscountSelectionCommandAsync()
         {
-            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Subscribe(BonusEventCommand);
-
             var parameters = new NavigationParameters { { Constants.Navigations.CURRENT_ORDER, CurrentOrder } };
 
             return _navigationService.NavigateAsync(nameof(TabletViews.BonusPage), parameters);
-        }
-
-        private void BonusEventCommand(FullOrderBindableModel currentOrder)
-        {
-            CurrentOrder = currentOrder;
-            _orderService.CurrentOrder = CurrentOrder;
-
-            var currentSeatNumber = _orderService?.CurrentSeat.SeatNumber;
-            _orderService.CurrentSeat = _orderService.CurrentOrder.Seats.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
-
-            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Unsubscribe(BonusEventCommand);
         }
 
         private async Task OnRemoveTaxFromOrderCommandAsync()

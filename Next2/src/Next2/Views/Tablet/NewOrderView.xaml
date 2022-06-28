@@ -1766,7 +1766,7 @@
 
                                 <DataTrigger
                                     TargetType="Label"
-                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
+                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon, Converter={xct:IsNullOrEmptyConverter}}"
                                     Value="True">
 
                                     <Setter Property="Text" Value="{xct:Translate Discount}" />
@@ -1779,21 +1779,14 @@
 
                         <Label
                             Style="{DynamicResource Medium14LabelStyle}"
-                            HorizontalOptions="EndAndExpand"
-                            Text="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon.Name}">
+                            HorizontalOptions="EndAndExpand">
 
-                            <Label.Triggers>
-
-                                <DataTrigger
-                                    TargetType="Label"
-                                    Binding="{Binding OrderRegistrationViewModel.CurrentOrder.Discount, Converter={xct:IsNotNullOrEmptyConverter}}"
-                                    Value="True">
-
-                                    <Setter Property="Text" Value="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" />
-
-                                </DataTrigger>
-                                
-                            </Label.Triggers>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Coupon.Name}" />
+                                    <Span Text="{Binding OrderRegistrationViewModel.CurrentOrder.Discount.Name}" />
+                                </FormattedString>
+                            </Label.FormattedText>
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
