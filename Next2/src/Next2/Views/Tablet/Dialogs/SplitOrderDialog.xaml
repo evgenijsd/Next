@@ -148,8 +148,8 @@
                                 Margin="18,0,0,0">
 
                                 <Label
-                                    Text="Select Value"
-                                    FontSize="14"
+                                    Text="{xct:Translate SelectValue}"
+                                    FontSize="{DynamicResource TSize_i8}"
                                     FontFamily="Barlow-SemiBold" />
 
                                 <StackLayout

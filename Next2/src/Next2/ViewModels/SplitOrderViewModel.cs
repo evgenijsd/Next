@@ -75,10 +75,7 @@ namespace Next2.ViewModels
                         seat.SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
                     }
 
-                    if (App.IsTablet)
-                    {
-                        SelectFirstDish();
-                    }
+                    SelectFirstDish();
                 }
             }
         }
@@ -89,18 +86,21 @@ namespace Next2.ViewModels
 
         private async Task OnSplitByCommandAsync(ESplitOrderConditions condition)
         {
-            var param = new DialogParameters
+            if (Seats.Count > 1)
             {
-                { Constants.DialogParameterKeys.DESCRIPTION, condition },
-                { Constants.DialogParameterKeys.SEATS, Seats },
-                { Constants.DialogParameterKeys.DISH, SelectedDish },
-            };
+                var param = new DialogParameters
+                {
+                    { Constants.DialogParameterKeys.DESCRIPTION, condition },
+                    { Constants.DialogParameterKeys.SEATS, Seats },
+                    { Constants.DialogParameterKeys.DISH, SelectedDish },
+                };
 
-            PopupPage popupPage = App.IsTablet
-                ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
-                : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
+                PopupPage popupPage = App.IsTablet
+                    ? new Views.Tablet.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack)
+                    : new Views.Mobile.Dialogs.SplitOrderDialog(param, SplitOrderDialogCallBack);
 
-            await _popupNavigation.PushAsync(popupPage);
+                await _popupNavigation.PushAsync(popupPage);
+            }
         }
 
         private async void SplitOrderDialogCallBack(IDialogParameters dialogResult)
@@ -137,9 +137,13 @@ namespace Next2.ViewModels
             if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
                 await SplitOrderBySeats(groupList);
+                await OnGoBackCommandAsync();
             }
 
-            await _popupNavigation.PopAsync();
+            if (_popupNavigation.PopupStack.Count > 0)
+            {
+                await _popupNavigation.PopAsync();
+            }
         }
 
         private async Task SplitOrderBySeats(IList<int[]> groupList)
@@ -250,9 +254,16 @@ namespace Next2.ViewModels
 
         private void SelectFirstDish()
         {
-            SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-            Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-            Seats.FirstOrDefault().Checked = true;
+            if (App.IsTablet)
+            {
+                SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+                Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
+                Seats.FirstOrDefault().Checked = true;
+            }
+            else
+            {
+                Seats.First().IsFirstSeat = true;
+            }
         }
 
         private Task OnDishSelectionCommand(object? sender)

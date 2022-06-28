@@ -640,4 +640,7 @@ A receipt has been printed for you.</value>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="SelectValue" xml:space="preserve">
+    <value>Select Value</value>
+  </data>
 </root>

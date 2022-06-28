@@ -43,6 +43,7 @@
                 HorizontalTextAlignment="Start"
                 Margin="24, 0, 0, 0"
                 FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i6}"
                 Text="{Binding HeaderText}" />
 
             <BoxView
@@ -192,8 +193,8 @@
                                     Spacing="12">
 
                                     <Label
-                                        Text="Select Value"
-                                        FontSize="{DynamicResource TSize_i8}"
+                                        Text="{xct:Translate SelectValue}"
+                                        FontSize="{DynamicResource TSize_i6}"
                                         FontFamily="Barlow-SemiBold" />
 
                                     <StackLayout
@@ -208,6 +209,7 @@
                                             xct:TouchEffect.CommandParameter="25">
                                             <Label
                                                 Text="25 %"
+                                                FontSize="{DynamicResource TSize_i6}"
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center" />
                                         </Frame>
@@ -220,6 +222,7 @@
                                             xct:TouchEffect.CommandParameter="50">
                                             <Label
                                                 Text="50 %"
+                                                FontSize="{DynamicResource TSize_i6}"
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center" />
                                         </Frame>
@@ -232,6 +235,7 @@
                                             xct:TouchEffect.CommandParameter="75">
                                             <Label
                                                 Text="75 %"
+                                                FontSize="{DynamicResource TSize_i6}"
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center" />
                                         </Frame>
@@ -262,7 +266,7 @@
                                         FontFamily="Barlow-Bold"
                                         Margin="0, 0, 0, 8"
                                         WidthRequest="92"
-                                        FontSize="36" />
+                                        FontSize="42" />
 
                                     <ffimageloading:CachedImage
                                         Source="ic_plus_primary_32x32.png"
@@ -354,6 +358,7 @@
                 <Frame
                     BorderColor="{DynamicResource AppColor_i1}"
                     Padding="0"
+                    WidthRequest="216"
                     VerticalOptions="FillAndExpand"
                     CornerRadius="5"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -380,6 +385,7 @@
                 <Frame
                     Padding="0"
                     VerticalOptions="FillAndExpand"
+                    WidthRequest="216"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
