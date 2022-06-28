@@ -37,7 +37,6 @@ using Next2.Models.API.DTO;
 using System;
 using Next2.Enums;
 using Next2.Models.API.Commands;
-using Next2.Models.API;
 using Next2.Models.Bindables;
 
 namespace Next2
@@ -181,7 +180,7 @@ namespace Next2
 
         #endregion
 
-        #region -- Public static methods --
+        #region -- Public static helpers --
 
         public static T Resolve<T>() => Current.Container.Resolve<T>();
 

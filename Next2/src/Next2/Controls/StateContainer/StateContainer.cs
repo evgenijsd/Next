@@ -26,7 +26,7 @@ namespace Next2.Controls.StateContainer
 
         #endregion
 
-        #region --- Private helpers ---
+        #region -- Private helpers --
 
         private static void OnStatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {

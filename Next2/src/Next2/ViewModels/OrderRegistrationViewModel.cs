@@ -600,15 +600,10 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
+                var resultOfSettingEmptyCurrentOrder = await _orderService.SetEmptyCurrentOrderAsync();
 
-                if (createNewCurrentOrderResult.IsSuccess)
+                if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                 {
-                    var employeeId = _orderService.CurrentOrder.EmployeeId;
-                    var orderId = _orderService.CurrentOrder.Id;
-
-                    await _orderService.SaveCurrentOrderIdToSettingsAsync(employeeId, orderId);
-
                     InitOrderTypes();
                     await RefreshCurrentOrderAsync();
                 }
@@ -716,12 +711,15 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                await _orderService.CreateNewCurrentOrderAsync();
-                await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
+                var resultOfSettingEmptyCurrentOrder = await _orderService.SetEmptyCurrentOrderAsync();
 
-                IsOrderSavedNotificationVisible = true;
-                IsOrderSavingAndPaymentEnabled = false;
-                CurrentOrder.Seats = new();
+                if (resultOfSettingEmptyCurrentOrder.IsSuccess)
+                {
+                    IsOrderSavedNotificationVisible = true;
+                    IsOrderSavingAndPaymentEnabled = false;
+
+                    CurrentOrder.Seats = new();
+                }
             }
         }
 
@@ -835,9 +833,7 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
-            string path = App.IsTablet
-                ? nameof(Views.Tablet.PaymentPage)
-                : nameof(Views.Mobile.PaymentPage);
+            string path = nameof(PaymentPage);
 
             return _navigationService.NavigateAsync(path);
         }

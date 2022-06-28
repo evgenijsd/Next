@@ -44,7 +44,7 @@ namespace Next2.Helpers.ProcessHelpers
 
         #endregion
 
-        #region -- Public methods --
+        #region -- Public helpers --
 
         public void MergeResult(AOResult res)
         {
@@ -166,7 +166,7 @@ namespace Next2.Helpers.ProcessHelpers
 
         #endregion
 
-        #region -- Public methods --
+        #region -- Public helpers --
 
         public void MergeResult(T result, AOResult res)
         {
@@ -203,7 +203,7 @@ namespace Next2.Helpers.ProcessHelpers
 
         #endregion
 
-        #region -- Public methods --
+        #region -- Public helpers --
 
         public void SetFailure(Exception ex, TStatus status)
         {

@@ -16,5 +16,7 @@ namespace Next2.Services.Menu
         Task<AOResult<IEnumerable<IngredientsCategoryModelDTO>>> GetIngredientCategoriesAsync();
 
         Task<AOResult<IEnumerable<IngredientModelDTO>>> GetIngredientsAsync();
+
+        Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
     }
 }

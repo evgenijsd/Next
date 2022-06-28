@@ -4,7 +4,7 @@ namespace Next2.Controls
 {
     public class CustomFrame : Frame
     {
-        #region -- Public properties
+        #region -- Public properties --
 
         public static readonly BindableProperty BorderWidthProperty = BindableProperty.Create(
             propertyName: nameof(BorderWidth),

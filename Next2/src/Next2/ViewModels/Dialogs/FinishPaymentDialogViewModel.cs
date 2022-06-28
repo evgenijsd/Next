@@ -38,7 +38,7 @@ namespace Next2.ViewModels.Dialogs
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private void SetupParameters(IDialogParameters param)
         {
