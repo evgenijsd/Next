@@ -175,7 +175,7 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
             {
-                SetBonus(currentOrder);
+                UpdateOrderWithBonus(currentOrder);
             }
         }
 
@@ -247,7 +247,7 @@ namespace Next2.ViewModels
 
         #region -- Public helpers --
 
-        public void SetBonus(FullOrderBindableModel currentOrder)
+        public void UpdateOrderWithBonus(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
