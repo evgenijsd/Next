@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Next2.Enums;
+﻿using Next2.Enums;
 using Next2.Extensions;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;

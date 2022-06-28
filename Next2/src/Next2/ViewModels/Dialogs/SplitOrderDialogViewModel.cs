@@ -87,26 +87,18 @@ namespace Next2.ViewModels.Dialogs
         {
             base.OnPropertyChanged(args);
 
-            switch (args.PropertyName)
+            if (args.PropertyName == nameof(SplitValue))
             {
-                case nameof(SplitValue):
-                    {
-                        if (Condition == ESplitOrderConditions.ByPercents)
-                        {
-                            CalculateByPercentage();
-                        }
-                        else if (Condition == ESplitOrderConditions.ByDollar)
-                        {
-                            CalculateByDollar();
-                        }
+                if (Condition == ESplitOrderConditions.ByPercents)
+                {
+                    CalculateByPercentage();
+                }
+                else if (Condition == ESplitOrderConditions.ByDollar)
+                {
+                    CalculateByDollar();
+                }
 
-                        IsSplitAvailable = SplitTotal > 0;
-
-                        break;
-                    }
-
-                default:
-                    break;
+                IsSplitAvailable = SplitTotal > 0;
             }
         }
 

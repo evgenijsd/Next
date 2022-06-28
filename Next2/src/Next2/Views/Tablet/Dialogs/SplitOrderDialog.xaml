@@ -6,7 +6,6 @@
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:local="clr-namespace:Next2"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
@@ -61,7 +60,7 @@
             <Label
                 Grid.Row="0"
                 Margin="18, 0, 0, 0"
-                FontSize="18"
+                FontSize="{DynamicResource TSize_i6}"
                 Text="{Binding HeaderText}"
                 VerticalTextAlignment="Center" />
 
@@ -249,14 +248,14 @@
                                     VerticalOptions="Start"
                                     Text="Split Total"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="18" />
+                                    FontSize="{DynamicResource TSize_i6}" />
 
                                 <Label
                                     HorizontalOptions="EndAndExpand"
                                     VerticalOptions="Start"
                                     TextColor="{DynamicResource IndicationColor_i1}"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="18">
+                                    FontSize="{DynamicResource TSize_i6}">
 
                                     <Label.FormattedText>
                                         <FormattedString>
