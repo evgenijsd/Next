@@ -42,5 +42,7 @@ namespace Next2.Services.Order
         Task<AOResult> OpenLastOrCreateNewOrderAsync();
 
         Task<AOResult> SetEmptyCurrentOrderAsync();
+
+        Task<AOResult> SetCurrentOrderAsync(Guid orderId);
     }
 }

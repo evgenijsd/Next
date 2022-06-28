@@ -8,9 +8,9 @@
         {
             public const string DATE_FORMAT = "{0:h:mm:ss}";
 
-            public const string DATE_FORMAT_T = "{0:h:mm:ss tt}";
+            public const string SHORT_TIME = "{0:h:mm:ss tt}";
 
-            public const string DATE_FORMAT_D = "{0:dddd, d MMMM yyyy}";
+            public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
 
             public const string PRICE_FORMAT = "{0:0.00}";
 
@@ -101,6 +101,7 @@
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string RESULT = "RESULT";
+            public const string ORDER_ID = "ORDER_ID";
         }
 
         public static class Validators

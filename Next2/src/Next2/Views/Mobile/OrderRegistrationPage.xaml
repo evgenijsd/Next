@@ -10,8 +10,7 @@
     xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:enum="clr-namespace:Next2.Enums"
-    xmlns:models="clr-namespace:Next2.Models" 
+    xmlns:models="clr-namespace:Next2.Models"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     xmlns:views="clr-namespace:Next2.Views"
@@ -69,8 +68,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+                        
         </Grid.Resources>
-
+                        
         <!-- HEADER, 1 ROW -->
         <StackLayout
             Grid.Row="0"
@@ -113,6 +113,17 @@
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
 
+            <controls:DropDownList.Triggers>
+                
+                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+                        
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                </DataTrigger>
+                
+            </controls:DropDownList.Triggers>
+            
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
                     <StackLayout 
@@ -168,6 +179,7 @@
             <controls:CustomStepper
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
+                IsEnabled="{Binding IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
                 DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
         </StackLayout>
@@ -184,6 +196,17 @@
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
 
+            <controls:DropDownList.Triggers>
+                
+                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+                        
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                </DataTrigger>
+                
+            </controls:DropDownList.Triggers>
+            
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
                     <StackLayout 
@@ -257,7 +280,7 @@
                             <StackLayout
                                 Grid.Row="1"
                                 Orientation="Horizontal"
-                                xct:TouchEffect.Command="{Binding GoToOrderTabs}">
+                                xct:TouchEffect.Command="{Binding GoToOrderTabsCommand}">
 
                                 <ffimageloading:CachedImage 
                                     Source="ic_folder_primary_24x24"
@@ -511,7 +534,7 @@
             ColumnSpacing="10">
 
             <Grid.Triggers>
-                <DataTrigger TargetType="Grid" Binding="{Binding CurrentOrder.Seats.Count}" Value="0">
+                <DataTrigger TargetType="Grid" Binding="{Binding IsOrderSavingAndPaymentEnabled}" Value="False">
 
                     <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                     <Setter Property="IsEnabled" Value="False" />

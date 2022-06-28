@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -47,6 +48,8 @@ namespace Next2.ViewModels
 
         public ObservableCollection<BonusBindableModel> Discounts { get; set; } = new();
 
+        public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
+
         public FullOrderBindableModel CurrentOrder { get; set; } = new();
 
         public BonusBindableModel? SelectedBonus { get; set; }
@@ -91,6 +94,7 @@ namespace Next2.ViewModels
                 }
 
                 CurrentOrder.Seats = seats;
+                Seats = new(seats.Where(x => x.SelectedDishes.Count > 0));
 
                 var coupons = await GetCoupons();
 
@@ -197,13 +201,16 @@ namespace Next2.ViewModels
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            SelectedBonus = bonus == SelectedBonus ? null : bonus;
+            SelectedBonus = bonus == SelectedBonus
+                ? null
+                : bonus;
 
             if (bonus is not null)
             {
                 if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
                     _bonusesService.ResetСalculationBonus(CurrentOrder);
+                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
                 }
 
                 if (bonus.Type is EBonusType.Coupone)
@@ -211,17 +218,20 @@ namespace Next2.ViewModels
                     var coupon = _mapper.Map<CouponModelDTO>(bonus);
                     coupon.SeatNumbers = CurrentOrder.Seats.Count;
 
-                    CurrentOrder.Coupon = coupon;
                     CurrentOrder.Discount = null;
+                    CurrentOrder.Coupon = coupon;
                 }
                 else if (bonus.Type is EBonusType.Discount)
                 {
-                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
                     CurrentOrder.Coupon = null;
+                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
                 }
             }
 
             _bonusesService.СalculationBonus(CurrentOrder);
+            Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

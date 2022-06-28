@@ -3,6 +3,7 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -27,7 +28,9 @@ namespace Next2.Extensions
                         SelectedIngredientsId = x.SelectedIngredients?.Select(x => x.Id),
                         ExcludedIngredientsId = x.ExcludedIngredients?.Select(x => x.Id),
                         Comment = x?.Comment,
-                        SelectedOptionsId = new Guid[1] { x.SelectedOptions.Id },
+                        SelectedOptionsId = x?.SelectedOptions is not null
+                            ? new Guid[1] { x.SelectedOptions.Id }
+                            : null,
                     }),
                 }),
             });

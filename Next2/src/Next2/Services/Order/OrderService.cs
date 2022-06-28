@@ -9,6 +9,7 @@ using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
+using Next2.Services.CustomersService;
 using Next2.Services.Menu;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
@@ -27,18 +28,21 @@ namespace Next2.Services.Order
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusesService;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ICustomersService _customersService;
 
         public OrderService(
             IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            ICustomersService customersService)
         {
             _settingsManager = settingsManager;
             _restService = restService;
             _bonusesService = bonusesService;
             _restService = restService;
             _authenticationService = authenticationService;
+            _customersService = customersService;
 
             CurrentOrder.Seats = new ();
         }
@@ -465,6 +469,27 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
+        {
+            var result = new AOResult();
+
+            try
+            {
+                var orderResult = await GetOrderByIdAsync(orderId);
+
+                if (orderResult.IsSuccess)
+                {
+                    result = await SetCurrentOrderAsync(orderResult.Result);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(SetCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -576,27 +601,6 @@ namespace Next2.Services.Order
             return result;
         }
 
-        private async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
-        {
-            var result = new AOResult();
-
-            try
-            {
-                var orderResult = await GetOrderByIdAsync(orderId);
-
-                if (orderResult.IsSuccess)
-                {
-                    result = await SetCurrentOrderAsync(orderResult.Result);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(SetCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         private async Task<AOResult> SetCurrentOrderAsync(OrderModelDTO order)
         {
             var result = new AOResult();
@@ -605,13 +609,43 @@ namespace Next2.Services.Order
 
             if (currentOrder is not null)
             {
-                result = await AddAdditionalDishesInformationToOrderAsync(currentOrder);
+                var resultOfUpdatingDishes = await AddAdditionalDishesInformationToOrderAsync(currentOrder);
 
-                if (result.IsSuccess)
+                if (resultOfUpdatingDishes.IsSuccess)
                 {
-                    CurrentOrder = currentOrder;
-                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
+                    var isSuccessAddCustomer = true;
+
+                    if (currentOrder.Customer?.Id is not null)
+                    {
+                        var resultOfAddingCustomerToOrder = await AddCustomerToOrderAsync(currentOrder, currentOrder.Customer.Id);
+
+                        isSuccessAddCustomer = resultOfAddingCustomerToOrder.IsSuccess;
+                    }
+
+                    if (isSuccessAddCustomer)
+                    {
+                        currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
+
+                        CurrentOrder = currentOrder;
+                        CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
+                    }
                 }
+            }
+
+            return result;
+        }
+
+        private async Task<AOResult> AddCustomerToOrderAsync(FullOrderBindableModel currentOrder, Guid customerId)
+        {
+            var result = new AOResult();
+
+            var resultOfGettingCustomer = await _customersService.GetCustomerByIdAsync(customerId);
+
+            if (resultOfGettingCustomer.IsSuccess && resultOfGettingCustomer.Result is not null)
+            {
+                currentOrder.Customer = resultOfGettingCustomer.Result;
+
+                result.SetSuccess();
             }
 
             return result;
