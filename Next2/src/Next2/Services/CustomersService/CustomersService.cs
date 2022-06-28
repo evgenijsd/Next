@@ -260,7 +260,7 @@ namespace Next2.Services.CustomersService
 
         #endregion
 
-        #region -- Private Helpers --
+        #region -- Private helpers --
 
         private IEnumerable<CustomerBindableModel>? MergeDTOModelsWithMocksModels(IEnumerable<CustomerBindableModel> modelsDTO, IEnumerable<CustomerBindableModel> mockModels)
         {

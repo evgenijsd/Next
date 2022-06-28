@@ -87,7 +87,7 @@ namespace Next2.ViewModels.Tablet
 
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private async Task OnTapSortCommandAsync()
         {

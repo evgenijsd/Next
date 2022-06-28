@@ -32,7 +32,7 @@ namespace Next2.ViewModels
             _eventAggregator = eventAggregator;
         }
 
-        #region -- Public properties--
+        #region -- Public properties --
 
         public bool IsAdminAccount { get; set; }
 

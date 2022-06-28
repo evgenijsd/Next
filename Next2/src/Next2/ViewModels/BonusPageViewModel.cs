@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Next2.Enums;
+using Next2.Extensions;
 using Next2.Helpers.Events;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -185,9 +186,11 @@ namespace Next2.ViewModels
             await _navigationService.GoBackAsync(parameters);
         }
 
-        private Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
+        private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
         {
-            SelectedBonus = bonus == SelectedBonus ? null : bonus;
+            SelectedBonus = bonus == SelectedBonus
+                ? null
+                : bonus;
 
             if (bonus is not null)
             {
@@ -213,8 +216,9 @@ namespace Next2.ViewModels
             }
 
             _bonusesService.СalculationBonus(CurrentOrder);
+            Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
-            return Task.CompletedTask;
+            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

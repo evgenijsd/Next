@@ -111,7 +111,7 @@ namespace Next2.Controls
 
         #endregion
 
-        #region --Overrides--
+        #region -- Overrides --
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -126,7 +126,7 @@ namespace Next2.Controls
 
         #endregion
 
-        #region --Private methods--
+        #region -- Private helpers --
 
         private void OnTapSpoilerCommand()
         {

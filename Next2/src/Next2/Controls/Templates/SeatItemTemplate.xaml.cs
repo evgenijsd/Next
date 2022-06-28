@@ -43,7 +43,7 @@ namespace Next2.Controls.Templates
 
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private void OnItemsSourcePropertyChanged(ICollection oldItemsSource, ICollection newItemsSource)
         {
