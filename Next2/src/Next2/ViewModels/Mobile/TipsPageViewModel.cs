@@ -47,14 +47,14 @@ namespace Next2.ViewModels.Mobile
             var tipType = ETipType.NoTip;
             var tipValue = 0m;
 
-            if (parameters.TryGetValue(Constants.Navigations.TIP_TYPE, out ETipType tipT))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_TYPE, out ETipType paramTipType))
             {
-                tipType = tipT;
+                tipType = paramTipType;
             }
 
-            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out decimal tipV))
+            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out decimal paramTipValue))
             {
-                tipValue = tipV;
+                tipValue = paramTipValue;
             }
 
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
@@ -62,6 +62,7 @@ namespace Next2.ViewModels.Mobile
                 foreach (var item in tipItems)
                 {
                     item.TapCommand = TapTipItemCommand;
+
                     if (item.TipType != ETipType.NoTip)
                     {
                         TipDisplayItems.Add(item);

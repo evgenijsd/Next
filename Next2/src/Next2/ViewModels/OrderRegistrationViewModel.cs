@@ -255,6 +255,7 @@ namespace Next2.ViewModels
             var currentSeatNumber = _orderService?.CurrentSeat != null
                 ? _orderService?.CurrentSeat.SeatNumber
                 : CurrentOrder.Seats.FirstOrDefault().SeatNumber;
+
             _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
         }
 
