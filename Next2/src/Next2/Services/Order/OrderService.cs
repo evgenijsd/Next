@@ -288,7 +288,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder.Seats.Add(seat);
 
-                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == seat.SeatNumber);
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Checked);
                 }
 
                 dish.DiscountPrice = dish.SelectedDishProportionPrice;
