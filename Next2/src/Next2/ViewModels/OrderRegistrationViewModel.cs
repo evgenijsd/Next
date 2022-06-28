@@ -491,9 +491,9 @@ namespace Next2.ViewModels
 
         private void SelectSeat(SeatBindableModel seatToBeSelected)
         {
-            foreach (var item in CurrentOrder.Seats)
+            foreach (var seat in CurrentOrder.Seats)
             {
-                item.Checked = false;
+                seat.Checked = false;
             }
 
             seatToBeSelected.Checked = true;
