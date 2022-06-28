@@ -3,11 +3,11 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables" 
-    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
-    RowDefinitions="auto, auto"
     xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:modelsDTO="clr-namespace:Next2.Models.API.DTO"
+    xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
+    RowDefinitions="auto, auto"
     x:Class="Next2.Controls.ProductsDetails">
 
     <Grid.Resources>
@@ -207,17 +207,8 @@
                             Text="{xct:Translate Option}"
                             FontSize="{Binding FontSizeTitle, Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}}" 
                             FontFamily="{Binding FontFamilyTitle, Source={RelativeSource AncestorType={x:Type controls:ProductsDetails}}}" 
-                            TextColor="{DynamicResource TextAndBackgroundColor_i9}">
-                            
-                            <Label.Triggers>
-                                
-                                <DataTrigger TargetType="Label" Binding="{Binding Options}" Value="null">
-                                    <Setter Property="IsVisible" Value="False"/>
-                                </DataTrigger>
-
-                            </Label.Triggers>
-                            
-                        </Label>
+                            TextColor="{DynamicResource TextAndBackgroundColor_i9}"
+                            IsVisible="{Binding SelectedOptions, Converter={xct:IsNotNullOrEmptyConverter}}"/>
 
                         <Label
                             Margin="0, 5, 0, 10"

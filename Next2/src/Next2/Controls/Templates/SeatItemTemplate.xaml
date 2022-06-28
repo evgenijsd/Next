@@ -59,23 +59,9 @@
             HorizontalOptions="EndAndExpand"
             VerticalOptions="Center"
             Source="ic_outline_minus_24x24.png"
+            IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}"
             xct:TouchEffect.Command="{Binding SeatDeleteCommand}"
-            xct:TouchEffect.CommandParameter="{Binding .}">
-
-            <ffimageloading:CachedImage.Triggers>
-
-                <DataTrigger
-                    TargetType="ffimageloading:CachedImage" 
-                    Binding="{Binding IsFirstSeat}"
-                    Value="True">
-
-                    <Setter Property="IsVisible" Value="False"/>
-
-                </DataTrigger>
-
-            </ffimageloading:CachedImage.Triggers>
-
-        </ffimageloading:CachedImage>
+            xct:TouchEffect.CommandParameter="{Binding .}" />
 
         <Frame
             HorizontalOptions="EndAndExpand"
