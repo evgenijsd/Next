@@ -2,7 +2,6 @@
 using Next2.Enums;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -11,7 +10,6 @@ using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
-using Next2.Services.Mock;
 using Next2.Services.Rest;
 using Next2.Services.SettingsService;
 using System;
@@ -25,20 +23,17 @@ namespace Next2.Services.Order
 {
     public class OrderService : IOrderService
     {
-        private readonly IMockService _mockService;
         private readonly ISettingsManager _settingsManager;
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusesService;
         private readonly IAuthenticationService _authenticationService;
 
         public OrderService(
-            IMockService mockService,
             IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
             IAuthenticationService authenticationService)
         {
-            _mockService = mockService;
             _settingsManager = settingsManager;
             _restService = restService;
             _bonusesService = bonusesService;
@@ -58,28 +53,6 @@ namespace Next2.Services.Order
 
         #region -- IOrderService implementation --
 
-        public async Task<AOResult<TaxModel>> GetTaxAsync()
-        {
-            var result = new AOResult<TaxModel>();
-
-            try
-            {
-                var taxMock = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
-                var tax = new TaxModel() { Id = taxMock.Id, Name = taxMock.Name, Value = taxMock.Value };
-
-                if (tax is not null)
-                {
-                    result.SetSuccess(tax);
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetTaxAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
-
         public async Task<AOResult<OrderModelDTO>> CreateNewOrderAsync()
         {
             var result = new AOResult<OrderModelDTO>();
@@ -96,16 +69,16 @@ namespace Next2.Services.Order
                 var query = $"{Constants.API.HOST_URL}/api/orders";
                 var creationResult = await _restService.RequestAsync<GenericExecutionResult<OrderModelResult>>(HttpMethod.Post, query, requestBody);
 
-                var orderResult = creationResult.Value;
+                var order = creationResult.Value;
 
-                if (orderResult is not null)
+                if (order is not null)
                 {
-                    var order = new OrderModelDTO()
+                    var newOrder = new OrderModelDTO()
                     {
-                        Id = orderResult.Id,
-                        Number = orderResult.OrderNumber,
-                        Open = orderResult.Open,
-                        TaxCoefficient = orderResult.TaxCoefficient,
+                        Id = order.Id,
+                        Number = order.OrderNumber,
+                        Open = order.Open,
+                        TaxCoefficient = order.TaxCoefficient,
                         OrderType = EOrderType.DineIn.ToString(),
                         OrderStatus = EOrderStatus.Pending,
                         EmployeeId = employeeId,
@@ -113,9 +86,11 @@ namespace Next2.Services.Order
                         Coupon = null,
                         Discount = null,
                         Customer = null,
+                        SubTotalPrice = 0m,
+                        TotalPrice = 0m,
                     };
 
-                    result.SetSuccess(order);
+                    result.SetSuccess(newOrder);
                 }
             }
             catch (Exception ex)
@@ -135,12 +110,9 @@ namespace Next2.Services.Order
                 var query = $"{Constants.API.HOST_URL}/api/tables/available";
                 var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, query);
 
-                if (freeTables.Success)
+                if (freeTables.Success && freeTables?.Value?.Tables is not null)
                 {
-                    if (freeTables?.Value?.Tables is not null)
-                    {
-                        result.SetSuccess(freeTables.Value.Tables);
-                    }
+                    result.SetSuccess(freeTables.Value.Tables);
                 }
             }
             catch (Exception ex)
@@ -220,29 +192,29 @@ namespace Next2.Services.Order
 
             try
             {
-                var setCurrentOrder = false;
+                var isCurrentOrderSet = false;
                 var employeeId = _authenticationService.AuthorizedUserId.ToString();
 
-                var lastOrderId = await GetIdLastCreatedOrderFromSettingsAsync(employeeId);
+                var resultOfGettingLastOrderId = await GetIdLastCreatedOrderFromSettingsAsync(employeeId);
 
-                if (lastOrderId.IsSuccess && lastOrderId.Result != Guid.Empty)
+                if (resultOfGettingLastOrderId.IsSuccess && resultOfGettingLastOrderId.Result != Guid.Empty)
                 {
-                    var orderResult = await GetOrderByIdAsync(lastOrderId.Result);
+                    var resultOfGettingOrder = await GetOrderByIdAsync(resultOfGettingLastOrderId.Result);
 
-                    if (orderResult.IsSuccess)
+                    if (resultOfGettingOrder.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats;
+                        var seats = resultOfGettingOrder.Result.Seats;
 
                         if (seats?.Count() == 0)
                         {
-                            await SetCurrentOrderAsync(orderResult.Result);
+                            await SetCurrentOrderAsync(resultOfGettingOrder.Result);
 
-                            setCurrentOrder = true;
+                            isCurrentOrderSet = true;
                         }
                     }
                 }
 
-                if (!setCurrentOrder)
+                if (!isCurrentOrderSet)
                 {
                     var orderCreationResult = await CreateNewOrderAsync();
 
@@ -252,11 +224,11 @@ namespace Next2.Services.Order
 
                         await SetCurrentOrderAsync(orderCreationResult.Result);
 
-                        setCurrentOrder = true;
+                        isCurrentOrderSet = true;
                     }
                 }
 
-                if (setCurrentOrder)
+                if (isCurrentOrderSet)
                 {
                     result.SetSuccess();
                 }
@@ -275,11 +247,11 @@ namespace Next2.Services.Order
 
             try
             {
-                var lastOrderId = await GetIdLastCreatedOrderFromSettingsAsync(_authenticationService.AuthorizedUserId.ToString());
+                var resultOfGettingLastOrderId = await GetIdLastCreatedOrderFromSettingsAsync(_authenticationService.AuthorizedUserId.ToString());
 
-                if (lastOrderId.IsSuccess)
+                if (resultOfGettingLastOrderId.IsSuccess)
                 {
-                    result = await SetCurrentOrderAsync(lastOrderId.Result);
+                    result = await SetCurrentOrderAsync(resultOfGettingLastOrderId.Result);
                 }
                 else
                 {
@@ -362,6 +334,7 @@ namespace Next2.Services.Order
                     SeatNumber = CurrentOrder.Seats.Count + 1,
                     SelectedDishes = new(),
                     Checked = true,
+                    IsFirstSeat = !CurrentOrder.Seats.Any(),
                 };
 
                 CurrentOrder.Seats.Add(seat);
@@ -551,41 +524,56 @@ namespace Next2.Services.Order
             return result;
         }
 
-        private async Task AddAdditionalDishesInformationToOrderAsync(FullOrderBindableModel currentOrder)
+        private async Task<AOResult> AddAdditionalDishesInformationToOrderAsync(FullOrderBindableModel currentOrder)
         {
+            var result = new AOResult();
+            var isSuccessUpdateDishes = true;
+
             if (currentOrder.Seats.Any(row => row.SelectedDishes.Any()))
             {
                 var menuService = App.Resolve<IMenuService>();
 
                 List<Task<AOResult<DishModelDTO>>> tasks = new();
-                var dishesId = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
+                var dishesIds = currentOrder.Seats.SelectMany(row => row.SelectedDishes).Select(row => row.DishId).Distinct();
 
-                foreach (var dishId in dishesId)
+                foreach (var dishId in dishesIds)
                 {
                     tasks.Add(menuService.GetDishByIdAsync(dishId));
                 }
 
                 var dishesResult = await Task.WhenAll(tasks);
 
-                var dishes = dishesResult.Where(row => row.IsSuccess).Select(row => row?.Result);
+                isSuccessUpdateDishes = !dishesResult.Any(row => row.IsSuccess == false);
 
-                foreach (var seat in currentOrder.Seats)
+                if (isSuccessUpdateDishes)
                 {
-                    foreach (var dish in seat.SelectedDishes)
-                    {
-                        var dishId = dish.DishId;
-                        var sourceDish = dishes.FirstOrDefault(row => row.Id == dishId);
+                    var dishes = dishesResult.Where(row => row.IsSuccess).Select(row => row?.Result);
 
-                        if (sourceDish is not null)
+                    foreach (var seat in currentOrder.Seats)
+                    {
+                        foreach (var dish in seat.SelectedDishes)
                         {
-                            dish.DishProportions = sourceDish.DishProportions;
-                            dish.Products = new(sourceDish.Products);
+                            var dishId = dish.DishId;
+                            var sourceDish = dishes.FirstOrDefault(row => row.Id == dishId);
+
+                            if (sourceDish is not null)
+                            {
+                                dish.DishProportions = sourceDish.DishProportions;
+                                dish.Products = new(sourceDish.Products);
+                            }
                         }
                     }
                 }
             }
 
             currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
+
+            if (isSuccessUpdateDishes)
+            {
+                result.SetSuccess();
+            }
+
+            return result;
         }
 
         private async Task<AOResult> SetCurrentOrderAsync(Guid orderId)
@@ -598,9 +586,7 @@ namespace Next2.Services.Order
 
                 if (orderResult.IsSuccess)
                 {
-                    await SetCurrentOrderAsync(orderResult.Result);
-
-                    result.SetSuccess();
+                    result = await SetCurrentOrderAsync(orderResult.Result);
                 }
             }
             catch (Exception ex)
@@ -611,17 +597,24 @@ namespace Next2.Services.Order
             return result;
         }
 
-        private async Task SetCurrentOrderAsync(OrderModelDTO order)
+        private async Task<AOResult> SetCurrentOrderAsync(OrderModelDTO order)
         {
+            var result = new AOResult();
+
             var currentOrder = order.ToFullOrderBindableModel();
 
             if (currentOrder is not null)
             {
-                await AddAdditionalDishesInformationToOrderAsync(currentOrder);
+                result = await AddAdditionalDishesInformationToOrderAsync(currentOrder);
 
-                CurrentOrder = currentOrder;
-                CurrentSeat = CurrentOrder.Seats.FirstOrDefault();
+                if (result.IsSuccess)
+                {
+                    CurrentOrder = currentOrder;
+                    CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
+                }
             }
+
+            return result;
         }
 
         #endregion

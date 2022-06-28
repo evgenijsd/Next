@@ -598,9 +598,9 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                var createNewCurrentOrderResult = await _orderService.SetEmptyCurrentOrderAsync();
+                var resultOfSettingEmptyCurrentOrder = await _orderService.SetEmptyCurrentOrderAsync();
 
-                if (createNewCurrentOrderResult.IsSuccess)
+                if (resultOfSettingEmptyCurrentOrder.IsSuccess)
                 {
                     InitOrderTypes();
                     await RefreshCurrentOrderAsync();
@@ -709,10 +709,13 @@ namespace Next2.ViewModels
 
             if (updateOrderResult.IsSuccess)
             {
-                await _orderService.SetEmptyCurrentOrderAsync();
+                var resultOfSettingEmptyCurrentOrder = await _orderService.SetEmptyCurrentOrderAsync();
 
-                IsOrderSavedNotificationVisible = true;
-                CurrentOrder.Seats = new();
+                if (resultOfSettingEmptyCurrentOrder.IsSuccess)
+                {
+                    IsOrderSavedNotificationVisible = true;
+                    CurrentOrder.Seats = new();
+                }
             }
         }
 
@@ -826,9 +829,7 @@ namespace Next2.ViewModels
 
         private Task OnPayCommandAsync()
         {
-            string path = App.IsTablet
-                ? nameof(Views.Tablet.PaymentPage)
-                : nameof(Views.Mobile.PaymentPage);
+            string path = nameof(PaymentPage);
 
             return _navigationService.NavigateAsync(path);
         }

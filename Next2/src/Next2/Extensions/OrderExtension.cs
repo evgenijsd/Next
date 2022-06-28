@@ -147,7 +147,7 @@ namespace Next2.Extensions
 
             fullOrderBindableModel.Seats = order.Seats is null
                 ? new()
-                : new(order.Seats.Select(row => new SeatBindableModel()
+                : new(order.Seats.OrderBy(x => x.Number).Select(row => new SeatBindableModel()
                 {
                     SeatNumber = row.Number,
                     IsFirstSeat = row.Number == 1,
