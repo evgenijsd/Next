@@ -101,7 +101,7 @@
                 LeftImagePath="ic_danger_circle"
                 Text="{Binding EmployeeId}"
                 IsValidValue="{Binding IsInvalidEmployeeId, Converter={xct:InvertedBoolConverter}}"
-                TapGestureRecognizerCommand="{Binding GoToEmployeeIdPage}">
+                TapGestureRecognizerCommand="{Binding GoToEmployeeIdPageCommand}">
 
                 <buttons:InputButton.Behaviors>
                     <behaviors:InputButtonBehavior/>

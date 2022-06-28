@@ -176,23 +176,18 @@ namespace Next2.ViewModels
                         TableId = Order?.Table?.Id
                     };
 
-                    var orderIdResult = await _orderService.CreateNewOrderAndGetIdAsync();
+                    var orderIdResult = await _orderService.CreateNewOrderAsync();
 
                     if (orderIdResult.IsSuccess)
                     {
-                        var incOrderResult = await _orderService.GetOrderByIdAsync(orderIdResult.Result);
-
-                        if (incOrderResult.IsSuccess)
+                        var order = orderIdResult.Result;
+                        await CopyCurrentOrderDataTo(order);
+                        order.Seats = outSeats;
+                        CalculateOrderPrices(order);
+                        var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
+                        if (!updateResult.IsSuccess)
                         {
-                            var order = incOrderResult.Result;
-                            await CopyCurrentOrderDataTo(order);
-                            order.Seats = outSeats;
-                            CalculateOrderPrices(order);
-                            var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
-                            if (!updateResult.IsSuccess)
-                            {
-                                break;
-                            }
+                            break;
                         }
                     }
                 }

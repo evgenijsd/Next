@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Next2.Enums;
 using Next2.Extensions;
+using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
@@ -90,6 +91,9 @@ namespace Next2.ViewModels
 
         private ICommand _printCommand;
         public ICommand PrintCommand => _printCommand ??= new AsyncCommand(OnPrintCommandAsync, allowsMultipleExecutions: false);
+
+        private ICommand _editOrderCommand;
+        public ICommand EditOrderCommand => _editOrderCommand ??= new AsyncCommand(OnEditOrderCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _splitCommand;
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
@@ -192,9 +196,9 @@ namespace Next2.ViewModels
 
                     isOrdersLoaded = true;
 
-                    //SelectedOrder = _lastSavedOrderId == 0
-                    //    ? null
-                    //    : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
+                    SelectedOrder = _lastSavedOrderId == Guid.Empty
+                        ? null
+                        : Orders.FirstOrDefault(x => x.Id == _lastSavedOrderId);
                 }
                 else
                 {
@@ -357,8 +361,8 @@ namespace Next2.ViewModels
 
                     if (orderResult.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats.OrderBy(x => x.Number);
-                        var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
+                        var seats = orderResult.Result.Seats;
+                        var bindableSeats = GetSeatsForDisplaying(seats);
 
                         var parameters = new DialogParameters
                         {
@@ -455,8 +459,7 @@ namespace Next2.ViewModels
                                 await OnClearSearchResultCommandAsync();
                             }
 
-                            await PopupNavigation.PopAsync();
-                            await PopupNavigation.PopAsync();
+                            await PopupNavigation.PopAllAsync();
                         }
                     }
                 }
@@ -485,8 +488,8 @@ namespace Next2.ViewModels
 
                     if (orderResult.IsSuccess)
                     {
-                        var seats = orderResult.Result.Seats.OrderBy(x => x.Number);
-                        var bindableSeats = seats.Select(x => x.ToSeatBindableModel());
+                        var seats = orderResult.Result.Seats;
+                        var bindableSeats = GetSeatsForDisplaying(seats);
 
                         var param = new DialogParameters
                         {
@@ -535,6 +538,44 @@ namespace Next2.ViewModels
             else
             {
                 await PopupNavigation.PopAsync();
+            }
+        }
+
+        private List<SeatBindableModel> GetSeatsForDisplaying(IEnumerable<SeatModelDTO>? seats)
+        {
+            List<SeatBindableModel> bindableSeats = new();
+
+            if (seats.Any())
+            {
+                seats = seats
+                    .Where(x => x.SelectedDishes.Any())
+                    .OrderBy(x => x.Number);
+
+                bindableSeats = seats.Select(x => x.ToSeatBindableModel()).ToList();
+
+                bindableSeats[0].IsFirstSeat = true;
+            }
+
+            return bindableSeats;
+        }
+
+        private async Task OnEditOrderCommandAsync()
+        {
+            if (SelectedOrder is not null)
+            {
+                var resultOfSetCurrentOrder = await _orderService.SetCurrentOrderAsync(SelectedOrder.Id);
+
+                if (resultOfSetCurrentOrder.IsSuccess)
+                {
+                    if (App.IsTablet)
+                    {
+                        MessagingCenter.Send<MenuPageSwitchingMessage>(new(EMenuItems.NewOrder), Constants.Navigations.SWITCH_PAGE);
+                    }
+                    else
+                    {
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}");
+                    }
+                }
             }
         }
 

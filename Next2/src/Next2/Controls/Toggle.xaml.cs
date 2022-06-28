@@ -105,7 +105,7 @@ namespace Next2.Controls
 
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private async Task StartAnimationAsync()
         {

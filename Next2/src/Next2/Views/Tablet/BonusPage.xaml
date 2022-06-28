@@ -113,8 +113,8 @@
 
                                     </ScrollView.Effects>
 
-                                    <StackLayout BindableLayout.ItemsSource="{Binding CurrentOrder.Seats}">
-
+                                    <StackLayout BindableLayout.ItemsSource="{Binding Seats}">
+                                        
                                         <BindableLayout.ItemTemplate>
 
                                             <DataTemplate x:DataType="modelsBindable:SeatBindableModel">

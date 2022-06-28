@@ -4,7 +4,6 @@ using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -35,7 +34,7 @@ namespace Next2.ViewModels
             _eventAggregator = eventAggregator;
         }
 
-        #region -- Public properties--
+        #region -- Public properties --
 
         public bool IsUserLogIn { get; set; }
 
@@ -43,16 +42,14 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = string.Empty;
 
-        public DateTime CurrentDateTime { get; set; } = DateTime.Now;
-
         private ICommand _ClearCommand;
         public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand(OnGoToStartPageCommandAsync);
 
-        private ICommand _goToEmployeeIdPage;
-        public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
+        private ICommand _goToEmployeeIdPageCommand;
+        public ICommand GoToEmployeeIdPageCommand => _goToEmployeeIdPageCommand ??= new AsyncCommand(OnGoToEmployeeIdPageCommandAsync);
 
         #endregion
 
@@ -74,17 +71,7 @@ namespace Next2.ViewModels
 
             if (_authenticationService.IsAuthorizationComplete)
             {
-                var lastOrderId = await _orderService.GetCurrentOrderIdLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
-
-                if (lastOrderId.IsSuccess)
-                {
-                    await _orderService.SetCurrentOrderAsync(lastOrderId.Result);
-                }
-                else
-                {
-                    await _orderService.CreateNewCurrentOrderAsync();
-                    await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
-                }
+                await _orderService.OpenLastOrCreateNewOrderAsync();
 
                 await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
             }
@@ -122,7 +109,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnGoToEmployeeIdPageAsync()
+        private Task OnGoToEmployeeIdPageCommandAsync()
         {
             return _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
@@ -145,17 +132,7 @@ namespace Next2.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    var lastOrderId = await _orderService.GetCurrentOrderIdLastSessionAsync(_authenticationService.AuthorizedUserId.ToString());
-
-                    if (lastOrderId.IsSuccess)
-                    {
-                        await _orderService.SetCurrentOrderAsync(lastOrderId.Result);
-                    }
-                    else
-                    {
-                        await _orderService.CreateNewCurrentOrderAsync();
-                        await _orderService.SaveCurrentOrderIdToSettingsAsync(_orderService.CurrentOrder.EmployeeId, _orderService.CurrentOrder.Id);
-                    }
+                    await _orderService.OpenLastOrCreateNewOrderAsync();
 
                     await _navigationService.NavigateAsync($"{nameof(MenuPage)}");
 
@@ -173,11 +150,6 @@ namespace Next2.ViewModels
             var isEmployeeIdValid = !string.IsNullOrWhiteSpace(inputtedValue) && inputtedValue.Length == Constants.Limits.LOGIN_LENGTH;
 
             IsInvalidEmployeeId = !isEmployeeIdValid && inputtedValue != string.Empty;
-        }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            CurrentDateTime = DateTime.Now;
         }
 
         #endregion

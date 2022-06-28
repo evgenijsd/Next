@@ -132,6 +132,9 @@
     <Compile Update="Controls\CalendarTab.xaml.cs">
       <DependentUpon>CalendarTab2.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Controls\TimeAndDateBar.xaml.cs">
+      <DependentUpon>TimeAndDateBar.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Controls\GuardEntry.xaml.cs">
       <DependentUpon>GuardEntry.xaml</DependentUpon>
     </Compile>
@@ -140,9 +143,6 @@
     </Compile>
     <Compile Update="Controls\Buttons\SearchButton.xaml.cs">
       <DependentUpon>SearchButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Controls\Templates\CustomDateTimePanelTemplate.xaml.cs">
-      <DependentUpon>CustomDateTimePanelTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Update="Controls\Templates\CustomNumericKeyboardTemplate.xaml.cs">
       <DependentUpon>CustomNumericKeyboardTemplate.xaml</DependentUpon>
@@ -287,6 +287,9 @@
     <EmbeddedResource Update="Controls\CalendarTab.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Controls\TimeAndDateBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Controls\GuardEntry.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -351,9 +354,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Buttons\NumericKeyboardButton.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Controls\Templates\CustomDateTimePanelTemplate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Controls\Templates\CustomNumericKeyboardTemplate.xaml">

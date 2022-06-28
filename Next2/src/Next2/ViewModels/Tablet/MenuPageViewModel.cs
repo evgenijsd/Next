@@ -6,9 +6,9 @@ using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -125,9 +125,19 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
+        protected override void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            base.OnPropertyChanged(args);
+
+            if (args.PropertyName == nameof(SelectedMenuItem))
+            {
+                NewOrderViewModel.OrderRegistrationViewModel.IsClockRunning = SelectedMenuItem.State == EMenuItems.NewOrder;
+            }
+        }
+
         #endregion
 
-        #region -- Private methods --
+        #region -- Private helpers --
 
         private void PageSwitchingMessageHandler(MenuPageSwitchingMessage sender)
         {
@@ -247,6 +257,7 @@ namespace Next2.ViewModels.Tablet
                 }
             }
         }
+
         #endregion
     }
 }

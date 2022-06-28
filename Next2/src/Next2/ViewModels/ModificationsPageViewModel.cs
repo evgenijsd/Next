@@ -286,7 +286,7 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region --Private methods--
+        #region -- Private helpers --
 
         private decimal СalculatePriceOfProportion(decimal price)
         {
