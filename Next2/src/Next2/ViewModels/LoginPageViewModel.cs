@@ -4,7 +4,6 @@ using Next2.Services.UserService;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -43,16 +42,14 @@ namespace Next2.ViewModels
 
         public string EmployeeId { get; set; } = string.Empty;
 
-        public DateTime CurrentDateTime { get; set; } = DateTime.Now;
-
         private ICommand _ClearCommand;
         public ICommand ClearCommand => _ClearCommand ??= new AsyncCommand(OnClearCommandAsync);
 
         private ICommand _goToStartPageCommand;
         public ICommand GoToStartPageCommand => _goToStartPageCommand ??= new AsyncCommand(OnGoToStartPageCommandAsync);
 
-        private ICommand _goToEmployeeIdPage;
-        public ICommand GoToEmployeeIdPage => _goToEmployeeIdPage ??= new AsyncCommand(OnGoToEmployeeIdPageAsync);
+        private ICommand _goToEmployeeIdPageCommand;
+        public ICommand GoToEmployeeIdPageCommand => _goToEmployeeIdPageCommand ??= new AsyncCommand(OnGoToEmployeeIdPageCommandAsync);
 
         #endregion
 
@@ -122,7 +119,7 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private Task OnGoToEmployeeIdPageAsync()
+        private Task OnGoToEmployeeIdPageCommandAsync()
         {
             return _navigationService.NavigateAsync(nameof(LoginPage_EmployeeId));
         }
@@ -173,11 +170,6 @@ namespace Next2.ViewModels
             var isEmployeeIdValid = !string.IsNullOrWhiteSpace(inputtedValue) && inputtedValue.Length == Constants.Limits.LOGIN_LENGTH;
 
             IsInvalidEmployeeId = !isEmployeeIdValid && inputtedValue != string.Empty;
-        }
-
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            CurrentDateTime = DateTime.Now;
         }
 
         #endregion
