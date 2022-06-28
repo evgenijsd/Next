@@ -299,8 +299,10 @@
                     Grid.Column="0"
                     Grid.RowSpan="3"
                     ItemsSource="{Binding Seats}"
-                    SelectedItem="{Binding SelectedSeat}"
-                    SelectionMode="Single"
+                    SelectionMode="Multiple"
+                    SelectionChangedCommand="{Binding SelectCommand}"
+                    SelectionChangedCommandParameter="{Reference collection}"
+                    SelectedItems="{Binding SelectedSeats}"
                     VerticalScrollBarVisibility="Never"
                     Margin="0, 0, 18, 0"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
@@ -308,11 +310,6 @@
                     <CollectionView.Triggers>
                         <DataTrigger TargetType="CollectionView" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
                             <Setter Property="Margin" Value="0"/>
-                            <Setter Property="SelectedItem" Value="null"/>
-                            <Setter Property="SelectionMode" Value="Multiple"/>
-                            <Setter Property="SelectionChangedCommand" Value="{Binding SelectCommand}"/>
-                            <Setter Property="SelectionChangedCommandParameter" Value="{Reference collection}"/>
-                            <Setter Property="SelectedItems" Value="{Binding SelectedSeats}"/>
                             
                         </DataTrigger>
                     </CollectionView.Triggers>

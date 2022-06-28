@@ -65,10 +65,13 @@
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <CollectionView
+                            x:Name="collection"
                             Grid.Row="1"
                             ItemsSource="{Binding Seats}"
-                            SelectedItem="{Binding SelectedSeat}"
-                            SelectionMode="Single"
+                            SelectedItems="{Binding SelectedSeats}"
+                            SelectionMode="Multiple"
+                            SelectionChangedCommand="{Binding SelectCommand}"
+                            SelectionChangedCommandParameter="{Reference collection}"
                             VerticalScrollBarVisibility="Never"
                             Margin="18"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
@@ -327,8 +330,6 @@
 
                         </sc:StateCondition>
 
-                        <sc:StateCondition State="{Static enums:ESplitOrderConditions.BySeats}" />
-
                     </sc:StateContainer>
 
                 </sc:StateCondition>
@@ -359,6 +360,18 @@
                     xct:TouchEffect.Command="{Binding CancelCommand}"
                     HorizontalOptions="FillAndExpand">
 
+                    <Frame.Triggers>
+                        
+                        <DataTrigger
+                            TargetType="Frame"
+                            Binding="{Binding Step}"
+                            Value="Second">
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SkipCommand}" />
+
+                        </DataTrigger>
+
+                    </Frame.Triggers>
+
                     <Label
                         Text="{xct:Translate Cancel}"
                         FontSize="24"
@@ -385,22 +398,86 @@
 
                         <Label
                             Text="{xct:Translate Next}"
-                            FontSize="24" />
+                            FontSize="24">
 
-                        <Image Source="ic_arrow_right_24x24.png" />
+                            <Label.Triggers>
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding Step}"
+                                    Value="Second">
+                                    <Setter Property="Text" Value="{xct:Translate Split}" />
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+                                </DataTrigger>
+
+                                <DataTrigger
+                                    TargetType="Label"
+                                    Binding="{Binding Condition}"
+                                    Value="{Static enums:ESplitOrderConditions.BySeats}">
+                                    <Setter Property="Text" Value="{xct:Translate Split}" />
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+                                </DataTrigger>
+                                
+                            </Label.Triggers>
+
+                        </Label>
+
+                        <Image Source="ic_arrow_right_24x24.png">
+
+                            <Image.Triggers>
+                                <DataTrigger
+                                    TargetType="Image"
+                                    Binding="{Binding Step}"
+                                    Value="Second">
+                                    <Setter Property="IsVisible" Value="false" />
+
+                                </DataTrigger>
+
+                                <DataTrigger
+                                    TargetType="Image"
+                                    Binding="{Binding Condition}"
+                                    Value="{Static enums:ESplitOrderConditions.BySeats}">
+                                    <Setter Property="IsVisible" Value="false" />
+
+                                </DataTrigger>
+
+                            </Image.Triggers>
+
+                        </Image>
 
                     </StackLayout>
-
-
 
                     <Frame.Triggers>
                         <DataTrigger
                             TargetType="Frame"
-                            Binding="{Binding SelectedSeat, Converter={xct:IsNotNullOrEmptyConverter}}"
+                            Binding="{Binding IsSplitAvailable}"
                             Value="true">
                             <Setter Property="Opacity" Value="1" />
 
                         </DataTrigger>
+
+                        <DataTrigger
+                            TargetType="Frame"
+                            Binding="{Binding Step}"
+                            Value="Second">
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+
+                        </DataTrigger>
+
+                        <DataTrigger
+                            TargetType="Frame"
+                            Binding="{Binding Condition}"
+                            Value="{Static enums:ESplitOrderConditions.BySeats}">
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+
+                        </DataTrigger>
+
+
                     </Frame.Triggers>
 
                 </Frame>

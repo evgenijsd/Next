@@ -37,8 +37,6 @@ namespace Next2.ViewModels.Dialogs
 
         public DishBindableModel SelectedDish { get; set; }
 
-        public SeatBindableModel SelectedSeat { get; set; }
-
         public List<object> SelectedSeats { get; set; } = new();
 
         public ESplitOrderConditions Condition { get; set; }
@@ -78,6 +76,9 @@ namespace Next2.ViewModels.Dialogs
         private ICommand _nextCommand;
         public ICommand NextCommand => _nextCommand ??= new AsyncCommand(OnNextCommand, allowsMultipleExecutions: false);
 
+        private ICommand _skipCommand;
+        public ICommand SkipCommand => _skipCommand ??= new AsyncCommand(OnSkipCommand, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -88,20 +89,6 @@ namespace Next2.ViewModels.Dialogs
 
             switch (args.PropertyName)
             {
-                case nameof(SelectedSeat):
-                    {
-                        if (Condition == ESplitOrderConditions.ByPercents)
-                        {
-                            SplitValue = decimal.Round(SelectedSeat.SelectedItem.TotalPrice / SelectedDish.TotalPrice * 100);
-                        }
-                        else if (Condition == ESplitOrderConditions.ByDollar)
-                        {
-                            SplitValue = SelectedSeat.SelectedItem.TotalPrice;
-                        }
-
-                        break;
-                    }
-
                 case nameof(SplitValue):
                     {
                         if (Condition == ESplitOrderConditions.ByPercents)
@@ -214,15 +201,20 @@ namespace Next2.ViewModels.Dialogs
 
         private void CalculateByPercentage()
         {
-            if (SelectedSeat is not null)
+            if (SelectedSeats.Count > 0)
             {
-                var price = SplitValue * SelectedDish.TotalPrice / 100;
-                var otherSeats = Seats.Where(x => x.SeatNumber != SelectedSeat.SeatNumber && x.SelectedItem.TotalPrice != 0);
-                var splitTotalPrise = price + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+                var numberOfSelected = SelectedSeats.Count;
+                var price = SplitValue * SelectedDish.TotalPrice / 100m;
+                var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
+                var otherSeats = Seats.Except(selectedSeats);
+                var splitTotalPrise = (price * numberOfSelected) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
                 if (splitTotalPrise <= SelectedDish.TotalPrice)
                 {
-                    SelectedSeat.SelectedItem.TotalPrice = price;
+                    foreach (var seat in selectedSeats)
+                    {
+                        seat.SelectedItem.TotalPrice = price;
+                    }
 
                     RaisePropertyChanged(nameof(SplitTotal));
                 }
@@ -231,14 +223,21 @@ namespace Next2.ViewModels.Dialogs
 
         private void CalculateByDollar()
         {
-            if (SelectedSeat is not null)
+            if (SelectedSeats.Count > 0)
             {
-                var otherSeats = Seats.Where(x => x.SeatNumber != SelectedSeat.SeatNumber && x.SelectedItem.TotalPrice != 0);
-                var splitTotalPrise = SplitValue + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+                var numberOfSelected = SelectedSeats.Count;
+                var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
+                var otherSeats = Seats.Except(selectedSeats);
+                var splitTotalPrise = (SplitValue * numberOfSelected) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
                 if (splitTotalPrise <= SelectedDish.TotalPrice)
                 {
-                    SelectedSeat.SelectedItem.TotalPrice = SplitValue;
+                    foreach (var seat in selectedSeats)
+                    {
+                        seat.SelectedItem.TotalPrice = SplitValue;
+                    }
+
+                    RaisePropertyChanged(nameof(SplitTotal));
                 }
             }
         }
@@ -279,6 +278,13 @@ namespace Next2.ViewModels.Dialogs
         private Task OnNextCommand()
         {
             Step = "Second";
+            IsSplitAvailable = false;
+            return Task.CompletedTask;
+        }
+
+        private Task OnSkipCommand()
+        {
+            Step = "First";
             return Task.CompletedTask;
         }
 
