@@ -137,7 +137,7 @@ namespace Next2.ViewModels
             }
         }
 
-        #region --Public Properties--
+        #region -- Public Properties --
 
         public DishBindableModel Dish { get; }
 

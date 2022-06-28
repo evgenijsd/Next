@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
-using Next2.Interfaces;
-using Next2.Models;
-using Next2.Models.API;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Models.Bindables;
@@ -109,13 +105,18 @@ namespace Next2.Services.Bonuses
             {
                 decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
 
-                foreach (var dish in dishes)
-                {
-                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.TotalPrice / (1 - percentage)
-                        : dish.TotalPrice;
+                var couponDishes = currentOrder.Coupon.Dishes;
 
-                    dish.TotalPrice = dish.DiscountPrice;
+                if (couponDishes is not null)
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                            ? percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage)
+                            : dish.TotalPrice;
+
+                        dish.TotalPrice = dish.DiscountPrice;
+                    }
                 }
             }
             else if (currentOrder.Discount is not null)
@@ -124,7 +125,7 @@ namespace Next2.Services.Bonuses
 
                 foreach (var dish in dishes)
                 {
-                    dish.DiscountPrice = dish.TotalPrice / (1 - percentage);
+                    dish.DiscountPrice = percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage);
                     dish.TotalPrice = dish.DiscountPrice;
                 }
             }
@@ -149,13 +150,18 @@ namespace Next2.Services.Bonuses
             {
                 decimal percentage = currentOrder.Coupon.DiscountPercentage / Convert.ToDecimal(100);
 
-                foreach (var dish in dishes)
-                {
-                    dish.DiscountPrice = currentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id)
-                        ? dish.TotalPrice - (dish.TotalPrice * percentage)
-                        : dish.TotalPrice;
+                var couponDishes = currentOrder.Coupon.Dishes;
 
-                    dish.TotalPrice = dish.DiscountPrice;
+                if (couponDishes is not null)
+                {
+                    foreach (var dish in dishes)
+                    {
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                            ? dish.TotalPrice - (dish.TotalPrice * percentage)
+                            : dish.TotalPrice;
+
+                        dish.TotalPrice = dish.DiscountPrice;
+                    }
                 }
             }
             else if (currentOrder.Discount is not null)

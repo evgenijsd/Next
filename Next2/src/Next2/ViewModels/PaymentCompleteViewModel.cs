@@ -468,15 +468,7 @@ namespace Next2.ViewModels
 
             if (updateResult.IsSuccess)
             {
-                var createNewCurrentOrderResult = await _orderService.CreateNewCurrentOrderAsync();
-
-                if (createNewCurrentOrderResult.IsSuccess)
-                {
-                    var employeeId = _orderService.CurrentOrder.EmployeeId;
-                    var orderId = _orderService.CurrentOrder.Id;
-
-                    await _orderService.SaveCurrentOrderIdToSettingsAsync(employeeId, orderId);
-                }
+                await _orderService.SetEmptyCurrentOrderAsync();
             }
         }
 

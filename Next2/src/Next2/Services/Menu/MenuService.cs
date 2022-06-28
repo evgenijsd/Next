@@ -2,6 +2,7 @@
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
+using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Order;
@@ -81,19 +82,26 @@ namespace Next2.Services.Menu
 
                         decimal percentage = bonusPercentage / Convert.ToDecimal(100);
 
+                        var dishes = resultGettingDishes.Value.Dishes;
+
                         if (_orderService.CurrentOrder.Coupon is not null)
                         {
-                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            var couponDishes = _orderService.CurrentOrder.Coupon.Dishes;
+
+                            if (couponDishes is not null)
                             {
-                                if (_orderService.CurrentOrder.Coupon.Dishes.Any(x => x.Id == dish.Id))
+                                foreach (var dish in dishes)
                                 {
-                                    dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                                    if (couponDishes.Any(x => x.Id == dish.Id))
+                                    {
+                                        dish.OriginalPrice -= dish.OriginalPrice * percentage;
+                                    }
                                 }
                             }
                         }
                         else
                         {
-                            foreach (var dish in resultGettingDishes.Value.Dishes)
+                            foreach (var dish in dishes)
                             {
                                 dish.OriginalPrice -= dish.OriginalPrice * percentage;
                             }
@@ -149,6 +157,28 @@ namespace Next2.Services.Menu
             catch (Exception ex)
             {
                 result.SetError($"{nameof(GetIngredientsAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        public async Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId)
+        {
+            var result = new AOResult<DishModelDTO>();
+
+            try
+            {
+                var query = $"{Constants.API.HOST_URL}/api/dishes/{dishId}";
+                var dishResult = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (dishResult.Success && dishResult?.Value?.Dish is not null)
+                {
+                    result.SetSuccess(dishResult.Value.Dish);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetDishByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

@@ -15,7 +15,7 @@ namespace Next2.Services.Order
 
         SeatBindableModel? CurrentSeat { get; set; }
 
-        Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
+        Task<AOResult<OrderModelDTO>> CreateNewOrderAsync();
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
 
@@ -23,15 +23,9 @@ namespace Next2.Services.Order
 
         Task<AOResult<OrderModelDTO>> GetOrderByIdAsync(Guid orderId);
 
-        Task<AOResult<Guid>> GetCurrentOrderIdLastSessionAsync(string employeeId);
-
-        Task<AOResult> SetCurrentOrderAsync(Guid orderId);
-
         string ApplyNumberFilter(string text);
 
         string ApplyNameFilter(string text);
-
-        Task<AOResult> CreateNewCurrentOrderAsync();
 
         Task<AOResult> AddDishInCurrentOrderAsync(DishBindableModel dish);
 
@@ -45,8 +39,10 @@ namespace Next2.Services.Order
 
         Task<AOResult> DeleteDishFromCurrentSeatAsync();
 
-        Task<AOResult> SaveCurrentOrderIdToSettingsAsync(string employeeId, Guid lastSessionOrderId);
+        Task<AOResult> OpenLastOrCreateNewOrderAsync();
 
-        Task<AOResult<DishModelDTO>> GetDishByIdAsync(Guid dishId);
+        Task<AOResult> SetEmptyCurrentOrderAsync();
+
+        Task<AOResult> SetCurrentOrderAsync(Guid orderId);
     }
 }
