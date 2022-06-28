@@ -52,7 +52,7 @@ namespace Next2.ViewModels
         private SeatBindableModel _firstNotEmptySeat;
         private SeatBindableModel _seatWithSelectedDish;
         private EOrderStatus _orderPaymentStatus;
-        private bool _isAnySetChosen;
+        private bool _isAnyDishChosen;
 
         public OrderRegistrationViewModel(
             INavigationService navigationService,
@@ -276,7 +276,7 @@ namespace Next2.ViewModels
 
             SelectedDish = _seatWithSelectedDish?.SelectedItem;
 
-            _isAnySetChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+            _isAnyDishChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
             _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
@@ -416,7 +416,7 @@ namespace Next2.ViewModels
                 {
                     SelectSeat(_firstSeat);
 
-                    if (!_isAnySetChosen)
+                    if (!_isAnyDishChosen)
                     {
                         OnGoBackCommand();
                     }
@@ -445,7 +445,7 @@ namespace Next2.ViewModels
 
                         SelectSeat(_firstSeat);
 
-                        if (!_isAnySetChosen)
+                        if (!_isAnyDishChosen)
                         {
                             OnGoBackCommand();
                         }
@@ -489,14 +489,14 @@ namespace Next2.ViewModels
             await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
-        private void SelectSeat(SeatBindableModel seat)
+        private void SelectSeat(SeatBindableModel seatToBeSelected)
         {
             foreach (var item in CurrentOrder.Seats)
             {
                 item.Checked = false;
             }
 
-            seat.Checked = true;
+            seatToBeSelected.Checked = true;
 
             DeleteSeatsCommands();
 
@@ -800,7 +800,7 @@ namespace Next2.ViewModels
                             {
                                 SelectedDish = _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
                             }
-                            else if (_isAnySetChosen)
+                            else if (_isAnyDishChosen)
                             {
                                 foreach (var set in CurrentOrder.Seats)
                                 {
