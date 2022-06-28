@@ -3,6 +3,7 @@ using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Next2.Extensions
@@ -118,9 +119,9 @@ namespace Next2.Extensions
                 Table = order.Table is not null
                     ? new()
                     {
-                         Id = order.Table.Id,
-                         Number = order.Table.Number,
-                         SeatNumbers = order.Table.SeatNumbers,
+                        Id = order.Table.Id,
+                        Number = order.Table.Number,
+                        SeatNumbers = order.Table.SeatNumbers,
                     }
                     : null,
                 Customer = order.Customer is not null
@@ -143,7 +144,7 @@ namespace Next2.Extensions
                     ? (decimal)order.SubTotalPrice * order.TaxCoefficient
                     : new(),
                 EmployeeId = order.EmployeeId,
-                Seats = new(order.Seats.Select(row => new SeatBindableModel()
+                Seats = new(order.Seats.OrderBy(x => x.Number).Select(row => new SeatBindableModel()
                 {
                     SeatNumber = row.Number,
                     IsFirstSeat = row.Number == 1,

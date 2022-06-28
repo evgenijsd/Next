@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Next2.Extensions;
 using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -24,20 +23,17 @@ namespace Next2.Services.Order
 {
     public class OrderService : IOrderService
     {
-        private readonly IMockService _mockService;
         private readonly ISettingsManager _settingsManager;
         private readonly IRestService _restService;
         private readonly IBonusesService _bonusesService;
         private readonly IMapper _mapper;
 
         public OrderService(
-            IMockService mockService,
             IRestService restService,
             IBonusesService bonusesService,
             ISettingsManager settingsManager,
             IMapper mapper)
         {
-            _mockService = mockService;
             _settingsManager = settingsManager;
             _restService = restService;
             _bonusesService = bonusesService;
@@ -56,32 +52,6 @@ namespace Next2.Services.Order
         #endregion
 
         #region -- IOrderService implementation --
-
-        public async Task<AOResult<TaxModel>> GetTaxAsync()
-        {
-            var result = new AOResult<TaxModel>();
-
-            try
-            {
-                var taxMock = await _mockService.FindAsync<TaxModel>(x => x.Id == 1);
-                var tax = new TaxModel() { Id = taxMock.Id, Name = taxMock.Name, Value = taxMock.Value };
-
-                if (tax is not null)
-                {
-                    result.SetSuccess(tax);
-                }
-                else
-                {
-                    result.SetFailure();
-                }
-            }
-            catch (Exception ex)
-            {
-                result.SetError($"{nameof(GetTaxAsync)}: exception", Strings.SomeIssues, ex);
-            }
-
-            return result;
-        }
 
         public async Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync()
         {
@@ -222,6 +192,7 @@ namespace Next2.Services.Order
 
                     CurrentOrder.OrderStatus = Enums.EOrderStatus.Pending;
                     CurrentOrder.OrderType = Enums.EOrderType.DineIn;
+                    CurrentOrder.SubTotalPrice = 0m;
                     CurrentSeat = null;
 
                     result.SetSuccess();
@@ -321,6 +292,7 @@ namespace Next2.Services.Order
 
                         currentOrder.Seats = new(currentOrder.Seats?.OrderBy(row => row.SeatNumber));
                         CurrentOrder = currentOrder;
+                        CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
 
                         result.SetSuccess();
                     }
@@ -447,6 +419,7 @@ namespace Next2.Services.Order
                     SeatNumber = CurrentOrder.Seats.Count + 1,
                     SelectedDishes = new(),
                     Checked = true,
+                    IsFirstSeat = !CurrentOrder.Seats.Any(),
                 };
 
                 CurrentOrder.Seats.Add(seat);

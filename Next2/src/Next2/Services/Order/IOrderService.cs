@@ -15,8 +15,6 @@ namespace Next2.Services.Order
 
         SeatBindableModel? CurrentSeat { get; set; }
 
-        Task<AOResult<TaxModel>> GetTaxAsync();
-
         Task<AOResult<Guid>> CreateNewOrderAndGetIdAsync();
 
         Task<AOResult<IEnumerable<TableModelDTO>>> GetFreeTablesAsync();
