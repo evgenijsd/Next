@@ -68,25 +68,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
-            <Style x:Key="DropDownListStyle_i1_1" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
-                    
-                <Style.Triggers>
                         
-                    <DataTrigger 
-                        TargetType="controls:DropDownList"
-                        Binding="{Binding IsOrderSavedNotificationVisible}"
-                        Value="True">
-                        
-                        <Setter Property="IsEnabled" Value="False"/>
-                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
-                        
-                    </DataTrigger>
-                        
-                </Style.Triggers>
-                    
-            </Style>
-            
         </Grid.Resources>
                         
         <!-- HEADER, 1 ROW -->
@@ -121,7 +103,7 @@
 
         <controls:DropDownList
             Grid.Row="0"
-            Style="{DynamicResource DropDownListStyle_i1_1}"
+            Style="{DynamicResource DropDownListStyle_i1}"
             HorizontalOptions="End"
             VerticalOptions="Start"
             Margin="17"
@@ -131,6 +113,17 @@
             SelectedItem="{Binding SelectedOrderType}"
             ItemsSource="{Binding OrderTypes}">
 
+            <controls:DropDownList.Triggers>
+                
+                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+                        
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                </DataTrigger>
+                
+            </controls:DropDownList.Triggers>
+            
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
                     <StackLayout 
@@ -186,28 +179,14 @@
             <controls:CustomStepper
                 MaxValue="{Binding SelectedTable.SeatNumbers}"
                 Value="{Binding NumberOfSeats}"
-                DecrementCommand="{Binding DeleteLastSeatCommand}">
-                
-                <controls:CustomStepper.Triggers>
-                    
-                    <DataTrigger 
-                        TargetType="controls:CustomStepper"
-                        Binding="{Binding IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
-                        Value="False">
-                            
-                        <Setter Property="IsEnabled" Value="False"/>
-                            
-                    </DataTrigger>
-                    
-                </controls:CustomStepper.Triggers>
-                
-            </controls:CustomStepper>
+                IsEnabled="{Binding IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
+                DecrementCommand="{Binding DeleteLastSeatCommand}"/>
 
         </StackLayout>
 
         <controls:DropDownList
             Grid.Row="1"
-            Style="{DynamicResource DropDownListStyle_i1_1}"
+            Style="{DynamicResource DropDownListStyle_i1}"
             HorizontalOptions="Start"
             VerticalOptions="Start"
             Margin="18, 9"
@@ -217,6 +196,17 @@
             SelectedItem="{Binding SelectedTable}"
             ItemsSource="{Binding Tables}">
 
+            <controls:DropDownList.Triggers>
+                
+                <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsOrderSavedNotificationVisible}" Value="True">
+                        
+                    <Setter Property="IsEnabled" Value="False"/>
+                    <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                </DataTrigger>
+                
+            </controls:DropDownList.Triggers>
+            
             <controls:DropDownList.DataTemplate>
                 <DataTemplate>
                     <StackLayout 

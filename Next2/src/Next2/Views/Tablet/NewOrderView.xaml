@@ -1041,41 +1041,9 @@
                     <Setter Property="FontFamily" Value="Barlow-SemiBold"/>
                     <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
                     <Setter Property="TextWidth" Value="30"/>
-                    <Setter Property="IconSizes" Value="24"/>
-                    
-                    <Style.Triggers>
-                        
-                         <DataTrigger 
-                            TargetType="controls:CustomStepper"
-                            Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
-                            Value="False">
-                            
-                            <Setter Property="IsEnabled" Value="False"/>
-                            
-                        </DataTrigger>
-                        
-                    </Style.Triggers>
-                    
+                    <Setter Property="IconSizes" Value="24"/>                    
                 </Style>
-                
-                <Style x:Key="DropDownListStyle_i1_1" TargetType="controls:DropDownList" BasedOn="{StaticResource DropDownListStyle_i1}">
-                    
-                    <Style.Triggers>
-                        
-                        <DataTrigger 
-                            TargetType="controls:DropDownList"
-                            Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}"
-                            Value="True">
-                        
-                            <Setter Property="IsEnabled" Value="False"/>
-                            <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
-                        
-                        </DataTrigger>
-                        
-                    </Style.Triggers>
-                    
-                </Style>
-                
+
             </Grid.Resources>
 
             <!-- HEADER, 1 ROW -->
@@ -1154,7 +1122,7 @@
 
             <controls:DropDownList
                 Grid.Row="0"
-                Style="{DynamicResource DropDownListStyle_i1_1}"
+                Style="{DynamicResource DropDownListStyle_i1}"
                 HorizontalOptions="End"
                 VerticalOptions="Start"
                 Margin="18, 26"
@@ -1163,7 +1131,18 @@
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedOrderType.Text}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedOrderType}"
                 ItemsSource="{Binding OrderRegistrationViewModel.OrderTypes}">
-                                
+                
+                <controls:DropDownList.Triggers>
+                        
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
+                        
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                    </DataTrigger>
+                    
+                </controls:DropDownList.Triggers>
+                
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveDropDownList">
 
@@ -1271,13 +1250,28 @@
                     Style="{DynamicResource CustomStepperStyle_i1}"
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
-                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}"/>
+                    Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
+                                                            
+                    <controls:CustomStepper.Triggers>
+                        
+                         <DataTrigger 
+                            TargetType="controls:CustomStepper"
+                            Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible, Converter={xct:InvertedBoolConverter}}"
+                            Value="False">
+                            
+                            <Setter Property="IsEnabled" Value="False"/>
+                            
+                        </DataTrigger>
+
+                    </controls:CustomStepper.Triggers>
+                    
+                </controls:CustomStepper>
 
             </StackLayout>
 
             <controls:DropDownList
                 Grid.Row="1"
-                Style="{DynamicResource DropDownListStyle_i1_1}"
+                Style="{DynamicResource DropDownListStyle_i1}"
                 HorizontalOptions="Start"
                 VerticalOptions="Start"
                 Margin="18"
@@ -1286,7 +1280,18 @@
                 HeaderText="{Binding OrderRegistrationViewModel.SelectedTable.TableNumber, StringFormat='Table {0}'}"
                 SelectedItem="{Binding OrderRegistrationViewModel.SelectedTable}"
                 ItemsSource="{Binding OrderRegistrationViewModel.Tables}">
-                                
+                                                
+                <controls:DropDownList.Triggers>
+                        
+                    <DataTrigger TargetType="controls:DropDownList" Binding="{Binding OrderRegistrationViewModel.IsOrderSavedNotificationVisible}" Value="True">
+                        
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}"/>
+                        
+                    </DataTrigger>
+                    
+                </controls:DropDownList.Triggers>
+                
                 <controls:DropDownList.DataTemplate>
                     <DataTemplate>
                         <StackLayout 
