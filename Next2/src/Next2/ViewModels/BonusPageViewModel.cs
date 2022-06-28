@@ -176,14 +176,14 @@ namespace Next2.ViewModels
             return discounts;
         }
 
-        private async Task OnApplyBonusCommandAsync()
+        private Task OnApplyBonusCommandAsync()
         {
             var parameters = new NavigationParameters
             {
                 { Constants.Navigations.BONUS, CurrentOrder },
             };
 
-            await _navigationService.GoBackAsync(parameters);
+            return _navigationService.GoBackAsync(parameters);
         }
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)

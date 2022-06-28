@@ -59,18 +59,18 @@ namespace Next2.ViewModels.Mobile
 
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
             {
-                foreach (var item in tipItems)
+                foreach (var tip in tipItems)
                 {
-                    item.TapCommand = TapTipItemCommand;
+                    tip.TapCommand = TapTipItemCommand;
 
-                    if (item.TipType != ETipType.NoTip)
+                    if (tip.TipType != ETipType.NoTip)
                     {
-                        TipDisplayItems.Add(item);
+                        TipDisplayItems.Add(tip);
                     }
 
-                    if (item.TipType == tipType && item.Value == tipValue)
+                    if (tip.TipType == tipType && tip.Value == tipValue)
                     {
-                        _tipItem = item;
+                        _tipItem = tip;
                     }
                 }
 
