@@ -1,13 +1,10 @@
 using Next2.Services.Authentication;
 using Next2.Services.Order;
-using Next2.Services.User;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
-using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 
@@ -15,21 +12,18 @@ namespace Next2.ViewModels
 {
     public class LoginPageViewModel : BaseViewModel
     {
-        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
 
         public LoginPageViewModel(
             INavigationService navigationService,
-            IUserService userService,
             IAuthenticationService authenticationService,
             IOrderService orderService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
-            _userService = userService;
             _orderService = orderService;
             _eventAggregator = eventAggregator;
         }

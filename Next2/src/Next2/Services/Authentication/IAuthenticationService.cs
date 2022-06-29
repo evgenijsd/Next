@@ -1,5 +1,5 @@
 ﻿using Next2.Helpers.ProcessHelpers;
-using Next2.Models;
+using Next2.Models.API.Results;
 using System.Threading.Tasks;
 
 namespace Next2.Services.Authentication
@@ -10,7 +10,9 @@ namespace Next2.Services.Authentication
 
         bool IsAuthorizationComplete { get; }
 
-        Task<AOResult<UserModel?>> CheckUserExists(int userId);
+        bool IsUserAdmin { get; }
+
+        Task<AOResult<LoginQueryResult>> GetUserById(string userId);
 
         Task<AOResult> AuthorizeUserAsync(string userId);
 

@@ -22,10 +22,12 @@ namespace Next2.Services.WorkLog
             _authenticationService = authenticationService;
         }
 
+        #region -- IWorkLogService implementation  --
+
         public async Task<AOResult<EEmployeeRegisterState>> InsertRecordAsync(WorkLogRecordModel record)
         {
             var result = new AOResult<EEmployeeRegisterState>();
-            var user = await _authenticationService.CheckUserExists(record.EmployeeId);
+            var user = await _authenticationService.GetUserById(record.EmployeeId.ToString());
             bool isResultSuccess = false;
             EEmployeeRegisterState resultState = EEmployeeRegisterState.Undefined;
 
@@ -95,12 +97,10 @@ namespace Next2.Services.WorkLog
             {
                 result.SetSuccess(resultState);
             }
-            else
-            {
-                result.SetFailure();
-            }
 
             return result;
         }
+
+        #endregion
     }
 }

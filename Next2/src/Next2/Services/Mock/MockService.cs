@@ -1,4 +1,3 @@
-using Next2.Enums;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -13,7 +12,6 @@ namespace Next2.Services.Mock
     {
         private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
-        private IList<UserModel> _users;
         private IList<RewardModel> _rewards;
         private IList<WorkLogRecordModel> _workLogBook;
         private IList<GiftCardModelDTO> _giftCards;
@@ -146,14 +144,12 @@ namespace Next2.Services.Mock
         private async Task InitMocksAsync()
         {
             await Task.WhenAll(
-                InitUsersAsync(),
                 IniRewardsAsync(),
                 InitWorkLogBookAsync());
 
             _base = new Dictionary<Type, object>
             {
                 { typeof(RewardModel), _rewards },
-                { typeof(UserModel), _users },
                 { typeof(WorkLogRecordModel), _workLogBook },
                 { typeof(GiftCardModelDTO), _giftCards },
             };
@@ -161,7 +157,6 @@ namespace Next2.Services.Mock
             _maxIdentifiers = new Dictionary<Type, int>
             {
                 { typeof(RewardModel), GetMaxId(_rewards) },
-                { typeof(UserModel), GetMaxId(_users) },
                 { typeof(WorkLogRecordModel), GetMaxId(_workLogBook) },
             };
 
@@ -240,48 +235,6 @@ namespace Next2.Services.Mock
                     CustomerId = new Guid("0c6d6d48-c6a6-4f8a-8d0b-0b545427a598"),
                     SetId = 4,
                     SetTitle = "D Pulled Pork Sammy Meal",
-                },
-            };
-        });
-        private Task InitUsersAsync() => Task.Run(() =>
-        {
-            _users = new List<UserModel>
-            {
-                new UserModel
-                {
-                    Id = 0,
-                    UserName = "Tom",
-                    UserType = EUserType.User,
-                },
-                new UserModel
-                {
-                    Id = 1,
-                    UserName = "Bob Marley",
-                    UserType = EUserType.User,
-                },
-                new UserModel
-                {
-                    Id = 2,
-                    UserName = "Tom Black",
-                    UserType = EUserType.User,
-                },
-                new UserModel
-                {
-                    Id = 101,
-                    UserName = "Admin",
-                    UserType = EUserType.Admin,
-                },
-                new UserModel
-                {
-                    Id = 111111,
-                    UserName = "Admin",
-                    UserType = EUserType.Admin,
-                },
-                new UserModel
-                {
-                    Id = 555555,
-                    UserName = "Waiter",
-                    UserType = EUserType.User,
                 },
             };
         });

@@ -28,7 +28,7 @@ namespace Next2.Services.Customers
             _mapper = mapper;
         }
 
-        #region -- ICustomersSerice implementation --
+        #region -- ICustomersService implementation --
 
         public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel customer)
         {
