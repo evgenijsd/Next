@@ -46,7 +46,7 @@ namespace Next2.ViewModels
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
         private readonly ICommand _removeOrderCommand;
-        private readonly ICommand _dishSelectionCommand;
+        private readonly ICommand _selectDishCommand;
 
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
@@ -80,7 +80,7 @@ namespace Next2.ViewModels
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
-            _dishSelectionCommand = new AsyncCommand<SeatBindableModel>(OnDishSelectionCommandAsync, allowsMultipleExecutions: false);
+            _selectDishCommand = new AsyncCommand<SeatBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -348,7 +348,7 @@ namespace Next2.ViewModels
                 seat.SeatSelectionCommand = _seatSelectionCommand;
                 seat.SeatDeleteCommand = _deleteSeatCommand;
                 seat.RemoveOrderCommand = _removeOrderCommand;
-                seat.DishSelectionCommand = _dishSelectionCommand;
+                seat.DishSelectionCommand = _selectDishCommand;
             }
         }
 
@@ -630,7 +630,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnDishSelectionCommandAsync(SeatBindableModel seat)
+        private async Task OnSelectDishCommandAsync(SeatBindableModel seat)
         {
             if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
