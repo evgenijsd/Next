@@ -46,7 +46,7 @@ namespace Next2.ViewModels
         private readonly ICommand _seatSelectionCommand;
         private readonly ICommand _deleteSeatCommand;
         private readonly ICommand _removeOrderCommand;
-        private readonly ICommand _setSelectionCommand;
+        private readonly ICommand _selectDishCommand;
 
         private SeatBindableModel _firstSeat;
         private SeatBindableModel _firstNotEmptySeat;
@@ -80,7 +80,7 @@ namespace Next2.ViewModels
             _seatSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSeatSelectionCommandAsync, allowsMultipleExecutions: false);
             _deleteSeatCommand = new AsyncCommand<SeatBindableModel>(OnDeleteSeatCommandAsync, allowsMultipleExecutions: false);
             _removeOrderCommand = new AsyncCommand(OnRemoveOrderCommandAsync, allowsMultipleExecutions: false);
-            _setSelectionCommand = new AsyncCommand<SeatBindableModel>(OnSetSelectionCommandAsync, allowsMultipleExecutions: false);
+            _selectDishCommand = new AsyncCommand<SeatBindableModel>(OnSelectDishCommandAsync, allowsMultipleExecutions: false);
         }
 
         #region -- Public properties --
@@ -293,7 +293,6 @@ namespace Next2.ViewModels
             _seatWithSelectedDish = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null);
 
             SelectedDish = new();
-
             SelectedDish = _seatWithSelectedDish?.SelectedItem;
 
             _isAnyDishChosen = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
@@ -301,6 +300,7 @@ namespace Next2.ViewModels
             _firstNotEmptySeat = CurrentOrder.Seats.FirstOrDefault(x => x.SelectedDishes.Any());
 
             AddSeatsCommands();
+
             SelectedOrderType = OrderTypes.FirstOrDefault(row => row.OrderType == CurrentOrder.OrderType);
             NumberOfSeats = CurrentOrder.Seats.Count;
 
@@ -348,7 +348,7 @@ namespace Next2.ViewModels
                 seat.SeatSelectionCommand = _seatSelectionCommand;
                 seat.SeatDeleteCommand = _deleteSeatCommand;
                 seat.RemoveOrderCommand = _removeOrderCommand;
-                seat.SetSelectionCommand = _setSelectionCommand;
+                seat.DishSelectionCommand = _selectDishCommand;
             }
         }
 
@@ -358,7 +358,7 @@ namespace Next2.ViewModels
             {
                 seat.SeatSelectionCommand = null;
                 seat.SeatDeleteCommand = null;
-                seat.SetSelectionCommand = null;
+                seat.DishSelectionCommand = null;
             }
         }
 
@@ -630,7 +630,7 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)
+        private async Task OnSelectDishCommandAsync(SeatBindableModel seat)
         {
             if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
@@ -639,10 +639,6 @@ namespace Next2.ViewModels
                     if (item.SeatNumber != seat.SeatNumber)
                     {
                         item.SelectedItem = null;
-                    }
-                    else
-                    {
-                        item.SelectedItem = seat.SelectedItem;
                     }
                 }
 
@@ -781,13 +777,13 @@ namespace Next2.ViewModels
             };
 
             PopupPage confirmDialog = App.IsTablet
-                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync)
-                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteSetDialogCallbackAsync);
+                ? new Next2.Views.Tablet.Dialogs.ConfirmDialog(parameters, CloseDeleteDishDialogCallbackAsync)
+                : new Next2.Views.Mobile.Dialogs.ConfirmDialog(parameters, CloseDeleteDishDialogCallbackAsync);
 
             return PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters dialogResult)
+        private async void CloseDeleteDishDialogCallbackAsync(IDialogParameters dialogResult)
         {
             if (dialogResult is not null && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
@@ -797,15 +793,17 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
+                        _bonusesService.СalculationBonus(CurrentOrder);
+
                         await RefreshCurrentOrderAsync();
 
-                        _bonusesService.СalculationBonus(CurrentOrder);
+                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
 
                         if (CurrentState == LayoutState.Success)
                         {
                             if (_seatWithSelectedDish.SelectedDishes.Any())
                             {
-                                SelectedDish = _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
+                                _seatWithSelectedDish.SelectedItem = _seatWithSelectedDish.SelectedDishes.FirstOrDefault();
                             }
                             else if (_isAnyDishChosen)
                             {
@@ -814,7 +812,7 @@ namespace Next2.ViewModels
                                     set.SelectedItem = null;
                                 }
 
-                                SelectedDish = _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
+                                _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
                             }
                             else
                             {
@@ -833,16 +831,12 @@ namespace Next2.ViewModels
                 }
             }
 
-            await PopupNavigation.PopAsync();
-
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            await PopupNavigation.PopAllAsync();
         }
 
         private Task OnPayCommandAsync()
         {
-            string path = nameof(PaymentPage);
-
-            return _navigationService.NavigateAsync(path);
+            return _navigationService.NavigateAsync(nameof(PaymentPage));
         }
 
         private Task OnHideOrderNotificationCommnadAsync()

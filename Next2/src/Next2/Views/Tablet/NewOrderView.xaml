@@ -1251,7 +1251,7 @@
                     MaxValue="{Binding OrderRegistrationViewModel.SelectedTable.SeatNumbers}"
                     DecrementCommand="{Binding OrderRegistrationViewModel.DeleteLastSeatCommand}"
                     Value="{Binding OrderRegistrationViewModel.NumberOfSeats}">
-                                                            
+
                     <controls:CustomStepper.Triggers>
                         
                          <DataTrigger 
