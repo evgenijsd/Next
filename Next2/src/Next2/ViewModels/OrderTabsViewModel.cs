@@ -542,7 +542,7 @@ namespace Next2.ViewModels
         {
             List<SeatBindableModel> bindableSeats = new();
 
-            if (seats.Any())
+            if (seats.Any(x => x.SelectedDishes.Any()))
             {
                 seats = seats
                     .Where(x => x.SelectedDishes.Any())
