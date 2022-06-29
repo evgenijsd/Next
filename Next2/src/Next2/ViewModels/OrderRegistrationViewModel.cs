@@ -10,7 +10,6 @@ using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
-using Next2.Services.User;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
@@ -38,7 +37,6 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
 
         private readonly IOrderService _orderService;
-        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMenuService _menuService;
         private readonly IBonusesService _bonusesService;
@@ -59,7 +57,6 @@ namespace Next2.ViewModels
             IEventAggregator eventAggregator,
             IMapper mapper,
             IOrderService orderService,
-            IUserService userService,
             IBonusesService bonusesService,
             IAuthenticationService authenticationService,
             IMenuService menuService)
@@ -68,7 +65,6 @@ namespace Next2.ViewModels
             _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;
-            _userService = userService;
             _authenticationService = authenticationService;
             _menuService = menuService;
             _bonusesService = bonusesService;
@@ -673,25 +669,22 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
         {
-            var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
+            var isUserAdmin = _authenticationService.IsUserAdmin;
 
-            if (user.IsSuccess)
+            if (isUserAdmin)
             {
-                if (user.Result.UserType != EUserType.Admin)
-                {
-                    _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+                IsOrderWithTax = false;
+                CurrentOrder.TaxCoefficient = 0;
+                CurrentOrder.UpdateTotalSum();
 
-                    await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
-                }
-                else if (user.Result.UserType == EUserType.Admin)
-                {
-                    IsOrderWithTax = false;
-                    CurrentOrder.TaxCoefficient = 0;
-                    CurrentOrder.UpdateTotalSum();
-                }
+                await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
             }
+            else
+            {
+                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
+            }
         }
 
         private void OnTaxEvent(bool isOrderWithTax)
@@ -704,6 +697,8 @@ namespace Next2.ViewModels
             {
                 CurrentOrder.TaxCoefficient = 0;
                 CurrentOrder.UpdateTotalSum();
+
+                _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand()).Await();
             }
         }
 

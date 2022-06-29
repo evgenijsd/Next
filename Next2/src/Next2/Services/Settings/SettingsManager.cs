@@ -18,6 +18,12 @@ namespace Next2.Services.Settings
             set => Preferences.Set(nameof(IsAuthorizationComplete), value);
         }
 
+        public bool IsUserAdmin
+        {
+            get => Preferences.Get(nameof(IsUserAdmin), false);
+            set => Preferences.Set(nameof(IsUserAdmin), value);
+        }
+
         public string? Token
         {
             get => Preferences.Get(nameof(Token), string.Empty);
