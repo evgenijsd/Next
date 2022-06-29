@@ -210,6 +210,9 @@ namespace Next2
                     .AfterMap((s, d) => d.Product = s.Product);
                 cfg.CreateMap<MembershipModelDTO, MemberBindableModel>();
                 cfg.CreateMap<MemberBindableModel, MembershipModelDTO>();
+                cfg.CreateMap<OptionModelDTO, OptionModelDTO>();
+                cfg.CreateMap<SimpleIngredientModelDTO, SimpleIngredientModelDTO>();
+                cfg.CreateMap<SimpleIngredientsCategoryModelDTO, SimpleIngredientsCategoryModelDTO>();
                 cfg.CreateMap<TableBindableModel, SimpleTableModelDTO>()
                     .ForMember(x => x.Number, s => s.MapFrom(x => x.TableNumber));
                 cfg.CreateMap<DishModelDTO, DishBindableModel>();
