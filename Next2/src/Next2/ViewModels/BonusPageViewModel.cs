@@ -26,8 +26,6 @@ namespace Next2.ViewModels
         private readonly IBonusesService _bonusesService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
-        private List<BonusModel> _bonuses = new();
-
         public BonusPageViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,

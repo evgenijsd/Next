@@ -5,7 +5,6 @@ using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Xamarin.Forms.Internals;
 
 namespace Next2.Models
 {
@@ -15,31 +14,31 @@ namespace Next2.Models
         {
         }
 
-        public SetBindableModel(SetBindableModel set)
+        public SetBindableModel(SetBindableModel dish)
         {
-            Id = set.Id;
-            SubcategoryId = set.SubcategoryId;
-            Title = set.Title;
-            Price = set.Price;
-            ProductsPrice = set.ProductsPrice;
-            IngredientsPrice = set.IngredientsPrice;
-            TotalPrice = set.TotalPrice;
-            PriceBonus = set.PriceBonus;
-            ImagePath = set.ImagePath;
+            Id = dish.Id;
+            SubcategoryId = dish.SubcategoryId;
+            Title = dish.Title;
+            Price = dish.Price;
+            ProductsPrice = dish.ProductsPrice;
+            IngredientsPrice = dish.IngredientsPrice;
+            TotalPrice = dish.TotalPrice;
+            PriceBonus = dish.PriceBonus;
+            ImagePath = dish.ImagePath;
             Portion = new();
             Portions = new();
             Products = new();
 
-            foreach (var portion in set.Portions)
+            foreach (var portion in dish.Portions)
             {
                 Portions.Add(new PortionModel(portion));
             }
 
-            var tmpPortion = Portions.FirstOrDefault(row => row.Id == set.Portion.Id);
+            var tmpPortion = Portions.FirstOrDefault(row => row.Id == dish.Portion.Id);
 
             Portion = Portions[Portions.IndexOf(tmpPortion)];
 
-            foreach (var product in set.Products)
+            foreach (var product in dish.Products)
             {
                 Products.Add(new ProductBindableModel(product));
             }
