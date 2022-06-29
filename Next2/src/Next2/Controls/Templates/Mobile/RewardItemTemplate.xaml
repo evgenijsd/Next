@@ -14,7 +14,7 @@
     x:Name="rewardFrame">
 
     <Frame.Triggers>
-        <DataTrigger TargetType="Frame" Binding="{Binding CanBeApplied}" Value="false">
+        <DataTrigger TargetType="Frame" Binding="{Binding CanBeApplied}" Value="False">
             <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
         </DataTrigger>
 

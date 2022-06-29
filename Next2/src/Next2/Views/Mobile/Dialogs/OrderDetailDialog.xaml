@@ -83,15 +83,8 @@
                             <BoxView 
                                 Margin="0, 0, 0, 6"
                                 HeightRequest="1"
-                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-                                
-                                <BoxView.Triggers>
-                                    <DataTrigger TargetType="BoxView" Binding="{Binding IsFirstSeat}" Value="True" >
-                                        <Setter Property="IsVisible" Value="false"/>
-                                    </DataTrigger>
-                                </BoxView.Triggers>
-                                
-                            </BoxView>
+                                BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                IsVisible="{Binding IsFirstSeat, Converter={xct:InvertedBoolConverter}}"/>
 
                             <Label
                                 Text="{Binding SeatNumber}"

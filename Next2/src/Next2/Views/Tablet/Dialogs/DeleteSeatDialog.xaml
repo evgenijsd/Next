@@ -71,7 +71,7 @@
                     <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingSetsSelected}" Value="True">
                          
                         <Setter Property="IsEnabled" Value="False" />
-                        <Setter Property="IsExpanded" Value="false" />
+                        <Setter Property="IsExpanded" Value="False" />
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                                               
                     </DataTrigger>
