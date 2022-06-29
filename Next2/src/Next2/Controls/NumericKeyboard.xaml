@@ -20,8 +20,7 @@
             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
             BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}">
 
-            <StackLayout
-                Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
 
                 <Label
                     Margin="10, 0, 0, 0"
@@ -64,92 +63,11 @@
 
         </controls:CustomFrame>
 
-        <Grid
+        <controls:CustomKeyboard
             Grid.Row="1"
-            RowDefinitions="*, *, *, *"
-            ColumnDefinitions="*, *, *"
-            ColumnSpacing="10"
-            RowSpacing="10">
-
-            <buttons:NumericKeyboardButton
-                Title="1"
-                Grid.Row="0"
-                Grid.Column="0"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="2"
-                Grid.Row="0"
-                Grid.Column="1"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="3"
-                Grid.Row="0"
-                Grid.Column="2"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="4"
-                Grid.Row="1"
-                Grid.Column="0"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="5"
-                Grid.Row="1"
-                Grid.Column="1"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="6"
-                Grid.Row="1"
-                Grid.Column="2"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="7"
-                Grid.Row="2"
-                Grid.Column="0"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="8"
-                Grid.Row="2"
-                Grid.Column="1"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="9"
-                Grid.Row="2"
-                Grid.Column="2"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="0"
-                Grid.Row="3"
-                Grid.Column="0"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}" />
-
-            <buttons:NumericKeyboardButton
-                Title="{xct:Translate Clear}"
-                Grid.Row="3"
-                Grid.Column="1"
-                Grid.ColumnSpan="2"
-                BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-                TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonClearTapCommand}" />
-
-        </Grid>
+            ButtonClearTapCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonClearTapCommand}"
+            ButtonTapCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}"
+            BackgroundColorButton="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
 
     </Grid>
 
