@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Next2.Services.CustomersService;
+using Next2.Services.Customers;
 using Next2.Services.Order;
 using Next2.ViewModels.Dialogs;
 using Prism.Services.Dialogs;

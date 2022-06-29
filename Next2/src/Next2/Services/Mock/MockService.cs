@@ -14,10 +14,6 @@ namespace Next2.Services.Mock
         private readonly TaskCompletionSource<bool> _initCompletionSource = new();
 
         private IList<UserModel> _users;
-        private IList<TaxModel> _tax;
-        private IList<BonusModel> _bonuses;
-        private IList<BonusConditionModel> _bonusConditions;
-        private IList<BonusSetModel> _bonusSets;
         private IList<RewardModel> _rewards;
         private IList<WorkLogRecordModel> _workLogBook;
         private IList<GiftCardModelDTO> _giftCards;
@@ -151,19 +147,11 @@ namespace Next2.Services.Mock
         {
             await Task.WhenAll(
                 InitUsersAsync(),
-                InitTaxAsync(),
-                InitBonusAsync(),
-                InitBonusSetAsync(),
-                InitBonusConditionAsync(),
                 IniRewardsAsync(),
                 InitWorkLogBookAsync());
 
             _base = new Dictionary<Type, object>
             {
-                { typeof(TaxModel), _tax },
-                { typeof(BonusConditionModel), _bonusConditions },
-                { typeof(BonusSetModel), _bonusSets },
-                { typeof(BonusModel), _bonuses },
                 { typeof(RewardModel), _rewards },
                 { typeof(UserModel), _users },
                 { typeof(WorkLogRecordModel), _workLogBook },
@@ -183,142 +171,6 @@ namespace Next2.Services.Mock
         private Task InitWorkLogBookAsync() => Task.Run(() =>
         {
             _workLogBook = new List<WorkLogRecordModel>();
-        });
-
-        private Task InitTaxAsync() => Task.Run(() =>
-        {
-            _tax = new List<TaxModel>
-            {
-                new TaxModel
-                {
-                    Id = 1,
-                    Name = "Tax",
-                    Value = 0.1m,
-                },
-            };
-        });
-
-        private Task InitBonusConditionAsync() => Task.Run(() =>
-        {
-            _bonusConditions = new List<BonusConditionModel>
-            {
-                new BonusConditionModel
-                {
-                    Id = 1,
-                    SetId = 1,
-                    BonusId = 3,
-                },
-                new BonusConditionModel
-                {
-                    Id = 2,
-                    SetId = 2,
-                    BonusId = 3,
-                },
-                new BonusConditionModel
-                {
-                    Id = 3,
-                    SetId = 2,
-                    BonusId = 5,
-                },
-                new BonusConditionModel
-                {
-                    Id = 4,
-                    SetId = 2,
-                    BonusId = 6,
-                },
-            };
-        });
-
-        private Task InitBonusSetAsync() => Task.Run(() =>
-        {
-            _bonusSets = new List<BonusSetModel>
-            {
-                new BonusSetModel
-                {
-                    Id = 1,
-                    SetId = 3,
-                    BonusId = 3,
-                },
-                new BonusSetModel
-                {
-                    Id = 2,
-                    SetId = 2,
-                    BonusId = 5,
-                },
-                new BonusSetModel
-                {
-                    Id = 3,
-                    SetId = 2,
-                    BonusId = 4,
-                },
-                new BonusSetModel
-                {
-                    Id = 4,
-                    SetId = 1,
-                    BonusId = 4,
-                },
-                new BonusSetModel
-                {
-                    Id = 5,
-                    SetId = 2,
-                    BonusId = 2,
-                },
-                new BonusSetModel
-                {
-                    Id = 6,
-                    SetId = 2,
-                    BonusId = 6,
-                },
-            };
-        });
-
-        private Task InitBonusAsync() => Task.Run(() =>
-        {
-            _bonuses = new List<BonusModel>
-            {
-                new BonusModel
-                {
-                    Id = 1,
-                    Name = "10% Off",
-                    Value = 0.1m,
-                    Type = EBonusValueType.Percent,
-                },
-                new BonusModel
-                {
-                    Id = 2,
-                    Name = "$ 2.00 Off",
-                    Value = 2.0m,
-                    Type = EBonusValueType.Value,
-                },
-                new BonusModel
-                {
-                    Id = 3,
-                    Name = "50% Off BigMack",
-                    Value = 0.5m,
-                    Type = EBonusValueType.Percent,
-                },
-                new BonusModel
-                {
-                    Id = 4,
-                    Name = "$ 5.00 Off",
-                    Value = 5m,
-                    Type = EBonusValueType.Value,
-                },
-                new BonusModel
-                {
-                    Id = 5,
-                    Name = "BOGO Buy 1 and get 1 free",
-                    Value = 1.0m,
-                    Type = EBonusValueType.Percent,
-                },
-                new BonusModel
-                {
-                    Id = 6,
-                    Name = "GoodNeighbor",
-                    Value = 1.0m,
-                    Type = EBonusValueType.Percent,
-                },
-            };
         });
 
         private Task IniRewardsAsync() => Task.Run(() =>

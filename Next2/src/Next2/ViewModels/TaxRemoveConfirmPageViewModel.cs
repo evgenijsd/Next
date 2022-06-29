@@ -1,7 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.Events;
 using Next2.Services.Authentication;
-using Next2.Services.UserService;
+using Next2.Services.User;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;

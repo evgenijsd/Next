@@ -2,7 +2,7 @@
 using Next2.Models.API;
 using Next2.Models.API.Queries;
 using Next2.Models.API.Results;
-using Next2.Services.SettingsService;
+using Next2.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

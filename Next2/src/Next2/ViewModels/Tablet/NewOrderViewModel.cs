@@ -5,7 +5,7 @@ using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
 using Next2.Resources.Strings;
-using Next2.Services.Log;
+using Next2.Services.WorkLog;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Tablet;
@@ -28,7 +28,7 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly ILogService _logService;
+        private readonly IWorkLogService _logService;
 
         private bool _shouldOrderDishesByDESC;
 
@@ -36,7 +36,7 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
-            ILogService logService,
+            IWorkLogService logService,
             IOrderService orderService)
             : base(navigationService)
         {

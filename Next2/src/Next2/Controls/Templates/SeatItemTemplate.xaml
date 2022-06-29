@@ -101,7 +101,7 @@
         HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         MinimumHeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         SelectedItem="{Binding SelectedItem}"
-        SelectionChangedCommand="{Binding SetSelectionCommand}"
+        SelectionChangedCommand="{Binding DishSelectionCommand}"
         SelectionChangedCommandParameter="{Binding .}">
 
         <CollectionView.Effects>
