@@ -24,7 +24,6 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly IEventAggregator _eventAggregator;
         private readonly IBonusesService _bonusesService;
-        private readonly IOrderService _orderService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
         private List<BonusModel> _bonuses = new();
@@ -32,7 +31,6 @@ namespace Next2.ViewModels
         public BonusPageViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IOrderService orderService,
             IMapper mapper,
             IBonusesService bonusesService)
             : base(navigationService)
@@ -40,7 +38,6 @@ namespace Next2.ViewModels
             _mapper = mapper;
             _bonusesService = bonusesService;
             _eventAggregator = eventAggregator;
-            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -81,6 +78,15 @@ namespace Next2.ViewModels
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
+
+                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+                {
+                    _bonusesService.ResetСalculationBonus(CurrentOrder);
+                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+                }
+
+                _bonusesService.СalculationBonus(CurrentOrder);
+                Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
                 var coupons = await GetCoupons();
 
@@ -217,8 +223,6 @@ namespace Next2.ViewModels
 
             _bonusesService.СalculationBonus(CurrentOrder);
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)

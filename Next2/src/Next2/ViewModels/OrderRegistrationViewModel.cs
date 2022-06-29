@@ -180,7 +180,7 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
             {
-                UpdateOrderWithBonus(currentOrder);
+                await UpdateOrderWithBonusAsync(currentOrder);
             }
         }
 
@@ -257,7 +257,7 @@ namespace Next2.ViewModels
 
         #region -- Public helpers --
 
-        public void UpdateOrderWithBonus(FullOrderBindableModel currentOrder)
+        public Task UpdateOrderWithBonusAsync(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
@@ -267,6 +267,8 @@ namespace Next2.ViewModels
                 : CurrentOrder.Seats.FirstOrDefault().SeatNumber;
 
             _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
+
+            return _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         public void InitOrderTypes()
