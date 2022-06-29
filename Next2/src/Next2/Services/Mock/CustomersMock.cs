@@ -1,7 +1,7 @@
 ﻿using Next2.Models;
 using System.Collections.Generic;
 
-namespace Next2.Services
+namespace Next2.Services.Mock
 {
     public static class CustomersMock
     {

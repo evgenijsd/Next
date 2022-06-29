@@ -1,11 +1,11 @@
 ﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
 using Next2.Services.Mock;
-using Next2.Services.SettingsService;
+using Next2.Services.Settings;
 using System;
 using System.Threading.Tasks;
 
-namespace Next2.Services.UserService
+namespace Next2.Services.User
 {
     public class UserService : IUserService
     {

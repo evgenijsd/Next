@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
-using Next2.Models.API;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
 using Next2.Resources.Strings;
+using Next2.Services.Mock;
 using Next2.Services.Rest;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Next2.Services.CustomersService
+namespace Next2.Services.Customers
 {
     public class CustomersService : ICustomersService
     {
