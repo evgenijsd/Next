@@ -6,7 +6,7 @@ using Next2.Models.API.Results;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Rest;
-using Next2.Services.SettingsService;
+using Next2.Services.Settings;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
