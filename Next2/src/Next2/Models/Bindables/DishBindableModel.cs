@@ -37,7 +37,6 @@ namespace Next2.Models.Bindables
             return new DishBindableModel()
             {
                 Id = Id,
-
                 Name = Name,
                 DishId = DishId,
                 ImageSource = ImageSource,

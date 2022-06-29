@@ -601,14 +601,14 @@ namespace Next2.ViewModels
             return name + " " + surname;
         }
 
-        private async Task OnSplitCommandAsync()
+        private Task OnSplitCommandAsync()
         {
             var param = new NavigationParameters
             {
                 { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
             };
 
-            await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
+            return _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
         }
 
         #endregion

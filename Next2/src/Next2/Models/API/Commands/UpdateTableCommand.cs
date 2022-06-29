@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Next2.Interfaces;
+using System;
 
 namespace Next2.Models.API.Commands
 {
-    public class UpdateTableCommand
+    public class UpdateTableCommand : IBaseApiModel
     {
         public Guid Id { get; set; }
 

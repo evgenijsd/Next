@@ -1,7 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -11,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -18,7 +18,6 @@ namespace Next2.ViewModels.Dialogs
 {
     public class SplitOrderDialogViewModel : BindableBase
     {
-        private decimal _maxValue = 100;
         private List<int[]> _splitGroupList = new();
 
         public SplitOrderDialogViewModel(
@@ -39,30 +38,32 @@ namespace Next2.ViewModels.Dialogs
 
         public List<object> SelectedSeats { get; set; } = new();
 
-        public ESplitOrderConditions Condition { get; set; }
+        public ESplitOrderConditions SplitCondition { get; set; }
 
         public decimal SplitValue { get; set; }
 
         public decimal SplitTotal => Seats == null || Seats.Count() == 0
-                ? 0
-                : Seats.Sum(x => x.SelectedItem.TotalPrice);
+            ? 0
+            : Seats.Sum(x => x.SelectedItem.TotalPrice);
 
         public bool IsSplitAvailable { get; set; }
 
+        public bool IsNextStepAvailable { get; set; }
+
         public string HeaderText { get; set; }
 
-        public string Step { get; set; } = "First";
+        public EStep PopupStep { get; set; } = EStep.First;
 
         public Action<IDialogParameters> RequestClose;
 
         private ICommand _selectValueCommand;
         public ICommand SelectValueCommand => _selectValueCommand ??= new AsyncCommand<object>(OnSelectValueCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _incrementCommand;
-        public ICommand IncrementCommand => _incrementCommand ??= new AsyncCommand(OnIncrementCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _incrementSplitValueCommand;
+        public ICommand IncrementSplitValueCommand => _incrementSplitValueCommand ??= new AsyncCommand(OnIncrementSplitValueCommandAsync, allowsMultipleExecutions: false);
 
-        private ICommand _decrementCommand;
-        public ICommand DecrementCommand => _decrementCommand ??= new AsyncCommand(OnDecrementCommandAsync, allowsMultipleExecutions: false);
+        private ICommand _decrementSplitValueCommand;
+        public ICommand DecrementSplitValueCommand => _decrementSplitValueCommand ??= new AsyncCommand(OnDecrementSplitValueCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _cancelCommand;
         public ICommand CancelCommand => _cancelCommand ??= new Command(() => RequestClose(new DialogParameters { }));
@@ -71,13 +72,13 @@ namespace Next2.ViewModels.Dialogs
         public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
 
         private ICommand _selectCommand;
-        public ICommand SelectCommand => _selectCommand ??= new Command<object>(OnSelectCommand);
+        public ICommand SelectCommand => _selectCommand ??= new Command(OnSelectCommand);
 
         private ICommand _nextCommand;
         public ICommand NextCommand => _nextCommand ??= new AsyncCommand(OnNextCommand, allowsMultipleExecutions: false);
 
-        private ICommand _skipCommand;
-        public ICommand SkipCommand => _skipCommand ??= new AsyncCommand(OnSkipCommand, allowsMultipleExecutions: false);
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new AsyncCommand(OnGoBackCommand, allowsMultipleExecutions: false);
 
         #endregion
 
@@ -89,11 +90,11 @@ namespace Next2.ViewModels.Dialogs
 
             if (args.PropertyName == nameof(SplitValue))
             {
-                if (Condition == ESplitOrderConditions.ByPercents)
+                if (SplitCondition == ESplitOrderConditions.ByPercents)
                 {
                     CalculateByPercentage();
                 }
-                else if (Condition == ESplitOrderConditions.ByDollar)
+                else if (SplitCondition == ESplitOrderConditions.ByDollar)
                 {
                     CalculateByDollar();
                 }
@@ -110,34 +111,40 @@ namespace Next2.ViewModels.Dialogs
         {
             var isAllParamExist = param.TryGetValue(Constants.DialogParameterKeys.SEATS, out ObservableCollection<SeatBindableModel> seats)
                 & param.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel selectedDish)
-                & param.TryGetValue(Constants.DialogParameterKeys.DESCRIPTION, out ESplitOrderConditions condition);
+                & param.TryGetValue(Constants.DialogParameterKeys.CONDITION, out ESplitOrderConditions condition);
 
             if (isAllParamExist)
             {
-                Condition = condition;
+                SplitCondition = condition;
                 SelectedDish = selectedDish;
                 IEnumerable<SeatBindableModel> newSeats;
 
                 if (condition == ESplitOrderConditions.BySeats)
                 {
-                    HeaderText = Strings.SplitBySeats;
+                    HeaderText = LocalizationResourceManager.Current["SplitBySeats"];
 
                     newSeats = seats.Select(x => new SeatBindableModel()
                     {
                         SeatNumber = x.SeatNumber,
-                        SelectedItem = new DishBindableModel() { TotalPrice = x.SelectedDishes.Sum(x => x.TotalPrice), },
+                        SelectedItem = new DishBindableModel()
+                        {
+                            TotalPrice = x.SelectedDishes.Sum(x => x.TotalPrice),
+                        },
                     });
                 }
                 else
                 {
                     HeaderText = condition == ESplitOrderConditions.ByPercents
-                        ? Strings.SplitByPercentage
-                        : Strings.SplitByDollar;
+                        ? LocalizationResourceManager.Current["SplitByPercentage"]
+                        : LocalizationResourceManager.Current["SplitByDollar"];
 
                     newSeats = seats.Where(x => x.Checked is false).Select(x => new SeatBindableModel()
                     {
                         SeatNumber = x.SeatNumber,
-                        SelectedItem = new DishBindableModel() { TotalPrice = 0, },
+                        SelectedItem = new DishBindableModel()
+                        {
+                            TotalPrice = 0,
+                        },
                     });
                 }
 
@@ -149,7 +156,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (IsSplitAvailable)
             {
-                if (Condition == ESplitOrderConditions.BySeats)
+                if (SplitCondition == ESplitOrderConditions.BySeats)
                 {
                     IsSplitAvailable = false;
 
@@ -195,11 +202,11 @@ namespace Next2.ViewModels.Dialogs
         {
             if (SelectedSeats.Count > 0)
             {
-                var numberOfSelected = SelectedSeats.Count;
+                var numberOfSelectedSeats = SelectedSeats.Count;
                 var price = SplitValue * SelectedDish.TotalPrice / 100m;
                 var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
                 var otherSeats = Seats.Except(selectedSeats);
-                var splitTotalPrise = (price * numberOfSelected) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+                var splitTotalPrise = (price * numberOfSelectedSeats) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
                 if (splitTotalPrise <= SelectedDish.TotalPrice)
                 {
@@ -241,9 +248,9 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnIncrementCommandAsync()
+        private Task OnIncrementSplitValueCommandAsync()
         {
-            if (SplitValue < _maxValue)
+            if (SplitValue < Constants.Limits.MAX_PERCENTAGE)
             {
                 SplitValue++;
             }
@@ -251,7 +258,7 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private Task OnDecrementCommandAsync()
+        private Task OnDecrementSplitValueCommandAsync()
         {
             if (SplitValue > 0)
             {
@@ -261,22 +268,31 @@ namespace Next2.ViewModels.Dialogs
             return Task.CompletedTask;
         }
 
-        private void OnSelectCommand(object sender)
+        private void OnSelectCommand()
         {
-            var collectionView = sender as CollectionView;
-            IsSplitAvailable = collectionView.SelectedItems.Count > 0;
+            IsNextStepAvailable = SelectedSeats.Count > 0;
+
+            if (SplitCondition == ESplitOrderConditions.BySeats)
+            {
+                IsSplitAvailable = SelectedSeats.Count > 0;
+            }
         }
 
         private Task OnNextCommand()
         {
-            Step = "Second";
-            IsSplitAvailable = false;
+            if (IsNextStepAvailable)
+            {
+                PopupStep = EStep.Second;
+                IsNextStepAvailable = false;
+            }
+
             return Task.CompletedTask;
         }
 
-        private Task OnSkipCommand()
+        private Task OnGoBackCommand()
         {
-            Step = "First";
+            PopupStep = EStep.First;
+            IsNextStepAvailable = SelectedSeats.Count > 0;
             return Task.CompletedTask;
         }
 

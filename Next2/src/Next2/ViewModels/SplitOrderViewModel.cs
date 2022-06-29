@@ -23,7 +23,7 @@ namespace Next2.ViewModels
         private readonly IOrderService _orderService;
         private readonly IPopupNavigation _popupNavigation;
 
-        private bool isOneTime = true;
+        private bool _isOneTime = true;
         private int _selectedSeatNumber = 0;
 
         public SplitOrderViewModel(
@@ -58,9 +58,9 @@ namespace Next2.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid id))
+            if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid orderId))
             {
-                var response = await _orderService.GetOrderByIdAsync(id);
+                var response = await _orderService.GetOrderByIdAsync(orderId);
 
                 if (response.IsSuccess)
                 {
@@ -90,7 +90,7 @@ namespace Next2.ViewModels
             {
                 var param = new DialogParameters
                 {
-                    { Constants.DialogParameterKeys.DESCRIPTION, condition },
+                    { Constants.DialogParameterKeys.CONDITION, condition },
                     { Constants.DialogParameterKeys.SEATS, Seats },
                     { Constants.DialogParameterKeys.DISH, SelectedDish },
                 };
@@ -103,38 +103,26 @@ namespace Next2.ViewModels
             }
         }
 
-        private async void SplitOrderDialogCallBack(IDialogParameters dialogResult)
+        private async void SplitOrderDialogCallBack(IDialogParameters parameters)
         {
-            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SEATS, out List<SeatBindableModel> seats))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out List<SeatBindableModel> seats))
             {
                 foreach (var seat in Seats)
                 {
-                    var incSeat = seats.FirstOrDefault(x => x.SeatNumber == seat.SeatNumber);
+                    var incomingSeat = seats.FirstOrDefault(x => x.SeatNumber == seat.SeatNumber);
 
-                    if (incSeat is not null)
+                    if (incomingSeat is not null)
                     {
                         var dish = SelectedDish.Clone() as DishBindableModel;
-                        dish.TotalPrice = incSeat.SelectedItem.TotalPrice;
+                        dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
                         seat.SelectedDishes.Add(dish);
-                    }
-                }
-
-                if (SelectedDish.TotalPrice == 0)
-                {
-                    var seat = Seats.FirstOrDefault(x => x.SelectedDishes.Any(x => x.TotalPrice == 0));
-
-                    seat.SelectedDishes.Remove(SelectedDish);
-
-                    if (seat.SelectedDishes.Count == 0)
-                    {
-                        Seats.Remove(seat);
                     }
                 }
 
                 await RefreshDisplay();
             }
 
-            if (dialogResult.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
+            if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
             {
                 await SplitOrderBySeats(groupList);
                 await OnGoBackCommandAsync();
@@ -185,6 +173,7 @@ namespace Next2.ViewModels
                         order.Seats = outSeats;
                         CalculateOrderPrices(order);
                         var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
+
                         if (!updateResult.IsSuccess)
                         {
                             break;
@@ -211,7 +200,9 @@ namespace Next2.ViewModels
 
         private async Task CopyCurrentOrderDataTo(OrderModelDTO order)
         {
-            if (await UpdateTableAsync())
+            var isTableUpdated = await UpdateTableAsync();
+
+            if (isTableUpdated)
             {
                 order.IsCashPayment = Order.IsCashPayment;
                 order.IsTab = Order.IsTab;
@@ -251,9 +242,11 @@ namespace Next2.ViewModels
         {
             if (App.IsTablet)
             {
-                SelectedDish = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-                Seats.FirstOrDefault().SelectedItem = Seats.FirstOrDefault().SelectedDishes.FirstOrDefault();
-                Seats.FirstOrDefault().Checked = true;
+                var firstSeat = Seats.FirstOrDefault();
+
+                SelectedDish = firstSeat.SelectedDishes.FirstOrDefault();
+                firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
+                firstSeat.Checked = true;
             }
             else
             {
@@ -263,21 +256,23 @@ namespace Next2.ViewModels
 
         private Task OnDishSelectionCommand(object? sender)
         {
-            if (isOneTime)
+            if (_isOneTime)
             {
-                isOneTime = false;
-                var seat = sender as SeatBindableModel;
+                _isOneTime = false;
 
-                foreach (var item in Seats.Where(x => x.SeatNumber != seat.SeatNumber))
+                if (sender is SeatBindableModel seat)
                 {
-                    item.SelectedItem = null;
-                    item.Checked = false;
-                }
+                    foreach (var item in Seats.Where(x => x.SeatNumber != seat.SeatNumber))
+                    {
+                        item.SelectedItem = null;
+                        item.Checked = false;
+                    }
 
-                SelectedDish = seat.SelectedItem;
-                _selectedSeatNumber = seat.SeatNumber;
-                seat.Checked = true;
-                isOneTime = true;
+                    SelectedDish = seat.SelectedItem;
+                    _selectedSeatNumber = seat.SeatNumber;
+                    seat.Checked = true;
+                    _isOneTime = true;
+                }
             }
 
             return Task.CompletedTask;
@@ -300,12 +295,11 @@ namespace Next2.ViewModels
             return Task.CompletedTask;
         }
 
-        private async Task OnGoBackCommandAsync()
+        private Task OnGoBackCommandAsync()
         {
-            await _navigationService.GoBackAsync();
+            return _navigationService.GoBackAsync();
         }
 
         #endregion
-
     }
 }

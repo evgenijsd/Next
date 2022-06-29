@@ -46,6 +46,7 @@
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
             public const int LOGIN_LENGTH = 6;
+            public const int MAX_PERCENTAGE = 100;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2100;
@@ -128,6 +129,7 @@
             public const string UPDATE = "UPDATE";
             public const string TITLE = "TITLE";
             public const string DESCRIPTION = "DESCRIPTION";
+            public const string CONDITION = "CONDITION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
             public const string CANCEL_BUTTON_TEXT = "CANCEL_BUTTON_TEXT";
             public const string CONFIRM_MODE = "CONFIRM_MODE";

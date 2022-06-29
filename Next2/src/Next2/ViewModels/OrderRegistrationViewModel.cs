@@ -608,25 +608,6 @@ namespace Next2.ViewModels
                     await RefreshCurrentOrderAsync();
                 }
             }
-
-            //var orders = await _orderService.GetOrdersAsync();
-            //foreach (var order in orders.Result)
-            //{
-            //    try
-            //    {
-            //        var fullorder = await _orderService.GetOrderByIdAsync(order.Id);
-
-            //        if (fullorder.Result.Number != 1851 && fullorder.Result.TotalPrice != 0)
-            //        {
-            //            var or = fullorder.Result.ToUpdateOrderCommand();
-            //            or.OrderStatus = EOrderStatus.Pending;
-            //            var res = await _orderService.UpdateOrderAsync(or);
-            //        }
-            //    }
-            //    catch (Exception)
-            //    {
-            //    }
-            //}
         }
 
         private async Task OnSetSelectionCommandAsync(SeatBindableModel seat)

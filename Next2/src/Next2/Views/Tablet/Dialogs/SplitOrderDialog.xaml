@@ -46,7 +46,7 @@
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
 
         <Frame.Triggers>
-            <DataTrigger TargetType="Frame" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+            <DataTrigger TargetType="Frame" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                 <Setter Property="WidthRequest" Value="363" />
 
@@ -58,7 +58,7 @@
         <Grid RowDefinitions="0.13*, 0.13*, 0.59*, 0.15*">
 
             <Grid.Triggers>
-                <DataTrigger TargetType="Grid" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                <DataTrigger TargetType="Grid" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                     <Setter Property="RowDefinitions" Value="0.13*, 0, 0.68*, 0.15*" />
 
@@ -128,7 +128,7 @@
                 Padding="18">
 
                 <Grid.Triggers>
-                    <DataTrigger TargetType="Grid" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                    <DataTrigger TargetType="Grid" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                         <Setter Property="ColumnDefinitions" Value="*, 0" />
 
@@ -149,7 +149,7 @@
                     Grid.Row="0"
                     Grid.RowSpan="3"
                     Grid.Column="1"
-                    State="{Binding Condition}">
+                    State="{Binding SplitCondition}">
 
                     <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByPercents}">
 
@@ -229,7 +229,7 @@
                                     HeightRequest="27"
                                     WidthRequest="27"
                                     Source="ic_minus_primary_32x32.png"
-                                    xct:TouchEffect.Command="{Binding DecrementCommand}" />
+                                    xct:TouchEffect.Command="{Binding DecrementSplitValueCommand}" />
 
                                 <Label
                                     Margin="0, 0, 0, 8"
@@ -245,7 +245,7 @@
                                     HeightRequest="27"
                                     WidthRequest="27"
                                     Source="ic_plus_primary_32x32.png"
-                                    xct:TouchEffect.Command="{Binding IncrementCommand}" />
+                                    xct:TouchEffect.Command="{Binding IncrementSplitValueCommand}" />
 
                             </StackLayout>
 
@@ -324,13 +324,11 @@
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     ItemsSource="{Binding Seats}"
                     SelectedItems="{Binding SelectedSeats}"
-                    SelectionChangedCommand="{Binding SelectCommand}"
-                    SelectionChangedCommandParameter="{Reference collection}"
-                    x:Name="collection">
+                    SelectionChangedCommand="{Binding SelectCommand}">
 
                     <CollectionView.Triggers>
 
-                        <DataTrigger TargetType="CollectionView" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+                        <DataTrigger TargetType="CollectionView" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                             <Setter Property="Margin" Value="0" />
 
