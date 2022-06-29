@@ -27,11 +27,15 @@ namespace Next2.Services.WorkLog
         public async Task<AOResult<EEmployeeRegisterState>> InsertRecordAsync(WorkLogRecordModel record)
         {
             var result = new AOResult<EEmployeeRegisterState>();
-            var user = await _authenticationService.GetUserById(record.EmployeeId.ToString());
-            bool isResultSuccess = false;
-            EEmployeeRegisterState resultState = EEmployeeRegisterState.Undefined;
 
-            if (user.IsSuccess)
+            bool isResultSuccess = false;
+
+            var employeeId = record.EmployeeId.ToString();
+            var resultState = EEmployeeRegisterState.Undefined;
+
+            var resultOfGettingUser = await _authenticationService.GetUserById(employeeId);
+
+            if (resultOfGettingUser.IsSuccess)
             {
                 try
                 {

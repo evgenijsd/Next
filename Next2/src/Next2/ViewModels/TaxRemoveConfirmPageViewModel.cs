@@ -119,7 +119,7 @@ namespace Next2.ViewModels
 
                 if (resultOfGettingUser.IsSuccess && roles is not null)
                 {
-                    isAdminAccount = roles.Contains("Admin");
+                    isAdminAccount = roles.Contains(Constants.ROLE_ADMIN);
                 }
             }
 

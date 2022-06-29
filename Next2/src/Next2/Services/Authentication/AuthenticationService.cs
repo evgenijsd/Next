@@ -97,7 +97,7 @@ namespace Next2.Services.Authentication
 
                         if (roles is not null)
                         {
-                            _settingsManager.IsUserAdmin = roles.Contains("Admin");
+                            _settingsManager.IsUserAdmin = roles.Contains(Constants.ROLE_ADMIN);
                         }
 
                         result.SetSuccess();
