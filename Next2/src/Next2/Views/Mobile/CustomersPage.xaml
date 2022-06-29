@@ -156,7 +156,7 @@
 
                         <yummy:PancakeView.Triggers>
 
-                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyCustomersLoaded}" Value="false">
+                            <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyCustomersLoaded}" Value="False">
 
                                 <Setter Property="VerticalOptions" Value="FillAndExpand" />
 

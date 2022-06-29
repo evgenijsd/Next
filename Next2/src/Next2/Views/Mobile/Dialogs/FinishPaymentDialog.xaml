@@ -110,7 +110,7 @@
 
                         <DataTrigger Binding="{Binding BonusType}" TargetType="Label" Value="{x:Static enum:EBonusType.None}">
 
-                            <Setter Property="IsVisible" Value="false" />
+                            <Setter Property="IsVisible" Value="False" />
 
                         </DataTrigger>
 
