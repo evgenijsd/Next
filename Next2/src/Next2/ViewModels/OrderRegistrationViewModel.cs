@@ -257,7 +257,7 @@ namespace Next2.ViewModels
 
         #region -- Public helpers --
 
-        public async Task UpdateOrderWithBonusAsync(FullOrderBindableModel currentOrder)
+        public Task UpdateOrderWithBonusAsync(FullOrderBindableModel currentOrder)
         {
             CurrentOrder = currentOrder;
             _orderService.CurrentOrder = CurrentOrder;
@@ -268,7 +268,7 @@ namespace Next2.ViewModels
 
             _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
 
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            return _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         public void InitOrderTypes()
