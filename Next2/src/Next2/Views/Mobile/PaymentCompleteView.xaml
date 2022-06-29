@@ -151,20 +151,9 @@
 
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
-
-                        <StackLayout.Triggers>
-
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.BonusType, Converter={xct:EnumToIntConverter}}"
-                                Value="0">
-
-                                <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
-                        </StackLayout.Triggers>
+                    <StackLayout 
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.BonusType, Converter={xct:EnumToBoolConverter}}">
 
                         <Label
                             Style="{DynamicResource SummaryItem}"
@@ -192,20 +181,9 @@
 
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
-
-                        <StackLayout.Triggers>
-
-                            <DataTrigger
-                                TargetType="StackLayout"
-                                Binding="{Binding Order.PriceTax}"
-                                Value="0">
-
-                                <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
-                        </StackLayout.Triggers>
+                    <StackLayout
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.PriceTax, Converter={StaticResource decimalToBoolConverter}}">
 
                         <Label
                             Text="{xct:Translate Tax}"
@@ -271,18 +249,10 @@
 
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
-                        
-                        <StackLayout.Triggers>
+                    <StackLayout
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.Cash, Converter={StaticResource decimalToBoolConverter}}">
 
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Cash}" Value="0">
-
-                                <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
-                        </StackLayout.Triggers>
-                        
                         <Label
                             Text="{xct:Translate Cash}"
                             Style="{DynamicResource SummaryItem}"/>
@@ -303,18 +273,10 @@
 
                     </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout
+                        Orientation="Horizontal"
+                        IsVisible="{Binding Order.Change, Converter={StaticResource decimalToBoolConverter}}">
 
-                        <StackLayout.Triggers>
-
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding Order.Change}" Value="0">
-
-                                <Setter Property="IsVisible" Value="False" />
-
-                            </DataTrigger>
-
-                        </StackLayout.Triggers>
-                        
                         <Label
                             Text="{xct:Translate Change}"
                             Style="{DynamicResource SummaryItem}"/>
@@ -389,16 +351,17 @@
                     <DataTrigger 
                         TargetType="buttons:BorderButton" 
                         Binding="{Binding IsPaymentComplete}"
-                        Value="true">
+                        Value="True">
 
                         <Setter Property="Opacity" Value="1"/>
-                        <Setter Property="IsEnabled" Value="true"/>
+                        <Setter Property="IsEnabled" Value="True"/>
+                        
                     </DataTrigger>
 
                     <DataTrigger 
                         TargetType="buttons:BorderButton"
                         Binding="{Binding Order.Total, Converter={StaticResource decimalToBoolConverter}}" 
-                        Value="false">
+                        Value="False">
 
                         <Setter Property="Opacity" Value="1"/>
                         <Setter Property="IsEnabled" Value="true"/>

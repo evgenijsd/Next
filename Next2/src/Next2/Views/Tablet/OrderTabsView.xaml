@@ -114,7 +114,7 @@
 
                 <StackLayout.Triggers>
                     <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
-                        <Setter Property="IsEnabled" Value="false"/>
+                        <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}"/>
                     </DataTrigger>
                 </StackLayout.Triggers>

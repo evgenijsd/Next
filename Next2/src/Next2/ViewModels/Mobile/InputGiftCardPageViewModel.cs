@@ -1,5 +1,5 @@
 ﻿using Next2.Models;
-using Next2.Services.CustomersService;
+using Next2.Services.Customers;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;

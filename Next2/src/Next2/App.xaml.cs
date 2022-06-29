@@ -1,12 +1,12 @@
 ﻿using Next2.Resources.Strings;
 using Next2.Services.Authentication;
-using Next2.Services.CustomersService;
+using Next2.Services.Customers;
 using Next2.Services.Membership;
 using Next2.Services.Menu;
 using Next2.Services.Mock;
 using Next2.Services.Order;
-using Next2.Services.SettingsService;
-using Next2.Services.UserService;
+using Next2.Services.Settings;
+using Next2.Services.User;
 using Next2.ViewModels;
 using Next2.ViewModels.Dialogs;
 using Next2.ViewModels.Tablet;
@@ -31,7 +31,7 @@ using Next2.Views.Tablet;
 using Next2.ViewModels.Mobile;
 using Next2.Services.Rewards;
 using Next2.Services.Bonuses;
-using Next2.Services.Log;
+using Next2.Services.WorkLog;
 using Next2.Services.Rest;
 using Next2.Models.API.DTO;
 using System;
@@ -76,7 +76,7 @@ namespace Next2
             containerRegistry.RegisterSingleton<IUserService, UserService>();
             containerRegistry.RegisterSingleton<ICustomersService, CustomersService>();
             containerRegistry.RegisterSingleton<IBonusesService, BonusesService>();
-            containerRegistry.RegisterSingleton<ILogService, LogService>();
+            containerRegistry.RegisterSingleton<IWorkLogService, WorkLogService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<NavigationPage>();

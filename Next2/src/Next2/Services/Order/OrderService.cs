@@ -9,10 +9,10 @@ using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
-using Next2.Services.CustomersService;
+using Next2.Services.Customers;
 using Next2.Services.Menu;
 using Next2.Services.Rest;
-using Next2.Services.SettingsService;
+using Next2.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -649,6 +649,7 @@ namespace Next2.Services.Order
 
                         CurrentOrder = currentOrder;
                         CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
+                        result.SetSuccess();
                     }
                 }
             }

@@ -19,7 +19,7 @@ namespace Next2.ViewModels.Mobile
 {
     public class TipsPageViewModel : BaseViewModel
     {
-        private TipItem _noTipItem;
+        private TipItem _tipItem;
 
         public TipsPageViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -44,22 +44,37 @@ namespace Next2.ViewModels.Mobile
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            var tipType = ETipType.NoTip;
+            var tipValue = 0m;
+
+            if (parameters.TryGetValue(Constants.Navigations.TIP_TYPE, out ETipType paramTipType))
+            {
+                tipType = paramTipType;
+            }
+
+            if (parameters.TryGetValue(Constants.Navigations.TIP_VALUE, out decimal paramTipValue))
+            {
+                tipValue = paramTipValue;
+            }
+
             if (parameters.TryGetValue(Constants.Navigations.TIP_ITEMS, out ObservableCollection<TipItem> tipItems))
             {
-                foreach (var item in tipItems)
+                foreach (var tip in tipItems)
                 {
-                    item.TapCommand = TapTipItemCommand;
-                    if (item.TipType != ETipType.NoTip)
+                    tip.TapCommand = TapTipItemCommand;
+
+                    if (tip.TipType != ETipType.NoTip)
                     {
-                        TipDisplayItems.Add(item);
+                        TipDisplayItems.Add(tip);
                     }
-                    else
+
+                    if (tip.TipType == tipType && tip.Value == tipValue)
                     {
-                        _noTipItem = item;
+                        _tipItem = tip;
                     }
                 }
 
-                SelectedTipItem = _noTipItem;
+                SelectedTipItem = _tipItem;
             }
         }
 
@@ -77,7 +92,7 @@ namespace Next2.ViewModels.Mobile
             }
             else if (sender is ETipType eTip && eTip == ETipType.NoTip)
             {
-                SelectedTipItem = _noTipItem;
+                SelectedTipItem = _tipItem;
             }
         }
 

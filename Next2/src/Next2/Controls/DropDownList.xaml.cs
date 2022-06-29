@@ -266,6 +266,11 @@ namespace Next2.Controls
                 }
             }
 
+            if (propertyName is nameof(IsExpanded) && IsExpanded)
+            {
+                itemsCollection.ScrollTo(itemsCollection.SelectedItem, position: ScrollToPosition.Center, animate: false);
+            }
+
             base.OnPropertyChanging(propertyName);
         }
 

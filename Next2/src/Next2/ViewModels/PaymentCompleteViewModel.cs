@@ -1,15 +1,14 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Helpers;
 using Next2.Extensions;
+using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
-using Next2.Services.CustomersService;
+using Next2.Services.Customers;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.ObjectModel;
@@ -355,6 +354,12 @@ namespace Next2.ViewModels
                         {
                             { Constants.Navigations.TIP_ITEMS, TipValueItems },
                         };
+
+                        if (SelectedTipItem != null)
+                        {
+                            navigationParams.Add(Constants.Navigations.TIP_TYPE, SelectedTipItem.TipType);
+                            navigationParams.Add(Constants.Navigations.TIP_VALUE, SelectedTipItem.Value);
+                        }
                     }
 
                     break;

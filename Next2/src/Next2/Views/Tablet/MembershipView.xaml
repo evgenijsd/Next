@@ -64,9 +64,11 @@
                         TargetType="controls:SearchButton"
                         Binding="{Binding SearchText}"
                         Value="">
+                        
                         <Setter Property="BorderColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
                         <Setter Property="ImageSource" Value="ic_search_24x24" />
                         <Setter Property="CommandClear" Value="{Binding SearchCommand}" />
+                        
                     </DataTrigger>
 
                 </controls:SearchButton.Triggers>
@@ -82,13 +84,13 @@
             CornerRadius="{OnPlatform Android=6, iOS=8}"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
-            IsVisible="false">
+            IsVisible="False">
 
             <yummy:PancakeView.Triggers>
 
                 <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DisplayMembers.Count}" Value="0">
                     
-                    <Setter Property="IsVisible" Value="true" />
+                    <Setter Property="IsVisible" Value="True" />
                     
                 </DataTrigger>
 
@@ -114,7 +116,7 @@
 
             <yummy:PancakeView.Triggers>
 
-                <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyMembersLoaded}" Value="false">
+                <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding AnyMembersLoaded}" Value="False">
                     
                     <Setter Property="VerticalOptions" Value="FillAndExpand" />
                     

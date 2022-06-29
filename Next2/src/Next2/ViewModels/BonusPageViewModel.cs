@@ -24,15 +24,11 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
         private readonly IEventAggregator _eventAggregator;
         private readonly IBonusesService _bonusesService;
-        private readonly IOrderService _orderService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
-
-        private List<BonusModel> _bonuses = new();
 
         public BonusPageViewModel(
             INavigationService navigationService,
             IEventAggregator eventAggregator,
-            IOrderService orderService,
             IMapper mapper,
             IBonusesService bonusesService)
             : base(navigationService)
@@ -40,7 +36,6 @@ namespace Next2.ViewModels
             _mapper = mapper;
             _bonusesService = bonusesService;
             _eventAggregator = eventAggregator;
-            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -82,19 +77,14 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                var seats = new ObservableCollection<SeatBindableModel>();
-
-                foreach (var seat in CurrentOrder.Seats)
+                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
                 {
-                    var selectedDishes = CloneSelectedDishes(seat);
-                    var newSeat = _mapper.Map<SeatBindableModel>(seat);
-                    newSeat.SelectedDishes = new(selectedDishes);
-
-                    seats.Add(newSeat);
+                    _bonusesService.ResetСalculationBonus(CurrentOrder);
+                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
                 }
 
-                CurrentOrder.Seats = seats;
-                Seats = new(seats.Where(x => x.SelectedDishes.Count > 0));
+                _bonusesService.СalculationBonus(CurrentOrder);
+                Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
                 var coupons = await GetCoupons();
 
@@ -144,9 +134,7 @@ namespace Next2.ViewModels
 
             if (args.PropertyName is nameof(SelectedBonus))
             {
-                Title = SelectedBonus is null
-                    ? string.Empty
-                    : SelectedBonus.Name;
+                Title = SelectedBonus?.Name ?? string.Empty;
             }
         }
 
@@ -192,11 +180,14 @@ namespace Next2.ViewModels
             return discounts;
         }
 
-        private async Task OnApplyBonusCommandAsync()
+        private Task OnApplyBonusCommandAsync()
         {
-            _eventAggregator.GetEvent<AddBonusToCurrentOrderEvent>().Publish(CurrentOrder);
+            var parameters = new NavigationParameters
+            {
+                { Constants.Navigations.BONUS, CurrentOrder },
+            };
 
-            await _navigationService.GoBackAsync();
+            return _navigationService.GoBackAsync(parameters);
         }
 
         private async Task OnTapSelectBonusCommandAsync(BonusBindableModel? bonus)
@@ -230,8 +221,6 @@ namespace Next2.ViewModels
 
             _bonusesService.СalculationBonus(CurrentOrder);
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
         }
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
@@ -256,26 +245,6 @@ namespace Next2.ViewModels
         {
             SelectedBonus = null;
             return Task.CompletedTask;
-        }
-
-        private IEnumerable<DishBindableModel> CloneSelectedDishes(SeatBindableModel seat)
-        {
-            var selectedDishes = seat.SelectedDishes.Select(x => new DishBindableModel
-            {
-                Id = x.Id,
-                DiscountPrice = x.DiscountPrice,
-                ImageSource = x.ImageSource,
-                Name = x.Name,
-                SelectedDishProportionPrice = x.SelectedDishProportionPrice,
-                TotalPrice = x.TotalPrice,
-                SelectedDishProportion = x.SelectedDishProportion,
-                DishId = x.DishId,
-                DishProportions = x.DishProportions,
-                Products = x.Products,
-                SelectedProducts = x.SelectedProducts,
-            });
-
-            return selectedDishes;
         }
 
         #endregion

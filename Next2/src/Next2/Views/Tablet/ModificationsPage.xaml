@@ -219,17 +219,8 @@
                         Text="{xct:Translate AvailableOptions}"
                         FontSize="{DynamicResource TSize_i5}"
                         FontFamily="Barlow-SemiBold"
-                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}">
-
-                        <controls:SortingPanel.Triggers>
-
-                            <DataTrigger TargetType="controls:SortingPanel" Binding="{Binding ReplacementProducts.Count}" Value="0">
-                                <Setter Property="IsVisible" Value="False"/>
-                            </DataTrigger>
-
-                        </controls:SortingPanel.Triggers>
-                        
-                    </controls:SortingPanel>
+                        ChangingOrderSortCommand="{Binding ChangingOrderSortReplacementProductsCommand}"
+                        IsVisible="{Binding ReplacementProducts.Count, Converter={xct:IntToBoolConverter}}"/>
 
                     <CollectionView
                         Margin="40, 16"

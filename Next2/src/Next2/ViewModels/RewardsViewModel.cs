@@ -2,7 +2,7 @@
 using Next2.Enums;
 using Next2.Helpers;
 using Next2.Models;
-using Next2.Services.CustomersService;
+using Next2.Services.Customers;
 using Next2.Services.Order;
 using Next2.Services.Rewards;
 using Next2.Views.Mobile;
