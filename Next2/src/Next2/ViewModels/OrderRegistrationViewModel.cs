@@ -797,7 +797,7 @@ namespace Next2.ViewModels
 
                         await RefreshCurrentOrderAsync();
 
-                        var res = await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
 
                         if (CurrentState == LayoutState.Success)
                         {
