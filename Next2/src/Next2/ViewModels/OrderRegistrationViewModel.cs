@@ -465,10 +465,7 @@ namespace Next2.ViewModels
 
                         SelectSeat(_firstSeat);
 
-                        if (!_isAnyDishChosen)
-                        {
-                            OnGoBackCommand();
-                        }
+                        OnGoBackCommand();
                     }
                 }
                 else if (actionOnSets is EActionOnSets.RedirectSets
@@ -596,6 +593,11 @@ namespace Next2.ViewModels
                 {
                     await RemoveOrderAsync();
 
+                    if (App.IsTablet)
+                    {
+                        OnGoBackCommand();
+                    }
+
                     await PopupNavigation.PopAsync();
                 }
             }
@@ -722,6 +724,7 @@ namespace Next2.ViewModels
                     IsOrderSavingAndPaymentEnabled = false;
 
                     CurrentOrder.Seats = new();
+                    OnGoBackCommand();
                 }
             }
         }

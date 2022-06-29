@@ -628,7 +628,6 @@ namespace Next2.Services.Order
 
                         CurrentOrder = currentOrder;
                         CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
-
                         result.SetSuccess();
                     }
                 }
