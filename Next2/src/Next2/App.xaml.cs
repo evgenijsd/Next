@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using AutoMapper;
 using Next2.Enums;
 using Next2.Models;
 using Next2.Models.API.Commands;
