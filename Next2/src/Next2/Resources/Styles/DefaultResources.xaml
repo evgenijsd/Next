@@ -9,7 +9,11 @@
     x:Class="Next2.Resources.Styles.DefaultResources">
 
     <!--  TEXT SIZE  -->
-    
+
+    <!--  56px  -->
+    <x:Double x:Key="TSize_i0_7">42</x:Double>
+    <!--  48px  -->
+    <x:Double x:Key="TSize_i0_10">36</x:Double>
     <!--  32px  -->
     <x:Double x:Key="TSize_i3">28</x:Double>
     <!--  24px  -->

@@ -1,6 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--  MOBILE  -->
-<rg:PopupPage
+﻿<rg:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
@@ -19,7 +17,9 @@
     <rg:PopupPage.Resources>
 
         <Style TargetType="Label">
+
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
 
         </Style>
@@ -27,10 +27,10 @@
     </rg:PopupPage.Resources>
 
     <Frame
-        CornerRadius="8"
         Margin="24, 32"
-        HorizontalOptions="FillAndExpand"
         VerticalOptions="FillAndExpand"
+        HorizontalOptions="FillAndExpand"
+        CornerRadius="8"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
 
@@ -39,18 +39,18 @@
             <!--  header  -->
             <Label
                 Grid.Row="0"
-                VerticalOptions="Center"
-                HorizontalTextAlignment="Start"
                 Margin="24, 0, 0, 0"
+                HorizontalTextAlignment="Start"
+                VerticalOptions="Center"
                 FontFamily="Barlow-Bold"
                 FontSize="{DynamicResource TSize_i6}"
                 Text="{Binding HeaderText}" />
 
             <BoxView
                 Grid.Row="0"
-                HeightRequest="2"
-                VerticalOptions="EndAndExpand"
                 Margin="2, 0"
+                VerticalOptions="EndAndExpand"
+                HeightRequest="2"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
             <!--  body  -->
@@ -66,16 +66,16 @@
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
                         <CollectionView
-                            x:Name="collection"
                             Grid.Row="1"
+                            Margin="18"
+                            SelectionMode="Multiple"
+                            VerticalScrollBarVisibility="Never"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                             ItemsSource="{Binding Seats}"
                             SelectedItems="{Binding SelectedSeats}"
-                            SelectionMode="Multiple"
                             SelectionChangedCommand="{Binding SelectCommand}"
                             SelectionChangedCommandParameter="{Reference collection}"
-                            VerticalScrollBarVisibility="Never"
-                            Margin="18"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                            x:Name="collection">
 
                             <CollectionView.Effects>
                                 <effects:NoOverScrollEffect />
@@ -96,25 +96,27 @@
 
                                     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
                                         <Frame
-                                            x:Name="frame"
+                                            Padding="18"
+                                            HeightRequest="50"
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
                                             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             CornerRadius="8"
-                                            Padding="18"
-                                            HeightRequest="50">
+                                            x:Name="frame">
 
                                             <StackLayout Orientation="Horizontal">
                                                 <StackLayout
-                                                    HorizontalOptions="Start"
                                                     VerticalOptions="Center"
+                                                    HorizontalOptions="Start"
                                                     Spacing="6">
 
                                                     <Label Text="{Binding SeatNumber}">
 
                                                         <Label.FormattedText>
                                                             <FormattedString>
+
                                                                 <Span Text="Seat " />
                                                                 <Span Text="{Binding SeatNumber}" />
+
                                                             </FormattedString>
                                                         </Label.FormattedText>
 
@@ -124,8 +126,11 @@
 
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span Text="$ " />
+
+                                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                                <Span Text=" " />
                                                                 <Span Text="{Binding SelectedItem.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+
                                                             </FormattedString>
                                                         </Label.FormattedText>
 
@@ -134,23 +139,27 @@
                                                 </StackLayout>
 
                                                 <ffimageloading:CachedImage
-                                                    x:Name="checkBox"
-                                                    Source="ic_check_box_unhecked_24x24"
+                                                    VerticalOptions="Start"
                                                     HorizontalOptions="EndAndExpand"
-                                                    VerticalOptions="Start" />
+                                                    Source="ic_check_box_unhecked_24x24"
+                                                    x:Name="checkBox" />
 
                                             </StackLayout>
 
                                         </Frame>
 
                                         <VisualStateManager.VisualStateGroups>
+
                                             <VisualStateGroup Name="CommonStates">
 
                                                 <VisualState Name="Selected">
 
                                                     <VisualState.Setters>
+
                                                         <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+
                                                         <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
+
                                                     </VisualState.Setters>
 
                                                 </VisualState>
@@ -158,14 +167,19 @@
                                                 <VisualState Name="Normal">
 
                                                     <VisualState.Setters>
+
                                                         <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+
                                                         <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
+
                                                     </VisualState.Setters>
 
                                                 </VisualState>
 
                                             </VisualStateGroup>
+
                                         </VisualStateManager.VisualStateGroups>
+
                                     </StackLayout>
 
                                 </DataTemplate>
@@ -198,46 +212,46 @@
                                         FontFamily="Barlow-SemiBold" />
 
                                     <StackLayout
-                                        Spacing="12"
-                                        Orientation="Horizontal">
+                                        Orientation="Horizontal"
+                                        Spacing="12">
 
                                         <Frame
-                                            WidthRequest="139"
                                             HeightRequest="51"
+                                            WidthRequest="139"
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="25">
                                             <Label
-                                                Text="25 %"
-                                                FontSize="{DynamicResource TSize_i6}"
                                                 VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center" />
+                                                HorizontalTextAlignment="Center"
+                                                Text="25 %"
+                                                FontSize="{DynamicResource TSize_i6}" />
                                         </Frame>
 
                                         <Frame
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                            WidthRequest="139"
                                             HeightRequest="51"
+                                            WidthRequest="139"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="50">
                                             <Label
-                                                Text="50 %"
-                                                FontSize="{DynamicResource TSize_i6}"
                                                 VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center" />
+                                                HorizontalTextAlignment="Center"
+                                                Text="50 %"
+                                                FontSize="{DynamicResource TSize_i6}" />
                                         </Frame>
 
                                         <Frame
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                            WidthRequest="139"
                                             HeightRequest="51"
+                                            WidthRequest="139"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="75">
                                             <Label
-                                                Text="75 %"
-                                                FontSize="{DynamicResource TSize_i6}"
                                                 VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center" />
+                                                HorizontalTextAlignment="Center"
+                                                Text="75 %"
+                                                FontSize="{DynamicResource TSize_i6}" />
                                         </Frame>
 
                                     </StackLayout>
@@ -247,32 +261,32 @@
                                 <!--  stepper  -->
                                 <StackLayout
                                     Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    HorizontalOptions="CenterAndExpand"
                                     Padding="18, 0"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Orientation="Horizontal"
                                     Spacing="26">
 
                                     <ffimageloading:CachedImage
-                                        Source="ic_minus_primary_32x32.png"
                                         VerticalOptions="CenterAndExpand"
                                         HeightRequest="53"
                                         WidthRequest="53"
+                                        Source="ic_minus_primary_32x32.png"
                                         xct:TouchEffect.Command="{Binding DecrementCommand}" />
 
                                     <Label
-                                        Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
+                                        Margin="0, 0, 0, 8"
                                         HorizontalTextAlignment="Center"
                                         VerticalOptions="CenterAndExpand"
-                                        FontFamily="Barlow-Bold"
-                                        Margin="0, 0, 0, 8"
                                         WidthRequest="92"
-                                        FontSize="42" />
+                                        Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
+                                        FontFamily="Barlow-Bold"
+                                        FontSize="{DynamicResource TSize_i0_7}" />
 
                                     <ffimageloading:CachedImage
-                                        Source="ic_plus_primary_32x32.png"
                                         VerticalOptions="CenterAndExpand"
                                         HeightRequest="53"
                                         WidthRequest="53"
+                                        Source="ic_plus_primary_32x32.png"
                                         xct:TouchEffect.Command="{Binding IncrementCommand}" />
 
                                 </StackLayout>
@@ -280,34 +294,37 @@
                                 <!--  split total  -->
                                 <BoxView
                                     Grid.Row="2"
-                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
-                                    HeightRequest="1"
+                                    VerticalOptions="Start"
                                     HorizontalOptions="FillAndExpand"
-                                    VerticalOptions="Start" />
+                                    HeightRequest="1"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
                                 <StackLayout
                                     Grid.Row="2"
-                                    Orientation="Horizontal"
-                                    Padding="0, 18, 0, 0">
+                                    Padding="0, 18, 0, 0"
+                                    Orientation="Horizontal">
 
                                     <Label
-                                        HorizontalOptions="Start"
                                         VerticalOptions="Start"
+                                        HorizontalOptions="Start"
                                         Text="Split Total"
                                         FontFamily="Barlow-SemiBold"
                                         FontSize="{DynamicResource TSize_i6}" />
 
                                     <Label
-                                        HorizontalOptions="EndAndExpand"
                                         VerticalOptions="Start"
+                                        HorizontalOptions="EndAndExpand"
                                         TextColor="{DynamicResource IndicationColor_i1}"
                                         FontFamily="Barlow-SemiBold"
                                         FontSize="{DynamicResource TSize_i6}">
 
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="$ " />
+
+                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                <Span Text=" " />
                                                 <Span Text="{Binding SplitTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+
                                             </FormattedString>
                                         </Label.FormattedText>
 
@@ -323,14 +340,14 @@
 
                             <controls:NumericKeyboard
                                 Margin="18, 18"
-                                PlaceHolder="{xct:Translate SetValue}"
                                 VerticalOptions="Fill"
                                 HorizontalOptions="Fill"
+                                PlaceHolder="{xct:Translate SetValue}"
                                 IsTextRightToLeft="True"
                                 MaxValue="{Binding SelectedDish.TotalPrice}"
-                                Value="{Binding SplitValue, Mode=TwoWay}"
                                 ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
-                                BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}" />
+                                BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
+                                Value="{Binding SplitValue, Mode=TwoWay}" />
 
                         </sc:StateCondition>
 
@@ -340,34 +357,32 @@
 
             </sc:StateContainer>
 
-
-
             <!--  Buttons  -->
             <BoxView
                 Grid.Row="2"
-                HeightRequest="2"
                 VerticalOptions="StartAndExpand"
+                HeightRequest="2"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
 
             <StackLayout
-                Orientation="Horizontal"
-                Spacing="12"
+                Grid.Row="2"
                 Padding="12"
-                Grid.Row="2">
+                Orientation="Horizontal"
+                Spacing="12">
 
                 <Frame
-                    BorderColor="{DynamicResource AppColor_i1}"
-                    Padding="0"
-                    WidthRequest="216"
                     VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    WidthRequest="216"
+                    BorderColor="{DynamicResource AppColor_i1}"
                     CornerRadius="5"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                    xct:TouchEffect.Command="{Binding CancelCommand}"
-                    HorizontalOptions="FillAndExpand">
+                    xct:TouchEffect.Command="{Binding CancelCommand}">
 
                     <Frame.Triggers>
-                        
+
                         <DataTrigger TargetType="Frame" Binding="{Binding Step}" Value="Second">
+
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding SkipCommand}" />
 
                         </DataTrigger>
@@ -375,28 +390,27 @@
                     </Frame.Triggers>
 
                     <Label
-                        Text="{xct:Translate Cancel}"
-                        FontSize="{DynamicResource TSize_i4_5}"
                         VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Center" />
+                        HorizontalTextAlignment="Center"
+                        Text="{xct:Translate Cancel}"
+                        FontSize="{DynamicResource TSize_i4_5}" />
 
                 </Frame>
 
                 <Frame
-                    Padding="0"
                     VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
                     WidthRequest="216"
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     Opacity="{DynamicResource OpacityWhenDisabled_i1}"
                     CornerRadius="5"
-                    xct:TouchEffect.Command="{Binding NextCommand}"
-                    HorizontalOptions="FillAndExpand">
+                    xct:TouchEffect.Command="{Binding NextCommand}">
 
                     <StackLayout
-                        Orientation="Horizontal"
-                        HorizontalOptions="Center"
                         VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
                         Spacing="16">
 
                         <Label
@@ -405,17 +419,21 @@
 
                             <Label.Triggers>
                                 <DataTrigger TargetType="Label" Binding="{Binding Step}" Value="Second">
+
                                     <Setter Property="Text" Value="{xct:Translate Split}" />
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
 
                                 </DataTrigger>
 
                                 <DataTrigger TargetType="Label" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
                                     <Setter Property="Text" Value="{xct:Translate Split}" />
-                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
+
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
 
                                 </DataTrigger>
-                                
+
                             </Label.Triggers>
 
                         </Label>
@@ -424,11 +442,13 @@
 
                             <Image.Triggers>
                                 <DataTrigger TargetType="Image" Binding="{Binding Step}" Value="Second">
+
                                     <Setter Property="IsVisible" Value="false" />
 
                                 </DataTrigger>
 
                                 <DataTrigger TargetType="Image" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
                                     <Setter Property="IsVisible" Value="false" />
 
                                 </DataTrigger>
@@ -441,20 +461,27 @@
 
                     <Frame.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
+
                             <Setter Property="Opacity" Value="1" />
 
                         </DataTrigger>
 
                         <DataTrigger TargetType="Frame" Binding="{Binding Step}" Value="Second">
+
                             <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+
                             <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
 
                         </DataTrigger>
 
                         <DataTrigger TargetType="Frame" Binding="{Binding Condition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
                             <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+
                             <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
 
                         </DataTrigger>
