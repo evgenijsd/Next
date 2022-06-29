@@ -7,7 +7,7 @@ using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Order;
 using Next2.Services.Rest;
-using Next2.Services.SettingsService;
+using Next2.Services.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

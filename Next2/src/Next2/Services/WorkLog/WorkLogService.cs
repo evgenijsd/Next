@@ -7,14 +7,14 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Next2.Services.Log
+namespace Next2.Services.WorkLog
 {
-    public class LogService : ILogService
+    public class WorkLogService : IWorkLogService
     {
         private readonly IMockService _mockService;
         private readonly IAuthenticationService _authenticationService;
 
-        public LogService(
+        public WorkLogService(
             IMockService mockService,
             IAuthenticationService authenticationService)
         {

@@ -10,7 +10,7 @@ using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
-using Next2.Services.UserService;
+using Next2.Services.User;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;

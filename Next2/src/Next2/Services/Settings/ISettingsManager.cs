@@ -1,6 +1,6 @@
 using System;
 
-namespace Next2.Services.SettingsService
+namespace Next2.Services.Settings
 {
     public interface ISettingsManager
     {

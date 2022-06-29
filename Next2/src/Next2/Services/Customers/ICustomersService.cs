@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Next2.Services.CustomersService
+namespace Next2.Services.Customers
 {
     public interface ICustomersService
     {

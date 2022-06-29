@@ -2,7 +2,7 @@
 using System;
 using Xamarin.Essentials;
 
-namespace Next2.Services.SettingsService
+namespace Next2.Services.Settings
 {
     public class SettingsManager : ISettingsManager
     {

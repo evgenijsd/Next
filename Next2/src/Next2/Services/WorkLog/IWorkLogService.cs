@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Next2.Services.Log
+namespace Next2.Services.WorkLog
 {
-    public interface ILogService
+    public interface IWorkLogService
     {
         Task<AOResult<EEmployeeRegisterState>> InsertRecordAsync(WorkLogRecordModel record);
     }

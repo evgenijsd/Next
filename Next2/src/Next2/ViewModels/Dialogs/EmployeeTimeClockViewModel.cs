@@ -1,6 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Models;
-using Next2.Services.Log;
+using Next2.Services.WorkLog;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -13,9 +13,9 @@ namespace Next2.ViewModels.Dialogs
 {
     public class EmployeeTimeClockViewModel : BindableBase
     {
-        private readonly ILogService _logServise;
+        private readonly IWorkLogService _logServise;
         public EmployeeTimeClockViewModel(
-            ILogService logService,
+            IWorkLogService logService,
             Action<IDialogParameters> requestClose)
         {
             _logServise = logService;
