@@ -8,7 +8,6 @@ using Next2.Services.Rewards;
 using Next2.Views.Mobile;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;

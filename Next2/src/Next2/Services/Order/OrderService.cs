@@ -490,6 +490,24 @@ namespace Next2.Services.Order
             return result;
         }
 
+        public async Task<AOResult<Guid>> UpdateCurrentOrderAsync()
+        {
+            var result = new AOResult<Guid>();
+
+            try
+            {
+                var orderForUpdate = CurrentOrder.ToUpdateOrderCommand();
+
+                result = await UpdateOrderAsync(orderForUpdate);
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(UpdateCurrentOrderAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region -- Private helpers --

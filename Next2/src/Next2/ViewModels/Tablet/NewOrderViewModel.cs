@@ -244,8 +244,7 @@ namespace Next2.ViewModels.Tablet
 
         private async Task<bool> UpdateCurrentOrder()
         {
-            var updateOrderCommand = _orderService.CurrentOrder.ToUpdateOrderCommand();
-            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            var updateOrderResult = await _orderService.UpdateCurrentOrderAsync();
 
             return updateOrderResult.IsSuccess;
         }
