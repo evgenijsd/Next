@@ -203,11 +203,13 @@ namespace Next2.Controls
 
                 if (SelectedStartDate is not null)
                 {
-                    var startDate = SelectedStartDate.Value;
+                    var selectedStartDate = SelectedStartDate.Value;
+                    var selectedYear = selectedStartDate.Year;
+                    var selectedMonth = selectedStartDate.Month;
 
-                    if (startDate.Year > Year
-                        || (startDate.Year == Year && startDate.Month > Month)
-                        || (startDate.Year == Year && startDate.Month == Month && startDate.Day > day))
+                    if (selectedYear > Year
+                        || (selectedYear == Year && selectedMonth > Month)
+                        || (selectedYear == Year && selectedMonth == Month && selectedStartDate.Day > day))
                     {
                         state = EDayState.NoDayMonth;
                     }
