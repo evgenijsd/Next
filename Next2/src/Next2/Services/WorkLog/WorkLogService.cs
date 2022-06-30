@@ -108,7 +108,10 @@ namespace Next2.Services.WorkLog
 
                 if (records is not null && records.Count() > 0)
                 {
-                    var lastRecord = records.Where(record => record.EmployeeId == employeeId).OrderBy(record => record.Id).Last();
+                    var lastRecord = records
+                        .Where(record => record.EmployeeId == employeeId)
+                        .OrderBy(record => record.Id)
+                        .Last();
 
                     if (lastRecord is not null)
                     {
