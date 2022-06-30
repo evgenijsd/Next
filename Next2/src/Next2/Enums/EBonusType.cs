@@ -3,7 +3,7 @@
     public enum EBonusType
     {
         None,
-        Coupone,
+        Coupon,
         Discount,
     }
 }

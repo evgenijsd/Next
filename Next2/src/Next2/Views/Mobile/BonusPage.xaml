@@ -84,7 +84,7 @@
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding TapSelectCollapceCommand}"
-                                        CommandParameter="{x:Static enum:EBonusType.Coupone}" />
+                                        CommandParameter="{x:Static enum:EBonusType.Coupon}" />
                                     
                                 </StackLayout.GestureRecognizers>
 

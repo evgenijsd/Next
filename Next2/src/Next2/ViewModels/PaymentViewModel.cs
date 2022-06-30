@@ -45,7 +45,7 @@ namespace Next2.ViewModels
             {
                 Order.BonusType = _orderService.CurrentOrder.Coupon is null
                     ? EBonusType.Discount
-                    : EBonusType.Coupone;
+                    : EBonusType.Coupon;
 
                 Order.Bonus = _orderService.CurrentOrder.Coupon is null
                     ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
@@ -142,15 +142,6 @@ namespace Next2.ViewModels
                 {
                     _orderService.CurrentOrder.Customer.IsUpdatedCustomer = false;
 
-                    //Order.BonusType = _orderService.CurrentOrder.Coupon is null
-                    //    ? EBonusType.Discount
-                    //    : EBonusType.Coupone;
-
-                    //Order.Customer = _orderService.CurrentOrder.Customer;
-
-                    //Order.Bonus = _orderService.CurrentOrder.Coupon is null
-                    //    ? _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Discount)
-                    //    : _mapper.Map<BonusBindableModel>(_orderService.CurrentOrder.Coupon);
                     Order.Subtotal = _orderService.CurrentOrder.SubTotalPrice == null
                         ? 0
                         : (decimal)_orderService.CurrentOrder.SubTotalPrice;

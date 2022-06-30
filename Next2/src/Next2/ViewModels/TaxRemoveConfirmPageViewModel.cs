@@ -103,8 +103,9 @@ namespace Next2.ViewModels
 
             if (IsAdminAccount)
             {
-                _eventAggregator.GetEvent<TaxRemovedEvent>().Publish(!IsAdminAccount);
-                await _navigationService.GoBackAsync();
+                var parameters = new NavigationParameters { { Constants.Navigations.TAX_OFF, IsAdminAccount } };
+
+                await _navigationService.GoBackAsync(parameters);
             }
         }
 
