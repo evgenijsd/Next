@@ -672,11 +672,7 @@ namespace Next2.ViewModels
 
             if (isUserAdmin)
             {
-                IsOrderWithTax = false;
-                CurrentOrder.TaxCoefficient = 0;
-                CurrentOrder.UpdateTotalSum();
-
-                await _orderService.UpdateCurrentOrderAsync();
+                RemoveTax(false);
             }
             else
             {
@@ -686,19 +682,25 @@ namespace Next2.ViewModels
             }
         }
 
-        private void OnTaxEvent(bool isOrderWithTax)
+        private void RemoveTax(bool isOrderWithTax)
         {
-            _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
-
             IsOrderWithTax = isOrderWithTax;
 
             if (!IsOrderWithTax)
             {
                 CurrentOrder.TaxCoefficient = 0;
                 CurrentOrder.UpdateTotalSum();
+                _bonusesService.СalculationBonus(CurrentOrder);
 
                 _orderService.UpdateCurrentOrderAsync().Await();
             }
+        }
+
+        private void OnTaxEvent(bool isOrderWithTax)
+        {
+            _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
+
+            RemoveTax(isOrderWithTax);
         }
 
         private async Task SaveCurrentOrderAsync(bool isTab)
