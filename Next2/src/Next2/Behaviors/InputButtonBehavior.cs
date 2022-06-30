@@ -14,8 +14,11 @@ namespace Next2.Behaviors
         {
             base.OnAttachedTo(inputButton);
 
-            _inputButton = inputButton;
-            _inputButton.PropertyChanged += InputButtonPropertyChanged;
+            if (inputButton is not null)
+            {
+                _inputButton = inputButton;
+                _inputButton.PropertyChanged += InputButtonPropertyChanged;
+            }
         }
 
         protected override void OnDetachingFrom(InputButton inputButton)
@@ -57,6 +60,5 @@ namespace Next2.Behaviors
         }
 
         #endregion
-
     }
 }

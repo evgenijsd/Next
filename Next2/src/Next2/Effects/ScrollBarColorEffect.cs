@@ -9,6 +9,8 @@ namespace Next2.Effects
         {
         }
 
+        #region -- Public properties --
+
         public int ScrollBarThumbWidth { get; set; }
 
         public int ScrollBarCornerRadius { get; set; }
@@ -16,5 +18,7 @@ namespace Next2.Effects
         public Color ScrollBarThumbColor { get; set; }
 
         public Color ScrollBarTrackColor { get; set; }
+
+        #endregion
     }
 }

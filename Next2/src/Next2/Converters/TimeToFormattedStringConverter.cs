@@ -10,9 +10,9 @@ namespace Next2.Converters
         {
             string result = string.Empty;
 
-            if (value != null)
+            if (value is not null)
             {
-                if (parameter == null)
+                if (parameter is null)
                 {
                     parameter = Constants.Formats.LONG_DATE_FORMAT;
                 }

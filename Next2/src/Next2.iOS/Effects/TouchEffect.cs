@@ -11,8 +11,10 @@ namespace Next2.iOS.Effects
 {
     public class TouchEffect : PlatformEffect
     {
-        UIView view;
-        TouchRecognizer touchRecognizer;
+        private UIView view;
+        private TouchRecognizer touchRecognizer;
+
+        #region -- Overrides --
 
         protected override void OnAttached()
         {
@@ -41,5 +43,7 @@ namespace Next2.iOS.Effects
                 view.RemoveGestureRecognizer(touchRecognizer);
             }
         }
+
+        #endregion
     }
 }

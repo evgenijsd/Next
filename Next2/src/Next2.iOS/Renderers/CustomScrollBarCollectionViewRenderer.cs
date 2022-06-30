@@ -20,6 +20,8 @@ namespace Next2.iOS.Renderers
         protected UIScrollView _view;
         protected UIColor _scrollBarThumbColor;
 
+        #region -- Overrides --
+
         protected override void OnElementChanged(ElementChangedEventArgs<GroupableItemsView> e)
         {
             base.OnElementChanged(e);
@@ -42,6 +44,10 @@ namespace Next2.iOS.Renderers
             }
         }
 
+        #endregion
+
+        #region -- Private helpers --
+
         private void Container_Scrolled(object sender, System.EventArgs e)
         {
             var subViews = _view.Subviews.ToList();
@@ -52,5 +58,7 @@ namespace Next2.iOS.Renderers
                 verticalIndicator.BackgroundColor = _scrollBarThumbColor;
             }
         }
+
+        #endregion
     }
 }

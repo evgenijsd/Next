@@ -1,6 +1,4 @@
-﻿using Next2.Interfaces;
-using Prism.Mvvm;
-using System;
+﻿using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 

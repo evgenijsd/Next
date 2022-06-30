@@ -10,6 +10,8 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
+        #region -- Public properties --
+
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             propertyName: nameof(CornerRadius),
             returnType: typeof(float),
@@ -121,5 +123,7 @@ namespace Next2.Controls
             get => (ICommand)GetValue(CommandClearProperty);
             set => SetValue(CommandClearProperty, value);
         }
+
+        #endregion
     }
 }

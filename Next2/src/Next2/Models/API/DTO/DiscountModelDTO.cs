@@ -1,7 +1,4 @@
-﻿using Next2.Interfaces;
-using System;
-
-namespace Next2.Models.API.DTO
+﻿namespace Next2.Models.API.DTO
 {
     public class DiscountModelDTO : SimpleDiscountModelDTO
     {
