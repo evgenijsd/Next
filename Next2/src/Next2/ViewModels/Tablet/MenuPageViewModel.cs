@@ -124,6 +124,11 @@ namespace Next2.ViewModels.Tablet
                     CustomersViewModel.SetSearchQuery(searchCustomer);
                 }
 
+                if (parameters.ContainsKey(Constants.Navigations.TAX_OFF))
+                {
+                    NewOrderViewModel.OrderRegistrationViewModel.RemoveTax();
+                }
+
                 if (parameters.TryGetValue(Constants.Navigations.BONUS, out FullOrderBindableModel currentOrder))
                 {
                     await NewOrderViewModel.OrderRegistrationViewModel.UpdateOrderWithBonusAsync(currentOrder);
