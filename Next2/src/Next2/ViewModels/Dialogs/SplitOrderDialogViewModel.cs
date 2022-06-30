@@ -212,7 +212,7 @@ namespace Next2.ViewModels.Dialogs
                 {
                     foreach (var seat in selectedSeats)
                     {
-                        seat.SelectedItem.TotalPrice = price;
+                        seat.SelectedItem.TotalPrice = Math.Round(price, 2);
                     }
 
                     RaisePropertyChanged(nameof(SplitTotal));
@@ -233,7 +233,7 @@ namespace Next2.ViewModels.Dialogs
                 {
                     foreach (var seat in selectedSeats)
                     {
-                        seat.SelectedItem.TotalPrice = SplitValue;
+                        seat.SelectedItem.TotalPrice = Math.Round(SplitValue, 2);
                     }
 
                     RaisePropertyChanged(nameof(SplitTotal));
