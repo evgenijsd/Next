@@ -1,7 +1,4 @@
 ﻿using Next2.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace Next2.Behaviors
@@ -17,8 +14,11 @@ namespace Next2.Behaviors
         {
             base.OnAttachedTo(bindable);
 
-            _collection = (CustomCollectionView)bindable;
-            _collection.Scrolled += OnCollectionScrolled;
+            if (bindable is CustomCollectionView collection)
+            {
+                _collection = collection;
+                _collection.Scrolled += OnCollectionScrolled;
+            }
         }
 
         protected override void OnDetachingFrom(View bindable)

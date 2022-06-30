@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -109,7 +108,9 @@ namespace Next2.Controls
 
         private async Task StartAnimationAsync()
         {
-            var x = IsToggled ? runningFrame.X + 17 : runningFrame.X;
+            var x = IsToggled
+                ? runningFrame.X + 17
+                : runningFrame.X;
 
             await runningFrame.TranslateTo(x, 0, 100, Easing.CubicInOut);
         }

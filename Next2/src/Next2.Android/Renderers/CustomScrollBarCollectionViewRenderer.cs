@@ -41,7 +41,7 @@ namespace Next2.Droid.Renderers
 
         #endregion
 
-        #region -- Private helpers --
+        #region -- Protected helpers --
 
         protected void ConfigureScrollBar()
         {

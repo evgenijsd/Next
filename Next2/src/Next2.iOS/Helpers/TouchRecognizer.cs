@@ -12,15 +12,15 @@ namespace Next2.iOS.Helpers
 {
     public class TouchRecognizer : UIGestureRecognizer
     {
-        Element element;        // Forms element for firing events
-        UIView view;            // iOS UIView 
-        Next2.Effects.TouchEffect touchEffect;
-        bool capture;
+        private Element element;
+        private UIView view;
+        private Next2.Effects.TouchEffect touchEffect;
+        private bool capture;
 
-        static Dictionary<UIView, TouchRecognizer> viewDictionary =
+        private static Dictionary<UIView, TouchRecognizer> viewDictionary =
             new Dictionary<UIView, TouchRecognizer>();
 
-        static Dictionary<long, TouchRecognizer> idToTouchDictionary =
+        private static Dictionary<long, TouchRecognizer> idToTouchDictionary =
             new Dictionary<long, TouchRecognizer>();
 
         public TouchRecognizer(Element element, UIView view, Next2.Effects.TouchEffect touchEffect)
@@ -36,6 +36,8 @@ namespace Next2.iOS.Helpers
         {
             viewDictionary.Remove(view);
         }
+
+        #region -- Overrides --
 
         // touches = touches of interest; evt = all touches of type UITouch
         public override void TouchesBegan(NSSet touches, UIEvent evt)
@@ -126,7 +128,11 @@ namespace Next2.iOS.Helpers
             }
         }
 
-        void CheckForBoundaryHop(UITouch touch)
+        #endregion
+
+        #region -- Private helpers --
+
+        private void CheckForBoundaryHop(UITouch touch)
         {
             long id = touch.Handle.ToInt64();
 
@@ -156,7 +162,7 @@ namespace Next2.iOS.Helpers
             }
         }
 
-        void FireEvent(TouchRecognizer recognizer, long id, ETouchActionType actionType, UITouch touch, bool isInContact)
+        private void FireEvent(TouchRecognizer recognizer, long id, ETouchActionType actionType, UITouch touch, bool isInContact)
         {
             // Convert touch location to Xamarin.Forms Point value
             CGPoint cgPoint = touch.LocationInView(recognizer.View);
@@ -169,5 +175,7 @@ namespace Next2.iOS.Helpers
             onTouchAction(recognizer.element,
                 new TouchActionEventArgs(id, actionType, xfPoint, isInContact));
         }
+
+        #endregion
     }
 }

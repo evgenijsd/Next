@@ -1,12 +1,5 @@
-﻿using Next2.Resources.Styles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Next2.Controls
 {
@@ -16,6 +9,8 @@ namespace Next2.Controls
         {
             InitializeComponent();
         }
+
+        #region -- Public properties --
 
         public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(
             propertyName: nameof(CornerRadius),
@@ -92,5 +87,7 @@ namespace Next2.Controls
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
+
+        #endregion
     }
 }

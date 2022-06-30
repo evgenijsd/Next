@@ -48,20 +48,26 @@ namespace Next2.Behaviors
                     }
                     else
                     {
-                        var wordsWithIncorrectRegister = Regex.Matches(e.NewTextValue, Constants.Validators.WORD, RegexOptions.IgnoreCase)
-                            .Where(x => !Regex.IsMatch(x.ToString(), Constants.Validators.PASCAL_CASE));
-
-                        if (wordsWithIncorrectRegister.Any())
+                        try
                         {
-                            string nameWithCorrectedCase = e.NewTextValue;
+                            var wordsWithIncorrectRegister = Regex.Matches(e.NewTextValue, Constants.Validators.WORD, RegexOptions.IgnoreCase)
+                                .Where(x => !Regex.IsMatch(x.ToString(), Constants.Validators.PASCAL_CASE));
 
-                            foreach (var word in wordsWithIncorrectRegister)
+                            if (wordsWithIncorrectRegister.Any())
                             {
-                                string wordToReplace = $"{word}";
-                                nameWithCorrectedCase = Regex.Replace(nameWithCorrectedCase, wordToReplace, ToPascalCase(wordToReplace));
-                            }
+                                string nameWithCorrectedCase = e.NewTextValue;
 
-                            entry.Text = nameWithCorrectedCase;
+                                foreach (var word in wordsWithIncorrectRegister)
+                                {
+                                    string wordToReplace = $"{word}";
+                                    nameWithCorrectedCase = Regex.Replace(nameWithCorrectedCase, wordToReplace, ToPascalCase(wordToReplace));
+                                }
+
+                                entry.Text = nameWithCorrectedCase;
+                            }
+                        }
+                        catch (Exception)
+                        {
                         }
                     }
                 }

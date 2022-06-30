@@ -682,7 +682,7 @@ namespace Next2.ViewModels
             {
                 _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-                await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
+                await _navigationService.NavigateAsync(nameof(TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
             }
         }
 

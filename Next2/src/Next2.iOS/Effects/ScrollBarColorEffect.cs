@@ -12,11 +12,13 @@ namespace Next2.iOS.Effects
 {
     public class ScrollBarColorEffect : PlatformEffect
     {
-        UIScrollView _view;
+        private UIScrollView _view;
 
-        int _scrollBarCornerRadius = 9;
+        private int _scrollBarCornerRadius = 9;
 
-        UIColor _scrollBarThumbColor = Color.FromHex("#F45E49").ToUIColor();
+        private UIColor _scrollBarThumbColor = Color.FromHex("#F45E49").ToUIColor();
+
+        #region -- Overrides --
 
         protected override void OnAttached()
         {
@@ -28,7 +30,11 @@ namespace Next2.iOS.Effects
             Uninitialize();
         }
 
-        void Initialize()
+        #endregion
+
+        #region -- Private helpers --
+
+        private void Initialize()
         {
             try
             {
@@ -47,7 +53,7 @@ namespace Next2.iOS.Effects
             }
         }
 
-        void Uninitialize()
+        private void Uninitialize()
         {
             try
             {
@@ -75,5 +81,7 @@ namespace Next2.iOS.Effects
             {
             }
         }
+
+        #endregion
     }
 }

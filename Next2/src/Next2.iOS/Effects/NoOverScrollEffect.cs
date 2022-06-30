@@ -16,7 +16,7 @@ namespace Next2.iOS.Effects
 
         protected override void OnDetached()
         {
-        } 
+        }
 
         #endregion
     }

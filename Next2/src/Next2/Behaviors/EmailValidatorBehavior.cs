@@ -29,7 +29,13 @@ namespace Next2.Behaviors
         {
             if (sender is NoActionMenuEntry entry && e.NewTextValue is not null)
             {
-                entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.EMAIL, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                try
+                {
+                    entry.IsValid = Regex.IsMatch(e.NewTextValue, Constants.Validators.EMAIL, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 

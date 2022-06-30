@@ -1,5 +1,4 @@
 using Next2.Enums;
-using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -219,6 +218,8 @@ namespace Next2.Controls
 
         #endregion
 
+        #region -- Overrides --
+
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -273,6 +274,8 @@ namespace Next2.Controls
 
             base.OnPropertyChanging(propertyName);
         }
+
+        #endregion
 
         #region -- Private helpers --
 
