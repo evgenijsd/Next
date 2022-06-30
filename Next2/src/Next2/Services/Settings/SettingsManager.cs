@@ -1,5 +1,4 @@
-﻿using Next2.Interfaces;
-using System;
+﻿using System;
 using Xamarin.Essentials;
 
 namespace Next2.Services.Settings

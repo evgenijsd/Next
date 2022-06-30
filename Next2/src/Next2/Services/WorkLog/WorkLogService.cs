@@ -1,6 +1,7 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.ProcessHelpers;
 using Next2.Models;
+using Next2.Resources.Strings;
 using Next2.Services.Authentication;
 using Next2.Services.Mock;
 using System;
@@ -24,82 +25,103 @@ namespace Next2.Services.WorkLog
 
         #region -- IWorkLogService implementation  --
 
-        public async Task<AOResult<EEmployeeRegisterState>> InsertRecordAsync(WorkLogRecordModel record)
+        public async Task<AOResult<EEmployeeRegisterState>> LogWorkTimeAsync(WorkLogRecordModel record)
         {
             var result = new AOResult<EEmployeeRegisterState>();
 
-            bool isResultSuccess = false;
-
-            var employeeId = record.EmployeeId.ToString();
-            var resultState = EEmployeeRegisterState.Undefined;
-
-            var resultOfGettingUser = await _authenticationService.GetUserById(employeeId);
-
-            if (resultOfGettingUser.IsSuccess)
+            try
             {
-                try
+                var employeeId = record.EmployeeId.ToString();
+
+                var resultOfGettingUser = await _authenticationService.GetUserById(employeeId);
+
+                if (resultOfGettingUser.IsSuccess)
                 {
-                    var records = await _mockService.GetAllAsync<WorkLogRecordModel>();
+                    var resultOfGettingLastRecord = await GetLastRecordAsync(record.EmployeeId);
 
-                    if (records is null || records.Count() == 0)
+                    if (resultOfGettingLastRecord.IsSuccess)
                     {
-                        record.State = EEmployeeRegisterState.CheckedIn;
-                        int id = await _mockService.AddAsync(record);
+                        var lastRecord = resultOfGettingLastRecord.Result;
 
-                        if (id > 0)
+                        if (lastRecord.State == EEmployeeRegisterState.CheckedIn)
                         {
-                            isResultSuccess = true;
-                            resultState = record.State;
+                            record.State = EEmployeeRegisterState.CheckedOut;
+                        }
+                        else
+                        {
+                            record.State = EEmployeeRegisterState.CheckedIn;
                         }
                     }
                     else
                     {
-                        var lastRecord = records.Where(y => y.EmployeeId == record.EmployeeId).OrderBy(x => x.Id).LastOrDefault();
+                        record.State = EEmployeeRegisterState.CheckedIn;
+                    }
 
-                        if (lastRecord is null)
-                        {
-                            record.State = EEmployeeRegisterState.CheckedIn;
-                            var id = await _mockService.AddAsync(record);
+                    var resultOfInsertingRecord = await InsertRecordAsync(record);
 
-                            if (id > 0)
-                            {
-                                isResultSuccess = true;
-                                resultState = record.State;
-                            }
-                        }
-                        else if (lastRecord.State == EEmployeeRegisterState.CheckedIn)
-                        {
-                            record.State = EEmployeeRegisterState.CheckedOut;
-                            var id = await _mockService.AddAsync(record);
-
-                            if (id > 0)
-                            {
-                                isResultSuccess = true;
-                                resultState = record.State;
-                            }
-                        }
-                        else if (lastRecord.State == EEmployeeRegisterState.CheckedOut)
-                        {
-                            record.State = EEmployeeRegisterState.CheckedIn;
-                            var id = await _mockService.AddAsync(record);
-
-                            if (id > 0)
-                            {
-                                isResultSuccess = true;
-                                resultState = record.State;
-                            }
-                        }
+                    if (resultOfInsertingRecord.IsSuccess)
+                    {
+                        result.SetSuccess(record.State);
                     }
                 }
-                catch (Exception ex)
-                {
-                    result.SetError($"{nameof(InsertRecordAsync)}: exception", "Error from LogService InsertRecord", ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(LogWorkTimeAsync)}: exception", Strings.SomeIssues, ex);
             }
 
-            if (isResultSuccess)
+            return result;
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private async Task<AOResult<int>> InsertRecordAsync(WorkLogRecordModel record)
+        {
+            var result = new AOResult<int>();
+
+            try
             {
-                result.SetSuccess(resultState);
+                var id = await _mockService.AddAsync(record);
+
+                if (id > 0)
+                {
+                    result.SetSuccess(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(InsertRecordAsync)}: exception", Strings.SomeIssues, ex);
+            }
+
+            return result;
+        }
+
+        private async Task<AOResult<WorkLogRecordModel>> GetLastRecordAsync(int employeeId)
+        {
+            var result = new AOResult<WorkLogRecordModel>();
+
+            try
+            {
+                var records = await _mockService.GetAllAsync<WorkLogRecordModel>();
+
+                if (records is not null && records.Count() > 0)
+                {
+                    var lastRecord = records
+                        .Where(record => record.EmployeeId == employeeId)
+                        .OrderBy(record => record.Id)
+                        .Last();
+
+                    if (lastRecord is not null)
+                    {
+                        result.SetSuccess(lastRecord);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.SetError($"{nameof(GetLastRecordAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

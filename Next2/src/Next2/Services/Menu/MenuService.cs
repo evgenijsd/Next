@@ -2,7 +2,6 @@
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
-using Next2.Models.Bindables;
 using Next2.Resources.Strings;
 using Next2.Services.Mock;
 using Next2.Services.Order;
@@ -71,42 +70,6 @@ namespace Next2.Services.Menu
                 if (resultGettingDishes.Success)
                 {
                     result.SetSuccess(resultGettingDishes.Value.Dishes);
-
-                    if (_orderService.CurrentOrder.Discount is not null || _orderService.CurrentOrder.Coupon is not null)
-                    {
-                        decimal bonusPercentage = 0;
-
-                        bonusPercentage = _orderService.CurrentOrder.Coupon is not null
-                            ? _orderService.CurrentOrder.Coupon.DiscountPercentage
-                            : _orderService.CurrentOrder.Discount.DiscountPercentage;
-
-                        decimal percentage = bonusPercentage / Convert.ToDecimal(100);
-
-                        var dishes = resultGettingDishes.Value.Dishes;
-
-                        if (_orderService.CurrentOrder.Coupon is not null)
-                        {
-                            var couponDishes = _orderService.CurrentOrder.Coupon.Dishes;
-
-                            if (couponDishes is not null)
-                            {
-                                foreach (var dish in dishes)
-                                {
-                                    if (couponDishes.Any(x => x.Id == dish.Id))
-                                    {
-                                        dish.OriginalPrice -= dish.OriginalPrice * percentage;
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (var dish in dishes)
-                            {
-                                dish.OriginalPrice -= dish.OriginalPrice * percentage;
-                            }
-                        }
-                    }
                 }
             }
             catch (Exception ex)
