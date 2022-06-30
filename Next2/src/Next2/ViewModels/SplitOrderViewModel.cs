@@ -277,6 +277,8 @@ namespace Next2.ViewModels
 
         private Task RemoveNullPriceDishes()
         {
+            bool isSelectedDishRemoved = false;
+
             foreach (var seat in Seats)
             {
                 List<DishBindableModel>? selectedDishes = new(seat.SelectedDishes);
@@ -286,8 +288,15 @@ namespace Next2.ViewModels
                     if (dish.TotalPrice == 0)
                     {
                         seat.SelectedDishes.Remove(dish);
+
+                        isSelectedDishRemoved = dish == SelectedDish;
                     }
                 }
+            }
+
+            if (isSelectedDishRemoved)
+            {
+                SelectFirstDish();
             }
 
             return Task.CompletedTask;
