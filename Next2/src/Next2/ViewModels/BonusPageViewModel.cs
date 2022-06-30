@@ -149,7 +149,7 @@ namespace Next2.ViewModels
 
             if (dishes.Any())
             {
-                var dishesIds = dishes.Select(x => x.Id);
+                var dishesIds = dishes.Select(x => x.DishId);
 
                 var couponResult = await _bonusesService.GetCouponsAsync(x => x.IsActive && x.Dishes.Select(x => x.Id).Intersect(dishesIds).Any());
 
