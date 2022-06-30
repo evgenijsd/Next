@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using System;
-using Xamarin.Forms;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
-using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace Next2.Controls.Templates
 {

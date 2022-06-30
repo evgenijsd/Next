@@ -16,8 +16,11 @@ namespace Next2.Behaviors
         {
             base.OnAttachedTo(bindable);
 
-            _collection = (CustomCollectionView)bindable;
-            _collection.SelectionChanged += OnCollectionSelectionChanged;
+            if (bindable is CustomCollectionView collection)
+            {
+                _collection = collection;
+                _collection.SelectionChanged += OnCollectionSelectionChanged;
+            }
         }
 
         protected override void OnDetachingFrom(View bindable)

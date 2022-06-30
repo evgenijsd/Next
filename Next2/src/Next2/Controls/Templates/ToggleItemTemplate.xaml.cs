@@ -1,8 +1,5 @@
 ﻿using Next2.Interfaces;
-using Next2.Models;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Next2.Controls.Templates

@@ -14,6 +14,8 @@ namespace Next2.Effects
             IsInContact = isInContact;
         }
 
+        #region -- Public properties --
+
         public long Id { get; private set; }
 
         public ETouchActionType Type { get; private set; }
@@ -21,5 +23,7 @@ namespace Next2.Effects
         public Point Location { get; private set; }
 
         public bool IsInContact { get; private set; }
+
+        #endregion
     }
 }
