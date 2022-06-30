@@ -24,7 +24,7 @@ namespace Next2.Services.Membership
             _restService = restService;
         }
 
-         #region -- IMembership implementation --
+         #region -- IMembershipService implementation --
 
         public async Task<AOResult<IEnumerable<MembershipModelDTO>>> GetAllMembersAsync(Func<MembershipModelDTO, bool>? condition = null)
         {
@@ -41,10 +41,6 @@ namespace Next2.Services.Membership
                     result.SetSuccess(condition == null
                         ? members
                         : members.Where(condition));
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)
@@ -89,10 +85,6 @@ namespace Next2.Services.Membership
                 if (resultUpdate.Success)
                 {
                     result.SetSuccess();
-                }
-                else
-                {
-                    result.SetFailure();
                 }
             }
             catch (Exception ex)

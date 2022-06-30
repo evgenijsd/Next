@@ -3,6 +3,7 @@
     public static class Constants
     {
         public const string DEFAULT_CULTURE = "en-US";
+        public const string ROLE_ADMIN = "Admin";
 
         public static class Formats
         {
@@ -25,15 +26,6 @@
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
-#if RELEASE
-        public const string BASE_URL = "dfdfdffd";
-#elif STAGE
-            public const string BASE_URL = "dfdfdffd";
-#elif DEV
-        public const string BASE_URL = "dfdfdffd";
-#else
-        public const string BASE_URL = "dfdfdffd";
-#endif
         public static class Analytics
         {
             public const string IOSKey = "7f9810cd-b473-4757-a025-5fa4e0429479";
@@ -160,7 +152,15 @@
 
         public static class API
         {
+#if RELEASE
             public const string HOST_URL = "http://139.59.208.79";
+#elif STAGE
+            public const string HOST_URL = "http://139.59.208.79";
+#elif DEV
+            public const string HOST_URL = "http://139.59.208.79";
+#else
+            public const string HOST_URL = "http://139.59.208.79";
+#endif
             public const int TOKEN_EXPIRATION_TIME = 12;
         }
     }

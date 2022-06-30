@@ -1,7 +1,6 @@
 ﻿using Next2.Enums;
 using Next2.Helpers.Events;
 using Next2.Services.Authentication;
-using Next2.Services.User;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
@@ -15,20 +14,17 @@ namespace Next2.ViewModels
 {
     public class TaxRemoveConfirmPageViewModel : BaseViewModel
     {
-        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IEventAggregator _eventAggregator;
 
         public TaxRemoveConfirmPageViewModel(
             INavigationService navigationService,
             IPopupNavigation popupNavigation,
-            IUserService userService,
             IAuthenticationService authenticationService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _authenticationService = authenticationService;
-            _userService = userService;
             _eventAggregator = eventAggregator;
         }
 
@@ -112,23 +108,23 @@ namespace Next2.ViewModels
             }
         }
 
-        private async Task CheckEmployeeId(string inputtedValue)
+        private async Task CheckEmployeeId(string employeeId)
         {
             var isAdminAccount = false;
 
-            if ((inputtedValue.Length == Constants.Limits.LOGIN_LENGTH)
-                && int.TryParse(inputtedValue, out int inputtedEmployeeIdToDigit))
+            if (employeeId.Length == Constants.Limits.LOGIN_LENGTH)
             {
-                var user = await _authenticationService.CheckUserExists(inputtedEmployeeIdToDigit);
+                var resultOfGettingUser = await _authenticationService.GetUserById(employeeId);
+                var roles = resultOfGettingUser.Result.Roles;
 
-                if (user.IsSuccess)
+                if (resultOfGettingUser.IsSuccess && roles is not null)
                 {
-                    isAdminAccount = user.Result.UserType == EUserType.Admin;
+                    isAdminAccount = roles.Contains(Constants.ROLE_ADMIN);
                 }
             }
 
             IsAdminAccount = isAdminAccount;
-            IsInvalidEmployeeId = !isAdminAccount && inputtedValue != string.Empty;
+            IsInvalidEmployeeId = !isAdminAccount && employeeId != string.Empty;
         }
 
         #endregion

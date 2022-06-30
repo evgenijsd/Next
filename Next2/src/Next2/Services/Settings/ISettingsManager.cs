@@ -8,6 +8,8 @@ namespace Next2.Services.Settings
 
         bool IsAuthorizationComplete { get; set; }
 
+        bool IsUserAdmin { get; set; }
+
         string? Token { get; set; }
 
         string? RefreshToken { get; set; }

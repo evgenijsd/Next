@@ -1,5 +1,4 @@
-﻿using Next2.Interfaces;
-using System;
+﻿using System;
 using Xamarin.Essentials;
 
 namespace Next2.Services.Settings
@@ -16,6 +15,12 @@ namespace Next2.Services.Settings
         {
             get => Preferences.Get(nameof(IsAuthorizationComplete), false);
             set => Preferences.Set(nameof(IsAuthorizationComplete), value);
+        }
+
+        public bool IsUserAdmin
+        {
+            get => Preferences.Get(nameof(IsUserAdmin), false);
+            set => Preferences.Set(nameof(IsUserAdmin), value);
         }
 
         public string? Token

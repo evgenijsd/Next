@@ -662,7 +662,7 @@ namespace Next2.ViewModels
 
             await _navigationService.GoBackAsync(parameters);
 
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private decimal CalculateDishPriceBaseOnProportion(DishBindableModel dish, decimal priceRatio)

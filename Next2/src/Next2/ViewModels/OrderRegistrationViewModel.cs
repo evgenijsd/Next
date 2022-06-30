@@ -10,7 +10,6 @@ using Next2.Services.Authentication;
 using Next2.Services.Bonuses;
 using Next2.Services.Menu;
 using Next2.Services.Order;
-using Next2.Services.User;
 using Next2.Views.Mobile;
 using Prism.Events;
 using Prism.Navigation;
@@ -38,7 +37,6 @@ namespace Next2.ViewModels
         private readonly IMapper _mapper;
 
         private readonly IOrderService _orderService;
-        private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMenuService _menuService;
         private readonly IBonusesService _bonusesService;
@@ -59,7 +57,6 @@ namespace Next2.ViewModels
             IEventAggregator eventAggregator,
             IMapper mapper,
             IOrderService orderService,
-            IUserService userService,
             IBonusesService bonusesService,
             IAuthenticationService authenticationService,
             IMenuService menuService)
@@ -68,7 +65,6 @@ namespace Next2.ViewModels
             _eventAggregator = eventAggregator;
             _mapper = mapper;
             _orderService = orderService;
-            _userService = userService;
             _authenticationService = authenticationService;
             _menuService = menuService;
             _bonusesService = bonusesService;
@@ -202,13 +198,13 @@ namespace Next2.ViewModels
                     if (SelectedTable is not null && SelectedTable.TableNumber != CurrentOrder.Table?.Number)
                     {
                         _orderService.CurrentOrder.Table = _mapper.Map<SimpleTableModelDTO>(SelectedTable);
-                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     break;
                 case nameof(SelectedOrderType):
                     _orderService.CurrentOrder.OrderType = SelectedOrderType.OrderType;
-                    await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                    await _orderService.UpdateCurrentOrderAsync();
                     break;
                 case nameof(NumberOfSeats):
                     if (NumberOfSeats <= SelectedTable.SeatNumbers && CurrentOrder.Seats.Count != NumberOfSeats)
@@ -217,7 +213,7 @@ namespace Next2.ViewModels
 
                         await _orderService.AddSeatInCurrentOrderAsync();
                         AddSeatsCommands();
-                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     break;
@@ -242,7 +238,7 @@ namespace Next2.ViewModels
                         }
 
                         CurrentOrder.PriceTax = 0;
-                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                        await _orderService.UpdateCurrentOrderAsync();
                     }
 
                     break;
@@ -268,7 +264,7 @@ namespace Next2.ViewModels
 
             _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
 
-            return _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            return _orderService.UpdateCurrentOrderAsync();
         }
 
         public void InitOrderTypes()
@@ -503,7 +499,7 @@ namespace Next2.ViewModels
                 await _navigationService.GoBackAsync();
             }
 
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private void SelectSeat(SeatBindableModel seatToBeSelected)
@@ -609,7 +605,7 @@ namespace Next2.ViewModels
                 await _navigationService.GoBackAsync();
             }
 
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+            await _orderService.UpdateCurrentOrderAsync();
         }
 
         private async Task RemoveOrderAsync()
@@ -617,8 +613,7 @@ namespace Next2.ViewModels
             CurrentOrder.OrderStatus = EOrderStatus.Deleted;
             CurrentOrder.Close = DateTime.Now;
 
-            var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
-            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            var updateOrderResult = await _orderService.UpdateCurrentOrderAsync();
 
             if (updateOrderResult.IsSuccess)
             {
@@ -673,25 +668,22 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveTaxFromOrderCommandAsync()
         {
-            var user = await _userService.GetUserById(_authenticationService.AuthorizedUserId);
+            var isUserAdmin = _authenticationService.IsUserAdmin;
 
-            if (user.IsSuccess)
+            if (isUserAdmin)
             {
-                if (user.Result.UserType != EUserType.Admin)
-                {
-                    _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
+                IsOrderWithTax = false;
+                CurrentOrder.TaxCoefficient = 0;
+                CurrentOrder.UpdateTotalSum();
 
-                    await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
-                }
-                else if (user.Result.UserType == EUserType.Admin)
-                {
-                    IsOrderWithTax = false;
-                    CurrentOrder.TaxCoefficient = 0;
-                    CurrentOrder.UpdateTotalSum();
-                }
+                await _orderService.UpdateCurrentOrderAsync();
             }
+            else
+            {
+                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
 
-            await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
+            }
         }
 
         private void OnTaxEvent(bool isOrderWithTax)
@@ -704,15 +696,16 @@ namespace Next2.ViewModels
             {
                 CurrentOrder.TaxCoefficient = 0;
                 CurrentOrder.UpdateTotalSum();
+
+                _orderService.UpdateCurrentOrderAsync().Await();
             }
         }
 
         private async Task SaveCurrentOrderAsync(bool isTab)
         {
             CurrentOrder.IsTab = isTab;
-            var updateOrderCommand = CurrentOrder.ToUpdateOrderCommand();
 
-            var updateOrderResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            var updateOrderResult = await _orderService.UpdateCurrentOrderAsync();
 
             if (updateOrderResult.IsSuccess)
             {
@@ -800,7 +793,7 @@ namespace Next2.ViewModels
 
                         await RefreshCurrentOrderAsync();
 
-                        await _orderService.UpdateOrderAsync(CurrentOrder.ToUpdateOrderCommand());
+                        await _orderService.UpdateCurrentOrderAsync();
 
                         if (CurrentState == LayoutState.Success)
                         {

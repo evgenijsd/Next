@@ -13,16 +13,16 @@ namespace Next2.ViewModels.Dialogs
 {
     public class EmployeeTimeClockViewModel : BindableBase
     {
-        private readonly IWorkLogService _logServise;
+        private readonly IWorkLogService _workLogService;
+
         public EmployeeTimeClockViewModel(
-            IWorkLogService logService,
+            IWorkLogService workLogService,
             Action<IDialogParameters> requestClose)
         {
-            _logServise = logService;
+            _workLogService = workLogService;
+
             RequestClose = requestClose;
             CloseCommand = new DelegateCommand(() => RequestClose(null));
-            State = EEmployeeRegisterState.Undefined;
-            EmployeeId = string.Empty;
         }
 
         #region -- Public Properties --
@@ -31,9 +31,9 @@ namespace Next2.ViewModels.Dialogs
 
         public DelegateCommand CloseCommand { get; }
 
-        public string EmployeeId { get; set; }
+        public string EmployeeId { get; set; } = string.Empty;
 
-        public EEmployeeRegisterState State { get; set; }
+        public EEmployeeRegisterState State { get; set; } = EEmployeeRegisterState.Undefined;
 
         public bool IsErrorNotificationVisible { get; set; }
 
@@ -62,12 +62,13 @@ namespace Next2.ViewModels.Dialogs
                     Timestamp = DateTime.Now,
                     EmployeeId = employeeId,
                 };
-                var state = await _logServise.InsertRecordAsync(record);
 
-                if (state.IsSuccess)
+                var resultOfLoggingWorkTime = await _workLogService.LogWorkTimeAsync(record);
+
+                if (resultOfLoggingWorkTime.IsSuccess)
                 {
                     DateTime = record.Timestamp;
-                    State = state.Result;
+                    State = resultOfLoggingWorkTime.Result;
                 }
                 else
                 {

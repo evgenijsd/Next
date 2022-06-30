@@ -35,26 +35,36 @@ namespace Next2.Services.Authentication
 
         public bool IsAuthorizationComplete => _settingsManager.IsAuthorizationComplete;
 
+        public bool IsUserAdmin => _settingsManager.IsUserAdmin;
+
         #endregion
 
-        #region -- AuthenticationService implementation --
+        #region -- IAuthenticationService implementation --
 
-        public async Task<AOResult<UserModel?>> CheckUserExists(int userId)
+        public async Task<AOResult<LoginQueryResult>> GetUserById(string userId)
         {
-            var result = new AOResult<UserModel?>();
+            var result = new AOResult<LoginQueryResult>();
+
+            var employee = new LoginQuery()
+            {
+                EmployeeId = userId,
+            };
 
             try
             {
-                var user = await _mockService.GetByIdAsync<UserModel>(userId);
-
-                if (user is not null)
+                if (int.TryParse(userId, out int id))
                 {
-                    result.SetSuccess(user);
+                    var response = await _restService.RequestAsync<GenericExecutionResult<LoginQueryResult>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/login", employee);
+
+                    if (response.Success && response.Value is not null)
+                    {
+                        result.SetSuccess(response.Value);
+                    }
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CheckUserExists)}: exception", "Error from UserService CheckUserExists", ex);
+                result.SetError($"{nameof(GetUserById)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -82,6 +92,14 @@ namespace Next2.Services.Authentication
                         _settingsManager.Token = response.Value.Tokens.AccessToken;
                         _settingsManager.RefreshToken = response.Value.Tokens.RefreshToken;
                         _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
+
+                        var roles = response.Value.Roles;
+
+                        if (roles is not null)
+                        {
+                            _settingsManager.IsUserAdmin = roles.Contains(Constants.ROLE_ADMIN);
+                        }
+
                         result.SetSuccess();
                     }
                 }
