@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Dialogs
         {
             _orderService = orderService;
             _customersService = customersService;
-            Customer = new(); // _orderService.CurrentOrder.Customer;
+            Customer = new();
             RequestClose = requestClose;
         }
 

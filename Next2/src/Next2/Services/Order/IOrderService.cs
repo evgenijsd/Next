@@ -44,5 +44,7 @@ namespace Next2.Services.Order
         Task<AOResult> SetEmptyCurrentOrderAsync();
 
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
+
+        Task<AOResult<Guid>> UpdateCurrentOrderAsync();
     }
 }

@@ -116,7 +116,7 @@ namespace Next2.ViewModels.Tablet
 
                     if (result.IsSuccess)
                     {
-                        await _orderService.UpdateOrderAsync(_orderService.CurrentOrder.ToUpdateOrderCommand());
+                        await _orderService.UpdateCurrentOrderAsync();
 
                         await PopupNavigation.PopAsync();
 

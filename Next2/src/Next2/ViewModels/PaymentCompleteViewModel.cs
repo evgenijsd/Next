@@ -468,8 +468,7 @@ namespace Next2.ViewModels
             order.OrderStatus = EOrderStatus.Closed;
             order.Close = DateTime.Now;
 
-            var updateOrderCommand = order.ToUpdateOrderCommand();
-            var updateResult = await _orderService.UpdateOrderAsync(updateOrderCommand);
+            var updateResult = await _orderService.UpdateCurrentOrderAsync();
 
             if (updateResult.IsSuccess)
             {

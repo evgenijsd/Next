@@ -110,7 +110,7 @@ namespace Next2.ViewModels.Mobile
 
                 if (resultOfAddingDishToCurrentOrder.IsSuccess)
                 {
-                    await _orderService.UpdateOrderAsync(_orderService.CurrentOrder.ToUpdateOrderCommand());
+                    await _orderService.UpdateCurrentOrderAsync();
 
                     if (PopupNavigation.PopupStack.Any())
                     {
