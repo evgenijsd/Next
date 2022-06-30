@@ -220,10 +220,10 @@ namespace Next2.ViewModels.Dialogs
         {
             if (SelectedSeats.Count > 0)
             {
-                var numberOfSelected = SelectedSeats.Count;
+                var numberOfSelectedSeats = SelectedSeats.Count;
                 var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
                 var otherSeats = Seats.Except(selectedSeats);
-                var splitTotalPrise = (SplitValue * numberOfSelected) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+                var splitTotalPrise = (SplitValue * numberOfSelectedSeats) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
                 if (splitTotalPrise <= SelectedDish.TotalPrice)
                 {
