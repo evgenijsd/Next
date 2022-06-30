@@ -56,7 +56,7 @@
             <!--  body  -->
             <sc:StateContainer
                 Grid.Row="1"
-                State="{Binding PopupStep}">
+                State="{Binding PopupNavigationStep}">
 
                 <sc:StateCondition State="{Static enums:EStep.First}">
 
@@ -219,11 +219,13 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="25">
+
                                             <Label
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center"
                                                 Text="25 %"
                                                 FontSize="{DynamicResource TSize_i6}" />
+
                                         </Frame>
 
                                         <Frame
@@ -232,11 +234,13 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="50">
+                                            
                                             <Label
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center"
                                                 Text="50 %"
                                                 FontSize="{DynamicResource TSize_i6}" />
+                                            
                                         </Frame>
 
                                         <Frame
@@ -245,11 +249,13 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="75">
+                                            
                                             <Label
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center"
                                                 Text="75 %"
                                                 FontSize="{DynamicResource TSize_i6}" />
+                                            
                                         </Frame>
 
                                     </StackLayout>
@@ -259,10 +265,9 @@
                                 <!--  stepper  -->
                                 <StackLayout
                                     Grid.Row="1"
-                                    Padding="18, 0"
                                     HorizontalOptions="CenterAndExpand"
                                     Orientation="Horizontal"
-                                    Spacing="26">
+                                    Spacing="32">
 
                                     <ffimageloading:CachedImage
                                         VerticalOptions="CenterAndExpand"
@@ -275,7 +280,7 @@
                                         Margin="0, 0, 0, 8"
                                         HorizontalTextAlignment="Center"
                                         VerticalOptions="CenterAndExpand"
-                                        WidthRequest="92"
+                                        WidthRequest="110"
                                         Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
                                         FontFamily="Barlow-Bold"
                                         FontSize="{DynamicResource TSize_i0_7}" />
@@ -337,14 +342,14 @@
                         <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByDollar}">
 
                             <controls:NumericKeyboard
-                                Margin="18, 18"
+                                Margin="18"
                                 VerticalOptions="Fill"
                                 HorizontalOptions="Fill"
-                                PlaceHolder="{xct:Translate SetValue}"
+                                Placeholder="{xct:Translate SetValue}"
                                 IsTextRightToLeft="True"
                                 MaxValue="{Binding SelectedDish.TotalPrice}"
                                 ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
-                                BackgroundColorButton="{DynamicResource TextAndBackgroundColor_i3}"
+                                ButtonBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 Value="{Binding SplitValue, Mode=TwoWay}" />
 
                         </sc:StateCondition>
@@ -379,7 +384,7 @@
 
                     <Frame.Triggers>
 
-                        <DataTrigger TargetType="Frame" Binding="{Binding PopupStep}" Value="{Static enums:EStep.Second}">
+                        <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding GoBackCommand}" />
 
@@ -416,7 +421,7 @@
                             FontSize="{DynamicResource TSize_i4_5}">
 
                             <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding PopupStep}" Value="{Static enums:EStep.Second}">
+                                <DataTrigger TargetType="Label" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                                     <Setter Property="Text" Value="{xct:Translate Split}" />
 
@@ -439,7 +444,7 @@
                         <Image Source="ic_arrow_right_24x24.png">
 
                             <Image.Triggers>
-                                <DataTrigger TargetType="Image" Binding="{Binding PopupStep}" Value="{Static enums:EStep.Second}">
+                                <DataTrigger TargetType="Image" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                                     <Setter Property="IsVisible" Value="false" />
 
@@ -470,7 +475,7 @@
 
                         </DataTrigger>
 
-                        <DataTrigger TargetType="Frame" Binding="{Binding PopupStep}" Value="{Static enums:EStep.Second}">
+                        <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                             <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
 
@@ -489,7 +494,6 @@
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
 
                         </DataTrigger>
-
 
                     </Frame.Triggers>
 

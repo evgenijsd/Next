@@ -18,14 +18,14 @@
             BorderWidth="3"
             HasShadow="False"
             BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
-            BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}">
+            BackgroundColor="{Binding ButtonBackgroundColor, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}">
 
             <StackLayout Orientation="Horizontal">
 
                 <Label
                     Margin="10, 0, 0, 0"
                     VerticalTextAlignment="Center"
-                    Text="{Binding PlaceHolder, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+                    Text="{Binding Placeholder, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i9}"
                     FontSize="{DynamicResource TSize_i6}"
                     FontFamily="Barlow-Regular">
@@ -35,12 +35,15 @@
                         <MultiTrigger TargetType="Label">
 
                             <MultiTrigger.Conditions>
+                                
                                 <BindingCondition
                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsTextRightToLeft}"
                                     Value="True" />
+                                
                                 <BindingCondition
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyBoardTyped}"
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyboardTyped}"
                                     Value="True" />
+                                
                             </MultiTrigger.Conditions>
 
                             <Setter Property="Margin" Value="10, 0" />
@@ -48,7 +51,7 @@
 
                         </MultiTrigger>
 
-                        <DataTrigger TargetType="Label" Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyBoardTyped}" Value="True">
+                        <DataTrigger TargetType="Label" Binding="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=IsKeyboardTyped}" Value="True">
 
                             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
                             <Setter Property="Text" Value="{Binding ScreenKeyboard, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
@@ -65,9 +68,9 @@
 
         <controls:CustomKeyboard
             Grid.Row="1"
-            ButtonClearTapCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonClearTapCommand}"
-            ButtonTapCommand="{Binding Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}, Path=ButtonTapCommand}"
-            BackgroundColorButton="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
+            ButtonClearTapCommand="{Binding ButtonClearTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+            ButtonTapCommand="{Binding ButtonTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+            ButtonBackgroundColor="{Binding ButtonBackgroundColor, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
 
     </Grid>
 

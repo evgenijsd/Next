@@ -40,16 +40,16 @@ namespace Next2.Controls
             set => SetValue(ValueProperty, value);
         }
 
-        public static readonly BindableProperty BackgroundColorButtonProperty = BindableProperty.Create(
-            propertyName: nameof(BackgroundColorButton),
+        public static readonly BindableProperty ButtonBackgroundColorProperty = BindableProperty.Create(
+            propertyName: nameof(ButtonBackgroundColor),
             returnType: typeof(Color),
             declaringType: typeof(NumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public Color BackgroundColorButton
+        public Color ButtonBackgroundColor
         {
-            get => (Color)GetValue(BackgroundColorButtonProperty);
-            set => SetValue(BackgroundColorButtonProperty, value);
+            get => (Color)GetValue(ButtonBackgroundColorProperty);
+            set => SetValue(ButtonBackgroundColorProperty, value);
         }
 
         public static readonly BindableProperty ValueFormatProperty = BindableProperty.Create(
@@ -78,16 +78,16 @@ namespace Next2.Controls
             set => SetValue(MaxValueProperty, value);
         }
 
-        public static readonly BindableProperty IsKeyBoardTypedProperty = BindableProperty.Create(
-            propertyName: nameof(IsKeyBoardTyped),
+        public static readonly BindableProperty IsKeyboardTypedProperty = BindableProperty.Create(
+            propertyName: nameof(IsKeyboardTyped),
             returnType: typeof(bool),
             declaringType: typeof(NumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool IsKeyBoardTyped
+        public bool IsKeyboardTyped
         {
-            get => (bool)GetValue(IsKeyBoardTypedProperty);
-            set => SetValue(IsKeyBoardTypedProperty, value);
+            get => (bool)GetValue(IsKeyboardTypedProperty);
+            set => SetValue(IsKeyboardTypedProperty, value);
         }
 
         public static readonly BindableProperty IsTextRightToLeftProperty = BindableProperty.Create(
@@ -102,23 +102,23 @@ namespace Next2.Controls
             set => SetValue(IsTextRightToLeftProperty, value);
         }
 
-        public static readonly BindableProperty PlaceHolderProperty = BindableProperty.Create(
-            propertyName: nameof(PlaceHolder),
+        public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
+            propertyName: nameof(Placeholder),
             returnType: typeof(string),
             declaringType: typeof(NumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public string PlaceHolder
+        public string Placeholder
         {
-            get => (string)GetValue(PlaceHolderProperty);
-            set => SetValue(PlaceHolderProperty, value);
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
         }
 
         private ICommand _buttonTapCommand;
-        public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnTabAsync);
+        public ICommand ButtonTapCommand => _buttonTapCommand ??= new AsyncCommand<object>(OnButtonTapCommandAsync);
 
         private ICommand _buttonClearTapCommand;
-        public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnTabClearAsync);
+        public ICommand ButtonClearTapCommand => _buttonClearTapCommand ??= new AsyncCommand<object>(OnButtonClearTapCommandAsync);
 
         #endregion
 
@@ -138,21 +138,22 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private async Task OnTabAsync(object? sender)
+        private async Task OnButtonTapCommandAsync(object? sender)
         {
             if (sender is string str && str is not null)
             {
-                if (!IsKeyBoardTyped)
+                if (!IsKeyboardTyped)
                 {
-                    IsKeyBoardTyped = true;
+                    IsKeyboardTyped = true;
                 }
 
-                if (Value < MaxValue)
+                if (decimal.TryParse(str, out decimal keyValue))
                 {
-                    if (decimal.TryParse(str, out decimal tmp))
+                    var tmp = ((Value * 1000m) + keyValue) / 100m;
+
+                    if (tmp <= MaxValue)
                     {
-                        Value *= 1000m;
-                        Value = (Value + tmp) / 100m;
+                        Value = tmp;
                     }
                 }
 
@@ -160,11 +161,11 @@ namespace Next2.Controls
             }
         }
 
-        private async Task OnTabClearAsync(object? arg)
+        private async Task OnButtonClearTapCommandAsync(object? arg)
         {
-            ScreenKeyboard = PlaceHolder;
+            ScreenKeyboard = Placeholder;
             Value = 0m;
-            IsKeyBoardTyped = false;
+            IsKeyboardTyped = false;
         }
 
         #endregion

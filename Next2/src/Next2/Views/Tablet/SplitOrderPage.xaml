@@ -180,7 +180,7 @@
                             HorizontalOptions="Start"
                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                             FontFamily="Barlow-Bold"
-                            FontSize="18">
+                            FontSize="{DynamicResource TSize_i6}">
 
                             <Label.FormattedText>
                                 <FormattedString>
@@ -206,7 +206,7 @@
 
                                             <VisualState.Setters>
 
-                                                <Setter Property="FontSize" Value="28" />
+                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i3}" />
 
                                                 <Setter Property="Margin" Value="30, 20" />
 
@@ -228,7 +228,7 @@
 
                     <ScrollView
                         Grid.Row="1"
-                        HeightRequest="700">
+                        HeightRequest="500">
 
                         <ScrollView.Effects>
                             <effects:NoOverScrollEffect />
@@ -404,9 +404,6 @@
                         Grid.Column="0"
                         Style="{DynamicResource BorderButtonStyle_i2}"
                         Margin="30, 12, 0, 12"
-                        Padding="0"
-                        HeightRequest="32"
-                        FontSize="{DynamicResource TSize_i7}"
                         Background="{DynamicResource IndicationColor_i5}"
                         Text="{xct:Translate Percentage}"
                         TextColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -448,9 +445,6 @@
                         Grid.Column="1"
                         Style="{DynamicResource BorderButtonStyle_i2}"
                         Margin="0, 12"
-                        Padding="0"
-                        HeightRequest="32"
-                        FontSize="{DynamicResource TSize_i7}"
                         Background="{DynamicResource IndicationColor_i7}"
                         Text="{xct:Translate Dollar}"
                         xct:TouchEffect.Command="{Binding SplitByCommand}"
@@ -491,9 +485,6 @@
                         Grid.Column="2"
                         Style="{DynamicResource BorderButtonStyle_i2}"
                         Margin="0, 12, 30, 12"
-                        Padding="0"
-                        HeightRequest="32"
-                        FontSize="{DynamicResource TSize_i7}"
                         Background="{DynamicResource AppColor_i1}"
                         Text="{xct:Translate Seats}"
                         xct:TouchEffect.Command="{Binding SplitByCommand}"
@@ -554,11 +545,11 @@
 
                     <Setter Property="Padding" Value="0" />
 
-                    <Setter Property="HeightRequest" Value="36" />
+                    <Setter Property="HeightRequest" Value="32" />
 
                     <Setter Property="FontFamily" Value="Barlow-Semibold" />
 
-                    <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                    <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
 
                     <Setter Property="CornerRadius" Value="4" />
 

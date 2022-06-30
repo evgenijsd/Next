@@ -34,12 +34,12 @@
         Text="{Binding SeatNumber, StringFormat='Seat {0}'}" />
 
     <CollectionView
-        HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
+        HeightRequest="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}, Converter={StaticResource listHeightConverter}, ConverterParameter=95}"
         SelectionMode="Single"
-        MinimumHeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
+        MinimumHeightRequest="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}, Converter={StaticResource listHeightConverter}, ConverterParameter=95}"
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type controls:SeatItemForSplitOrder}}}"
         SelectedItem="{Binding SelectedItem}"
-        SelectionChangedCommand="{Binding SetSelectionCommand}"
+        SelectionChangedCommand="{Binding DishSelectionCommand}"
         SelectionChangedCommandParameter="{Binding .}">
 
         <CollectionView.Effects>
@@ -126,7 +126,6 @@
                                 <VisualState.Setters>
 
                                     <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-
                                     <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_primary_24x24.png" />
 
                                 </VisualState.Setters>
@@ -138,7 +137,6 @@
                                 <VisualState.Setters>
 
                                     <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-
                                     <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
 
                                 </VisualState.Setters>

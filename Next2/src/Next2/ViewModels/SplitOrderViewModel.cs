@@ -72,7 +72,7 @@ namespace Next2.ViewModels
 
                     foreach (var seat in Seats)
                     {
-                        seat.SetSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
+                        seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
                     }
 
                     SelectFirstDish();
@@ -107,18 +107,8 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.DialogParameterKeys.SEATS, out List<SeatBindableModel> seats))
             {
-                foreach (var seat in Seats)
-                {
-                    var incomingSeat = seats.FirstOrDefault(x => x.SeatNumber == seat.SeatNumber);
-
-                    if (incomingSeat is not null)
-                    {
-                        var dish = SelectedDish.Clone() as DishBindableModel;
-                        dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
-                        seat.SelectedDishes.Add(dish);
-                    }
-                }
-
+                await SplitSelectedDish(seats);
+                await RemoveNullPriceDishes();
                 await RefreshDisplay();
             }
 
@@ -144,7 +134,9 @@ namespace Next2.ViewModels
                 if (group.Contains(_selectedSeatNumber))
                 {
                     Order.Seats = outSeats;
+
                     CalculateOrderPrices(Order);
+
                     var updateResult = await _orderService.UpdateOrderAsync(Order.ToUpdateOrderCommand());
 
                     if (!updateResult.IsSuccess)
@@ -169,9 +161,13 @@ namespace Next2.ViewModels
                     if (orderIdResult.IsSuccess)
                     {
                         var order = orderIdResult.Result;
+
                         await CopyCurrentOrderDataTo(order);
+
                         order.Seats = outSeats;
+
                         CalculateOrderPrices(order);
+
                         var updateResult = await _orderService.UpdateOrderAsync(order.ToUpdateOrderCommand());
 
                         if (!updateResult.IsSuccess)
@@ -240,6 +236,12 @@ namespace Next2.ViewModels
 
         private void SelectFirstDish()
         {
+            foreach (var seat in Seats)
+            {
+                seat.IsFirstSeat = false;
+                seat.Checked = false;
+            }
+
             if (App.IsTablet)
             {
                 var firstSeat = Seats.FirstOrDefault();
@@ -247,11 +249,48 @@ namespace Next2.ViewModels
                 SelectedDish = firstSeat.SelectedDishes.FirstOrDefault();
                 firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
                 firstSeat.Checked = true;
+                firstSeat.IsFirstSeat = true;
             }
             else
             {
                 Seats.First().IsFirstSeat = true;
             }
+        }
+
+        private Task SplitSelectedDish(List<SeatBindableModel> seats)
+        {
+            foreach (var seat in Seats)
+            {
+                var incomingSeat = seats.FirstOrDefault(x => x.SeatNumber == seat.SeatNumber);
+
+                if (incomingSeat is not null)
+                {
+                    var dish = SelectedDish.Clone() as DishBindableModel;
+                    dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
+
+                    seat.SelectedDishes.Add(dish);
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task RemoveNullPriceDishes()
+        {
+            foreach (var seat in Seats)
+            {
+                List<DishBindableModel>? selectedDishes = new(seat.SelectedDishes);
+
+                foreach (var dish in selectedDishes)
+                {
+                    if (dish.TotalPrice == 0)
+                    {
+                        seat.SelectedDishes.Remove(dish);
+                    }
+                }
+            }
+
+            return Task.CompletedTask;
         }
 
         private Task OnDishSelectionCommand(object? sender)

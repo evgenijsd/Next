@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Specialized;
-using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Next2.Controls
@@ -18,25 +16,12 @@ namespace Next2.Controls
             nameof(ItemsSource),
             typeof(ICollection),
             typeof(SeatItemForSplitOrder),
-            default(ICollection),
-            propertyChanged: (b, o, n) =>
-            ((SeatItemForSplitOrder)b).OnItemsSourcePropertyChanged((ICollection)o, (ICollection)n));
+            default(ICollection));
 
         public ICollection ItemsSource
         {
             get => (ICollection)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
-        }
-
-        public static readonly BindableProperty HeightListProperty = BindableProperty.Create(
-            propertyName: nameof(HeightList),
-            returnType: typeof(double),
-            declaringType: typeof(SeatItemForSplitOrder));
-
-        public double HeightList
-        {
-            get => (double)GetValue(HeightListProperty);
-            set => SetValue(HeightListProperty, value);
         }
 
         public static readonly BindableProperty SubItemColorProperty = BindableProperty.Create(
@@ -48,36 +33,6 @@ namespace Next2.Controls
         {
             get => (Color)GetValue(SubItemColorProperty);
             set => SetValue(SubItemColorProperty, value);
-        }
-
-        #endregion
-
-        #region -- Private methods --
-
-        private void OnItemsSourcePropertyChanged(ICollection oldItemsSource, ICollection newItemsSource)
-        {
-            if (oldItemsSource is INotifyCollectionChanged ncc)
-            {
-                ncc.CollectionChanged -= OnItemsSourceCollectionChanged;
-            }
-
-            if (newItemsSource is INotifyCollectionChanged ncc1)
-            {
-                ncc1.CollectionChanged += OnItemsSourceCollectionChanged;
-            }
-
-            if (ItemsSource is not null)
-            {
-                HeightList = ItemsSource.Count * 95;
-            }
-        }
-
-        private void OnItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (ItemsSource is not null)
-            {
-                HeightList = ItemsSource.Count * 95;
-            }
         }
 
         #endregion

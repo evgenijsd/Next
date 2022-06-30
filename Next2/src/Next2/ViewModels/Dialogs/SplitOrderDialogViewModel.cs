@@ -52,7 +52,7 @@ namespace Next2.ViewModels.Dialogs
 
         public string HeaderText { get; set; }
 
-        public EStep PopupStep { get; set; } = EStep.First;
+        public EStep PopupNavigationStep { get; set; } = EStep.First;
 
         public Action<IDialogParameters> RequestClose;
 
@@ -282,7 +282,7 @@ namespace Next2.ViewModels.Dialogs
         {
             if (IsNextStepAvailable)
             {
-                PopupStep = EStep.Second;
+                PopupNavigationStep = EStep.Second;
                 IsNextStepAvailable = false;
             }
 
@@ -291,12 +291,11 @@ namespace Next2.ViewModels.Dialogs
 
         private Task OnGoBackCommand()
         {
-            PopupStep = EStep.First;
+            PopupNavigationStep = EStep.First;
             IsNextStepAvailable = SelectedSeats.Count > 0;
             return Task.CompletedTask;
         }
 
         #endregion
-
     }
 }

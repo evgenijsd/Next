@@ -148,9 +148,7 @@
                 Background="{DynamicResource IndicationColor_i5}"
                 Text="{xct:Translate Percentage}"
                 xct:TouchEffect.Command="{Binding SplitByCommand}"
-                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByPercents}">
-
-            </buttons:BorderButton>
+                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByPercents}" />
 
             <buttons:BorderButton
                 Grid.Column="1"
@@ -159,9 +157,7 @@
                 Background="{DynamicResource IndicationColor_i7}"
                 Text="{xct:Translate Dollar}"
                 xct:TouchEffect.Command="{Binding SplitByCommand}"
-                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByDollar}">
-
-            </buttons:BorderButton>
+                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.ByDollar}" />
 
             <buttons:BorderButton
                 Grid.Column="2"
@@ -169,9 +165,7 @@
                 Background="{DynamicResource AppColor_i1}"
                 Text="{xct:Translate Seats}"
                 xct:TouchEffect.Command="{Binding SplitByCommand}"
-                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.BySeats}">
-
-            </buttons:BorderButton>
+                xct:TouchEffect.CommandParameter="{Static enums:ESplitOrderConditions.BySeats}" />
 
             <BoxView
                 Grid.Row="2"

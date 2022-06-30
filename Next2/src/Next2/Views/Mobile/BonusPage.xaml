@@ -25,8 +25,8 @@
             IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">
 
             <controls:CustomNavigationbar
-                Title="{xct:Translate CouponsAndDiscounts}"
                 Grid.Row="0"
+                Title="{xct:Translate CouponsAndDiscounts}"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                 FontSize="{DynamicResource TSize_i5}"
                 HeightImage="24"
@@ -204,8 +204,8 @@
             IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
             <controls:CustomNavigationbar
-                Title="{Binding SelectedBonus.Name}"
                 Grid.Row="0"
+                Title="{Binding SelectedBonus.Name}"
                 FontSize="{DynamicResource TSize_i5}"
                 HeightImage="24"
                 LeftButtonCommand="{Binding RemoveSelectionBonusCommand}" />

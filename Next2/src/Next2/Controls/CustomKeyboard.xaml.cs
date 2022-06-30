@@ -10,18 +10,18 @@ namespace Next2.Controls
             InitializeComponent();
         }
 
-        #region -- Public Properties
+        #region -- Public Properties --
 
-        public static readonly BindableProperty BackgroundColorButtonProperty = BindableProperty.Create(
-           propertyName: nameof(BackgroundColorButton),
-           returnType: typeof(Color),
-           declaringType: typeof(CustomKeyboard),
-           defaultBindingMode: BindingMode.TwoWay);
+        public static readonly BindableProperty ButtonBackgroundColorProperty = BindableProperty.Create(
+             propertyName: nameof(ButtonBackgroundColor),
+             returnType: typeof(Color),
+             declaringType: typeof(NumericKeyboard),
+             defaultBindingMode: BindingMode.TwoWay);
 
-        public Color BackgroundColorButton
+        public Color ButtonBackgroundColor
         {
-            get => (Color)GetValue(BackgroundColorButtonProperty);
-            set => SetValue(BackgroundColorButtonProperty, value);
+            get => (Color)GetValue(ButtonBackgroundColorProperty);
+            set => SetValue(ButtonBackgroundColorProperty, value);
         }
 
         public static readonly BindableProperty ButtonTapCommandProperty = BindableProperty.Create(
@@ -49,6 +49,5 @@ namespace Next2.Controls
         }
 
         #endregion
-
     }
 }
