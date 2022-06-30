@@ -90,16 +90,16 @@ namespace Next2.Controls
             set => SetValue(IsKeyboardTypedProperty, value);
         }
 
-        public static readonly BindableProperty IsKeyboardEnableProperty = BindableProperty.Create(
-            propertyName: nameof(IsKeyboardEnable),
+        public static readonly BindableProperty IsKeyboardEnabledProperty = BindableProperty.Create(
+            propertyName: nameof(IsKeyboardEnabled),
             returnType: typeof(bool),
             declaringType: typeof(NumericKeyboard),
             defaultBindingMode: BindingMode.TwoWay);
 
-        public bool IsKeyboardEnable
+        public bool IsKeyboardEnabled
         {
-            get => (bool)GetValue(IsKeyboardEnableProperty);
-            set => SetValue(IsKeyboardEnableProperty, value);
+            get => (bool)GetValue(IsKeyboardEnabledProperty);
+            set => SetValue(IsKeyboardEnabledProperty, value);
         }
 
         public static readonly BindableProperty IsTextRightToLeftProperty = BindableProperty.Create(
@@ -152,16 +152,16 @@ namespace Next2.Controls
 
         private async Task OnButtonTapCommandAsync(object? sender)
         {
-            if (sender is string str && str is not null && IsKeyboardEnable)
+            if (sender is string str && str is not null && IsKeyboardEnabled)
             {
                 if (!IsKeyboardTyped)
                 {
                     IsKeyboardTyped = true;
                 }
 
-                if (decimal.TryParse(str, out decimal keyValue))
+                if (decimal.TryParse(str, out decimal enteredDigit))
                 {
-                    var tmp = ((Value * 1000m) + keyValue) / 100m;
+                    var tmp = ((Value * 1000m) + enteredDigit) / 100m;
 
                     if (tmp <= MaxValue)
                     {

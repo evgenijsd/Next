@@ -48,7 +48,7 @@ namespace Next2.ViewModels.Dialogs
 
         public bool IsSplitAvailable { get; set; }
 
-        public bool IsKeyboardEnable { get; set; }
+        public bool IsKeyboardEnabled { get; set; }
 
         public bool IsNextStepAvailable { get; set; }
 
@@ -204,21 +204,15 @@ namespace Next2.ViewModels.Dialogs
         {
             if (SelectedSeats.Count > 0)
             {
-                var numberOfSelectedSeats = SelectedSeats.Count;
                 var price = SplitValue * SelectedDish.TotalPrice / 100m;
                 var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
-                var otherSeats = Seats.Except(selectedSeats);
-                var splitTotalPrise = (price * numberOfSelectedSeats) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
 
-                if (splitTotalPrise <= SelectedDish.TotalPrice)
+                foreach (var seat in selectedSeats)
                 {
-                    foreach (var seat in selectedSeats)
-                    {
-                        seat.SelectedItem.TotalPrice = Math.Round(price, 2);
-                    }
-
-                    RaisePropertyChanged(nameof(SplitTotal));
+                    seat.SelectedItem.TotalPrice = Math.Round(price, 2);
                 }
+
+                RaisePropertyChanged(nameof(SplitTotal));
             }
         }
 
@@ -246,7 +240,17 @@ namespace Next2.ViewModels.Dialogs
         private Task OnSelectValueCommandAsync(object? arg)
         {
             decimal.TryParse(arg as string, out decimal value);
-            SplitValue = value;
+            var numberOfSelectedSeats = SelectedSeats.Count;
+            var price = value * SelectedDish.TotalPrice / 100m;
+            var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
+            var otherSeats = Seats.Except(selectedSeats);
+            var splitTotalPrise = (price * numberOfSelectedSeats) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+
+            if (splitTotalPrise <= SelectedDish.TotalPrice)
+            {
+                SplitValue = value;
+            }
+
             return Task.CompletedTask;
         }
 
@@ -254,7 +258,16 @@ namespace Next2.ViewModels.Dialogs
         {
             if (SplitValue < Constants.Limits.MAX_PERCENTAGE)
             {
-                SplitValue++;
+                var numberOfSelectedSeats = SelectedSeats.Count;
+                var price = (SplitValue + 1) * SelectedDish.TotalPrice / 100m;
+                var selectedSeats = SelectedSeats.Select(x => x as SeatBindableModel);
+                var otherSeats = Seats.Except(selectedSeats);
+                var splitTotalPrise = (price * numberOfSelectedSeats) + otherSeats.Sum(x => x.SelectedItem.TotalPrice);
+
+                if (splitTotalPrise <= SelectedDish.TotalPrice)
+                {
+                    SplitValue++;
+                }
             }
 
             return Task.CompletedTask;
@@ -273,7 +286,7 @@ namespace Next2.ViewModels.Dialogs
         private void OnSelectCommand()
         {
             IsNextStepAvailable = SelectedSeats.Count > 0;
-            IsKeyboardEnable = SelectedSeats.Count > 0;
+            IsKeyboardEnabled = SelectedSeats.Count > 0;
 
             if (SplitCondition == ESplitOrderConditions.BySeats)
             {

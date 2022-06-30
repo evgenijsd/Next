@@ -299,7 +299,7 @@
                             Margin="18, 0, 0, 0"
                             VerticalOptions="Fill"
                             HorizontalOptions="Fill"
-                            IsKeyboardEnable="{Binding IsKeyboardEnable}"
+                            IsKeyboardEnabled="{Binding IsKeyboardEnabled}"
                             Placeholder="{xct:Translate SetValue}"
                             IsTextRightToLeft="True"
                             MaxValue="{Binding SelectedDish.TotalPrice}"

@@ -69,7 +69,7 @@
 
     <Style x:Key="SeparatorStyle_i4" TargetType="BoxView">
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
-        <Setter Property="HeightRequest" Value="{OnPlatform Android=4, iOS=4}"/>
+        <Setter Property="HeightRequest" Value="4"/>
     </Style>
 
     <!-- OTHER -->

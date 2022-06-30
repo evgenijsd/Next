@@ -60,22 +60,29 @@ namespace Next2.ViewModels
 
             if (parameters.TryGetValue(Constants.Navigations.ORDER_ID, out Guid orderId))
             {
-                var response = await _orderService.GetOrderByIdAsync(orderId);
+                var resultOfGettingOrder = await _orderService.GetOrderByIdAsync(orderId);
 
-                if (response.IsSuccess)
+                if (resultOfGettingOrder.IsSuccess)
                 {
-                    Order = response.Result;
-
-                    var seats = Order.Seats.ToSeatsBindableModels();
-
-                    Seats = new(seats);
-
-                    foreach (var seat in Seats)
+                    if (resultOfGettingOrder.Result?.Seats?.Count() > 0)
                     {
-                        seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
-                    }
+                        Order = resultOfGettingOrder.Result;
 
-                    SelectFirstDish();
+                        var seats = Order.Seats.ToSeatsBindableModels();
+
+                        Seats = new(seats);
+
+                        foreach (var seat in Seats)
+                        {
+                            seat.DishSelectionCommand = new AsyncCommand<object?>(OnDishSelectionCommand);
+                        }
+
+                        SelectFirstDish();
+                    }
+                    else
+                    {
+                        OnGoBackCommandAsync();
+                    }
                 }
             }
         }
@@ -162,7 +169,7 @@ namespace Next2.ViewModels
                     {
                         var order = orderIdResult.Result;
 
-                        await CopyCurrentOrderDataTo(order);
+                        await CopyCurrentOrderTo(order);
 
                         order.Seats = outSeats;
 
@@ -194,7 +201,7 @@ namespace Next2.ViewModels
             order.DiscountPrice = dishes.Sum(x => x.DiscountPrice);
         }
 
-        private async Task CopyCurrentOrderDataTo(OrderModelDTO order)
+        private async Task CopyCurrentOrderTo(OrderModelDTO order)
         {
             var isTableUpdated = await UpdateTableAsync();
 
@@ -244,7 +251,7 @@ namespace Next2.ViewModels
 
             if (App.IsTablet)
             {
-                var firstSeat = Seats.FirstOrDefault();
+                var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
 
                 SelectedDish = firstSeat.SelectedDishes.FirstOrDefault();
                 firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
@@ -277,8 +284,6 @@ namespace Next2.ViewModels
 
         private Task RemoveNullPriceDishes()
         {
-            bool isSelectedDishRemoved = false;
-
             foreach (var seat in Seats)
             {
                 List<DishBindableModel>? selectedDishes = new(seat.SelectedDishes);
@@ -288,15 +293,8 @@ namespace Next2.ViewModels
                     if (dish.TotalPrice == 0)
                     {
                         seat.SelectedDishes.Remove(dish);
-
-                        isSelectedDishRemoved = dish == SelectedDish;
                     }
                 }
-            }
-
-            if (isSelectedDishRemoved)
-            {
-                SelectFirstDish();
             }
 
             return Task.CompletedTask;
@@ -332,13 +330,7 @@ namespace Next2.ViewModels
             SelectedDish.ImageSource = null;
             SelectedDish.ImageSource = imageSource;
 
-            var seats = new ObservableCollection<SeatBindableModel>(Seats);
-            Seats = new();
-
-            foreach (var seat in seats)
-            {
-                Seats.Add(seat);
-            }
+            Seats = new(Seats);
 
             return Task.CompletedTask;
         }
