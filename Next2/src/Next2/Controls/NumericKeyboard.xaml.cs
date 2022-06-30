@@ -90,6 +90,18 @@ namespace Next2.Controls
             set => SetValue(IsKeyboardTypedProperty, value);
         }
 
+        public static readonly BindableProperty IsKeyboardEnableProperty = BindableProperty.Create(
+            propertyName: nameof(IsKeyboardEnable),
+            returnType: typeof(bool),
+            declaringType: typeof(NumericKeyboard),
+            defaultBindingMode: BindingMode.TwoWay);
+
+        public bool IsKeyboardEnable
+        {
+            get => (bool)GetValue(IsKeyboardEnableProperty);
+            set => SetValue(IsKeyboardEnableProperty, value);
+        }
+
         public static readonly BindableProperty IsTextRightToLeftProperty = BindableProperty.Create(
             propertyName: nameof(IsTextRightToLeft),
             returnType: typeof(bool),
@@ -140,7 +152,7 @@ namespace Next2.Controls
 
         private async Task OnButtonTapCommandAsync(object? sender)
         {
-            if (sender is string str && str is not null)
+            if (sender is string str && str is not null && IsKeyboardEnable)
             {
                 if (!IsKeyboardTyped)
                 {

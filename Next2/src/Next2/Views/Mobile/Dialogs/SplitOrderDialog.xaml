@@ -234,13 +234,13 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="50">
-                                            
+
                                             <Label
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center"
                                                 Text="50 %"
                                                 FontSize="{DynamicResource TSize_i6}" />
-                                            
+
                                         </Frame>
 
                                         <Frame
@@ -249,13 +249,13 @@
                                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="75">
-                                            
+
                                             <Label
                                                 VerticalTextAlignment="Center"
                                                 HorizontalTextAlignment="Center"
                                                 Text="75 %"
                                                 FontSize="{DynamicResource TSize_i6}" />
-                                            
+
                                         </Frame>
 
                                     </StackLayout>
@@ -345,6 +345,7 @@
                                 Margin="18"
                                 VerticalOptions="Fill"
                                 HorizontalOptions="Fill"
+                                IsKeyboardEnable="{Binding IsKeyboardEnable}"
                                 Placeholder="{xct:Translate SetValue}"
                                 IsTextRightToLeft="True"
                                 MaxValue="{Binding SelectedDish.TotalPrice}"

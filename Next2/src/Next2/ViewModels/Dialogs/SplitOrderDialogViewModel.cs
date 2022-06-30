@@ -48,6 +48,8 @@ namespace Next2.ViewModels.Dialogs
 
         public bool IsSplitAvailable { get; set; }
 
+        public bool IsKeyboardEnable { get; set; }
+
         public bool IsNextStepAvailable { get; set; }
 
         public string HeaderText { get; set; }
@@ -271,6 +273,7 @@ namespace Next2.ViewModels.Dialogs
         private void OnSelectCommand()
         {
             IsNextStepAvailable = SelectedSeats.Count > 0;
+            IsKeyboardEnable = SelectedSeats.Count > 0;
 
             if (SplitCondition == ESplitOrderConditions.BySeats)
             {
