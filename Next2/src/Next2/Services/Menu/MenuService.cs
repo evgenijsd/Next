@@ -9,7 +9,6 @@ using Next2.Services.Rest;
 using Next2.Services.Settings;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -20,15 +19,12 @@ namespace Next2.Services.Menu
         private readonly IRestService _restService;
         private readonly ISettingsManager _settingsManager;
         private readonly IOrderService _orderService;
-        private IMockService _mockService;
 
         public MenuService(
-            IMockService mockService,
             IRestService restService,
             IOrderService orderService,
             ISettingsManager settingsManager)
         {
-            _mockService = mockService;
             _restService = restService;
             _settingsManager = settingsManager;
             _orderService = orderService;
@@ -42,11 +38,13 @@ namespace Next2.Services.Menu
 
             try
             {
-                var categories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/categories");
+                var query = $"{Constants.API.HOST_URL}/api/categories";
 
-                if (categories.Success && categories.Value.Categories is not null)
+                var resultOfGettingCategories = await _restService.RequestAsync<GenericExecutionResult<GetCategoriesListQueryResult>>(HttpMethod.Get, query);
+
+                if (resultOfGettingCategories.Success && resultOfGettingCategories.Value?.Categories is not null)
                 {
-                    result.SetSuccess(categories.Value.Categories);
+                    result.SetSuccess(resultOfGettingCategories.Value.Categories);
                 }
             }
             catch (Exception ex)
@@ -65,11 +63,11 @@ namespace Next2.Services.Menu
             {
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{categoryId}.{subcategoryId}";
 
-                var resultGettingDishes = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
+                var resultOfGettingDishes = await _restService.RequestAsync<GenericExecutionResult<GetDishesListQueryResult>>(HttpMethod.Get, query);
 
-                if (resultGettingDishes.Success)
+                if (resultOfGettingDishes.Success && resultOfGettingDishes.Value is not null)
                 {
-                    result.SetSuccess(resultGettingDishes.Value.Dishes);
+                    result.SetSuccess(resultOfGettingDishes.Value.Dishes);
                 }
             }
             catch (Exception ex)
@@ -88,11 +86,11 @@ namespace Next2.Services.Menu
             {
                 var query = $"{Constants.API.HOST_URL}/api/ingredients-categories";
 
-                var ingredientsCategories = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
+                var resultOfGettingIngredientsCategories = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsCategoriesListQueryResult>>(HttpMethod.Get, query);
 
-                if (ingredientsCategories.Success && ingredientsCategories.Value?.IngredientsCategories is not null)
+                if (resultOfGettingIngredientsCategories.Success && resultOfGettingIngredientsCategories.Value?.IngredientsCategories is not null)
                 {
-                    result.SetSuccess(ingredientsCategories.Value.IngredientsCategories);
+                    result.SetSuccess(resultOfGettingIngredientsCategories.Value.IngredientsCategories);
                 }
             }
             catch (Exception ex)
@@ -110,11 +108,12 @@ namespace Next2.Services.Menu
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/ingredients";
-                var ingredients = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
 
-                if (ingredients.Success && ingredients.Value is not null)
+                var resultOfGettingIngredients = await _restService.RequestAsync<GenericExecutionResult<GetIngredientsListQueryResult>>(HttpMethod.Get, query);
+
+                if (resultOfGettingIngredients.Success && resultOfGettingIngredients.Value is not null)
                 {
-                    result.SetSuccess(ingredients.Value.Ingredients);
+                    result.SetSuccess(resultOfGettingIngredients.Value.Ingredients);
                 }
             }
             catch (Exception ex)
@@ -132,11 +131,12 @@ namespace Next2.Services.Menu
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/dishes/{dishId}";
-                var dishResult = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
 
-                if (dishResult.Success && dishResult?.Value?.Dish is not null)
+                var resultOfGettingDish = await _restService.RequestAsync<GenericExecutionResult<GetDishByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (resultOfGettingDish.Success && resultOfGettingDish.Value?.Dish is not null)
                 {
-                    result.SetSuccess(dishResult.Value.Dish);
+                    result.SetSuccess(resultOfGettingDish.Value.Dish);
                 }
             }
             catch (Exception ex)

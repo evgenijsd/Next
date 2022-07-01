@@ -43,8 +43,6 @@ namespace Next2.Services.Order
             _restService = restService;
             _authenticationService = authenticationService;
             _customersService = customersService;
-
-            CurrentOrder.Seats = new ();
         }
 
         #region -- Public properties --
@@ -71,6 +69,7 @@ namespace Next2.Services.Order
                 };
 
                 var query = $"{Constants.API.HOST_URL}/api/orders";
+
                 var creationResult = await _restService.RequestAsync<GenericExecutionResult<OrderModelResult>>(HttpMethod.Post, query, requestBody);
 
                 var order = creationResult.Value;
@@ -112,9 +111,10 @@ namespace Next2.Services.Order
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/tables/available";
+
                 var freeTables = await _restService.RequestAsync<GenericExecutionResult<GetAvailableTablesListQueryResult>>(HttpMethod.Get, query);
 
-                if (freeTables.Success && freeTables?.Value?.Tables is not null)
+                if (freeTables.Success && freeTables.Value?.Tables is not null)
                 {
                     result.SetSuccess(freeTables.Value.Tables);
                 }
@@ -133,7 +133,8 @@ namespace Next2.Services.Order
 
             try
             {
-                string query = $"{Constants.API.HOST_URL}/api/orders";
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+
                 var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrdersListQueryResult>>(HttpMethod.Get, query);
 
                 if (responce.Success && responce.Value?.Orders is not null)
@@ -155,7 +156,8 @@ namespace Next2.Services.Order
 
             try
             {
-                string query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
+                var query = $"{Constants.API.HOST_URL}/api/orders/{orderId}";
+
                 var responce = await _restService.RequestAsync<GenericExecutionResult<GetOrderByIdQueryResult>>(HttpMethod.Get, query);
 
                 if (responce.Success && responce.Value?.Order is not null)
@@ -173,19 +175,39 @@ namespace Next2.Services.Order
 
         public string ApplyNumberFilter(string text)
         {
-            Regex regexNumber = new(Constants.Validators.NUMBER);
+            var result = text;
 
-            return regexNumber.Replace(text, string.Empty);
+            try
+            {
+                Regex regexNumber = new(Constants.Validators.NUMBER);
+                result = regexNumber.Replace(text, string.Empty);
+            }
+            catch (Exception)
+            {
+            }
+
+            return result;
         }
 
         public string ApplyNameFilter(string text)
         {
-            Regex regexName = new(Constants.Validators.NAME);
-            Regex regexNumber = new(Constants.Validators.NUMBER);
-            Regex regexText = new(Constants.Validators.TEXT);
+            var result = text;
 
-            var result = regexText.Replace(text, string.Empty);
-            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER) ? regexNumber.Replace(result, string.Empty) : regexName.Replace(result, string.Empty);
+            try
+            {
+                Regex regexName = new(Constants.Validators.NAME);
+                Regex regexNumber = new(Constants.Validators.NUMBER);
+                Regex regexText = new(Constants.Validators.TEXT);
+
+                result = regexText.Replace(text, string.Empty);
+
+                result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER)
+                    ? regexNumber.Replace(result, string.Empty)
+                    : regexName.Replace(result, string.Empty);
+            }
+            catch (Exception)
+            {
+            }
 
             return result;
         }
@@ -209,11 +231,11 @@ namespace Next2.Services.Order
                     {
                         var seats = resultOfGettingOrder.Result.Seats;
 
-                        if (seats?.Count() == 0)
+                        if (seats?.Count() == 0 && IsOpenOrder(resultOfGettingOrder.Result))
                         {
-                            await SetCurrentOrderAsync(resultOfGettingOrder.Result);
+                            var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(resultOfGettingOrder.Result);
 
-                            isCurrentOrderSet = true;
+                            isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                         }
                     }
                 }
@@ -226,9 +248,9 @@ namespace Next2.Services.Order
                     {
                         await SaveLastOrderIdToSettingsAsync(employeeId, orderCreationResult.Result.Id);
 
-                        await SetCurrentOrderAsync(orderCreationResult.Result);
+                        var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(orderCreationResult.Result);
 
-                        isCurrentOrderSet = true;
+                        isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                     }
                 }
 
@@ -257,7 +279,8 @@ namespace Next2.Services.Order
                 {
                     result = await SetCurrentOrderAsync(resultOfGettingLastOrderId.Result);
                 }
-                else
+
+                if (!result.IsSuccess)
                 {
                     result = await SetEmptyCurrentOrderAsync();
                 }
@@ -454,7 +477,9 @@ namespace Next2.Services.Order
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/orders", order);
+                var query = $"{Constants.API.HOST_URL}/api/orders";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Put, query, order);
 
                 if (response.Success)
                 {
@@ -477,7 +502,7 @@ namespace Next2.Services.Order
             {
                 var orderResult = await GetOrderByIdAsync(orderId);
 
-                if (orderResult.IsSuccess)
+                if (orderResult.IsSuccess && IsOpenOrder(orderResult.Result))
                 {
                     result = await SetCurrentOrderAsync(orderResult.Result);
                 }
@@ -625,7 +650,7 @@ namespace Next2.Services.Order
 
             var currentOrder = order.ToFullOrderBindableModel();
 
-            if (currentOrder is not null)
+            if (currentOrder is not null && IsOpenOrder(order))
             {
                 var resultOfUpdatingDishes = await AddAdditionalDishesInformationToOrderAsync(currentOrder);
 
@@ -646,6 +671,7 @@ namespace Next2.Services.Order
 
                         CurrentOrder = currentOrder;
                         CurrentSeat = CurrentOrder.Seats.FirstOrDefault(x => x.Checked);
+
                         result.SetSuccess();
                     }
                 }
@@ -668,6 +694,11 @@ namespace Next2.Services.Order
             }
 
             return result;
+        }
+
+        private bool IsOpenOrder(OrderModelDTO order)
+        {
+            return order.OrderStatus is not EOrderStatus.Deleted or EOrderStatus.Closed or EOrderStatus.Canceled;
         }
 
         #endregion

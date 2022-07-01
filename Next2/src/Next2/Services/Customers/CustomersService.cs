@@ -33,6 +33,7 @@ namespace Next2.Services.Customers
         public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel customer)
         {
             var result = new AOResult<Guid>();
+
             var customerModelDTO = _mapper.Map<CustomerModelDTO>(customer);
 
             try
