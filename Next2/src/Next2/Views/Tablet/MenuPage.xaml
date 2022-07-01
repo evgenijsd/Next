@@ -45,7 +45,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Property="ColumnDefinitions" Value="130, *" />
+                        <Setter Property="ColumnDefinitions" Value="115, *" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -95,7 +95,7 @@
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-                            <Setter Property="RowDefinitions" Value="105, *, 130" />
+                            <Setter Property="RowDefinitions" Value="105, *, auto" />
                         </VisualState.Setters>
 
                     </VisualState>
@@ -106,9 +106,10 @@
             <ffimageloading:CachedImage
                 Grid.Row="0"
                 Grid.Column="0"
+                Background="Blue"
                 Source="pic_logo_small.png"
                 Margin="11, 11, 11, 0">
-
+    
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroup Name="AdaptiveLogoMargin">
 
@@ -143,7 +144,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="16, 16, 16, 0" />
+                                <Setter Property="Margin" Value="10" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -156,7 +157,6 @@
             <CollectionView
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="11, 11, 11, 0"
                 ItemsSource="{Binding MenuItems}"
                 SelectedItem="{Binding SelectedMenuItem}"
                 SelectionMode="Single">
@@ -195,7 +195,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="16, 16, 16, 0" />
+                                <Setter Property="Margin" Value="0, 14" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -225,7 +225,7 @@
                             Text="{Binding Title}"
                             FontSize="{DynamicResource TSize_i9}"
                             FontFamily="Barlow-Medium"/>
-
+                            
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
@@ -237,9 +237,7 @@
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
                 FontSize="{DynamicResource TSize_i8}"
-                FontFamily="Barlow-SemiBold"
-                Margin="10, 0"
-                Padding="0, 15">
+                FontFamily="Barlow-SemiBold">
 
                 <templates:MenuItemTemplate.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogOutCommand}"/>

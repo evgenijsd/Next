@@ -110,7 +110,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Property="ColumnDefinitions" Value="*, 484" />
+                        <Setter Property="ColumnDefinitions" Value="*, 425" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -165,7 +165,7 @@
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="Padding" Value="40, 34, 40, 0" />
+                                                <Setter Property="Padding" Value="24" />
                                             </VisualState.Setters>
 
                                         </VisualState>
@@ -210,28 +210,8 @@
                         </StackLayout>
 
                         <BoxView
-                            Margin="0, 12, 0, 0"
                             HeightRequest="1"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="AdaptiveBoxView">
-
-                                    <VisualState Name="minHeight">
-
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="601" />
-                                        </VisualState.StateTriggers>
-
-                                        <VisualState.Setters>
-                                            <Setter Property="Margin" Value="0, 22, 0, 0" />
-                                        </VisualState.Setters>
-
-                                    </VisualState>
-
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-
                         </BoxView>
 
                         <StackLayout VerticalOptions="Start">
