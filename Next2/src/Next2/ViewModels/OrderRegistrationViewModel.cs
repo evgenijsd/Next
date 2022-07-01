@@ -650,6 +650,8 @@ namespace Next2.ViewModels
         {
             if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
+                _seatWithSelectedDish = seat;
+
                 foreach (var item in CurrentOrder.Seats)
                 {
                     if (item.SeatNumber != seat.SeatNumber)
