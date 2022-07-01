@@ -13,6 +13,17 @@
     x:Class="Next2.Views.Tablet.MembershipView"
     x:DataType="tablet:MembershipViewModel">
 
+    <ContentView.Resources>
+
+        <Style x:Key="TableCellStyle_i1" TargetType="Label">
+            <Setter Property="FontFamily" Value="Barlow-Medium" />
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="Padding" Value="24, 14.5, 5, 15.5" />
+        </Style>
+
+    </ContentView.Resources>
+    
     <Grid 
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" 
         RowDefinitions="auto, auto, *">
@@ -22,13 +33,13 @@
 
             <StackLayout
                 Grid.Row="0"
-                Padding="40, 20, 40, 10"
+                Padding="24"
                 Orientation="Horizontal">
 
                 <!--  TITLE  -->
                 <Label
                     FontFamily="Barlow-Bold"
-                    FontSize="{DynamicResource TSize_i3}"
+                    FontSize="{DynamicResource TSize_i4}"
                     Text="{xct:Translate Membership}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                     VerticalOptions="Center" />
@@ -44,17 +55,17 @@
         <!--  SEARCH BUTTON  -->
         <Grid
             Grid.Row="1"
-            Margin="40, 35, 40, 20"
-            ColumnDefinitions="0.37*, 0.63*"
+            Margin="24, 30, 24, 22"
+            ColumnDefinitions="0.35*, 0.65*"
             RowDefinitions="*">
 
             <controls:SearchButton
                 CornerRadius="5"
-                Text="{Binding SearchText}"
                 Placeholder="{xct:Translate SearchByNameOrPhone}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 BackColor="Transparent"
                 BorderColor="{DynamicResource AppColor_i1}"
+                Text="{Binding SearchText}"
                 CommandSearch="{Binding SearchCommand}"
                 CommandClear="{Binding ClearSearchCommand}">
 
@@ -80,23 +91,14 @@
             Grid.Row="2"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
             Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
-            Margin="40, 0, 40, 20"
-            CornerRadius="{OnPlatform Android=6, iOS=8}"
+            Margin="26, 0, 24, 50"
+            CornerRadius="8"
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
-            IsVisible="False">
-
-            <yummy:PancakeView.Triggers>
-
-                <DataTrigger TargetType="yummy:PancakeView" Binding="{Binding DisplayMembers.Count}" Value="0">
-                    
-                    <Setter Property="IsVisible" Value="True" />
-                    
-                </DataTrigger>
-
-            </yummy:PancakeView.Triggers>
-
+            IsVisible="{Binding DisplayMembers, Converter={xct:ListIsNullOrEmptyConverter}}">
+            
             <StackLayout>
+                
                 <ffimageloading:CachedImage
                     Source="pic_nothing_found"
                     HeightRequest="250"
@@ -109,9 +111,9 @@
 
         <yummy:PancakeView
             Grid.Row="2"
-            Margin="40, 0, 40, 20"
+            Margin="24, 0, 24, 50"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-            CornerRadius="{OnPlatform Android=6, iOS=8}"
+            CornerRadius="8"
             VerticalOptions="Start">
 
             <yummy:PancakeView.Triggers>
@@ -125,12 +127,12 @@
             </yummy:PancakeView.Triggers>
 
             <!--  TABLE HEADER  -->
-            <StackLayout>
+            <StackLayout >
                 
                 <Grid
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                     ColumnDefinitions="0.26*, 0.26*, 0.24*, 0.24*"
-                    RowDefinitions="auto">
+      >
 
                     <StackLayout 
                         Grid.Column="0" 
@@ -192,7 +194,7 @@
                     IsRefreshing="{Binding IsMembersRefreshing}">
 
                     <controls:CustomScrollBarCollectionView
-                        HeightRequest="{Binding DisplayMembers, Converter={StaticResource listHeightConverter}, ConverterParameter=45}"
+                        HeightRequest="{Binding DisplayMembers, Converter={StaticResource listHeightConverter}, ConverterParameter=52}"
                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                         ItemsSource="{Binding DisplayMembers}">
 

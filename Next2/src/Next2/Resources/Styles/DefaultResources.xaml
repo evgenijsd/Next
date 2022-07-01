@@ -57,20 +57,12 @@
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i2}"/>
         <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
     </Style>
-            
+
     <Style x:Key="SeparatorStyle_i3" TargetType="BoxView">
         <Setter Property="Color" Value="{DynamicResource TextAndBackgroundColor_i6}"/>
         <Setter Property="HeightRequest" Value="{OnPlatform Android=0.25, iOS=1}"/>
     </Style>
-    
-    <!-- OTHER -->
-    <Style x:Key="TableCellStyle_i1" TargetType="Label">
-        <Setter Property="FontFamily" Value="Barlow-Medium" />
-        <Setter Property="FontSize" Value="{DynamicResource TSize_i7}" />
-        <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-        <Setter Property="Padding" Value="20, 10, 5, 11" />
-    </Style>
-    
+
     <!-- CONTROLS -->
     <Style TargetType="controls:LineSpacingLabel">
         <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
