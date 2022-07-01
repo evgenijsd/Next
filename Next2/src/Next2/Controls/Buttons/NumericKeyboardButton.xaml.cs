@@ -37,6 +37,5 @@ namespace Next2.Controls.Buttons
         }
 
         #endregion
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Next2.Helpers.ProcessHelpers
 {
@@ -51,6 +50,7 @@ namespace Next2.Helpers.ProcessHelpers
             CallerName = res.CallerName;
             CallerLineNumber = res.CallerLineNumber;
             CallerFile = res.CallerFile;
+
             SetResult(res.IsSuccess, res.ErrorId, res.Message, res.Exception);
         }
 

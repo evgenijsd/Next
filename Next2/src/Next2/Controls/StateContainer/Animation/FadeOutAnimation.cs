@@ -4,6 +4,8 @@ namespace Next2.Controls.StateContainer.Animation
 {
     public class FadeOutAnimation : AnimationBase
     {
+        #region -- Overrides --
+
         public override void Apply(View view)
         {
             if (view != null)
@@ -14,5 +16,7 @@ namespace Next2.Controls.StateContainer.Animation
                 });
             }
         }
+
+        #endregion
     }
 }

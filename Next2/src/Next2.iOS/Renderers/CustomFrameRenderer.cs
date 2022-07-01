@@ -11,6 +11,8 @@ namespace Next2.iOS.Renderers
 {
     public class CustomFrameRenderer : FrameRenderer
     {
+        #region -- Overrides --
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -33,5 +35,7 @@ namespace Next2.iOS.Renderers
 
             base.OnElementChanged(e);
         }
+
+        #endregion
     }
 }

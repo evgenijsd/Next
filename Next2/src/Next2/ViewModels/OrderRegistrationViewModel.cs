@@ -169,6 +169,11 @@ namespace Next2.ViewModels
                 await RefreshCurrentOrderAsync();
             }
 
+            if (parameters.ContainsKey(Constants.Navigations.TAX_OFF))
+            {
+                RemoveTax();
+            }
+
             if (CurrentOrder.TaxCoefficient == 0)
             {
                 IsOrderWithTax = false;
@@ -265,6 +270,20 @@ namespace Next2.ViewModels
             _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
 
             return _orderService.UpdateCurrentOrderAsync();
+        }
+
+        public void RemoveTax()
+        {
+            IsOrderWithTax = false;
+
+            if (!IsOrderWithTax)
+            {
+                CurrentOrder.TaxCoefficient = 0;
+                CurrentOrder.UpdateTotalSum();
+                _bonusesService.СalculationBonus(CurrentOrder);
+
+                _orderService.UpdateCurrentOrderAsync().Await();
+            }
         }
 
         public void InitOrderTypes()
@@ -631,6 +650,8 @@ namespace Next2.ViewModels
         {
             if (CurrentOrder.Seats is not null && CurrentOrder.Seats.IndexOf(seat) != -1 && seat.SelectedItem is not null)
             {
+                _seatWithSelectedDish = seat;
+
                 foreach (var item in CurrentOrder.Seats)
                 {
                     if (item.SeatNumber != seat.SeatNumber)
@@ -672,32 +693,11 @@ namespace Next2.ViewModels
 
             if (isUserAdmin)
             {
-                IsOrderWithTax = false;
-                CurrentOrder.TaxCoefficient = 0;
-                CurrentOrder.UpdateTotalSum();
-
-                await _orderService.UpdateCurrentOrderAsync();
+                RemoveTax();
             }
             else
             {
-                _eventAggregator.GetEvent<TaxRemovedEvent>().Subscribe(OnTaxEvent);
-
-                await _navigationService.NavigateAsync(nameof(Views.Mobile.TaxRemoveConfirmPage), useModalNavigation: App.IsTablet);
-            }
-        }
-
-        private void OnTaxEvent(bool isOrderWithTax)
-        {
-            _eventAggregator.GetEvent<TaxRemovedEvent>().Unsubscribe(OnTaxEvent);
-
-            IsOrderWithTax = isOrderWithTax;
-
-            if (!IsOrderWithTax)
-            {
-                CurrentOrder.TaxCoefficient = 0;
-                CurrentOrder.UpdateTotalSum();
-
-                _orderService.UpdateCurrentOrderAsync().Await();
+                await _navigationService.NavigateAsync(nameof(TaxRemoveConfirmPage));
             }
         }
 

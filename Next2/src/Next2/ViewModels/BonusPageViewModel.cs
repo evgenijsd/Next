@@ -95,7 +95,7 @@ namespace Next2.ViewModels
                     foreach (var coupon in Coupons)
                     {
                         coupon.TapCommand = TapSelectBonusCommand;
-                        coupon.Type = EBonusType.Coupone;
+                        coupon.Type = EBonusType.Coupon;
                     }
                 }
 
@@ -204,7 +204,7 @@ namespace Next2.ViewModels
                     Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
                 }
 
-                if (bonus.Type is EBonusType.Coupone)
+                if (bonus.Type is EBonusType.Coupon)
                 {
                     var coupon = _mapper.Map<CouponModelDTO>(bonus);
                     coupon.SeatNumbers = CurrentOrder.Seats.Count;
@@ -225,7 +225,7 @@ namespace Next2.ViewModels
 
         private Task OnTapSelectCollapceCommandAsync(EBonusType bonusType)
         {
-            if (bonusType == EBonusType.Coupone)
+            if (bonusType == EBonusType.Coupon)
             {
                 HeightCoupons = HeightCoupons == 0
                     ? Coupons.Count * _heightBonus

@@ -14,18 +14,20 @@ namespace Next2.Droid.Effects
 {
     public class TouchEffect : PlatformEffect
     {
-        Android.Views.View view;
-        Element formsElement;
-        Next2.Effects.TouchEffect libTouchEffect;
-        bool capture;
-        Func<double, double> fromPixels;
-        int[] twoIntArray = new int[2];
+        private Android.Views.View view;
+        private Element formsElement;
+        private Next2.Effects.TouchEffect libTouchEffect;
+        private bool capture;
+        private Func<double, double> fromPixels;
+        private int[] twoIntArray = new int[2];
 
-        static Dictionary<Android.Views.View, TouchEffect> viewDictionary =
+        private static Dictionary<Android.Views.View, TouchEffect> viewDictionary =
             new Dictionary<Android.Views.View, TouchEffect>();
 
-        static Dictionary<int, TouchEffect> idToEffectDictionary =
+        private static Dictionary<int, TouchEffect> idToEffectDictionary =
             new Dictionary<int, TouchEffect>();
+
+        #region -- Overrides --
 
         protected override void OnAttached()
         {
@@ -62,7 +64,11 @@ namespace Next2.Droid.Effects
             }
         }
 
-        void OnTouch(object sender, Android.Views.View.TouchEventArgs args)
+        #endregion
+
+        #region -- Private helpers --
+
+        private void OnTouch(object sender, Android.Views.View.TouchEventArgs args)
         {
             // Two object common to all the events
             Android.Views.View senderView = sender as Android.Views.View;
@@ -154,7 +160,7 @@ namespace Next2.Droid.Effects
             }
         }
 
-        void CheckForBoundaryHop(int id, Point pointerLocation)
+        private void CheckForBoundaryHop(int id, Point pointerLocation)
         {
             TouchEffect touchEffectHit = null;
 
@@ -191,7 +197,7 @@ namespace Next2.Droid.Effects
             }
         }
 
-        void FireEvent(TouchEffect touchEffect, int id, ETouchActionType actionType, Point pointerLocation, bool isInContact)
+        private void FireEvent(TouchEffect touchEffect, int id, ETouchActionType actionType, Point pointerLocation, bool isInContact)
         {
             // Get the method to call for firing events
             Action<Element, TouchActionEventArgs> onTouchAction = touchEffect.libTouchEffect.OnTouchAction;
@@ -206,5 +212,7 @@ namespace Next2.Droid.Effects
             onTouchAction(touchEffect.formsElement,
                 new TouchActionEventArgs(id, actionType, point, isInContact));
         }
+
+        #endregion
     }
 }

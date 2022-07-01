@@ -201,10 +201,18 @@ namespace Next2.Controls
 
                 var saveState = state;
 
-                if (SelectedStartDate is not null && (SelectedStartDate.Value.Year > Year || (SelectedStartDate.Value.Year == Year && SelectedStartDate.Value.Month > Month) ||
-                    (SelectedStartDate.Value.Year == Year && SelectedStartDate.Value.Month == Month && SelectedStartDate.Value.Day > day)))
+                if (SelectedStartDate is not null)
                 {
-                    state = EDayState.NoDayMonth;
+                    var selectedStartDate = SelectedStartDate.Value;
+                    var selectedYear = selectedStartDate.Year;
+                    var selectedMonth = selectedStartDate.Month;
+
+                    if (selectedYear > Year
+                        || (selectedYear == Year && selectedMonth > Month)
+                        || (selectedYear == Year && selectedMonth == Month && selectedStartDate.Day > day))
+                    {
+                        state = EDayState.NoDayMonth;
+                    }
                 }
 
                 Days.Add(new Day { DayOfMonth = day.ToString(), State = state, });

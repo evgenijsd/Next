@@ -77,6 +77,7 @@
             public const string REFRESH_ORDER = "REFRESH_ORDER";
             public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string BONUS = "BONUS";
+            public const string TAX_OFF = "TAX_OFF";
             public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
