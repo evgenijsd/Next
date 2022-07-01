@@ -231,7 +231,7 @@ namespace Next2.Services.Order
                     {
                         var seats = resultOfGettingOrder.Result.Seats;
 
-                        if (seats?.Count() == 0 && IsOpenOrder(resultOfGettingOrder.Result))
+                        if (!IsOrderWithDishes(resultOfGettingOrder.Result) && IsOpenOrder(resultOfGettingOrder.Result))
                         {
                             var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(resultOfGettingOrder.Result);
 
@@ -699,6 +699,18 @@ namespace Next2.Services.Order
         private bool IsOpenOrder(OrderModelDTO order)
         {
             return order.OrderStatus is not EOrderStatus.Deleted or EOrderStatus.Closed or EOrderStatus.Canceled;
+        }
+
+        private bool IsOrderWithDishes(OrderModelDTO order)
+        {
+            var result = false;
+
+            if (order.Seats?.Count() > 0)
+            {
+                result = order.Seats.Any(seat => seat.SelectedDishes.Count() > 0);
+            }
+
+            return result;
         }
 
         #endregion
