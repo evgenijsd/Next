@@ -15,7 +15,7 @@
     x:Class="Next2.Views.Tablet.MenuPage"
     x:DataType="viewModels:MenuPageViewModel">
 
-    <Grid ColumnDefinitions="100, *">
+    <Grid ColumnDefinitions="80, *">
 
         <Grid.Triggers>
             <DataTrigger TargetType="Grid" Binding="{Binding NewOrderViewModel.OrderRegistrationViewModel.IsSideMenuVisible}" Value="False">
@@ -45,7 +45,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Property="ColumnDefinitions" Value="115, *" />
+                        <Setter Property="ColumnDefinitions" Value="98, *" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -58,7 +58,7 @@
         <Grid
             Grid.Row="0"
             Grid.Column="0"
-            RowDefinitions="105, *, 80"
+            RowDefinitions="auto, *, 80"
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
             <VisualStateManager.VisualStateGroups>
@@ -95,7 +95,7 @@
                         </VisualState.StateTriggers>
 
                         <VisualState.Setters>
-                            <Setter Property="RowDefinitions" Value="105, *, auto" />
+                            <Setter Property="RowDefinitions" Value="auto, *, auto" />
                         </VisualState.Setters>
 
                     </VisualState>
@@ -106,7 +106,8 @@
             <ffimageloading:CachedImage
                 Grid.Row="0"
                 Grid.Column="0"
-                Background="Blue"
+                HeightRequest="76"
+                WidthRequest="76"
                 Source="pic_logo_small.png"
                 Margin="11, 11, 11, 0">
     
@@ -144,7 +145,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="10" />
+                                <Setter Property="Margin" Value="11" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -195,7 +196,7 @@
                             </VisualState.StateTriggers>
 
                             <VisualState.Setters>
-                                <Setter Property="Margin" Value="0, 14" />
+                                <Setter Property="Margin" Value="0, 12" />
                             </VisualState.Setters>
 
                         </VisualState>
@@ -223,7 +224,7 @@
                         <templates:MenuItemTemplate
                             ImagePath="{Binding ImagePath}"
                             Text="{Binding Title}"
-                            FontSize="{DynamicResource TSize_i9}"
+                            FontSize="{DynamicResource TSize_i10}"
                             FontFamily="Barlow-Medium"/>
                             
                     </DataTemplate>
@@ -234,6 +235,7 @@
             <templates:MenuItemTemplate
                 Grid.Row="2"
                 Grid.Column="0"
+                Padding="0, 0, 0, 10"
                 ImagePath="ic_logout_30x30.png"
                 Text="{xct:Translate LogOut}"
                 FontSize="{DynamicResource TSize_i8}"

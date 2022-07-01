@@ -134,7 +134,7 @@
                             xct:TouchEffect.CommandParameter="{Binding .}">
 
                             <Label
-                                FontSize="{DynamicResource TSize_i8}"
+                                FontSize="{DynamicResource TSize_i9}"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="TailTruncation"
                                 MaxLines="1"
