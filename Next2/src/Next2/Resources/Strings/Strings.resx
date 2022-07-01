@@ -643,4 +643,7 @@ A receipt has been printed for you.</value>
   <data name="SelectValue" xml:space="preserve">
     <value>Select Value</value>
   </data>
+  <data name="SplitTotal" xml:space="preserve">
+    <value>Split Total</value>
+  </data>
 </root>

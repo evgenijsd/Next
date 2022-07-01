@@ -117,6 +117,7 @@ namespace Next2.ViewModels
                 await SplitSelectedDish(seats);
                 await RemoveNullPriceDishes();
                 await RefreshDisplay();
+                SelectFirstDish();
             }
 
             if (parameters.TryGetValue(Constants.DialogParameterKeys.SPLIT_GROUPS, out List<int[]> groupList))
@@ -247,14 +248,14 @@ namespace Next2.ViewModels
             {
                 seat.IsFirstSeat = false;
                 seat.Checked = false;
+                seat.SelectedItem = null;
             }
 
             if (App.IsTablet)
             {
                 var firstSeat = Seats.FirstOrDefault(x => x.SelectedDishes.Count > 0);
-
-                SelectedDish = firstSeat.SelectedDishes.FirstOrDefault();
                 firstSeat.SelectedItem = firstSeat.SelectedDishes.FirstOrDefault();
+                SelectedDish = firstSeat.SelectedItem;
                 firstSeat.Checked = true;
                 firstSeat.IsFirstSeat = true;
             }

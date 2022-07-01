@@ -204,6 +204,28 @@
                                     Grid.Row="0"
                                     Spacing="12">
 
+                                    <StackLayout.Resources>
+
+                                        <Style TargetType="Frame" x:Key="frameStyle">
+
+                                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                            <Setter Property="HeightRequest" Value="51" />
+                                            <Setter Property="WidthRequest" Value="139" />
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                                        </Style>
+
+                                        <Style TargetType="Label" x:Key="labelStyle">
+
+                                            <Setter Property="VerticalTextAlignment" Value="Center" />
+                                            <Setter Property="HorizontalTextAlignment" Value="Center" />
+                                            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                                            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+
+                                        </Style>
+
+                                    </StackLayout.Resources>
+
                                     <Label
                                         Text="{xct:Translate SelectValue}"
                                         FontSize="{DynamicResource TSize_i6}"
@@ -214,47 +236,83 @@
                                         Spacing="12">
 
                                         <Frame
-                                            HeightRequest="51"
-                                            WidthRequest="139"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                            Style="{DynamicResource frameStyle}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="25">
 
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Value="25">
+
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+
+                                                            <Binding Path="AvailableValue" />
+
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+
+                                                    <Setter Property="Opacity" Value="1" />
+
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
                                             <Label
-                                                VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center"
-                                                Text="25 %"
-                                                FontSize="{DynamicResource TSize_i6}" />
+                                                Style="{DynamicResource labelStyle}"
+                                                Text="25 %" />
 
                                         </Frame>
 
                                         <Frame
-                                            HeightRequest="51"
-                                            WidthRequest="139"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                            Style="{DynamicResource frameStyle}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="50">
 
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Value="50">
+
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+
+                                                            <Binding Path="AvailableValue" />
+
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+
+                                                    <Setter Property="Opacity" Value="1" />
+
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
                                             <Label
-                                                VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center"
-                                                Text="50 %"
-                                                FontSize="{DynamicResource TSize_i6}" />
+                                                Style="{DynamicResource labelStyle}"
+                                                Text="50 %" />
 
                                         </Frame>
 
                                         <Frame
-                                            HeightRequest="51"
-                                            WidthRequest="139"
-                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                            Style="{DynamicResource frameStyle}"
                                             xct:TouchEffect.Command="{Binding SelectValueCommand}"
                                             xct:TouchEffect.CommandParameter="75">
 
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Value="75">
+
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+
+                                                            <Binding Path="AvailableValue" />
+
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+
+                                                    <Setter Property="Opacity" Value="1" />
+
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
                                             <Label
-                                                VerticalTextAlignment="Center"
-                                                HorizontalTextAlignment="Center"
-                                                Text="75 %"
-                                                FontSize="{DynamicResource TSize_i6}" />
+                                                Style="{DynamicResource labelStyle}"
+                                                Text="75 %" />
 
                                         </Frame>
 
@@ -310,7 +368,7 @@
                                     <Label
                                         VerticalOptions="Start"
                                         HorizontalOptions="Start"
-                                        Text="Split Total"
+                                        Text="{xct:Translate SplitTotal}"
                                         FontFamily="Barlow-SemiBold"
                                         FontSize="{DynamicResource TSize_i6}" />
 
@@ -348,7 +406,7 @@
                                 IsKeyboardEnabled="{Binding IsKeyboardEnabled}"
                                 Placeholder="{xct:Translate SetValue}"
                                 IsTextRightToLeft="True"
-                                MaxValue="{Binding SelectedDish.TotalPrice}"
+                                MaxValue="{Binding AvailableValue}"
                                 ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
                                 ButtonBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
                                 Value="{Binding SplitValue, Mode=TwoWay}" />
