@@ -45,7 +45,7 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Property="ColumnDefinitions" Value="98, *" />
+                        <Setter Property="ColumnDefinitions" Value="96, *" />
                     </VisualState.Setters>
 
                 </VisualState>
@@ -59,7 +59,7 @@
             Grid.Row="0"
             Grid.Column="0"
             RowDefinitions="auto, *, 80"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
 
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup Name="AdaptiveSideMenu">

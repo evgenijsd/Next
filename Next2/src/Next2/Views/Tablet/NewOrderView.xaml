@@ -165,7 +165,7 @@
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="Padding" Value="24" />
+                                                <Setter Property="Padding" Value="32, 18" />
                                             </VisualState.Setters>
 
                                         </VisualState>
@@ -190,7 +190,7 @@
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i3}" />
+                                                <Setter Property="FontSize" Value="{DynamicResource TSize_i4}" />
                                                 <Setter Property="FontFamily" Value="Barlow-Bold" />
                                             </VisualState.Setters>
 

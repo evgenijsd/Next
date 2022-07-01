@@ -17,12 +17,7 @@
             <VisualState Name="Normal">
 
                 <VisualState.Setters>
-                    <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i3}" />
-                    <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.Border">
-                        <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource TextAndBackgroundColor_i3}"/>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter TargetName="pancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="Transparent" />
                 </VisualState.Setters>
 
             </VisualState>
