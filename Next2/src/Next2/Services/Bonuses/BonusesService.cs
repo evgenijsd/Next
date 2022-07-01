@@ -36,7 +36,7 @@ namespace Next2.Services.Bonuses
             {
                 var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons/{id}");
 
-                if (response.Success)
+                if (response.Success && response.Value is not null)
                 {
                     result.SetSuccess(response.Value.Coupon);
                 }
@@ -125,7 +125,10 @@ namespace Next2.Services.Bonuses
 
                 foreach (var dish in dishes)
                 {
-                    dish.DiscountPrice = percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage);
+                    dish.DiscountPrice = percentage == 1
+                        ? 0
+                        : dish.TotalPrice / (1 - percentage);
+
                     dish.TotalPrice = dish.DiscountPrice;
                 }
             }

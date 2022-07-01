@@ -130,6 +130,7 @@ namespace Next2.Services.Authentication
                 _settingsManager.Token = string.Empty;
                 _settingsManager.RefreshToken = string.Empty;
                 _settingsManager.TokenExpirationDate = DateTime.Now;
+                _settingsManager.IsUserAdmin = false;
 
                 result.SetSuccess();
             }
