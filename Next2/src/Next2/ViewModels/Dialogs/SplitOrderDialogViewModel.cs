@@ -194,15 +194,17 @@ namespace Next2.ViewModels.Dialogs
                         ? 0
                         : Math.Round(SelectedDish.TotalPrice - SplitTotal, 2);
 
+                    var seats = Seats.Where(x => x.SelectedItem.TotalPrice > 0).ToList();
+
                     DialogParameters param = new()
                     {
-                        { Constants.DialogParameterKeys.SEATS, Seats.Where(x => x.SelectedItem.TotalPrice > 0).ToList() },
+                        { Constants.DialogParameterKeys.SEATS, seats },
                     };
 
                     RequestClose.Invoke(param);
-                }
 
-                _canExecute = false;
+                    _canExecute = false;
+                }
             }
 
             return Task.CompletedTask;

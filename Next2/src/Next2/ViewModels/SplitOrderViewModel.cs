@@ -173,6 +173,7 @@ namespace Next2.ViewModels
                         await CopyCurrentOrderTo(order);
 
                         order.Seats = outSeats;
+                        order.Open = DateTime.Now;
 
                         CalculateOrderPrices(order);
 
@@ -214,7 +215,6 @@ namespace Next2.ViewModels
                 order.OrderStatus = Order.OrderStatus;
                 order.TaxCoefficient = Order.TaxCoefficient;
                 order.OrderType = Order.OrderType;
-                order.Open = DateTime.Now;
                 order.Coupon = Order.Coupon;
                 order.Discount = Order.Discount;
                 order.TotalPrice = Order.TotalPrice;
@@ -273,10 +273,11 @@ namespace Next2.ViewModels
 
                 if (incomingSeat is not null)
                 {
-                    var dish = SelectedDish.Clone() as DishBindableModel;
-                    dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
-
-                    seat.SelectedDishes.Add(dish);
+                    if (SelectedDish.Clone() is DishBindableModel dish)
+                    {
+                        dish.TotalPrice = incomingSeat.SelectedItem.TotalPrice;
+                        seat.SelectedDishes.Add(dish);
+                    }
                 }
             }
 
@@ -287,7 +288,7 @@ namespace Next2.ViewModels
         {
             foreach (var seat in Seats)
             {
-                List<DishBindableModel>? selectedDishes = new(seat.SelectedDishes);
+                List<DishBindableModel> selectedDishes = new(seat.SelectedDishes);
 
                 foreach (var dish in selectedDishes)
                 {
