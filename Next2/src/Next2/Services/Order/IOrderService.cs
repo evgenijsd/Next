@@ -46,5 +46,7 @@ namespace Next2.Services.Order
         Task<AOResult> SetCurrentOrderAsync(Guid orderId);
 
         Task<AOResult<Guid>> UpdateCurrentOrderAsync();
+
+        void UpdateTotalSum(FullOrderBindableModel currentOrder);
     }
 }

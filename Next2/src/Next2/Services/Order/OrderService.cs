@@ -57,6 +57,59 @@ namespace Next2.Services.Order
 
         #region -- IOrderService implementation --
 
+        public void UpdateTotalSum(FullOrderBindableModel currentOrder)
+        {
+            currentOrder.SubTotalPrice = 0;
+            currentOrder.DiscountPrice = 0;
+
+            foreach (var seat in currentOrder.Seats)
+            {
+                foreach (var dish in seat.SelectedDishes)
+                {
+                    decimal totalProductsPrice = 0;
+
+                    foreach (var product in dish.SelectedProducts)
+                    {
+                        var ingredientsPrice = product.AddedIngredients is not null
+                            ? product.AddedIngredients.Sum(row => row.Price)
+                            : 0;
+                        ingredientsPrice += product.ExcludedIngredients is not null
+                            ? product.ExcludedIngredients.Sum(row => row.Price)
+                            : 0;
+                        var productPrice = product.Price;
+                        totalProductsPrice += ingredientsPrice + productPrice;
+                    }
+
+                    dish.DiscountPrice = dish.TotalPrice;
+
+                    if (currentOrder.Discount is DiscountModelDTO discount)
+                    {
+                        dish.DiscountPrice = totalProductsPrice - ((discount.DiscountPercentage * totalProductsPrice) / 100);
+                    }
+                    else if (currentOrder.Coupon is CouponModelDTO coupon)
+                    {
+                        dish.DiscountPrice = coupon.Dishes.Any(x => x.Id == dish.DishId)
+                            ? totalProductsPrice - ((coupon.DiscountPercentage * totalProductsPrice) / 100)
+                            : totalProductsPrice;
+                    }
+
+                    dish.TotalPrice = totalProductsPrice;
+
+                    currentOrder.SubTotalPrice += dish.TotalPrice;
+                    currentOrder.DiscountPrice += dish.DiscountPrice;
+                }
+            }
+
+            if (currentOrder.DiscountPrice == currentOrder.SubTotalPrice)
+            {
+                currentOrder.Discount = null;
+                currentOrder.Coupon = null;
+            }
+
+            currentOrder.PriceTax = (decimal)currentOrder.DiscountPrice * currentOrder.TaxCoefficient;
+            currentOrder.TotalPrice = (decimal)currentOrder.DiscountPrice + currentOrder.PriceTax;
+        }
+
         public async Task<AOResult<OrderModelDTO>> CreateNewOrderAsync()
         {
             var result = new AOResult<OrderModelDTO>();
@@ -300,17 +353,7 @@ namespace Next2.Services.Order
 
                 CurrentOrder.Seats[CurrentOrder.Seats.IndexOf(CurrentSeat)].SelectedDishes.Add(dish);
 
-                CurrentOrder.SubTotalPrice = CurrentOrder.Seats.Sum(row => row.SelectedDishes.Sum(row => row.TotalPrice));
-
-                CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
-
-                CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
-
-                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-                {
-                    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                    _bonusesService.СalculationBonus(CurrentOrder);
-                }
+                UpdateTotalSum(CurrentOrder);
 
                 result.SetSuccess();
             }
@@ -374,9 +417,7 @@ namespace Next2.Services.Order
 
                     if (seat.SelectedDishes.Count != 0)
                     {
-                        CurrentOrder.SubTotalPrice -= seat.SelectedDishes.Sum(row => row.TotalPrice);
-                        CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
-                        CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                        UpdateTotalSum(CurrentOrder);
                     }
 
                     result.SetSuccess();
@@ -433,9 +474,7 @@ namespace Next2.Services.Order
                 if (dishTobeRemoved is not null)
                 {
                     CurrentOrder.Seats.FirstOrDefault(x => x.SelectedItem is not null).SelectedDishes.Remove(dishTobeRemoved);
-                    CurrentOrder.SubTotalPrice -= dishTobeRemoved.TotalPrice;
-                    CurrentOrder.PriceTax = (decimal)(CurrentOrder.SubTotalPrice * CurrentOrder.TaxCoefficient);
-                    CurrentOrder.TotalPrice = (decimal)(CurrentOrder.SubTotalPrice + CurrentOrder.PriceTax);
+                    UpdateTotalSum(CurrentOrder);
                 }
 
                 result.SetSuccess();

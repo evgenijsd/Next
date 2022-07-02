@@ -22,20 +22,20 @@ namespace Next2.ViewModels
     public class BonusPageViewModel : BaseViewModel
     {
         private readonly IMapper _mapper;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IOrderService _orderService;
         private readonly IBonusesService _bonusesService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
         public BonusPageViewModel(
             INavigationService navigationService,
-            IEventAggregator eventAggregator,
+            IOrderService orderService,
             IMapper mapper,
             IBonusesService bonusesService)
             : base(navigationService)
         {
             _mapper = mapper;
             _bonusesService = bonusesService;
-            _eventAggregator = eventAggregator;
+            _orderService = orderService;
         }
 
         #region -- Public properties --
@@ -77,13 +77,13 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-                {
-                    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-                }
+                //if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+                //{
+                //    _bonusesService.ResetСalculationBonus(CurrentOrder);
+                //    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+                //}
 
-                _bonusesService.СalculationBonus(CurrentOrder);
+                //_bonusesService.СalculationBonus(CurrentOrder);
                 Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
                 var coupons = await GetCoupons();
@@ -196,30 +196,30 @@ namespace Next2.ViewModels
                 ? null
                 : bonus;
 
-            if (bonus is not null)
+            if (bonus?.Type is EBonusType.Coupon)
             {
-                if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-                {
-                    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-                }
+                var coupon = _mapper.Map<CouponModelDTO>(bonus);
+                coupon.SeatNumbers = CurrentOrder.Seats.Count;
 
-                if (bonus.Type is EBonusType.Coupon)
-                {
-                    var coupon = _mapper.Map<CouponModelDTO>(bonus);
-                    coupon.SeatNumbers = CurrentOrder.Seats.Count;
-
-                    CurrentOrder.Discount = null;
-                    CurrentOrder.Coupon = coupon;
-                }
-                else if (bonus.Type is EBonusType.Discount)
-                {
-                    CurrentOrder.Coupon = null;
-                    CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
-                }
+                CurrentOrder.Discount = null;
+                CurrentOrder.Coupon = coupon;
+            }
+            else if (bonus?.Type is EBonusType.Discount)
+            {
+                CurrentOrder.Coupon = null;
+                CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
             }
 
-            _bonusesService.СalculationBonus(CurrentOrder);
+            //if (bonus is not null)
+            //{
+            //    //if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
+            //    //{
+            //    //    //_bonusesService.ResetСalculationBonus(CurrentOrder);
+            //    //    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
+            //    //}
+            //}
+            _orderService.UpdateTotalSum(CurrentOrder);
+            //_bonusesService.СalculationBonus(CurrentOrder);
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
         }
 
