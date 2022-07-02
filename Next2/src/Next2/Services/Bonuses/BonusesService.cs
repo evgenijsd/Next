@@ -111,7 +111,7 @@ namespace Next2.Services.Bonuses
                 {
                     foreach (var dish in dishes)
                     {
-                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.DishId)
                             ? percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage)
                             : dish.TotalPrice;
 
@@ -156,7 +156,7 @@ namespace Next2.Services.Bonuses
                 {
                     foreach (var dish in dishes)
                     {
-                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.DishId)
                             ? dish.TotalPrice - (dish.TotalPrice * percentage)
                             : dish.TotalPrice;
 
