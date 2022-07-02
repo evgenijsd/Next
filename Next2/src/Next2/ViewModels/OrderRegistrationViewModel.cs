@@ -280,7 +280,7 @@ namespace Next2.ViewModels
             {
                 CurrentOrder.TaxCoefficient = 0;
                 _orderService.UpdateTotalSum(CurrentOrder);
-                //_bonusesService.СalculationBonus(CurrentOrder);
+
                 _orderService.UpdateCurrentOrderAsync().Await();
             }
         }
@@ -788,7 +788,6 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
-                        //_bonusesService.СalculationBonus(CurrentOrder);
                         _orderService.UpdateTotalSum(CurrentOrder);
 
                         await RefreshCurrentOrderAsync();

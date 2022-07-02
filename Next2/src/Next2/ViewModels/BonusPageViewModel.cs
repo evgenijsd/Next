@@ -77,13 +77,6 @@ namespace Next2.ViewModels
             {
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
-                //if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-                //{
-                //    _bonusesService.ResetСalculationBonus(CurrentOrder);
-                //    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-                //}
-
-                //_bonusesService.СalculationBonus(CurrentOrder);
                 Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
 
                 var coupons = await GetCoupons();
@@ -210,16 +203,8 @@ namespace Next2.ViewModels
                 CurrentOrder.Discount = _mapper.Map<DiscountModelDTO>(bonus);
             }
 
-            //if (bonus is not null)
-            //{
-            //    //if (CurrentOrder.Coupon is not null || CurrentOrder.Discount is not null)
-            //    //{
-            //    //    //_bonusesService.ResetСalculationBonus(CurrentOrder);
-            //    //    Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
-            //    //}
-            //}
             _orderService.UpdateTotalSum(CurrentOrder);
-            //_bonusesService.СalculationBonus(CurrentOrder);
+
             Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
         }
 

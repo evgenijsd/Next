@@ -100,18 +100,19 @@ namespace Next2.ViewModels.Mobile
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
             };
 
-            PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteSetDialogCallbackAsync);
+            PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteDishDialogCallbackAsync);
 
             await PopupNavigation.PushAsync(confirmDialog);
         }
 
-        private async void CloseDeleteSetDialogCallbackAsync(IDialogParameters parameters)
+        private async void CloseDeleteDishDialogCallbackAsync(IDialogParameters parameters)
         {
             if (parameters is not null && parameters.TryGetValue(Constants.DialogParameterKeys.ACCEPT, out bool isDishRemovingAccepted))
             {
                 if (isDishRemovingAccepted)
                 {
                     var result = await _orderService.DeleteDishFromCurrentSeatAsync();
+                    await _orderService.UpdateCurrentOrderAsync();
 
                     if (result.IsSuccess)
                     {

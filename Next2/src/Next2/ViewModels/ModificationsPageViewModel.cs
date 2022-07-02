@@ -643,10 +643,9 @@ namespace Next2.ViewModels
         {
             CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish] = _currentDish;
             _orderService.CurrentOrder = CurrentOrder;
-            _orderService.UpdateTotalSum(_orderService.CurrentOrder);
-            //_bonusesService.СalculationBonus(CurrentOrder);
             var seatNumber = _orderService?.CurrentSeat?.SeatNumber;
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == seatNumber);
+            _orderService.UpdateTotalSum(_orderService.CurrentOrder);
 
             var parameters = new NavigationParameters();
 
