@@ -696,7 +696,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _navigationService.NavigateAsync(nameof(TaxRemoveConfirmPage));
+                await _navigationService.NavigateAsync(nameof(TaxRemoveConfirmPage), useModalNavigation: true);
             }
         }
 
