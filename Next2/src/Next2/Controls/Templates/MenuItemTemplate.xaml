@@ -80,7 +80,7 @@
     </VisualStateManager.VisualStateGroups>
 
     <pancakeview:PancakeView
-        CornerRadius="{OnIdiom Tablet='8', Phone='5'}"
+        CornerRadius="{OnIdiom Tablet='7', Phone='5'}"
         x:Name="pancakeView">
         
         <StackLayout

@@ -40,18 +40,18 @@
             <Label
                 Grid.Column="0"
                 Text="{xct:Translate OrderTabs}"
-                Padding="24"
+                Padding="32, 18"
                 VerticalOptions="CenterAndExpand"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontFamily="Barlow-Bold"
-                FontSize="{DynamicResource TSize_i4}" />
+                FontSize="{DynamicResource TSize_i4_5}" />
 
             <controls:CustomButton
                 Grid.Column="0"
                 Text="{xct:Translate Orders}"
-                CornerRadius="10, 0, 0, 0"
-                HeightRequest="50"
-                WidthRequest="260"
+                CornerRadius="6, 0, 0, 0"
+                HeightRequest="44"
+                WidthRequest="250"
                 HorizontalOptions="End"
                 VerticalOptions="End"
                 IsSelected="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}"
@@ -60,9 +60,9 @@
             <controls:CustomButton
                 Grid.Column="1"
                 Text="{xct:Translate Tabs}"
-                CornerRadius="0, 10, 0, 0"
-                HeightRequest="50"
-                WidthRequest="260"
+                CornerRadius="0, 6, 0, 0"
+                HeightRequest="44"
+                WidthRequest="250"
                 HorizontalOptions="Start"
                 VerticalOptions="End"
                 IsSelected="{Binding IsTabsModeSelected}"

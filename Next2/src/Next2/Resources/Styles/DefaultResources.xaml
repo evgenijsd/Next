@@ -118,10 +118,10 @@
 
     <Style x:Key="DropDownListStyle_i1" TargetType="controls:DropDownList">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="CornerRadius" Value="6"/>
         <Setter Property="Border">
             <Setter.Value>
-                <pancake:Border Color="#424861" Thickness="2"/>
+                <pancake:Border Color="#424861" Thickness="1"/>
             </Setter.Value>
         </Setter>
         <Setter Property="BackgroundColor" Value="Transparent"/>
@@ -131,7 +131,7 @@
         <Setter Property="IconSizes" Value="18"/>
         <Setter Property="HeaderTextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
         <Setter Property="HeaderFontFamily" Value="Barlow-Medium"/>
-        <Setter Property="HeaderTextSize" Value="14"/>
+        <Setter Property="HeaderTextSize" Value="12"/>
         <Setter Property="MaxNumberOfVisibleItems" Value="3"/>
         <Setter Property="ItemHeight" Value="40"/>
         <Style.Triggers>
