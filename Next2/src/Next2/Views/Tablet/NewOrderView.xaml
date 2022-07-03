@@ -211,8 +211,7 @@
 
                         <BoxView
                             HeightRequest="1"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
-                        </BoxView>
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}"/>
 
                         <StackLayout VerticalOptions="Start">
 
@@ -246,7 +245,7 @@
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
-                                                    <Setter Property="Padding" Value="40, 34, 40, 0" />
+                                                    <Setter Property="Padding" Value="32, 17, 32, 0" />
                                                 </VisualState.Setters>
 
                                             </VisualState>
@@ -258,25 +257,29 @@
                                 <Label
                                     Text="{xct:Translate Categories}"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                    Style="{StaticResource labeltSize_i4}"
+                                    Style="{StaticResource labeltSize_i6}"
                                     FontFamily="Barlow-SemiBold"
                                     VerticalTextAlignment="Center"/>
 
                                 <Frame
                                     CornerRadius="5"
-                                    BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                    BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
                                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                                    Padding="15, 5"
+                                    Padding="15, 8"
                                     HorizontalOptions="EndAndExpand">
 
                                     <StackLayout Orientation="Horizontal">
 
-                                        <ffimageloading:CachedImage Source="ic_category_24x24"/>
+                                        <ffimageloading:CachedImage 
+                                            HeightRequest="20"
+                                            WidthRequest="20"
+                                            Source="ic_category_24x24"/>
 
                                         <Label
+                                            VerticalOptions="Center"
                                             Text="{xct:Translate Expand}"
                                             TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                            FontSize="{DynamicResource TSize_i7}"
+                                            FontSize="{DynamicResource TSize_i9}"
                                             FontFamily="Barlow-Medium"
                                             Margin="10, 0, 0, 0"/>
 
@@ -321,7 +324,7 @@
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="Margin" Value="40, 26, 40, 32" />
+                                                <Setter Property="Margin" Value="35, 16, 35, 32" />
                                                 <Setter Property="HeightRequest" Value="116" />
                                             </VisualState.Setters>
 
@@ -413,26 +416,30 @@
                             <Label
                                 Text="{xct:Translate Menu}"
                                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                Style="{StaticResource labeltSize_i4}"
+                                Style="{StaticResource labeltSize_i6}"
                                 FontFamily="Barlow-SemiBold"
                                 VerticalTextAlignment="Center"/>
 
                             <Frame
                                 CornerRadius="5"
-                                BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"
-                                Padding="15, 5"
+                                Padding="15, 8"
                                 HorizontalOptions="EndAndExpand"
                                 xct:TouchEffect.Command="{Binding TapSortCommand}">
 
                                 <StackLayout Orientation="Horizontal">
 
-                                    <ffimageloading:CachedImage Source="ic_swap_24x24"/>
+                                    <ffimageloading:CachedImage 
+                                        HeightRequest="20"
+                                        WidthRequest="20"
+                                        Source="ic_swap_24x24"/>
 
                                     <Label
+                                        VerticalOptions="Center"
                                         Text="{xct:Translate TypeOrder}"
                                         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                        FontSize="{DynamicResource TSize_i7}"
+                                        FontSize="{DynamicResource TSize_i9}"
                                         FontFamily="Barlow-Medium"
                                         Margin="10, 0, 0, 0"/>
 

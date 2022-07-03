@@ -158,7 +158,7 @@
                             HeightRequest="54"
                             FontSize="{DynamicResource TSize_i8}"
                             FontFamily="Barlow-Medium"
-                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"/>
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

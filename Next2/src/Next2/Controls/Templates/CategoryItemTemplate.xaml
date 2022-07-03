@@ -1,27 +1,36 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<StackLayout
+<pancakeview:PancakeView
+    xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
-    x:Class="Next2.Controls.Templates.CategoryItemTemplate">
+    BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
+    Padding="8, 0"
+    CornerRadius="5"
+    HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
+    x:Class="Next2.Controls.Templates.CategoryItemTemplate"
+    x:Name="categoryPancakeView">
 
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup Name="CommonStates">
 
-            <VisualState Name="Selected">
+            <VisualState Name="Normal">
 
                 <VisualState.Setters>
-                    <Setter TargetName="frame" Property="Frame.BackgroundColor" Value="{DynamicResource AppColor_i4}" />
-                    <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                    <Setter TargetName="categoryPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
                 </VisualState.Setters>
 
             </VisualState>
 
-            <VisualState Name="Normal">
+            <VisualState Name="Selected">
 
                 <VisualState.Setters>
-                    <Setter TargetName="frame" Property="Frame.BackgroundColor" Value="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}" />
-                    <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                    <Setter TargetName="categoryPancakeView" Property="pancakeview:PancakeView.BackgroundColor" Value="{DynamicResource AppColor_i4}" />
+                    <Setter TargetName="categoryPancakeView" Property="pancakeview:PancakeView.Border">
+                        <Setter.Value>
+                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1"/>
+                        </Setter.Value>
+                    </Setter>
                 </VisualState.Setters>
 
             </VisualState>
@@ -50,6 +59,7 @@
 
                 <VisualState.Setters>
                     <Setter Property="WidthRequest" Value="165" />
+                    <Setter Property="BackgroundColor" Value="Orange" />
                 </VisualState.Setters>
 
             </VisualState>
@@ -62,6 +72,7 @@
 
                 <VisualState.Setters>
                     <Setter Property="WidthRequest" Value="127" />
+                    <Setter Property="BackgroundColor" Value="Blue" />
                 </VisualState.Setters>
 
             </VisualState>
@@ -73,7 +84,8 @@
                 </VisualState.StateTriggers>
 
                 <VisualState.Setters>
-                    <Setter Property="WidthRequest" Value="138" />
+                    <Setter Property="WidthRequest" Value="116" />
+                    <Setter Property="BackgroundColor" Value="Red" />
                 </VisualState.Setters>
 
             </VisualState>
@@ -81,25 +93,15 @@
         </VisualStateGroup>
     </VisualStateManager.VisualStateGroups>
 
-    <Frame
-        Padding="0"
-        Margin="1"
-        HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
-        BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
-        BorderColor="{DynamicResource TextAndBackgroundColor_i4}"
-        CornerRadius="10"
-        x:Name="frame">
+    <Label
+        Padding="0, 0, 0, 3"
+        Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=Text}"
+        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+        FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontSize}"
+        FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontFamily}"
+        HorizontalTextAlignment="Center"
+        VerticalTextAlignment="Center"
+        LineBreakMode="TailTruncation"
+        MaxLines="1"/>
 
-        <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=Text}"
-            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-            FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontSize}"
-            FontFamily="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontFamily}"
-            HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center"
-            LineBreakMode="TailTruncation"
-            MaxLines="1"/>
-
-    </Frame>
-
-</StackLayout>
+</pancakeview:PancakeView>
