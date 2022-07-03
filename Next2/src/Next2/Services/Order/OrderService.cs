@@ -61,6 +61,8 @@ namespace Next2.Services.Order
         {
             currentOrder.SubTotalPrice = 0;
             currentOrder.DiscountPrice = 0;
+            var discountPercentage = currentOrder.Coupon?.DiscountPercentage ?? 0 + currentOrder.Discount?.DiscountPercentage ?? 0;
+            var couponDishes = currentOrder.Coupon?.Dishes?.ToList() ?? new();
 
             foreach (var seat in currentOrder.Seats)
             {
@@ -73,26 +75,33 @@ namespace Next2.Services.Order
                         var ingredientsPrice = product.AddedIngredients is not null
                             ? product.AddedIngredients.Sum(row => row.Price)
                             : 0;
+
                         ingredientsPrice += product.ExcludedIngredients is not null
                             ? product.ExcludedIngredients.Sum(row => row.Price)
                             : 0;
+
                         var productPrice = product.Price;
                         totalProductsPrice += ingredientsPrice + productPrice;
                     }
 
-                    dish.DiscountPrice = dish.TotalPrice;
+                    var discountProductsPrice = totalProductsPrice;
 
-                    if (currentOrder.Discount is DiscountModelDTO discount)
+                    if (currentOrder.Coupon is not null)
                     {
-                        dish.DiscountPrice = totalProductsPrice - ((discount.DiscountPercentage * totalProductsPrice) / 100);
+                        var couponDish = couponDishes.FirstOrDefault(x => x.Id == dish.DishId);
+
+                        if (couponDish is not null)
+                        {
+                            discountProductsPrice = totalProductsPrice - (discountPercentage * totalProductsPrice / 100);
+                            couponDishes.Remove(couponDish);
+                        }
                     }
-                    else if (currentOrder.Coupon is CouponModelDTO coupon)
+                    else
                     {
-                        dish.DiscountPrice = coupon.Dishes.Any(x => x.Id == dish.DishId)
-                            ? totalProductsPrice - ((coupon.DiscountPercentage * totalProductsPrice) / 100)
-                            : totalProductsPrice;
+                        discountProductsPrice = totalProductsPrice - (discountPercentage * totalProductsPrice / 100);
                     }
 
+                    dish.DiscountPrice = discountProductsPrice;
                     dish.TotalPrice = totalProductsPrice;
 
                     currentOrder.SubTotalPrice += dish.TotalPrice;
