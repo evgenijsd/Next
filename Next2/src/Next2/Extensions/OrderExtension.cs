@@ -227,17 +227,14 @@ namespace Next2.Extensions
                 {
                     foreach (var product in dish.SelectedProducts)
                     {
-                        product.Price = СalculatePriceOfProportion(
-                            price: product.Product.DefaultPrice,
-                            priceRatio: dish.SelectedDishProportion.PriceRatio);
+                        var priceRatio = dish.SelectedDishProportion.PriceRatio;
+                        product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, priceRatio);
 
                         if (product.AddedIngredients is not null)
                         {
                             foreach (var addedIngredient in product.AddedIngredients)
                             {
-                                addedIngredient.Price = СalculatePriceOfProportion(
-                                    price: addedIngredient.Price,
-                                    priceRatio: dish.SelectedDishProportion.PriceRatio);
+                                addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, priceRatio);
                             }
                         }
 
@@ -245,9 +242,7 @@ namespace Next2.Extensions
                         {
                             foreach (var excludedIngredient in product.ExcludedIngredients)
                             {
-                                excludedIngredient.Price = СalculatePriceOfProportion(
-                                    price: excludedIngredient.Price,
-                                    priceRatio: dish.SelectedDishProportion.PriceRatio);
+                                excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, priceRatio);
                             }
                         }
                     }
