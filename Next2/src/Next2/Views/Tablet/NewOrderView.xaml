@@ -325,7 +325,7 @@
 
                                             <VisualState.Setters>
                                                 <Setter Property="Margin" Value="35, 16, 35, 32" />
-                                                <Setter Property="HeightRequest" Value="116" />
+                                                <Setter Property="HeightRequest" Value="122" />
                                             </VisualState.Setters>
 
                                         </VisualState>

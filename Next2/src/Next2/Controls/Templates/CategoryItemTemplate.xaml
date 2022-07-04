@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
-    Padding="8, 0"
+    Padding="10, 0"
     CornerRadius="5"
     HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
     x:Class="Next2.Controls.Templates.CategoryItemTemplate"
@@ -84,8 +84,7 @@
                 </VisualState.StateTriggers>
 
                 <VisualState.Setters>
-                    <Setter Property="WidthRequest" Value="116" />
-                    <Setter Property="BackgroundColor" Value="Red" />
+                    <Setter Property="WidthRequest" Value="98" />
                 </VisualState.Setters>
 
             </VisualState>
@@ -94,7 +93,7 @@
     </VisualStateManager.VisualStateGroups>
 
     <Label
-        Padding="0, 0, 0, 3"
+        Padding="0, 0, 0, 1"
         Text="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=Text}"
         TextColor="{DynamicResource TextAndBackgroundColor_i1}"
         FontSize="{Binding Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}, Path=FontSize}"
