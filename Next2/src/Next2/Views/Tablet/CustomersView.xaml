@@ -20,7 +20,7 @@
 
             <Style x:Key="ViewCellLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-                <Setter Property="FontSize" Value="{DynamicResource TSize_i8}" />
+                <Setter Property="FontSize" Value="{DynamicResource TSize_i9}" />
                 <Setter Property="FontFamily" Value="Barlow-Medium" />
                 <Setter Property="VerticalOptions" Value="Center" />
             </Style>
@@ -48,7 +48,7 @@
 
         <Grid
             BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-            RowDefinitions="0.111*, 0.79*, 0.1*"
+            RowDefinitions="auto, 0.79*, 0.1*"
             RowSpacing="2">
 
             <!--  header  -->
@@ -58,9 +58,9 @@
 
             <Label
                 Grid.Row="0"
-                Margin="24, 0, 0, 0"
+                Padding="32, 19, 32, 16"
                 FontFamily="Barlow-Bold"
-                FontSize="{DynamicResource TSize_i4}"
+                FontSize="{DynamicResource TSize_i4_5}"
                 HorizontalOptions="Start"
                 Text="{xct:Translate Customers}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
@@ -73,11 +73,12 @@
                 CornerRadius="0" >
 
                 <StackLayout>
+                    
                     <Grid
-                        HeightRequest="45"
-                        MinimumHeightRequest="45"
-                        Margin="24, 30, 24, 22"
-                        ColumnDefinitions="0.35*, 0.65*">
+                        ColumnDefinitions="0.35*, 0.65*"
+                        Margin="32, 30, 32, 18"
+                        MinimumHeightRequest="36"
+                        HeightRequest="36">
 
                         <controls:SearchButton
                             CornerRadius="5"
@@ -174,8 +175,8 @@
 
                         <yummy:PancakeView
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
-                            Border="{yummy:BorderMarkup Thickness=3, Color={StaticResource TextAndBackgroundColor_i3}}"
-                            Margin="26, 0, 26, 20"
+                            Border="{yummy:BorderMarkup Thickness=1, Color={StaticResource TextAndBackgroundColor_i3}}"
+                            Margin="32, 0, 32, 20"
                             IsVisible="false"
                             CornerRadius="8"
                             VerticalOptions="FillAndExpand"
@@ -205,14 +206,14 @@
                         <StackLayout>
 
                             <yummy:PancakeView
-                                Margin="24, 0"
+                                Margin="32, 0"
                                 BackgroundColor="{StaticResource TextAndBackgroundColor_i3}"
                                 CornerRadius="8, 8, 0, 0"
-                                HeightRequest="50"
-                                MinimumHeightRequest="50">
+                                HeightRequest="42"
+                                MinimumHeightRequest="42">
 
                                 <Grid
-                                    ColumnDefinitions="65, 0.16*, 0.161*, 0.161*, 0.161*, 0.164*"
+                                    ColumnDefinitions="69, 0.16*, 0.161*, 0.161*, 0.161*, 0.164*"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center">
 
@@ -229,7 +230,9 @@
                                             Style="{DynamicResource ViewCellLabelStyle}"
                                             Text="{xct:Translate CustomerName}" />
 
-                                        <Image Source="ic_sort_primary_24x24" />
+                                        <Image
+                                            WidthRequest="20"
+                                            Source="ic_sort_primary_24x24" />
 
                                         <StackLayout.GestureRecognizers>
                                             
@@ -251,6 +254,7 @@
 
                                         <Image
                                             IsVisible="true"
+                                            WidthRequest="20"
                                             Source="ic_sort_primary_24x24"
                                             x:Name="sortPointsImage"/>
 
@@ -289,9 +293,9 @@
                             
                             <!--  Table content  -->
                             <yummy:PancakeView
-                                Margin="24, 0, 24, 42"
+                                Margin="32, 0, 32, 42"
                                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
-                                CornerRadius="0, 0, 8, 8"
+                                CornerRadius="0, 0, 7, 7"
                                 VerticalOptions="Start">
 
                                 <yummy:PancakeView.Triggers>
@@ -310,7 +314,7 @@
 
                                     <controls:CustomScrollBarCollectionView
                                         Style="{DynamicResource CustomScrollBarCollectionView_i1}"
-                                        HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=52}"                                       
+                                        HeightRequest="{Binding DisplayedCustomers, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"                                       
                                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
                                         ItemsSource="{Binding DisplayedCustomers}"
                                         SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
@@ -320,7 +324,8 @@
                                             <behaviors:ScrollToCenterBehavior/>
                                         </controls:CustomScrollBarCollectionView.Behaviors>
 
-                                    <CollectionView.Effects>
+                                        <CollectionView.Effects>
+                                            
                                             <effects:NoOverScrollEffect />
 
                                             <effects:ScrollBarColorEffect
@@ -336,7 +341,7 @@
 
                                                 <Grid
                                                     ColumnDefinitions="0.325*, *"
-                                                    HeightRequest="50">
+                                                    HeightRequest="40">
                                                     
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="*" />
@@ -353,11 +358,11 @@
                                                     <ffimageloading:CachedImage
                                                         Grid.Row="0"
                                                         Grid.Column="0"
-                                                        Margin="23, 0, 0, 0"
-                                                        HeightRequest="24"
+                                                        Margin="20, 0, 0, 0"
+                                                        HeightRequest="20"
                                                         HorizontalOptions="Start"
                                                         Source="ic_check_box_unhecked_24x24"
-                                                        WidthRequest="24"
+                                                        WidthRequest="20"
                                                         x:Name="checkbox"/>
 
                                                     <Label
@@ -447,6 +452,7 @@
                         </StackLayout>
 
                     </Grid>
+                    
                 </StackLayout>
 
             </Frame>
