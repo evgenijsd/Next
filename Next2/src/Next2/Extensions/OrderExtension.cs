@@ -227,7 +227,9 @@ namespace Next2.Extensions
                 {
                     foreach (var product in dish.SelectedProducts)
                     {
-                        product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, dish.SelectedDishProportion.PriceRatio);
+                        product.Price = СalculatePriceOfProportion(
+                            price: product.Product.DefaultPrice,
+                            priceRatio: dish.SelectedDishProportion.PriceRatio);
 
                         if (product.AddedIngredients is not null)
                         {
