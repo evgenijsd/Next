@@ -17,7 +17,7 @@
 
     <ContentView.Resources>
 
-        <Style x:Key="TableCellLabel" TargetType="Label">
+        <Style x:Key="TableCellLabelStyle" TargetType="Label">
             <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
             <Setter Property="FontFamily" Value="Barlow-Medium"/>
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
@@ -86,7 +86,7 @@
         <!-- OPTIONS -->
         <Grid
             Grid.Row="2"
-            Margin="24, 30, 24, 18"
+            Margin="32, 29, 32, 18"
             ColumnDefinitions="325, *">
 
             <controls:SearchButton
@@ -165,7 +165,7 @@
 
         <StackLayout
             Grid.Row="3"
-            Margin="24, 0, 24, 16">
+            Margin="32, 0, 32, 16">
 
             <!-- TABLE HEADER -->
 
@@ -187,7 +187,7 @@
                         xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}">
 
                         <Label
-                            Style="{DynamicResource TableCellLabel}"
+                            Style="{DynamicResource TableCellLabelStyle}"
                             Text="{xct:Translate TableNumber}">
 
                             <Label.Triggers>
@@ -220,7 +220,7 @@
                         xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}">
 
                         <Label
-                            Style="{DynamicResource TableCellLabel}"
+                            Style="{DynamicResource TableCellLabelStyle}"
                             HorizontalOptions="Start"
                             Text="{xct:Translate OrderNumber}"/>
 
@@ -233,17 +233,17 @@
 
                     <Label
                         Grid.Column="3"
-                        Style="{DynamicResource TableCellLabel}"
+                        Style="{DynamicResource TableCellLabelStyle}"
                         Text="{xct:Translate Total}"/>
 
                     <Label
                         Grid.Column="4"
-                        Style="{DynamicResource TableCellLabel}"
+                        Style="{DynamicResource TableCellLabelStyle}"
                         Text="{xct:Translate OrderStatus}"/>
 
                     <Label
                         Grid.Column="5"
-                        Style="{DynamicResource TableCellLabel}"
+                        Style="{DynamicResource TableCellLabelStyle}"
                         Text="{xct:Translate OrderType}" />
 
                 </Grid>
@@ -338,7 +338,7 @@
 
                                             <Label
                                                 Grid.Column="1"
-                                                Style="{DynamicResource TableCellLabel}"
+                                                Style="{DynamicResource TableCellLabelStyle}"
                                                 Text="{Binding TableNumberOrName}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
                                                 LineBreakMode="TailTruncation">
@@ -355,24 +355,24 @@
 
                                             <Label
                                                 Grid.Column="2"
-                                                Style="{DynamicResource TableCellLabel}"
+                                                Style="{DynamicResource TableCellLabelStyle}"
                                                 Text="{Binding Number}" />
 
                                             <Label
                                                 Grid.Column="3"
-                                                Style="{DynamicResource TableCellLabel}"
+                                                Style="{DynamicResource TableCellLabelStyle}"
                                                 Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}" />
 
                                             <Label
                                                 Grid.Column="4"
-                                                Style="{DynamicResource TableCellLabel}"
+                                                Style="{DynamicResource TableCellLabelStyle}"
                                                 TextColor="{DynamicResource IndicationColor_i5}"
                                                 Text="{Binding OrderStatus}"
                                                 x:Name="orderStatusLabel"/>
 
                                             <Label
                                                 Grid.Column="5"
-                                                Style="{DynamicResource TableCellLabel}"
+                                                Style="{DynamicResource TableCellLabelStyle}"
                                                 Text="{Binding OrderType}" />
 
                                             <Grid.GestureRecognizers>
