@@ -30,14 +30,17 @@ namespace Next2.Services.Customers
 
         #region -- ICustomersService implementation --
 
-        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel customer)
+        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel bindableCustomer)
         {
             var result = new AOResult<Guid>();
-            var customerModelDTO = _mapper.Map<CustomerModelDTO>(customer);
+
+            var customer = _mapper.Map<CustomerModelDTO>(bindableCustomer);
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/customers", customerModelDTO);
+                var query = $"{Constants.API.HOST_URL}/api/customers";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, query, customer);
 
                 if (response.Success)
                 {
@@ -58,17 +61,20 @@ namespace Next2.Services.Customers
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomerByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers/{id}");
-                var customer = _mapper.Map<CustomerBindableModel>(response?.Value?.Customer);
+                var query = $"{Constants.API.HOST_URL}/api/customers/{id}";
 
-                if (response.Success)
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomerByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (response.Success && response.Value is not null)
                 {
+                    var customer = _mapper.Map<CustomerBindableModel>(response.Value.Customer);
+
                     result.SetSuccess(customer);
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(CreateCustomerAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetCustomerByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -77,13 +83,16 @@ namespace Next2.Services.Customers
         public async Task<AOResult> UpdateCustomerAsync(CustomerBindableModel customer)
         {
             var result = new AOResult();
-            var customerModelDTO = _mapper.Map<UpdateCustomerCommand>(customer);
 
             try
             {
                 if (customer is not null)
                 {
-                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/customers", customerModelDTO);
+                    var customerForUpdate = _mapper.Map<UpdateCustomerCommand>(customer);
+
+                    var query = $"{Constants.API.HOST_URL}/api/customers";
+
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, customerForUpdate);
 
                     if (response.Success)
                     {
@@ -105,18 +114,25 @@ namespace Next2.Services.Customers
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/customers");
-                var mockCustomers = CustomersMock.Create();
-                var dtoCustomers = response?.Value?.Customers;
-                var dtoCustomersBM = _mapper.Map<IEnumerable<CustomerBindableModel>>(dtoCustomers);
+                var query = $"{Constants.API.HOST_URL}/api/customers";
 
-                var customers = MergeDTOModelsWithMocksModels(dtoCustomersBM, mockCustomers);
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCustomersListQueryResult>>(HttpMethod.Get, query);
 
-                if (customers is not null)
+                if (response.Success && response.Value is not null)
                 {
-                    result.SetSuccess(condition == null
-                        ? customers
-                        : customers.Where(condition));
+                    var mockCustomers = CustomersMock.Create();
+                    var gettingCustomers = response.Value.Customers;
+
+                    var bindableCustomers = _mapper.Map<IEnumerable<CustomerBindableModel>>(gettingCustomers);
+
+                    var customers = MergeDTOModelsWithMocksModels(bindableCustomers, mockCustomers);
+
+                    if (customers is not null)
+                    {
+                        result.SetSuccess(condition == null
+                            ? customers
+                            : customers.Where(condition));
+                    }
                 }
             }
             catch (Exception ex)
@@ -139,11 +155,11 @@ namespace Next2.Services.Customers
 
                     foreach (Guid giftCardId in guids)
                     {
-                        var res = await GetGiftCardByIdAsync(giftCardId);
+                        var resultOfGettingGiftCard = await GetGiftCardByIdAsync(giftCardId);
 
-                        if (res.IsSuccess)
+                        if (resultOfGettingGiftCard.IsSuccess)
                         {
-                            giftCards.Add(res.Result);
+                            giftCards.Add(resultOfGettingGiftCard.Result);
                         }
                         else
                         {
@@ -174,6 +190,7 @@ namespace Next2.Services.Customers
                 if (!customer.GiftCardsId.Contains(giftCard.Id))
                 {
                     customer.GiftCardsId = customer.GiftCardsId.Append(giftCard.Id);
+
                     var updateResult = await UpdateCustomerAsync(customer);
 
                     if (updateResult.IsSuccess)
@@ -196,9 +213,11 @@ namespace Next2.Services.Customers
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{giftCardNumber}");
+                var query = $"{Constants.API.HOST_URL}/api/gift-cards/{giftCardNumber}";
 
-                if (response.Success)
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, query);
+
+                if (response.Success && response.Value is not null)
                 {
                     result.SetSuccess(response.Value.GiftCard);
                 }
@@ -217,16 +236,18 @@ namespace Next2.Services.Customers
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/gift-cards/{id}");
+                var query = $"{Constants.API.HOST_URL}/api/gift-cards/{id}";
 
-                if (response.Success)
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetGiftCardQueryResult>>(HttpMethod.Get, query);
+
+                if (response.Success && response.Value is not null)
                 {
                     result.SetSuccess(response.Value.GiftCard);
                 }
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(GetGiftCardByNumberAsync)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(GetGiftCardByIdAsync)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;
@@ -242,7 +263,9 @@ namespace Next2.Services.Customers
 
                 try
                 {
-                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/gift-cards", updateGiftCardCommand);
+                    var query = $"{Constants.API.HOST_URL}/api/gift-cards";
+
+                    var response = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, updateGiftCardCommand);
 
                     if (response.Success)
                     {
@@ -284,6 +307,5 @@ namespace Next2.Services.Customers
         }
 
         #endregion
-
     }
 }

@@ -34,9 +34,11 @@ namespace Next2.Services.Bonuses
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponByIdQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons/{id}");
+                var query = $"{Constants.API.HOST_URL}/api/coupons/{id}";
 
-                if (response.Success)
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponByIdQueryResult>>(HttpMethod.Get, query);
+
+                if (response.Success && response.Value is not null)
                 {
                     result.SetSuccess(response.Value.Coupon);
                 }
@@ -55,7 +57,9 @@ namespace Next2.Services.Bonuses
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/coupons");
+                var query = $"{Constants.API.HOST_URL}/api/coupons";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetCouponsListQueryResult>>(HttpMethod.Get, query);
                 var coupons = response?.Value?.Coupons;
 
                 if (response.Success && coupons is not null)
@@ -79,7 +83,9 @@ namespace Next2.Services.Bonuses
 
             try
             {
-                var response = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/discounts");
+                var query = $"{Constants.API.HOST_URL}/api/discounts";
+
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetDiscountsListQueryResult>>(HttpMethod.Get, query);
                 var discounts = response?.Value?.Discounts;
 
                 if (response.Success && discounts is not null)
@@ -111,7 +117,7 @@ namespace Next2.Services.Bonuses
                 {
                     foreach (var dish in dishes)
                     {
-                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.DishId)
                             ? percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage)
                             : dish.TotalPrice;
 
@@ -125,7 +131,10 @@ namespace Next2.Services.Bonuses
 
                 foreach (var dish in dishes)
                 {
-                    dish.DiscountPrice = percentage == 1 ? 0 : dish.TotalPrice / (1 - percentage);
+                    dish.DiscountPrice = percentage == 1
+                        ? 0
+                        : dish.TotalPrice / percentage == 1 ? 0 : (1 - percentage);
+
                     dish.TotalPrice = dish.DiscountPrice;
                 }
             }
@@ -156,7 +165,7 @@ namespace Next2.Services.Bonuses
                 {
                     foreach (var dish in dishes)
                     {
-                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.Id)
+                        dish.DiscountPrice = couponDishes.Any(x => x.Id == dish.DishId)
                             ? dish.TotalPrice - (dish.TotalPrice * percentage)
                             : dish.TotalPrice;
 

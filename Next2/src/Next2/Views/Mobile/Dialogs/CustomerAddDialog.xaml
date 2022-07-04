@@ -54,8 +54,8 @@
 
                     <Grid.Triggers>
                         <DataTrigger TargetType="Grid" Binding="{Binding Step}" Value="{Static enums:EClientAdditionStep.Birthday}">
-                            <Setter TargetName="customerInfoTab" Property="controls:CustomButton.IsSelected" Value="False"/>
-                            <Setter TargetName="customerBirthdayTab" Property="controls:CustomButton.IsSelected" Value="True"/>
+                            <Setter TargetName="customerInfoTab" Property="buttons:CustomButton.IsSelected" Value="False"/>
+                            <Setter TargetName="customerBirthdayTab" Property="buttons:CustomButton.IsSelected" Value="True"/>
                         </DataTrigger>
                     </Grid.Triggers>
                     
@@ -78,8 +78,8 @@
                         HeightRequest="0.3"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}"/>
 
-                    <!--  tabs  -->                   
-                    <controls:CustomButton
+                    <!--  tabs  -->
+                    <buttons:CustomButton
                         Grid.Row="1"
                         Grid.Column="0"
                         IsSelected="True"
@@ -89,7 +89,7 @@
                         xct:TouchEffect.CommandParameter="{Static enums:EClientAdditionStep.Info}"
                         x:Name="customerInfoTab"/>
 
-                    <controls:CustomButton
+                    <buttons:CustomButton
                         Grid.Row="1"
                         Grid.Column="1"
                         FontSize="{DynamicResource TSize_i6}"
@@ -97,14 +97,14 @@
                         xct:TouchEffect.Command="{Binding GoToStepCommand}"
                         xct:TouchEffect.CommandParameter="{Static enums:EClientAdditionStep.Birthday}"
                         x:Name="customerBirthdayTab">
-                        
-                        <controls:CustomButton.Triggers>
-                            <DataTrigger TargetType="controls:CustomButton" Binding="{Binding SelectedDate, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
+
+                        <buttons:CustomButton.Triggers>
+                            <DataTrigger TargetType="buttons:CustomButton" Binding="{Binding SelectedDate, Converter={xct:IsNotNullOrEmptyConverter}}" Value="True">
                                 <Setter Property="Text" Value="{xct:Translate Birthday}"/>
                             </DataTrigger>
-                        </controls:CustomButton.Triggers>
+                        </buttons:CustomButton.Triggers>
                         
-                    </controls:CustomButton>
+                    </buttons:CustomButton>
 
                     <!--  VisualStateContent  -->
                     <sc:StateContainer

@@ -148,12 +148,16 @@ namespace Next2.Services.Rest
 
             try
             {
-                var resultData = await RequestAsync<GenericExecutionResult<RefreshTokenQuery>>(HttpMethod.Post, $"{Constants.API.HOST_URL}/api/auth/refresh-token", responseBody, null, true);
+                var query = $"{Constants.API.HOST_URL}/api/auth/refresh-token";
 
-                if (resultData.Success)
+                var resultData = await RequestAsync<GenericExecutionResult<RefreshTokenQuery>>(HttpMethod.Post, query, responseBody, null, true);
+
+                if (resultData.Success && resultData.Value is not null)
                 {
-                    _settingsManager.Token = resultData.Value.Tokens.AccessToken;
-                    _settingsManager.RefreshToken = resultData.Value.Tokens.RefreshToken;
+                    var tokens = resultData.Value.Tokens;
+
+                    _settingsManager.Token = tokens.AccessToken;
+                    _settingsManager.RefreshToken = tokens.RefreshToken;
                     _settingsManager.TokenExpirationDate = DateTime.Now.AddHours(Constants.API.TOKEN_EXPIRATION_TIME);
 
                     _tokenRefreshingSource.TrySetResult(true);

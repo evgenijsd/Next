@@ -279,8 +279,7 @@ namespace Next2.ViewModels
             if (!IsOrderWithTax)
             {
                 CurrentOrder.TaxCoefficient = 0;
-                CurrentOrder.UpdateTotalSum();
-                _bonusesService.СalculationBonus(CurrentOrder);
+                _orderService.UpdateTotalSum(CurrentOrder);
 
                 _orderService.UpdateCurrentOrderAsync().Await();
             }
@@ -697,7 +696,7 @@ namespace Next2.ViewModels
             }
             else
             {
-                await _navigationService.NavigateAsync(nameof(TaxRemoveConfirmPage));
+                await _navigationService.NavigateAsync(nameof(TaxRemoveConfirmPage), useModalNavigation: true);
             }
         }
 
@@ -789,7 +788,7 @@ namespace Next2.ViewModels
 
                     if (result.IsSuccess)
                     {
-                        _bonusesService.СalculationBonus(CurrentOrder);
+                        _orderService.UpdateTotalSum(CurrentOrder);
 
                         await RefreshCurrentOrderAsync();
 

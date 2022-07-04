@@ -47,37 +47,5 @@ namespace Next2.Models.Bindables
         public string? EmployeeId { get; set; }
 
         public ObservableCollection<SeatBindableModel> Seats { get; set; } = new();
-
-        public void UpdateTotalSum()
-        {
-            SubTotalPrice = 0;
-
-            foreach (var seat in Seats)
-            {
-                foreach (var dish in seat.SelectedDishes)
-                {
-                    decimal totalProductsPrice = 0;
-
-                    foreach (var product in dish.SelectedProducts)
-                    {
-                        var ingredientsPrice = product.AddedIngredients is not null
-                            ? product.AddedIngredients.Sum(row => row.Price)
-                            : 0;
-                        ingredientsPrice += product.ExcludedIngredients is not null
-                            ? product.ExcludedIngredients.Sum(row => row.Price)
-                            : 0;
-                        var productPrice = product.Price;
-                        totalProductsPrice += ingredientsPrice + productPrice;
-                    }
-
-                    dish.TotalPrice = totalProductsPrice;
-
-                    SubTotalPrice += dish.TotalPrice;
-                }
-            }
-
-            PriceTax = (decimal)SubTotalPrice * TaxCoefficient;
-            TotalPrice = (decimal)SubTotalPrice + PriceTax;
-        }
     }
 }

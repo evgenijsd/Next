@@ -28,6 +28,8 @@
     <x:Double x:Key="TSize_i7">16</x:Double>
     <!--  12px  -->
     <x:Double x:Key="TSize_i8">14</x:Double>
+    <!--  11px  -->
+    <x:Double x:Key="TSize_i11">13</x:Double>
     <!--  10px  -->
     <x:Double x:Key="TSize_i9">12</x:Double>
     <!--  8px  -->

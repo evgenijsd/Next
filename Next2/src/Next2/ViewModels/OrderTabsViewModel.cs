@@ -452,7 +452,7 @@ namespace Next2.ViewModels
 
                             SelectedOrder = null;
                             Orders.Remove(orderToBeRemoved);
-                            Orders = new (Orders);
+                            Orders = new(Orders);
 
                             if (!Orders.Any())
                             {
@@ -603,12 +603,17 @@ namespace Next2.ViewModels
 
         private Task OnSplitCommandAsync()
         {
-            var param = new NavigationParameters
+            if (SelectedOrder.TotalPrice > 0)
+            {
+                var param = new NavigationParameters
             {
                 { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
             };
 
-            return _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
+                return _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
+            }
+
+            return Task.CompletedTask;
         }
 
         #endregion

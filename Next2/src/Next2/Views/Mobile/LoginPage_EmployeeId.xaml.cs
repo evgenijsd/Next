@@ -14,6 +14,7 @@ namespace Next2.Views.Mobile
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await System.Threading.Tasks.Task.Delay(250);
@@ -22,6 +23,5 @@ namespace Next2.Views.Mobile
         }
 
         #endregion
-
     }
 }
