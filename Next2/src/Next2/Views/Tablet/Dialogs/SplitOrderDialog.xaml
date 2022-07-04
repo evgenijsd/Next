@@ -48,7 +48,6 @@
             <DataTrigger TargetType="Frame" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                 <Setter Property="WidthRequest" Value="363" />
-
                 <Setter Property="HeightRequest" Value="500" />
 
             </DataTrigger>
@@ -276,37 +275,20 @@
                             </StackLayout>
 
                             <!--  stepper  -->
-                            <StackLayout
+                            <controls:CustomStepper
                                 Grid.Row="1"
                                 Padding="18, 0, 0, 0"
                                 HorizontalOptions="CenterAndExpand"
-                                Orientation="Horizontal"
-                                Spacing="26">
-
-                                <ffimageloading:CachedImage
-                                    VerticalOptions="CenterAndExpand"
-                                    HeightRequest="27"
-                                    WidthRequest="27"
-                                    Source="ic_minus_primary_32x32.png"
-                                    xct:TouchEffect.Command="{Binding DecrementSplitValueCommand}" />
-
-                                <Label
-                                    Margin="0, 0, 0, 8"
-                                    HorizontalTextAlignment="Center"
-                                    VerticalOptions="CenterAndExpand"
-                                    WidthRequest="92"
-                                    Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
-                                    FontFamily="Barlow-Bold"
-                                    FontSize="{DynamicResource TSize_i0_10}" />
-
-                                <ffimageloading:CachedImage
-                                    VerticalOptions="CenterAndExpand"
-                                    HeightRequest="27"
-                                    WidthRequest="27"
-                                    Source="ic_plus_primary_32x32.png"
-                                    xct:TouchEffect.Command="{Binding IncrementSplitValueCommand}" />
-
-                            </StackLayout>
+                                Spacing="26"
+                                IconSizes="32"
+                                MaxValue="{Binding AvailableValue}"
+                                FontSize="{DynamicResource TSize_i0_10}"
+                                FontFamily="Barlow-Bold"
+                                IncrementCommand="{Binding IncrementSplitValueCommand}"
+                                DecrementCommand="{Binding DecrementSplitValueCommand}"
+                                TextWidth="92"
+                                ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
+                                Value="{Binding SplitValue}" />
 
                             <!--  split total  -->
                             <BoxView
@@ -480,7 +462,6 @@
                                             <VisualState.Setters>
 
                                                 <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-
                                                 <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
 
                                             </VisualState.Setters>
@@ -492,7 +473,6 @@
                                             <VisualState.Setters>
 
                                                 <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-
                                                 <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
 
                                             </VisualState.Setters>

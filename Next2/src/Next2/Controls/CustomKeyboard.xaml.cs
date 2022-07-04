@@ -24,28 +24,28 @@ namespace Next2.Controls
             set => SetValue(ButtonBackgroundColorProperty, value);
         }
 
-        public static readonly BindableProperty ButtonTapCommandProperty = BindableProperty.Create(
-          propertyName: nameof(ButtonTapCommand),
+        public static readonly BindableProperty PressNumberButtonCommandProperty = BindableProperty.Create(
+          propertyName: nameof(PressNumberButtonCommand),
           returnType: typeof(ICommand),
           declaringType: typeof(CustomKeyboard),
           defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand ButtonTapCommand
+        public ICommand PressNumberButtonCommand
         {
-            get => (ICommand)GetValue(ButtonTapCommandProperty);
-            set => SetValue(ButtonTapCommandProperty, value);
+            get => (ICommand)GetValue(PressNumberButtonCommandProperty);
+            set => SetValue(PressNumberButtonCommandProperty, value);
         }
 
-        public static readonly BindableProperty ButtonClearTapCommandProperty = BindableProperty.Create(
-          propertyName: nameof(ButtonClearTapCommand),
+        public static readonly BindableProperty PressClearButtonCommandProperty = BindableProperty.Create(
+          propertyName: nameof(PressClearButtonCommand),
           returnType: typeof(ICommand),
           declaringType: typeof(CustomKeyboard),
           defaultBindingMode: BindingMode.TwoWay);
 
-        public ICommand ButtonClearTapCommand
+        public ICommand PressClearButtonCommand
         {
-            get => (ICommand)GetValue(ButtonClearTapCommandProperty);
-            set => SetValue(ButtonClearTapCommandProperty, value);
+            get => (ICommand)GetValue(PressClearButtonCommandProperty);
+            set => SetValue(PressClearButtonCommandProperty, value);
         }
 
         #endregion

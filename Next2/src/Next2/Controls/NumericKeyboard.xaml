@@ -2,10 +2,7 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
-    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     x:Class="Next2.Controls.NumericKeyboard">
 
     <Grid RowDefinitions="60, *">
@@ -68,8 +65,8 @@
 
         <controls:CustomKeyboard
             Grid.Row="1"
-            ButtonClearTapCommand="{Binding ButtonClearTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
-            ButtonTapCommand="{Binding ButtonTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+            PressClearButtonCommand="{Binding ButtonClearTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
+            PressNumberButtonCommand="{Binding ButtonTapCommand, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}"
             ButtonBackgroundColor="{Binding ButtonBackgroundColor, Source={RelativeSource AncestorType={x:Type controls:NumericKeyboard}}}" />
 
     </Grid>

@@ -19,7 +19,6 @@
         <Style TargetType="Label">
 
             <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
-
             <Setter Property="FontFamily" Value="Barlow-SemiBold" />
 
         </Style>
@@ -155,7 +154,6 @@
                                                     <VisualState.Setters>
 
                                                         <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
-
                                                         <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
 
                                                     </VisualState.Setters>
@@ -167,7 +165,6 @@
                                                     <VisualState.Setters>
 
                                                         <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
-
                                                         <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
 
                                                     </VisualState.Setters>
@@ -321,36 +318,19 @@
                                 </StackLayout>
 
                                 <!--  stepper  -->
-                                <StackLayout
+                                <controls:CustomStepper
                                     Grid.Row="1"
                                     HorizontalOptions="CenterAndExpand"
-                                    Orientation="Horizontal"
-                                    Spacing="32">
-
-                                    <ffimageloading:CachedImage
-                                        VerticalOptions="CenterAndExpand"
-                                        HeightRequest="53"
-                                        WidthRequest="53"
-                                        Source="ic_minus_primary_32x32.png"
-                                        xct:TouchEffect.Command="{Binding DecrementSplitValueCommand}" />
-
-                                    <Label
-                                        Margin="0, 0, 0, 8"
-                                        HorizontalTextAlignment="Center"
-                                        VerticalOptions="CenterAndExpand"
-                                        WidthRequest="110"
-                                        Text="{Binding SplitValue, StringFormat={Static local:Constants+Formats.PERCENT_FORMAT}}"
-                                        FontFamily="Barlow-Bold"
-                                        FontSize="{DynamicResource TSize_i0_7}" />
-
-                                    <ffimageloading:CachedImage
-                                        VerticalOptions="CenterAndExpand"
-                                        HeightRequest="53"
-                                        WidthRequest="53"
-                                        Source="ic_plus_primary_32x32.png"
-                                        xct:TouchEffect.Command="{Binding IncrementSplitValueCommand}" />
-
-                                </StackLayout>
+                                    Spacing="32"
+                                    IconSizes="53"
+                                    MaxValue="{Binding AvailableValue}"
+                                    FontSize="{DynamicResource TSize_i0_7}"
+                                    FontFamily="Barlow-Bold"
+                                    IncrementCommand="{Binding IncrementSplitValueCommand}"
+                                    DecrementCommand="{Binding DecrementSplitValueCommand}"
+                                    TextWidth="110"
+                                    ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
+                                    Value="{Binding SplitValue}" />
 
                                 <!--  split total  -->
                                 <BoxView
@@ -483,7 +463,6 @@
                                 <DataTrigger TargetType="Label" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                                     <Setter Property="Text" Value="{xct:Translate Split}" />
-
                                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
 
                                 </DataTrigger>
@@ -491,7 +470,6 @@
                                 <DataTrigger TargetType="Label" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                                     <Setter Property="Text" Value="{xct:Translate Split}" />
-
                                     <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
 
                                 </DataTrigger>
@@ -537,9 +515,7 @@
                         <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
 
                             <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
-
                             <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
-
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
 
                         </DataTrigger>
@@ -547,9 +523,7 @@
                         <DataTrigger TargetType="Frame" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
 
                             <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
-
                             <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
-
                             <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
 
                         </DataTrigger>
