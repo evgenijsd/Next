@@ -134,7 +134,7 @@ namespace Next2.Controls
 
         #endregion
 
-        #region -- Ovverides --
+        #region -- Overrides --
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -150,7 +150,7 @@ namespace Next2.Controls
 
         #region -- Private helpers --
 
-        private async Task OnButtonTapCommandAsync(object? sender)
+        private Task OnButtonTapCommandAsync(object? sender)
         {
             if (sender is string str && str is not null && IsKeyboardEnabled)
             {
@@ -171,13 +171,17 @@ namespace Next2.Controls
 
                 ScreenKeyboard = string.Format(ValueFormat, Value);
             }
+
+            return Task.CompletedTask;
         }
 
-        private async Task OnButtonClearTapCommandAsync(object? arg)
+        private Task OnButtonClearTapCommandAsync(object? arg)
         {
             ScreenKeyboard = Placeholder;
             Value = 0m;
             IsKeyboardTyped = false;
+
+            return Task.CompletedTask;
         }
 
         #endregion
