@@ -14,8 +14,7 @@
         BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BorderColor}"
         BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BackColor}"
         CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CornerRadius}"
-        VerticalOptions="FillAndExpand">
-    </Frame>
+        VerticalOptions="FillAndExpand"/>
 
     <StackLayout
         BackgroundColor="Transparent"
@@ -26,7 +25,7 @@
         <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text}"
             Margin="10,0,0,0"
-            FontSize="13"
+            FontSize="{Binding FontSize, Source={RelativeSource AncestorType={x:Type controls:SearchButton}}}"
             FontFamily="Barlow-Regular"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
             VerticalOptions="CenterAndExpand"

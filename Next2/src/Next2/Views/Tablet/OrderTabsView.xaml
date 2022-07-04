@@ -16,17 +16,24 @@
     x:DataType="viewModels:OrderTabsViewModel">
 
     <ContentView.Resources>
+
+        <Style x:Key="TableCellLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i9}"/>
+            <Setter Property="FontFamily" Value="Barlow-Medium"/>
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
+            <Setter Property="Margin" Value="15, 11, 0, 0"/>
+        </Style>
+        
         <Style x:Key="BorderButtonStyle_i1_1" TargetType="buttons:BorderButton" BasedOn="{StaticResource BorderButtonStyle_i1}">
-            <Setter Property="FontSize" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
-            <Setter Property="TextColor" Value="{DynamicResource TSize_i3}"/>
+            <Setter Property="FontSize" Value="{DynamicResource TSize_i8}"/>
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}"/>
             <Setter Property="BackgroundColor" Value="Transparent"/>
             <Setter Property="WidthRequest" Value="100"/>
-            <Setter Property="CornerRadius" Value="5"/>
         </Style>
     </ContentView.Resources>
     
     <Grid
-        RowDefinitions="auto, 2, 97"
+        RowDefinitions="auto, 2, 83"
         HorizontalOptions="Fill"
         VerticalOptions="Fill"
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
@@ -54,6 +61,7 @@
                 WidthRequest="250"
                 HorizontalOptions="End"
                 VerticalOptions="End"
+                FontSize="{DynamicResource TSize_i9}"
                 IsSelected="{Binding IsTabsModeSelected, Converter={xct:InvertedBoolConverter}}"
                 Command="{Binding SwitchToOrdersCommand}" />
 
@@ -65,6 +73,7 @@
                 WidthRequest="250"
                 HorizontalOptions="Start"
                 VerticalOptions="End"
+                FontSize="{DynamicResource TSize_i9}"
                 IsSelected="{Binding IsTabsModeSelected}"
                 Command="{Binding SwitchToTabsComamnd}" />
 
@@ -77,7 +86,7 @@
         <!-- OPTIONS -->
         <Grid
             Grid.Row="2"
-            Margin="24, 30, 24, 22"
+            Margin="24, 30, 24, 18"
             ColumnDefinitions="325, *">
 
             <controls:SearchButton
@@ -110,7 +119,7 @@
             <StackLayout
                 Grid.Column="1"
                 Orientation="Horizontal"
-                Spacing="15">
+                Spacing="12">
 
                 <StackLayout.Triggers>
                     <DataTrigger TargetType="StackLayout" Binding="{Binding SelectedOrder, Converter={xct:IsNullOrEmptyConverter}}" Value="True">
@@ -124,22 +133,26 @@
                     HorizontalOptions="EndAndExpand"
                     BorderColor="{DynamicResource IndicationColor_i3}"
                     Text="{xct:Translate Remove}"
+                    CornerRadius="5"
                     xct:TouchEffect.Command="{Binding RemoveOrderCommand}"/>
                     
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i5}"
                     Text="{xct:Translate Edit}"
                     xct:TouchEffect.Command="{Binding EditOrderCommand}" />
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i7}"
                     Text="{xct:Translate Split}"
                     IsVisible="{Binding IsTabsModeSelected}"/>
 
                 <buttons:BorderButton
                     Style="{DynamicResource BorderButtonStyle_i1_1}"
+                    CornerRadius="5"
                     BorderColor="{DynamicResource IndicationColor_i1}"
                     BackgroundColor="{DynamicResource IndicationColor_i1}"
                     TextColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -152,17 +165,19 @@
 
         <StackLayout
             Grid.Row="3"
-            Margin="24, 0, 24, 30">
+            Margin="24, 0, 24, 16">
 
             <!-- TABLE HEADER -->
 
-            <yummy:PancakeView CornerRadius="10, 10, 0, 0">
+            <yummy:PancakeView CornerRadius="7, 7, 0, 0">
                 
                 <Grid
                     ColumnDefinitions="50, *, *, *, *"
                     VerticalOptions="Start"
-                    HeightRequest="50"
-                    MinimumHeightRequest="50"
+                    HeightRequest="42"
+                    MinimumHeightRequest="42"
+
+                    
                     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
 
                     <StackLayout
@@ -172,11 +187,8 @@
                         xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByCustomerName}">
 
                         <Label
-                            Margin="20, 15, 0, 0"
-                            Text="{xct:Translate TableNumber}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-Medium">
+                            Style="{DynamicResource TableCellLabel}"
+                            Text="{xct:Translate TableNumber}">
 
                             <Label.Triggers>
                                     
@@ -195,8 +207,8 @@
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
-                            HeightRequest="25"
-                            Margin="5, 13, 0, 0"
+                            HeightRequest="20"
+                            Margin="5, 10, 5, 0"
                             VerticalOptions="StartAndExpand"/>
 
                     </StackLayout>
@@ -208,47 +220,31 @@
                         xct:TouchEffect.CommandParameter="{x:Static enums:EOrdersSortingType.ByOrderNumber}">
 
                         <Label
+                            Style="{DynamicResource TableCellLabel}"
                             HorizontalOptions="Start"
-                            Margin="15, 15, 0, 0"
-                            Text="{xct:Translate OrderNumber}"
-                            TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                            FontSize="{DynamicResource TSize_i8}"
-                            FontFamily="Barlow-SemiBold" />
+                            Text="{xct:Translate OrderNumber}"/>
 
                         <ffimageloading:CachedImage
                             Source="ic_sort_primary_24x24"
-                            HeightRequest="25"
-                            Margin="5, 13, 0, 0"
-                            VerticalOptions="Start" />
+                            HeightRequest="20"                            Margin="5, 10, 5, 0"
+                            VerticalOptions="StartAndExpand"/>
 
                     </StackLayout>
 
                     <Label
                         Grid.Column="3"
-                        HorizontalOptions="StartAndExpand"
-                        Margin="10, 15, 0, 0"
-                        Text="{xct:Translate Total}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        FontFamily="Barlow-SemiBold" />
+                        Style="{DynamicResource TableCellLabel}"
+                        Text="{xct:Translate Total}"/>
 
                     <Label
                         Grid.Column="4"
-                        HorizontalOptions="StartAndExpand"
-                        Margin="15, 15, 0, 0"
-                        Text="{xct:Translate OrderStatus}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        FontFamily="Barlow-SemiBold" />
+                        Style="{DynamicResource TableCellLabel}"
+                        Text="{xct:Translate OrderStatus}"/>
 
                     <Label
                         Grid.Column="5"
-                        HorizontalOptions="StartAndExpand"
-                        Margin="15, 15, 0, 0"
-                        Text="{xct:Translate OrderType}"
-                        TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                        FontSize="{DynamicResource TSize_i8}"
-                        FontFamily="Barlow-SemiBold" />
+                        Style="{DynamicResource TableCellLabel}"
+                        Text="{xct:Translate OrderType}" />
 
                 </Grid>
                 
@@ -256,8 +252,8 @@
             
             <!-- TABLE CONTENT -->
             <yummy:PancakeView 
-                    VerticalOptions="FillAndExpand"
-                    CornerRadius="0, 0, 10, 10">
+                VerticalOptions="FillAndExpand"
+                CornerRadius="0, 0, 7, 7">
 
                 <RefreshView
                     IsRefreshing="{Binding IsOrdersRefreshing}"
@@ -266,7 +262,7 @@
                     <StackLayout>
                                                     
                         <controls:CustomCollectionView
-                            HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=52}"
+                            HeightRequest="{Binding Orders, Converter={StaticResource listHeightConverter}, ConverterParameter=40}"
                             Style="{DynamicResource CustomScrollBarCollectionView_i1}"
                             ItemsSource="{Binding Orders}"
                             SelectedItem="{Binding SelectedOrder}"
@@ -295,7 +291,7 @@
                                     <Grid
                                         HorizontalOptions="Fill"
                                         VerticalOptions="Fill"
-                                        RowDefinitions="2, 48">
+                                        RowDefinitions="2, 38">
 
                                         <VisualStateManager.VisualStateGroups>
 
@@ -334,7 +330,7 @@
                                             <ffimageloading:CachedImage
                                                 Source="ic_check_box_unchecked_white"
                                                 Grid.Column="0"
-                                                HeightRequest="24"
+                                                HeightRequest="20"
                                                 HorizontalOptions="CenterAndExpand"
                                                 Margin="20, 0, 0, 0"
                                                 VerticalOptions="CenterAndExpand"
@@ -342,14 +338,10 @@
 
                                             <Label
                                                 Grid.Column="1"
-                                                HorizontalOptions="FillAndExpand"
-                                                Margin="20, 13, 0, 0"
+                                                Style="{DynamicResource TableCellLabel}"
                                                 Text="{Binding TableNumberOrName}"
                                                 HeightRequest="{DynamicResource TSize_i8}"
-                                                LineBreakMode="TailTruncation"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                FontFamily="Barlow-Regular">
+                                                LineBreakMode="TailTruncation">
                                                 
                                                 <Label.Triggers>
 
@@ -363,48 +355,25 @@
 
                                             <Label
                                                 Grid.Column="2"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="15, 13, 0, 0"
-                                                Text="{Binding Number}"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                Style="{DynamicResource TableCellLabel}"
+                                                Text="{Binding Number}" />
 
                                             <Label
                                                 Grid.Column="3"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="10, 13, 0, 0"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}"
+                                                Style="{DynamicResource TableCellLabel}"
                                                 Text="{Binding TotalPrice, StringFormat='$ {0:F2}'}" />
 
                                             <Label
                                                 Grid.Column="4"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="15, 13, 0, 0"
-                                                Text="{Binding OrderStatus}"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
+                                                Style="{DynamicResource TableCellLabel}"
                                                 TextColor="{DynamicResource IndicationColor_i5}"
-                                                x:Name="orderStatusLabel">
-
-                                                <Label.Triggers>
-                                                    <Trigger TargetType="Label" Property="Text" Value="{Static enums:EOrderStatus.Canceled}">
-                                                        <Setter Property="TextColor" Value="{DynamicResource IndicationColor_i3}" />
-                                                    </Trigger>
-                                                </Label.Triggers>
-
-                                            </Label>
+                                                Text="{Binding OrderStatus}"
+                                                x:Name="orderStatusLabel"/>
 
                                             <Label
                                                 Grid.Column="5"
-                                                HorizontalOptions="StartAndExpand"
-                                                Margin="15, 13, 0, 0"
-                                                Text="{Binding OrderType}"
-                                                FontFamily="Barlow-Regular"
-                                                FontSize="{DynamicResource TSize_i8}"
-                                                TextColor="{DynamicResource TextAndBackgroundColor_i1}" />
+                                                Style="{DynamicResource TableCellLabel}"
+                                                Text="{Binding OrderType}" />
 
                                             <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer
@@ -427,7 +396,7 @@
                         <yummy:PancakeView
                             VerticalOptions="FillAndExpand"
                             HorizontalOptions="FillAndExpand"
-                            CornerRadius="0, 0, 10, 10"
+                            CornerRadius="0, 0, 7, 7"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
                             Border="{yummy:BorderMarkup Thickness=2, Color={StaticResource TextAndBackgroundColor_i3}}"
                             IsVisible="{Binding IsNothingFound}">
@@ -446,7 +415,7 @@
                             HorizontalOptions="FillAndExpand"
                             IsVisible="{Binding IsPreloadStateActive}"
                             BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
-                            CornerRadius="0, 0, 10, 10">
+                            CornerRadius="0, 0, 7, 7">
                         
                             <StackLayout>
                             
