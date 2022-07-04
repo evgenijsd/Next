@@ -158,7 +158,6 @@ namespace Next2.Extensions
                     {
                         Id = row.Id,
                         DishId = row.DishId,
-                        SelectedDishProportionPrice = row.TotalPrice,
                         Name = row.Name,
                         ImageSource = row.ImageSource,
                         TotalPrice = row.TotalPrice,
@@ -228,11 +227,33 @@ namespace Next2.Extensions
                 {
                     foreach (var product in dish.SelectedProducts)
                     {
-                        product.Price = dish.SelectedDishProportion.PriceRatio == 1
-                            ? product.Product.DefaultPrice
-                            : product.Product.DefaultPrice * (1 + dish.SelectedDishProportion.PriceRatio);
+                        var priceRatio = dish.SelectedDishProportion.PriceRatio;
+                        product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, priceRatio);
+
+                        if (product.AddedIngredients is not null)
+                        {
+                            foreach (var addedIngredient in product.AddedIngredients)
+                            {
+                                addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, priceRatio);
+                            }
+                        }
+
+                        if (product.ExcludedIngredients is not null)
+                        {
+                            foreach (var excludedIngredient in product.ExcludedIngredients)
+                            {
+                                excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, priceRatio);
+                            }
+                        }
                     }
                 }
+            }
+
+            decimal СalculatePriceOfProportion(decimal price, decimal priceRatio)
+            {
+                return priceRatio == 1
+                    ? price
+                    : price * (1 + priceRatio);
             }
 
             return fullOrderBindableModel;

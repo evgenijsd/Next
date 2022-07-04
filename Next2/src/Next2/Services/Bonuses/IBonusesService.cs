@@ -14,9 +14,5 @@ namespace Next2.Services.Bonuses
         Task<AOResult<IEnumerable<DiscountModelDTO>>> GetDiscountsAsync(Func<DiscountModelDTO, bool>? condition = null);
 
         Task<AOResult<CouponModelDTO>> GetCouponById(Guid id);
-
-        void СalculationBonus(FullOrderBindableModel currentOrder);
-
-        void ResetСalculationBonus(FullOrderBindableModel currentOrder);
     }
 }
