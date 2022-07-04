@@ -69,19 +69,19 @@
             
             <StackLayout.Triggers>
                 <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
-                    <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
-                    <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
+                    <Setter TargetName="rewardsTab" Property="buttons:CustomButton.IsSelected" Value="False"/>
+                    <Setter TargetName="completeTab" Property="buttons:CustomButton.IsSelected" Value="True"/>
                 </DataTrigger>
             </StackLayout.Triggers>
-            
-            <controls:CustomButton
+
+            <buttons:CustomButton
                 HeightRequest="48"
                 FontSize="{DynamicResource TSize_i8}"
                 Text="{xct:Translate Rewards}"
                 IsSelected="True"
                 x:Name="rewardsTab"/>
 
-            <controls:CustomButton
+            <buttons:CustomButton
                 FontSize="{DynamicResource TSize_i8}"
                 Text="{xct:Translate Complete}"
                 x:Name="completeTab"/>

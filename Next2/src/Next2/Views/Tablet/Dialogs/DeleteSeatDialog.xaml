@@ -62,7 +62,7 @@
                 Style="{DynamicResource DropDownListStyle_i1}"
                 VerticalOptions="Start"
                 Margin="25, 0"
-                HeaderTextSize="12"
+                HeaderTextSize="{DynamicResource TSize_i9}"
                 ItemsSource="{Binding SeatsListItems}"
                 SelectedItem="{Binding SelectedSeatListItem}"
                 HeaderText="{Binding SelectedSeatListItem.SeatNumber, StringFormat='Seat {0}'}">

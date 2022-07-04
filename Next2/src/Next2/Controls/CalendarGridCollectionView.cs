@@ -1,5 +1,5 @@
 ﻿using Next2.Enums;
-using Next2.Models;
+using Next2.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;

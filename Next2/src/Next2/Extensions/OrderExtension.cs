@@ -228,11 +228,32 @@ namespace Next2.Extensions
                 {
                     foreach (var product in dish.SelectedProducts)
                     {
-                        product.Price = dish.SelectedDishProportion.PriceRatio == 1
-                            ? product.Product.DefaultPrice
-                            : product.Product.DefaultPrice * (1 + dish.SelectedDishProportion.PriceRatio);
+                        product.Price = СalculatePriceOfProportion(product.Product.DefaultPrice, dish.SelectedDishProportion.PriceRatio);
+
+                        if (product.AddedIngredients is not null)
+                        {
+                            foreach (var addedIngredient in product.AddedIngredients)
+                            {
+                                addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, dish.SelectedDishProportion.PriceRatio);
+                            }
+                        }
+
+                        if (product.ExcludedIngredients is not null)
+                        {
+                            foreach (var excludedIngredient in product.ExcludedIngredients)
+                            {
+                                excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, dish.SelectedDishProportion.PriceRatio);
+                            }
+                        }
                     }
                 }
+            }
+
+            decimal СalculatePriceOfProportion(decimal price, decimal priceRatio)
+            {
+                return priceRatio == 1
+                    ? price
+                    : price * (1 + priceRatio);
             }
 
             return fullOrderBindableModel;

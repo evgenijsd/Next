@@ -1,5 +1,4 @@
-﻿using Next2.Services.Authentication;
-using Next2.Services.WorkLog;
+﻿using Next2.Services.WorkLog;
 using Next2.ViewModels.Dialogs;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Pages;
@@ -9,10 +8,10 @@ namespace Next2.Views.Tablet.Dialogs
 {
     public partial class EmployeeTimeClockDialog : PopupPage
     {
-        public EmployeeTimeClockDialog(IWorkLogService logService, Action<IDialogParameters> requestClose)
+        public EmployeeTimeClockDialog(IWorkLogService workLogService, Action<IDialogParameters> requestClose)
         {
             InitializeComponent();
-            BindingContext = new EmployeeTimeClockViewModel(logService, requestClose);
+            BindingContext = new EmployeeTimeClockViewModel(workLogService, requestClose);
         }
     }
 }
