@@ -353,8 +353,7 @@ namespace Next2.Services.Order
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.Checked);
                 }
 
-                dish.DiscountPrice = dish.SelectedDishProportionPrice;
-
+                //dish.DiscountPrice = dish.SelectedDishProportionPrice;
                 if (CurrentSeat is null)
                 {
                     CurrentSeat = CurrentOrder.Seats.FirstOrDefault();

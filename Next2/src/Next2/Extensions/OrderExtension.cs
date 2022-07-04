@@ -158,7 +158,7 @@ namespace Next2.Extensions
                     {
                         Id = row.Id,
                         DishId = row.DishId,
-                        SelectedDishProportionPrice = row.TotalPrice,
+                        //SelectedDishProportionPrice = row.TotalPrice,
                         Name = row.Name,
                         ImageSource = row.ImageSource,
                         TotalPrice = row.TotalPrice,
