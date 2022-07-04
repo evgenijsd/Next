@@ -675,7 +675,7 @@
                                     VerticalOptions="Center"
                                     TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="18"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     Text="{xct:Translate EditOrder}">
 
                                     <VisualStateManager.VisualStateGroups>

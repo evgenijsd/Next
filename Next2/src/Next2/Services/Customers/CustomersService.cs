@@ -30,17 +30,17 @@ namespace Next2.Services.Customers
 
         #region -- ICustomersService implementation --
 
-        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel customer)
+        public async Task<AOResult<Guid>> CreateCustomerAsync(CustomerBindableModel bindableCustomer)
         {
             var result = new AOResult<Guid>();
 
-            var customerModelDTO = _mapper.Map<CustomerModelDTO>(customer);
+            var customer = _mapper.Map<CustomerModelDTO>(bindableCustomer);
 
             try
             {
                 var query = $"{Constants.API.HOST_URL}/api/customers";
 
-                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, query, customerModelDTO);
+                var response = await _restService.RequestAsync<GenericExecutionResult<Guid>>(HttpMethod.Post, query, customer);
 
                 if (response.Success)
                 {

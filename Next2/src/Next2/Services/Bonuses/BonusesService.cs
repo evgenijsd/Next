@@ -133,7 +133,7 @@ namespace Next2.Services.Bonuses
                 {
                     dish.DiscountPrice = percentage == 1
                         ? 0
-                        : dish.TotalPrice / (1 - percentage);
+                        : dish.TotalPrice / percentage == 1 ? 0 : (1 - percentage);
 
                     dish.TotalPrice = dish.DiscountPrice;
                 }

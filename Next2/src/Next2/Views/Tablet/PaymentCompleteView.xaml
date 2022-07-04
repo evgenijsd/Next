@@ -14,7 +14,7 @@
     xmlns:helpers="clr-namespace:Next2.Helpers"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
     x:Class="Next2.Views.Tablet.PaymentCompleteView"
-    x:DataType="viewmodels:PaymentCompleteViewModel" >
+    x:DataType="viewmodels:PaymentCompleteViewModel">
 
     <Grid
         ColumnDefinitions="0.67*, 0.33*"

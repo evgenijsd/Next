@@ -19,14 +19,14 @@
 
     <StackLayout
         BackgroundColor="Transparent"
-        Margin="0,0,40,0"
+        Margin="0, 0, 40, 0"
         xct:TouchEffect.AnimationDuration="0"
         xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CommandSearch}">
 
         <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text}"
-            Margin="10,0,0,0"
-            FontSize="13"
+            Margin="10, 0, 0, 0"
+            FontSize="{DynamicResource TSize_i11}"
             FontFamily="Barlow-Regular"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=TextColor}"
             VerticalOptions="CenterAndExpand"
@@ -36,8 +36,8 @@
 
         <Label
             Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Placeholder}"
-            Margin="10,0,40,0"
-            FontSize="13"
+            Margin="10, 0, 40, 0"
+            FontSize="{DynamicResource TSize_i11}"
             FontFamily="Barlow-Regular"
             TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=TextColor}"
             Opacity="{DynamicResource OpacityWhenDisabled_i1}"
@@ -59,7 +59,7 @@
         <ffimageloading:CachedImage
             Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=ImageSource}"
             HeightRequest="20"
-            Margin="0,0,10,0"
+            Margin="0, 0, 10, 0"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="EndAndExpand" />
 
