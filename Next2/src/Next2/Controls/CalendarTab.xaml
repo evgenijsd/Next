@@ -6,7 +6,7 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models"
+    xmlns:helpers="clr-namespace:Next2.Helpers"
     RowDefinitions="0.134*, 0.24*, *"
     Padding="16"
     BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
@@ -41,7 +41,7 @@
 
             <ffimageloading:CachedImage
                 HorizontalOptions="EndAndExpand"
-                Margin="0,0,6,0"
+                Margin="0, 0, 6, 0"
                 Scale="0.7"
                 Source="ic_arrow_down_primary_24x24"
                 x:Name="yearDropdownIcon" />
@@ -133,7 +133,7 @@
         </CollectionView.Effects>
 
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:Day">
+            <DataTemplate x:DataType="helpers:Day">
 
                 <StackLayout 
                     Padding="0" 
@@ -219,7 +219,7 @@
 
                 <CollectionView.ItemTemplate>
 
-                    <DataTemplate x:DataType="models:Year">
+                    <DataTemplate x:DataType="helpers:Year">
 
                         <Frame
                             CornerRadius="0"

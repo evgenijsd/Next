@@ -1,6 +1,6 @@
 ﻿using Next2.Enums;
 
-namespace Next2.Models
+namespace Next2.Helpers
 {
     public struct Day
     {

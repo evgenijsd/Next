@@ -1,17 +1,14 @@
 using Acr.UserDialogs;
-using Next2.Extensions;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
-using Next2.Services.WorkLog;
 using Next2.Services.Menu;
 using Next2.Services.Order;
+using Next2.Services.WorkLog;
 using Next2.Views.Tablet;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -28,7 +25,7 @@ namespace Next2.ViewModels.Tablet
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly IWorkLogService _logService;
+        private readonly IWorkLogService _workLogService;
 
         private bool _shouldOrderDishesByDESC;
 
@@ -36,13 +33,13 @@ namespace Next2.ViewModels.Tablet
             INavigationService navigationService,
             IMenuService menuService,
             OrderRegistrationViewModel orderRegistrationViewModel,
-            IWorkLogService logService,
+            IWorkLogService workLogService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
-            _logService = logService;
+            _workLogService = workLogService;
 
             OrderRegistrationViewModel = orderRegistrationViewModel;
 
@@ -239,7 +236,7 @@ namespace Next2.ViewModels.Tablet
         {
             return PopupNavigation
                 .PushAsync(new Views.Tablet.Dialogs
-                .EmployeeTimeClockDialog(_logService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
+                .EmployeeTimeClockDialog(_workLogService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
         }
 
         private async Task<bool> UpdateCurrentOrder()

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
     xmlns:enums="clr-namespace:Next2.Enums"
     xmlns:viewmodels="clr-namespace:Next2.ViewModels"
@@ -16,14 +16,14 @@
     <StackLayout Background="{DynamicResource TextAndBackgroundColor_i5}">
         
         <!-- CANCEL BUTTON, REWARDS TAB, COMPLETE TAB -->
-        <StackLayout 
+        <StackLayout
             Orientation="Horizontal"
             Background="{DynamicResource TextAndBackgroundColor_i3}">
     
             <StackLayout.Triggers>
                 <DataTrigger TargetType="StackLayout" Binding="{Binding PaymentStep}" Value="{Static enums:EPaymentSteps.Complete}">
-                    <Setter TargetName="rewardsTab" Property="controls:CustomButton.IsSelected" Value="False"/>
-                    <Setter TargetName="completeTab" Property="controls:CustomButton.IsSelected" Value="True"/>
+                    <Setter TargetName="rewardsTab" Property="buttons:CustomButton.IsSelected" Value="False"/>
+                    <Setter TargetName="completeTab" Property="buttons:CustomButton.IsSelected" Value="True"/>
                 </DataTrigger>
             </StackLayout.Triggers>
             
@@ -67,7 +67,7 @@
                 WidthRequest="1.5"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
             
-            <controls:CustomButton
+            <buttons:CustomButton
                 FontSize="{DynamicResource TSize_i6}"
                 Text="{xct:Translate Rewards}"
                 IsSelected="True"
@@ -77,7 +77,7 @@
                 WidthRequest="1.5"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
 
-            <controls:CustomButton
+            <buttons:CustomButton
                 FontSize="{DynamicResource TSize_i6}"
                 Text="{xct:Translate Complete}"
                 x:Name="completeTab"/>

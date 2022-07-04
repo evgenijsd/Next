@@ -4,47 +4,47 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:controls="clr-namespace:Next2.Controls"
+    xmlns:buttons="clr-namespace:Next2.Controls.Buttons"
     MinimumWidthRequest="100"
     HeightRequest="45"
-    x:Class="Next2.Controls.SearchButton"
-    x:DataType="controls:SearchButton">
+    x:Class="Next2.Controls.Buttons.SearchButton"
+    x:DataType="buttons:SearchButton">
 
     <Frame
-        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BorderColor}"
-        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=BackColor}"
-        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CornerRadius}"
+        BorderColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=BorderColor}"
+        BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=BackColor}"
+        CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CornerRadius}"
         VerticalOptions="FillAndExpand">
     </Frame>
 
     <StackLayout
         BackgroundColor="Transparent"
-        Margin="0,0,40,0"
+        Margin="0, 0, 40, 0"
         xct:TouchEffect.AnimationDuration="0"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandSearch}">
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CommandSearch}">
 
         <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text}"
-            Margin="10,0,0,0"
-            FontSize="13"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text}"
+            Margin="10, 0, 0, 0"
+            FontSize="{DynamicResource TSize_i11}"
             FontFamily="Barlow-Regular"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=TextColor}"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="FillAndExpand"
             LineBreakMode="TailTruncation"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" />
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text, Converter={xct:IsNotNullOrEmptyConverter}}" />
 
         <Label
-            Text="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Placeholder}"
-            Margin="10,0,40,0"
-            FontSize="13"
+            Text="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Placeholder}"
+            Margin="10, 0, 40, 0"
+            FontSize="{DynamicResource TSize_i11}"
             FontFamily="Barlow-Regular"
-            TextColor="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=TextColor}"
+            TextColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=TextColor}"
             Opacity="{DynamicResource OpacityWhenDisabled_i1}"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="FillAndExpand"
             LineBreakMode="TailTruncation"
-            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}" />
+            IsVisible="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=Text, Converter={xct:IsNullOrEmptyConverter}}" />
 
     </StackLayout>
 
@@ -54,12 +54,12 @@
         WidthRequest="40"
         xct:TouchEffect.AnimationDuration="0"
         xct:TouchEffect.NativeAnimation="False"
-        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=CommandClear}">
+        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CommandClear}">
 
         <ffimageloading:CachedImage
-            Source="{Binding Source={RelativeSource AncestorType={x:Type controls:SearchButton}}, Path=ImageSource}"
+            Source="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=ImageSource}"
             HeightRequest="20"
-            Margin="0,0,10,0"
+            Margin="0, 0, 10, 0"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="EndAndExpand" />
 

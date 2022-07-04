@@ -1,6 +1,4 @@
-﻿using Next2.Models.API.Results;
-using Next2.Helpers.ProcessHelpers;
-using Next2.Models.API;
+﻿using Next2.Helpers.ProcessHelpers;
 using Next2.Models.API.Commands;
 using Next2.Models.API.DTO;
 using Next2.Models.API.Results;
@@ -24,7 +22,7 @@ namespace Next2.Services.Membership
             _restService = restService;
         }
 
-         #region -- IMembershipService implementation --
+        #region -- IMembershipService implementation --
 
         public async Task<AOResult<IEnumerable<MembershipModelDTO>>> GetAllMembersAsync(Func<MembershipModelDTO, bool>? condition = null)
         {
@@ -32,15 +30,20 @@ namespace Next2.Services.Membership
 
             try
             {
-                var membersDTO = await _restService.RequestAsync<GenericExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, $"{Constants.API.HOST_URL}/api/memberships");
+                var query = $"{Constants.API.HOST_URL}/api/memberships";
 
-                var members = membersDTO?.Value?.Memberships;
+                var response = await _restService.RequestAsync<GenericExecutionResult<GetMembershipListQueryResult>>(HttpMethod.Get, query);
 
-                if (members != null)
+                if (response.Success && response.Value is not null)
                 {
-                    result.SetSuccess(condition == null
-                        ? members
-                        : members.Where(condition));
+                    var members = response.Value.Memberships;
+
+                    if (members is not null)
+                    {
+                        result.SetSuccess(condition == null
+                            ? members
+                            : members.Where(condition));
+                    }
                 }
             }
             catch (Exception ex)
@@ -53,14 +56,23 @@ namespace Next2.Services.Membership
 
         public string ApplyNameFilter(string text)
         {
-            Regex regexName = new(Constants.Validators.NAME);
-            Regex regexNumber = new(Constants.Validators.NUMBER);
-            Regex regexText = new(Constants.Validators.TEXT);
+            var result = text;
 
-            var result = regexText.Replace(text, string.Empty);
-            result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER)
-                ? regexNumber.Replace(result, string.Empty)
-                : regexName.Replace(result, string.Empty);
+            try
+            {
+                Regex regexName = new(Constants.Validators.NAME);
+                Regex regexNumber = new(Constants.Validators.NUMBER);
+                Regex regexText = new(Constants.Validators.TEXT);
+
+                result = regexText.Replace(text, string.Empty);
+
+                result = Regex.IsMatch(result, Constants.Validators.CHECK_NUMBER)
+                    ? regexNumber.Replace(result, string.Empty)
+                    : regexName.Replace(result, string.Empty);
+            }
+            catch (Exception)
+            {
+            }
 
             return result;
         }
@@ -71,7 +83,7 @@ namespace Next2.Services.Membership
 
             try
             {
-                var update = new UpdateMembershipCommand
+                var membershipForUpdate = new UpdateMembershipCommand
                 {
                     Id = member.Id,
                     StartDate = $"{member.StartDate:s}",
@@ -80,9 +92,11 @@ namespace Next2.Services.Membership
                     IsActive = member.IsActive,
                 };
 
-                var resultUpdate = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, $"{Constants.API.HOST_URL}/api/memberships", update);
+                var query = $"{Constants.API.HOST_URL}/api/memberships";
 
-                if (resultUpdate.Success)
+                var updateResult = await _restService.RequestAsync<ExecutionResult>(HttpMethod.Put, query, membershipForUpdate);
+
+                if (updateResult.Success)
                 {
                     result.SetSuccess();
                 }
