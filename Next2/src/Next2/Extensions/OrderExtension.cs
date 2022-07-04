@@ -235,7 +235,9 @@ namespace Next2.Extensions
                         {
                             foreach (var addedIngredient in product.AddedIngredients)
                             {
-                                addedIngredient.Price = СalculatePriceOfProportion(addedIngredient.Price, dish.SelectedDishProportion.PriceRatio);
+                                addedIngredient.Price = СalculatePriceOfProportion(
+                                    price: addedIngredient.Price,
+                                    priceRatio: dish.SelectedDishProportion.PriceRatio);
                             }
                         }
 
@@ -243,7 +245,9 @@ namespace Next2.Extensions
                         {
                             foreach (var excludedIngredient in product.ExcludedIngredients)
                             {
-                                excludedIngredient.Price = СalculatePriceOfProportion(excludedIngredient.Price, dish.SelectedDishProportion.PriceRatio);
+                                excludedIngredient.Price = СalculatePriceOfProportion(
+                                    price: excludedIngredient.Price,
+                                    priceRatio: dish.SelectedDishProportion.PriceRatio);
                             }
                         }
                     }
