@@ -6,7 +6,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     BackgroundColor="{Binding BackgroundColor, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
     Padding="10, 0"
-    CornerRadius="5"
+    CornerRadius="6"
     HeightRequest="{Binding HeightRequest, Source={RelativeSource AncestorType={x:Type templates:CategoryItemTemplate}}}"
     x:Class="Next2.Controls.Templates.CategoryItemTemplate"
     x:Name="categoryPancakeView">

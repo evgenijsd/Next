@@ -97,11 +97,7 @@
     <CollectionView
         ItemsSource="{Binding ItemsSource, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         SelectionMode="Single"
-        HeightRequest="{
-            Binding ItemsSource, 
-            Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}, 
-            Converter={StaticResource listHeightConverter}, 
-            ConverterParameter=74}"
+        HeightRequest="{Binding HeightList, Source={RelativeSource AncestorType={x:Type templates:SeatItemTemplate}}}"
         SelectedItem="{Binding SelectedItem}"
         SelectionChangedCommand="{Binding DishSelectionCommand}"
         SelectionChangedCommandParameter="{Binding .}">

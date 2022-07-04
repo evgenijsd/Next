@@ -7,17 +7,16 @@
     xmlns:local="clr-namespace:Next2"
     xmlns:dto="clr-namespace:Next2.Models.API.DTO"
     xmlns:pkView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-    Padding="0, 0, 0, 5"
     x:Class="Next2.Controls.Templates.SetItemTemplate"
     x:DataType="dto:DishModelDTO">
 
     <Frame
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
         BorderColor="Transparent"
-        CornerRadius="10"
-        Padding="13, 13, 13, 20">
+        CornerRadius="6"
+        Padding="14">
         
-        <StackLayout>
+        <StackLayout Spacing="10">
 
             <pkView:PancakeView CornerRadius="8">
 
@@ -36,7 +35,7 @@
                                 </VisualState.StateTriggers>
 
                                 <VisualState.Setters>
-                                    <Setter Property="HeightRequest" Value="150" />
+                                    <Setter Property="HeightRequest" Value="160" />
                                 </VisualState.Setters>
 
                             </VisualState>
@@ -51,19 +50,17 @@
             <Label
                 Text="{Binding Name}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i7}"
+                FontSize="{DynamicResource TSize_i9}"
                 FontFamily="Barlow-Medium"
                 LineBreakMode="TailTruncation"
                 MaxLines="2"
                 LineHeight="1.1"
-                Margin="0, 15, 0 ,0"
-                HeightRequest="40"/>
+                HeightRequest="30"/>
 
             <Label
                 VerticalOptions="EndAndExpand"
-                Margin="0, 12, 0, 0"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                FontSize="{DynamicResource TSize_i6}"
+                FontSize="{DynamicResource TSize_i8}"
                 FontFamily="Barlow-SemiBold">
 
                 <Label.FormattedText>

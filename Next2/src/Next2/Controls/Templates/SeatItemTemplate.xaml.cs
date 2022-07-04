@@ -59,7 +59,7 @@ namespace Next2.Controls.Templates
 
             if (ItemsSource is not null)
             {
-                HeightList = ItemsSource.Count * 95;
+                HeightList = ItemsSource.Count * 74;
             }
         }
 
@@ -67,7 +67,7 @@ namespace Next2.Controls.Templates
         {
             if (ItemsSource is not null)
             {
-                HeightList = ItemsSource.Count * 95;
+                HeightList = ItemsSource.Count * 74;
             }
         }
 

@@ -235,7 +235,7 @@
                                                 <VisualState.Setters>
                                                     <Setter Property="Padding" Value="24, 22, 24, 0" />
                                                 </VisualState.Setters>
-
+\
                                             </VisualState>
 
                                             <VisualState Name="moreiPadMiniPadding">
@@ -245,7 +245,7 @@
                                                 </VisualState.StateTriggers>
 
                                                 <VisualState.Setters>
-                                                    <Setter Property="Padding" Value="32, 17, 32, 0" />
+                                                    <Setter Property="Padding" Value="40, 17, 32, 0" />
                                                 </VisualState.Setters>
 
                                             </VisualState>
@@ -325,7 +325,7 @@
 
                                             <VisualState.Setters>
                                                 <Setter Property="Margin" Value="35, 16, 35, 32" />
-                                                <Setter Property="HeightRequest" Value="122" />
+                                                <Setter Property="HeightRequest" Value="138" />
                                             </VisualState.Setters>
 
                                         </VisualState>
@@ -379,7 +379,7 @@
                         <StackLayout
                             VerticalOptions="Start"
                             Orientation="Horizontal"
-                            Padding="12, 11, 12, 0">
+                            Padding="12, 6, 12, 0">
 
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroupList>
@@ -404,7 +404,7 @@
                                             </VisualState.StateTriggers>
 
                                             <VisualState.Setters>
-                                                <Setter Property="Padding" Value="40, 34, 40, 0" />
+                                                <Setter Property="Padding" Value="40, 27, 40, 0" />
                                             </VisualState.Setters>
 
                                         </VisualState>
@@ -452,7 +452,6 @@
                         <!--Menu-->
 
                         <CollectionView
-                            Margin="12, 8, 12, 0"
                             VerticalOptions="StartAndExpand"
                             ItemsSource="{Binding Dishes}"
                             VerticalScrollBarVisibility="Always"
@@ -493,7 +492,8 @@
 
                                                 <GridItemsLayout
                                                     Orientation="Vertical"
-                                                    HorizontalItemSpacing="5"
+                                                    HorizontalItemSpacing="12"
+                                                    VerticalItemSpacing="12"
                                                     Span="3"/>
 
                                             </Setter>
@@ -531,84 +531,90 @@
 
                         <!--Tabs Subcategories Menu-->
 
-                        <CollectionView
-                            HeightRequest="50"
-                            MinimumHeightRequest="50"
-                            VerticalOptions="End"
-                            ItemsSource="{Binding Subcategories}"
-                            SelectedItem="{Binding SelectedSubcategoriesItem}"
-                            VerticalScrollBarVisibility="Never"
-                            SelectionMode="Single">
+                        <Frame
+                            Padding="3, 0, 0, 0"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}">
+                            
+                            <CollectionView
+                                HeightRequest="50"
+                                MinimumHeightRequest="50"
+                                VerticalOptions="End"
+                                ItemsSource="{Binding Subcategories}"
+                                SelectedItem="{Binding SelectedSubcategoriesItem}"
+                                VerticalScrollBarVisibility="Never"
+                                SelectionMode="Single">
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup Name="AdaptiveSubcategoriesCollectionView">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="AdaptiveSubcategoriesCollectionView">
 
-                                    <VisualState Name="minHeight">
+                                        <VisualState Name="minHeight">
 
-                                        <VisualState.StateTriggers>
-                                            <AdaptiveTrigger MinWindowHeight="601" />
-                                        </VisualState.StateTriggers>
+                                            <VisualState.StateTriggers>
+                                                <AdaptiveTrigger MinWindowHeight="601" />
+                                            </VisualState.StateTriggers>
 
-                                        <VisualState.Setters>
-                                            <Setter Property="HeightRequest" Value="82" />
-                                            <Setter Property="MinimumHeightRequest" Value="82" />
-                                        </VisualState.Setters>
+                                            <VisualState.Setters>
+                                                <Setter Property="HeightRequest" Value="60" />
+                                                <Setter Property="MinimumHeightRequest" Value="60" />
+                                            </VisualState.Setters>
 
-                                    </VisualState>
+                                        </VisualState>
 
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
 
-                            <CollectionView.Effects>
-                                <effects:NoOverScrollEffect/>
-                            </CollectionView.Effects>
+                                <CollectionView.Effects>
+                                    <effects:NoOverScrollEffect/>
+                                </CollectionView.Effects>
 
-                            <CollectionView.ItemsLayout>
+                                <CollectionView.ItemsLayout>
 
-                                <GridItemsLayout
-                                    Orientation="Vertical"
-                                    Span="5"
-                                    HorizontalItemSpacing="2"/>
+                                    <GridItemsLayout
+                                        Orientation="Vertical"
+                                        Span="5"
+                                        HorizontalItemSpacing="2"/>
 
-                            </CollectionView.ItemsLayout>
+                                </CollectionView.ItemsLayout>
 
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:SubcategoryModel">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:SubcategoryModel">
 
-                                    <templates:SubCategoryItemTemplate
-                                        HeightRequest="50"
-                                        MinimumHeightRequest="50"
-                                        TextMargin="18, 0, 18, 6"
-                                        Text="{Binding Name}"
-                                        FontSize="{DynamicResource TSize_i6}"
-                                        FontFamily="Barlow-Medium">
+                                        <templates:SubCategoryItemTemplate
+                                            HeightRequest="50"
+                                            MinimumHeightRequest="50"
+                                            TextMargin="0, 0, 0, 26"
+                                            Text="{Binding Name}"
+                                            FontSize="{DynamicResource TSize_i6}"
+                                            FontFamily="Barlow-Medium">
 
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup Name="AdaptiveSubCategoryItemTemplate">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup Name="AdaptiveSubCategoryItemTemplate">
 
-                                                <VisualState Name="minHeight">
+                                                    <VisualState Name="minHeight">
 
-                                                    <VisualState.StateTriggers>
-                                                        <AdaptiveTrigger MinWindowHeight="601" />
-                                                    </VisualState.StateTriggers>
+                                                        <VisualState.StateTriggers>
+                                                            <AdaptiveTrigger MinWindowHeight="601" />
+                                                        </VisualState.StateTriggers>
 
-                                                    <VisualState.Setters>
-                                                        <Setter Property="HeightRequest" Value="82" />
-                                                        <Setter Property="MinimumHeightRequest" Value="82" />
-                                                    </VisualState.Setters>
+                                                        <VisualState.Setters>
+                                                            <Setter Property="HeightRequest" Value="82" />
+                                                            <Setter Property="MinimumHeightRequest" Value="82" />
+                                                        </VisualState.Setters>
 
-                                                </VisualState>
+                                                    </VisualState>
 
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
 
-                                    </templates:SubCategoryItemTemplate>
+                                        </templates:SubCategoryItemTemplate>
 
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
 
-                        </CollectionView>
+                            </CollectionView>
 
+                        </Frame>
+                        
                     </StackLayout>
 
                 </xct:StateView>
@@ -1019,7 +1025,7 @@
                     <Setter Property="IconHeight" Value="18"/>
                     <Setter Property="Border">
                         <Setter.Value>
-                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="{OnPlatform Android=2, iOS=1}" />
+                            <pancakeview:Border Color="{StaticResource AppColor_i1}" Thickness="1" />
                         </Setter.Value>
                     </Setter>
                 </Style>
@@ -1530,7 +1536,7 @@
                 <StackLayout 
                     Orientation="Horizontal"
                     Margin="18, 8"
-                    Spacing="14">
+                    Spacing="12">
 
                     <StackLayout HeightRequest="50">
 
