@@ -136,6 +136,7 @@ namespace Next2.ViewModels
             await base.InitializeAsync(parameters);
 
             await InitIngredientsAsync();
+
             InitProportionDish();
         }
 
@@ -643,7 +644,9 @@ namespace Next2.ViewModels
         {
             CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish] = _currentDish;
             _orderService.CurrentOrder = CurrentOrder;
-            var seatNumber = _orderService?.CurrentSeat?.SeatNumber;
+
+            var seatNumber = _orderService.CurrentSeat?.SeatNumber;
+
             _orderService.CurrentSeat = CurrentOrder.Seats.FirstOrDefault(row => row.SeatNumber == seatNumber);
             _orderService.UpdateTotalSum(_orderService.CurrentOrder);
 

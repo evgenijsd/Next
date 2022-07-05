@@ -31,7 +31,7 @@
                 Placeholder="{xct:Translate TypeEmployeeId}"
                 VerticalTextAlignment="Center"
                 Keyboard="Numeric"
-                MaxLength="{x:Static local:Constants+Limits.EMPLOYEE_ID_LENGTH}"
+                MaxLength="{x:Static local:Constants+Limits.LOGIN_LENGTH}"
                 Text="{Binding EmployeeId}"
                 Margin="22, 15, 0, 0"
                 PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"

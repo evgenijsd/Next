@@ -51,7 +51,7 @@ namespace Next2.ViewModels.Dialogs
 
         private async Task OnApplyCommandAsync()
         {
-            if (EmployeeId.Length != Constants.Limits.EMPLOYEE_ID_LENGTH || !int.TryParse(EmployeeId, out int employeeId))
+            if (EmployeeId.Length != Constants.Limits.LOGIN_LENGTH || !int.TryParse(EmployeeId, out int employeeId))
             {
                 IsErrorNotificationVisible = true;
             }

@@ -3,7 +3,6 @@ using Next2.Services.Customers;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
 using System.ComponentModel;
 using System.Linq;

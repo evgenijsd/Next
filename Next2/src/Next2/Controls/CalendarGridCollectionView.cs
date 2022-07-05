@@ -99,6 +99,7 @@ namespace Next2.Controls
                     if (Year <= DateTime.Now.Year + OffsetYears)
                     {
                         CreateArrayOfDays();
+                        DaySelection();
                     }
 
                     break;
@@ -109,6 +110,7 @@ namespace Next2.Controls
 
                 case nameof(Month):
                     CreateArrayOfDays();
+                    DaySelection();
                     break;
 
                 case nameof(SelectedItem):
@@ -127,19 +129,25 @@ namespace Next2.Controls
             {
                 if (selectedDay.State is EDayState.DayMonth)
                 {
-                    if (int.TryParse(selectedDay.DayOfMonth, out int numberOfselectedDay))
+                    if (int.TryParse(selectedDay.DayOfMonth, out int numberOfSelectedDay))
                     {
-                        if (Year <= DateTime.Now.Year + OffsetYears)
+                        if (numberOfSelectedDay <= DateTime.DaysInMonth(Year, Month))
                         {
-                            SelectedDate = new DateTime(Year, Month, numberOfselectedDay);
-                        }
-                        else
-                        {
-                            SelectedItem = SelectedDate = null;
+                            var newSelectedDate = new DateTime(Year, Month, numberOfSelectedDay);
+
+                            if (newSelectedDate <= DateTime.Now
+                                || (OffsetYears > 0 && Year <= DateTime.Now.Year + OffsetYears))
+                            {
+                                SelectedDate = newSelectedDate;
+                            }
+                            else
+                            {
+                                SelectedItem = SelectedDate = null;
+                            }
                         }
                     }
                 }
-                else if (selectedDay.State is EDayState.NoDayMonth or EDayState.NameOfDay)
+                else
                 {
                     SelectedItem = SelectedDate = null;
                 }

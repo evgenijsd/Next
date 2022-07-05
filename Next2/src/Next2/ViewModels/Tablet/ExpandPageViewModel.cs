@@ -1,15 +1,12 @@
 ﻿using Acr.UserDialogs;
-using Next2.Extensions;
 using Next2.Interfaces;
 using Next2.Models;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Resources.Strings;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -89,10 +86,12 @@ namespace Next2.ViewModels.Tablet
 
         #region -- Private helpers --
 
-        private async Task OnTapSortCommandAsync()
+        private Task OnTapSortCommandAsync()
         {
             _shouldOrderDishesByDESC = !_shouldOrderDishesByDESC;
             Dishes = new(Dishes.Reverse());
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapDishCommand(DishModelDTO dish)
@@ -167,7 +166,7 @@ namespace Next2.ViewModels.Tablet
             }
         }
 
-        private async Task LoadSubcategoriesAsync()
+        private Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
@@ -180,6 +179,8 @@ namespace Next2.ViewModels.Tablet
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
+
+            return Task.CompletedTask;
         }
 
         #endregion

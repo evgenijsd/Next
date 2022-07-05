@@ -17,5 +17,7 @@ namespace Next2.Services.Authentication
         Task<AOResult> AuthorizeUserAsync(string userId);
 
         Task<AOResult> LogoutAsync();
+
+        void ClearSession();
     }
 }
