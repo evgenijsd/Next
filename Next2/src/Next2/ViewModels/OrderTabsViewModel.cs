@@ -5,7 +5,6 @@ using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
-using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -28,21 +27,18 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IAuthenticationService _authenticationService;
 
         private Guid _lastSavedOrderId;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService,
-            IAuthenticationService authenticationService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
-            _authenticationService = authenticationService;
-
             _eventAggregator = eventAggregator;
+
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
             _eventAggregator.GetEvent<OrderMovedEvent>().Subscribe(SetOrderType);
         }

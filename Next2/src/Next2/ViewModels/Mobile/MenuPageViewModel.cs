@@ -1,6 +1,5 @@
 ﻿using Next2.Enums;
 using Next2.Models;
-using Next2.Services.Authentication;
 using Next2.Services.Menu;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
@@ -13,9 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -23,7 +20,6 @@ namespace Next2.ViewModels.Mobile
     {
         private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
-        private readonly IAuthenticationService _authenticationService;
 
         private readonly IPopupNavigation _popupNavigation;
 
@@ -33,14 +29,12 @@ namespace Next2.ViewModels.Mobile
             INavigationService navigationService,
             IMenuService menuService,
             IPopupNavigation popupNavigation,
-            IAuthenticationService authenticationService,
             IOrderService orderService)
             : base(navigationService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _popupNavigation = popupNavigation;
-            _authenticationService = authenticationService;
 
             CanShowOrder = _orderService.CurrentOrder.Seats.Count > 0;
 
