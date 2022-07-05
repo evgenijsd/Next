@@ -129,11 +129,11 @@ namespace Next2.Controls
             {
                 if (selectedDay.State is EDayState.DayMonth)
                 {
-                    if (int.TryParse(selectedDay.DayOfMonth, out int numberOfselectedDay))
+                    if (int.TryParse(selectedDay.DayOfMonth, out int numberOfSelectedDay))
                     {
-                        if (numberOfselectedDay <= DateTime.DaysInMonth(Year, Month))
+                        if (numberOfSelectedDay <= DateTime.DaysInMonth(Year, Month))
                         {
-                            var newSelectedDate = new DateTime(Year, Month, numberOfselectedDay);
+                            var newSelectedDate = new DateTime(Year, Month, numberOfSelectedDay);
 
                             if (newSelectedDate <= DateTime.Now
                                 || (OffsetYears > 0 && Year <= DateTime.Now.Year + OffsetYears))
