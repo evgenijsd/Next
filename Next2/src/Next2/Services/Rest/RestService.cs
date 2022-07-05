@@ -68,16 +68,9 @@ namespace Next2.Services.Rest
 
         private static void ThrowIfNotSuccess(HttpResponseMessage response, object dataObj = null)
         {
-            try
+            if (!response.IsSuccessStatusCode)
             {
-                if (!response.IsSuccessStatusCode)
-                {
-                    response.EnsureSuccessStatusCode();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                throw new Exception(response.StatusCode.ToString());
             }
         }
 

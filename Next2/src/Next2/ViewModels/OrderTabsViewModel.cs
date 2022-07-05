@@ -5,6 +5,7 @@ using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models.API.DTO;
 using Next2.Models.Bindables;
+using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
 using Prism.Events;
@@ -27,16 +28,19 @@ namespace Next2.ViewModels
     {
         private readonly IOrderService _orderService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IAuthenticationService _authenticationService;
 
         private Guid _lastSavedOrderId;
 
         public OrderTabsViewModel(
             INavigationService navigationService,
             IOrderService orderService,
+            IAuthenticationService authenticationService,
             IEventAggregator eventAggregator)
             : base(navigationService)
         {
             _orderService = orderService;
+            _authenticationService = authenticationService;
 
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OrderSelectedEvent>().Subscribe(SetLastSavedOrderId);
@@ -202,15 +206,12 @@ namespace Next2.ViewModels
                 }
                 else
                 {
-                    await ShowInfoDialog(
-                        LocalizationResourceManager.Current["Error"],
-                        LocalizationResourceManager.Current["SomethingWentWrong"],
-                        LocalizationResourceManager.Current["Ok"]);
+                    await ResponseToBadRequestAsync(gettingOrdersResult.Exception.Message);
                 }
             }
             else
             {
-                await ShowInfoDialog(
+                await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
                     LocalizationResourceManager.Current["NoInternetConnection"],
                     LocalizationResourceManager.Current["Ok"]);
@@ -383,15 +384,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ShowInfoDialog(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialog(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -461,12 +459,20 @@ namespace Next2.ViewModels
 
                             await PopupNavigation.PopAllAsync();
                         }
+                        else
+                        {
+                            await ResponseToBadRequestAsync(updateOrderResult.Exception.Message);
+                        }
+                    }
+                    else
+                    {
+                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
                     await PopupNavigation.PopAsync();
-                    await ShowInfoDialog(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -510,15 +516,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await ShowInfoDialog(
-                            LocalizationResourceManager.Current["Error"],
-                            LocalizationResourceManager.Current["SomethingWentWrong"],
-                            LocalizationResourceManager.Current["Ok"]);
+                        await ResponseToBadRequestAsync(orderResult.Exception.Message);
                     }
                 }
                 else
                 {
-                    await ShowInfoDialog(
+                    await ShowInfoDialogAsync(
                         LocalizationResourceManager.Current["Error"],
                         LocalizationResourceManager.Current["NoInternetConnection"],
                         LocalizationResourceManager.Current["Ok"]);
@@ -573,8 +576,12 @@ namespace Next2.ViewModels
                     }
                     else
                     {
-                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(Views.Mobile.MenuPage)}/{nameof(Views.Mobile.OrderRegistrationPage)}");
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(MenuPage)}/{nameof(OrderRegistrationPage)}");
                     }
+                }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultOfSetCurrentOrder.Exception.Message);
                 }
             }
         }

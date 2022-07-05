@@ -29,7 +29,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Private helpers --
 
-        private async Task OnTapPaymentCompleteCommandAsync()
+        private Task OnTapPaymentCompleteCommandAsync()
         {
             var navigationParam = new NavigationParameters()
             {
@@ -37,7 +37,7 @@ namespace Next2.ViewModels.Mobile
                 { Constants.Navigations.SIGNATURE, BitmapSignature },
             };
 
-            await _navigationService.GoBackAsync(navigationParam);
+            return _navigationService.GoBackAsync(navigationParam);
         }
 
         #endregion

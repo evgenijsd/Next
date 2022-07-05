@@ -78,7 +78,6 @@
             public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string BONUS = "BONUS";
             public const string TAX_OFF = "TAX_OFF";
-            public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SEATS = "SEATS";
@@ -99,7 +98,7 @@
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
-            public const string RESULT = "RESULT";
+            public const string LOGOUT = "LOGOUT";
             public const string ORDER = "ORDER";
         }
 
@@ -163,6 +162,12 @@
             public const string HOST_URL = "http://139.59.208.79";
 #endif
             public const int TOKEN_EXPIRATION_TIME = 12;
+        }
+
+        public static class StatusCode
+        {
+            public const string UNAUTHORIZED = "Unauthorized";
+            public const string BAD_REQUEST = "BadRequest";
         }
     }
 }

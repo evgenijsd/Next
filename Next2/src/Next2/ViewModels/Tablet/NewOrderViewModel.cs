@@ -131,6 +131,10 @@ namespace Next2.ViewModels.Tablet
                         ? new(resultGettingDishes.Result.OrderByDescending(row => row.Name))
                         : new(resultGettingDishes.Result.OrderBy(row => row.Name));
                 }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultGettingDishes.Exception.Message);
+                }
             }
         }
 
@@ -166,9 +170,9 @@ namespace Next2.ViewModels.Tablet
             {
                 if (dialogResult.TryGetValue(Constants.DialogParameterKeys.DISH, out DishBindableModel dish))
                 {
-                    var result = await _orderService.AddDishInCurrentOrderAsync(dish);
+                    var resultOfAddingDish = await _orderService.AddDishInCurrentOrderAsync(dish);
 
-                    if (result.IsSuccess)
+                    if (resultOfAddingDish.IsSuccess)
                     {
                         await OrderRegistrationViewModel.RefreshCurrentOrderAsync();
                         bool isOrderUpdated = await UpdateCurrentOrder();
@@ -189,6 +193,10 @@ namespace Next2.ViewModels.Tablet
                             UserDialogs.Instance.Toast(toastConfig);
                         }
                     }
+                    else
+                    {
+                        await ResponseToBadRequestAsync(resultOfAddingDish.Exception.Message);
+                    }
                 }
             }
             else
@@ -208,10 +216,14 @@ namespace Next2.ViewModels.Tablet
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
                 }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultGettingCategories.Exception.Message);
+                }
             }
         }
 
-        private async Task LoadSubcategoriesAsync()
+        private Task LoadSubcategoriesAsync()
         {
             if (IsInternetConnected && SelectedCategoriesItem is not null)
             {
@@ -225,6 +237,8 @@ namespace Next2.ViewModels.Tablet
 
                 SelectedSubcategoriesItem = Subcategories.FirstOrDefault();
             }
+
+            return Task.CompletedTask;
         }
 
         private Task OnTapExpandCommandAsync()
@@ -234,9 +248,9 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
         {
-            return PopupNavigation
-                .PushAsync(new Views.Tablet.Dialogs
-                .EmployeeTimeClockDialog(_workLogService, (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
+            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(
+                _workLogService,
+                (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
         }
 
         private async Task<bool> UpdateCurrentOrder()

@@ -1,4 +1,6 @@
 ﻿using Next2.Interfaces;
+using Next2.Services.Authentication;
+using Next2.Views.Mobile;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
@@ -7,6 +9,7 @@ using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Next2.ViewModels
 {
@@ -28,9 +31,33 @@ namespace Next2.ViewModels
 
         #endregion
 
-        #region -- Private helpers --
+        #region -- Protected helpers --
 
-        protected Task ShowInfoDialog(string titleText, string descriptionText, string okText)
+        protected async Task ResponseToBadRequestAsync(string message)
+        {
+            if (message == Constants.StatusCode.UNAUTHORIZED)
+            {
+                var authenticationService = App.Resolve<IAuthenticationService>();
+
+                authenticationService.ClearSession();
+
+                var navigationParameters = new NavigationParameters
+                {
+                    { Constants.Navigations.LOGOUT, true },
+                };
+
+                await _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
+            }
+            else if (message == Constants.StatusCode.BAD_REQUEST)
+            {
+                await ShowInfoDialogAsync(
+                    LocalizationResourceManager.Current["Error"],
+                    LocalizationResourceManager.Current["SomethingWentWrong"],
+                    LocalizationResourceManager.Current["Ok"]);
+            }
+        }
+
+        protected Task ShowInfoDialogAsync(string titleText, string descriptionText, string okText)
         {
             var parameters = new DialogParameters
             {

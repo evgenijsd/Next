@@ -1,22 +1,16 @@
-﻿using Prism.Navigation;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Next2.Models;
-using Next2.Services.Order;
-using System.Linq;
-using Next2.Views;
-using Prism.Services.Dialogs;
-using Next2.Enums;
-using Xamarin.CommunityToolkit.Helpers;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Contracts;
-using Xamarin.Forms;
-using Next2.Views.Mobile;
-using Next2.Services.Menu;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using Next2.Enums;
 using Next2.Models.Bindables;
+using Next2.Services.Menu;
+using Next2.Services.Order;
+using Next2.Views.Mobile;
+using Prism.Navigation;
+using Prism.Services.Dialogs;
+using Rg.Plugins.Popup.Pages;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
@@ -57,7 +51,7 @@ namespace Next2.ViewModels.Mobile
 
         #region -- Overrides --
 
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
@@ -84,12 +78,12 @@ namespace Next2.ViewModels.Mobile
             return Task.CompletedTask;
         }
 
-        private async Task OnOpenModifyCommandAsync()
+        private Task OnOpenModifyCommandAsync()
         {
-            await _navigationService.NavigateAsync(nameof(ModificationsPage));
+            return _navigationService.NavigateAsync(nameof(ModificationsPage));
         }
 
-        private async Task OnOpenRemoveCommandAsync()
+        private Task OnOpenRemoveCommandAsync()
         {
             var confirmDialogParameters = new DialogParameters
             {
@@ -102,7 +96,7 @@ namespace Next2.ViewModels.Mobile
 
             PopupPage confirmDialog = new Views.Mobile.Dialogs.ConfirmDialog(confirmDialogParameters, CloseDeleteDishDialogCallbackAsync);
 
-            await PopupNavigation.PushAsync(confirmDialog);
+            return PopupNavigation.PushAsync(confirmDialog);
         }
 
         private async void CloseDeleteDishDialogCallbackAsync(IDialogParameters parameters)
@@ -149,6 +143,5 @@ namespace Next2.ViewModels.Mobile
         }
 
         #endregion
-
     }
 }

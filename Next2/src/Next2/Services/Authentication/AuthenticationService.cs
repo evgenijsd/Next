@@ -129,12 +129,7 @@ namespace Next2.Services.Authentication
 
                 if (response.Success)
                 {
-                    _settingsManager.UserId = -1;
-                    _settingsManager.IsAuthorizationComplete = false;
-                    _settingsManager.Token = string.Empty;
-                    _settingsManager.RefreshToken = string.Empty;
-                    _settingsManager.TokenExpirationDate = DateTime.Now;
-                    _settingsManager.IsUserAdmin = false;
+                    _settingsManager.Clear();
 
                     result.SetSuccess();
                 }
@@ -145,6 +140,11 @@ namespace Next2.Services.Authentication
             }
 
             return result;
+        }
+
+        public void ClearSession()
+        {
+            _settingsManager.Clear();
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace Next2.ViewModels
 
         #region -- Private helpers --
 
-        private async Task OnGoBackCommandAsync()
+        private Task OnGoBackCommandAsync()
         {
             var navigationParameters = new NavigationParameters
             {
@@ -38,7 +38,7 @@ namespace Next2.ViewModels
                 navigationParameters.Add(Constants.Navigations.EMPLOYEE_ID, EmployeeId);
             }
 
-            await _navigationService.GoBackAsync(navigationParameters);
+            return _navigationService.GoBackAsync(navigationParameters);
         }
 
         #endregion

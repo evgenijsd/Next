@@ -17,5 +17,7 @@ namespace Next2.Services.Settings
         DateTime TokenExpirationDate { get; set; }
 
         string? LastCurrentOrderIds { get; set; }
+
+        void Clear();
     }
 }
