@@ -144,6 +144,7 @@
                         HeightRequest="1.5" />
 
                     <Frame
+                        Margin="0, 18, 0, 24"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
 
