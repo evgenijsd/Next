@@ -95,7 +95,7 @@ namespace Next2.ViewModels
 
         public DishBindableModel? SelectedDish { get; set; }
 
-        public SeatBindableModel SelectedSeat { get; set; }
+        public SeatBindableModel SeatWithSelectedDish { get; set; }
 
         public ObservableCollection<TableBindableModel> Tables { get; set; } = new();
 
@@ -268,6 +268,7 @@ namespace Next2.ViewModels
                 : CurrentOrder.Seats.FirstOrDefault().SeatNumber;
 
             _orderService.CurrentSeat = _orderService?.CurrentOrder?.Seats?.FirstOrDefault(x => x.SeatNumber == currentSeatNumber);
+            SeatWithSelectedDish = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
 
             return _orderService.UpdateCurrentOrderAsync();
         }
@@ -396,8 +397,6 @@ namespace Next2.ViewModels
             if (CurrentOrder.Seats is not null)
             {
                 seat.Checked = true;
-
-                SelectedSeat = seat;
 
                 foreach (var item in CurrentOrder.Seats)
                 {

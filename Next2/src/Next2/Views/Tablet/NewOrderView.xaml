@@ -10,6 +10,7 @@
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
+    xmlns:behaviors="clr-namespace:Next2.Behaviors"
     xmlns:modelsBindable="clr-namespace:Next2.Models.Bindables"
     xmlns:viewModels="clr-namespace:Next2.ViewModels.Tablet"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
@@ -1321,11 +1322,17 @@
             </controls:DropDownList>
 
             <!-- MEALS LIST -->
-            <CollectionView
+            <controls:CustomCollectionView
                 Grid.Row="2"
                 VerticalScrollBarVisibility="Always"
                 BackgroundColor="{DynamicResource TextAndBackgroundColor_i8}"
-                ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}">
+                ItemsSource="{Binding OrderRegistrationViewModel.CurrentOrder.Seats}"
+                SelectedItem="{Binding OrderRegistrationViewModel.SeatWithSelectedDish}"
+                SelectionMode="Single">
+
+                <CollectionView.Behaviors>
+                    <behaviors:ScrollToCenterBehavior />
+                </CollectionView.Behaviors>
 
                 <CollectionView.Effects>
                     <effects:NoOverScrollEffect/>
@@ -1545,12 +1552,12 @@
 
                         <templates:SeatItemTemplate
                             ItemsSource="{Binding SelectedDishes}"
-                            Padding="18, 9, 18, 0"/>
+                            Padding="18, 9, 18, 0" />
 
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
-            </CollectionView>
+            </controls:CustomCollectionView>
 
             <!-- SUMMARY -->
             <StackLayout 
