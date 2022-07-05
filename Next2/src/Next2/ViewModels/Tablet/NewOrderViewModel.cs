@@ -248,9 +248,11 @@ namespace Next2.ViewModels.Tablet
 
         private Task OnOpenEmployeeWorkingHoursCommandAsync()
         {
-            return PopupNavigation.PushAsync(new Views.Tablet.Dialogs.EmployeeTimeClockDialog(
+            var popupPage = new Views.Tablet.Dialogs.EmployeeTimeClockDialog(
                 _workLogService,
-                (IDialogParameters dialogResult) => PopupNavigation.PopAsync()));
+                (IDialogParameters dialogResult) => PopupNavigation.PopAsync());
+
+            return PopupNavigation.PushAsync(popupPage);
         }
 
         private async Task<bool> UpdateCurrentOrder()

@@ -33,9 +33,9 @@ namespace Next2.ViewModels
 
         #region -- Protected helpers --
 
-        protected async Task ResponseToBadRequestAsync(string message)
+        protected async Task ResponseToBadRequestAsync(string statusCode)
         {
-            if (message == Constants.StatusCode.UNAUTHORIZED)
+            if (statusCode == Constants.StatusCode.UNAUTHORIZED)
             {
                 var authenticationService = App.Resolve<IAuthenticationService>();
 
@@ -48,7 +48,7 @@ namespace Next2.ViewModels
 
                 await _navigationService.NavigateAsync($"{nameof(LoginPage)}", navigationParameters);
             }
-            else if (message == Constants.StatusCode.BAD_REQUEST)
+            else if (statusCode == Constants.StatusCode.BAD_REQUEST)
             {
                 await ShowInfoDialogAsync(
                     LocalizationResourceManager.Current["Error"],
