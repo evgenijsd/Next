@@ -18,9 +18,10 @@
             Grid.Row="0"
             Margin="15, 0, 0, 0"
             VerticalOptions="Center"
+            HeightRequest="60"
             Title="{xct:Translate Search}"
             HeightImage="18"
-            FontSize="{DynamicResource TSize_i7}"
+            FontSize="{DynamicResource TSize_i8}"
             LeftButtonCommand="{Binding GoBackCommand}" />
 
         <StackLayout
@@ -31,7 +32,7 @@
             <controls:NoActionMenuEntry
                 Text="{Binding SearchLine}"
                 Placeholder="{Binding Placeholder}"
-                FontSize="{DynamicResource TSize_i4}"
+                FontSize="{DynamicResource TSize_i4_5}"
                 FontFamily="Barlow-Regular"
                 ReturnCommand="{Binding GoBackCommand}"
                 ReturnCommandParameter="{Binding SearchLine}"

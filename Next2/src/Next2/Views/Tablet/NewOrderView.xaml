@@ -1102,15 +1102,15 @@
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
-                                Padding="14, 7, 14, 12"
-                                HeightRequest="20"
+                                Padding="14, 9"
+                                HeightRequest="21"
                                 Orientation="Horizontal">
 
                                 <Label
                                     x:DataType="models:OrderTypeBindableModel"
                                     HorizontalOptions="FillAndExpand"
                                     FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontSize="{DynamicResource TSize_i8}"
                                     Text="{Binding Text}" />
 
                             </StackLayout>
@@ -1202,14 +1202,14 @@
                             <BoxView Style="{DynamicResource SeparatorStyle_i3}" />
 
                             <StackLayout
-                                Padding="14, 7, 14, 12"
-                                HeightRequest="20"
+                                Padding="14, 9"
+                                HeightRequest="21"
                                 Orientation="Horizontal"
                                 x:DataType="modelsBindable:TableBindableModel">
 
                                 <Label
                                     FontFamily="Barlow-Medium"
-                                    FontSize="{DynamicResource TSize_i7}"
+                                    FontSize="{DynamicResource TSize_i8}"
                                     HorizontalOptions="FillAndExpand"
                                     Text="{Binding TableNumber, StringFormat='Table {0}'}" />
 

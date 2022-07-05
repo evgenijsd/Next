@@ -207,6 +207,8 @@
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
                     Title="{xct:Translate Clear}"
+                    FontFamily="Barlow-SemiBold"
+                    FontSize="{DynamicResource TSize_i6}"
                     BackgroundColor="{Binding BackgroundColorButton, Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}}"
                     TapGestureRecognizerCommand="{Binding Source={RelativeSource AncestorType={x:Type templates:CustomNumericKeyboardTemplate}}, Path=ButtonClearTapCommand}"/>
 
