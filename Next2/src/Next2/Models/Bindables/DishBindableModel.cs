@@ -22,8 +22,6 @@ namespace Next2.Models.Bindables
 
         public decimal DiscountPrice { get; set; }
 
-        public decimal SelectedDishProportionPrice { get; set; }
-
         public IEnumerable<SimpleDishProportionModelDTO>? DishProportions { get; set; }
 
         public DishProportionModelDTO SelectedDishProportion { get; set; } = new();
