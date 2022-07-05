@@ -41,7 +41,7 @@
             public const int MAX_PERCENTAGE = 100;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
-            public const int MAX_YEAR = 2100;
+            public const int MAX_YEAR = 2032;
             public const int DAYS_IN_CALENDAR = 42;
             public const decimal TAX_PERCENTAGE = 20;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
