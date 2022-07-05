@@ -143,7 +143,7 @@
                                 <FormattedString>
                                     <Span Text="{xct:Translate CurrencySign}" />
                                     <Span Text=" " />
-                                    <Span Text="{Binding Order.Subtotal, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
+                                    <Span Text="{Binding Order.SubtotalWithBonus, StringFormat={x:Static local:Constants+Formats.PRICE_FORMAT}}" />
                                 </FormattedString>
                             </Label.FormattedText>
 
@@ -153,7 +153,7 @@
 
                     <StackLayout 
                         Orientation="Horizontal"
-                        IsVisible="{Binding Order.BonusType, Converter={xct:EnumToBoolConverter}}">
+                        IsVisible="{Binding Order.Bonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
                         <Label
                             Style="{DynamicResource SummaryItem}"
