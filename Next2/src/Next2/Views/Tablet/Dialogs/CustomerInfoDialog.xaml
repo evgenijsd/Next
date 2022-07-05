@@ -13,7 +13,8 @@
         <ResourceDictionary>
 
             <Style x:Key="HeadLayoutStyle" TargetType="StackLayout">
-                <Setter Property="Margin" Value="0, 18, 0, 0" />
+                <Setter Property="Margin" Value="0, 15, 0, 0" />
+                <Setter Property="Spacing" Value="4" />
             </Style>
 
             <Style x:Key="HeadTextStyle" TargetType="Label">
@@ -30,7 +31,7 @@
             <Style x:Key="GridLayoutStyle" TargetType="StackLayout">
                 <Setter Property="VerticalOptions" Value="Start" />
                 <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="Margin" Value="0, 40, 0, 0" />
+                <Setter Property="Margin" Value="0, 30, 0, 0" />
             </Style>
 
             <Style x:Key="ButtonFrameStyle" TargetType="Frame">
@@ -90,7 +91,7 @@
 
                 <StackLayout
                     Grid.Row="1"
-                    Margin="18, 0">
+                    Margin="20, 0">
                     
                     <StackLayout Style="{StaticResource HeadLayoutStyle}">
 
@@ -143,7 +144,6 @@
                         HeightRequest="1.5" />
 
                     <Frame
-                        Margin="0, 23, 0, 24"
                         Padding="0"
                         BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}">
 
@@ -160,6 +160,7 @@
                             <StackLayout
                                 Grid.Row="0"
                                 Grid.Column="0"
+                                Spacing="8"
                                 Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
@@ -170,7 +171,7 @@
                                 <Label
                                     Margin="0, 12, 0, 0"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="{DynamicResource TSize_i5}"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     HorizontalOptions="Center"
                                     TextColor="{DynamicResource AppColor_i1}">
 
@@ -193,6 +194,7 @@
                             <StackLayout
                                 Grid.Row="0"
                                 Grid.Column="1"
+                                Spacing="6"
                                 Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
@@ -203,7 +205,7 @@
                                 <Label
                                     Margin="0, 12, 0, 0"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="{DynamicResource TSize_i3}"
+                                    FontSize="{DynamicResource TSize_i4_5}"
                                     HorizontalOptions="Center"
                                     Text="{Binding Customer.Rewards}"
                                     TextColor="{DynamicResource IndicationColor_i7}" />
@@ -237,7 +239,7 @@
                                 <Label
                                     Margin="0, 12, 0, 0"
                                     FontFamily="Barlow-Bold"
-                                    FontSize="{DynamicResource TSize_i3}"
+                                    FontSize="{DynamicResource TSize_i4_5}"
                                     HorizontalOptions="Center"
                                     Text="{Binding Customer.GiftCards.Count}"
                                     TextColor="{DynamicResource IndicationColor_i5}" />
@@ -252,6 +254,7 @@
                             <StackLayout
                                 Grid.Row="1"
                                 Grid.Column="1"
+                                Spacing="4"
                                 Style="{StaticResource GridLayoutStyle}">
 
                                 <Label
@@ -271,7 +274,7 @@
                                 <Label
                                     Margin="0, 12, 0, 0"
                                     FontFamily="Barlow-SemiBold"
-                                    FontSize="{DynamicResource TSize_i5}"
+                                    FontSize="{DynamicResource TSize_i6}"
                                     HorizontalOptions="Center"
                                     TextColor="{DynamicResource IndicationColor_i1}">
 
