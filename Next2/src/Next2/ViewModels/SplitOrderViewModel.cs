@@ -117,6 +117,7 @@ namespace Next2.ViewModels
                 await SplitSelectedDish(seats);
                 await RemoveNullPriceDishes();
                 await RefreshDisplay();
+
                 SelectFirstDish();
             }
 

@@ -90,7 +90,7 @@
             Grid.ColumnSpan="2"
             Title="{xct:Translate Clear}"
             BackgroundColor="{Binding ButtonBackgroundColor, Source={RelativeSource AncestorType={x:Type controls:CustomKeyboard}}}"
-            TapGestureRecognizerCommand="{Binding PressClearButtonCommand, Source={RelativeSource AncestorType={x:Type controls:CustomKeyboard}}}" />
+            TapGestureRecognizerCommand="{Binding ClearCommand, Source={RelativeSource AncestorType={x:Type controls:CustomKeyboard}}}" />
 
     </Grid>
 
