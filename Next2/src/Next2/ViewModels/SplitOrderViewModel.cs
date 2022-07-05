@@ -289,16 +289,7 @@ namespace Next2.ViewModels
         {
             foreach (var seat in Seats)
             {
-                // List<DishBindableModel> selectedDishes = new(seat.SelectedDishes);
-                var selectedDishes = seat.SelectedDishes;
-
-                foreach (var dish in selectedDishes)
-                {
-                    if (dish.TotalPrice == 0)
-                    {
-                        selectedDishes.Remove(dish);
-                    }
-                }
+                seat.SelectedDishes = new(seat.SelectedDishes.Where(x => x.TotalPrice > 0));
             }
 
             return Task.CompletedTask;
