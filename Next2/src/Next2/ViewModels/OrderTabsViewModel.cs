@@ -601,19 +601,17 @@ namespace Next2.ViewModels
             return name + " " + surname;
         }
 
-        private Task OnSplitCommandAsync()
+        private async Task OnSplitCommandAsync()
         {
             if (SelectedOrder.TotalPrice > 0)
             {
                 var param = new NavigationParameters
-            {
-                { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
-            };
+                {
+                    { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
+                };
 
-                return _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
+                await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
             }
-
-            return Task.CompletedTask;
         }
 
         #endregion
