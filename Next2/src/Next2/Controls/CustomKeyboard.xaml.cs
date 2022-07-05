@@ -36,7 +36,7 @@ namespace Next2.Controls
             set => SetValue(PressNumberButtonCommandProperty, value);
         }
 
-        public static readonly BindableProperty ClearCommandCommandProperty = BindableProperty.Create(
+        public static readonly BindableProperty ClearCommandProperty = BindableProperty.Create(
           propertyName: nameof(ClearCommand),
           returnType: typeof(ICommand),
           declaringType: typeof(CustomKeyboard),
@@ -44,8 +44,8 @@ namespace Next2.Controls
 
         public ICommand ClearCommand
         {
-            get => (ICommand)GetValue(ClearCommandCommandProperty);
-            set => SetValue(ClearCommandCommandProperty, value);
+            get => (ICommand)GetValue(ClearCommandProperty);
+            set => SetValue(ClearCommandProperty, value);
         }
 
         #endregion

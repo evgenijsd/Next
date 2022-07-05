@@ -40,7 +40,6 @@ namespace Next2.Models.Bindables
                 ImageSource = ImageSource,
                 TotalPrice = TotalPrice,
                 DiscountPrice = DiscountPrice,
-                SelectedDishProportionPrice = SelectedDishProportionPrice,
                 DishProportions = DishProportions?.Select(x => new SimpleDishProportionModelDTO
                 {
                     Id = x.Id,
