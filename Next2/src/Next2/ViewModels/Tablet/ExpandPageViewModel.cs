@@ -147,7 +147,7 @@ namespace Next2.ViewModels.Tablet
                     Categories = new(resultGettingCategories.Result);
                     SelectedCategoriesItem = Categories.FirstOrDefault();
 
-                    HeightCollectionView = (int)((Math.Ceiling((double)Categories.Count / 7) * (54 + 10)) - 8);
+                    HeightCollectionView = (int)((Math.Ceiling((double)Categories.Count / 7) * (40 + 10)) - 8);
                 }
             }
         }
