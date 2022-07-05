@@ -250,18 +250,21 @@ namespace Next2.ViewModels.Tablet
                 {
                     await PopupNavigation.PopAsync();
 
-                    await _authenticationService.LogoutAsync();
+                    var logoutResult = await _authenticationService.LogoutAsync();
 
-                    NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
-
-                    _orderService.CurrentOrder = new();
-
-                    var navigationParameters = new NavigationParameters
+                    if (logoutResult.IsSuccess)
                     {
-                        { Constants.Navigations.IS_LAST_USER_LOGGED_OUT, result },
-                    };
+                        NewOrderViewModel.OrderRegistrationViewModel.CurrentState = LayoutState.Loading;
 
-                    await _navigationService.NavigateAsync($"{nameof(LoginPage)}");
+                        _orderService.CurrentOrder = new();
+
+                        var navigationParameters = new NavigationParameters
+                        {
+                            { Constants.Navigations.LOGOUT, true },
+                        };
+
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                    }
                 }
                 else
                 {

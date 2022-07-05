@@ -7,12 +7,9 @@ using Prism.Navigation;
 using Prism.Services.Dialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -156,6 +153,10 @@ namespace Next2.ViewModels.Mobile
                 {
                     Categories = new(resultCategories.Result);
                 }
+                else
+                {
+                    await ResponseToBadRequestAsync(resultCategories.Exception.Message);
+                }
             }
         }
 
@@ -164,19 +165,19 @@ namespace Next2.ViewModels.Mobile
             return CanShowOrder ? _navigationService.NavigateAsync(nameof(OrderRegistrationPage)) : Task.CompletedTask;
         }
 
-        private async Task OnTapCategoryCommandAsync(CategoryModel category)
+        private Task OnTapCategoryCommandAsync(CategoryModel category)
         {
             var navigationParams = new NavigationParameters
             {
                 { Constants.Navigations.CATEGORY, category },
             };
 
-            await _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
+            return _navigationService.NavigateAsync(nameof(ChooseSetPage), navigationParams);
         }
 
-        private async Task GoToSettingsCommandAsync()
+        private Task GoToSettingsCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
+            return _navigationService.NavigateAsync($"{nameof(SettingsPage)}");
         }
 
         #endregion

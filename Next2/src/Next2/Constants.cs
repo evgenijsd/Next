@@ -2,7 +2,6 @@
 {
     public static class Constants
     {
-        public const string DEFAULT_CULTURE = "en-US";
         public const string ROLE_ADMIN = "Admin";
 
         public static class Formats
@@ -39,25 +38,11 @@
             public const int SERVER_RESPONCE_DELAY = 100;
             public const int LOGIN_LENGTH = 6;
             public const int MAX_PERCENTAGE = 100;
-            public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2032;
             public const int DAYS_IN_CALENDAR = 42;
-            public const decimal TAX_PERCENTAGE = 20;
             public const int MAXIMUM_DISCHARGE_NUMBER = 9;
-            public const int EMPLOYEE_ID_LENGTH = 6;
-            public const int COMMENT_LENGTH = 250;
             public const int MAX_QUERY_LENGTH = 100;
-        }
-
-        public static class LayoutOrderTabs
-        {
-            public const double SUMM_ROW_HEIGHT_MOBILE = 65 + 55 + 80;
-            public const double OFFSET_MOBILE = 52;
-            public const double SUMM_ROW_HEIGHT_TABLET = 75 + 2 + 95;
-            public const double OFFSET_TABLET = 70;
-            public const double BUTTONS_HEIGHT = 142;
-            public const double ROW_HEIGHT = 48 + 2;
         }
 
         public static class LayoutBonuses
@@ -78,7 +63,6 @@
             public const string CURRENT_ORDER = "CURRENT_ORDER";
             public const string BONUS = "BONUS";
             public const string TAX_OFF = "TAX_OFF";
-            public const string IS_LAST_USER_LOGGED_OUT = "IS_LAST_USER_LOGGED_OUT";
             public const string CATEGORY = "CATEGORY";
             public const string SWITCH_PAGE = "SWITCH_PAGE";
             public const string SEATS = "SEATS";
@@ -99,7 +83,7 @@
             public const string GIFT_CARD_ADDED = "GIFT_CARD_ADDED";
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
-            public const string RESULT = "RESULT";
+            public const string LOGOUT = "LOGOUT";
             public const string ORDER = "ORDER";
         }
 
@@ -163,6 +147,12 @@
             public const string HOST_URL = "http://139.59.208.79";
 #endif
             public const int TOKEN_EXPIRATION_TIME = 12;
+        }
+
+        public static class StatusCode
+        {
+            public const string UNAUTHORIZED = "Unauthorized";
+            public const string BAD_REQUEST = "BadRequest";
         }
     }
 }

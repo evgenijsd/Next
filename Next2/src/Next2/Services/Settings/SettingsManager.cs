@@ -5,6 +5,8 @@ namespace Next2.Services.Settings
 {
     public class SettingsManager : ISettingsManager
     {
+        #region -- ISettingsManager implementation --
+
         public int UserId
         {
             get => Preferences.Get(nameof(UserId), -1);
@@ -46,5 +48,12 @@ namespace Next2.Services.Settings
             get => Preferences.Get(nameof(LastCurrentOrderIds), string.Empty);
             set => Preferences.Set(nameof(LastCurrentOrderIds), value);
         }
+
+        public void Clear()
+        {
+            Preferences.Clear();
+        }
+
+        #endregion
     }
 }

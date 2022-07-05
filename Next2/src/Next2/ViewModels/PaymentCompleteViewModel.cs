@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Models;
 using Next2.Models.API.DTO;
@@ -208,7 +207,9 @@ namespace Next2.ViewModels
             Order.PriceTax = _subtotalWithBonus * Order.TaxCoefficient;
             Order.Total = _subtotalWithBonus + Order.Tip + Order.PriceTax;
             Order.Total = Order.Total - Order.Cash - Order.GiftCard;
+
             var cash = Order.Cash + Order.Change;
+
             Order.Cash = 0;
             Order.Cash = cash;
         }

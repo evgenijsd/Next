@@ -78,7 +78,7 @@ namespace Next2.ViewModels
             {
                 if (parameters.TryGetValue(Constants.Navigations.IS_REWARD_APPLIED, out bool isRewardApplied)
                     && parameters.TryGetValue(Constants.Navigations.REWARD, out RewardBindabledModel reward)
-                     && parameters.TryGetValue(Constants.Navigations.CONFIRMED_APPLY_REWARD, out bool isRewardConfirmedAppy))
+                    && parameters.TryGetValue(Constants.Navigations.CONFIRMED_APPLY_REWARD, out bool isRewardConfirmedAppy))
                 {
                     reward.IsApplied = isRewardApplied;
                     reward.IsConfirmedApply = isRewardConfirmedAppy;

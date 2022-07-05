@@ -2,12 +2,9 @@ using Next2.Enums;
 using Next2.Services.Authentication;
 using Next2.Services.Order;
 using Next2.Views.Mobile;
-using Next2.Views.Mobile.Dialogs;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -66,16 +63,19 @@ namespace Next2.ViewModels
                 {
                     await PopupNavigation.PopAsync();
 
-                    await _authenticationService.LogoutAsync();
+                    var logoutResult = await _authenticationService.LogoutAsync();
 
-                    _orderService.CurrentOrder = new();
-
-                    var navigationParameters = new NavigationParameters
+                    if (logoutResult.IsSuccess)
                     {
-                        { Constants.Navigations.RESULT, result },
-                    };
+                        _orderService.CurrentOrder = new();
 
-                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}", navigationParameters);
+                        var navigationParameters = new NavigationParameters
+                        {
+                            { Constants.Navigations.LOGOUT, true },
+                        };
+
+                        await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(LoginPage)}");
+                    }
                 }
                 else
                 {

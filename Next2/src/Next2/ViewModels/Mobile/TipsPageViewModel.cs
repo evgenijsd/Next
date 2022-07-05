@@ -2,14 +2,8 @@
 using Next2.Helpers;
 using Prism.Navigation;
 using Prism.Services.Dialogs;
-using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.Helpers;
@@ -113,6 +107,7 @@ namespace Next2.ViewModels.Mobile
             {
                 { Constants.Navigations.TIP_VALUE, SelectedTipItem },
             };
+
             return _navigationService.GoBackAsync(parameters);
         }
 
