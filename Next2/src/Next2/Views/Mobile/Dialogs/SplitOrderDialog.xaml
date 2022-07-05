@@ -1,0 +1,541 @@
+﻿<rg:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:dialogs="clr-namespace:Next2.ViewModels.Dialogs"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:Next2.Models.Bindables"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:local="clr-namespace:Next2"
+    xmlns:enums="clr-namespace:Next2.Enums"
+    xmlns:sc="clr-namespace:Next2.Controls.StateContainer"
+    xmlns:effects="clr-namespace:Next2.Effects"
+    xmlns:controls="clr-namespace:Next2.Controls"
+    x:Class="Next2.Views.Mobile.Dialogs.SplitOrderDialog"
+    x:DataType="dialogs:SplitOrderDialogViewModel">
+
+    <rg:PopupPage.Resources>
+
+        <Style TargetType="Label">
+
+            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+
+        </Style>
+
+    </rg:PopupPage.Resources>
+
+    <Frame
+        Margin="24, 32"
+        VerticalOptions="FillAndExpand"
+        HorizontalOptions="FillAndExpand"
+        CornerRadius="8"
+        BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+        BorderColor="{DynamicResource TextAndBackgroundColor_i2}">
+
+        <Grid RowDefinitions="0.1*, 0.79*, 0.11*">
+
+            <!--  header  -->
+            <Label
+                Grid.Row="0"
+                Margin="24, 0, 0, 0"
+                HorizontalTextAlignment="Start"
+                VerticalOptions="Center"
+                FontFamily="Barlow-Bold"
+                FontSize="{DynamicResource TSize_i6}"
+                Text="{Binding HeaderText}" />
+
+            <BoxView
+                Grid.Row="0"
+                Margin="2, 0"
+                VerticalOptions="EndAndExpand"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i6}" />
+
+            <!--  body  -->
+            <sc:StateContainer
+                Grid.Row="1"
+                State="{Binding PopupNavigationStep}">
+
+                <sc:StateCondition State="{Static enums:EStep.First}">
+
+                    <Frame
+                        Grid.Row="1"
+                        Margin="2, 0"
+                        BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+
+                        <CollectionView
+                            Grid.Row="1"
+                            Margin="18"
+                            SelectionMode="Multiple"
+                            VerticalScrollBarVisibility="Never"
+                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                            ItemsSource="{Binding Seats}"
+                            SelectedItems="{Binding SelectedSeats}"
+                            SelectionChangedCommand="{Binding SelectCommand}">
+
+                            <CollectionView.Effects>
+                                <effects:NoOverScrollEffect />
+                            </CollectionView.Effects>
+
+                            <CollectionView.Header>
+                                <Label Text="{xct:Translate Seats}" />
+                            </CollectionView.Header>
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout
+                                    Orientation="Vertical"
+                                    ItemSpacing="9" />
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:SeatBindableModel">
+
+                                    <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}">
+                                        <Frame
+                                            Padding="18"
+                                            HeightRequest="50"
+                                            BackgroundColor="{DynamicResource TextAndBackgroundColor_i4}"
+                                            BorderColor="{DynamicResource TextAndBackgroundColor_i2}"
+                                            CornerRadius="8"
+                                            x:Name="frame">
+
+                                            <StackLayout Orientation="Horizontal">
+                                                <StackLayout
+                                                    VerticalOptions="Center"
+                                                    HorizontalOptions="Start"
+                                                    Spacing="6">
+
+                                                    <Label Text="{Binding SeatNumber}">
+
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+
+                                                                <Span Text="Seat " />
+                                                                <Span Text="{Binding SeatNumber}" />
+
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+
+                                                    </Label>
+
+                                                    <Label>
+
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+
+                                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding SelectedItem.TotalPrice, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+
+                                                    </Label>
+
+                                                </StackLayout>
+
+                                                <ffimageloading:CachedImage
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    Source="ic_check_box_unhecked_24x24"
+                                                    x:Name="checkBox" />
+
+                                            </StackLayout>
+
+                                        </Frame>
+
+                                        <VisualStateManager.VisualStateGroups>
+
+                                            <VisualStateGroup Name="CommonStates">
+
+                                                <VisualState Name="Selected">
+
+                                                    <VisualState.Setters>
+
+                                                        <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource AppColor_i1}" />
+                                                        <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_checked_white.png" />
+
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                                <VisualState Name="Normal">
+
+                                                    <VisualState.Setters>
+
+                                                        <Setter TargetName="frame" Property="Frame.BorderColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+                                                        <Setter TargetName="checkBox" Property="ffimageloading:CachedImage.Source" Value="ic_check_box_unhecked_24x24.png" />
+
+                                                    </VisualState.Setters>
+
+                                                </VisualState>
+
+                                            </VisualStateGroup>
+
+                                        </VisualStateManager.VisualStateGroups>
+
+                                    </StackLayout>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+                    </Frame>
+
+                </sc:StateCondition>
+
+                <sc:StateCondition State="{Static enums:EStep.Second}">
+
+                    <sc:StateContainer State="{Binding SplitCondition}">
+
+                        <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByPercents}">
+
+                            <Grid
+                                Padding="24"
+                                MinimumHeightRequest="623">
+
+                                <!--  values  -->
+                                <StackLayout
+                                    Grid.Row="0"
+                                    Spacing="12">
+
+                                    <StackLayout.Resources>
+
+                                        <Style TargetType="Frame" x:Key="frameStyle">
+
+                                            <Setter Property="Opacity" Value="{DynamicResource OpacityWhenDisabled_i1}" />
+                                            <Setter Property="HeightRequest" Value="51" />
+                                            <Setter Property="WidthRequest" Value="139" />
+                                            <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                                        </Style>
+
+                                        <Style TargetType="Label" x:Key="labelStyle">
+
+                                            <Setter Property="VerticalTextAlignment" Value="Center" />
+                                            <Setter Property="HorizontalTextAlignment" Value="Center" />
+                                            <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i1}" />
+                                            <Setter Property="FontFamily" Value="Barlow-SemiBold" />
+
+                                        </Style>
+
+                                    </StackLayout.Resources>
+
+                                    <Label
+                                        Text="{xct:Translate SelectValue}"
+                                        FontSize="{DynamicResource TSize_i6}"
+                                        FontFamily="Barlow-SemiBold" />
+
+                                    <StackLayout
+                                        Orientation="Horizontal"
+                                        Spacing="12">
+
+                                        <Frame
+                                            Style="{DynamicResource frameStyle}"
+                                            xct:TouchEffect.Command="{Binding SelectValueCommand}"
+                                            xct:TouchEffect.CommandParameter="25">
+
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Value="25">
+
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 25)">
+
+                                                            <Binding Path="AvailableValue" />
+
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+
+                                                    <Setter Property="Opacity" Value="1" />
+
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
+                                            <Label
+                                                Style="{DynamicResource labelStyle}"
+                                                Text="25 %" />
+
+                                        </Frame>
+
+                                        <Frame
+                                            Style="{DynamicResource frameStyle}"
+                                            xct:TouchEffect.Command="{Binding SelectValueCommand}"
+                                            xct:TouchEffect.CommandParameter="50">
+
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Value="50">
+
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 50)">
+
+                                                            <Binding Path="AvailableValue" />
+
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+
+                                                    <Setter Property="Opacity" Value="1" />
+
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
+                                            <Label
+                                                Style="{DynamicResource labelStyle}"
+                                                Text="50 %" />
+
+                                        </Frame>
+
+                                        <Frame
+                                            Style="{DynamicResource frameStyle}"
+                                            xct:TouchEffect.Command="{Binding SelectValueCommand}"
+                                            xct:TouchEffect.CommandParameter="75">
+
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame" Value="75">
+
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{xct:MultiMathExpressionConverter}" ConverterParameter="min(x, 75)">
+
+                                                            <Binding Path="AvailableValue" />
+
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+
+                                                    <Setter Property="Opacity" Value="1" />
+
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
+                                            <Label
+                                                Style="{DynamicResource labelStyle}"
+                                                Text="75 %" />
+
+                                        </Frame>
+
+                                    </StackLayout>
+
+                                </StackLayout>
+
+                                <!--  stepper  -->
+                                <controls:CustomStepper
+                                    Grid.Row="1"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Spacing="32"
+                                    IconSizes="53"
+                                    MaxValue="{Binding AvailableValue}"
+                                    FontSize="{DynamicResource TSize_i0_7}"
+                                    FontFamily="Barlow-Bold"
+                                    IncrementCommand="{Binding IncrementSplitValueCommand}"
+                                    DecrementCommand="{Binding DecrementSplitValueCommand}"
+                                    TextWidth="110"
+                                    ValueFormat="{Static local:Constants+Formats.PERCENT_FORMAT}"
+                                    Value="{Binding SplitValue}" />
+
+                                <!--  split total  -->
+                                <BoxView
+                                    Grid.Row="2"
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="FillAndExpand"
+                                    HeightRequest="1"
+                                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+                                <StackLayout
+                                    Grid.Row="2"
+                                    Padding="0, 18, 0, 0"
+                                    Orientation="Horizontal">
+
+                                    <Label
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        Text="{xct:Translate SplitTotal}"
+                                        FontFamily="Barlow-SemiBold"
+                                        FontSize="{DynamicResource TSize_i6}" />
+
+                                    <Label
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="EndAndExpand"
+                                        TextColor="{DynamicResource IndicationColor_i1}"
+                                        FontFamily="Barlow-SemiBold"
+                                        FontSize="{DynamicResource TSize_i6}">
+
+                                        <Label.FormattedText>
+                                            <FormattedString>
+
+                                                <Span Text="{xct:Translate CurrencySign}" />
+                                                <Span Text=" " />
+                                                <Span Text="{Binding SplitTotal, StringFormat={Static local:Constants+Formats.PRICE_FORMAT}}" />
+
+                                            </FormattedString>
+                                        </Label.FormattedText>
+
+                                    </Label>
+
+                                </StackLayout>
+
+                            </Grid>
+
+                        </sc:StateCondition>
+
+                        <sc:StateCondition State="{Static enums:ESplitOrderConditions.ByDollar}">
+
+                            <controls:NumericKeyboard
+                                Margin="18"
+                                VerticalOptions="Fill"
+                                HorizontalOptions="Fill"
+                                IsKeyboardEnabled="{Binding IsKeyboardEnabled}"
+                                Placeholder="{xct:Translate SetValue}"
+                                IsTextRightToLeft="True"
+                                MaxValue="{Binding AvailableValue}"
+                                ValueFormat="{Static local:Constants+Formats.CASH_FORMAT}"
+                                ButtonBackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                                Value="{Binding SplitValue, Mode=TwoWay}" />
+
+                        </sc:StateCondition>
+
+                    </sc:StateContainer>
+
+                </sc:StateCondition>
+
+            </sc:StateContainer>
+
+            <!--  Buttons  -->
+            <BoxView
+                Grid.Row="2"
+                VerticalOptions="StartAndExpand"
+                HeightRequest="2"
+                BackgroundColor="{DynamicResource TextAndBackgroundColor_i2}" />
+
+            <StackLayout
+                Grid.Row="2"
+                Padding="12"
+                Orientation="Horizontal"
+                Spacing="12">
+
+                <Frame
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    WidthRequest="216"
+                    BorderColor="{DynamicResource AppColor_i1}"
+                    CornerRadius="5"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    xct:TouchEffect.Command="{Binding CancelCommand}">
+
+                    <Frame.Triggers>
+
+                        <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
+
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding GoBackCommand}" />
+
+                        </DataTrigger>
+
+                    </Frame.Triggers>
+
+                    <Label
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{xct:Translate Cancel}"
+                        FontSize="{DynamicResource TSize_i4_5}" />
+
+                </Frame>
+
+                <Frame
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    WidthRequest="216"
+                    BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+                    BorderColor="{DynamicResource IndicationColor_i1}"
+                    Opacity="{DynamicResource OpacityWhenDisabled_i1}"
+                    CornerRadius="5"
+                    xct:TouchEffect.Command="{Binding NextCommand}">
+
+                    <StackLayout
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        Spacing="16">
+
+                        <Label
+                            Text="{xct:Translate Next}"
+                            FontSize="{DynamicResource TSize_i4_5}">
+
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
+
+                                    <Setter Property="Text" Value="{xct:Translate Split}" />
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+
+                                </DataTrigger>
+
+                                <DataTrigger TargetType="Label" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
+                                    <Setter Property="Text" Value="{xct:Translate Split}" />
+                                    <Setter Property="TextColor" Value="{DynamicResource TextAndBackgroundColor_i6}" />
+
+                                </DataTrigger>
+
+                            </Label.Triggers>
+
+                        </Label>
+
+                        <Image Source="ic_arrow_right_24x24.png">
+
+                            <Image.Triggers>
+                                <DataTrigger TargetType="Image" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
+
+                                    <Setter Property="IsVisible" Value="false" />
+
+                                </DataTrigger>
+
+                                <DataTrigger TargetType="Image" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
+                                    <Setter Property="IsVisible" Value="false" />
+
+                                </DataTrigger>
+
+                            </Image.Triggers>
+
+                        </Image>
+
+                    </StackLayout>
+
+                    <Frame.Triggers>
+                        <DataTrigger TargetType="Frame" Binding="{Binding IsNextStepAvailable}" Value="true">
+
+                            <Setter Property="Opacity" Value="1" />
+
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Frame" Binding="{Binding IsSplitAvailable}" Value="true">
+
+                            <Setter Property="Opacity" Value="1" />
+
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Frame" Binding="{Binding PopupNavigationStep}" Value="{Static enums:EStep.Second}">
+
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="Frame" Binding="{Binding SplitCondition}" Value="{Static enums:ESplitOrderConditions.BySeats}">
+
+                            <Setter Property="BorderColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource IndicationColor_i1}" />
+                            <Setter Property="xct:TouchEffect.Command" Value="{Binding SplitCommand}" />
+
+                        </DataTrigger>
+
+                    </Frame.Triggers>
+
+                </Frame>
+
+            </StackLayout>
+
+        </Grid>
+
+    </Frame>
+
+</rg:PopupPage>

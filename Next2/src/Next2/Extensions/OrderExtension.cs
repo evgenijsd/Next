@@ -82,11 +82,12 @@ namespace Next2.Extensions
                 }),
             });
 
+            Enum.TryParse(order.OrderType, out EOrderType type);
             UpdateOrderCommand command = new()
             {
                 Id = order.Id,
                 Number = order.Number,
-                OrderType = (EOrderType)Enum.Parse(typeof(EOrderType), order.OrderType),
+                OrderType = type,
                 IsTab = order.IsTab,
                 TableId = order?.Table?.Id,
                 Open = order.Open,

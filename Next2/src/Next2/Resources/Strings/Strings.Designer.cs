@@ -19,7 +19,7 @@ namespace Next2.Resources.Strings {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -372,6 +372,15 @@ namespace Next2.Resources.Strings {
         internal static string Discounts {
             get {
                 return ResourceManager.GetString("Discounts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dollar.
+        /// </summary>
+        internal static string Dollar {
+            get {
+                return ResourceManager.GetString("Dollar", resourceCulture);
             }
         }
         
@@ -755,6 +764,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No internet connection.
         /// </summary>
         internal static string NoInternetConnection {
@@ -980,6 +998,15 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Percentage.
+        /// </summary>
+        internal static string Percentage {
+            get {
+                return ResourceManager.GetString("Percentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         internal static string Phone {
@@ -1188,11 +1215,29 @@ namespace Next2.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Value.
+        /// </summary>
+        internal static string SelectValue {
+            get {
+                return ResourceManager.GetString("SelectValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Value.
+        /// </summary>
+        internal static string SetValue {
+            get {
+                return ResourceManager.GetString("SetValue", resourceCulture);
             }
         }
         
@@ -1229,6 +1274,51 @@ namespace Next2.Resources.Strings {
         internal static string Split {
             get {
                 return ResourceManager.GetString("Split", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split By Dollar.
+        /// </summary>
+        internal static string SplitByDollar {
+            get {
+                return ResourceManager.GetString("SplitByDollar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split By Percentage.
+        /// </summary>
+        internal static string SplitByPercentage {
+            get {
+                return ResourceManager.GetString("SplitByPercentage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split By Seats.
+        /// </summary>
+        internal static string SplitBySeats {
+            get {
+                return ResourceManager.GetString("SplitBySeats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split Order.
+        /// </summary>
+        internal static string SplitOrder {
+            get {
+                return ResourceManager.GetString("SplitOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Split Total.
+        /// </summary>
+        internal static string SplitTotal {
+            get {
+                return ResourceManager.GetString("SplitTotal", resourceCulture);
             }
         }
         

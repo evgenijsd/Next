@@ -19,6 +19,8 @@
 
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
 
+            public const string PERCENT_FORMAT = "{0} %";
+
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
 
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
@@ -36,6 +38,7 @@
             public const int TOAST_DURATION = 3;
             public const int SERVER_RESPONCE_DELAY = 100;
             public const int LOGIN_LENGTH = 6;
+            public const int MAX_PERCENTAGE = 100;
             public const int PHONE_LENGTH = 10;
             public const int MIN_YEAR = 1900;
             public const int MAX_YEAR = 2100;
@@ -66,6 +69,7 @@
         public static class Navigations
         {
             public const string SEARCH = "SEARCH";
+            public const string ORDER_ID = "ORDER_ID";
             public const string SEARCH_QUERY = "SEARCH_QUERY";
             public const string SEARCH_MEMBER = "SEARCH_MEMBER";
             public const string SEARCH_CUSTOMER = "SEARCH_CUSTOMER";
@@ -96,7 +100,7 @@
             public const string CONFIRMED_APPLY_REWARD = "CONFIRM_APPLY_REWARD";
             public const string EMPLOYEE_ID = "EMPLOYEE_ID";
             public const string RESULT = "RESULT";
-            public const string ORDER_ID = "ORDER_ID";
+            public const string ORDER = "ORDER";
         }
 
         public static class Validators
@@ -120,6 +124,7 @@
             public const string UPDATE = "UPDATE";
             public const string TITLE = "TITLE";
             public const string DESCRIPTION = "DESCRIPTION";
+            public const string CONDITION = "CONDITION";
             public const string OK_BUTTON_TEXT = "OK_BUTTON_TEXT";
             public const string CANCEL_BUTTON_TEXT = "CANCEL_BUTTON_TEXT";
             public const string CONFIRM_MODE = "CONFIRM_MODE";
@@ -132,6 +137,7 @@
             public const string SEAT_NUMBERS_OF_CURRENT_ORDER = "SEAT_NUMBERS_OF_CURRENT_ORDER";
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";
             public const string SEATS = "SEATS";
+            public const string SPLIT_GROUPS = "SPLIT_GROUPS";
             public const string ORDER_NUMBER = "ORDER_NUMBER";
             public const string CUSTOMER_ID = "CUSTOMER_ID";
             public const string OK_BUTTON_BACKGROUND = "OK_BUTTON_BACKGROUND";

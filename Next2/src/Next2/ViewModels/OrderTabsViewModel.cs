@@ -95,6 +95,9 @@ namespace Next2.ViewModels
         private ICommand _editOrderCommand;
         public ICommand EditOrderCommand => _editOrderCommand ??= new AsyncCommand(OnEditOrderCommandAsync, allowsMultipleExecutions: false);
 
+        private ICommand _splitCommand;
+        public ICommand SplitCommand => _splitCommand ??= new AsyncCommand(OnSplitCommandAsync, allowsMultipleExecutions: false);
+
         #endregion
 
         #region -- Overrides --
@@ -449,7 +452,7 @@ namespace Next2.ViewModels
 
                             SelectedOrder = null;
                             Orders.Remove(orderToBeRemoved);
-                            Orders = new (Orders);
+                            Orders = new(Orders);
 
                             if (!Orders.Any())
                             {
@@ -596,6 +599,19 @@ namespace Next2.ViewModels
             string surname = surnames[random.Next(3)];
 
             return name + " " + surname;
+        }
+
+        private async Task OnSplitCommandAsync()
+        {
+            if (SelectedOrder.TotalPrice > 0)
+            {
+                var param = new NavigationParameters
+                {
+                    { Constants.Navigations.ORDER_ID, SelectedOrder.Id },
+                };
+
+                await _navigationService.NavigateAsync(nameof(SplitOrderPage), param);
+            }
         }
 
         #endregion
