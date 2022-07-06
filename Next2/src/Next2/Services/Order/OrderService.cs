@@ -280,7 +280,7 @@ namespace Next2.Services.Order
 
             try
             {
-                var isCurrentOrderDish = false;
+                var isCurrentOrderSet = false;
                 var employeeId = _authenticationService.AuthorizedUserId.ToString();
 
                 var resultOfGettingLastOrderId = await GetIdLastCreatedOrderFromSettingsAsync(employeeId);
@@ -297,12 +297,12 @@ namespace Next2.Services.Order
                         {
                             var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(resultOfGettingOrder.Result);
 
-                            isCurrentOrderDish = resultOfSettingCurrentOrder.IsSuccess;
+                            isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                         }
                     }
                 }
 
-                if (!isCurrentOrderDish)
+                if (!isCurrentOrderSet)
                 {
                     var orderCreationResult = await CreateNewOrderAsync();
 
@@ -312,11 +312,11 @@ namespace Next2.Services.Order
 
                         var resultOfSettingCurrentOrder = await SetCurrentOrderAsync(orderCreationResult.Result);
 
-                        isCurrentOrderDish = resultOfSettingCurrentOrder.IsSuccess;
+                        isCurrentOrderSet = resultOfSettingCurrentOrder.IsSuccess;
                     }
                 }
 
-                if (isCurrentOrderDish)
+                if (isCurrentOrderSet)
                 {
                     result.SetSuccess();
                 }
