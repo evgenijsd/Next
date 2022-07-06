@@ -14,7 +14,7 @@
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}"
         Padding="0">
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             HeightImage="20"
             Padding="12, 18"
             Spacing="14"

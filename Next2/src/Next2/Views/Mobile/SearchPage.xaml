@@ -14,7 +14,7 @@
 
     <Grid RowDefinitions="65, *">
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             Title="{xct:Translate Search}"
             Padding="12, 0, 0, 0"
             HeightImage="24"

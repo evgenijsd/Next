@@ -26,7 +26,7 @@
                 RowDefinitions="70, *"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNullOrEmptyConverter}}">
 
-                <controls:CustomNavigationbar
+                <controls:CustomNavigationBar
                     Grid.Row="0"
                     Title="{xct:Translate CouponsAndDiscounts}"
                     HeightImage="24"
@@ -209,7 +209,7 @@
                 RowDefinitions="70, *, 75"
                 IsVisible="{Binding SelectedBonus, Converter={xct:IsNotNullOrEmptyConverter}}">
 
-                <controls:CustomNavigationbar
+                <controls:CustomNavigationBar
                     Grid.Row="0"
                     Title="{Binding SelectedBonus.Name}"
                     HeightImage="24"

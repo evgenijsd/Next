@@ -14,7 +14,7 @@
 
     <Grid RowDefinitions="65, *">
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             Grid.Row="0"
             Margin="15, 0, 0, 0"
             VerticalOptions="Center"

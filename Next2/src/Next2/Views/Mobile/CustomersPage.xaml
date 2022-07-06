@@ -39,7 +39,7 @@
     <ContentPage.Content>
         <Grid RowDefinitions="0.1*, 0.9*, 0.1*">
 
-            <controls:CustomNavigationbar
+            <controls:CustomNavigationBar
                 Title="{xct:Translate Customer}"
                 Padding="12, 0, 0, 0"
                 HeightImage="24"

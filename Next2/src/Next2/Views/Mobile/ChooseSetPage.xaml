@@ -19,7 +19,7 @@
 
         <!--Categories-->
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             Title="{xct:Translate Categories}"
             Padding="15"
             HeightImage="24"

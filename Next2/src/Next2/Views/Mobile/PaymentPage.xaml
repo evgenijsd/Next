@@ -36,7 +36,7 @@
          </StackLayout.Resources>
 
         <!-- CANCEL BUTTON -->
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             Padding="20"
             HeightImage="24"
             FontFamily="Barlow-Bold"

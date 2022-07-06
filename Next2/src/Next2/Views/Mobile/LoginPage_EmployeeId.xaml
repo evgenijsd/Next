@@ -13,13 +13,13 @@
 
     <StackLayout BackgroundColor="{DynamicResource TextAndBackgroundColor_i5}" >
 
-        <controls:CustomNavigationbar
+        <controls:CustomNavigationBar
             LeftButtonCommand="{Binding GoBackCommand}"
             Title="{xct:Translate EmployeeId}"
             HeightImage="25"
             FontSize="{DynamicResource TSize_i5}" >
             
-        </controls:CustomNavigationbar>
+        </controls:CustomNavigationBar>
 
         <StackLayout 
             Orientation="Vertical"

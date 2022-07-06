@@ -71,7 +71,7 @@
         <StackLayout VerticalOptions="Start">
 
             <!--Categories header-->
-            <controls:CustomNavigationbar
+            <controls:CustomNavigationBar
                 HeightImage="20"
                 Padding="32, 26, 32, 0"
                 Spacing="16"
