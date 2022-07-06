@@ -394,8 +394,7 @@
     <value>Invalid code</value>
   </data>
   <data name="SelectCoupon" xml:space="preserve">
-    <value>Select a Coupon or Discount 
-                 to use it.</value>
+    <value>Select a Coupon or Discount to use it.</value>
   </data>
   <data name="Apply" xml:space="preserve">
     <value>Apply</value>

@@ -1253,7 +1253,6 @@
                             CornerRadius="6">
 
                             <StackLayout 
-                                Grid.Row="0"
                                 Spacing="6"
                                 Padding="10">
                                 
@@ -1275,13 +1274,13 @@
                                 
                                 <StackLayout
                                     Orientation="Horizontal"
-                                    Spacing="6">
+                                    Spacing="6"
+                                    xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}">
 
                                     <ffimageloading:CachedImage 
                                         Source="ic_folder_primary_24x24"
                                         HeightRequest="20"
-                                        WidthRequest="20"
-                                        xct:TouchEffect.Command="{Binding OrderRegistrationViewModel.GoToOrderTabsCommand}"/>
+                                        WidthRequest="20"/>
 
                                     <Label
                                         Text="{xct:Translate OrderTabs}"
