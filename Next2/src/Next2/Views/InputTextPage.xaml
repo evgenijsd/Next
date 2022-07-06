@@ -15,8 +15,11 @@
         Padding="0">
 
         <controls:CustomNavigationbar
+            HeightImage="20"
+            Padding="12, 18"
+            Spacing="14"
+            FontSize="{DynamicResource TSize_i8}"
             Title="{xct:Translate Cancel}"
-            HeightImage="25"
             xct:TouchEffect.Command="{Binding GoBackCommand}"/>
         
         <StackLayout 
@@ -30,7 +33,7 @@
                 Placeholder="{Binding Placeholder}"
                 VerticalTextAlignment="Center"
                 Text="{Binding Text}"
-                Margin="22, 15, 0, 0"
+                Margin="22, 14, 0, 0"
                 PlaceholderColor="{DynamicResource TextAndBackgroundColor_i7}"
                 TextColor="{DynamicResource TextAndBackgroundColor_i1}"
                 FontFamily="Barlow-Regular"

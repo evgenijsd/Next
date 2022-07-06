@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace Next2.Controls
 {
-    public partial class CustomNavigationbar : Grid
+    public partial class CustomNavigationbar : StackLayout
     {
         public CustomNavigationbar()
         {

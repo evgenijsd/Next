@@ -36,30 +36,14 @@
          </StackLayout.Resources>
 
         <!-- CANCEL BUTTON -->
-        <StackLayout
-            Padding="20, 0"
-            Orientation="Horizontal"
-            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}">
-
-            <StackLayout
-                HeightRequest="66"
-                Spacing="18"
-                Orientation="Horizontal"
-                xct:TouchEffect.Command="{Binding BackCancelCommand}">
-
-                <ffimageloading:CachedImage
-                    HeightRequest="22"
-                    Source="ic_arrow_left_tail_40x40" />
-
-                <Label
-                    VerticalOptions="Center"
-                    FontFamily="Barlow-Bold"
-                    FontSize="{DynamicResource TSize_i6}"
-                    Text="{xct:Translate Payment}" />
-
-            </StackLayout>
-
-        </StackLayout>
+        <controls:CustomNavigationbar
+            Padding="20"
+            HeightImage="24"
+            FontFamily="Barlow-Bold"
+            FontSize="{DynamicResource TSize_i6}"
+            BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
+            Title="{xct:Translate Payment}"
+            LeftButtonCommand="{Binding BackCancelCommand}" />
 
         <BoxView 
             HeightRequest="1"

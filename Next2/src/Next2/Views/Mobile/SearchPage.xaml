@@ -16,7 +16,7 @@
 
         <controls:CustomNavigationbar
             Title="{xct:Translate Search}"
-            Padding="5, 0, 0, 0"
+            Padding="12, 0, 0, 0"
             HeightImage="24"
             FontSize="{DynamicResource TSize_i5}"
             LeftButtonCommand="{Binding GoBackCommand}" />

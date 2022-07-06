@@ -6,6 +6,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
+    xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:templates="clr-namespace:Next2.Controls.Templates"
     xmlns:effects="clr-namespace:Next2.Effects"
     xmlns:models="clr-namespace:Next2.Models"
@@ -70,28 +71,15 @@
         <StackLayout VerticalOptions="Start">
 
             <!--Categories header-->
-
-            <StackLayout
-                VerticalOptions="Start"
-                Orientation="Horizontal"
+            <controls:CustomNavigationbar
+                HeightImage="20"
+                Padding="32, 26, 32, 0"
                 Spacing="16"
-                Padding="32, 26, 32, 0">
-
-                <ffimageloading:CachedImage 
-                    Margin="0, 4, 0, 0"
-                    Source="ic_arrow_left_tail_40x40"
-                    HeightRequest="20"
-                    xct:TouchEffect.Command="{prism:GoBack}"
-                    xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}"/>
-
-                <Label
-                    Text="{xct:Translate Categories}"
-                    TextColor="{DynamicResource TextAndBackgroundColor_i1}"
-                    Style="{StaticResource labeltSize_i4}"
-                    FontFamily="Barlow-SemiBold"
-                    VerticalTextAlignment="Center"/>
-
-            </StackLayout>
+                FontSize="{DynamicResource TSize_i6}"
+                BackgroundColor="Transparent"
+                Title="{xct:Translate Categories}"
+                xct:TouchEffect.Command="{prism:GoBack}"
+                xct:TouchEffect.CommandParameter="{prism:Parameter Key={Static local:Constants+Navigations.REFRESH_ORDER}}"/>
 
             <CollectionView
                 MinimumHeightRequest="{Binding HeightCollectionView}"
