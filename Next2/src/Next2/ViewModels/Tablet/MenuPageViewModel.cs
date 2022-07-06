@@ -163,7 +163,7 @@ namespace Next2.ViewModels.Tablet
                 }
             }
 
-            MessagingCenter.Unsubscribe<MenuPageSwitchingMessage, SetBindableModel>(sender, Constants.Navigations.SWITCH_PAGE);
+            MessagingCenter.Unsubscribe<MenuPageSwitchingMessage>(sender, Constants.Navigations.SWITCH_PAGE);
         }
 
         private void InitMenuItems()

@@ -451,7 +451,7 @@
   <data name="Discount" xml:space="preserve">
     <value>Discount</value>
   </data>
-  <data name="ThisSetWillBeRemoved" xml:space="preserve">
+  <data name="ThisDishWillBeRemoved" xml:space="preserve">
     <value>This item will be removed from the order list.</value>
   </data>
   <data name="BecomeMember" xml:space="preserve">

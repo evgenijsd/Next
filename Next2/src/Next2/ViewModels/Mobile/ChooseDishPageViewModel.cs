@@ -17,7 +17,7 @@ using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace Next2.ViewModels.Mobile
 {
-    public class ChooseSetPageViewModel : BaseViewModel
+    public class ChooseDishPageViewModel : BaseViewModel
     {
         private readonly IMenuService _menuService;
 
@@ -25,7 +25,7 @@ namespace Next2.ViewModels.Mobile
 
         private bool _shouldOrderDishesByDESC;
 
-        public ChooseSetPageViewModel(
+        public ChooseDishPageViewModel(
             IMenuService menuService,
             INavigationService navigationService,
             IOrderService orderService)

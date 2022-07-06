@@ -48,7 +48,7 @@
                 Text="{xct:Translate MessageAboutRedirectingItems}">
                 
                 <Label.Triggers>
-                    <DataTrigger TargetType="Label" Binding="{Binding IsDeletingSetsSelected}" Value="True">
+                    <DataTrigger TargetType="Label" Binding="{Binding IsDeletingDishesSelected}" Value="True">
                          
                         <Setter Property="Opacity" Value="{StaticResource OpacityWhenDisabled_i1}" />
                        
@@ -72,7 +72,7 @@
                     HeaderText="{Binding SelectedSeatListItem.SeatNumber, StringFormat='Seat {0}'}">
 
                     <controls:DropDownList.Triggers>
-                        <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingSetsSelected}" Value="True">
+                        <DataTrigger TargetType="controls:DropDownList" Binding="{Binding IsDeletingDishesSelected}" Value="True">
                          
                             <Setter Property="IsEnabled" Value="False" />
                             <Setter Property="IsExpanded" Value="false" />
@@ -124,7 +124,7 @@
                     Padding="17, 17, 17, 48"
                     Orientation="Horizontal"
                     Spacing="10"
-                    xct:TouchEffect.Command="{Binding SelectDeletingSetsCommand}">
+                    xct:TouchEffect.Command="{Binding SelectDeletingDishesCommand}">
                 
                     <ffimageLoading:CachedImage 
                         HeightRequest="20"
@@ -132,7 +132,7 @@
                         Source="ic_check_box_unhecked_24x24">
                     
                         <ffimageLoading:CachedImage.Triggers>
-                            <DataTrigger TargetType="ffimageLoading:CachedImage" Binding="{Binding IsDeletingSetsSelected}" Value="True">
+                            <DataTrigger TargetType="ffimageLoading:CachedImage" Binding="{Binding IsDeletingDishesSelected}" Value="True">
                          
                                 <Setter Property="Source" Value="ic_check_box_checked_primary_24x24" />
                        

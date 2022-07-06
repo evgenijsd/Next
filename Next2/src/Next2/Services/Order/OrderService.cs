@@ -461,7 +461,7 @@ namespace Next2.Services.Order
             return result;
         }
 
-        public async Task<AOResult> RedirectSetsFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
+        public async Task<AOResult> RedirectDishesFromSeatInCurrentOrder(SeatBindableModel sourceSeat, int destinationSeatNumber)
         {
             var result = new AOResult();
 
@@ -487,7 +487,7 @@ namespace Next2.Services.Order
             }
             catch (Exception ex)
             {
-                result.SetError($"{nameof(RedirectSetsFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
+                result.SetError($"{nameof(RedirectDishesFromSeatInCurrentOrder)}: exception", Strings.SomeIssues, ex);
             }
 
             return result;

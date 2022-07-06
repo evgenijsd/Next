@@ -10,8 +10,8 @@
 
 namespace Next2.Resources.Strings {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -45,7 +45,7 @@ namespace Next2.Resources.Strings {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -1498,9 +1498,9 @@ namespace Next2.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to This item will be removed from the order list..
         /// </summary>
-        internal static string ThisSetWillBeRemoved {
+        internal static string ThisDishWillBeRemoved {
             get {
-                return ResourceManager.GetString("ThisSetWillBeRemoved", resourceCulture);
+                return ResourceManager.GetString("ThisDishWillBeRemoved", resourceCulture);
             }
         }
         

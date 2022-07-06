@@ -64,7 +64,7 @@
                 
             </StackLayout>
 
-            <!-- SET LIST -->
+            <!-- DISH LIST -->
             <CollectionView 
                 Margin="0, 14, 0, 0" 
                 ItemsSource="{Binding Seats}">

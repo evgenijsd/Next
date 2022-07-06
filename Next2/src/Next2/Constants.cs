@@ -7,21 +7,13 @@
         public static class Formats
         {
             public const string DATE_FORMAT = "{0:h:mm:ss}";
-
             public const string SHORT_TIME = "{0:h:mm:ss tt}";
-
             public const string LONG_DATE = "{0:dddd, d MMMM yyyy}";
-
             public const string PRICE_FORMAT = "{0:0.00}";
-
             public const string POINT_FORMAT = "{0:D} pt";
-
             public const string CASH_FORMAT = "$ {0:#,0.#0}";
-
             public const string PERCENT_FORMAT = "{0} %";
-
             public const string LONG_DATE_FORMAT = "MMM dd yyyy / hh:mm tt";
-
             public const string PHONE_MASK = "(_ _ _)_ _ _-_ _ _ _";
         }
 
@@ -114,9 +106,8 @@
             public const string CONFIRM_MODE = "CONFIRM_MODE";
             public const string ACCEPT = "ACCEPT";
             public const string CANCEL = "CANCEL";
-            public const string SET = "SET";
             public const string PORTIONS = "PORTIONS";
-            public const string ACTION_ON_SETS = "ACTION_ON_SETS";
+            public const string ACTION_ON_DISHES = "ACTION_ON_DISHES";
             public const string REMOVAL_SEAT = "REMOVAL_SEAT";
             public const string SEAT_NUMBERS_OF_CURRENT_ORDER = "SEAT_NUMBERS_OF_CURRENT_ORDER";
             public const string DESTINATION_SEAT_NUMBER = "DESTINATION_SEAT_NUMBER";

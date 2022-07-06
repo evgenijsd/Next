@@ -99,7 +99,7 @@
                         
                     </sc:StateCondition>
 
-                    <!-- SEATS AND SETS IN ORDER --> 
+                    <!-- SEATS AND DISHES IN ORDER --> 
                     <sc:StateCondition State="{Static enums:ERewardsPageState.RewardsExist}">
                         
                         <StackLayout>
@@ -111,7 +111,7 @@
                                 </CollectionView.Effects>
                                     
                                 <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="models:SeatWithFreeSetsBindableModel"> 
+                                    <DataTemplate x:DataType="models:SeatWithFreeDishesBindableModel"> 
 
                                         <StackLayout Padding="28, 24, 28, 0">
                                             
@@ -131,15 +131,15 @@
                                                     
                                             </Label>
     
-                                            <!-- SETS LIST --> 
+                                            <!-- DISHES LIST --> 
                                             <CollectionView
-                                                ItemsSource="{Binding Sets}"
-                                                HeightRequest="{Binding Sets, Converter={StaticResource listHeightConverter}, ConverterParameter=94}">
+                                                ItemsSource="{Binding Dishes}"
+                                                HeightRequest="{Binding Dishes, Converter={StaticResource listHeightConverter}, ConverterParameter=94}">
                                                     
                                                 <CollectionView.ItemTemplate>
-                                                    <DataTemplate x:DataType="models:FreeSetBindableModel">
+                                                    <DataTemplate x:DataType="models:FreeDishBindableModel">
                                                            
-                                                        <tablet:FreeSetItemTemplate/>
+                                                        <tablet:FreeDishItemTemplate/>
                                                             
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>

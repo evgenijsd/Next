@@ -6,11 +6,11 @@
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:controls="clr-namespace:Next2.Controls"
     xmlns:effects="clr-namespace:Next2.Effects"
-    xmlns:models="clr-namespace:Next2.Models.Bindables"
+    xmlns:bindableModels="clr-namespace:Next2.Models.Bindables"
     xmlns:local="clr-namespace:Next2"
     xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     x:Class="Next2.Controls.SeatItemForSplitOrder"
-    x:DataType="models:SeatBindableModel">
+    x:DataType="bindableModels:SeatBindableModel">
 
     <BoxView
         Margin="0, 0, 0, 16"
@@ -48,7 +48,7 @@
 
         <CollectionView.ItemTemplate>
 
-            <DataTemplate x:DataType="models:DishBindableModel">
+            <DataTemplate x:DataType="bindableModels:DishBindableModel">
 
                 <StackLayout
                     Padding="0, 0, 0, 7"

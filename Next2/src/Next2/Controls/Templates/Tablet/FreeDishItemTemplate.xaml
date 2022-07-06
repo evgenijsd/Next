@@ -5,7 +5,7 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:local="clr-namespace:Next2"
-    x:Class="Next2.Controls.Templates.Tablet.FreeSetItemTemplate">
+    x:Class="Next2.Controls.Templates.Tablet.FreeDishItemTemplate">
 
     <StackLayout 
         Padding="0, 24, 0, 14"

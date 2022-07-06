@@ -3,7 +3,7 @@ using Prism.Mvvm;
 
 namespace Next2.Models
 {
-    public class FreeSetBindableModel : BindableBase, IBaseModel
+    public class FreeDishBindableModel : BindableBase, IBaseModel
     {
         public int Id { get; set; }
 

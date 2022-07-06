@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Next2.Enums;
-using Next2.Extensions;
 using Next2.Helpers;
 using Next2.Helpers.Events;
 using Next2.Models;
@@ -510,14 +509,14 @@ namespace Next2.ViewModels
         private async void CloseDeleteSeatDialogCallback(IDialogParameters dialogResult)
         {
             if (dialogResult is not null
-                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_SETS, out EActionOnSets actionOnSets)
+                && dialogResult.TryGetValue(Constants.DialogParameterKeys.ACTION_ON_DISHES, out EActionOnDishes actionOnDishes)
                 && dialogResult.TryGetValue(Constants.DialogParameterKeys.REMOVAL_SEAT, out SeatBindableModel removalSeat))
             {
-                if (actionOnSets is EActionOnSets.DeleteSets)
+                if (actionOnDishes is EActionOnDishes.DeleteDishes)
                 {
-                    var deleteSetsResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
+                    var deleteDishesResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
-                    if (deleteSetsResult.IsSuccess)
+                    if (deleteDishesResult.IsSuccess)
                     {
                         IsOrderSavingAndPaymentEnabled = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
@@ -526,12 +525,12 @@ namespace Next2.ViewModels
                         OnGoBackCommand();
                     }
                 }
-                else if (actionOnSets is EActionOnSets.RedirectSets
+                else if (actionOnDishes is EActionOnDishes.RedirectDishes
                     && dialogResult.TryGetValue(Constants.DialogParameterKeys.DESTINATION_SEAT_NUMBER, out int destinationSeatNumber))
                 {
-                    var resirectSetsResult = await _orderService.RedirectSetsFromSeatInCurrentOrder(removalSeat, destinationSeatNumber);
+                    var redirectDishesResult = await _orderService.RedirectDishesFromSeatInCurrentOrder(removalSeat, destinationSeatNumber);
 
-                    if (resirectSetsResult.IsSuccess)
+                    if (redirectDishesResult.IsSuccess)
                     {
                         var deleteSeatResult = await _orderService.DeleteSeatFromCurrentOrder(removalSeat);
 
@@ -580,9 +579,9 @@ namespace Next2.ViewModels
 
         private async Task OnRemoveOrderCommandAsync()
         {
-            bool isAnySetsInOrder = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
+            bool isAnyDishesInOrder = CurrentOrder.Seats.Any(x => x.SelectedDishes.Any());
 
-            if (!isAnySetsInOrder)
+            if (!isAnyDishesInOrder)
             {
                 await RemoveOrderAsync();
 
@@ -781,7 +780,7 @@ namespace Next2.ViewModels
             var parameters = new DialogParameters
             {
                 { Constants.DialogParameterKeys.TITLE, LocalizationResourceManager.Current["AreYouSure"] },
-                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisSetWillBeRemoved"] },
+                { Constants.DialogParameterKeys.DESCRIPTION, LocalizationResourceManager.Current["ThisDishWillBeRemoved"] },
                 { Constants.DialogParameterKeys.CANCEL_BUTTON_TEXT, LocalizationResourceManager.Current["Cancel"] },
                 { Constants.DialogParameterKeys.OK_BUTTON_TEXT, LocalizationResourceManager.Current["Remove"] },
             };
@@ -817,9 +816,9 @@ namespace Next2.ViewModels
                             }
                             else if (_isAnyDishChosen)
                             {
-                                foreach (var set in CurrentOrder.Seats)
+                                foreach (var seat in CurrentOrder.Seats)
                                 {
-                                    set.SelectedItem = null;
+                                    seat.SelectedItem = null;
                                 }
 
                                 _firstNotEmptySeat.SelectedItem = _firstNotEmptySeat.SelectedDishes.FirstOrDefault();
