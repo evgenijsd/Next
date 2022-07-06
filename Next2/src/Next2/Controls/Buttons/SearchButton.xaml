@@ -14,8 +14,7 @@
         BorderColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=BorderColor}"
         BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=BackColor}"
         CornerRadius="{Binding Source={RelativeSource AncestorType={x:Type buttons:SearchButton}}, Path=CornerRadius}"
-        VerticalOptions="FillAndExpand">
-    </Frame>
+        VerticalOptions="FillAndExpand"/>
 
     <StackLayout
         BackgroundColor="Transparent"
