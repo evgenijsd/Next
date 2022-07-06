@@ -26,6 +26,9 @@ namespace Next2.ViewModels
         private readonly IBonusesService _bonusesService;
         private readonly double _heightBonus = App.IsTablet ? Constants.LayoutBonuses.ROW_TABLET_BONUS : Constants.LayoutBonuses.ROW_MOBILE_BONUS;
 
+        private int _indexOfSeat;
+        private int _indexOfSelectedDish = -1;
+
         public BonusPageViewModel(
             INavigationService navigationService,
             IOrderService orderService,
@@ -75,6 +78,14 @@ namespace Next2.ViewModels
         {
             if (parameters.TryGetValue(Constants.Navigations.CURRENT_ORDER, out FullOrderBindableModel currentOrder))
             {
+                var seat = currentOrder.Seats.FirstOrDefault(row => row.SelectedItem != null);
+
+                if (seat is not null)
+                {
+                    _indexOfSeat = currentOrder.Seats.IndexOf(seat);
+                    _indexOfSelectedDish = seat.SelectedDishes.IndexOf(seat.SelectedItem);
+                }
+
                 CurrentOrder = _mapper.Map<FullOrderBindableModel>(currentOrder);
 
                 Seats = new(CurrentOrder.Seats.Where(x => x.SelectedDishes.Count > 0));
@@ -175,6 +186,11 @@ namespace Next2.ViewModels
 
         private Task OnApplyBonusCommandAsync()
         {
+            if (_indexOfSelectedDish > -1)
+            {
+                CurrentOrder.Seats[_indexOfSeat].SelectedItem = CurrentOrder.Seats[_indexOfSeat].SelectedDishes[_indexOfSelectedDish];
+            }
+
             var parameters = new NavigationParameters
             {
                 { Constants.Navigations.BONUS, CurrentOrder },

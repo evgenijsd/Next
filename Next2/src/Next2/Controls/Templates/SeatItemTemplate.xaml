@@ -12,6 +12,18 @@
     xmlns:local="clr-namespace:Next2"
     x:DataType="modelsBindable:SeatBindableModel">
 
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup Name="CommonStates">
+
+            <VisualState Name="Selected">
+                <VisualState.Setters>
+                    <Setter Property="BackgroundColor" Value="{DynamicResource TextAndBackgroundColor_i4}" />
+                </VisualState.Setters>
+            </VisualState>
+
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
     <BoxView
         BackgroundColor="{DynamicResource TextAndBackgroundColor_i3}"
         HeightRequest="1"
